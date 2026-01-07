@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Application Details - PropertyApp</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem", // rounded-lg
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #334155;
+        }
+        #ai-bar-toggle:checked ~ #ai-modal {
+            display: flex;
+        }
+        #ai-bar-toggle:checked ~ #ai-trigger {
+            opacity: 0;
+            pointer-events: none;
+        }#upload-modal-toggle:checked ~ #upload-modal-overlay {
+            display: flex;
+        }
+        #upload-modal-toggle:checked ~ body {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col font-display text-slate-900 dark:text-white overflow-x-hidden relative">
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-[#101922]/90 backdrop-blur-md px-10 py-3">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">real_estate_agent</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">PropertyApp</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="hidden md:flex items-center gap-9">
+<a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">My Home</a>
+<a class="text-primary font-bold leading-normal transition-colors" href="#">Applications</a>
+<a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Saved</a>
+<a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Messages</a>
+</div>
+<div class="flex gap-3">
+<button class="relative flex items-center justify-center overflow-hidden rounded-lg size-10 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full"></span>
+</button>
+<button class="flex items-center justify-center overflow-hidden rounded-lg size-10 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-1 flex flex-col py-8 px-4 md:px-10 lg:px-20 pb-32">
+<div class="max-w-[1400px] w-full mx-auto">
+<nav aria-label="Breadcrumb" class="flex mb-6">
+<ol class="inline-flex items-center space-x-1 md:space-x-3">
+<li class="inline-flex items-center">
+<a class="inline-flex items-center text-sm font-medium text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-white" href="#">
+            Applications
+        </a>
+</li>
+<li>
+<div class="flex items-center">
+<span class="material-symbols-outlined text-slate-400 text-lg mx-1">chevron_right</span>
+<span class="ml-1 text-sm font-medium text-slate-900 md:ml-2 dark:text-white">Details</span>
+</div>
+</li>
+</ol>
+</nav>
+<div class="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-8">
+<div>
+<div class="flex flex-wrap items-center gap-3 mb-2">
+<h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Your Application for 1243 Oakwood Ave</h1>
+<span class="bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 border border-amber-200 dark:border-amber-800 px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">info</span> Action Required
+            </span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-lg">Application ID: <span class="font-mono text-slate-700 dark:text-slate-300">#APP-8921-TX</span> • Submitted on Oct 24, 2024</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2.5 rounded-lg border border-red-200 dark:border-red-900/50 text-red-600 dark:text-red-400 font-semibold text-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+            Withdraw Application
+        </button>
+<label class="cursor-pointer px-5 py-2.5 rounded-lg bg-primary hover:bg-primary/90 text-white font-bold text-sm shadow-lg shadow-primary/20 transition-all flex items-center gap-2 animate-pulse" for="upload-modal-toggle">
+<span class="material-symbols-outlined text-[20px]">upload_file</span> Upload Missing Documents
+        </label>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-2 flex flex-col gap-8">
+<div class="bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/50 rounded-2xl p-5 flex flex-col sm:flex-row gap-5 items-start">
+<div class="size-10 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined">priority_high</span>
+</div>
+<div class="flex-1">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1">Attention Needed</h3>
+<p class="text-slate-600 dark:text-slate-300 text-sm mb-3">The landlord has requested additional documentation to proceed with your application. Please review the comments below and upload the necessary files.</p>
+<label class="text-sm font-bold text-amber-700 dark:text-amber-400 hover:underline cursor-pointer" for="upload-modal-toggle">Jump to Upload Section</label>
+</div>
+</div>
+<div class="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2 bg-slate-50/50 dark:bg-[#101922]">
+<span class="material-symbols-outlined text-slate-400">comment</span>
+<h3 class="font-bold text-slate-900 dark:text-white">Landlord Comments</h3>
+</div>
+<div class="p-6">
+<div class="flex gap-4">
+<div class="size-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center shrink-0 text-slate-500 dark:text-slate-300 font-bold">
+                        RJ
+                    </div>
+<div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl rounded-tl-none border border-slate-100 dark:border-slate-800 w-full">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-bold text-sm text-slate-900 dark:text-white">Robert Johnson <span class="font-normal text-slate-500 ml-2">Property Manager</span></h4>
+<span class="text-xs text-slate-400">Yesterday, 4:30 PM</span>
+</div>
+<p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">Hi Sarah, thanks for your application. Everything looks great, but the copy of your Driver's License uploaded seems a bit blurry. Could you please re-upload a clearer scan or photo? Once we have that, we can move to the lease agreement stage.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-[#101922]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">description</span>
+<h3 class="font-bold text-slate-900 dark:text-white">Submitted Information</h3>
+</div>
+<button class="text-xs font-bold text-primary hover:underline">Edit Details</button>
+</div>
+<div class="divide-y divide-slate-100 dark:divide-slate-800">
+<div class="p-6">
+<h4 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-4 opacity-70">Personal Details</h4>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-1">Full Name</p>
+<p class="text-sm font-medium text-slate-900 dark:text-white">Sarah Jenkins</p>
+</div>
+<div>
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-1">Current Address</p>
+<p class="text-sm font-medium text-slate-900 dark:text-white">5500 Highland Park, Unit 4B, Dallas, TX</p>
+</div>
+<div>
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-1">Email Address</p>
+<p class="text-sm font-medium text-slate-900 dark:text-white">sarah.j@example.com</p>
+</div>
+<div>
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-1">Phone Number</p>
+<p class="text-sm font-medium text-slate-900 dark:text-white">+1 (214) 555-0192</p>
+</div>
+</div>
+</div>
+<div class="p-6">
+<h4 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-4 opacity-70">Employment History</h4>
+<div class="flex items-start gap-4">
+<div class="size-10 bg-blue-50 dark:bg-blue-900/20 rounded-lg flex items-center justify-center text-blue-600 shrink-0">
+<span class="material-symbols-outlined">work</span>
+</div>
+<div class="flex-1">
+<h5 class="font-bold text-slate-900 dark:text-white">Senior Software Engineer</h5>
+<p class="text-sm text-slate-500 dark:text-slate-400">TechCorp Inc. • Full-time</p>
+<div class="grid grid-cols-2 gap-4 mt-3">
+<div>
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-0.5">Annual Income</p>
+<p class="text-sm font-bold text-slate-900 dark:text-white">$145,000</p>
+</div>
+<div>
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-0.5">Duration</p>
+<p class="text-sm font-bold text-slate-900 dark:text-white">3 Years, 2 Months</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-center mb-4">
+<h4 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider opacity-70">Documents</h4>
+<span class="text-xs bg-red-50 text-red-600 px-2 py-1 rounded border border-red-100 font-medium">1 Issue Detected</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="border border-slate-200 dark:border-slate-700 rounded-lg p-3 flex items-center gap-3">
+<div class="size-10 bg-red-50 dark:bg-red-900/20 rounded-lg flex items-center justify-center text-red-500 shrink-0">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-bold text-slate-900 dark:text-white truncate">Paystubs_Q3_2024.pdf</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Verified • 1.2 MB</p>
+</div>
+<button class="text-slate-400 hover:text-primary"><span class="material-symbols-outlined">visibility</span></button>
+</div>
+<div class="border border-red-300 dark:border-red-800 bg-red-50/30 dark:bg-red-900/10 rounded-lg p-3 flex items-center gap-3 relative overflow-hidden">
+<div class="absolute right-0 top-0 bg-red-500 text-white text-[9px] px-1.5 py-0.5 rounded-bl">Re-upload</div>
+<div class="size-10 bg-slate-100 dark:bg-slate-800 rounded-lg flex items-center justify-center text-slate-500 shrink-0">
+<span class="material-symbols-outlined">id_card</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-bold text-slate-900 dark:text-white truncate">Drivers_License_Front.jpg</p>
+<p class="text-xs text-red-500 font-medium">Flagged as blurry</p>
+</div>
+<label class="cursor-pointer text-primary bg-white dark:bg-slate-800 rounded-full p-1 shadow-sm hover:bg-slate-50" for="upload-modal-toggle"><span class="material-symbols-outlined text-sm">cloud_upload</span></label>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-6">
+<div class="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden group">
+<div class="relative h-48 w-full overflow-hidden">
+<img alt="Property" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l"/>
+<div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 pt-12">
+<h3 class="text-white font-bold text-lg">1243 Oakwood Ave</h3>
+<p class="text-white/80 text-sm">Austin, TX • 2 Bed, 2 Bath</p>
+</div>
+</div>
+<div class="p-5">
+<div class="flex justify-between items-center mb-4">
+<div>
+<p class="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold">Monthly Rent</p>
+<p class="text-xl font-extrabold text-slate-900 dark:text-white">$3,100</p>
+</div>
+<div class="text-right">
+<p class="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold">Deposit</p>
+<p class="text-lg font-bold text-slate-900 dark:text-white">$3,100</p>
+</div>
+</div>
+<button class="w-full py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                    View Full Listing
+                </button>
+</div>
+</div>
+<div class="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6">
+<h3 class="font-bold text-slate-900 dark:text-white mb-5">Application History</h3>
+<div class="relative border-l-2 border-slate-100 dark:border-slate-800 ml-3 space-y-6">
+<div class="relative pl-6">
+<div class="absolute -left-[9px] top-0 size-4 bg-amber-500 rounded-full border-4 border-white dark:border-[#101922]"></div>
+<p class="text-xs text-slate-400 font-mono mb-0.5">Yesterday, 4:30 PM</p>
+<h4 class="text-sm font-bold text-slate-900 dark:text-white">Action Required</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Status updated by Landlord (Robert Johnson).</p>
+</div>
+<div class="relative pl-6">
+<div class="absolute -left-[9px] top-0 size-4 bg-slate-300 dark:bg-slate-600 rounded-full border-4 border-white dark:border-[#101922]"></div>
+<p class="text-xs text-slate-400 font-mono mb-0.5">Oct 26, 2024</p>
+<h4 class="text-sm font-bold text-slate-900 dark:text-white">Under Review</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Application viewed by property manager.</p>
+</div>
+<div class="relative pl-6">
+<div class="absolute -left-[9px] top-0 size-4 bg-slate-300 dark:bg-slate-600 rounded-full border-4 border-white dark:border-[#101922]"></div>
+<p class="text-xs text-slate-400 font-mono mb-0.5">Oct 24, 2024</p>
+<h4 class="text-sm font-bold text-slate-900 dark:text-white">Application Submitted</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1">You completed the application form.</p>
+</div>
+</div>
+</div>
+<div class="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl p-5 text-white shadow-lg relative overflow-hidden">
+<span class="material-symbols-outlined absolute -right-4 -bottom-4 text-9xl text-white/10 rotate-12">assistant</span>
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="text-xs font-bold uppercase tracking-wider opacity-80">AI Assistant</span>
+</div>
+<h4 class="font-bold text-sm leading-tight mb-2">Have questions about this application?</h4>
+<p class="text-xs text-indigo-100 mb-3">Ask HomeAI about typical wait times or clarification on the landlord's request.</p>
+<label class="cursor-pointer inline-block w-full py-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/30 text-white font-bold text-xs rounded-lg transition-colors text-center" for="ai-bar-toggle">
+                    Ask Assistant
+                </label>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<div class="fixed bottom-6 right-6 z-[100] flex flex-col items-end gap-2">
+<input checked="" class="peer hidden" id="ai-bar-toggle" type="checkbox"/>
+<div class="hidden peer-checked:flex flex-col w-[360px] md:w-[480px] bg-white dark:bg-[#1e293b] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden transform transition-all duration-300 origin-bottom-right animate-in slide-in-from-bottom-5 fade-in" id="ai-modal">
+<div class="p-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-gradient-to-r from-blue-50 to-white dark:from-[#1e293b] dark:to-[#1e293b]">
+<div class="flex items-center gap-2">
+<div class="size-8 rounded-full bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center text-white shadow-md">
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+</div>
+<div>
+<h3 class="text-sm font-bold text-slate-900 dark:text-white">Maintenance Request</h3>
+<div class="flex items-center gap-1.5">
+<span class="size-1.5 rounded-full bg-green-500 animate-pulse"></span>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">AI Assisted Flow</p>
+</div>
+</div>
+</div>
+<label class="cursor-pointer p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors" for="ai-bar-toggle">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</label>
+</div>
+<div class="flex-1 p-5 flex flex-col gap-5 overflow-y-auto custom-scrollbar max-h-[60vh] bg-white dark:bg-[#1e293b]">
+<div class="bg-blue-50 dark:bg-blue-900/20 p-3.5 rounded-2xl rounded-tl-sm flex gap-3 items-start border border-blue-100 dark:border-blue-800 shadow-sm">
+<span class="material-symbols-outlined text-primary text-xl mt-0.5">smart_toy</span>
+<div class="text-sm">
+<p class="text-slate-900 dark:text-white font-medium leading-relaxed">I've started a request based on "My sink is leaking".</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs mt-1 leading-relaxed">Please review and confirm the details below before I send it to your landlord.</p>
+</div>
+</div>
+<div class="space-y-4">
+<div>
+<label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">Category <span class="text-primary normal-case font-normal ml-1 text-[10px] bg-primary/10 border border-primary/20 px-1.5 py-0.5 rounded-full inline-flex items-center gap-0.5"><span class="material-symbols-outlined text-[10px]">auto_awesome</span> AI Suggested</span></label>
+<div class="relative">
+<select class="w-full pl-3 pr-10 py-2.5 bg-slate-50 dark:bg-[#101922] border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none appearance-none font-medium cursor-pointer transition-colors hover:border-slate-300 dark:hover:border-slate-600">
+<option>Plumbing</option>
+<option>Electrical</option>
+<option>Appliance</option>
+<option>General</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-2.5 text-slate-400 pointer-events-none">expand_more</span>
+</div>
+</div>
+<div>
+<label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">Urgency <span class="text-primary normal-case font-normal ml-1 text-[10px] bg-primary/10 border border-primary/20 px-1.5 py-0.5 rounded-full inline-flex items-center gap-0.5"><span class="material-symbols-outlined text-[10px]">auto_awesome</span> AI Suggested</span></label>
+<div class="grid grid-cols-3 gap-2">
+<label class="cursor-pointer border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-center hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<input class="hidden" name="urgency" type="radio"/>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Low</span>
+</label>
+<label class="cursor-pointer border-2 border-primary bg-primary/5 rounded-lg p-2 text-center transition-colors relative shadow-sm">
+<input checked="" class="hidden" name="urgency" type="radio"/>
+<span class="text-sm font-bold text-primary">Medium</span>
+<span class="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
+</span>
+</label>
+<label class="cursor-pointer border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-center hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<input class="hidden" name="urgency" type="radio"/>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">High</span>
+</label>
+</div>
+</div>
+<div>
+<label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">Description <span class="text-slate-400 font-normal normal-case ml-1">(Transcribed)</span></label>
+<textarea class="w-full p-3 bg-slate-50 dark:bg-[#101922] border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none min-h-[80px] resize-none leading-relaxed transition-colors hover:border-slate-300 dark:hover:border-slate-600">My sink is leaking and dripping water into the cabinet below.</textarea>
+</div>
+<div>
+<label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">Photos / Video</label>
+<button class="w-full border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-6 flex flex-col items-center justify-center text-slate-500 hover:border-primary hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all group">
+<div class="size-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary">add_a_photo</span>
+</div>
+<span class="text-sm font-bold text-slate-600 dark:text-slate-300 group-hover:text-primary">Add Photos</span>
+<span class="text-xs text-slate-400 mt-1">or drag and drop here</span>
+</button>
+</div>
+</div>
+</div>
+<div class="p-4 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-[#101922]/50 flex gap-3 z-10">
+<button class="flex-1 py-3 bg-primary hover:bg-primary/90 text-white rounded-lg text-sm font-bold shadow-lg shadow-primary/20 transition-all active:scale-[0.98]">
+                Send Request to Robert Johnson
+            </button>
+<label class="cursor-pointer px-5 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-white rounded-lg text-sm font-bold transition-all text-center" for="ai-bar-toggle">
+                Cancel
+            </label>
+</div>
+</div>
+<label class="cursor-pointer group flex items-center gap-3 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white pl-1.5 pr-5 py-1.5 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 dark:border-slate-700 hover:scale-105 hover:shadow-[0_8px_30px_rgb(0,0,0,0.18)] transition-all duration-300" for="ai-bar-toggle" id="ai-trigger">
+<div class="size-10 rounded-full bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center text-white shadow-md group-hover:rotate-12 transition-transform">
+<span class="material-symbols-outlined">smart_toy</span>
+</div>
+<div class="flex flex-col items-start">
+<span class="text-sm font-bold leading-none">Ask HomeAI...</span>
+<span class="text-[10px] text-slate-500 dark:text-slate-400 font-medium leading-tight mt-0.5">About this application</span>
+</div>
+</label>
+</div>
+<input class="peer hidden" id="upload-modal-toggle" type="checkbox"/>
+<div class="hidden fixed inset-0 z-[200] bg-slate-900/60 backdrop-blur-sm items-center justify-center p-4" id="upload-modal-overlay">
+<div class="bg-white dark:bg-[#101922] w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+<div class="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-start">
+<div>
+<h3 class="text-xl font-extrabold text-slate-900 dark:text-white tracking-tight">Upload Missing Documents</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Application ID: <span class="font-mono text-primary font-bold">#APP-8921-TX</span></p>
+</div>
+<label class="cursor-pointer text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors" for="upload-modal-toggle">
+<span class="material-symbols-outlined text-2xl">close</span>
+</label>
+</div>
+<div class="p-6 overflow-y-auto custom-scrollbar flex-1 bg-slate-50/50 dark:bg-[#0b1117]">
+<div class="space-y-6">
+<div class="bg-white dark:bg-[#1e293b] rounded-xl border border-slate-200 dark:border-slate-700 p-5 shadow-sm">
+<div class="flex items-start justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-lg bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-500 flex items-center justify-center shrink-0 border border-amber-100 dark:border-amber-800">
+<span class="material-symbols-outlined">id_card</span>
+</div>
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white text-sm">Clearer Driver's License Scan</h4>
+<p class="text-xs text-red-500 font-medium mt-0.5">Reason: Previous upload was blurry</p>
+</div>
+</div>
+<span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded">Required</span>
+</div>
+<label class="group relative flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg cursor-pointer bg-slate-50 dark:bg-[#101922] hover:bg-slate-100 dark:hover:bg-[#16202a] hover:border-primary transition-all duration-200">
+<div class="flex flex-col items-center justify-center pt-5 pb-6">
+<span class="material-symbols-outlined text-3xl text-slate-400 mb-2 group-hover:text-primary transition-colors">cloud_upload</span>
+<p class="mb-1 text-sm text-slate-600 dark:text-slate-300 font-medium"><span class="text-primary hover:underline">Click to upload</span> or drag and drop</p>
+<p class="text-xs text-slate-400 dark:text-slate-500">SVG, PNG, JPG or PDF (MAX. 5MB)</p>
+</div>
+<input class="hidden" type="file"/>
+</label>
+</div>
+<div class="bg-white dark:bg-[#1e293b] rounded-xl border border-slate-200 dark:border-slate-700 p-5 shadow-sm">
+<div class="flex items-start justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-500 flex items-center justify-center shrink-0 border border-blue-100 dark:border-blue-800">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white text-sm">Latest Payslips (October)</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Please include last 2 pay periods</p>
+</div>
+</div>
+<span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded">Required</span>
+</div>
+<div class="flex items-center justify-between p-3 bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-800 rounded-lg">
+<div class="flex items-center gap-3 overflow-hidden">
+<div class="size-8 rounded bg-white dark:bg-green-900/30 text-green-600 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-lg">description</span>
+</div>
+<div class="min-w-0">
+<p class="text-sm font-bold text-slate-900 dark:text-white truncate">oct_payslip_sarah.pdf</p>
+<p class="text-[10px] text-green-600 dark:text-green-400 font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">check_circle</span> Upload Complete
+                                </p>
+</div>
+</div>
+<button class="p-1.5 text-slate-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+<div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-1 mt-2 overflow-hidden">
+<div class="bg-green-500 h-1 rounded-full" style="width: 100%"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-5 border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-[#101922] flex justify-end gap-3">
+<label class="cursor-pointer px-5 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" for="upload-modal-toggle">
+                Cancel
+            </label>
+<button class="px-6 py-2.5 rounded-lg bg-primary hover:bg-primary/90 text-white font-bold text-sm shadow-lg shadow-primary/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+                Submit Documents
+            </button>
+</div>
+</div>
+</div>
+</body></html>

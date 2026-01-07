@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PropertyApp - Tenant Profile Setup</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }input[type=range] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #137fec;
+            cursor: pointer;
+            margin-top: -8px;
+            box-shadow: 0 0 0 2px #fff;
+        }
+        input[type=range]::-moz-range-thumb {
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #137fec;
+            cursor: pointer;
+            border: 2px solid #fff;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+        }
+        input[type=range]::-moz-range-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+        }
+        .amenity-checkbox:checked + div {
+            background-color: rgba(19, 127, 236, 0.15);
+            border-color: #137fec;
+            color: white;
+        }
+        .property-type-radio:checked + div {
+            background-color: rgba(19, 127, 236, 0.15);
+            border-color: #137fec;
+        }
+        .property-type-radio:checked + div .icon {
+            color: #137fec;
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col font-display text-slate-900 dark:text-white overflow-hidden relative">
+<div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCfd-PEtKh8wfVwv2Nv_lj37eZ9jRdRyYDRx85QWBw1HMwbjQnR82kwQR7vbEL91gI0Mg4_MKRcF8MYSEZ_oDcjRoqT3ehC26ehCbSn9ovfB2oY1HURRaxBWaVVx9dsE3hfTy4MbwiRgxDeMujtbcQlnW7cmp95UYA6Q_meh_jE4BI480hICb8JWGINWyOQxV7WHBUsEQonm48r8T-Je62QRwLuiJRfLuErdautDJvGP0kiflta4Sps-6gE1JkzPwQeZU3vOyx0llGe');">
+<div class="absolute inset-0 bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-900/70 dark:from-background-dark/95 dark:via-background-dark/90 dark:to-background-dark/80 backdrop-blur-[2px]"></div>
+</div>
+<div class="relative z-10 flex flex-col items-center justify-center min-h-screen w-full px-4 sm:px-6 lg:px-8 py-10">
+<div class="absolute top-6 left-6 md:top-10 md:left-10 flex items-center gap-3">
+<div class="size-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">real_estate_agent</span>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em]">PropertyApp</h2>
+</div>
+<div class="w-full max-w-4xl bg-white/10 dark:bg-[#1a2632]/40 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-6 md:p-8 lg:p-10 flex flex-col animate-fade-in-up my-10 overflow-y-auto max-h-[90vh]">
+<div class="flex items-center justify-center mb-6">
+<span class="px-3 py-1 rounded-full bg-primary/20 border border-primary/30 text-primary text-xs font-bold uppercase tracking-wider">
+                    Step 4 of 4
+                </span>
+</div>
+<h1 class="text-2xl md:text-3xl font-extrabold text-white mb-2 text-center">Tell Us Your Home Preferences</h1>
+<p class="text-slate-300 text-sm md:text-base mb-8 text-center font-normal">
+                Help us find your perfect match by setting your preferences.
+            </p>
+<form class="w-full flex flex-col gap-6">
+<div class="space-y-2">
+<label class="text-sm font-semibold text-slate-200">Preferred Location / Neighborhoods</label>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-400">search</span>
+</div>
+<input class="block w-full rounded-xl border-white/10 bg-white/5 pl-10 pr-4 py-3.5 text-white placeholder-slate-400 focus:border-primary focus:ring-primary sm:text-sm shadow-sm transition-colors" placeholder="e.g. Downtown, Brooklyn, 90210" type="text"/>
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-500 text-sm">my_location</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+<div class="flex flex-col gap-6">
+<div class="space-y-3">
+<label class="text-sm font-semibold text-slate-200">Desired Property Type</label>
+<div class="grid grid-cols-3 gap-3">
+<label class="cursor-pointer group relative">
+<input class="sr-only peer property-type-radio" name="property_type" type="radio" value="apartment"/>
+<div class="flex flex-col items-center justify-center p-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all duration-200 h-24 text-center">
+<span class="material-symbols-outlined icon text-slate-400 text-2xl mb-2 transition-colors">apartment</span>
+<span class="text-white text-xs font-medium">Apartment</span>
+</div>
+</label>
+<label class="cursor-pointer group relative">
+<input class="sr-only peer property-type-radio" name="property_type" type="radio" value="house"/>
+<div class="flex flex-col items-center justify-center p-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all duration-200 h-24 text-center">
+<span class="material-symbols-outlined icon text-slate-400 text-2xl mb-2 transition-colors">house</span>
+<span class="text-white text-xs font-medium">House</span>
+</div>
+</label>
+<label class="cursor-pointer group relative">
+<input class="sr-only peer property-type-radio" name="property_type" type="radio" value="condo"/>
+<div class="flex flex-col items-center justify-center p-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all duration-200 h-24 text-center">
+<span class="material-symbols-outlined icon text-slate-400 text-2xl mb-2 transition-colors">location_city</span>
+<span class="text-white text-xs font-medium">Condo</span>
+</div>
+</label>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="text-sm font-semibold text-slate-200">Bedrooms</label>
+<div class="relative">
+<select class="block w-full rounded-xl border-white/10 bg-white/5 px-4 py-3 text-white focus:border-primary focus:ring-primary sm:text-sm shadow-sm transition-colors appearance-none">
+<option>Any</option>
+<option>Studio</option>
+<option>1+</option>
+<option>2+</option>
+<option>3+</option>
+<option>4+</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+<span class="material-symbols-outlined text-slate-400">expand_more</span>
+</div>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-semibold text-slate-200">Bathrooms</label>
+<div class="relative">
+<select class="block w-full rounded-xl border-white/10 bg-white/5 px-4 py-3 text-white focus:border-primary focus:ring-primary sm:text-sm shadow-sm transition-colors appearance-none">
+<option>Any</option>
+<option>1+</option>
+<option>1.5+</option>
+<option>2+</option>
+<option>2.5+</option>
+<option>3+</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+<span class="material-symbols-outlined text-slate-400">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center">
+<label class="text-sm font-semibold text-slate-200">Monthly Budget</label>
+<span class="text-primary font-bold text-sm">$1,200 - $3,500</span>
+</div>
+<div class="px-2">
+<input class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer" max="10000" min="500" step="100" type="range" value="3500"/>
+<div class="flex justify-between text-xs text-slate-400 mt-2">
+<span>$500</span>
+<span>$10k+</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-6">
+<div class="space-y-3">
+<label class="text-sm font-semibold text-slate-200">Must-Have Amenities</label>
+<div class="flex flex-wrap gap-3">
+<label class="cursor-pointer">
+<input class="sr-only amenity-checkbox" type="checkbox"/>
+<div class="px-4 py-2 rounded-lg border border-white/10 bg-white/5 text-slate-300 text-sm hover:bg-white/10 transition-colors select-none">
+                                        Pet-Friendly
+                                    </div>
+</label>
+<label class="cursor-pointer">
+<input class="sr-only amenity-checkbox" type="checkbox"/>
+<div class="px-4 py-2 rounded-lg border border-white/10 bg-white/5 text-slate-300 text-sm hover:bg-white/10 transition-colors select-none">
+                                        Parking
+                                    </div>
+</label>
+<label class="cursor-pointer">
+<input class="sr-only amenity-checkbox" type="checkbox"/>
+<div class="px-4 py-2 rounded-lg border border-white/10 bg-white/5 text-slate-300 text-sm hover:bg-white/10 transition-colors select-none">
+                                        Gym
+                                    </div>
+</label>
+<label class="cursor-pointer">
+<input class="sr-only amenity-checkbox" type="checkbox"/>
+<div class="px-4 py-2 rounded-lg border border-white/10 bg-white/5 text-slate-300 text-sm hover:bg-white/10 transition-colors select-none">
+                                        In-unit Laundry
+                                    </div>
+</label>
+<label class="cursor-pointer">
+<input class="sr-only amenity-checkbox" type="checkbox"/>
+<div class="px-4 py-2 rounded-lg border border-white/10 bg-white/5 text-slate-300 text-sm hover:bg-white/10 transition-colors select-none">
+                                        Swimming Pool
+                                    </div>
+</label>
+<label class="cursor-pointer">
+<input class="sr-only amenity-checkbox" type="checkbox"/>
+<div class="px-4 py-2 rounded-lg border border-white/10 bg-white/5 text-slate-300 text-sm hover:bg-white/10 transition-colors select-none">
+                                        Air Conditioning
+                                    </div>
+</label>
+<label class="cursor-pointer">
+<input class="sr-only amenity-checkbox" type="checkbox"/>
+<div class="px-4 py-2 rounded-lg border border-white/10 bg-white/5 text-slate-300 text-sm hover:bg-white/10 transition-colors select-none">
+                                        Balcony
+                                    </div>
+</label>
+</div>
+</div>
+<div class="space-y-3">
+<label class="text-sm font-semibold text-slate-200">Move-in Timeline</label>
+<div class="space-y-2">
+<label class="flex items-center p-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 cursor-pointer transition-colors">
+<input class="text-primary bg-transparent border-slate-500 focus:ring-primary focus:ring-offset-0" name="timeline" type="radio"/>
+<span class="ml-3 text-white text-sm">Immediately (ASAP)</span>
+</label>
+<label class="flex items-center p-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 cursor-pointer transition-colors">
+<input class="text-primary bg-transparent border-slate-500 focus:ring-primary focus:ring-offset-0" name="timeline" type="radio"/>
+<span class="ml-3 text-white text-sm">Within 1-3 months</span>
+</label>
+<label class="flex items-center p-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 cursor-pointer transition-colors">
+<input class="text-primary bg-transparent border-slate-500 focus:ring-primary focus:ring-offset-0" name="timeline" type="radio"/>
+<span class="ml-3 text-white text-sm">3+ months</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+<div class="pt-4 mt-2">
+<button class="w-full py-3.5 px-4 rounded-xl bg-primary hover:bg-primary/90 text-white font-bold text-lg shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2" type="button">
+                    Finish Setup
+                    <span class="material-symbols-outlined text-xl">arrow_forward</span>
+</button>
+</div>
+</form>
+</div>
+<div class="fixed bottom-8 right-6 md:right-10 flex items-center justify-end z-50">
+<div class="group flex items-center gap-3 bg-white/90 dark:bg-[#1a2632]/90 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-[0_8px_30px_rgb(0,0,0,0.12)] rounded-full pl-5 pr-2 py-2.5 cursor-pointer hover:scale-105 transition-all">
+<span class="text-sm font-semibold text-slate-700 dark:text-slate-200 mr-2 max-w-[200px] sm:max-w-none truncate">Optimize my search preferences</span>
+<div class="size-8 rounded-full bg-primary flex items-center justify-center text-white shadow-md group-hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined icon-filled text-[18px]">smart_toy</span>
+</div>
+</div>
+</div>
+</div>
+</body></html>

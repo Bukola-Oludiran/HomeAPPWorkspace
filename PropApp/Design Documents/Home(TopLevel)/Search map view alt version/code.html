@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PropertyApp - Real Estate Search</title>
+<!-- Tailwind CSS v3 with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Custom Tailwind Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            'brand-blue': '#3b82f6',
+            'brand-dark': '#1e293b',
+          }
+        }
+      }
+    }
+  </script>
+<!-- Google Fonts (Inter) -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Custom CSS Styles -->
+<style data-purpose="Global Styles">
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc; /* A light gray background for the body */
+      overflow: hidden; /* Prevent scrolling of the whole page */
+    }
+  </style>
+</head>
+<body class="h-screen flex flex-col">
+<!-- BEGIN: MainHeader -->
+<header class="bg-white border-b border-gray-200 z-20" data-purpose="site-header">
+<div class="container mx-auto px-4">
+<div class="flex items-center justify-between h-16">
+<!-- Left side of header: Logo and App Name -->
+<div class="flex items-center space-x-3"><img alt="PropertyApp Logo" class="w-8 h-8" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoFf9IFQjRmq49zYlhZ5vL0CgT919cqu38VhWOv9gneNeiiM0C4LbZrmteOSenpFjbZFkHLY2HVFUHUwVaiwYht3qalfD1cU_sS5neZJgTmb13yZEt649GS0RpC5tLTlbvP5ESxAgUFi1k5diStK4vkQiH6x1E0C_cGFq5FEpwYZMiRsY04z0kRPmxpaWIGssalPmeNKH5Jam6eVMixb-0M55PDEbALr3caHguudV2KsQZg87oFFigxniu2WxkyJyqZ4U56CExpLRf"/>
+<!-- TEMP_LOGO_PLACEHOLDER -->
+<span class="font-bold text-xl text-gray-800">PropertyApp</span>
+</div>
+<!-- Center of header: Search Bar -->
+<div class="flex-1 max-w-md mx-4">
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<!-- Search Icon -->
+<svg class="h-5 w-5 text-gray-400" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<input class="w-full bg-gray-100 border-transparent rounded-full py-2 pl-10 pr-4 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" value="Austin, TX"/>
+</div>
+</div>
+<!-- Right side of header: Actions and User Profile -->
+<div class="flex items-center space-x-6">
+<button class="bg-blue-500 w-8 h-8 rounded-full flex items-center justify-center text-white hover:bg-blue-600 transition-colors">
+<!-- TEMP_ARROW_ICON_PLACEHOLDER -->
+<svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.28a.75.75 0 011.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" fill-rule="evenodd"></path></svg></svg>
+</button>
+<a class="text-sm font-medium text-gray-700 hover:text-blue-600" href="#">List your property</a>
+<button class="text-gray-500 hover:text-gray-800"><svg aria-hidden="true" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24"><path d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+<img alt="User Avatar" class="w-8 h-8 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAX7PobX_COw8Lf00eSJ1clmsaH1rkzS9SfsLX03lt1fOQHQXu2wLqUe7XcFgB7ar-5UQAogoSX7xKRktyqh6YYHqnGq4qTSKQN0X9XLbpQkSAL21JHuHBVtpj2-ohOsLbCxmbZoWBOt1l4gsGfxnYknG3O6y_fS5YhjLDJ643RDYRySckJpe8SqOOvt9d7c4SZGObJLpCoWEUDMfJIdxkSiK_cDbZ3Up1AkymvCrIaa_gixtlOt8_m2NjlI2YrA2D5V-M3bDMTwtzd"/> <!-- TEMP_AVATAR_PLACEHOLDER -->
+</div>
+</div>
+</div>
+</header>
+<!-- END: MainHeader -->
+<!-- BEGIN: FilterBar -->
+<nav class="bg-white border-b border-gray-200 z-10" data-purpose="filter-bar">
+<div class="container mx-auto px-4">
+<div class="flex items-center justify-between h-14">
+<!-- Filter options on the left -->
+<div class="flex items-center space-x-2">
+<button class="p-1.5 rounded-md text-gray-500 bg-white border border-gray-300 hover:bg-gray-100">
+<span>Price</span>
+<svg class="w-4 h-4 ml-1 text-gray-500" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" fill-rule="evenodd"></path></svg>
+</button>
+<button class="p-1.5 rounded-md text-gray-500 border border-gray-300 hover:bg-gray-100 bg-white">
+<span>Type</span>
+<svg class="w-4 h-4 ml-1 text-gray-500" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" fill-rule="evenodd"></path></svg>
+</button>
+<button class="filter-button">
+<span>Beds &amp; Baths</span>
+<svg class="w-4 h-4 ml-1 text-gray-500" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" fill-rule="evenodd"></path></svg>
+</button>
+<div class="h-6 w-px bg-gray-200 mx-2"></div> <!-- Separator -->
+<button class="filter-button bg-brand-blue">
+<svg class="w-4 h-4 mr-2 text-white" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.052-.143z" fill-rule="evenodd"></path></svg>
+<span class="text-white">Verified Only</span>
+</button>
+<button class="filter-button">
+<svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<span>More Filters</span>
+</button>
+</div>
+<!-- View options on the right -->
+<div class="flex items-center space-x-2">
+<button class="p-1.5 rounded-md text-gray-500 bg-white border border-gray-300 hover:bg-gray-100">
+<svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3 3.5A1.5 1.5 0 014.5 2h11A1.5 1.5 0 0117 3.5v13a.5.5 0 01-.854.354L13 13.707V15.5a.5.5 0 01-1 0v-2.293l-3.146 3.147a.5.5 0 01-.854-.354V3.5zM4.5 3a.5.5 0 00-.5.5v12.44l3-3V3.5a.5.5 0 01.5-.5H11v12l-3.146-3.146a.5.5 0 00-.708 0L4 15.44V3.5a.5.5 0 00-.5-.5H3z"></path></svg>
+</button>
+<button class="p-1.5 rounded-md text-gray-500 border border-gray-300 hover:bg-gray-100 bg-white">
+<svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 3.5A1.5 1.5 0 013.5 2h13A1.5 1.5 0 0118 3.5v13a1.5 1.5 0 01-1.5 1.5h-13A1.5 1.5 0 012 16.5v-13z"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- END: FilterBar -->
+<style data-purpose="filter-bar-styles">
+    .filter-button {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #374151;
+      background-color: white;
+      transition: all 0.2s ease-in-out;
+    }
+    .filter-button:not(.active):hover {
+      border-color: #d1d5db;
+      background-color: #f9fafb;
+    }
+  </style>
+<!-- BEGIN: MainContent -->
+<main class="flex-1 relative" data-purpose="map-view-container">
+<!-- Map Background -->
+<div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuClrCapdUS_MaODZ25fYn936RdobaNP-AhemLdXqKCROwlPkxYfsSXdzYXnlBJtNElyhyd6w6_H8RgWKXORmZbo7fY3Bd_K0KYQzfDzMKgn3KeM1xlviRbb847E1YbgOd1viPIJyJ3qlYF85Pqyu7DkFj24LgjCTlM95URqG6o_Hq6nMf4P_Xju34DXnWhoHE6HkzMYQLfwnn2dYJacNDaU-5pHHp5ioOTZOYsgxsKurTqC6T65WaePfALzn3bWVfkFyjlJUGwlAgZU');"></div> <!-- Map Placeholder Image -->
+<!-- Search this area button -->
+<div class="absolute top-4 left-1/2 -translate-x-1/2 z-10">
+<button class="bg-white rounded-full shadow-lg px-6 py-3 text-sm font-semibold text-gray-800 hover:bg-gray-50 flex items-center space-x-2">
+<svg class="w-5 h-5 text-gray-500" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M15.312 11.424a5.5 5.5 0 01-9.201-4.46 5.5 5.5 0 0110.16 2.898l2.543 2.543a.75.75 0 11-1.06 1.06l-2.442-2.442zM10.5 3a4 4 0 100 8 4 4 0 000-8z" fill-rule="evenodd"></path>
+</svg>
+<span>Search this area</span>
+</button>
+</div>
+<!-- BEGIN: MapOverlays -->
+<div class="absolute inset-0 pointer-events-none" data-purpose="map-overlays">
+<!-- Price Tags on Map -->
+<div class="absolute" style="top: 28%; left: 75%;">
+<div class="price-tag">$5,500/mo</div>
+</div>
+<div class="absolute" style="top: 55%; left: 68%;">
+<div class="price-tag">$3,200/mo</div>
+</div>
+<div class="absolute" style="top: 35%; left: 20%;">
+<div class="price-tag bg-white text-gray-800">$850k</div>
+</div>
+<!-- BEGIN: PropertyCard -->
+<div class="absolute pointer-events-auto" style="top: 50%; left: 30%; transform: translate(-50%, -50%);"><div class="w-[360px] bg-white rounded-xl shadow-2xl overflow-hidden" data-purpose="property-card"><div class="relative"><img alt="Modern Oakwood Estate" class="w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTNEUBg--WWz3Yv-tafKaLx48QHnilrC7S3MkEusm4OIgg5GsAHz9uZehV4_bDwfPZmLmI5l0h2KS0ByNkpSnFzWyokZk7qVFjieSzMZhDLyvmPquBJDLJofwqCYD_ZCT_SoxwUIrDDXeFqyIwXd7Y9N6tAYihu8GL267rKS3GnO17XuMbqjm0YHB-sHIhJi_hOQvNV3GDIMEOkS83eANkqgbWOhRl9bL7jFXrWpRfRw8ZTKP3anS6wqKgUwe2goxDlFRH7u0wQVbp"/><div class="absolute bottom-2 left-2 bg-black bg-opacity-60 text-white text-xs font-semibold px-2 py-1 rounded-md flex items-center"><svg class="w-4 h-4 text-yellow-400 mr-1" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>Platinum</div><button class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white p-1 rounded-full text-gray-700"><svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" fill-rule="evenodd"></path></svg></button><button class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white p-1 rounded-full text-gray-700"><svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" fill-rule="evenodd"></path></svg></button></div><div class="p-4"><div class="flex justify-between items-start"><p class="text-2xl font-bold text-gray-900">$850,000</p><div class="flex items-center text-sm"><svg class="w-4 h-4 text-yellow-500 mr-1" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M10.868 2.884c.321-.662 1.215-.662 1.536 0l1.681 3.46c.154.318.473.545.82.592l3.812.553c.725.105 1.018.99.492 1.503l-2.758 2.688c-.25.242-.364.59-.302.928l.65 3.794c.124.722-.63.1.28-.946l-3.4-1.788c-.296-.155-.65-.155-.946 0l-3.4 1.788c-.63.33-.946-.224-.28-.946l.65-3.794c.062-.338-.052-.686-.302-.928L2.488 9.002c-.527-.513-.234-1.398.492-1.503l3.812-.553c.347-.047.666-.274.82-.592l1.681-3.46z" fill-rule="evenodd"></path></svg><span class="font-semibold text-gray-800">4.9</span><span class="text-gray-500 ml-1">(12)</span></div></div><h3 class="font-semibold text-lg text-gray-800 mt-1">Modern Oakwood Estate</h3><p class="text-sm text-gray-500">1243 Oakwood Avenue, Austin, TX</p><div class="mt-4 flex items-center space-x-6 text-sm text-gray-600"><div class="flex items-center space-x-2"><svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24"><path d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>4</span></div><div class="flex items-center space-x-2"><svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24"><path d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205l3 1m-3-1l-3-1m3 1v5.25c0 .621.504 1.125 1.125 1.125h2.25c.621 0 1.125-.504 1.125-1.125V10.5m-11.25-1.5v5.25c0 .621.504 1.125 1.125 1.125h2.25c.621 0 1.125-.504 1.125-1.125V9M4.5 3.545l7.5-3l7.5 3v7.205M4.5 3.545L2.25 9" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>3</span></div><div class="flex items-center space-x-2"><svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24"><path d="M21 7.5l-2.25-1.313M21 7.5v2.25m0-2.25l-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3l2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0 6.75l2.25-1.313M12 21.75V19.5m0 2.25l-2.25-1.313m0-16.875L12 2.25l2.25 1.313M12 7.5V5.25m0 2.25l-2.25-1.313M6.75 7.5l-2.25-1.313M6.75 7.5l2.25 1.313M6.75 7.5V5.25m9 3l2.25-1.313M18.75 7.5V5.25m0 2.25l-2.25 1.313M18.75 10.5l-2.25 1.313M18.75 10.5l2.25 1.313M18.75 10.5V12.75m-4.5 6l2.25-1.313m-2.25 1.313l-2.25-1.313m-2.25-1.313V15m2.25 1.5l2.25 1.313M9.75 15l-2.25 1.313M9.75 15l2.25-1.313M9.75 15V12.75m-7.5-3l2.25-1.313M4.5 10.5l-2.25 1.313M4.5 10.5l2.25 1.313M4.5 10.5V12.75" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>2.4k</span></div></div><div class="border-t border-gray-200 mt-4 pt-4"><a class="text-sm font-bold text-blue-600 hover:text-blue-700" href="#">VIEW DETAILS</a></div></div></div><div class="relative mt-2 flex justify-center"><div class="price-tag z-10">$850k</div></div></div>
+<!-- END: PropertyCard -->
+</div>
+<!-- END: MapOverlays -->
+<!-- Map Controls -->
+<div class="absolute bottom-5 right-5 z-10 flex flex-col items-center space-y-2">
+<button class="map-control">
+<svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path d="M9.25 13.5a.75.75 0 001.5 0V4.636l2.955 1.706a.75.75 0 00.75-1.3l-3.5-2.02a.75.75 0 00-.75 0l-3.5 2.02a.75.75 0 00.75 1.3L9.25 4.636v8.864z"></path>
+<path d="M3.5 14.25a.75.75 0 00-1.5 0v.5A2.75 2.75 0 004.75 18h10.5A2.75 2.75 0 0018 14.75v-.5a.75.75 0 00-1.5 0v.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-.5z"></path>
+</svg>
+</button>
+<div class="bg-white rounded-lg shadow-lg flex flex-col">
+<button class="map-control rounded-b-none border-b border-gray-200">
+<svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M10 3.5a.75.75 0 01.75.75v5.5h5.5a.75.75 0 010 1.5h-5.5v5.5a.75.75 0 01-1.5 0v-5.5h-5.5a.75.75 0 010-1.5h5.5v-5.5A.75.75 0 0110 3.5z" fill-rule="evenodd"></path></svg>
+</button>
+<button class="map-control rounded-t-none">
+<svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M4 10a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H4.75A.75.75 0 014 10z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</main>
+<!-- END: MainContent -->
+<style data-purpose="map-element-styles">
+    .price-tag {
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 0.375rem 0.875rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      white-space: nowrap;
+    }
+    .map-control {
+      background-color: white;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      color: #374151;
+      transition: background-color 0.2s;
+    }
+    .map-control:hover {
+      background-color: #f3f4f6;
+    }
+  </style>
+</body></html>

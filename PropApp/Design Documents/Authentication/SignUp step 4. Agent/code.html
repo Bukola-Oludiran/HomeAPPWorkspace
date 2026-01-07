@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PropertyApp - Agent Profile Setup</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }.specialty-checkbox:checked + label {
+            background-color: rgba(19, 127, 236, 0.2);
+            border-color: #137fec;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col font-display text-slate-900 dark:text-white overflow-hidden relative">
+<div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCfd-PEtKh8wfVwv2Nv_lj37eZ9jRdRyYDRx85QWBw1HMwbjQnR82kwQR7vbEL91gI0Mg4_MKRcF8MYSEZ_oDcjRoqT3ehC26ehCbSn9ovfB2oY1HURRaxBWaVVx9dsE3hfTy4MbwiRgxDeMujtbcQlnW7cmp95UYA6Q_meh_jE4BI480hICb8JWGINWyOQxV7WHBUsEQonm48r8T-Je62QRwLuiJRfLuErdautDJvGP0kiflta4Sps-6gE1JkzPwQeZU3vOyx0llGe');">
+<div class="absolute inset-0 bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-900/70 dark:from-background-dark/95 dark:via-background-dark/90 dark:to-background-dark/80 backdrop-blur-[2px]"></div>
+</div>
+<div class="relative z-10 flex flex-col items-center justify-center min-h-screen w-full px-4 sm:px-6 lg:px-8 py-10">
+<div class="absolute top-6 left-6 md:top-10 md:left-10 flex items-center gap-3">
+<div class="size-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">real_estate_agent</span>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em]">PropertyApp</h2>
+</div>
+<div class="w-full max-w-2xl bg-white/10 dark:bg-[#1a2632]/40 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col animate-fade-in-up">
+<div class="flex items-center justify-center mb-6">
+<span class="px-3 py-1 rounded-full bg-primary/20 border border-primary/30 text-primary text-xs font-bold uppercase tracking-wider">
+                    Step 4 of 4
+                </span>
+</div>
+<h1 class="text-2xl md:text-3xl font-extrabold text-white mb-2 text-center">Build Your Agent Profile</h1>
+<p class="text-slate-300 text-sm md:text-base mb-8 text-center font-normal">
+                Tell us about your services to help clients find the right match.
+            </p>
+<form class="w-full flex flex-col gap-6">
+<div class="space-y-3">
+<label class="block text-sm font-semibold text-slate-200">Specialties &amp; Services</label>
+<div class="flex flex-wrap gap-2">
+<input class="sr-only specialty-checkbox" id="spec-res-sales" name="specialties" type="checkbox" value="residential-sales"/>
+<label class="cursor-pointer px-4 py-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all text-sm text-slate-300 font-medium select-none" for="spec-res-sales">Residential Sales</label>
+<input class="sr-only specialty-checkbox" id="spec-comm-lease" name="specialties" type="checkbox" value="commercial-leasing"/>
+<label class="cursor-pointer px-4 py-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all text-sm text-slate-300 font-medium select-none" for="spec-comm-lease">Commercial Leasing</label>
+<input class="sr-only specialty-checkbox" id="spec-prop-mgmt" name="specialties" type="checkbox" value="property-mgmt"/>
+<label class="cursor-pointer px-4 py-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all text-sm text-slate-300 font-medium select-none" for="spec-prop-mgmt">Property Management</label>
+<input class="sr-only specialty-checkbox" id="spec-maintenance" name="specialties" type="checkbox" value="maintenance"/>
+<label class="cursor-pointer px-4 py-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all text-sm text-slate-300 font-medium select-none" for="spec-maintenance">Property Maintenance</label>
+<button class="px-3 py-2 rounded-xl border border-dashed border-white/20 bg-transparent hover:bg-white/5 text-slate-400 hover:text-white transition-all text-sm font-medium flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span> Add custom
+                        </button>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+<div class="space-y-1.5">
+<label class="block text-sm font-semibold text-slate-200" for="service-area">Primary Service Area</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+<span class="material-symbols-outlined text-[20px]">location_on</span>
+</span>
+<input class="block w-full pl-11 pr-4 py-3.5 rounded-xl border-white/10 bg-white/5 text-white placeholder-slate-400 focus:border-primary focus:ring-primary sm:text-sm shadow-sm transition-colors" id="service-area" name="service-area" placeholder="e.g. New York, NY" type="text"/>
+</div>
+</div>
+<div class="space-y-1.5">
+<label class="block text-sm font-semibold text-slate-200" for="experience">Years of Experience</label>
+<div class="relative">
+<select class="block w-full pl-4 pr-10 py-3.5 rounded-xl border-white/10 bg-white/5 text-white focus:border-primary focus:ring-primary sm:text-sm shadow-sm transition-colors appearance-none" id="experience" name="experience">
+<option class="text-slate-900 bg-white" value="">Select experience...</option>
+<option class="text-slate-900 bg-white" value="less_1">Less than 1 year</option>
+<option class="text-slate-900 bg-white" value="1_3">1-3 years</option>
+<option class="text-slate-900 bg-white" value="3_5">3-5 years</option>
+<option class="text-slate-900 bg-white" value="5_plus">5+ years</option>
+</select>
+<span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none flex items-center">
+<span class="material-symbols-outlined text-[20px]">keyboard_arrow_down</span>
+</span>
+</div>
+</div>
+</div>
+<div class="space-y-1.5">
+<div class="flex justify-between items-center">
+<label class="block text-sm font-semibold text-slate-200" for="license">Certification / License <span class="text-slate-500 font-normal ml-1">(Optional)</span></label>
+<span class="text-xs text-slate-400">Detailed verification later</span>
+</div>
+<div class="relative flex items-center">
+<input class="block w-full pl-4 pr-32 py-3.5 rounded-xl border-white/10 bg-white/5 text-white placeholder-slate-400 focus:border-primary focus:ring-primary sm:text-sm shadow-sm transition-colors" id="license" name="license" placeholder="License Number or ID" type="text"/>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-lg text-xs font-medium text-slate-300 transition-colors flex items-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-[16px]">upload_file</span>
+                            Upload Doc
+                        </button>
+</div>
+</div>
+<div class="pt-4">
+<button class="w-full py-3.5 px-4 rounded-xl bg-primary hover:bg-primary/90 text-white font-bold text-lg shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2" type="button">
+                        Go to Dashboard
+                        <span class="material-symbols-outlined text-xl">arrow_forward</span>
+</button>
+</div>
+</form>
+</div>
+<div class="fixed bottom-8 right-6 md:right-10 flex items-center justify-end z-50">
+<div class="group flex items-center gap-3 bg-white/90 dark:bg-[#1a2632]/90 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-[0_8px_30px_rgb(0,0,0,0.12)] rounded-full pl-5 pr-2 py-2.5 cursor-pointer hover:scale-105 transition-all">
+<span class="text-sm font-semibold text-slate-700 dark:text-slate-200 mr-2 max-w-[200px] sm:max-w-none truncate">Market your services effectively</span>
+<div class="size-8 rounded-full bg-primary flex items-center justify-center text-white shadow-md group-hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined icon-filled text-[18px]">smart_toy</span>
+</div>
+</div>
+</div>
+</div>
+</body></html>

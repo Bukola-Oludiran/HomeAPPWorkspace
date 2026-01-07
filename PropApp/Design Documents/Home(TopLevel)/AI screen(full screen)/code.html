@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HomeAI Chat - PropertyApp</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }.custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #334155;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+            z-index: 60;
+            border-radius: 0.75rem;
+            margin-top: 0.5rem;
+            border: 1px solid #e2e8f0;
+        }
+        .dark .dropdown-content {
+            background-color: #1e293b;
+            border-color: #334155;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark h-screen flex flex-col font-display text-slate-900 dark:text-white overflow-hidden relative">
+<div class="absolute top-6 left-6 md:left-10 z-50 flex items-center gap-3">
+<div class="size-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">real_estate_agent</span>
+</div>
+<h2 class="hidden md:block text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">PropertyApp</h2>
+</div>
+<header class="fixed top-6 left-0 right-0 z-40 flex justify-center w-full pointer-events-none">
+<div class="pointer-events-auto flex items-center gap-1 md:gap-2 px-3 py-2 bg-white/90 dark:bg-[#1a2632]/90 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-black/20 rounded-full mx-4">
+<div class="flex items-center gap-1">
+<a aria-label="Home" class="flex items-center justify-center size-10 md:size-11 rounded-full text-slate-500 hover:text-primary hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined">home</span>
+</a>
+<a class="px-4 py-2 text-sm font-semibold rounded-full text-slate-600 hover:text-primary hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white transition-all" href="#">
+                Buy
+            </a>
+<a class="px-4 py-2 text-sm font-semibold rounded-full text-slate-600 hover:text-primary hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white transition-all" href="#">
+                Rent
+            </a>
+<a class="px-4 py-2 text-sm font-semibold rounded-full text-slate-600 hover:text-primary hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white transition-all" href="#">
+                Sell
+            </a>
+<a aria-label="Agents" class="flex items-center justify-center size-10 md:size-11 rounded-full text-slate-500 hover:text-primary hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined">group</span>
+</a>
+</div>
+<div class="w-px h-6 bg-slate-200 dark:bg-slate-700 mx-1"></div>
+<div class="flex items-center gap-1 md:gap-2">
+<button class="flex items-center justify-center size-10 md:size-11 rounded-full text-slate-500 hover:text-primary hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="relative dropdown group">
+<button class="flex items-center justify-center overflow-hidden rounded-full size-10 md:size-11 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:ring-2 hover:ring-primary/20 transition-all border border-slate-200 dark:border-slate-600">
+<img alt="User Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwTu80T-Ii1i2JHfbWEMDgwXRNP0ehdOTldQ7IxlyR1MCzL8MrOZBjoYfXJZAXXTJlIi2HNi9nfioA7ksEMvF5HBEBODUnWum2NL5XhkC95MK52bAAZDSe9d891ZAw5MbM9oRR30lP8umsxTAf1eXbePW_bZ0I5rsOo88ELIF5aCU07WBBeE1z6_RwK6Y9O6FRPgxUzYEmE3EzdyA9_YtX-v69bXptpU6g1Xr3eGcYlqLvJjRJJdBDyZYyiAuPmTNA3aMrKcO3r42a"/>
+</button>
+<div class="dropdown-content py-2">
+<a class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-primary" href="#">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">dashboard</span>
+                            Landlord Dashboard
+                        </div>
+</a>
+<a class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-primary" href="#">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">vpn_key</span>
+                            Tenant Dashboard
+                        </div>
+</a>
+<a class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-primary" href="#">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">support_agent</span>
+                            Agent Dashboard
+                        </div>
+</a>
+<hr class="my-1 border-slate-200 dark:border-slate-700"/>
+<a class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-primary" href="#">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">settings</span>
+                            Account Settings
+                        </div>
+</a>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 pt-24 pb-4 md:pb-6 px-4 md:px-6 flex flex-col h-full overflow-hidden">
+<div class="flex-1 bg-white dark:bg-[#1a2632] rounded-3xl shadow-xl border border-slate-200 dark:border-slate-800 flex flex-col max-w-5xl mx-auto w-full overflow-hidden relative">
+<div class="px-6 py-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-white dark:bg-[#1a2632] z-10 shrink-0">
+<div class="flex items-center gap-3">
+<button class="p-2 -ml-2 rounded-xl text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white transition-all focus:outline-none focus:ring-2 focus:ring-primary/20" title="Toggle Sidebar">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="size-10 rounded-full bg-primary/10 flex items-center justify-center text-primary animate-pulse">
+<span class="material-symbols-outlined icon-filled text-2xl">smart_toy</span>
+</div>
+<div>
+<h1 class="text-lg font-bold text-slate-900 dark:text-white leading-tight">HomeAI Assistant</h1>
+<div class="flex items-center gap-1.5">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+</span>
+<p class="text-xs font-medium text-slate-500 dark:text-slate-400">Context aware</p>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex items-center gap-2 px-4 py-2 text-sm font-bold text-primary bg-primary/10 hover:bg-primary/20 rounded-xl transition-all">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span class="hidden sm:inline">New Chat</span>
+</button>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-4 md:p-6 space-y-8 scroll-smooth custom-scrollbar">
+<div class="flex justify-center">
+<span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full">Today</span>
+</div>
+<div class="flex justify-end animate-fade-in-up">
+<div class="flex flex-col items-end gap-1 max-w-[85%] md:max-w-[70%]">
+<div class="bg-primary text-white rounded-2xl rounded-tr-sm px-5 py-3.5 shadow-md">
+<p class="text-sm md:text-base leading-relaxed">I'm looking for a modern 2-bedroom apartment in Downtown Austin. Budget is around $2,500/mo.</p>
+</div>
+<span class="text-[10px] text-slate-400 mr-1">10:23 AM</span>
+</div>
+</div>
+<div class="flex gap-4 max-w-[95%] md:max-w-[85%] animate-fade-in-up">
+<div class="size-8 md:size-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex-shrink-0 flex items-center justify-center text-white shadow-lg shadow-blue-500/30 mt-1">
+<span class="material-symbols-outlined text-base md:text-lg icon-filled">smart_toy</span>
+</div>
+<div class="flex flex-col gap-1 w-full overflow-hidden">
+<div class="bg-slate-50 dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700/50 rounded-2xl rounded-tl-sm px-5 py-4 shadow-sm text-slate-700 dark:text-slate-200">
+<p class="text-sm md:text-base leading-relaxed">I found several verified listings in <span class="font-semibold text-slate-900 dark:text-white">Downtown Austin</span> that match your criteria. Here are the top matches available now:</p>
+</div>
+<div class="flex gap-4 overflow-x-auto pb-4 pt-2 -mx-1 px-1 snap-x no-scrollbar">
+<div class="snap-center shrink-0 w-[280px] bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-md transition-all group cursor-pointer">
+<div class="h-40 bg-slate-200 relative overflow-hidden">
+<img alt="Property" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAamBOyrzSpr22QFJVMWoHUc1mMMtnqiibkVvx1a1yyRMf7AZH_W5yo1RUtyBeDdX317BPpURBRfc781QxtqAke2rVYEqTii2io0uuHFkEJ0CmZ8MORlbNcSi1Rrn0MkZXgBn4TdOrfGT4AC6aP8LrSd-KrpDu9MncstN4oWLel5dWeiPY1Vna-TDIY0FVjIuHpWLA9XnqqLmHWL3dBb97dTEKd5I76wzI_hdZR1tk-bfpEmbo-gBSIaJNec2sLti-R_9FmipfOkxxP"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
+<span class="absolute top-3 left-3 bg-white/95 dark:bg-slate-900/90 backdrop-blur px-2 py-1 rounded-md text-[10px] font-bold text-primary flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[12px] icon-filled">verified</span> Verified
+                                </span>
+<div class="absolute bottom-3 left-3 text-white">
+<p class="font-bold text-lg">$2,450<span class="text-xs font-normal opacity-80">/mo</span></p>
+</div>
+</div>
+<div class="p-3">
+<h3 class="text-sm font-bold text-slate-900 dark:text-white truncate">The Railyard Condos</h3>
+<p class="text-xs text-slate-500 truncate mb-3">201 E 4th St, Austin, TX</p>
+<div class="flex items-center gap-3 text-xs text-slate-600 dark:text-slate-400 border-t border-slate-100 dark:border-slate-800 pt-2">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">bed</span> 2 Bed</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">bathtub</span> 2 Bath</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">square_foot</span> 1,100</span>
+</div>
+</div>
+</div>
+<div class="snap-center shrink-0 w-[280px] bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-md transition-all group cursor-pointer">
+<div class="h-40 bg-slate-200 relative overflow-hidden">
+<img alt="Property" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDbn_i6RapAYYCUtbpApN4lJMQNrA0rGJZXVvlV5ZLubEMNH1omk_1mAstEefJ0spWkedOBAe5og228aYdYdVGMGx2otBaGsGAG_1DMh7rANSTYk0_MrBlyxCEDc66NFCgfMXVMcoMDPiPuhcBXg5_Iwjv_Fz2YEb4sU8vGb7xqSy9VX9nCTc1tUE2DL8uYW4jHmEa_B2GwMX24GP44NZ_TWI6Tc4Om0jvrCWW6cMyN3YxN1SrsIUBMkmeYENO3JUYvlZTV5Hn0Kqc"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
+<span class="absolute top-3 left-3 bg-white/95 dark:bg-slate-900/90 backdrop-blur px-2 py-1 rounded-md text-[10px] font-bold text-purple-600 flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[12px] icon-filled">star</span> Featured
+                                </span>
+<div class="absolute bottom-3 left-3 text-white">
+<p class="font-bold text-lg">$2,600<span class="text-xs font-normal opacity-80">/mo</span></p>
+</div>
+</div>
+<div class="p-3">
+<h3 class="text-sm font-bold text-slate-900 dark:text-white truncate">Seaholm Residences</h3>
+<p class="text-xs text-slate-500 truncate mb-3">222 West Ave, Austin, TX</p>
+<div class="flex items-center gap-3 text-xs text-slate-600 dark:text-slate-400 border-t border-slate-100 dark:border-slate-800 pt-2">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">bed</span> 2 Bed</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">bathtub</span> 2 Bath</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">square_foot</span> 1,250</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 mt-1">
+<button class="px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 hover:border-primary hover:text-primary transition-colors shadow-sm">
+                            Schedule a viewing
+                        </button>
+<button class="px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 hover:border-primary hover:text-primary transition-colors shadow-sm">
+                            Compare amenities
+                        </button>
+</div>
+<span class="text-[10px] text-slate-400 ml-1 mt-1">HomeAI Assistant • 10:24 AM</span>
+</div>
+</div>
+<div class="flex justify-end animate-fade-in-up">
+<div class="flex flex-col items-end gap-1 max-w-[85%] md:max-w-[70%]">
+<div class="bg-primary text-white rounded-2xl rounded-tr-sm px-5 py-3.5 shadow-md">
+<p class="text-sm md:text-base leading-relaxed">What documents do I need to apply for the Railyard one?</p>
+</div>
+<span class="text-[10px] text-slate-400 mr-1">10:25 AM</span>
+</div>
+</div>
+<div class="flex gap-4 animate-fade-in-up">
+<div class="size-8 md:size-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex-shrink-0 flex items-center justify-center text-white shadow-lg shadow-blue-500/30 mt-1">
+<span class="material-symbols-outlined text-base md:text-lg icon-filled">smart_toy</span>
+</div>
+<div class="bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl rounded-tl-sm px-5 py-4 shadow-sm h-12 flex items-center gap-1.5">
+<div class="w-2 h-2 bg-slate-400/80 rounded-full animate-[bounce_1.4s_infinite_ease-in-out_0ms]"></div>
+<div class="w-2 h-2 bg-slate-400/80 rounded-full animate-[bounce_1.4s_infinite_ease-in-out_200ms]"></div>
+<div class="w-2 h-2 bg-slate-400/80 rounded-full animate-[bounce_1.4s_infinite_ease-in-out_400ms]"></div>
+</div>
+</div>
+</div>
+<div class="p-4 md:p-6 bg-white/80 dark:bg-[#1a2632]/80 backdrop-blur-md border-t border-slate-100 dark:border-slate-800 shrink-0 z-20">
+<div class="relative max-w-4xl mx-auto w-full">
+<div class="flex flex-col bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl p-2 shadow-sm focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all">
+<div class="flex items-end gap-2">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors rounded-xl hover:bg-slate-200 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined">add_circle</span>
+</button>
+<textarea class="flex-1 bg-transparent border-none outline-none focus:ring-0 text-slate-900 dark:text-white placeholder:text-slate-400 py-2.5 px-0 resize-none max-h-32 text-base" placeholder="Ask anything about properties..." rows="1"></textarea>
+<button class="p-2 text-slate-400 hover:text-primary transition-colors rounded-xl hover:bg-slate-200 dark:hover:bg-slate-800" title="Voice Input">
+<span class="material-symbols-outlined">mic</span>
+</button>
+<button class="p-2 bg-primary text-white rounded-xl shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all flex items-center justify-center">
+<span class="material-symbols-outlined icon-filled">send</span>
+</button>
+</div>
+<div class="flex gap-2 overflow-x-auto no-scrollbar px-2 pt-2 pb-1 border-t border-slate-200/50 dark:border-slate-700/50 mt-1">
+<button class="whitespace-nowrap px-3 py-1 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-medium rounded-lg border border-slate-200 dark:border-slate-700 hover:border-primary hover:text-primary transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">payments</span>
+                            Check affordability
+                        </button>
+<button class="whitespace-nowrap px-3 py-1 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-medium rounded-lg border border-slate-200 dark:border-slate-700 hover:border-primary hover:text-primary transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">map</span>
+                            Commute time
+                        </button>
+<button class="whitespace-nowrap px-3 py-1 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-medium rounded-lg border border-slate-200 dark:border-slate-700 hover:border-primary hover:text-primary transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">gavel</span>
+                            Lease terms
+                        </button>
+</div>
+</div>
+<p class="text-center text-[10px] text-slate-400 mt-2">
+                    HomeAI can make mistakes. Consider checking important information.
+                </p>
+</div>
+</div>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Schedule Viewing - PropertyApp</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "primary-dark": "#0e64bd",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                        "platinum": "#e5e4e2",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .ai-glow {
+            box-shadow: 0 0 15px rgba(19, 127, 236, 0.4);
+        }body {
+            overflow: hidden;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col font-display text-slate-900 dark:text-white">
+<div aria-hidden="true" class="filter blur-[2px] opacity-40 pointer-events-none select-none h-screen overflow-hidden">
+<header class="fixed top-0 left-0 w-full z-40 bg-transparent">
+<div class="px-4 md:px-8 py-4 flex items-center justify-between">
+<a class="flex items-center justify-center size-10 bg-white/90 backdrop-blur-md rounded-full shadow-md text-slate-900" href="#">
+<span class="material-symbols-outlined">arrow_back</span>
+</a>
+</div>
+</header>
+<div class="relative w-full h-[50vh] bg-slate-200 overflow-hidden">
+<img alt="Modern Oakwood Estate large windows" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l"/>
+</div>
+<main class="w-full max-w-[1200px] mx-auto px-4 md:px-8 py-8">
+<div class="flex flex-col lg:flex-row gap-12">
+<div class="flex-1">
+<h1 class="text-4xl font-extrabold text-slate-900">Modern Oakwood Estate</h1>
+</div>
+</div>
+</main>
+</div>
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
+<div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"></div>
+<div class="relative w-full max-w-5xl max-h-[90vh] bg-white dark:bg-[#101922] rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-slate-200 dark:border-slate-700">
+<div class="flex items-center justify-between px-6 py-5 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-[#101922] sticky top-0 z-10">
+<div>
+<h2 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">Schedule a Viewing</h2>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+                        1243 Oakwood Avenue, Austin, TX
+                    </p>
+</div>
+<button class="size-9 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center transition-colors text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar">
+<div class="grid grid-cols-1 lg:grid-cols-12 min-h-full">
+<div class="lg:col-span-7 p-6 md:p-8 border-b lg:border-b-0 lg:border-r border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-[#101922]">
+<div class="flex items-center gap-4 mb-8 p-4 bg-white dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+<div class="relative">
+<img alt="Agent Sarah" class="size-12 rounded-full object-cover border border-slate-200 dark:border-slate-600" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjSrFpmEFzY7DuSYzvGMyJ6_AbhHnvodMyset9lUUft__qqjtpv9mHHcZ_G89QxFqf2R2dKoTB_fJz4U92uCsFUL3184Bj0EySgXTcecuQVsdTPcTR-TEh34WNcFyDdaft0v9SsIZVgNjqHkcAVrUnkmB4ERkwtSLbgbP8lvDFna76LCjamOuHb71kIA10Hd2U-QwIyYE8BfDzezNODnKbjf1aE1aWwURtZm-0bYkj-A3IN-FzxBdGE2Vxyue4rROjFp2w4T6q4RmT"/>
+<div class="absolute -bottom-1 -right-1 bg-green-500 rounded-full border-2 border-white dark:border-slate-800 p-0.5">
+<span class="material-symbols-outlined text-white text-[10px] font-bold block">check</span>
+</div>
+</div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Sarah Jenkins</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Listing Agent • Usually responds in 1 hr</p>
+</div>
+<div class="ml-auto text-xs font-medium px-2 py-1 bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 rounded-md">
+                                High Availability
+                            </div>
+</div>
+<div class="mb-8">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+<span class="size-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold">1</span>
+                                    Select Date
+                                </h3>
+<div class="flex gap-1">
+<button class="size-8 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center text-slate-500"><span class="material-symbols-outlined text-[18px]">chevron_left</span></button>
+<span class="text-sm font-semibold py-1.5">October 2023</span>
+<button class="size-8 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center text-slate-500"><span class="material-symbols-outlined text-[18px]">chevron_right</span></button>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 shadow-sm">
+<div class="grid grid-cols-7 gap-1 text-center mb-2">
+<span class="text-xs font-semibold text-slate-400 uppercase">Su</span>
+<span class="text-xs font-semibold text-slate-400 uppercase">Mo</span>
+<span class="text-xs font-semibold text-slate-400 uppercase">Tu</span>
+<span class="text-xs font-semibold text-slate-400 uppercase">We</span>
+<span class="text-xs font-semibold text-slate-400 uppercase">Th</span>
+<span class="text-xs font-semibold text-slate-400 uppercase">Fr</span>
+<span class="text-xs font-semibold text-slate-400 uppercase">Sa</span>
+</div>
+<div class="grid grid-cols-7 gap-2">
+<div class="h-10"></div><div class="h-10"></div>
+<button class="h-10 rounded-lg text-sm text-slate-300 dark:text-slate-600 line-through cursor-not-allowed">1</button>
+<button class="h-10 rounded-lg text-sm text-slate-300 dark:text-slate-600 line-through cursor-not-allowed">2</button>
+<button class="h-10 rounded-lg text-sm text-slate-300 dark:text-slate-600 line-through cursor-not-allowed">3</button>
+<button class="h-10 rounded-lg text-sm text-slate-300 dark:text-slate-600 line-through cursor-not-allowed">4</button>
+<button class="h-10 rounded-lg text-sm text-slate-300 dark:text-slate-600 line-through cursor-not-allowed">5</button>
+<button class="h-10 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 font-medium">6</button>
+<button class="h-10 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 font-medium">7</button>
+<button class="h-10 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 font-medium">8</button>
+<button class="h-10 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 font-medium">9</button>
+<button class="h-10 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 font-medium">10</button>
+<button class="h-10 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 font-medium">11</button>
+<button class="h-10 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 font-medium">12</button>
+<button class="h-10 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 font-medium">13</button>
+<button class="h-10 rounded-lg text-sm bg-primary text-white font-bold shadow-md shadow-primary/30">14</button>
+<button class="h-10 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 font-medium relative">
+                                        15 <span class="absolute top-1 right-1 size-1.5 bg-green-500 rounded-full"></span>
+</button>
+<button class="h-10 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 font-medium">16</button>
+<button class="h-10 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 font-medium">17</button>
+<button class="h-10 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 font-medium">18</button>
+<button class="h-10 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 font-medium">19</button>
+</div>
+</div>
+</div>
+<div>
+<h3 class="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+<span class="size-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold">2</span>
+                                Select Time <span class="text-xs font-normal text-slate-500 ml-1">(Sat, Oct 14)</span>
+</h3>
+<div class="grid grid-cols-3 sm:grid-cols-4 gap-3">
+<button class="py-2.5 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-400 cursor-not-allowed bg-slate-50 dark:bg-slate-800/50">
+                                    9:00 AM
+                                </button>
+<button class="py-2.5 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-300 hover:border-primary hover:text-primary bg-white dark:bg-slate-800 transition-colors">
+                                    9:30 AM
+                                </button>
+<button class="py-2.5 px-3 rounded-lg bg-primary/10 border border-primary text-sm font-bold text-primary shadow-sm ring-1 ring-primary/20">
+                                    10:00 AM
+                                </button>
+<button class="py-2.5 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-300 hover:border-primary hover:text-primary bg-white dark:bg-slate-800 transition-colors">
+                                    10:30 AM
+                                </button>
+<button class="py-2.5 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-300 hover:border-primary hover:text-primary bg-white dark:bg-slate-800 transition-colors">
+                                    11:00 AM
+                                </button>
+<button class="py-2.5 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-300 hover:border-primary hover:text-primary bg-white dark:bg-slate-800 transition-colors">
+                                    11:30 AM
+                                </button>
+<button class="py-2.5 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-300 hover:border-primary hover:text-primary bg-white dark:bg-slate-800 transition-colors">
+                                    1:00 PM
+                                </button>
+<button class="py-2.5 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-300 hover:border-primary hover:text-primary bg-white dark:bg-slate-800 transition-colors">
+                                    1:30 PM
+                                </button>
+</div>
+</div>
+</div>
+<div class="lg:col-span-5 p-6 md:p-8 flex flex-col h-full bg-white dark:bg-[#101922]">
+<h3 class="font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+<span class="size-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold">3</span>
+                            Your Details
+                        </h3>
+<form class="space-y-4 flex-1">
+<div>
+<label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 uppercase tracking-wide">Full Name</label>
+<input class="w-full rounded-xl border-slate-300 dark:border-slate-700 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:border-primary focus:ring-primary/20 text-sm py-2.5" type="text" value="Alex Johnson"/>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div>
+<label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 uppercase tracking-wide">Phone</label>
+<input class="w-full rounded-xl border-slate-300 dark:border-slate-700 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:border-primary focus:ring-primary/20 text-sm py-2.5" type="tel" value="(512) 555-0123"/>
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 uppercase tracking-wide">Email</label>
+<input class="w-full rounded-xl border-slate-300 dark:border-slate-700 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:border-primary focus:ring-primary/20 text-sm py-2.5" type="email" value="alex.j@example.com"/>
+</div>
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2 mt-4 uppercase tracking-wide">Preferred Contact Method</label>
+<div class="flex gap-4">
+<label class="flex items-center gap-2 cursor-pointer group">
+<input checked="" class="text-primary focus:ring-primary border-slate-300 dark:border-slate-600 dark:bg-slate-700" name="contact" type="radio"/>
+<span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-primary transition-colors">Email</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="text-primary focus:ring-primary border-slate-300 dark:border-slate-600 dark:bg-slate-700" name="contact" type="radio"/>
+<span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-primary transition-colors">Phone Call</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="text-primary focus:ring-primary border-slate-300 dark:border-slate-600 dark:bg-slate-700" name="contact" type="radio"/>
+<span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-primary transition-colors">Text (SMS)</span>
+</label>
+</div>
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 mt-4 uppercase tracking-wide">Notes (Optional)</label>
+<textarea class="w-full rounded-xl border-slate-300 dark:border-slate-700 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:border-primary focus:ring-primary/20 text-sm p-3 resize-none" placeholder="Any specific questions or requests?" rows="2"></textarea>
+</div>
+</form>
+<div class="mt-8 bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4 border border-slate-100 dark:border-slate-700">
+<h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Booking Summary</h4>
+<div class="flex items-start gap-3 mb-3">
+<div class="bg-white dark:bg-slate-800 p-2 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined text-primary">calendar_month</span>
+</div>
+<div>
+<p class="font-bold text-slate-900 dark:text-white">Sat, Oct 14</p>
+<p class="text-sm text-slate-500">10:00 AM - 10:30 AM</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="bg-white dark:bg-slate-800 p-2 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined text-primary">home</span>
+</div>
+<div>
+<p class="font-bold text-slate-900 dark:text-white">In-Person Viewing</p>
+<p class="text-sm text-slate-500">1243 Oakwood Ave</p>
+</div>
+</div>
+</div>
+<div class="flex gap-3 mt-6">
+<button class="flex-1 py-3.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                Cancel
+                            </button>
+<button class="flex-[2] py-3.5 rounded-xl bg-primary text-white font-bold hover:bg-primary-dark transition-colors shadow-lg shadow-primary/25 flex items-center justify-center gap-2">
+                                Confirm Booking
+                                <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+<p class="text-center text-xs text-slate-400 mt-4">
+                            By confirming, you agree to our Terms of Service.
+                        </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed bottom-[30px] left-0 right-0 flex justify-center z-[60] px-4 pointer-events-none">
+<div class="w-full max-w-2xl bg-white/95 dark:bg-[#101922]/95 backdrop-blur-xl border border-primary/20 shadow-2xl shadow-primary/20 rounded-full py-2 px-2 flex items-center gap-3 pointer-events-auto ai-glow transition-all hover:scale-[1.01] animate-in fade-in slide-in-from-bottom-4 duration-500">
+<div class="size-10 rounded-full bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-white">auto_awesome</span>
+</div>
+<div class="flex-1 overflow-hidden h-10 flex items-center">
+<p class="text-slate-600 dark:text-slate-300 text-sm truncate">
+<span class="font-bold text-primary mr-1">AI Tip:</span> Sarah usually accepts weekend viewings. I can also find similar homes nearby.
+                </p>
+</div>
+<button class="size-10 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center transition-colors shrink-0">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-300">mic</span>
+</button>
+<button class="size-10 rounded-full bg-primary hover:bg-primary-dark flex items-center justify-center transition-colors shrink-0 shadow-lg shadow-primary/30">
+<span class="material-symbols-outlined text-white">send</span>
+</button>
+</div>
+</div>
+
+</body></html>

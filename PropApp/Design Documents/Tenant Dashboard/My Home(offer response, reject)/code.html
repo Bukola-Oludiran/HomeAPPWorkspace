@@ -1,0 +1,440 @@
+<html><head><meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>My Home - Tenant Dashboard</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "primary-dark": "#0e64bd",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                        "platinum": "#e5e4e2",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .ai-glow {
+            box-shadow: 0 0 15px rgba(19, 127, 236, 0.4);
+        }
+    </style>
+</head><body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col font-display text-slate-900 dark:text-white overflow-x-hidden pb-[120px]">
+<header class="fixed top-0 left-0 w-full z-40 bg-transparent pointer-events-none">
+<div class="px-4 md:px-8 py-4 flex items-center justify-between">
+<a class="flex items-center justify-center size-10 bg-white/90 dark:bg-black/50 backdrop-blur-md rounded-full shadow-md hover:bg-white dark:hover:bg-black/70 transition-colors pointer-events-auto text-slate-900 dark:text-white" href="#">
+<span class="material-symbols-outlined">arrow_back</span>
+</a>
+<div class="flex items-center gap-3 pointer-events-auto">
+<button class="flex items-center justify-center size-10 bg-white/90 dark:bg-black/50 backdrop-blur-md rounded-full shadow-md hover:bg-white dark:hover:bg-black/70 transition-colors text-slate-900 dark:text-white">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</div>
+</header>
+<div class="relative w-full h-[40vh] md:h-[50vh] bg-slate-200 overflow-hidden group">
+<img alt="Modern Oakwood Estate large windows" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l"/>
+<div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/20"></div>
+<div class="absolute bottom-6 left-6 md:left-8 text-white z-10">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-white/20 backdrop-blur-md rounded-lg border border-white/30 text-xs font-bold uppercase tracking-wider mb-2">
+<span class="material-symbols-outlined text-[16px]">home</span> My Current Home
+            </div>
+</div>
+<button class="absolute bottom-6 right-6 px-4 py-2 bg-white/90 dark:bg-black/60 backdrop-blur-md rounded-lg text-sm font-semibold flex items-center gap-2 hover:bg-white dark:hover:bg-black/80 transition-colors shadow-sm text-slate-900 dark:text-white pointer-events-auto opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[18px]">grid_view</span>
+            View Gallery
+        </button>
+</div>
+<main class="w-full max-w-[1200px] mx-auto px-4 md:px-8 py-8 -mt-8 relative z-10">
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 mb-8">
+<div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+<div>
+<h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white mb-2 leading-tight">1243 Oakwood Avenue</h1>
+<div class="flex items-center text-slate-600 dark:text-slate-400 mb-4">
+<span class="material-symbols-outlined text-[20px] mr-1.5 text-slate-400">location_on</span>
+<p class="text-base">Austin, TX 78704 • Unit 4B</p>
+</div>
+<div class="flex flex-wrap gap-4">
+<div class="grid grid-cols-3 gap-6 text-sm text-slate-600 dark:text-slate-300 border-r border-slate-200 dark:border-slate-700 pr-6 mr-2">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-slate-400">bed</span>
+<span class="font-bold text-slate-900 dark:text-white">2</span> Beds
+                            </div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-slate-400">bathtub</span>
+<span class="font-bold text-slate-900 dark:text-white">2</span> Baths
+                            </div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-slate-400">square_foot</span>
+<span class="font-bold text-slate-900 dark:text-white">1,250</span> Sqft
+                            </div>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-green-500 icon-filled">verified_user</span>
+<span class="text-sm font-semibold text-slate-700 dark:text-slate-300">Verified Property</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col md:items-end p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700 w-full md:w-auto min-w-[200px]">
+<span class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-1">Monthly Rent</span>
+<h2 class="text-3xl font-extrabold text-slate-900 dark:text-white">$2,400<span class="text-lg text-slate-400 font-medium">/mo</span></h2>
+<div class="flex items-center gap-2 mt-2">
+<span class="size-2 rounded-full bg-green-500"></span>
+<span class="text-xs font-medium text-green-600 dark:text-green-400">Lease Active</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col lg:flex-row gap-8">
+<div class="flex-1 min-w-0 space-y-8">
+<section class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+<div class="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-primary">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Payments</h3>
+</div>
+<button class="text-sm font-semibold text-primary hover:text-primary-dark">View History</button>
+</div>
+<div class="p-6">
+<div class="flex flex-col sm:flex-row gap-6 items-start sm:items-center justify-between mb-6">
+<div>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-1">Next Payment Due</p>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-bold text-slate-900 dark:text-white">$2,400.00</span>
+<span class="text-sm font-medium text-red-500 bg-red-50 dark:bg-red-900/20 px-2 py-0.5 rounded-md">Due Oct 1</span>
+</div>
+</div>
+<button class="w-full sm:w-auto px-6 py-3 bg-primary hover:bg-primary-dark text-white font-bold rounded-xl transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">credit_card</span>
+                                Pay Rent
+                            </button>
+</div>
+<div class="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4 flex items-center justify-between border border-slate-100 dark:border-slate-700">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-500">autorenew</span>
+<div>
+<p class="font-bold text-slate-900 dark:text-white text-sm">Auto-Pay</p>
+<p class="text-xs text-slate-500">Scheduled for the 1st of every month</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</section>
+<section class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+<div class="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-purple-50 dark:bg-purple-900/20 rounded-lg text-purple-600 dark:text-purple-400">
+<span class="material-symbols-outlined">description</span>
+</div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Lease Details</h3>
+</div>
+<button class="text-sm font-semibold text-slate-500 hover:text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">download</span> PDF
+                        </button>
+</div>
+<div class="p-6">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+<div>
+<p class="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Start Date</p>
+<p class="font-semibold text-slate-900 dark:text-white">Sep 1, 2023</p>
+</div>
+<div>
+<p class="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">End Date</p>
+<p class="font-semibold text-slate-900 dark:text-white">Aug 31, 2024</p>
+</div>
+<div>
+<p class="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Term</p>
+<p class="font-semibold text-slate-900 dark:text-white">12 Months</p>
+</div>
+</div>
+<div class="mb-6 p-5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="flex items-start gap-4">
+<div class="hidden sm:flex size-10 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 items-center justify-center text-green-600 dark:text-green-400 shadow-sm shrink-0">
+<span class="material-symbols-outlined icon-filled">handshake</span>
+</div>
+<div>
+<div class="flex items-center gap-2 flex-wrap mb-1">
+<h4 class="font-bold text-sm text-slate-900 dark:text-white">Renewal Offer from Landlord</h4>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-[10px] font-bold uppercase tracking-wide border border-green-200 dark:border-green-800">
+<span class="size-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                                            Offer Received
+                                        </span>
+</div>
+<p class="text-xs text-slate-600 dark:text-slate-400">
+                                        A new lease proposal (12 Months) is ready for your review. <span class="font-medium">Expires Oct 15</span>.
+                                    </p>
+</div>
+</div>
+<button class="shrink-0 w-full sm:w-auto px-5 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-bold rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2 shadow-sm">
+                                Respond to Offer
+                            </button>
+</div>
+<div class="p-4 rounded-xl bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-0.5">info</span>
+<div>
+<h4 class="font-bold text-sm text-slate-900 dark:text-white">Renewal Options Available</h4>
+<p class="text-xs text-slate-600 dark:text-slate-400 mt-1">You are eligible to renew your lease starting July 1, 2024. Ask the AI assistant for renewal terms.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+<div class="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-orange-50 dark:bg-orange-900/20 rounded-lg text-orange-600 dark:text-orange-400">
+<span class="material-symbols-outlined">handyman</span>
+</div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Maintenance</h3>
+</div>
+<button class="px-4 py-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-bold rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                            New Request
+                        </button>
+</div>
+<div class="divide-y divide-slate-100 dark:divide-slate-800">
+<div class="p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="size-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 dark:text-green-400 shrink-0">
+<span class="material-symbols-outlined text-[20px] icon-filled">check_circle</span>
+</div>
+<div>
+<h4 class="font-bold text-sm text-slate-900 dark:text-white">Leaking Kitchen Faucet</h4>
+<p class="text-xs text-slate-500">Request #4829 • Submitted Aug 12, 2023</p>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-bold uppercase">Resolved</span>
+</div>
+<div class="p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="size-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
+<span class="material-symbols-outlined text-[20px]">schedule</span>
+</div>
+<div>
+<h4 class="font-bold text-sm text-slate-900 dark:text-white">HVAC Filter Replacement</h4>
+<p class="text-xs text-slate-500">Request #4901 • Submitted Sep 10, 2023</p>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs font-bold uppercase">Scheduled</span>
+</div>
+</div>
+<div class="p-3 text-center border-t border-slate-100 dark:border-slate-800">
+<button class="text-sm font-semibold text-slate-500 hover:text-slate-800 dark:hover:text-slate-200">View all requests</button>
+</div>
+</section>
+<section class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+<div class="p-6 border-b border-slate-100 dark:border-slate-800">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined">folder</span>
+</div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Documents</h3>
+</div>
+</div>
+<div class="p-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+<a class="flex items-center p-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-primary/50 hover:bg-blue-50/50 dark:hover:bg-slate-800 transition-all group" href="#">
+<span class="material-symbols-outlined text-red-500 text-3xl mr-3">picture_as_pdf</span>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-bold text-slate-900 dark:text-white truncate">Move-in Checklist</p>
+<p class="text-xs text-slate-500">PDF • 1.2 MB</p>
+</div>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary">download</span>
+</a>
+<a class="flex items-center p-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-primary/50 hover:bg-blue-50/50 dark:hover:bg-slate-800 transition-all group" href="#">
+<span class="material-symbols-outlined text-blue-500 text-3xl mr-3">description</span>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-bold text-slate-900 dark:text-white truncate">Utility Information</p>
+<p class="text-xs text-slate-500">DOCX • 800 KB</p>
+</div>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary">download</span>
+</a>
+<a class="flex items-center p-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-primary/50 hover:bg-blue-50/50 dark:hover:bg-slate-800 transition-all group" href="#">
+<span class="material-symbols-outlined text-green-500 text-3xl mr-3">policy</span>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-bold text-slate-900 dark:text-white truncate">Renter's Insurance Policy</p>
+<p class="text-xs text-slate-500">PDF • 2.4 MB</p>
+</div>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary">download</span>
+</a>
+</div>
+</section>
+</div>
+<div class="w-full lg:w-[360px] shrink-0">
+<div class="sticky top-24 space-y-6">
+<div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm">
+<h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">Property Manager</h4>
+<div class="flex items-center gap-4 mb-6">
+<div class="relative">
+<img alt="Manager Profile" class="size-16 rounded-full object-cover border-2 border-slate-100 dark:border-slate-600" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjSrFpmEFzY7DuSYzvGMyJ6_AbhHnvodMyset9lUUft__qqjtpv9mHHcZ_G89QxFqf2R2dKoTB_fJz4U92uCsFUL3184Bj0EySgXTcecuQVsdTPcTR-TEh34WNcFyDdaft0v9SsIZVgNjqHkcAVrUnkmB4ERkwtSLbgbP8lvDFna76LCjamOuHb71kIA10Hd2U-QwIyYE8BfDzezNODnKbjf1aE1aWwURtZm-0bYkj-A3IN-FzxBdGE2Vxyue4rROjFp2w4T6q4RmT"/>
+<span class="absolute bottom-0 right-0 size-4 bg-green-500 border-2 border-white dark:border-slate-800 rounded-full" title="Online"></span>
+</div>
+<div>
+<h4 class="font-bold text-lg text-slate-900 dark:text-white">Sarah Jenkins</h4>
+<p class="text-slate-500 text-sm">LuxRealty Management</p>
+</div>
+</div>
+<div class="space-y-3 mb-6">
+<div class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined text-[18px]">call</span>
+<span>(512) 555-0123</span>
+</div>
+<div class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined text-[18px]">mail</span>
+<span>sarah.j@luxrealty.com</span>
+</div>
+</div>
+<button class="w-full py-3 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2 mb-3">
+<span class="material-symbols-outlined text-[18px]">chat_bubble</span>
+                            Message Manager
+                        </button>
+<div class="text-center text-xs text-slate-400">
+                            Usually responds within 1 hour
+                        </div>
+</div>
+<div class="bg-gradient-to-br from-indigo-50 to-white dark:from-slate-800 dark:to-slate-900 rounded-2xl border border-indigo-100 dark:border-slate-700 p-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-primary">auto_awesome</span>
+<h4 class="font-bold text-slate-900 dark:text-white text-sm">Property Insights</h4>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                            Trash pickup is scheduled for tomorrow (Tuesday) morning. Don't forget to put your bins out tonight!
+                        </p>
+<p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                            Your lease renewal window opens in 3 months. Average rent in this neighborhood has increased by 4%.
+                        </p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<div class="fixed bottom-6 left-0 right-0 flex justify-center z-[70] px-4 pointer-events-none">
+<div class="w-full max-w-2xl bg-white/95 dark:bg-[#101922]/95 backdrop-blur-xl border border-primary/20 shadow-2xl shadow-primary/10 rounded-full py-2 px-2 flex items-center gap-3 pointer-events-auto ai-glow transition-all hover:scale-[1.01]">
+<div class="size-10 rounded-full bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-white">auto_awesome</span>
+</div>
+<div class="flex-1 overflow-hidden h-10 flex items-center">
+<input class="w-full bg-transparent border-none focus:ring-0 text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 text-sm h-full" placeholder="Draft a polite rejection message for this offer..." type="text"/>
+</div>
+<button class="size-10 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center transition-colors shrink-0 text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined">mic</span>
+</button>
+<button class="size-10 rounded-full bg-primary hover:bg-primary-dark flex items-center justify-center transition-colors shrink-0 shadow-lg shadow-primary/30 text-white">
+<span class="material-symbols-outlined">arrow_upward</span>
+</button>
+</div>
+</div>
+<div aria-modal="true" class="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6" role="dialog">
+<div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"></div>
+<div class="relative w-full max-w-2xl bg-white dark:bg-slate-950 rounded-2xl shadow-2xl flex flex-col max-h-[90vh] animate-in fade-in zoom-in-95 duration-200">
+<div class="flex items-center justify-between p-6 border-b border-slate-100 dark:border-slate-800">
+<div>
+<h2 class="text-xl font-bold text-slate-900 dark:text-white">Reject Renewal Offer</h2>
+<p class="text-sm text-slate-500 dark:text-slate-400">1243 Oakwood Avenue • Lease Renewal</p>
+</div>
+<button class="p-2 text-slate-400 hover:text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="overflow-y-auto p-6 md:p-8 space-y-6 no-scrollbar">
+<div class="bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div>
+<p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Rejecting Offer For</p>
+<div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+<span class="text-lg font-bold text-slate-900 dark:text-white">$2,550<span class="text-sm font-medium text-slate-500">/mo</span></span>
+<span class="text-slate-300 dark:text-slate-700 hidden sm:inline">|</span>
+<span class="text-sm font-semibold text-slate-700 dark:text-slate-300">12 Months Lease</span>
+<span class="text-slate-300 dark:text-slate-700 hidden sm:inline">|</span>
+<span class="text-sm font-semibold text-slate-700 dark:text-slate-300">Starts Sep 1, 2024</span>
+</div>
+</div>
+<div class="hidden sm:block p-2 bg-white dark:bg-slate-800 rounded-lg border border-slate-100 dark:border-slate-700 shadow-sm">
+<span class="material-symbols-outlined text-slate-400 text-3xl">real_estate_agent</span>
+</div>
+</div>
+<hr class="border-slate-100 dark:border-slate-800"/>
+<div>
+<label class="block text-base font-bold text-slate-900 dark:text-white mb-3">Why are you rejecting this offer?</label>
+<div class="space-y-3">
+<label class="flex items-center p-4 border border-slate-200 dark:border-slate-700 rounded-xl cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors has-[:checked]:border-primary has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/10 has-[:checked]:ring-1 has-[:checked]:ring-primary relative group">
+<input checked="" class="size-4 text-primary border-slate-300 focus:ring-primary" name="rejection_reason" type="radio"/>
+<div class="ml-3">
+<span class="block text-sm font-bold text-slate-900 dark:text-white group-has-[:checked]:text-primary">Rent increase is too high</span>
+</div>
+</label>
+<label class="flex items-center p-4 border border-slate-200 dark:border-slate-700 rounded-xl cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors has-[:checked]:border-primary has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/10 has-[:checked]:ring-1 has-[:checked]:ring-primary relative group">
+<input class="size-4 text-primary border-slate-300 focus:ring-primary" name="rejection_reason" type="radio"/>
+<div class="ml-3">
+<span class="block text-sm font-bold text-slate-900 dark:text-white group-has-[:checked]:text-primary">Planning to move / Bought a home</span>
+</div>
+</label>
+<label class="flex items-center p-4 border border-slate-200 dark:border-slate-700 rounded-xl cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors has-[:checked]:border-primary has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/10 has-[:checked]:ring-1 has-[:checked]:ring-primary relative group">
+<input class="size-4 text-primary border-slate-300 focus:ring-primary" name="rejection_reason" type="radio"/>
+<div class="ml-3">
+<span class="block text-sm font-bold text-slate-900 dark:text-white group-has-[:checked]:text-primary">Unsatisfied with lease terms</span>
+</div>
+</label>
+<label class="flex items-center p-4 border border-slate-200 dark:border-slate-700 rounded-xl cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors has-[:checked]:border-primary has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/10 has-[:checked]:ring-1 has-[:checked]:ring-primary relative group">
+<input class="size-4 text-primary border-slate-300 focus:ring-primary" name="rejection_reason" type="radio"/>
+<div class="ml-3">
+<span class="block text-sm font-bold text-slate-900 dark:text-white group-has-[:checked]:text-primary">Other reason</span>
+</div>
+</label>
+</div>
+</div>
+<div>
+<label class="block text-sm font-bold text-slate-900 dark:text-white mb-2" for="reason_details">
+                        Please tell us more <span class="text-slate-400 font-normal">(Optional)</span>
+</label>
+<textarea class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:border-primary focus:ring-primary placeholder:text-slate-400 dark:text-white p-3" id="reason_details" placeholder="e.g., I found a better rate at a nearby complex..." rows="4"></textarea>
+</div>
+<div class="flex gap-3 p-3 bg-blue-50 dark:bg-blue-900/10 rounded-lg text-blue-800 dark:text-blue-300 text-xs">
+<span class="material-symbols-outlined text-[18px] shrink-0 mt-0.5">info</span>
+<p>This information will be shared with your landlord to help them understand market conditions. It will not affect your current lease standing or security deposit return.</p>
+</div>
+</div>
+<div class="p-6 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 flex flex-col sm:flex-row items-center justify-end gap-3">
+<button class="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-bold text-sm hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                    Go Back
+                </button>
+<button class="w-full sm:w-auto px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-sm rounded-xl transition-all shadow-lg shadow-red-600/20 flex items-center justify-center gap-2">
+                    Confirm Rejection
+                </button>
+</div>
+</div>
+</div>
+</body></html>

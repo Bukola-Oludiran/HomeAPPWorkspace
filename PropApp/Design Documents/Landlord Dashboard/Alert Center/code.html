@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Alert Center - Landlord Dashboard</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #334155;
+        }
+        #ai-bar-toggle:checked ~ #ai-modal {
+            display: flex;
+        }
+        #ai-bar-toggle:checked ~ #ai-trigger {
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col font-display text-slate-900 dark:text-white overflow-x-hidden relative">
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-[#101922]/90 backdrop-blur-md px-10 py-3">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">real_estate_agent</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">PropertyApp</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="hidden md:flex items-center gap-9">
+<a class="text-primary font-bold leading-normal transition-colors" href="#">Dashboard</a>
+<a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Properties</a>
+<a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Tenants</a>
+<a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Financials</a>
+<a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Verification Hub</a>
+</div>
+<div class="flex gap-3">
+<button class="relative flex items-center justify-center overflow-hidden rounded-lg size-10 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full"></span>
+</button>
+<button class="flex items-center justify-center overflow-hidden rounded-lg size-10 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-1 flex flex-col py-8 px-4 md:px-10 lg:px-20 pb-32">
+<div class="max-w-[1400px] w-full mx-auto">
+<nav class="flex mb-4 text-sm text-slate-500 dark:text-slate-400">
+<a class="hover:text-primary transition-colors" href="#">Dashboard</a>
+<span class="mx-2">/</span>
+<span class="font-semibold text-slate-900 dark:text-slate-200">Alert Center</span>
+</nav>
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+<div>
+<h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Alert Center</h1>
+<p class="text-slate-500 dark:text-slate-400 mt-2 text-lg">Manage notifications and urgent tasks across your portfolio.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">done_all</span> Mark all as read
+                    </button>
+<button class="px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">settings</span> Settings
+                    </button>
+</div>
+</div>
+<div class="bg-white dark:bg-[#101922] p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm mb-6 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4">
+<div class="flex flex-wrap items-center gap-3 w-full xl:w-auto">
+<div class="flex items-center gap-2">
+<span class="text-sm font-semibold text-slate-500 dark:text-slate-400 mr-1">Filter by:</span>
+<div class="relative">
+<select class="pl-3 pr-8 py-2 text-sm bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary text-slate-900 dark:text-white cursor-pointer min-w-[140px]">
+<option>All Types</option>
+<option>Maintenance</option>
+<option>Verification</option>
+<option>Financial</option>
+<option>Leasing</option>
+</select>
+</div>
+<div class="relative">
+<select class="pl-3 pr-8 py-2 text-sm bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary text-slate-900 dark:text-white cursor-pointer min-w-[120px]">
+<option>Any Urgency</option>
+<option>High</option>
+<option>Medium</option>
+<option>Low</option>
+</select>
+</div>
+<div class="relative">
+<select class="pl-3 pr-8 py-2 text-sm bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary text-slate-900 dark:text-white cursor-pointer min-w-[120px]">
+<option>Status: New</option>
+<option>Acknowledged</option>
+<option>Resolved</option>
+<option>Archived</option>
+</select>
+</div>
+</div>
+<div class="h-8 w-px bg-slate-200 dark:bg-slate-700 hidden md:block mx-1"></div>
+<button class="text-slate-400 dark:text-slate-500 text-sm font-medium hover:text-slate-600 dark:hover:text-slate-300 flex items-center gap-1 disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[18px]">archive</span> Archive Selected
+                    </button>
+</div>
+<div class="relative w-full xl:w-auto min-w-[300px]">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-slate-400 text-[20px]">search</span>
+<input class="w-full pl-10 pr-4 py-2 text-sm bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary text-slate-900 dark:text-white placeholder:text-slate-400" placeholder="Search by property, tenant, or keyword..." type="text"/>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<div class="group bg-white dark:bg-[#101922] p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-primary/50 dark:hover:border-primary/50 hover:shadow-md transition-all relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-red-500"></div> 
+<div class="flex flex-col md:flex-row gap-5 items-start">
+<div class="flex items-start gap-4 shrink-0">
+<input class="mt-1.5 rounded border-slate-300 text-primary focus:ring-primary dark:border-slate-600 dark:bg-slate-800 cursor-pointer" type="checkbox"/>
+<div class="size-12 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">plumbing</span>
+</div>
+</div>
+<div class="flex-1 min-w-0 w-full">
+<div class="flex flex-wrap justify-between items-start gap-2 mb-1">
+<div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">Emergency Maintenance: Major Water Leak</h3>
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mt-1">
+<span class="flex items-center gap-1 font-medium text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined text-[16px]">apartment</span>
+                                            Downtown Loft, Unit 402
+                                        </span>
+<span class="text-slate-300 dark:text-slate-600">•</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+                                            25 mins ago
+                                        </span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300 border border-red-200 dark:border-red-800">
+                                        High Urgency
+                                    </span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border border-blue-100 dark:border-blue-800">
+                                        New
+                                    </span>
+</div>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-300 mt-2 mb-4 max-w-3xl">
+                                Tenant reported active water leak in the master bathroom ceiling. Maintenance request #4092 created automatically. Requires immediate contractor assignment.
+                            </p>
+<div class="flex flex-wrap gap-3">
+<button class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-lg transition-colors shadow-sm shadow-red-200 dark:shadow-none">
+                                    Assign Contractor
+                                </button>
+<button class="px-4 py-2 bg-white dark:bg-[#1a2632] border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-semibold rounded-lg transition-colors">
+                                    Message Tenant
+                                </button>
+<button class="px-4 py-2 bg-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 text-sm font-medium transition-colors">
+                                    View Details
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<div class="group bg-white dark:bg-[#101922] p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-primary/50 dark:hover:border-primary/50 hover:shadow-md transition-all relative">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-blue-500"></div>
+<div class="flex flex-col md:flex-row gap-5 items-start">
+<div class="flex items-start gap-4 shrink-0">
+<input class="mt-1.5 rounded border-slate-300 text-primary focus:ring-primary dark:border-slate-600 dark:bg-slate-800 cursor-pointer" type="checkbox"/>
+<div class="size-12 rounded-full bg-blue-100 dark:bg-blue-900/30 text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">verified_user</span>
+</div>
+</div>
+<div class="flex-1 min-w-0 w-full">
+<div class="flex flex-wrap justify-between items-start gap-2 mb-1">
+<div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">Tenant Verification Complete</h3>
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mt-1">
+<span class="flex items-center gap-1 font-medium text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined text-[16px]">person</span>
+                                            Sarah Johnson
+                                        </span>
+<span class="text-slate-300 dark:text-slate-600">•</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">home</span>
+                                            1243 Oakwood Avenue
+                                        </span>
+<span class="text-slate-300 dark:text-slate-600">•</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+                                            2 hours ago
+                                        </span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+                                        Medium
+                                    </span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border border-blue-100 dark:border-blue-800">
+                                        New
+                                    </span>
+</div>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-300 mt-2 mb-4">
+                                Comprehensive background check, credit report, and employment verification are now available for review. Score: 780.
+                            </p>
+<div class="flex flex-wrap gap-3">
+<button class="px-4 py-2 bg-primary hover:bg-primary/90 text-white text-sm font-bold rounded-lg transition-colors shadow-sm shadow-blue-200 dark:shadow-none">
+                                    Review Application
+                                </button>
+<button class="px-4 py-2 bg-white dark:bg-[#1a2632] border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-semibold rounded-lg transition-colors">
+                                    Approve
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<div class="group bg-white dark:bg-[#101922] p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-primary/50 dark:hover:border-primary/50 hover:shadow-md transition-all relative">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-orange-400"></div>
+<div class="flex flex-col md:flex-row gap-5 items-start">
+<div class="flex items-start gap-4 shrink-0">
+<input class="mt-1.5 rounded border-slate-300 text-primary focus:ring-primary dark:border-slate-600 dark:bg-slate-800 cursor-pointer" type="checkbox"/>
+<div class="size-12 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">history_edu</span>
+</div>
+</div>
+<div class="flex-1 min-w-0 w-full">
+<div class="flex flex-wrap justify-between items-start gap-2 mb-1">
+<div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">Lease Expiring Soon</h3>
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mt-1">
+<span class="flex items-center gap-1 font-medium text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined text-[16px]">apartment</span>
+                                            5500 Highland Park, Unit 4B
+                                        </span>
+<span class="text-slate-300 dark:text-slate-600">•</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">calendar_month</span>
+                                            Expires: Nov 30, 2024
+                                        </span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-300 border border-orange-200 dark:border-orange-800">
+                                        Medium
+                                    </span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
+                                        Pending Action
+                                    </span>
+</div>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-300 mt-2 mb-4">
+                                Current lease ends in 30 days. Automated renewal offer has been drafted but requires your approval to send. AI suggests a 3% rent increase.
+                            </p>
+<div class="flex flex-wrap gap-3">
+<button class="px-4 py-2 bg-white dark:bg-[#1a2632] border border-slate-200 dark:border-slate-700 hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary text-slate-700 dark:text-slate-300 text-sm font-bold rounded-lg transition-colors">
+                                    Send Renewal Offer
+                                </button>
+<button class="px-4 py-2 bg-white dark:bg-[#1a2632] border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-semibold rounded-lg transition-colors">
+                                    Prepare Move-out
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<div class="group bg-white dark:bg-[#101922] p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-primary/50 dark:hover:border-primary/50 hover:shadow-md transition-all relative opacity-75 hover:opacity-100">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-slate-300 dark:bg-slate-600"></div>
+<div class="flex flex-col md:flex-row gap-5 items-start">
+<div class="flex items-start gap-4 shrink-0">
+<input class="mt-1.5 rounded border-slate-300 text-primary focus:ring-primary dark:border-slate-600 dark:bg-slate-800 cursor-pointer" type="checkbox"/>
+<div class="size-12 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">payments</span>
+</div>
+</div>
+<div class="flex-1 min-w-0 w-full">
+<div class="flex flex-wrap justify-between items-start gap-2 mb-1">
+<div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">Late Payment Notification</h3>
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mt-1">
+<span class="flex items-center gap-1 font-medium text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined text-[16px]">person</span>
+                                            Michael Chen
+                                        </span>
+<span class="text-slate-300 dark:text-slate-600">•</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+                                            Yesterday
+                                        </span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
+                                        Low
+                                    </span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-300 border border-green-100 dark:border-green-800">
+                                        Resolved
+                                    </span>
+</div>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-2 mb-4">
+                                Tenant missed the rent due date of Oct 1st. Payment was received successfully on Oct 2nd with late fee included. No further action needed.
+                            </p>
+<div class="flex flex-wrap gap-3">
+<button class="px-4 py-2 bg-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 text-sm font-medium transition-colors pl-0">
+                                    View Receipt
+                                </button>
+<button class="px-4 py-2 bg-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 text-sm font-medium transition-colors">
+                                    Archive
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<div class="group bg-gradient-to-r from-blue-50 to-white dark:from-slate-800 dark:to-[#101922] p-5 rounded-xl border border-blue-100 dark:border-slate-700 shadow-sm hover:shadow-md transition-all relative">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary"></div>
+<div class="flex flex-col md:flex-row gap-5 items-start">
+<div class="flex items-start gap-4 shrink-0">
+<input class="mt-1.5 rounded border-slate-300 text-primary focus:ring-primary dark:border-slate-600 dark:bg-slate-800 cursor-pointer" type="checkbox"/>
+<div class="size-12 rounded-full bg-gradient-to-tr from-primary to-blue-400 text-white flex items-center justify-center shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[24px]">smart_toy</span>
+</div>
+</div>
+<div class="flex-1 min-w-0 w-full">
+<div class="flex flex-wrap justify-between items-start gap-2 mb-1">
+<div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors flex items-center gap-2">
+                                        Market Opportunity Detected
+                                        <span class="px-2 py-0.5 bg-blue-100 dark:bg-blue-900 text-primary dark:text-blue-300 text-[10px] uppercase font-bold tracking-wide rounded">AI Insight</span>
+</h3>
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mt-1">
+<span class="flex items-center gap-1 font-medium text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+                                            Austin Area Portfolio
+                                        </span>
+<span class="text-slate-300 dark:text-slate-600">•</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+                                            Today
+                                        </span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300 border border-purple-200 dark:border-purple-800">
+                                        Opportunity
+                                    </span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border border-blue-100 dark:border-blue-800">
+                                        New
+                                    </span>
+</div>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-300 mt-2 mb-4">
+                                Rental rates in the Austin area have increased by 5% this month. You have 1 property currently listed below market value.
+                            </p>
+<div class="flex flex-wrap gap-3">
+<button class="px-4 py-2 bg-white dark:bg-[#1a2632] border border-slate-200 dark:border-slate-700 hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary text-slate-700 dark:text-slate-300 text-sm font-bold rounded-lg transition-colors">
+                                    View Analysis
+                                </button>
+<button class="px-4 py-2 bg-white dark:bg-[#1a2632] border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-semibold rounded-lg transition-colors">
+                                    Update Listing
+                                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-8 flex items-center justify-between border-t border-slate-200 dark:border-slate-800 pt-6">
+<p class="text-sm text-slate-500 dark:text-slate-400">
+                    Showing <span class="font-bold text-slate-900 dark:text-white">1-5</span> of <span class="font-bold text-slate-900 dark:text-white">12</span> alerts
+                </p>
+<div class="flex gap-2">
+<button class="px-3 py-1.5 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-400 cursor-not-allowed" disabled="">Previous</button>
+<button class="px-3 py-1.5 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">Next</button>
+</div>
+</div>
+</div>
+</main>
+<div class="fixed bottom-6 right-6 z-[100] flex flex-col items-end gap-2">
+<input class="peer hidden" id="ai-bar-toggle" type="checkbox"/>
+<div class="hidden peer-checked:flex flex-col w-[360px] md:w-[420px] bg-white dark:bg-[#1e293b] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden transform transition-all duration-300 origin-bottom-right animate-in slide-in-from-bottom-5 fade-in" id="ai-modal">
+<div class="p-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-gradient-to-r from-blue-50 to-white dark:from-[#1e293b] dark:to-[#1e293b]">
+<div class="flex items-center gap-2">
+<div class="size-8 rounded-full bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center text-white shadow-md">
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+</div>
+<div>
+<h3 class="text-sm font-bold text-slate-900 dark:text-white">HomeAI Assistant</h3>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">Powered by PropertyApp</p>
+</div>
+</div>
+<label class="cursor-pointer p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors" for="ai-bar-toggle">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</label>
+</div>
+<div class="flex-1 p-4 h-[300px] overflow-y-auto custom-scrollbar flex flex-col gap-4 bg-slate-50/50 dark:bg-[#101922]/50">
+<div class="flex gap-3">
+<div class="size-8 rounded-full bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center text-white shrink-0 mt-1 shadow-sm">
+<span class="material-symbols-outlined text-[16px]">smart_toy</span>
+</div>
+<div class="bg-white dark:bg-[#1e293b] border border-slate-100 dark:border-slate-700 p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[85%]">
+<p class="text-sm text-slate-700 dark:text-slate-300">I see you have a new High Urgency maintenance request. Would you like me to draft a response to the tenant or find available contractors?</p>
+</div>
+</div>
+<div class="mt-auto">
+<p class="text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide px-1">Suggested actions</p>
+<div class="flex flex-wrap gap-2">
+<button class="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors shadow-sm">
+                            Find Plumbers
+                        </button>
+<button class="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors shadow-sm">
+                            Draft response
+                        </button>
+</div>
+</div>
+</div>
+<div class="p-3 border-t border-slate-100 dark:border-slate-700 bg-white dark:bg-[#1e293b]">
+<div class="relative flex items-center">
+<input autofocus="" class="w-full pl-4 pr-12 py-3 bg-slate-50 dark:bg-[#101922] border-none rounded-xl text-sm focus:ring-2 focus:ring-primary/20 text-slate-900 dark:text-white placeholder:text-slate-400 shadow-inner" placeholder="Ask HomeAI..." type="text"/>
+<button class="absolute right-2 p-1.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors shadow-md">
+<span class="material-symbols-outlined text-[18px]">arrow_upward</span>
+</button>
+</div>
+</div>
+</div>
+<label class="cursor-pointer group flex items-center gap-3 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white pl-1.5 pr-5 py-1.5 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 dark:border-slate-700 hover:scale-105 hover:shadow-[0_8px_30px_rgb(0,0,0,0.18)] transition-all duration-300" for="ai-bar-toggle" id="ai-trigger">
+<div class="size-10 rounded-full bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center text-white shadow-md group-hover:rotate-12 transition-transform">
+<span class="material-symbols-outlined">smart_toy</span>
+</div>
+<div class="flex flex-col items-start">
+<span class="text-sm font-bold leading-none">Ask HomeAI...</span>
+<span class="text-[10px] text-slate-500 dark:text-slate-400 font-medium leading-tight mt-0.5">Alert assistance ready</span>
+</div>
+</label>
+</div>
+
+</body></html>

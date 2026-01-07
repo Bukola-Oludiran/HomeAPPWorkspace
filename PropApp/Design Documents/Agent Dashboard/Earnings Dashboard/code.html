@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Agent Earnings - PropertyApp</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #334155;
+        }
+        #ai-bar-toggle:checked ~ #ai-modal {
+            display: flex;
+        }
+        #ai-bar-toggle:checked ~ #ai-trigger {
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col font-display text-slate-900 dark:text-white overflow-x-hidden relative">
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-[#101922]/90 backdrop-blur-md px-10 py-3">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">engineering</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">PropertyApp <span class="text-slate-400 font-medium text-sm ml-1">Agent</span></h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="hidden md:flex items-center gap-9">
+<a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Job Board</a>
+<a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">My Jobs</a>
+<a class="text-primary font-bold leading-normal transition-colors" href="#">Earnings</a>
+<a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Schedule</a>
+<a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Profile</a>
+</div>
+<div class="flex gap-3">
+<button class="relative flex items-center justify-center overflow-hidden rounded-lg size-10 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full"></span>
+</button>
+<button class="flex items-center justify-center overflow-hidden rounded-lg size-10 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<img alt="Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqXdl37sfEazlyxSBTV5lF8kGRieE_SYwtDyVySc1aWbjBke5mu8mh567-fZNihR7nyy7Nfe4SYcazxMiKGgNKSeL-pK6TTSI0rcTQ7dbJIQKnzeNyA5B8mtOx-6qYJZAofjSjdD8ldObnUD1GG6Bhtge7vN74aD4o-lYTQsnW57HV4JVB1KwsSZjj0-u_ihV37S1T2wUzJ4OUpL_J-KaQoB-x1dKtj4hswAcNfkWRrd6qvgWhIynlCNRWBdnV8D3xputK0iKXBrm9"/>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-1 flex flex-col py-8 px-4 md:px-10 lg:px-20 pb-32">
+<div class="max-w-[1400px] w-full mx-auto">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+<div>
+<h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Earnings Dashboard</h1>
+<p class="text-slate-500 dark:text-slate-400 mt-2 text-lg">Track your income, manage payouts, and view history.</p>
+</div>
+<div class="flex gap-3 items-center">
+<button class="px-5 py-2.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-white font-bold text-sm transition-all flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[20px]">download</span> Export Report
+                    </button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<div class="bg-white dark:bg-[#101922] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[100px] text-green-600">account_balance_wallet</span>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Available Balance</p>
+<h3 class="text-4xl font-extrabold text-slate-900 dark:text-white mt-2">₦42,500<span class="text-xl text-slate-400 font-medium">.00</span></h3>
+</div>
+<div class="mt-6 flex items-center gap-2 text-sm font-medium text-green-600">
+<span class="bg-green-100 dark:bg-green-900/30 px-2 py-0.5 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">trending_up</span> +12%
+                        </span>
+<span class="text-slate-400 dark:text-slate-500">vs last week</span>
+</div>
+</div>
+<div class="bg-white dark:bg-[#101922] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[100px] text-orange-500">pending</span>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Pending Payouts</p>
+<h3 class="text-4xl font-extrabold text-slate-900 dark:text-white mt-2">₦15,000<span class="text-xl text-slate-400 font-medium">.00</span></h3>
+</div>
+<div class="mt-6 flex items-center gap-2 text-sm font-medium text-slate-500">
+<span class="material-symbols-outlined text-[18px] text-orange-500">info</span>
+<span>Clearance expected in 24 hrs</span>
+</div>
+</div>
+<div class="bg-white dark:bg-[#101922] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[100px] text-primary">savings</span>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Total Earnings (YTD)</p>
+<h3 class="text-4xl font-extrabold text-slate-900 dark:text-white mt-2">₦845,200<span class="text-xl text-slate-400 font-medium">.00</span></h3>
+</div>
+<div class="mt-6 w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 75%"></div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-2 flex flex-col gap-6">
+<div class="bg-white dark:bg-[#101922] p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[20px]">calendar_month</span>
+<select class="pl-10 pr-8 py-2 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-primary/50 cursor-pointer appearance-none">
+<option>This Month</option>
+<option>Last Month</option>
+<option>Last 3 Months</option>
+<option>This Year</option>
+</select>
+</div>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[20px]">filter_list</span>
+<select class="pl-10 pr-8 py-2 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-primary/50 cursor-pointer appearance-none">
+<option>All Status</option>
+<option>Completed</option>
+<option>Pending</option>
+<option>Failed</option>
+</select>
+</div>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[20px]">category</span>
+<select class="pl-10 pr-8 py-2 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-primary/50 cursor-pointer appearance-none">
+<option>All Jobs</option>
+<option>Repair</option>
+<option>Inspection</option>
+<option>Tour</option>
+</select>
+</div>
+</div>
+<div class="flex items-center gap-2 w-full md:w-auto">
+<div class="relative w-full">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[20px]">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-primary/50" placeholder="Search transactions..." type="text"/>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-[#101922] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="p-5 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+<h3 class="font-bold text-lg text-slate-900 dark:text-white">Payout History</h3>
+<button class="text-sm text-primary font-bold hover:underline">View All</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-xs uppercase font-bold tracking-wider">
+<tr>
+<th class="px-6 py-4">Job / Description</th>
+<th class="px-6 py-4">Date</th>
+<th class="px-6 py-4">Status</th>
+<th class="px-6 py-4 text-right">Amount</th>
+<th class="px-6 py-4"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400">
+<span class="material-symbols-outlined text-[20px]">plumbing</span>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">AC Repair - Leakage</p>
+<p class="text-xs text-slate-500">Job ID: #88231 • Lekki Phase 1</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">
+                                            Oct 24, 2023 <br/> <span class="text-xs text-slate-400">2:30 PM</span>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800">
+<span class="size-1.5 rounded-full bg-green-500"></span> Paid
+                                            </span>
+</td>
+<td class="px-6 py-4 text-right">
+<p class="font-bold text-slate-900 dark:text-white">+ ₦15,000</p>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 text-slate-400 hover:text-primary hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-purple-50 dark:bg-purple-900/20 flex items-center justify-center text-purple-600 dark:text-purple-400">
+<span class="material-symbols-outlined text-[20px]">person</span>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">VIP Client Tour</p>
+<p class="text-xs text-slate-500">Job ID: #88190 • Victoria Island</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">
+                                            Oct 22, 2023 <br/> <span class="text-xs text-slate-400">10:00 AM</span>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400 border border-orange-200 dark:border-orange-800">
+<span class="size-1.5 rounded-full bg-orange-500"></span> Pending
+                                            </span>
+</td>
+<td class="px-6 py-4 text-right">
+<p class="font-bold text-slate-900 dark:text-white">+ ₦25,000</p>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 text-slate-400 hover:text-primary hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+<span class="material-symbols-outlined text-[20px]">corporate_fare</span>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">Move-out Inspection</p>
+<p class="text-xs text-slate-500">Job ID: #87992 • Ikeja GRA</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">
+                                            Oct 20, 2023 <br/> <span class="text-xs text-slate-400">4:30 PM</span>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800">
+<span class="size-1.5 rounded-full bg-green-500"></span> Paid
+                                            </span>
+</td>
+<td class="px-6 py-4 text-right">
+<p class="font-bold text-slate-900 dark:text-white">+ ₦8,000</p>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 text-slate-400 hover:text-primary hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-[20px]">account_balance</span>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">Monthly Bonus</p>
+<p class="text-xs text-slate-500">Performance Incentive • Sept</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">
+                                            Oct 01, 2023 <br/> <span class="text-xs text-slate-400">9:00 AM</span>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800">
+<span class="size-1.5 rounded-full bg-green-500"></span> Paid
+                                            </span>
+</td>
+<td class="px-6 py-4 text-right">
+<p class="font-bold text-slate-900 dark:text-white">+ ₦5,000</p>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 text-slate-400 hover:text-primary hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/20 flex justify-center">
+<button class="text-sm font-bold text-slate-500 hover:text-primary transition-colors flex items-center gap-2">
+                                Load more transactions <span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+<div class="lg:col-span-1 flex flex-col gap-6">
+<div class="bg-gradient-to-br from-slate-900 to-slate-800 dark:from-slate-800 dark:to-black rounded-2xl p-6 text-white shadow-xl relative overflow-hidden">
+<div class="absolute -right-10 -top-10 size-40 bg-white/5 rounded-full blur-3xl"></div>
+<div class="absolute -left-10 -bottom-10 size-40 bg-primary/20 rounded-full blur-3xl"></div>
+<div class="relative z-10">
+<div class="flex justify-between items-start mb-8">
+<span class="material-symbols-outlined text-3xl text-white/80">contactless</span>
+<span class="font-mono text-white/50 text-sm">Agent Wallet</span>
+</div>
+<div class="mb-6">
+<p class="text-slate-400 text-sm mb-1">Total Balance</p>
+<h2 class="text-3xl font-extrabold tracking-tight">₦42,500.00</h2>
+</div>
+<div class="flex justify-between items-end">
+<div class="flex flex-col">
+<span class="text-[10px] text-slate-400 uppercase tracking-wider">Account Holder</span>
+<span class="font-medium text-sm">John Doe</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-[10px] text-slate-400 uppercase tracking-wider">Expires</span>
+<span class="font-medium text-sm">12/25</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-[#101922] p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<h3 class="font-bold text-slate-900 dark:text-white mb-4">Quick Actions</h3>
+<div class="grid grid-cols-2 gap-3">
+<button class="flex flex-col items-center justify-center p-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-primary/50 hover:bg-white dark:hover:bg-slate-700/80 transition-all group">
+<div class="size-10 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-2 group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+</div>
+<span class="text-sm font-bold text-slate-700 dark:text-slate-300">Withdraw</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-primary/50 hover:bg-white dark:hover:bg-slate-700/80 transition-all group">
+<div class="size-10 rounded-full bg-purple-50 dark:bg-purple-900/20 text-purple-600 flex items-center justify-center mb-2 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">add_card</span>
+</div>
+<span class="text-sm font-bold text-slate-700 dark:text-slate-300">Top Up</span>
+</button>
+</div>
+</div>
+<div class="bg-white dark:bg-[#101922] p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex-1">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-bold text-slate-900 dark:text-white">Payout Methods</h3>
+<button class="text-xs font-bold text-primary hover:underline flex items-center">
+<span class="material-symbols-outlined text-[16px]">add</span> Add New
+                            </button>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
+<div class="size-10 bg-white dark:bg-slate-700 rounded-md shadow-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-300">account_balance</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold text-slate-900 dark:text-white">GTBank</p>
+<p class="text-xs text-slate-500">**** 4592</p>
+</div>
+<div class="text-green-600 dark:text-green-400">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+</div>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#101922] opacity-70 hover:opacity-100 transition-opacity cursor-pointer">
+<div class="size-10 bg-white dark:bg-slate-700 rounded-md shadow-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-300">credit_card</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold text-slate-900 dark:text-white">Visa Card</p>
+<p class="text-xs text-slate-500">**** 8821</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<div class="fixed bottom-6 right-6 z-[100] flex flex-col items-end gap-2">
+<input class="peer hidden" id="ai-bar-toggle" type="checkbox"/>
+<div class="hidden peer-checked:flex flex-col w-[360px] md:w-[420px] bg-white dark:bg-[#1e293b] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden transform transition-all duration-300 origin-bottom-right animate-in slide-in-from-bottom-5 fade-in" id="ai-modal">
+<div class="p-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-gradient-to-r from-blue-50 to-white dark:from-[#1e293b] dark:to-[#1e293b]">
+<div class="flex items-center gap-2">
+<div class="size-8 rounded-full bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center text-white shadow-md">
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+</div>
+<div>
+<h3 class="text-sm font-bold text-slate-900 dark:text-white">AgentAI Finance</h3>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">Financial Assistant</p>
+</div>
+</div>
+<label class="cursor-pointer p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors" for="ai-bar-toggle">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</label>
+</div>
+<div class="flex-1 p-4 h-[300px] overflow-y-auto custom-scrollbar flex flex-col gap-4 bg-slate-50/50 dark:bg-[#101922]/50">
+<div class="flex gap-3">
+<div class="size-8 rounded-full bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center text-white shrink-0 mt-1 shadow-sm">
+<span class="material-symbols-outlined text-[16px]">smart_toy</span>
+</div>
+<div class="bg-white dark:bg-[#1e293b] border border-slate-100 dark:border-slate-700 p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[85%]">
+<p class="text-sm text-slate-700 dark:text-slate-300">I see you're checking your earnings. Need help understanding your payout schedule or generating a tax report?</p>
+</div>
+</div>
+<div class="mt-auto">
+<p class="text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide px-1">Suggested actions</p>
+<div class="flex flex-wrap gap-2">
+<button class="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors shadow-sm">
+                            Generate Tax Report
+                        </button>
+<button class="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors shadow-sm">
+                            Check Payout Status
+                        </button>
+<button class="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors shadow-sm">
+                            Withdraw Funds
+                        </button>
+</div>
+</div>
+</div>
+<div class="p-3 border-t border-slate-100 dark:border-slate-700 bg-white dark:bg-[#1e293b]">
+<div class="relative flex items-center">
+<input autofocus="" class="w-full pl-4 pr-12 py-3 bg-slate-50 dark:bg-[#101922] border-none rounded-xl text-sm focus:ring-2 focus:ring-primary/20 text-slate-900 dark:text-white placeholder:text-slate-400 shadow-inner" placeholder="Ask about your finances..." type="text"/>
+<button class="absolute right-2 p-1.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors shadow-md">
+<span class="material-symbols-outlined text-[18px]">arrow_upward</span>
+</button>
+</div>
+</div>
+</div>
+<label class="cursor-pointer group flex items-center gap-3 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white pl-1.5 pr-5 py-1.5 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 dark:border-slate-700 hover:scale-105 hover:shadow-[0_8px_30px_rgb(0,0,0,0.18)] transition-all duration-300" for="ai-bar-toggle" id="ai-trigger">
+<div class="size-10 rounded-full bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center text-white shadow-md group-hover:rotate-12 transition-transform">
+<span class="material-symbols-outlined">smart_toy</span>
+</div>
+<div class="flex flex-col items-start">
+<span class="text-sm font-bold leading-none">Earnings Assistant</span>
+<span class="text-[10px] text-slate-500 dark:text-slate-400 font-medium leading-tight mt-0.5">Click for finance help</span>
+</div>
+</label>
+</div>
+
+</body></html>

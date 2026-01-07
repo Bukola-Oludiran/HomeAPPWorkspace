@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Tenant Profile (View) - PropertyApp</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem", // rounded-lg
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .icon-filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #334155;
+        }
+
+        #ai-bar-toggle:checked~#ai-modal {
+            display: flex;
+        }
+
+        #ai-bar-toggle:checked~#ai-trigger {
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col font-display text-slate-900 dark:text-white overflow-x-hidden relative">
+    <header
+        class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-[#101922]/90 backdrop-blur-md px-10 py-3">
+        <div class="flex items-center gap-4 text-slate-900 dark:text-white">
+            <div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+                <span class="material-symbols-outlined">real_estate_agent</span>
+            </div>
+            <h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">PropertyApp
+            </h2>
+        </div>
+        <div class="flex flex-1 justify-end gap-8">
+            <div class="hidden md:flex items-center gap-9">
+                <a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors"
+                    href="#">Dashboard</a>
+                <a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors"
+                    href="#">Listings</a>
+                <a class="text-primary text-sm font-bold leading-normal transition-colors" href="#">Applications</a>
+                <a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors"
+                    href="#">Messages</a>
+            </div>
+            <div class="flex gap-3">
+                <button
+                    class="relative flex items-center justify-center overflow-hidden rounded-lg size-10 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                    <span class="material-symbols-outlined">notifications</span>
+                    <span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full"></span>
+                </button>
+                <button
+                    class="flex items-center justify-center overflow-hidden rounded-lg size-10 bg-slate-100 dark:bg-slate-800 text-slate-500 border-2 border-transparent hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                    <span class="material-symbols-outlined">account_circle</span>
+                </button>
+            </div>
+        </div>
+    </header>
+    <main class="flex-1 flex flex-col py-8 px-4 md:px-10 lg:px-20 pb-32">
+        <div class="max-w-[1400px] w-full mx-auto">
+            <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-2 font-medium">
+                        <a class="hover:text-primary" href="#">Applications</a>
+                        <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+                        <span>Applicant Profile</span>
+                    </div>
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Tenant
+                        Profile</h1>
+                    <p class="text-slate-500 dark:text-slate-400 mt-2 text-lg">Review applicant details, verification
+                        status, and history.</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-4 xl:col-span-3 flex flex-col gap-6">
+                    <div
+                        class="bg-white dark:bg-[#101922] p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm text-center relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-20 bg-gradient-to-r from-primary/10 to-blue-400/10">
+                        </div>
+                        <div class="relative inline-block mx-auto mb-4 mt-8">
+                            <div class="size-24 rounded-full bg-gradient-to-tr from-primary to-blue-300 p-1 shadow-xl">
+                                <div
+                                    class="w-full h-full rounded-full bg-white dark:bg-slate-800 flex items-center justify-center overflow-hidden">
+                                    <span
+                                        class="material-symbols-outlined text-5xl text-slate-300 dark:text-slate-600">person</span>
+                                </div>
+                            </div>
+                        </div>
+                        <h2 class="text-xl font-bold text-slate-900 dark:text-white">Sarah Johnson</h2>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Applicant since Sep 2024</p>
+                        <div class="flex flex-col gap-2 items-center">
+                            <div
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-xs font-bold border border-green-100 dark:border-green-800">
+                                <span class="material-symbols-outlined text-[14px] icon-filled">verified</span> Identity
+                                Verified
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden p-5">
+                        <h3
+                            class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wide mb-4 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary text-[18px]">gpp_good</span>
+                            Verification Report
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-slate-600 dark:text-slate-400 font-medium">Background
+                                    Check</span>
+                                <span
+                                    class="text-xs font-bold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 px-2 py-1 rounded">Cleared</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-slate-600 dark:text-slate-400 font-medium">Income
+                                    Verification</span>
+                                <span
+                                    class="text-xs font-bold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 px-2 py-1 rounded">Verified</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-slate-600 dark:text-slate-400 font-medium">Credit Score</span>
+                                <span class="text-sm font-bold text-slate-900 dark:text-white">742 <span
+                                        class="text-green-500 text-xs font-normal">(Excellent)</span></span>
+                            </div>
+                            <hr class="border-slate-100 dark:border-slate-700" />
+                            <button
+                                class="w-full py-2.5 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs rounded-lg transition-colors flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-[16px]">file_download</span> Download Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-8 xl:col-span-9 flex flex-col gap-6">
+                    <div
+                        class="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6 md:p-8">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">history</span> Application History
+                            </h3>
+                            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">1 Active
+                                Application</span>
+                        </div>
+                        <div class="flex flex-col gap-3">
+                            <div
+                                class="flex flex-col md:flex-row md:items-center gap-4 bg-indigo-50/50 dark:bg-indigo-900/10 p-5 rounded-xl border border-indigo-100 dark:border-indigo-900/30">
+                                <div
+                                    class="size-12 bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 rounded-lg flex items-center justify-center shrink-0 shadow-sm border border-slate-100 dark:border-slate-700">
+                                    <span class="material-symbols-outlined">apartment</span>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <h4 class="text-base font-bold text-slate-900 dark:text-white">1243 Oakwood Ave,
+                                            Apt 4B</h4>
+                                        <span
+                                            class="px-2 py-0.5 bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300 text-[10px] font-bold rounded-full uppercase">Current</span>
+                                    </div>
+                                    <p class="text-sm text-slate-500 dark:text-slate-400">Submitted on Sep 28, 2024 •
+                                        Lease Start: Nov 1, 2024</p>
+                                </div>
+                                <div class="flex flex-row md:flex-col items-center md:items-end gap-3 md:gap-1">
+                                    <div class="text-right">
+                                        <span class="block text-xs text-slate-400 font-medium uppercase">Status</span>
+                                        <span class="text-sm font-bold text-blue-600 dark:text-blue-400">Review
+                                            Pending</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                class="flex flex-col md:flex-row md:items-center gap-4 bg-slate-50 dark:bg-slate-800/30 p-4 rounded-xl border border-slate-100 dark:border-slate-700/50 opacity-70">
+                                <div
+                                    class="size-10 bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 rounded-lg flex items-center justify-center shrink-0">
+                                    <span class="material-symbols-outlined">house</span>
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="text-sm font-bold text-slate-900 dark:text-white">880 Fairview Blvd</h4>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">Inquired on Aug 12, 2024</p>
+                                </div>
+                                <span
+                                    class="px-2 py-1 bg-slate-200 text-slate-600 dark:bg-slate-700 dark:text-slate-400 text-[10px] font-bold rounded-full">Closed</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6 md:p-8">
+                        <div class="mb-6 pb-4 border-b border-slate-100 dark:border-slate-800">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">badge</span> Personal &amp; Contact
+                                Details
+                            </h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                            <div>
+                                <label
+                                    class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase mb-1">Full
+                                    Name</label>
+                                <div
+                                    class="text-base font-semibold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 px-4 py-3 rounded-xl border border-transparent dark:border-slate-800">
+                                    Sarah Johnson
+                                </div>
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase mb-1">Date
+                                    of Birth</label>
+                                <div
+                                    class="text-base font-semibold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 px-4 py-3 rounded-xl border border-transparent dark:border-slate-800 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-slate-400 text-lg">calendar_today</span>
+                                    August 15, 1995 <span class="text-sm font-normal text-slate-500">(29 yrs)</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase mb-1">Email
+                                    Address</label>
+                                <div
+                                    class="text-base font-semibold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 px-4 py-3 rounded-xl border border-transparent dark:border-slate-800 flex items-center justify-between group cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                                    <span>sarah.johnson@example.com</span>
+                                    <span
+                                        class="material-symbols-outlined text-slate-400 text-sm opacity-0 group-hover:opacity-100">content_copy</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase mb-1">Phone
+                                    Number</label>
+                                <div
+                                    class="text-base font-semibold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 px-4 py-3 rounded-xl border border-transparent dark:border-slate-800 flex items-center justify-between group cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                                    <span>(555) 123-4567</span>
+                                    <span
+                                        class="material-symbols-outlined text-slate-400 text-sm opacity-0 group-hover:opacity-100">call</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6 md:p-8">
+                        <div class="mb-6 pb-4 border-b border-slate-100 dark:border-slate-800">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">work</span> Employment &amp;
+                                Financial
+                            </h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="md:col-span-2">
+                                <label
+                                    class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase mb-1">Current
+                                    Employer</label>
+                                <div
+                                    class="text-base font-semibold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 px-4 py-3 rounded-xl border border-transparent dark:border-slate-800">
+                                    Tech Solutions Inc.
+                                </div>
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase mb-1">Job
+                                    Title</label>
+                                <div
+                                    class="text-base font-semibold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 px-4 py-3 rounded-xl border border-transparent dark:border-slate-800">
+                                    Senior UX Designer
+                                </div>
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase mb-1">Annual
+                                    Income</label>
+                                <div
+                                    class="text-base font-bold text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-900/10 px-4 py-3 rounded-xl border border-green-100 dark:border-green-900/30 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-[18px]">attach_money</span> 95,000
+                                </div>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label
+                                    class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase mb-1">Proof
+                                    of Income</label>
+                                <div
+                                    class="flex items-center gap-2 text-sm text-primary font-medium bg-primary/5 px-4 py-3 rounded-xl border border-primary/10 cursor-pointer hover:bg-primary/10 transition-colors">
+                                    <span class="material-symbols-outlined text-[18px]">description</span>
+                                    <span>paystub_sep_2024.pdf</span>
+                                    <span class="ml-auto text-xs text-slate-400">Uploaded Sep 28</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6 md:p-8">
+                        <h3
+                            class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-6 pb-4 border-b border-slate-100 dark:border-slate-800">
+                            <span class="material-symbols-outlined text-primary">tune</span> Tenant Preferences
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-3">Search Criteria</h4>
+                                <ul class="space-y-3">
+                                    <li
+                                        class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
+                                        <span class="text-sm text-slate-500 dark:text-slate-400">Desired Bedrooms</span>
+                                        <span class="text-sm font-bold text-slate-900 dark:text-white">2 Bedrooms</span>
+                                    </li>
+                                    <li
+                                        class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
+                                        <span class="text-sm text-slate-500 dark:text-slate-400">Max Budget</span>
+                                        <span class="text-sm font-bold text-slate-900 dark:text-white">$3,500</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-3">Amenities</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span
+                                        class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold rounded-lg border border-slate-200 dark:border-slate-700">Gym</span>
+                                    <span
+                                        class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold rounded-lg border border-slate-200 dark:border-slate-700">Pool</span>
+                                    <span
+                                        class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold rounded-lg border border-slate-200 dark:border-slate-700">Parking</span>
+                                    <span
+                                        class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold rounded-lg border border-slate-200 dark:border-slate-700">In-unit
+                                        Laundry</span>
+                                </div>
+                                <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+                                    <div class="flex items-center gap-2 text-sm text-slate-500">
+                                        <span class="material-symbols-outlined text-[18px]">mark_email_read</span>
+                                        Tenant prefers <strong>Email Notifications</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="fixed bottom-0 left-0 w-full bg-white dark:bg-[#101922] border-t border-slate-200 dark:border-slate-800 p-4 z-40 md:static md:bg-transparent md:border-0 md:p-0 md:mt-8">
+                <div class="max-w-[1400px] mx-auto flex justify-end gap-4">
+                    <button
+                        class="px-6 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-sm flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">chat_bubble_outline</span> Message
+                    </button>
+                    <button
+                        class="px-8 py-3 rounded-xl bg-primary hover:bg-primary/90 text-white font-bold text-sm shadow-lg shadow-primary/20 transition-all flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">call</span> Contact Tenant
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div class="fixed bottom-24 md:bottom-6 right-6 z-[100] flex flex-col items-end gap-2">
+        <input class="peer hidden" id="ai-bar-toggle" type="checkbox" />
+        <div class="hidden peer-checked:flex flex-col w-[360px] md:w-[420px] bg-white dark:bg-[#1e293b] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden transform transition-all duration-300 origin-bottom-right animate-in slide-in-from-bottom-5 fade-in"
+            id="ai-modal">
+            <div
+                class="p-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-gradient-to-r from-blue-50 to-white dark:from-[#1e293b] dark:to-[#1e293b]">
+                <div class="flex items-center gap-2">
+                    <div
+                        class="size-8 rounded-full bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center text-white shadow-md">
+                        <span class="material-symbols-outlined text-[20px]">psychology_alt</span>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-900 dark:text-white">Agent Assistant</h3>
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">
+                            Tenant Evaluation</p>
+                    </div>
+                </div>
+                <label
+                    class="cursor-pointer p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+                    for="ai-bar-toggle">
+                    <span class="material-symbols-outlined text-[20px]">close</span>
+                </label>
+            </div>
+            <div
+                class="flex-1 p-4 h-[300px] overflow-y-auto custom-scrollbar flex flex-col gap-4 bg-slate-50/50 dark:bg-[#101922]/50">
+                <div class="flex gap-3">
+                    <div
+                        class="size-8 rounded-full bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center text-white shrink-0 mt-1 shadow-sm">
+                        <span class="material-symbols-outlined text-[16px]">psychology_alt</span>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-[#1e293b] border border-slate-100 dark:border-slate-700 p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[85%]">
+                        <p class="text-sm text-slate-700 dark:text-slate-300">I've reviewed Sarah's profile. Her
+                            income-to-rent ratio is 35% (Good). Verification checks are clear. Would you like me to
+                            draft an approval message or schedule a viewing?</p>
+                    </div>
+                </div>
+                <div class="mt-auto">
+                    <p class="text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide px-1">Suggested actions
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <button
+                            class="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors shadow-sm">
+                            Analyze Credit Risk
+                        </button>
+                        <button
+                            class="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors shadow-sm">
+                            Draft Viewing Invite
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="p-3 border-t border-slate-100 dark:border-slate-700 bg-white dark:bg-[#1e293b]">
+                <div class="relative flex items-center">
+                    <input autofocus=""
+                        class="w-full pl-4 pr-12 py-3 bg-slate-50 dark:bg-[#101922] border-none rounded-xl text-sm focus:ring-2 focus:ring-primary/20 text-slate-900 dark:text-white placeholder:text-slate-400 shadow-inner"
+                        placeholder="Ask about this tenant..." type="text" />
+                    <button
+                        class="absolute right-2 p-1.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors shadow-md">
+                        <span class="material-symbols-outlined text-[18px]">arrow_upward</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <label
+            class="cursor-pointer group flex items-center gap-3 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white pl-1.5 pr-5 py-1.5 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 dark:border-slate-700 hover:scale-105 hover:shadow-[0_8px_30px_rgb(0,0,0,0.18)] transition-all duration-300"
+            for="ai-bar-toggle" id="ai-trigger">
+            <div
+                class="size-10 rounded-full bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center text-white shadow-md group-hover:rotate-12 transition-transform">
+                <span class="material-symbols-outlined">psychology_alt</span>
+            </div>
+            <div class="flex flex-col items-start">
+                <span class="text-sm font-bold leading-none">Evaluate Tenant</span>
+                <span class="text-[10px] text-slate-500 dark:text-slate-400 font-medium leading-tight mt-0.5">AI
+                    Insights</span>
+            </div>
+        </label>
+    </div>
+
+</body>
+
+</html>

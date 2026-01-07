@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Landlord Property Detail - PropertyApp</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "primary-dark": "#0e64bd",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                        "platinum": "#e5e4e2",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .bg-platinum-gradient {
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 50%, #94a3b8 100%);
+        }
+        .ai-glow {
+            box-shadow: 0 0 15px rgba(19, 127, 236, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col font-display text-slate-900 dark:text-white overflow-x-hidden pb-[140px]">
+<header class="fixed top-0 left-0 w-full z-40 bg-transparent pointer-events-none">
+<div class="px-4 md:px-8 py-4 flex items-center justify-between">
+<a class="flex items-center justify-center size-10 bg-white/90 dark:bg-black/50 backdrop-blur-md rounded-full shadow-md hover:bg-white dark:hover:bg-black/70 transition-colors pointer-events-auto text-slate-900 dark:text-white" href="#">
+<span class="material-symbols-outlined">arrow_back</span>
+</a>
+<div class="flex items-center gap-3 pointer-events-auto">
+<button class="flex items-center justify-center size-10 bg-white/90 dark:bg-black/50 backdrop-blur-md rounded-full shadow-md hover:bg-white dark:hover:bg-black/70 transition-colors text-slate-900 dark:text-white">
+<span class="material-symbols-outlined">share</span>
+</button>
+<button class="flex items-center justify-center size-10 bg-white/90 dark:bg-black/50 backdrop-blur-md rounded-full shadow-md hover:bg-white dark:hover:bg-black/70 transition-colors text-slate-900 dark:text-white">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</div>
+</header>
+<div class="relative w-full h-[50vh] md:h-[60vh] lg:h-[70vh] bg-slate-200 overflow-hidden">
+<img alt="Modern Oakwood Estate large windows" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l"/>
+<div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/10"></div>
+<div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-white shadow-sm"></div>
+<div class="w-2 h-2 rounded-full bg-white/50 hover:bg-white transition-colors cursor-pointer"></div>
+<div class="w-2 h-2 rounded-full bg-white/50 hover:bg-white transition-colors cursor-pointer"></div>
+<div class="w-2 h-2 rounded-full bg-white/50 hover:bg-white transition-colors cursor-pointer"></div>
+<div class="w-2 h-2 rounded-full bg-white/50 hover:bg-white transition-colors cursor-pointer"></div>
+</div>
+<button class="absolute bottom-6 right-6 px-4 py-2 bg-white/90 dark:bg-black/60 backdrop-blur-md rounded-lg text-sm font-semibold flex items-center gap-2 hover:bg-white dark:hover:bg-black/80 transition-colors shadow-sm text-slate-900 dark:text-white">
+<span class="material-symbols-outlined text-[18px]">photo_library</span>
+            Manage Photos (12)
+        </button>
+</div>
+<main class="w-full max-w-[1200px] mx-auto px-4 md:px-8 py-8">
+<div class="flex flex-col lg:flex-row gap-12">
+<div class="flex-1 min-w-0">
+<div class="mb-8 rounded-xl border border-orange-200 bg-orange-50 p-5 dark:border-orange-900/30 dark:bg-orange-900/20 shadow-sm relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-50">
+<span class="material-symbols-outlined text-orange-200 dark:text-orange-900/40 text-[120px] -mr-8 -mt-8 rotate-12">gpp_maybe</span>
+</div>
+<div class="relative z-10 flex flex-col sm:flex-row gap-5">
+<div class="flex size-14 shrink-0 items-center justify-center rounded-full bg-orange-100 text-orange-600 dark:bg-orange-900/50 dark:text-orange-400 ring-4 ring-white dark:ring-slate-800 shadow-sm">
+<span class="material-symbols-outlined icon-filled text-[28px]">priority_high</span>
+</div>
+<div class="flex-1">
+<div class="flex items-start justify-between gap-4 mb-2">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                            Action Required: Verification Pending
+                            <span class="hidden sm:inline-block px-2 py-0.5 rounded text-[10px] uppercase tracking-wider font-bold bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300">Urgent</span>
+</h3>
+</div>
+<p class="text-sm text-slate-700 dark:text-slate-300 mb-4 leading-relaxed max-w-2xl">
+                        This property requires an updated <strong>Certificate of Occupancy (C of O)</strong> to maintain its active listing status and appear in search results. Please upload the document to the Verification Hub.
+                    </p>
+<div class="flex flex-wrap items-center gap-3">
+<a class="inline-flex items-center justify-center gap-2 rounded-lg bg-orange-600 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-orange-600/20 transition-all hover:bg-orange-700 hover:shadow-orange-600/30 hover:-translate-y-0.5" href="#">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+                            Go to Verification Hub
+                        </a>
+<button class="inline-flex items-center justify-center gap-2 rounded-lg border border-orange-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 transition-colors hover:bg-orange-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700">
+                            Remind Me Later
+                        </button>
+</div>
+</div>
+</div>
+</div>
+<div class="mb-6 border-b border-slate-200 dark:border-slate-800 pb-6">
+<div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+<div>
+<div class="flex items-center gap-3 mb-2">
+<span class="px-2.5 py-1 bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider rounded-md">Active Listing</span>
+<span class="text-slate-500 dark:text-slate-400 text-sm flex items-center gap-1">
+<span class="size-2 rounded-full bg-green-500"></span>
+                                    Online for 2 days
+                                </span>
+</div>
+<h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-2 leading-tight">Modern Oakwood Estate</h1>
+<div class="flex items-center text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined text-[20px] mr-1.5">location_on</span>
+<p class="text-lg">1243 Oakwood Avenue, Austin, TX 78704</p>
+</div>
+</div>
+<div class="flex flex-col items-start md:items-end p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
+<p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wide mb-1">Target Rent</p>
+<h2 class="text-3xl font-extrabold text-slate-900 dark:text-white">$4,800<span class="text-lg font-medium text-slate-500">/mo</span></h2>
+<p class="text-green-600 dark:text-green-400 text-sm font-semibold flex items-center mt-1">
+<span class="material-symbols-outlined text-[16px] mr-0.5">trending_up</span>
+                                5% &gt; Market Avg
+                            </p>
+</div>
+</div>
+<div class="mt-6 flex flex-wrap items-center gap-4">
+<div class="group relative cursor-pointer">
+<div class="bg-gradient-to-r from-slate-200 via-white to-slate-300 dark:from-slate-700 dark:via-slate-600 dark:to-slate-700 text-slate-900 dark:text-white text-sm font-bold px-4 py-2 rounded-full flex items-center gap-2 shadow-sm border border-slate-300 dark:border-slate-500 grayscale opacity-70">
+<span class="material-symbols-outlined text-[20px] icon-filled text-slate-500">verified</span>
+                                PLATINUM VERIFICATION PAUSED
+                            </div>
+<div class="absolute bottom-full left-0 mb-2 w-64 p-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-20 shadow-xl">
+<p class="font-bold mb-1">Verification Paused</p>
+<p>Platinum status is temporarily paused pending document review (C of O).</p>
+<div class="absolute top-full left-6 -mt-1 border-4 border-transparent border-t-slate-900 dark:border-t-white"></div>
+</div>
+</div>
+<a class="flex items-center gap-1 text-sm font-bold text-primary hover:text-primary-dark transition-colors px-3 py-1.5 rounded-lg hover:bg-blue-50 dark:hover:bg-primary/10" href="#">
+                            Open Verification Hub
+                            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+<div class="h-4 w-px bg-slate-300 dark:bg-slate-700 mx-2 hidden sm:block"></div>
+<div class="flex items-center gap-1.5 text-sm font-medium text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined text-green-500 text-[18px] icon-filled">check_circle</span>
+                            Inspection Passed
+                        </div>
+</div>
+</div>
+<div class="mb-8">
+<h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4">Performance Metrics</h3>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="text-xs text-slate-500 font-medium">Total Views (30d)</span>
+<span class="material-symbols-outlined text-blue-500 text-[20px]">visibility</span>
+</div>
+<span class="text-2xl font-bold text-slate-900 dark:text-white">1,245</span>
+<span class="text-xs text-green-500 font-medium flex items-center">
+<span class="material-symbols-outlined text-[14px] mr-0.5">arrow_upward</span> 12%
+                            </span>
+</div>
+<div class="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col gap-1 ring-2 ring-primary/10">
+<div class="flex items-center justify-between">
+<span class="text-xs text-slate-500 font-medium">Applicants</span>
+<span class="material-symbols-outlined text-primary text-[20px]">group</span>
+</div>
+<span class="text-2xl font-bold text-slate-900 dark:text-white">5</span>
+<span class="text-xs text-primary font-medium">3 New this week</span>
+</div>
+<div class="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="text-xs text-slate-500 font-medium">Maintenance</span>
+<span class="material-symbols-outlined text-orange-500 text-[20px]">build</span>
+</div>
+<span class="text-2xl font-bold text-slate-900 dark:text-white">0</span>
+<span class="text-xs text-slate-400 font-medium">All systems operational</span>
+</div>
+<div class="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="text-xs text-slate-500 font-medium">Est. Yield</span>
+<span class="material-symbols-outlined text-green-500 text-[20px]">payments</span>
+</div>
+<span class="text-2xl font-bold text-slate-900 dark:text-white">5.8%</span>
+<span class="text-xs text-slate-400 font-medium">Based on asking</span>
+</div>
+</div>
+</div>
+<div class="mb-10 p-6 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+<span class="material-symbols-outlined">person</span>
+                            Current Tenant Information
+                        </h3>
+<span class="px-2 py-1 bg-yellow-100 text-yellow-700 text-xs font-bold rounded uppercase">Lease Ending</span>
+</div>
+<div class="flex flex-col md:flex-row gap-6">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-500">
+<span class="material-symbols-outlined">face</span>
+</div>
+<div>
+<p class="font-bold text-slate-900 dark:text-white">The Anderson Family</p>
+<p class="text-sm text-slate-500">Occupants since 2021</p>
+</div>
+</div>
+<div class="h-px md:h-auto w-full md:w-px bg-slate-200 dark:bg-slate-700"></div>
+<div class="grid grid-cols-2 gap-x-8 gap-y-2 text-sm">
+<span class="text-slate-500">Lease Ends:</span>
+<span class="font-medium text-slate-900 dark:text-white">Nov 30, 2024</span>
+<span class="text-slate-500">Payment Status:</span>
+<span class="font-medium text-green-600 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] icon-filled">check_circle</span> Paid
+                             </span>
+<span class="text-slate-500">Monthly Rent:</span>
+<span class="font-medium text-slate-900 dark:text-white">$4,650</span>
+</div>
+<div class="flex-1 flex md:justify-end items-center">
+<button class="text-primary font-semibold text-sm hover:underline">View Lease Details</button>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+<div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-100 dark:border-slate-700 flex flex-col items-center justify-center text-center gap-1">
+<span class="material-symbols-outlined text-slate-400 text-[20px]">bed</span>
+<span class="text-lg font-bold text-slate-900 dark:text-white">4</span>
+<span class="text-xs text-slate-500 uppercase tracking-wide">Beds</span>
+</div>
+<div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-100 dark:border-slate-700 flex flex-col items-center justify-center text-center gap-1">
+<span class="material-symbols-outlined text-slate-400 text-[20px]">bathtub</span>
+<span class="text-lg font-bold text-slate-900 dark:text-white">3</span>
+<span class="text-xs text-slate-500 uppercase tracking-wide">Baths</span>
+</div>
+<div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-100 dark:border-slate-700 flex flex-col items-center justify-center text-center gap-1">
+<span class="material-symbols-outlined text-slate-400 text-[20px]">square_foot</span>
+<span class="text-lg font-bold text-slate-900 dark:text-white">2,400</span>
+<span class="text-xs text-slate-500 uppercase tracking-wide">Sq Ft</span>
+</div>
+<div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-100 dark:border-slate-700 flex flex-col items-center justify-center text-center gap-1">
+<span class="material-symbols-outlined text-slate-400 text-[20px]">calendar_month</span>
+<span class="text-lg font-bold text-slate-900 dark:text-white">2021</span>
+<span class="text-xs text-slate-500 uppercase tracking-wide">Built</span>
+</div>
+</div>
+<div class="mb-10">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-xl font-bold text-slate-900 dark:text-white">Listing Description</h3>
+<button class="text-primary text-sm font-semibold flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-[16px]">edit</span> Edit Text
+                        </button>
+</div>
+<div class="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-300 text-sm">
+<p class="mb-2 line-clamp-2">
+                            Stunning modern estate located in the heart of Austin's most desirable neighborhood. This architectural masterpiece features floor-to-ceiling windows that flood the open-concept living space with natural light.
+                        </p>
+</div>
+</div>
+<div class="mb-10 p-6 rounded-2xl bg-gradient-to-br from-blue-50 to-white dark:from-slate-800 dark:to-slate-900 border border-blue-100 dark:border-slate-700">
+<div class="flex items-center gap-3 mb-4">
+<div class="size-8 rounded-full bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/30">
+<span class="material-symbols-outlined text-[18px]">psychology</span>
+</div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Management Insights</h3>
+</div>
+<ul class="space-y-3">
+<li class="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined text-green-500 text-[20px] mt-0.5">trending_up</span>
+<span><strong>Market Rent Opportunity:</strong> Similar units in Travis Heights are listing for $5,100/mo. Consider a 6% increase for the next lease.</span>
+</li>
+<li class="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined text-blue-500 text-[20px] mt-0.5">calendar_clock</span>
+<span><strong>Seasonal Timing:</strong> Listing now aligns with peak relocation season in Austin (May-July). Expect lower vacancy time.</span>
+</li>
+<li class="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined text-orange-500 text-[20px] mt-0.5">home_repair_service</span>
+<span><strong>Preventative Maintenance:</strong> HVAC system is 3 years old. Schedule a check-up before summer heat to avoid emergency calls.</span>
+</li>
+</ul>
+</div>
+</div>
+<div class="hidden lg:block w-[360px] shrink-0">
+<div class="sticky top-24 space-y-6">
+<div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm">
+<h4 class="font-bold text-lg text-slate-900 dark:text-white mb-4">Financial Snapshot (YTD)</h4>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between text-sm mb-1">
+<span class="text-slate-500">Gross Revenue</span>
+<span class="font-bold text-slate-900 dark:text-white">$45,600</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-2">
+<div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-sm mb-1">
+<span class="text-slate-500">Expenses</span>
+<span class="font-bold text-slate-900 dark:text-white">$8,450</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-2">
+<div class="bg-red-400 h-2 rounded-full" style="width: 18%"></div>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-6 border-t border-slate-100 dark:border-slate-700">
+<div class="flex justify-between items-center mb-4">
+<span class="text-sm font-medium text-slate-600 dark:text-slate-300">Net Operating Income</span>
+<span class="text-xl font-bold text-primary">$37,150</span>
+</div>
+<button class="w-full py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 font-semibold text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">finance</span>
+                                 View Full Report
+                             </button>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm">
+<h4 class="font-bold text-lg text-slate-900 dark:text-white mb-4">Upcoming Tasks</h4>
+<ul class="space-y-4">
+<li class="flex gap-3">
+<div class="mt-0.5 size-5 rounded-full border-2 border-slate-300 hover:border-primary cursor-pointer flex-shrink-0"></div>
+<div class="text-sm">
+<p class="font-medium text-slate-900 dark:text-white">Approve Lease Renewal</p>
+<p class="text-slate-500 text-xs">Due in 5 days</p>
+</div>
+</li>
+<li class="flex gap-3">
+<div class="mt-0.5 size-5 rounded-full border-2 border-slate-300 hover:border-primary cursor-pointer flex-shrink-0"></div>
+<div class="text-sm">
+<p class="font-medium text-slate-900 dark:text-white">Schedule Gutter Cleaning</p>
+<p class="text-slate-500 text-xs">Recommended for Nov</p>
+</div>
+</li>
+</ul>
+<button class="mt-4 text-primary text-sm font-semibold hover:underline">View all tasks</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<div class="fixed bottom-[90px] left-0 right-0 flex justify-center z-30 px-4 pointer-events-none">
+<div class="w-full max-w-2xl bg-white/95 dark:bg-[#101922]/95 backdrop-blur-xl border border-primary/20 shadow-2xl shadow-primary/10 rounded-full py-2 px-2 flex items-center gap-3 pointer-events-auto ai-glow transition-all hover:scale-[1.01]">
+<div class="size-10 rounded-full bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-white">auto_awesome</span>
+</div>
+<div class="flex-1 overflow-hidden h-10 flex items-center">
+<p class="text-slate-600 dark:text-slate-300 text-sm truncate animate-pulse">
+                    Draft a lease renewal email, check recent maintenance costs, or analyze comps...
+                </p>
+</div>
+<button class="size-10 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center transition-colors shrink-0">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-300">mic</span>
+</button>
+<button class="size-10 rounded-full bg-primary hover:bg-primary-dark flex items-center justify-center transition-colors shrink-0 shadow-lg shadow-primary/30">
+<span class="material-symbols-outlined text-white">arrow_upward</span>
+</button>
+</div>
+</div>
+<div class="fixed bottom-0 left-0 w-full z-20 bg-white dark:bg-[#101922] border-t border-slate-200 dark:border-slate-800 p-4 md:px-8 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+<div class="max-w-[1200px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+<div class="hidden md:flex items-center gap-4">
+<div>
+<p class="text-xs text-slate-500 uppercase font-bold tracking-wider mb-0.5">Listing Status</p>
+<div class="flex items-center gap-2">
+<span class="size-2.5 rounded-full bg-green-500 animate-pulse"></span>
+<span class="font-bold text-slate-900 dark:text-white">Active</span>
+</div>
+</div>
+<div class="h-8 w-px bg-slate-200 dark:bg-slate-700 mx-2"></div>
+<div>
+<p class="text-xs text-slate-500 uppercase font-bold tracking-wider mb-0.5">Applicant Queue</p>
+<div class="flex items-center gap-2">
+<span class="font-bold text-slate-900 dark:text-white">5 Applicants</span>
+</div>
+</div>
+</div>
+<div class="flex-1 md:flex-none flex gap-3 w-full md:w-auto">
+<button class="flex-1 md:flex-none px-5 py-3.5 rounded-xl border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-white font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors whitespace-nowrap flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+                    Edit Listing
+                </button>
+<button class="flex-1 md:flex-none px-5 py-3.5 rounded-xl border-2 border-primary text-primary font-bold hover:bg-blue-50 dark:hover:bg-primary/10 transition-colors whitespace-nowrap flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">calendar_month</span>
+                    Schedule Maint.
+                </button>
+<button class="flex-1 md:flex-none px-8 py-3.5 rounded-xl bg-primary text-white font-bold hover:bg-primary-dark transition-colors shadow-lg shadow-primary/25 whitespace-nowrap flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">person_search</span>
+                    View Applicants (5)
+                </button>
+</div>
+</div>
+</div>
+</body></html>

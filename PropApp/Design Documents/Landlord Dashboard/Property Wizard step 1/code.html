@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Listing Creation Wizard - PropertyApp</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem", // rounded-lg
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #334155;
+        }
+        #ai-bar-toggle:checked ~ #ai-modal {
+            display: flex;
+        }
+        #ai-bar-toggle:checked ~ #ai-trigger {
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col font-display text-slate-900 dark:text-white overflow-x-hidden relative">
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-[#101922]/90 backdrop-blur-md px-10 py-3">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">real_estate_agent</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">PropertyApp</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="hidden md:flex items-center gap-9">
+<a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-primary font-bold leading-normal transition-colors" href="#">Properties</a>
+<a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Tenants</a>
+<a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Financials</a>
+</div>
+<div class="flex gap-3">
+<button class="relative flex items-center justify-center overflow-hidden rounded-lg size-10 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full"></span>
+</button>
+<button class="flex items-center justify-center overflow-hidden rounded-lg size-10 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-1 flex flex-col py-8 px-4 md:px-10 lg:px-20 pb-32">
+<div class="max-w-4xl mx-auto w-full">
+<div class="mb-10">
+<div class="flex items-end justify-between mb-3">
+<div>
+<h1 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">List Your Property</h1>
+<p class="text-slate-500 dark:text-slate-400 mt-1">Let's start with the basics.</p>
+</div>
+<span class="text-sm font-bold text-primary bg-blue-50 dark:bg-blue-900/30 px-3 py-1 rounded-full">Step 1 of 5</span>
+</div>
+<div class="h-2 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-1/5 rounded-full shadow-[0_0_10px_rgba(19,127,236,0.5)]"></div>
+</div>
+</div>
+<div class="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-[#1a2632] dark:to-[#16202a] border border-blue-100 dark:border-blue-900/50 rounded-2xl p-6 md:p-8 mb-10 relative overflow-hidden group shadow-sm">
+<div class="absolute -top-6 -right-6 p-4 opacity-5 dark:opacity-10 pointer-events-none transform rotate-12">
+<span class="material-symbols-outlined text-9xl text-primary">smart_toy</span>
+</div>
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-4">
+<div class="size-10 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined">auto_awesome</span>
+</div>
+<div>
+<h3 class="font-bold text-lg text-slate-900 dark:text-white">AI Property Assistant</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Auto-fill details in seconds</p>
+</div>
+</div>
+<div class="bg-white dark:bg-[#101922] border border-slate-200 dark:border-slate-700 rounded-xl p-1 shadow-sm focus-within:ring-2 focus-within:ring-primary/50 focus-within:border-primary transition-all duration-300">
+<textarea class="w-full bg-transparent border-none text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-0 resize-none p-4 min-h-[100px]" placeholder="Paste a description here (e.g., 'Modern 2-bedroom apartment with hardwood floors, newly renovated kitchen, and balcony overlooking the park...'), or upload a video tour to let HomeAI extract the details automatically."></textarea>
+<div class="flex flex-col sm:flex-row justify-between items-center gap-3 px-3 pb-3 pt-2 border-t border-slate-100 dark:border-slate-800 mt-1">
+<button class="text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary flex items-center gap-2 text-xs font-bold transition-colors px-2 py-1 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-[18px]">videocam</span> Upload Video Tour
+                             </button>
+<button class="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-lg text-sm font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/25">
+<span class="material-symbols-outlined text-[18px]">smart_toy</span> Auto-fill Details
+                             </button>
+</div>
+</div>
+</div>
+</div>
+<form class="flex flex-col gap-8">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<div class="md:col-span-8">
+<label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Listing Title</label>
+<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white focus:border-primary focus:ring-primary h-12 px-4 shadow-sm" placeholder="e.g. Spacious Downtown Loft with City Views" type="text"/>
+</div>
+<div class="md:col-span-4">
+<label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Property Type</label>
+<select class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white focus:border-primary focus:ring-primary h-12 px-4 shadow-sm">
+<option>Apartment</option>
+<option>House</option>
+<option>Condo</option>
+<option>Townhouse</option>
+</select>
+</div>
+<div class="md:col-span-12">
+<label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Address</label>
+<div class="relative">
+<span class="absolute left-4 top-3.5 text-slate-400 material-symbols-outlined text-[20px]">location_on</span>
+<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white focus:border-primary focus:ring-primary h-12 pl-11 pr-4 shadow-sm" placeholder="Enter property address" type="text"/>
+</div>
+</div>
+<div class="md:col-span-3">
+<label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Beds</label>
+<div class="relative">
+<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white focus:border-primary focus:ring-primary h-12 px-4 shadow-sm" placeholder="0" type="number"/>
+<span class="absolute right-4 top-3.5 text-slate-400 text-xs font-bold pointer-events-none">BDS</span>
+</div>
+</div>
+<div class="md:col-span-3">
+<label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Baths</label>
+<div class="relative">
+<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white focus:border-primary focus:ring-primary h-12 px-4 shadow-sm" placeholder="0" type="number"/>
+<span class="absolute right-4 top-3.5 text-slate-400 text-xs font-bold pointer-events-none">BA</span>
+</div>
+</div>
+<div class="md:col-span-3">
+<label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Sq Ft</label>
+<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white focus:border-primary focus:ring-primary h-12 px-4 shadow-sm" placeholder="0" type="number"/>
+</div>
+<div class="md:col-span-3">
+<label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Monthly Rent</label>
+<div class="relative">
+<span class="absolute left-4 top-3.5 text-slate-500 font-bold">$</span>
+<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white focus:border-primary focus:ring-primary h-12 pl-8 pr-4 shadow-sm" placeholder="0.00" type="number"/>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">Amenities</label>
+<div class="flex flex-wrap gap-3">
+<label class="cursor-pointer inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-700 dark:text-slate-300 hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary transition-colors select-none">
+<input class="hidden peer" type="checkbox"/>
+<span class="material-symbols-outlined text-[18px] text-slate-400 peer-checked:text-primary">ac_unit</span>
+<span class="text-sm font-medium peer-checked:text-primary">Air Conditioning</span>
+</label>
+<label class="cursor-pointer inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-700 dark:text-slate-300 hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary transition-colors select-none">
+<input checked="" class="hidden peer" type="checkbox"/>
+<span class="material-symbols-outlined text-[18px] text-slate-400 peer-checked:text-primary">local_laundry_service</span>
+<span class="text-sm font-medium peer-checked:text-primary">Washer/Dryer</span>
+</label>
+<label class="cursor-pointer inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-700 dark:text-slate-300 hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary transition-colors select-none">
+<input class="hidden peer" type="checkbox"/>
+<span class="material-symbols-outlined text-[18px] text-slate-400 peer-checked:text-primary">directions_car</span>
+<span class="text-sm font-medium peer-checked:text-primary">Parking</span>
+</label>
+<label class="cursor-pointer inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-700 dark:text-slate-300 hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary transition-colors select-none">
+<input class="hidden peer" type="checkbox"/>
+<span class="material-symbols-outlined text-[18px] text-slate-400 peer-checked:text-primary">fitness_center</span>
+<span class="text-sm font-medium peer-checked:text-primary">Gym</span>
+</label>
+<button class="inline-flex items-center gap-1 px-4 py-2 rounded-full border border-dashed border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-primary hover:text-primary transition-colors text-sm font-medium" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span> Add more
+                        </button>
+</div>
+</div>
+<div class="relative overflow-hidden rounded-xl bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-200 dark:from-yellow-700 dark:via-yellow-500 dark:to-yellow-700 p-0.5 shadow-lg mt-2 group">
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out pointer-events-none"></div>
+<div class="bg-white/95 dark:bg-[#101922]/90 backdrop-blur-sm rounded-[10px] p-5 flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-5">
+<div class="size-14 rounded-full bg-gradient-to-b from-yellow-300 to-yellow-500 flex items-center justify-center text-white shadow-md shrink-0 border-2 border-white dark:border-slate-800">
+<span class="material-symbols-outlined text-3xl icon-filled">verified</span>
+</div>
+<div>
+<h4 class="font-extrabold text-slate-900 dark:text-white text-lg flex flex-wrap items-center gap-2">
+                                    Boost your listing 
+                                    <span class="px-2 py-0.5 rounded-md bg-gradient-to-r from-yellow-300 to-amber-400 text-white text-[10px] uppercase font-black tracking-wider shadow-sm">Gold Badge</span>
+</h4>
+<p class="text-sm text-slate-600 dark:text-slate-300 mt-1">Upload your Certificate of Occupancy (C of O) now to get verified status immediately.</p>
+</div>
+</div>
+<button class="whitespace-nowrap px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold rounded-lg hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center gap-2 text-sm" type="button">
+<span class="material-symbols-outlined text-[20px]">upload_file</span> Upload C of O
+                        </button>
+</div>
+</div>
+<div class="flex flex-col-reverse md:flex-row items-center justify-between pt-8 border-t border-slate-200 dark:border-slate-800 mt-2 gap-4">
+<button class="w-full md:w-auto text-slate-600 dark:text-slate-400 font-bold text-sm hover:text-primary dark:hover:text-primary transition-colors flex items-center justify-center gap-2 px-4 py-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility</span> See how your listing looks
+                    </button>
+<div class="flex w-full md:w-auto gap-4">
+<button class="w-full md:w-auto px-6 py-3 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" type="button">
+                            Save Draft
+                        </button>
+<button class="w-full md:w-auto bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-lg font-bold text-sm shadow-lg shadow-primary/30 hover:shadow-primary/40 transition-all flex items-center justify-center gap-2" type="button">
+                            Next Step <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</form>
+</div>
+</main>
+<div class="fixed bottom-6 right-6 z-[100] flex flex-col items-end gap-2">
+<input class="peer hidden" id="ai-bar-toggle" type="checkbox"/>
+<div class="hidden peer-checked:flex flex-col w-[360px] md:w-[420px] bg-white dark:bg-[#1e293b] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden transform transition-all duration-300 origin-bottom-right animate-in slide-in-from-bottom-5 fade-in" id="ai-modal">
+<div class="p-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-gradient-to-r from-blue-50 to-white dark:from-[#1e293b] dark:to-[#1e293b]">
+<div class="flex items-center gap-2">
+<div class="size-8 rounded-full bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center text-white shadow-md">
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+</div>
+<div>
+<h3 class="text-sm font-bold text-slate-900 dark:text-white">HomeAI Assistant</h3>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">Powered by PropertyApp</p>
+</div>
+</div>
+<label class="cursor-pointer p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors" for="ai-bar-toggle">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</label>
+</div>
+<div class="flex-1 p-4 h-[300px] overflow-y-auto custom-scrollbar flex flex-col gap-4 bg-slate-50/50 dark:bg-[#101922]/50">
+<div class="flex gap-3">
+<div class="size-8 rounded-full bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center text-white shrink-0 mt-1 shadow-sm">
+<span class="material-symbols-outlined text-[16px]">smart_toy</span>
+</div>
+<div class="bg-white dark:bg-[#1e293b] border border-slate-100 dark:border-slate-700 p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[85%]">
+<p class="text-sm text-slate-700 dark:text-slate-300">Hello! I'm your personal property assistant. Need help optimizing your listing description?</p>
+</div>
+</div>
+<div class="mt-auto">
+<p class="text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide px-1">Suggested actions</p>
+<div class="flex flex-wrap gap-2">
+<button class="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors shadow-sm">
+                            Improve my title
+                        </button>
+<button class="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors shadow-sm">
+                            Suggested rental price?
+                        </button>
+</div>
+</div>
+</div>
+<div class="p-3 border-t border-slate-100 dark:border-slate-700 bg-white dark:bg-[#1e293b]">
+<div class="relative flex items-center">
+<input autofocus="" class="w-full pl-4 pr-12 py-3 bg-slate-50 dark:bg-[#101922] border-none rounded-xl text-sm focus:ring-2 focus:ring-primary/20 text-slate-900 dark:text-white placeholder:text-slate-400 shadow-inner" placeholder="Ask HomeAI..." type="text"/>
+<button class="absolute right-2 p-1.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors shadow-md">
+<span class="material-symbols-outlined text-[18px]">arrow_upward</span>
+</button>
+</div>
+</div>
+</div>
+<label class="cursor-pointer group flex items-center gap-3 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white pl-1.5 pr-5 py-1.5 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 dark:border-slate-700 hover:scale-105 hover:shadow-[0_8px_30px_rgb(0,0,0,0.18)] transition-all duration-300" for="ai-bar-toggle" id="ai-trigger">
+<div class="size-10 rounded-full bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center text-white shadow-md group-hover:rotate-12 transition-transform">
+<span class="material-symbols-outlined">smart_toy</span>
+</div>
+<div class="flex flex-col items-start">
+<span class="text-sm font-bold leading-none">Ask HomeAI...</span>
+<span class="text-[10px] text-slate-500 dark:text-slate-400 font-medium leading-tight mt-0.5">Click to chat</span>
+</div>
+</label>
+</div>
+
+</body></html>

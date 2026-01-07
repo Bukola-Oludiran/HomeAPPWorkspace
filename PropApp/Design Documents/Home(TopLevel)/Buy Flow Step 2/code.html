@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Your Info - Buy Flow - PropertyApp</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "primary-dark": "#0e64bd",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                        "platinum": "#e5e4e2",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .bg-platinum-gradient {
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 50%, #94a3b8 100%);
+        }
+        .ai-glow {
+            box-shadow: 0 0 15px rgba(19, 127, 236, 0.4);
+        }
+        body {
+            overflow: hidden; 
+            height: 100vh;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col font-display text-slate-900 dark:text-white pb-[140px]">
+<div class="filter blur-[2px] pointer-events-none select-none transition-all duration-300">
+<header class="fixed top-0 left-0 w-full z-40 bg-transparent">
+<div class="px-4 md:px-8 py-4 flex items-center justify-between">
+<a class="flex items-center justify-center size-10 bg-white/90 dark:bg-black/50 backdrop-blur-md rounded-full shadow-md text-slate-900 dark:text-white" href="#">
+<span class="material-symbols-outlined">arrow_back</span>
+</a>
+<div class="flex items-center gap-3">
+<button class="flex items-center justify-center size-10 bg-white/90 dark:bg-black/50 backdrop-blur-md rounded-full shadow-md text-slate-900 dark:text-white">
+<span class="material-symbols-outlined">share</span>
+</button>
+<button class="flex items-center justify-center size-10 bg-white/90 dark:bg-black/50 backdrop-blur-md rounded-full shadow-md text-slate-900 dark:text-white">
+<span class="material-symbols-outlined text-red-500 icon-filled">favorite</span>
+</button>
+</div>
+</div>
+</header>
+<div class="relative w-full h-[50vh] md:h-[60vh] lg:h-[70vh] bg-slate-200 overflow-hidden">
+<img alt="Modern Oakwood Estate large windows" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l"/>
+<div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/10"></div>
+</div>
+<main class="w-full max-w-[1200px] mx-auto px-4 md:px-8 py-8">
+<div class="flex flex-col lg:flex-row gap-12">
+<div class="flex-1 min-w-0">
+<div class="mb-8 border-b border-slate-200 dark:border-slate-800 pb-8">
+<div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+<div>
+<div class="flex items-center gap-3 mb-2">
+<span class="px-2.5 py-1 bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-xs font-bold uppercase tracking-wider rounded-md">For Sale</span>
+<span class="text-slate-500 dark:text-slate-400 text-sm">Listed 2 days ago</span>
+</div>
+<h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-2 leading-tight">Modern Oakwood Estate</h1>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<div aria-modal="true" class="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6" role="dialog">
+<div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"></div>
+<div class="relative w-full max-w-5xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-[fadeIn_0.2s_ease-out]">
+<div class="border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-6 z-10">
+<div class="flex items-center justify-between mb-8">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-primary text-xl">real_estate_agent</span>
+<h2 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">Make an Offer to Buy</h2>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Proceed for <span class="font-semibold text-slate-800 dark:text-slate-200">1243 Oakwood Avenue</span></p>
+</div>
+<button class="text-slate-400 hover:text-slate-500 transition-colors p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="flex items-center w-full max-w-3xl mx-auto px-4">
+<div class="flex flex-col items-center relative z-10">
+<div class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center font-bold text-sm shadow-sm transition-all">
+<span class="material-symbols-outlined text-base">check</span>
+</div>
+<span class="absolute top-10 text-xs font-bold text-green-600 dark:text-green-500 whitespace-nowrap">Offer Details</span>
+</div>
+<div class="flex-1 h-1 bg-green-500 mx-2 relative rounded-full overflow-hidden"></div>
+<div class="flex flex-col items-center relative z-10">
+<div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-primary/30 ring-4 ring-white dark:ring-slate-900 transition-all">2</div>
+<span class="absolute top-10 text-xs font-bold text-primary whitespace-nowrap">Your Info</span>
+</div>
+<div class="flex-1 h-1 bg-slate-200 dark:bg-slate-700 mx-2 rounded-full"></div>
+<div class="flex flex-col items-center relative z-10">
+<div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 flex items-center justify-center font-bold text-sm border-2 border-white dark:border-slate-900">3</div>
+<span class="absolute top-10 text-xs font-medium text-slate-400 dark:text-slate-500 whitespace-nowrap">Review</span>
+</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-6 md:p-8 bg-slate-50 dark:bg-slate-800/30 custom-scrollbar">
+<div class="flex flex-col lg:flex-row gap-8">
+<div class="flex-1 space-y-6">
+<div class="bg-blue-50/50 dark:bg-slate-800/50 p-4 rounded-xl border border-blue-100 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="flex items-start gap-4">
+<div class="size-10 shrink-0 rounded-full bg-white dark:bg-slate-700 flex items-center justify-center text-primary shadow-sm border border-slate-100 dark:border-slate-600">
+<span class="material-symbols-outlined">description</span>
+</div>
+<div>
+<p class="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Offer Summary</p>
+<div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-semibold text-slate-900 dark:text-white">
+<span>$850,000</span>
+<span class="text-slate-300">•</span>
+<span>Financing, Inspection</span>
+<span class="text-slate-300">•</span>
+<span>Close in 30 Days</span>
+</div>
+</div>
+</div>
+<button class="text-primary text-sm font-bold hover:underline whitespace-nowrap px-2">Edit Details</button>
+</div>
+<div class="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
+<h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">person</span>
+            Buyer Contact Information
+        </h3>
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-primary dark:text-blue-400 border border-blue-100 dark:border-blue-800/50 self-start sm:self-auto">
+<span class="material-symbols-outlined text-[16px]">verified_user</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Account Linked</span>
+</div>
+</div>
+<div class="bg-slate-50 dark:bg-slate-700/30 border border-slate-100 dark:border-slate-700 rounded-lg p-4 mb-6 flex gap-3">
+<span class="material-symbols-outlined text-primary text-sm mt-0.5 shrink-0">info</span>
+<p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+            The fields below are automatically populated from your verified account profile. To ensure security, they cannot be edited here. If you need to update this information, please go to your <a class="text-primary font-bold hover:underline" href="#">Profile Settings</a>.
+        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="md:col-span-2">
+<label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Full Legal Name</label>
+<div class="relative group">
+<input aria-readonly="true" class="w-full pl-4 pr-10 py-3 bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-600 dark:text-slate-400 cursor-not-allowed outline-none font-medium placeholder-slate-400 transition-colors" readonly="" type="text" value="Alex Morgan"/>
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-400 text-sm">lock</span>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Email Address</label>
+<div class="relative group">
+<input aria-readonly="true" class="w-full pl-4 pr-10 py-3 bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-600 dark:text-slate-400 cursor-not-allowed outline-none font-medium placeholder-slate-400 transition-colors" readonly="" type="email" value="alex.morgan@example.com"/>
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-400 text-sm">lock</span>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Phone Number</label>
+<div class="relative group">
+<input aria-readonly="true" class="w-full pl-4 pr-10 py-3 bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-600 dark:text-slate-400 cursor-not-allowed outline-none font-medium placeholder-slate-400 transition-colors" readonly="" type="tel" value="(512) 555-0123"/>
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-400 text-sm">lock</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+<h3 class="text-base font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">home</span>
+                                Current Residential Address
+                            </h3>
+<div class="space-y-4">
+<div>
+<label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Street Address</label>
+<input class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-primary outline-none placeholder-slate-400" placeholder="e.g. 123 Main St" type="text"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Apartment, suite, etc. (optional)</label>
+<input class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-primary outline-none placeholder-slate-400" placeholder="e.g. Apt 4B" type="text"/>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+<div class="col-span-2 md:col-span-1">
+<label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">City</label>
+<input class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-primary outline-none placeholder-slate-400" placeholder="City" type="text"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">State</label>
+<input class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-primary outline-none placeholder-slate-400" placeholder="State" type="text"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Zip Code</label>
+<input class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-primary outline-none placeholder-slate-400" placeholder="Zip" type="text"/>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">badge</span>
+                                    Proof of Identity
+                                </h3>
+<span class="text-xs text-slate-500 bg-slate-100 dark:bg-slate-700 dark:text-slate-300 px-2 py-0.5 rounded font-bold">OPTIONAL</span>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Upload a government-issued ID (Driver's License or Passport) to verify your identity. This builds trust with the seller.</p>
+<div class="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-xl p-6 flex flex-col sm:flex-row items-center justify-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors cursor-pointer group hover:border-primary/50">
+<div class="size-10 rounded-full bg-blue-50 dark:bg-slate-700 flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary">add_a_photo</span>
+</div>
+<div class="text-center sm:text-left">
+<p class="text-sm font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">Upload ID Document</p>
+<p class="text-xs text-slate-400">JPG, PNG or PDF (max. 5MB)</p>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:w-[340px] shrink-0">
+<div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-lg overflow-hidden sticky top-0">
+<div class="h-32 bg-slate-200 relative">
+<img alt="Property Thumbnail" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l"/>
+<div class="absolute inset-0 bg-black/10"></div>
+<span class="absolute top-2 right-2 bg-white/90 dark:bg-black/70 px-2 py-0.5 text-[10px] font-bold rounded text-slate-900 dark:text-white uppercase tracking-wide">For Sale</span>
+</div>
+<div class="p-5">
+<h4 class="font-bold text-slate-900 dark:text-white mb-1 line-clamp-1">Modern Oakwood Estate</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-4 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+                                    1243 Oakwood Avenue, Austin, TX
+                                </p>
+<div class="space-y-3 py-4 border-t border-slate-100 dark:border-slate-700">
+<div class="flex justify-between text-sm">
+<span class="text-slate-500">Listing Price</span>
+<span class="font-medium text-slate-900 dark:text-white line-through decoration-slate-400 decoration-2">$850,000</span>
+</div>
+<div class="flex justify-between text-sm items-center">
+<span class="text-primary font-bold">Your Offer</span>
+<span class="font-bold text-lg text-primary bg-blue-50 dark:bg-blue-900/30 px-2 rounded">$850,000</span>
+</div>
+<div class="flex justify-between text-xs text-slate-400 mt-2">
+<span>Est. Earnest Money (1%)</span>
+<span>$8,500</span>
+</div>
+</div>
+<div class="bg-slate-50 dark:bg-slate-700/30 p-3 rounded-lg flex gap-3 mt-2 border border-slate-100 dark:border-slate-700">
+<span class="material-symbols-outlined text-primary text-xl shrink-0 icon-filled">lock</span>
+<p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                                        Secure Step. Your personal information is encrypted and only shared upon offer acceptance.
+                                    </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-4 md:px-8 flex items-center justify-between z-10 shrink-0">
+<button class="px-6 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-sm">
+                    Cancel
+                </button>
+<div class="flex items-center gap-3">
+<button class="px-6 py-2.5 rounded-xl font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-sm">
+                        Back
+                    </button>
+<button class="px-8 py-2.5 rounded-xl bg-primary text-white font-bold hover:bg-primary-dark transition-colors shadow-lg shadow-primary/25 flex items-center gap-2 text-sm">
+                        Next Step <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<div class="absolute bottom-8 left-0 right-0 flex justify-center z-[70] pointer-events-none">
+<div class="w-[90%] md:w-full max-w-xl bg-white/95 dark:bg-[#101922]/95 backdrop-blur-xl border border-primary/20 shadow-2xl shadow-primary/10 rounded-full py-2 px-2 flex items-center gap-3 pointer-events-auto ai-glow animate-bounce-slight transform hover:-translate-y-1 transition-transform">
+<div class="size-10 rounded-full bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center shrink-0 shadow-lg">
+<span class="material-symbols-outlined text-white">auto_awesome</span>
+</div>
+<div class="flex-1 overflow-hidden h-10 flex items-center">
+<p class="text-slate-700 dark:text-slate-200 text-sm truncate font-medium">
+<span class="text-primary font-bold">Privacy Tip:</span> Your contact info is kept private until you choose to reveal it.
+                    </p>
+</div>
+<button class="size-10 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center transition-colors shrink-0">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-300">mic</span>
+</button>
+</div>
+</div>
+</div>
+</body></html>

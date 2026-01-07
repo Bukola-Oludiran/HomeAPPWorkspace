@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Privacy Settings - PropertyApp</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem", // rounded-lg
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }.no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }.dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+            z-index: 60;
+            border-radius: 0.75rem;
+            margin-top: 0.5rem;
+            border: 1px solid #e2e8f0;
+        }
+        .dark .dropdown-content {
+            background-color: #1e293b;
+            border-color: #334155;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }.sidebar-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+        .dark .sidebar-scroll::-webkit-scrollbar-thumb {
+            background-color: #475569;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col font-display text-slate-900 dark:text-white overflow-x-hidden relative">
+<div class="absolute top-6 left-6 md:left-10 z-50 flex items-center gap-3">
+<div class="size-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">real_estate_agent</span>
+</div>
+<h2 class="hidden md:block text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">PropertyApp</h2>
+</div>
+<header class="fixed top-6 left-0 right-0 z-40 flex justify-center w-full pointer-events-none">
+<div class="pointer-events-auto flex items-center gap-1 md:gap-2 px-3 py-2 bg-white/90 dark:bg-[#1a2632]/90 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-black/20 rounded-full mx-4">
+<div class="flex items-center gap-1">
+<a aria-label="Home" class="flex items-center justify-center size-10 md:size-11 rounded-full text-slate-500 hover:text-primary hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined">home</span>
+</a>
+<a class="px-4 py-2 text-sm font-semibold rounded-full text-slate-600 hover:text-primary hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white transition-all" href="#">
+                    Buy
+                </a>
+<a class="px-4 py-2 text-sm font-semibold rounded-full text-slate-600 hover:text-primary hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white transition-all" href="#">
+                    Rent
+                </a>
+<a class="px-4 py-2 text-sm font-semibold rounded-full text-slate-600 hover:text-primary hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white transition-all" href="#">
+                    Sell
+                </a>
+<a aria-label="Agents" class="flex items-center justify-center size-10 md:size-11 rounded-full text-slate-500 hover:text-primary hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined">group</span>
+</a>
+</div>
+<div class="w-px h-6 bg-slate-200 dark:bg-slate-700 mx-1"></div>
+<div class="flex items-center gap-1 md:gap-2">
+<button class="flex items-center justify-center size-10 md:size-11 rounded-full text-slate-500 hover:text-primary hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="relative dropdown group">
+<button class="flex items-center justify-center overflow-hidden rounded-full size-10 md:size-11 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:ring-2 hover:ring-primary/20 transition-all border border-slate-200 dark:border-slate-600">
+<img alt="User Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwTu80T-Ii1i2JHfbWEMDgwXRNP0ehdOTldQ7IxlyR1MCzL8MrOZBjoYfXJZAXXTJlIi2HNi9nfioA7ksEMvF5HBEBODUnWum2NL5XhkC95MK52bAAZDSe9d891ZAw5MbM9oRR30lP8umsxTAf1eXbePW_bZ0I5rsOo88ELIF5aCU07WBBeE1z6_RwK6Y9O6FRPgxUzYEmE3EzdyA9_YtX-v69bXptpU6g1Xr3eGcYlqLvJjRJJdBDyZYyiAuPmTNA3aMrKcO3r42a"/>
+</button>
+<div class="dropdown-content py-2">
+<a class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-primary" href="#">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">dashboard</span>
+                                Landlord Dashboard
+                            </div>
+</a>
+<a class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-primary" href="#">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">vpn_key</span>
+                                Tenant Dashboard
+                            </div>
+</a>
+<a class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-primary" href="#">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">support_agent</span>
+                                Agent Dashboard
+                            </div>
+</a>
+<hr class="my-1 border-slate-200 dark:border-slate-700"/>
+<a class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-primary" href="#">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">settings</span>
+                                Account Settings
+                            </div>
+</a>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 flex flex-col pt-28 pb-10 px-4 md:px-10 lg:px-20 max-w-7xl mx-auto w-full">
+<div class="mb-8">
+<h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Global Settings</h1>
+<p class="text-slate-500 dark:text-slate-400 mt-2 text-lg">Manage your account, preferences, and privacy across all your personas.</p>
+</div>
+<div class="flex flex-col lg:flex-row gap-8 items-start relative">
+<aside class="w-full lg:w-72 flex-shrink-0 lg:sticky lg:top-32 space-y-8 sidebar-scroll overflow-y-auto max-h-[calc(100vh-10rem)]">
+<div class="space-y-2">
+<h3 class="px-3 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Account</h3>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">person</span>
+                            Profile Information
+                        </a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">lock</span>
+                            Login &amp; Security
+                        </a>
+</nav>
+</div>
+<div class="space-y-2">
+<h3 class="px-3 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Notifications</h3>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+                            Email Preferences
+                        </a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">notifications_active</span>
+                            App Push Alerts
+                        </a>
+</nav>
+</div>
+<div class="space-y-2">
+<h3 class="px-3 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Privacy</h3>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg bg-white dark:bg-slate-800 text-primary shadow-sm ring-1 ring-slate-200 dark:ring-slate-700" href="#">
+<span class="material-symbols-outlined text-[20px] icon-filled">security</span>
+                            Data Privacy
+                        </a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+                            Public Profile Visibility
+                        </a>
+</nav>
+</div>
+<div class="space-y-2">
+<h3 class="px-3 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Payments</h3>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">credit_card</span>
+                            Payment Methods
+                        </a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">account_balance</span>
+                            Payout Preferences
+                        </a>
+</nav>
+</div>
+<div class="space-y-2">
+<h3 class="px-3 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Preferences</h3>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+                            General Preferences
+                        </a>
+</nav>
+</div>
+<div class="space-y-2 pt-4 border-t border-slate-200 dark:border-slate-800">
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">help</span>
+                            Help &amp; Support
+                        </a>
+</nav>
+</div>
+</aside>
+<div class="flex-1 bg-white dark:bg-[#1a2632] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm min-h-[600px] flex flex-col">
+<div class="p-6 md:p-8 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+<div>
+<h2 class="text-xl font-bold text-slate-900 dark:text-white">Privacy Settings</h2>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Control your data usage and public visibility.</p>
+</div>
+</div>
+<div class="p-6 md:p-8 space-y-8 flex-1 overflow-y-auto">
+<section>
+<h3 class="text-base font-semibold text-slate-900 dark:text-white mb-4">Data Usage &amp; Collection</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
+<div class="pr-4">
+<h4 class="text-sm font-medium text-slate-900 dark:text-white">Personalized Recommendations</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Use your activity history to suggest relevant properties and agents.</p>
+</div>
+<button aria-checked="true" class="bg-primary relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2" role="switch" type="button">
+<span aria-hidden="true" class="translate-x-5 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+</div>
+<div class="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
+<div class="pr-4">
+<h4 class="text-sm font-medium text-slate-900 dark:text-white">Anonymous Analytics</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Share anonymous usage data to help us improve the platform performance.</p>
+</div>
+<button aria-checked="true" class="bg-primary relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2" role="switch" type="button">
+<span aria-hidden="true" class="translate-x-5 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+</div>
+<div class="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
+<div class="pr-4">
+<h4 class="text-sm font-medium text-slate-900 dark:text-white">Third-Party Sharing</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Allow trusted partners to offer services like moving or insurance.</p>
+</div>
+<button aria-checked="false" class="bg-slate-200 dark:bg-slate-600 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2" role="switch" type="button">
+<span aria-hidden="true" class="translate-x-0 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+</div>
+</div>
+<div class="mt-4 flex flex-col sm:flex-row gap-4 pt-4">
+<a class="flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors px-2 py-1" href="#">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                                Request My Data Archive
+                             </a>
+<a class="flex items-center gap-2 text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-700 transition-colors px-2 py-1" href="#">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+                                Delete My Data
+                             </a>
+</div>
+</section>
+<hr class="border-slate-100 dark:border-slate-800"/>
+<section>
+<div class="flex items-center justify-between mb-6">
+<div>
+<h3 class="text-base font-semibold text-slate-900 dark:text-white">Public Profile Visibility</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Control who can see your profile on the platform.</p>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Global Visibility</span>
+<button aria-checked="true" class="bg-primary relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2" role="switch" type="button">
+<span aria-hidden="true" class="translate-x-5 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="border border-slate-200 dark:border-slate-700 rounded-xl p-5 bg-white dark:bg-slate-800/20">
+<div class="flex items-center gap-3 mb-5">
+<div class="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-lg text-purple-600 dark:text-purple-400">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+</div>
+<h4 class="font-bold text-slate-900 dark:text-white text-sm">Landlord Profile Settings</h4>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<span class="text-sm text-slate-600 dark:text-slate-300">Show Public Reviews</span>
+<button aria-checked="true" class="bg-primary relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2" role="switch" type="button">
+<span aria-hidden="true" class="translate-x-4 pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-sm text-slate-600 dark:text-slate-300">Display Contact Button</span>
+<button aria-checked="true" class="bg-primary relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2" role="switch" type="button">
+<span aria-hidden="true" class="translate-x-4 pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-sm text-slate-600 dark:text-slate-300">Show Verification Badge</span>
+<button aria-checked="false" class="bg-slate-200 dark:bg-slate-600 relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2" role="switch" type="button">
+<span aria-hidden="true" class="translate-x-0 pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+</div>
+</div>
+</div>
+<div class="border border-slate-200 dark:border-slate-700 rounded-xl p-5 bg-white dark:bg-slate-800/20">
+<div class="flex items-center gap-3 mb-5">
+<div class="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-lg text-blue-600 dark:text-blue-400">
+<span class="material-symbols-outlined text-[20px]">vpn_key</span>
+</div>
+<h4 class="font-bold text-slate-900 dark:text-white text-sm">Tenant Profile Settings</h4>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<span class="text-sm text-slate-600 dark:text-slate-300">Show Rental History</span>
+<button aria-checked="false" class="bg-slate-200 dark:bg-slate-600 relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2" role="switch" type="button">
+<span aria-hidden="true" class="translate-x-0 pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-sm text-slate-600 dark:text-slate-300">Allow Agent Outreach</span>
+<button aria-checked="true" class="bg-primary relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2" role="switch" type="button">
+<span aria-hidden="true" class="translate-x-4 pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<div class="p-6 md:p-8 bg-slate-50 dark:bg-[#15202b] border-t border-slate-100 dark:border-slate-800 flex justify-end gap-3 rounded-b-2xl">
+<button class="px-5 py-2.5 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-600 transition-all shadow-sm">
+                        Cancel
+                    </button>
+<button class="px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all">
+                        Save Changes
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<div class="fixed bottom-6 right-6 z-50">
+<div class="relative group">
+<button class="flex items-center gap-3 bg-white dark:bg-slate-800 text-slate-900 dark:text-white p-1 pr-5 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-black/50 border border-slate-200 dark:border-slate-700 hover:scale-105 transition-all duration-300">
+<div class="bg-gradient-to-tr from-primary to-blue-400 size-10 rounded-full flex items-center justify-center text-white shadow-md">
+<span class="material-symbols-outlined icon-filled">smart_toy</span>
+</div>
+<div class="flex flex-col items-start">
+<span class="text-xs font-bold leading-none">AI Assistant</span>
+<span class="text-[10px] text-slate-500 dark:text-slate-400 leading-none mt-1">Privacy questions?</span>
+</div>
+</button>
+<div class="absolute bottom-full right-0 mb-3 w-64 p-3 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-100 dark:border-slate-700 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all pointer-events-none duration-300">
+<p class="text-xs text-slate-600 dark:text-slate-300">
+                    Need help with data privacy terms or configuring visibility settings? Ask me anytime.
+                </p>
+<div class="absolute bottom-[-6px] right-6 w-3 h-3 bg-white dark:bg-slate-800 border-b border-r border-slate-100 dark:border-slate-700 transform rotate-45"></div>
+</div>
+</div>
+</div>
+<footer class="bg-white dark:bg-[#101922] border-t border-slate-200 dark:border-slate-800 py-6 px-4 md:px-10 lg:px-20 text-center mt-auto">
+<div class="flex flex-col md:flex-row items-center justify-between max-w-[1400px] mx-auto text-sm text-slate-500 dark:text-slate-400">
+<p>© 2024 PropertyApp. All rights reserved.</p>
+<div class="flex gap-4 mt-2 md:mt-0">
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-primary transition-colors" href="#">Support</a>
+</div>
+</div>
+</footer>
+
+</body></html>

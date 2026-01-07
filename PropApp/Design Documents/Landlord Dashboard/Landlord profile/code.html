@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Landlord Profile - PropertyApp</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem", // rounded-lg
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #334155;
+        }
+        #ai-bar-toggle:checked ~ #ai-modal {
+            display: flex;
+        }
+        #ai-bar-toggle:checked ~ #ai-trigger {
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col font-display text-slate-900 dark:text-white overflow-x-hidden relative">
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-[#101922]/90 backdrop-blur-md px-10 py-3">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">real_estate_agent</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">PropertyApp</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="hidden md:flex items-center gap-9">
+<a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Properties</a>
+<a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Tenants</a>
+<a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Financials</a>
+<a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Verification Hub</a>
+</div>
+<div class="flex gap-3">
+<button class="relative flex items-center justify-center overflow-hidden rounded-lg size-10 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full"></span>
+</button>
+<button class="flex items-center justify-center overflow-hidden rounded-lg size-10 bg-slate-200 dark:bg-slate-700 text-primary transition-colors ring-2 ring-offset-2 ring-primary ring-offset-white dark:ring-offset-[#101922]">
+<span class="material-symbols-outlined icon-filled">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-1 flex flex-col py-8 px-4 md:px-10 lg:px-20 pb-32">
+<div class="max-w-[1200px] w-full mx-auto">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+<div>
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-1">
+<a class="hover:text-primary transition-colors" href="#">Account</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-slate-900 dark:text-white font-medium">Profile</span>
+</div>
+<h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Landlord Profile</h1>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                        View Public Profile
+                    </button>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<div class="lg:col-span-4 flex flex-col gap-6">
+<div class="bg-white dark:bg-[#101922] p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col items-center text-center">
+<div class="relative group cursor-pointer mb-4">
+<div class="size-32 rounded-full overflow-hidden border-4 border-slate-50 dark:border-slate-800 shadow-inner">
+<img alt="Profile Picture" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAamBOyrzSpr22QFJVMWoHUc1mMMtnqiibkVvx1a1yyRMf7AZH_W5yo1RUtyBeDdX317BPpURBRfc781QxtqAke2rVYEqTii2io0uuHFkEJ0CmZ8MORlbNcSi1Rrn0MkZXgBn4TdOrfGT4AC6aP8LrSd-KrpDu9MncstN4oWLel5dWeiPY1Vna-TDIY0FVjIuHpWLA9XnqqLmHWL3dBb97dTEKd5I76wzI_hdZR1tk-bfpEmbo-gBSIaJNec2sLti-R_9FmipfOkxxP"/>
+</div>
+<div class="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-white">photo_camera</span>
+</div>
+</div>
+<h2 class="text-xl font-bold text-slate-900 dark:text-white">James Anderson</h2>
+<p class="text-sm text-slate-500 dark:text-slate-400">Landlord since 2018</p>
+<div class="w-full mt-6 pt-6 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center px-2">
+<div class="text-center">
+<p class="text-xl font-bold text-slate-900 dark:text-white">12</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Properties</p>
+</div>
+<div class="h-8 w-px bg-slate-200 dark:bg-slate-700"></div>
+<div class="text-center">
+<p class="text-xl font-bold text-slate-900 dark:text-white">4.8</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Rating</p>
+</div>
+<div class="h-8 w-px bg-slate-200 dark:bg-slate-700"></div>
+<div class="text-center">
+<p class="text-xl font-bold text-slate-900 dark:text-white">98%</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Response</p>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-[#101922] p-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-bold text-slate-900 dark:text-white">Verification Status</h3>
+<a class="text-xs font-bold text-primary hover:underline" href="#">View Hub</a>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-3 p-3 rounded-xl bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300">
+<span class="material-symbols-outlined icon-filled">verified_user</span>
+<span class="text-sm font-semibold">Identity Verified</span>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 opacity-60">
+<span class="material-symbols-outlined">domain_verification</span>
+<span class="text-sm font-semibold">Business Registration</span>
+<span class="ml-auto text-xs px-2 py-1 bg-slate-200 dark:bg-slate-700 rounded-md">Pending</span>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
+<nav class="flex flex-col">
+<a class="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 border-l-4 border-primary text-slate-900 dark:text-white font-medium" href="#">
+<span class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px]">person</span> Personal Info
+                                </span>
+</a>
+<a class="flex items-center justify-between p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="#">
+<span class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px]">lock</span> Login &amp; Security
+                                </span>
+</a>
+<a class="flex items-center justify-between p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="#">
+<span class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px]">notifications</span> Notifications
+                                </span>
+</a>
+<a class="flex items-center justify-between p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="#">
+<span class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px]">credit_card</span> Billing &amp; Payouts
+                                </span>
+</a>
+<a class="flex items-center justify-between p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="#">
+<span class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px]">shield</span> Privacy Settings
+                                </span>
+</a>
+</nav>
+</div>
+</div>
+<div class="lg:col-span-8 space-y-6">
+<div class="bg-white dark:bg-[#101922] p-6 md:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-xl font-bold text-slate-900 dark:text-white">Personal &amp; Contact Information</h2>
+<span class="flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-[14px]">visibility</span> Visible to tenants
+                            </span>
+</div>
+<form class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="block text-sm font-semibold text-slate-700 dark:text-slate-300">First Name</label>
+<input class="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#1e293b] text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm" type="text" value="James"/>
+</div>
+<div class="space-y-2">
+<label class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Last Name</label>
+<input class="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#1e293b] text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm" type="text" value="Anderson"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<div class="flex justify-between">
+<label class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Email Address</label>
+<button class="text-xs text-primary flex items-center gap-1 hover:underline" type="button">
+<span class="material-symbols-outlined text-[14px]">visibility_off</span> Hide from public
+                                        </button>
+</div>
+<input class="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#1e293b] text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm" type="email" value="james.anderson@example.com"/>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between">
+<label class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Phone Number</label>
+<button class="text-xs text-slate-500 flex items-center gap-1 hover:text-slate-700 dark:hover:text-slate-300" type="button">
+<span class="material-symbols-outlined text-[14px]">visibility</span> Publicly visible
+                                        </button>
+</div>
+<input class="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#1e293b] text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm" type="tel" value="+1 (555) 123-4567"/>
+</div>
+</div>
+</form>
+</div>
+<div class="bg-white dark:bg-[#101922] p-6 md:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-xl font-bold text-slate-900 dark:text-white">About Me</h2>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-4">
+                            This description will appear on your public profile and property listings. Share your property management philosophy or a bit about your background.
+                        </p>
+<div class="relative">
+<textarea class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#1e293b] text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm resize-y" placeholder="Hi, I'm James! I've been managing properties in the greater metro area for over 5 years. I pride myself on quick responses and well-maintained homes..." rows="4">Hi, I'm James! I've been managing properties in the greater metro area for over 5 years. I pride myself on quick responses and well-maintained homes. My goal is to provide a comfortable and hassle-free living experience for all my tenants.</textarea>
+<button class="absolute bottom-3 right-3 p-1.5 text-primary hover:bg-blue-50 dark:hover:bg-slate-700 rounded-md transition-colors" title="Use AI to improve bio">
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+</button>
+</div>
+</div>
+<div class="bg-white dark:bg-[#101922] p-6 md:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-xl font-bold text-slate-900 dark:text-white">Managed Properties</h2>
+<a class="text-sm font-semibold text-primary hover:underline" href="#">Manage All</a>
+</div>
+<div class="space-y-4">
+<div class="flex items-center gap-4 p-3 rounded-xl border border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
+<div class="w-16 h-16 rounded-lg overflow-hidden shrink-0">
+<img alt="Property" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l"/>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="font-bold text-slate-900 dark:text-white truncate">1243 Oakwood Avenue</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400">Austin, TX</p>
+</div>
+<div class="text-right">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">Active</span>
+</div>
+<a class="p-2 text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">chevron_right</span>
+</a>
+</div>
+<div class="flex items-center gap-4 p-3 rounded-xl border border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
+<div class="w-16 h-16 rounded-lg overflow-hidden shrink-0">
+<img alt="Property" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDbn_i6RapAYYCUtbpApN4lJMQNrA0rGJZXVvlV5ZLubEMNH1omk_1mAstEefJ0spWkedOBAe5og228aYdYdVGMGx2otBaGsGAG_1DMh7rANSTYk0_MrBlyxCEDc66NFCgfMXVMcoMDPiPuhcBXg5_Iwjv_Fz2YEb4sU8vGb7xqSy9VX9nCTc1tUE2DL8uYW4jHmEa_B2GwMX24GP44NZ_TWI6Tc4Om0jvrCWW6cMyN3YxN1SrsIUBMkmeYENO3JUYvlZTV5Hn0Kqc"/>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="font-bold text-slate-900 dark:text-white truncate">Downtown Loft</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400">Seattle, WA</p>
+</div>
+<div class="text-right">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-300">Maintenance</span>
+</div>
+<a class="p-2 text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">chevron_right</span>
+</a>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-[#101922] p-6 md:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-xl font-bold text-slate-900 dark:text-white">Reviews &amp; Ratings</h2>
+<span class="text-sm text-slate-500">24 Total Reviews</span>
+</div>
+<div class="flex flex-col md:flex-row gap-8 items-center">
+<div class="text-center md:text-left shrink-0">
+<div class="text-5xl font-extrabold text-slate-900 dark:text-white">4.8</div>
+<div class="flex items-center gap-1 text-amber-400 my-2 justify-center md:justify-start">
+<span class="material-symbols-outlined icon-filled">star</span>
+<span class="material-symbols-outlined icon-filled">star</span>
+<span class="material-symbols-outlined icon-filled">star</span>
+<span class="material-symbols-outlined icon-filled">star</span>
+<span class="material-symbols-outlined icon-filled text-slate-300 dark:text-slate-700" style="font-variation-settings: 'FILL' 1;">star_half</span>
+</div>
+<p class="text-xs text-slate-500 dark:text-slate-400">Overall Rating</p>
+</div>
+<div class="flex-1 w-full space-y-2">
+<div class="flex items-center gap-3 text-xs">
+<span class="w-8 font-bold text-slate-700 dark:text-slate-300">5 star</span>
+<div class="flex-1 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-amber-400 w-[80%]"></div>
+</div>
+<span class="w-6 text-right text-slate-500">19</span>
+</div>
+<div class="flex items-center gap-3 text-xs">
+<span class="w-8 font-bold text-slate-700 dark:text-slate-300">4 star</span>
+<div class="flex-1 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-amber-400 w-[15%]"></div>
+</div>
+<span class="w-6 text-right text-slate-500">4</span>
+</div>
+<div class="flex items-center gap-3 text-xs">
+<span class="w-8 font-bold text-slate-700 dark:text-slate-300">3 star</span>
+<div class="flex-1 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-amber-400 w-[5%]"></div>
+</div>
+<span class="w-6 text-right text-slate-500">1</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-end gap-4 pt-4">
+<button class="px-6 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                            Cancel
+                        </button>
+<button class="px-6 py-3 rounded-xl bg-primary hover:bg-primary/90 text-white font-bold text-sm shadow-lg shadow-primary/20 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">save</span> Save Changes
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<div class="fixed bottom-6 right-6 z-[100] flex flex-col items-end gap-2">
+<input class="peer hidden" id="ai-bar-toggle" type="checkbox"/>
+<div class="hidden peer-checked:flex flex-col w-[360px] md:w-[420px] bg-white dark:bg-[#1e293b] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden transform transition-all duration-300 origin-bottom-right animate-in slide-in-from-bottom-5 fade-in" id="ai-modal">
+<div class="p-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-gradient-to-r from-blue-50 to-white dark:from-[#1e293b] dark:to-[#1e293b]">
+<div class="flex items-center gap-2">
+<div class="size-8 rounded-full bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center text-white shadow-md">
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+</div>
+<div>
+<h3 class="text-sm font-bold text-slate-900 dark:text-white">HomeAI Assistant</h3>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">Profile Mode</p>
+</div>
+</div>
+<label class="cursor-pointer p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors" for="ai-bar-toggle">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</label>
+</div>
+<div class="flex-1 p-4 h-[300px] overflow-y-auto custom-scrollbar flex flex-col gap-4 bg-slate-50/50 dark:bg-[#101922]/50">
+<div class="flex gap-3">
+<div class="size-8 rounded-full bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center text-white shrink-0 mt-1 shadow-sm">
+<span class="material-symbols-outlined text-[16px]">smart_toy</span>
+</div>
+<div class="bg-white dark:bg-[#1e293b] border border-slate-100 dark:border-slate-700 p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[85%]">
+<p class="text-sm text-slate-700 dark:text-slate-300">I can help you optimize your profile. Would you like help writing a professional bio or reviewing your privacy settings?</p>
+</div>
+</div>
+<div class="mt-auto">
+<p class="text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide px-1">Suggested actions</p>
+<div class="flex flex-wrap gap-2">
+<button class="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors shadow-sm">
+                            Write my bio for me
+                        </button>
+<button class="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors shadow-sm">
+                            Check privacy settings
+                        </button>
+<button class="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors shadow-sm">
+                            How to get verified?
+                        </button>
+</div>
+</div>
+</div>
+<div class="p-3 border-t border-slate-100 dark:border-slate-700 bg-white dark:bg-[#1e293b]">
+<div class="relative flex items-center">
+<input autofocus="" class="w-full pl-4 pr-12 py-3 bg-slate-50 dark:bg-[#101922] border-none rounded-xl text-sm focus:ring-2 focus:ring-primary/20 text-slate-900 dark:text-white placeholder:text-slate-400 shadow-inner" placeholder="Ask about profile optimization..." type="text"/>
+<button class="absolute right-2 p-1.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors shadow-md">
+<span class="material-symbols-outlined text-[18px]">arrow_upward</span>
+</button>
+</div>
+</div>
+</div>
+<label class="cursor-pointer group flex items-center gap-3 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white pl-1.5 pr-5 py-1.5 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 dark:border-slate-700 hover:scale-105 hover:shadow-[0_8px_30px_rgb(0,0,0,0.18)] transition-all duration-300" for="ai-bar-toggle" id="ai-trigger">
+<div class="size-10 rounded-full bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center text-white shadow-md group-hover:rotate-12 transition-transform">
+<span class="material-symbols-outlined">smart_toy</span>
+</div>
+<div class="flex flex-col items-start">
+<span class="text-sm font-bold leading-none">Ask HomeAI...</span>
+<span class="text-[10px] text-slate-500 dark:text-slate-400 font-medium leading-tight mt-0.5">Profile Assistant</span>
+</div>
+</label>
+</div>
+
+</body></html>

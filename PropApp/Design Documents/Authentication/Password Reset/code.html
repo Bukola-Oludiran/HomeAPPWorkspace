@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PropertyApp - Set New Password</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }@keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col font-display text-slate-900 dark:text-white overflow-hidden relative">
+<div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCfd-PEtKh8wfVwv2Nv_lj37eZ9jRdRyYDRx85QWBw1HMwbjQnR82kwQR7vbEL91gI0Mg4_MKRcF8MYSEZ_oDcjRoqT3ehC26ehCbSn9ovfB2oY1HURRaxBWaVVx9dsE3hfTy4MbwiRgxDeMujtbcQlnW7cmp95UYA6Q_meh_jE4BI480hICb8JWGINWyOQxV7WHBUsEQonm48r8T-Je62QRwLuiJRfLuErdautDJvGP0kiflta4Sps-6gE1JkzPwQeZU3vOyx0llGe');">
+<div class="absolute inset-0 bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-900/70 dark:from-background-dark/95 dark:via-background-dark/90 dark:to-background-dark/80 backdrop-blur-[4px]"></div>
+</div>
+<div class="relative z-10 flex flex-col items-center justify-center min-h-screen w-full px-4 sm:px-6 lg:px-8">
+<div class="absolute top-6 left-6 md:top-10 md:left-10 flex items-center gap-3">
+<div class="size-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">real_estate_agent</span>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em]">PropertyApp</h2>
+</div>
+<div class="w-full max-w-md bg-white/10 dark:bg-[#1a2632]/60 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col items-center transition-all duration-300">
+<div class="w-full flex flex-col items-center">
+<div class="mb-6 bg-white/10 p-4 rounded-full border border-white/10">
+<span class="material-symbols-outlined text-4xl text-primary">lock_reset</span>
+</div>
+<h1 class="text-2xl md:text-3xl font-extrabold text-white mb-3 text-center">Set New Password</h1>
+<p class="text-slate-200 dark:text-slate-400 text-sm mb-8 font-normal text-center leading-relaxed">
+                    Please enter and confirm your new password below.
+                </p>
+<form class="w-full space-y-5" onsubmit="event.preventDefault();">
+<div class="space-y-3">
+<label class="sr-only" for="new-password">New Password</label>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-400 text-[20px] group-focus-within:text-primary transition-colors">lock</span>
+</div>
+<input class="block w-full pl-10 pr-10 py-3.5 border border-white/10 dark:border-slate-600 rounded-xl bg-white/5 dark:bg-slate-900/50 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all sm:text-sm" id="new-password" name="new-password" placeholder="New Password" required="" type="password"/>
+<button class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-white transition-colors cursor-pointer focus:outline-none" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+<div class="bg-white/5 dark:bg-slate-900/30 rounded-lg p-3 border border-white/5">
+<p class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold mb-2">Password Strength</p>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
+<div class="flex items-center gap-2 text-xs text-green-400 font-medium transition-colors">
+<span class="material-symbols-outlined text-[16px] icon-filled">check_circle</span>
+<span>8 characters minimum</span>
+</div>
+<div class="flex items-center gap-2 text-xs text-slate-400 font-medium transition-colors opacity-70">
+<span class="material-symbols-outlined text-[16px]">radio_button_unchecked</span>
+<span>One uppercase letter</span>
+</div>
+<div class="flex items-center gap-2 text-xs text-slate-400 font-medium transition-colors opacity-70">
+<span class="material-symbols-outlined text-[16px]">radio_button_unchecked</span>
+<span>One number</span>
+</div>
+<div class="flex items-center gap-2 text-xs text-slate-400 font-medium transition-colors opacity-70">
+<span class="material-symbols-outlined text-[16px]">radio_button_unchecked</span>
+<span>One special character</span>
+</div>
+</div>
+</div>
+</div>
+<div class="relative group">
+<label class="sr-only" for="confirm-password">Confirm New Password</label>
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-400 text-[20px] group-focus-within:text-primary transition-colors">key</span>
+</div>
+<input class="block w-full pl-10 pr-10 py-3.5 border border-white/10 dark:border-slate-600 rounded-xl bg-white/5 dark:bg-slate-900/50 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all sm:text-sm" id="confirm-password" name="confirm-password" placeholder="Confirm New Password" required="" type="password"/>
+<button class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-white transition-colors cursor-pointer focus:outline-none" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility_off</span>
+</button>
+</div>
+<button class="w-full py-3.5 px-4 mt-2 rounded-xl bg-primary hover:bg-primary/90 text-white font-bold text-lg shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2" type="submit">
+                        Reset Password
+                    </button>
+</form>
+</div>
+</div>
+<div class="absolute bottom-8 right-6 md:right-10 flex items-center justify-end animate-fade-in">
+<div class="group flex items-center gap-3 bg-white/90 dark:bg-[#1a2632]/90 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-[0_8px_30px_rgb(0,0,0,0.12)] rounded-full pl-4 pr-2 py-2 cursor-pointer hover:scale-105 transition-all">
+<span class="text-sm font-semibold text-slate-700 dark:text-slate-200 mr-2">Tips for a strong password</span>
+<div class="size-8 rounded-full bg-primary flex items-center justify-center text-white shadow-md group-hover:bg-primary/90">
+<span class="material-symbols-outlined icon-filled text-[18px]">lightbulb</span>
+</div>
+</div>
+</div>
+</div>
+
+</body></html>
