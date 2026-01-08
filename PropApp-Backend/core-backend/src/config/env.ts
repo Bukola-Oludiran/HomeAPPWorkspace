@@ -81,6 +81,10 @@ const envSchema = z.object({
     ALCHEMY_API_KEY: z.string().optional(),
     INFURA_API_KEY: z.string().optional(),
 
+    // Document Verification
+    LASRERA_API_KEY: z.string().optional(),
+    LASRERA_BASE_URL: z.string().optional(),
+
     // Frontend
     FRONTEND_URL: z.string().url().default('http://localhost:5173'),
 });
