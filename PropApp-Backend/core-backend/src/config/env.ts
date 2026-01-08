@@ -78,6 +78,8 @@ const envSchema = z.object({
     // Blockchain
     POLYGON_RPC_URL: z.string().optional(),
     BLOCKCHAIN_PRIVATE_KEY: z.string().optional(),
+    ALCHEMY_API_KEY: z.string().optional(),
+    INFURA_API_KEY: z.string().optional(),
 
     // Frontend
     FRONTEND_URL: z.string().url().default('http://localhost:5173'),
