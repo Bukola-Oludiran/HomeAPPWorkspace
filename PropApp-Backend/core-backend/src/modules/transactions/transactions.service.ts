@@ -9,6 +9,7 @@ import { logger } from '../../common/utils/logger';
 import { ValidationError } from '../../common/utils/errors';
 import { paymentProviderFactory } from '../../integrations/payment';
 import { blockchainProviderFactory } from '../../integrations/blockchain';
+import { complianceService } from '../../integrations/compliance';
 import { env } from '../../config/env';
 import {
     TransactionQueryDto,
@@ -187,6 +188,26 @@ class TransactionService {
         // Map transaction type to valid enum value
         const transactionType = this.mapTransactionType(data.type);
 
+        // Perform compliance checks before processing payment
+        const regionCode = env.DEFAULT_REGION || 'NG';
+        const complianceResult = await complianceService.performPreTransactionChecks(
+            userId,
+            regionCode,
+            data.amount,
+            transactionType
+        );
+
+        if (!complianceResult.passed) {
+            const failedChecks = complianceResult.checks.filter(c => !c.passed);
+            logger.warn(`Compliance checks failed for user ${userId}:`, failedChecks);
+            throw new ValidationError('Compliance requirements not met',
+                failedChecks.map(c => ({
+                    field: c.checkType,
+                    message: c.message || c.requiredAction || 'Compliance check failed',
+                }))
+            );
+        }
+
         // Create transaction record
         const transaction = await prisma.transaction.create({
             data: {
@@ -209,8 +230,7 @@ class TransactionService {
             select: { email: true },
         });
 
-        // Initialize payment with provider
-        const regionCode = env.DEFAULT_REGION || 'NG';
+        // Initialize payment with provider (reuse regionCode from compliance check)
         const paymentProvider = paymentProviderFactory.getProvider(regionCode);
 
         const paymentResult = await paymentProvider.initializePayment({

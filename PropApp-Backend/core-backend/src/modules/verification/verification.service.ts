@@ -10,6 +10,7 @@ import { prisma } from '../../config/database';
 import { logger } from '../../common/utils/logger';
 import { ValidationError, PropertyNotFoundError } from '../../common/utils/errors';
 import { blockchainProviderFactory } from '../../integrations/blockchain';
+import { documentProviderFactory } from '../../integrations/document';
 import { regionConfigService } from '../../config/regions';
 import { env } from '../../config/env';
 import {
@@ -344,6 +345,7 @@ class VerificationService {
     ): Promise<{ verificationId: string; message: string }> {
         const property = await prisma.property.findFirst({
             where: { id: propertyId, ownerId: landlordId },
+            include: { owner: true },
         });
 
         if (!property) {
@@ -360,6 +362,53 @@ class VerificationService {
                 documentType: data.type,
                 metadata: { notes: data.notes },
             },
+        });
+
+        // Attempt automatic document verification (async, non-blocking)
+        const propertyAddress = [
+            property.addressStreet,
+            property.addressCity,
+            property.addressState,
+        ].filter(Boolean).join(', ');
+
+        const regionCode = property.regionCode || 'NG';
+        const documentProvider = documentProviderFactory.getProviderForDocumentType(
+            regionCode,
+            'certificate_of_occupancy'
+        );
+
+        documentProvider.verifyDocument({
+            documentType: 'certificate_of_occupancy',
+            documentUrl: data.documentUrl,
+            propertyAddress,
+            ownerName: `${property.owner.firstName || ''} ${property.owner.lastName || ''}`.trim(),
+            country: regionCode,
+        }).then(async (result) => {
+            const newStatus = result.status === 'verified' ? 'APPROVED' :
+                result.status === 'failed' ? 'REJECTED' : 'PENDING';
+
+            await prisma.verification.update({
+                where: { id: verification.id },
+                data: {
+                    status: newStatus as PrismaVerificationStatus,
+                    metadata: JSON.parse(JSON.stringify({
+                        notes: data.notes,
+                        providerVerificationId: result.verificationId,
+                        confidence: result.confidence,
+                        issues: result.issues,
+                    })),
+                },
+            });
+
+            if (result.status === 'verified') {
+                await prisma.property.update({
+                    where: { id: propertyId },
+                    data: { verificationTier: 'GOLD' },
+                });
+                logger.info(`Property ${propertyId} auto-verified to GOLD tier`);
+            }
+        }).catch((err: Error) => {
+            logger.error(`Document verification failed for ${verification.id}: ${err.message}`);
         });
 
         logger.info(`C of O verification submitted: ${verification.id}`);
