@@ -94,14 +94,35 @@ Authorization: Bearer <access_token>
 
 ### Request Examples
 
+#### Authentication
+
 **Register (Initiate)**
 ```bash
 POST /api/v1/auth/register/initiate
 Content-Type: application/json
 
+{ "email": "user@example.com", "role": "TENANT" }
+```
+
+**Verify Email**
+```bash
+POST /api/v1/auth/register/verify-email
+Content-Type: application/json
+
+{ "email": "user@example.com", "code": "123456" }
+```
+
+**Complete Registration**
+```bash
+POST /api/v1/auth/register/complete
+Content-Type: application/json
+
 {
   "email": "user@example.com",
-  "role": "TENANT"
+  "password": "SecurePass123!",
+  "firstName": "John",
+  "lastName": "Doe",
+  "phone": "+2348012345678"
 }
 ```
 
@@ -110,22 +131,132 @@ Content-Type: application/json
 POST /api/v1/auth/login
 Content-Type: application/json
 
-{
-  "email": "user@example.com",
-  "password": "securePassword123"
-}
+{ "email": "user@example.com", "password": "SecurePass123!" }
 
-# Response:
-{
-  "success": true,
-  "data": {
-    "accessToken": "eyJhbG...",
-    "refreshToken": "dGhpcy...",
-    "expiresIn": 900,
-    "user": { "id": "uuid", "email": "...", "role": "TENANT" }
-  }
-}
+# Response: { accessToken, refreshToken, expiresIn, user }
 ```
+
+**OAuth Login**
+```bash
+POST /api/v1/auth/login/oauth/google
+Content-Type: application/json
+
+{ "idToken": "google-id-token-from-client", "role": "TENANT" }
+```
+
+**Refresh Token**
+```bash
+POST /api/v1/auth/refresh-token
+Content-Type: application/json
+
+{ "refreshToken": "current-refresh-token" }
+```
+
+**Forgot Password**
+```bash
+POST /api/v1/auth/forgot-password
+Content-Type: application/json
+
+{ "email": "user@example.com" }
+```
+
+**Reset Password**
+```bash
+POST /api/v1/auth/reset-password
+Content-Type: application/json
+
+{ "token": "reset-token-from-email", "password": "NewSecurePass123!" }
+```
+
+**Setup 2FA**
+```bash
+POST /api/v1/auth/2fa/setup
+Authorization: Bearer <token>
+
+# Response: { secret, qrCodeUrl }
+```
+
+**Verify 2FA**
+```bash
+POST /api/v1/auth/2fa/verify
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "code": "123456" }
+```
+
+**Disable 2FA**
+```bash
+POST /api/v1/auth/2fa/disable
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "password": "currentPassword" }
+```
+
+#### User Management
+
+**Update Profile**
+```bash
+PUT /api/v1/users/me
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "firstName": "John", "lastName": "Doe", "phone": "+2348012345678", "bio": "Property investor" }
+```
+
+**Change Password**
+```bash
+PUT /api/v1/users/me/password
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "currentPassword": "OldPass123!", "newPassword": "NewPass456!" }
+```
+
+**Update Preferences**
+```bash
+PUT /api/v1/users/me/preferences
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "language": "en", "currency": "NGN", "timezone": "Africa/Lagos" }
+```
+
+**Update Notification Settings**
+```bash
+PUT /api/v1/users/me/notification-settings
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "email": true, "push": true, "sms": false, "marketingEmails": false }
+```
+
+**Upload Avatar**
+```bash
+POST /api/v1/users/me/avatar
+Authorization: Bearer <token>
+Content-Type: multipart/form-data
+
+file: <binary image data>
+```
+
+**Connect Wallet**
+```bash
+POST /api/v1/users/me/wallet/connect
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "walletAddress": "0x742d35Cc6634C0532925a3b844Bc9e7595f2bD5F", "signature": "0x...", "message": "Connect wallet to HomeAI: nonce_123456" }
+```
+
+**Save Property to Favorites**
+```bash
+POST /api/v1/users/me/favorites/:propertyId
+Authorization: Bearer <token>
+```
+
+#### Property Management
 
 **Create Property**
 ```bash
@@ -133,158 +264,99 @@ POST /api/v1/properties
 Authorization: Bearer <token>
 Content-Type: application/json
 
-{
-  "name": "Luxury 3BR Apartment",
-  "description": "Beautiful apartment in Lekki Phase 1",
-  "propertyType": "APARTMENT",
-  "listingType": "RENT",
-  "price": 2500000,
-  "priceUnit": "PER_YEAR",
-  "bedrooms": 3,
-  "bathrooms": 2,
-  "addressStreet": "123 Admiralty Way",
-  "addressCity": "Lekki",
-  "addressState": "Lagos",
-  "addressLga": "Eti-Osa",
-  "amenities": ["SWIMMING_POOL", "GYM", "PARKING"]
-}
+{ "name": "Luxury 3BR Apartment", "propertyType": "APARTMENT", "listingType": "RENT", "price": 2500000, "priceUnit": "PER_YEAR", "bedrooms": 3, "bathrooms": 2, "addressStreet": "123 Admiralty Way", "addressCity": "Lekki", "addressState": "Lagos", "amenities": ["SWIMMING_POOL", "GYM"] }
 ```
 
-**Connect Blockchain Wallet**
+**Update Property**
 ```bash
-POST /api/v1/users/me/wallet/connect
+PUT /api/v1/properties/:id
 Authorization: Bearer <token>
 Content-Type: application/json
 
-{
-  "walletAddress": "0x742d35Cc6634C0532925a3b844Bc9e7595f2bD5F",
-  "signature": "0x...",  # Signed message to prove ownership
-  "message": "Connect wallet to HomeAI: nonce_123456"
-}
-
-# Response:
-{
-  "success": true,
-  "data": {
-    "walletAddress": "0x742d35...",
-    "connected": true,
-    "connectedAt": "2024-01-08T12:00:00Z"
-  }
-}
+{ "price": 2800000, "description": "Updated description with new features" }
 ```
 
-**Submit Application**
+**Update Property Status**
 ```bash
-POST /api/v1/tenant/applications
+PATCH /api/v1/properties/:id/status
 Authorization: Bearer <token>
 Content-Type: application/json
 
-{
-  "propertyId": "uuid-of-property",
-  "message": "I am interested in renting this property",
-  "moveInDate": "2024-02-01",
-  "employmentStatus": "EMPLOYED",
-  "monthlyIncome": 500000
-}
+{ "status": "ACTIVE" }  # DRAFT, ACTIVE, RENTED, SOLD, INACTIVE
 ```
 
-**Create Lease**
+**Upload Property Media**
 ```bash
-POST /api/v1/leases
+POST /api/v1/properties/:id/media
+Authorization: Bearer <token>
+Content-Type: multipart/form-data
+
+file: <binary image/video data>
+type: "IMAGE"  # IMAGE, VIDEO, TOUR_3D, FLOOR_PLAN, DOCUMENT
+caption: "Living room view"
+isPrimary: true
+```
+
+**Create Property Draft**
+```bash
+POST /api/v1/properties/draft
 Authorization: Bearer <token>
 Content-Type: application/json
 
-{
-  "propertyId": "uuid-of-property",
-  "tenantId": "uuid-of-tenant",
-  "startDate": "2024-02-01",
-  "endDate": "2025-01-31",
-  "monthlyRent": 250000,
-  "securityDeposit": 500000,
-  "paymentDueDay": 1,
-  "terms": "Standard 12-month residential lease"
-}
+{ "name": "Work in Progress", "propertyType": "APARTMENT" }
 ```
 
-**Sign Lease**
+**Update Draft**
 ```bash
-POST /api/v1/leases/:id/sign
+PUT /api/v1/properties/draft/:id
 Authorization: Bearer <token>
 Content-Type: application/json
 
-{
-  "signature": "base64-encoded-signature",
-  "signedAt": "2024-01-15T10:30:00Z",
-  "ipAddress": "102.89.23.45"
-}
+{ "bedrooms": 3, "bathrooms": 2, "price": 2500000 }
 ```
 
-**Submit Identity Verification (KYC)**
+**Publish Draft**
 ```bash
-POST /api/v1/verification/identity
+POST /api/v1/properties/draft/:id/publish
+Authorization: Bearer <token>
+```
+
+#### Landlord Operations
+
+**Approve Applicant**
+```bash
+PUT /api/v1/landlord/applicants/:id/approve
 Authorization: Bearer <token>
 Content-Type: application/json
 
-{
-  "type": "NIN",
-  "idNumber": "12345678901",
-  "firstName": "John",
-  "lastName": "Doe",
-  "dateOfBirth": "1990-05-15"
-}
+{ "moveInDate": "2024-02-01", "monthlyRent": 250000, "securityDeposit": 500000 }
 ```
 
-**Submit C of O Verification**
+**Reject Applicant**
 ```bash
-POST /api/v1/verification/properties/:propertyId/cofo
+PUT /api/v1/landlord/applicants/:id/reject
 Authorization: Bearer <token>
 Content-Type: application/json
 
-{
-  "documentUrl": "https://storage.example.com/cofo-document.pdf",
-  "type": "certificate_of_occupancy",
-  "notes": "Original document from 2018"
-}
+{ "reason": "Income verification failed" }
 ```
 
-**Start Conversation**
+**Request Payout**
 ```bash
-POST /api/v1/messages/conversations
+POST /api/v1/landlord/financials/payout
 Authorization: Bearer <token>
 Content-Type: application/json
 
-{
-  "propertyId": "uuid-of-property",
-  "recipientId": "uuid-of-landlord",
-  "initialMessage": "Hello, I am interested in this property"
-}
+{ "amount": 500000, "bankAccountId": "uuid-of-bank-account" }
 ```
 
-**Send Message**
+**Start Property Verification**
 ```bash
-POST /api/v1/messages/conversations/:conversationId
+POST /api/v1/landlord/properties/:id/verify
 Authorization: Bearer <token>
 Content-Type: application/json
 
-{
-  "content": "Is the property still available?"
-}
-```
-
-**Create Maintenance Request**
-```bash
-POST /api/v1/maintenance
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "leaseId": "uuid-of-lease",
-  "title": "Broken AC Unit",
-  "description": "The living room AC is not cooling properly",
-  "priority": "MEDIUM",
-  "category": "HVAC",
-  "images": ["https://storage.example.com/ac-photo.jpg"]
-}
+{ "tier": "GOLD", "documents": ["cofo-url", "survey-url"] }
 ```
 
 **Create Agent Job**
@@ -293,28 +365,167 @@ POST /api/v1/landlord/jobs
 Authorization: Bearer <token>
 Content-Type: application/json
 
-{
-  "propertyId": "uuid-of-property",
-  "type": "PROPERTY_VIEWING",
-  "description": "Show property to potential tenant",
-  "scheduledDate": "2024-01-20T14:00:00Z",
-  "commission": 5000,
-  "requirements": ["Professional attire", "Property photos"]
-}
+{ "propertyId": "uuid", "type": "PROPERTY_VIEWING", "description": "Show to tenant", "scheduledDate": "2024-01-20T14:00:00Z", "commission": 5000 }
 ```
 
-**Register Device for Push Notifications**
+#### Tenant Operations
+
+**Submit Application**
 ```bash
-POST /api/v1/notifications/devices
+POST /api/v1/tenant/applications
 Authorization: Bearer <token>
 Content-Type: application/json
 
-{
-  "token": "fcm-device-token-here",
-  "platform": "ios",
-  "deviceName": "iPhone 14 Pro"
-}
+{ "propertyId": "uuid", "message": "I am interested", "moveInDate": "2024-02-01", "employmentStatus": "EMPLOYED", "monthlyIncome": 500000 }
 ```
+
+**Save Property**
+```bash
+POST /api/v1/tenant/saved/:propertyId
+Authorization: Bearer <token>
+```
+
+**Make Payment**
+```bash
+POST /api/v1/tenant/payments
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "leaseId": "uuid", "amount": 250000, "paymentMethod": "card" }
+```
+
+#### Lease Management
+
+**Create Lease**
+```bash
+POST /api/v1/leases
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "propertyId": "uuid", "tenantId": "uuid", "startDate": "2024-02-01", "endDate": "2025-01-31", "monthlyRent": 250000, "securityDeposit": 500000, "paymentDueDay": 1 }
+```
+
+**Update Lease**
+```bash
+PUT /api/v1/leases/:id
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "monthlyRent": 275000 }
+```
+
+**Send Renewal Offer**
+```bash
+POST /api/v1/leases/:id/renew
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "newEndDate": "2026-01-31", "newMonthlyRent": 280000, "message": "We'd like to offer you a renewal" }
+```
+
+**Respond to Renewal**
+```bash
+POST /api/v1/leases/:id/respond
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "accepted": true }
+```
+
+**Sign Lease**
+```bash
+POST /api/v1/leases/:id/sign
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "signature": "base64-encoded-signature", "signedAt": "2024-01-15T10:30:00Z" }
+```
+
+#### Maintenance
+
+**Create Request**
+```bash
+POST /api/v1/maintenance
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "leaseId": "uuid", "title": "Broken AC", "description": "Not cooling properly", "priority": "MEDIUM", "category": "HVAC" }
+```
+
+**Update Request**
+```bash
+PUT /api/v1/maintenance/:id
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "status": "IN_PROGRESS", "notes": "Technician scheduled" }
+```
+
+**Assign Agent**
+```bash
+POST /api/v1/maintenance/:id/assign
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "agentId": "uuid-of-agent" }
+```
+
+#### Agent Operations
+
+**Accept Job**
+```bash
+POST /api/v1/agent/jobs/:id/accept
+Authorization: Bearer <token>
+```
+
+**Decline Job**
+```bash
+POST /api/v1/agent/jobs/:id/decline
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "reason": "Schedule conflict" }
+```
+
+**Complete Job**
+```bash
+PUT /api/v1/agent/jobs/:id/complete
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "notes": "Viewing completed, tenant interested", "photos": ["url1", "url2"] }
+```
+
+**Request Withdrawal**
+```bash
+POST /api/v1/agent/earnings/withdraw
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "amount": 50000, "bankAccountId": "uuid" }
+```
+
+#### Messaging
+
+**Start Conversation**
+```bash
+POST /api/v1/messages/conversations
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "propertyId": "uuid", "recipientId": "uuid", "initialMessage": "Hello, I'm interested" }
+```
+
+**Send Message**
+```bash
+POST /api/v1/messages/conversations/:id
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "content": "Is the property still available?" }
+```
+
+#### Transactions
 
 **Initiate Payment**
 ```bash
@@ -322,24 +533,144 @@ POST /api/v1/transactions/pay
 Authorization: Bearer <token>
 Content-Type: application/json
 
-{
-  "amount": 2500000,
-  "currency": "NGN",
-  "type": "RENT_PAYMENT",
-  "paymentMethod": "card",
-  "leaseId": "uuid-of-lease"
-}
+{ "amount": 2500000, "currency": "NGN", "type": "RENT_PAYMENT", "paymentMethod": "card", "leaseId": "uuid" }
 
-# Response:
-{
-  "success": true,
-  "data": {
-    "transactionId": "uuid",
-    "paymentUrl": "https://checkout.paystack.com/...",
-    "reference": "PAY_1234567890_abc123",
-    "provider": "paystack"
-  }
-}
+# Response: { transactionId, paymentUrl, reference, provider }
+```
+
+**Verify Payment**
+```bash
+POST /api/v1/transactions/verify
+Content-Type: application/json
+
+{ "reference": "PAY_1234567890_abc123", "provider": "paystack" }
+```
+
+**Create Escrow**
+```bash
+POST /api/v1/transactions/escrow
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "amount": 500000, "currency": "NGN", "leaseId": "uuid", "description": "Security deposit" }
+```
+
+**Release Escrow**
+```bash
+POST /api/v1/transactions/escrow/:id/release
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "amount": 500000, "releaseReason": "Lease ended, no damages" }
+```
+
+**Request Refund**
+```bash
+POST /api/v1/transactions/:id/refund
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "amount": 100000, "reason": "Partial refund for early termination" }
+```
+
+#### Verification
+
+**Submit Identity KYC**
+```bash
+POST /api/v1/verification/identity
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "type": "NIN", "idNumber": "12345678901", "firstName": "John", "lastName": "Doe", "dateOfBirth": "1990-05-15" }
+```
+
+**Submit Address Verification**
+```bash
+POST /api/v1/verification/address
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "documentUrl": "https://storage.example.com/utility-bill.pdf", "type": "utility_bill", "address": "123 Main St, Lagos" }
+```
+
+**Submit C of O**
+```bash
+POST /api/v1/verification/properties/:propertyId/cofo
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "documentUrl": "https://storage.example.com/cofo.pdf", "type": "certificate_of_occupancy" }
+```
+
+**Request Audit**
+```bash
+POST /api/v1/verification/properties/:propertyId/audit/request
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "tier": "GOLD", "preferredDate": "2024-02-01" }
+```
+
+**Approve (Admin)**
+```bash
+POST /api/v1/verification/admin/:id/approve
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "tier": "GOLD", "notes": "All documents verified" }
+```
+
+**Reject (Admin)**
+```bash
+POST /api/v1/verification/admin/:id/reject
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "reason": "Document unclear, please resubmit" }
+```
+
+#### Notifications
+
+**Mark as Read**
+```bash
+POST /api/v1/notifications/mark-read
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "notificationIds": ["uuid1", "uuid2"] }
+```
+
+**Mark All Read**
+```bash
+POST /api/v1/notifications/mark-all-read
+Authorization: Bearer <token>
+```
+
+**Register Device**
+```bash
+POST /api/v1/notifications/devices
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "token": "fcm-device-token", "platform": "ios", "deviceName": "iPhone 14 Pro" }
+```
+
+**Update Preferences**
+```bash
+PUT /api/v1/notifications/preferences
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "email": true, "push": true, "sms": false, "types": { "payments": true, "messages": true, "marketing": false } }
+```
+
+**Send Notification (Admin)**
+```bash
+POST /api/v1/notifications/send
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{ "userId": "uuid", "title": "Important Update", "body": "Your verification is complete", "type": "VERIFICATION" }
 ```
 
 ## 👤 User Management
