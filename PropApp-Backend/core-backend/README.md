@@ -80,6 +80,102 @@ core-backend/
 }
 ```
 
+### Base URL
+```
+Development: http://localhost:3000/api/v1
+Production:  https://api.homeai.ng/api/v1
+```
+
+### Authorization Header
+All authenticated endpoints require the JWT token in the Authorization header:
+```
+Authorization: Bearer <access_token>
+```
+
+### Request Examples
+
+**Register (Initiate)**
+```bash
+POST /api/v1/auth/register/initiate
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "role": "TENANT"
+}
+```
+
+**Login**
+```bash
+POST /api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "securePassword123"
+}
+
+# Response:
+{
+  "success": true,
+  "data": {
+    "accessToken": "eyJhbG...",
+    "refreshToken": "dGhpcy...",
+    "expiresIn": 900,
+    "user": { "id": "uuid", "email": "...", "role": "TENANT" }
+  }
+}
+```
+
+**Create Property**
+```bash
+POST /api/v1/properties
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "name": "Luxury 3BR Apartment",
+  "description": "Beautiful apartment in Lekki Phase 1",
+  "propertyType": "APARTMENT",
+  "listingType": "RENT",
+  "price": 2500000,
+  "priceUnit": "PER_YEAR",
+  "bedrooms": 3,
+  "bathrooms": 2,
+  "addressStreet": "123 Admiralty Way",
+  "addressCity": "Lekki",
+  "addressState": "Lagos",
+  "addressLga": "Eti-Osa",
+  "amenities": ["SWIMMING_POOL", "GYM", "PARKING"]
+}
+```
+
+**Initiate Payment**
+```bash
+POST /api/v1/transactions/pay
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "amount": 2500000,
+  "currency": "NGN",
+  "type": "RENT_PAYMENT",
+  "paymentMethod": "card",
+  "leaseId": "uuid-of-lease"
+}
+
+# Response:
+{
+  "success": true,
+  "data": {
+    "transactionId": "uuid",
+    "paymentUrl": "https://checkout.paystack.com/...",
+    "reference": "PAY_1234567890_abc123",
+    "provider": "paystack"
+  }
+}
+```
+
 ## 👤 User Management
 
 | Method | Endpoint | Description |
@@ -371,6 +467,115 @@ npm run test:watch
     "details": [{ "field": "email", "message": "..." }]
   }
 }
+```
+
+## 📄 Pagination
+
+All list endpoints support pagination via query parameters:
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `page` | 1 | Page number (1-indexed) |
+| `limit` | 20 | Items per page (max 100) |
+| `sortBy` | varies | Field to sort by |
+| `sortOrder` | `desc` | `asc` or `desc` |
+
+**Response with pagination:**
+```json
+{
+  "success": true,
+  "data": {
+    "items": [...],
+    "total": 156,
+    "page": 1,
+    "totalPages": 8
+  }
+}
+```
+
+## ❌ Error Codes
+
+### Authentication Errors (AUTH_XXX)
+| Code | HTTP | Message |
+|------|------|---------|
+| AUTH_001 | 401 | Invalid credentials |
+| AUTH_002 | 401 | Token expired |
+| AUTH_003 | 401 | Invalid token |
+| AUTH_004 | 403 | Insufficient permissions |
+| AUTH_005 | 400 | Email already registered |
+| AUTH_006 | 400 | Invalid verification code |
+| AUTH_007 | 400 | 2FA required |
+| AUTH_008 | 429 | Too many attempts |
+
+### Validation Errors (VAL_XXX)
+| Code | HTTP | Message |
+|------|------|---------|
+| VAL_001 | 400 | Validation failed |
+| VAL_002 | 400 | Invalid request body |
+| VAL_003 | 400 | Missing required field |
+
+### Resource Errors (RES_XXX)
+| Code | HTTP | Message |
+|------|------|---------|
+| RES_001 | 404 | Resource not found |
+| RES_002 | 404 | Property not found |
+| RES_003 | 404 | User not found |
+| RES_004 | 404 | Lease not found |
+| RES_005 | 409 | Resource already exists |
+
+### Payment Errors (PAY_XXX)
+| Code | HTTP | Message |
+|------|------|---------|
+| PAY_001 | 400 | Payment failed |
+| PAY_002 | 400 | Invalid payment method |
+| PAY_003 | 400 | Insufficient funds |
+| PAY_004 | 400 | Transaction not found |
+| PAY_005 | 400 | Compliance check failed |
+
+## 🔌 WebSocket Events
+
+Connect to WebSocket for real-time messaging:
+```
+ws://localhost:3000/ws?token=<access_token>
+wss://api.homeai.ng/ws?token=<access_token>
+```
+
+### Client → Server Events
+
+| Event | Payload | Description |
+|-------|---------|-------------|
+| `join_conversation` | `{ conversationId: string }` | Join a conversation room |
+| `leave_conversation` | `{ conversationId: string }` | Leave a conversation room |
+| `send_message` | `{ conversationId: string, content: string }` | Send a message |
+| `typing` | `{ conversationId: string, isTyping: boolean }` | Typing indicator |
+
+### Server → Client Events
+
+| Event | Payload | Description |
+|-------|---------|-------------|
+| `new_message` | `{ id, conversationId, senderId, content, createdAt }` | New message received |
+| `message_read` | `{ conversationId, messageId, readBy }` | Message was read |
+| `user_typing` | `{ conversationId, userId, isTyping }` | User is typing |
+| `notification` | `{ id, type, title, body, data }` | Push notification |
+| `property_update` | `{ propertyId, status, verificationTier }` | Property status changed |
+
+### WebSocket Example
+```javascript
+const socket = new WebSocket('wss://api.homeai.ng/ws?token=eyJhbG...');
+
+socket.onopen = () => {
+  socket.send(JSON.stringify({
+    event: 'join_conversation',
+    data: { conversationId: 'uuid-here' }
+  }));
+};
+
+socket.onmessage = (event) => {
+  const { event: eventName, data } = JSON.parse(event.data);
+  if (eventName === 'new_message') {
+    console.log('New message:', data);
+  }
+};
 ```
 
 ## 📄 License
