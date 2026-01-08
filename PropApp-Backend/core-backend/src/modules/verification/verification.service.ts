@@ -5,9 +5,13 @@
  */
 
 import { Prisma, VerificationStatus as PrismaVerificationStatus } from '@prisma/client';
+import crypto from 'crypto';
 import { prisma } from '../../config/database';
 import { logger } from '../../common/utils/logger';
 import { ValidationError, PropertyNotFoundError } from '../../common/utils/errors';
+import { blockchainProviderFactory } from '../../integrations/blockchain';
+import { regionConfigService } from '../../config/regions';
+import { env } from '../../config/env';
 import {
     SubmitIdentityVerificationDto,
     SubmitDocumentDto,
@@ -420,11 +424,63 @@ class VerificationService {
             });
         }
 
-        // TODO: Record on blockchain
+        // Record verification on blockchain (fire and forget)
+        this.recordVerificationOnChain(verificationId, verification).catch(err => {
+            logger.error(`Failed to record verification on blockchain: ${verificationId}`, err);
+        });
 
         logger.info(`Verification approved: ${verificationId} by admin ${adminId}`);
 
         return { message: 'Verification approved' };
+    }
+
+    /**
+     * Record verification on blockchain
+     */
+    private async recordVerificationOnChain(
+        verificationId: string,
+        verification: { id: string; type: string; propertyId: string | null; userId: string | null }
+    ): Promise<void> {
+        const regionCode = env.DEFAULT_REGION || 'NG';
+
+        // Check if blockchain is enabled for region
+        if (!regionConfigService.isFeatureEnabled(regionCode, 'blockchainEnabled')) {
+            logger.debug(`Blockchain disabled for region ${regionCode}, skipping verification record`);
+            return;
+        }
+
+        const blockchain = blockchainProviderFactory.getProvider(regionCode);
+
+        // Create a hash of the verification data for on-chain storage
+        const dataToHash = JSON.stringify({
+            verificationId,
+            type: verification.type,
+            propertyId: verification.propertyId,
+            userId: verification.userId,
+            timestamp: new Date().toISOString(),
+        });
+        const documentHash = crypto.createHash('sha256').update(dataToHash).digest('hex');
+
+        const result = await blockchain.recordVerification({
+            propertyId: verification.propertyId || verification.userId || verificationId,
+            verificationType: verification.type === 'IDENTITY' ? 'identity' : 'property',
+            documentHash,
+        });
+
+        if (result.success && result.verificationId) {
+            // Update verification with blockchain info
+            await prisma.verification.update({
+                where: { id: verificationId },
+                data: {
+                    blockchainVerificationId: result.verificationId,
+                    blockchainTxHash: result.txHash,
+                },
+            });
+
+            logger.info(`Verification recorded on chain: ${verificationId} -> ${result.verificationId}`);
+        } else {
+            logger.warn(`Blockchain verification recording failed: ${verificationId} - ${result.error}`);
+        }
     }
 
     /**

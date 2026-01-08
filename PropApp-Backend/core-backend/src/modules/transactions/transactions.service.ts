@@ -7,6 +7,9 @@
 import { prisma } from '../../config/database';
 import { logger } from '../../common/utils/logger';
 import { ValidationError } from '../../common/utils/errors';
+import { paymentProviderFactory } from '../../integrations/payment';
+import { blockchainProviderFactory } from '../../integrations/blockchain';
+import { env } from '../../config/env';
 import {
     TransactionQueryDto,
     InitiatePaymentDto,
@@ -200,16 +203,48 @@ class TransactionService {
             },
         });
 
-        // TODO: Integrate with Paystack/Flutterwave
-        const paymentUrl = `https://checkout.paystack.com/mock/${transaction.paymentReference}`;
+        // Get user email for payment
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+            select: { email: true },
+        });
+
+        // Initialize payment with provider
+        const regionCode = env.DEFAULT_REGION || 'NG';
+        const paymentProvider = paymentProviderFactory.getProvider(regionCode);
+
+        const paymentResult = await paymentProvider.initializePayment({
+            email: user?.email || '',
+            amount: data.amount,
+            currency: data.currency,
+            reference: transaction.paymentReference!,
+            callbackUrl: `${env.FRONTEND_URL}/payment/callback`,
+            paymentMethod: data.paymentMethod as any,
+            metadata: {
+                transactionId: transaction.id,
+                userId,
+                type: data.type,
+            },
+        });
+
+        if (!paymentResult.success) {
+            // Mark transaction as failed
+            await prisma.transaction.update({
+                where: { id: transaction.id },
+                data: { status: 'FAILED' },
+            });
+            throw new ValidationError('Payment initialization failed', [
+                { field: 'payment', message: 'Could not initialize payment with provider' },
+            ]);
+        }
 
         logger.info(`Payment initiated: ${transaction.id} for ${data.amount} ${data.currency}`);
 
         return {
             transactionId: transaction.id,
-            paymentUrl,
+            paymentUrl: paymentResult.authorizationUrl || '',
             reference: transaction.paymentReference!,
-            provider: 'paystack',
+            provider: paymentProvider.providerId,
         };
     }
 
@@ -233,11 +268,36 @@ class TransactionService {
             ]);
         }
 
-        // TODO: Verify with Paystack/Flutterwave API
+        // Verify payment with provider
+        const regionCode = env.DEFAULT_REGION || 'NG';
+        const paymentProvider = paymentProviderFactory.getProvider(regionCode);
+        const verifyResult = await paymentProvider.verifyPayment(data.reference);
+
+        if (!verifyResult.success || verifyResult.status !== 'success') {
+            // Update transaction status based on verification
+            await prisma.transaction.update({
+                where: { id: transaction.id },
+                data: {
+                    status: verifyResult.status === 'pending' ? 'PENDING' : 'FAILED',
+                },
+            });
+
+            return {
+                success: false,
+                transaction: this.formatTransaction(transaction),
+            };
+        }
+
+        // Payment successful - update transaction
         const updated = await prisma.transaction.update({
             where: { id: transaction.id },
             data: {
                 status: 'COMPLETED',
+                metadata: {
+                    ...(transaction.metadata as object || {}),
+                    providerReference: verifyResult.providerReference,
+                    verifiedAt: new Date().toISOString(),
+                },
                 updatedAt: new Date(),
             },
             include: {
@@ -247,7 +307,7 @@ class TransactionService {
             },
         });
 
-        logger.info(`Payment verified: ${transaction.id}`);
+        logger.info(`Payment verified: ${transaction.id} via ${paymentProvider.providerId}`);
 
         return {
             success: true,

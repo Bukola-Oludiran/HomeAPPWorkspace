@@ -7,6 +7,9 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from '../../config/database';
 import { logger } from '../../common/utils/logger';
+import { blockchainProviderFactory } from '../../integrations/blockchain';
+import { regionConfigService } from '../../config/regions';
+import { env } from '../../config/env';
 import {
     UserNotFoundError,
     PropertyNotFoundError,
@@ -643,7 +646,11 @@ class LeaseService {
 
         if (willBeFullyExecuted) {
             updateData.status = 'ACTIVE';
-            // TODO: Mint NFT on blockchain
+
+            // Mint NFT on blockchain (fire and forget, don't block signing)
+            this.mintLeaseNFT(leaseId).catch(err => {
+                logger.error(`Failed to mint lease NFT: ${leaseId}`, err);
+            });
         } else if (lease.status === 'DRAFT') {
             updateData.status = 'PENDING_SIGNATURES';
         }
@@ -661,6 +668,73 @@ class LeaseService {
                 : `Lease signed. Waiting for ${role === 'LANDLORD' ? 'tenant' : 'landlord'} signature.`,
             fullyExecuted: willBeFullyExecuted,
         };
+    }
+
+    // ----------------------------------------
+    // BLOCKCHAIN INTEGRATION
+    // ----------------------------------------
+
+    /**
+     * Mint NFT for a fully executed lease
+     */
+    private async mintLeaseNFT(leaseId: string): Promise<void> {
+        const regionCode = env.DEFAULT_REGION || 'NG';
+
+        // Check if blockchain is enabled for region
+        if (!regionConfigService.isFeatureEnabled(regionCode, 'blockchainEnabled')) {
+            logger.debug(`Blockchain disabled for region ${regionCode}, skipping NFT mint`);
+            return;
+        }
+
+        const lease = await prisma.lease.findUnique({
+            where: { id: leaseId },
+            include: {
+                tenant: { select: { walletAddress: true } },
+                landlord: { select: { walletAddress: true } },
+            },
+        });
+
+        if (!lease) {
+            logger.error(`Lease not found for NFT minting: ${leaseId}`);
+            return;
+        }
+
+        // Both parties need wallet addresses for NFT minting
+        const tenantWallet = lease.tenant?.walletAddress;
+        const landlordWallet = lease.landlord?.walletAddress;
+
+        if (!tenantWallet || !landlordWallet) {
+            logger.info(`Wallet addresses missing, skipping NFT mint for lease ${leaseId}`);
+            return;
+        }
+
+        const blockchain = blockchainProviderFactory.getProvider(regionCode);
+
+        const result = await blockchain.mintLeaseNFT({
+            leaseId: lease.id,
+            propertyId: lease.propertyId,
+            tenantAddress: tenantWallet,
+            landlordAddress: landlordWallet,
+            startDate: lease.startDate,
+            endDate: lease.endDate,
+            monthlyRent: Number(lease.monthlyRent),
+            currency: 'NGN',
+        });
+
+        if (result.success && result.tokenId) {
+            // Update lease with blockchain info
+            await prisma.lease.update({
+                where: { id: leaseId },
+                data: {
+                    blockchainTokenId: result.tokenId,
+                    blockchainTxHash: result.txHash,
+                },
+            });
+
+            logger.info(`Lease NFT minted: ${leaseId} -> tokenId=${result.tokenId}, tx=${result.txHash}`);
+        } else {
+            logger.warn(`Lease NFT minting failed: ${leaseId} - ${result.error}`);
+        }
     }
 }
 

@@ -8,6 +8,8 @@ import { prisma } from '../../config/database';
 import { logger } from '../../common/utils/logger';
 import { ValidationError } from '../../common/utils/errors';
 import { regionConfigService } from '../../config/regions';
+import { communicationProviderFactory } from '../../integrations/communication';
+import { env } from '../../config/env';
 import {
     NotificationType,
     NotificationChannel,
@@ -374,19 +376,49 @@ class NotificationService {
     }
 
     // ----------------------------------------
-    // PROVIDER INTEGRATIONS (TODO: Implement)
+    // PROVIDER INTEGRATIONS
     // ----------------------------------------
 
     private async sendEmailNotification(email: string, subject: string, body: string): Promise<void> {
-        const regionConfig = regionConfigService.getDefaultConfig();
-        // TODO: Integrate with SendGrid/Mailgun
-        logger.info(`Email notification queued: ${email} - ${subject}`);
+        try {
+            const regionCode = env.DEFAULT_REGION || 'NG';
+            const emailProvider = communicationProviderFactory.getEmailProvider(regionCode);
+
+            const result = await emailProvider.sendEmail({
+                to: email,
+                subject,
+                html: body,
+                text: body.replace(/<[^>]*>/g, ''), // Strip HTML for plain text version
+            });
+
+            if (result.success) {
+                logger.info(`Email sent to ${email} via ${emailProvider.providerId}`);
+            } else {
+                logger.warn(`Email to ${email} failed: ${result.error}`);
+            }
+        } catch (error: any) {
+            logger.error(`Email notification error: ${error.message}`);
+        }
     }
 
     private async sendSmsNotification(phone: string, message: string): Promise<void> {
-        const regionConfig = regionConfigService.getDefaultConfig();
-        // TODO: Integrate with Africa's Talking / Termii
-        logger.info(`SMS notification queued: ${phone}`);
+        try {
+            const regionCode = env.DEFAULT_REGION || 'NG';
+            const smsProvider = communicationProviderFactory.getSMSProvider(regionCode);
+
+            const result = await smsProvider.sendSMS({
+                to: phone,
+                message,
+            });
+
+            if (result.success) {
+                logger.info(`SMS sent to ${phone} via ${smsProvider.providerId}`);
+            } else {
+                logger.warn(`SMS to ${phone} failed: ${result.error}`);
+            }
+        } catch (error: any) {
+            logger.error(`SMS notification error: ${error.message}`);
+        }
     }
 
     private async sendPushNotification(
@@ -395,14 +427,44 @@ class NotificationService {
         body: string,
         data?: Record<string, unknown>
     ): Promise<void> {
-        // Get user's active devices
-        const devices = await prisma.deviceToken.findMany({
-            where: { userId, active: true },
-        });
+        try {
+            // Get user's active devices
+            const devices = await prisma.deviceToken.findMany({
+                where: { userId, active: true },
+            });
 
-        // TODO: Integrate with FCM / APNs
-        for (const device of devices) {
-            logger.info(`Push notification queued: ${device.platform} - ${title}`);
+            if (devices.length === 0) {
+                logger.debug(`No active devices for user ${userId}`);
+                return;
+            }
+
+            const regionCode = env.DEFAULT_REGION || 'NG';
+            const pushProvider = communicationProviderFactory.getPushProvider(regionCode);
+
+            for (const device of devices) {
+                const result = await pushProvider.sendPush({
+                    tokens: device.token,
+                    title,
+                    body,
+                    data: data as Record<string, string>,
+                });
+
+                if (result.success) {
+                    logger.info(`Push sent to ${device.platform} via ${pushProvider.providerId}`);
+                } else {
+                    // Mark device as inactive if push failed (likely expired token)
+                    const errorMsg = result.errors?.join(', ') || 'Unknown error';
+                    if (errorMsg.includes('InvalidRegistration') || errorMsg.includes('NotRegistered')) {
+                        await prisma.deviceToken.update({
+                            where: { id: device.id },
+                            data: { active: false },
+                        });
+                        logger.warn(`Device ${device.id} marked inactive: ${errorMsg}`);
+                    }
+                }
+            }
+        } catch (error: any) {
+            logger.error(`Push notification error: ${error.message}`);
         }
     }
 }
