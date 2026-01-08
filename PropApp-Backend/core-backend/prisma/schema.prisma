@@ -119,7 +119,7 @@ model Property {
 
   // Relations
   owner                 User                 @relation("PropertyOwner", fields: [ownerId], references: [id])
-  images                PropertyImage[]
+  media                 PropertyMedia[]
   applications          Application[]
   leases                Lease[]
   transactions          Transaction[]
@@ -136,17 +136,21 @@ model Property {
   @@map("properties")
 }
 
-model PropertyImage {
-  id         String   @id @default(uuid()) @db.Uuid
-  propertyId String   @map("property_id") @db.Uuid
+model PropertyMedia {
+  id         String    @id @default(uuid()) @db.Uuid
+  propertyId String    @map("property_id") @db.Uuid
   url        String
-  isPrimary  Boolean  @default(false) @map("is_primary")
-  orderIndex Int      @default(0) @map("order_index")
-  createdAt  DateTime @default(now()) @map("created_at")
+  type       MediaType @default(IMAGE)
+  isPrimary  Boolean   @default(false) @map("is_primary")
+  caption    String?   @db.VarChar(255)
+  orderIndex Int       @default(0) @map("order_index")
+  metadata   Json?     // For 3D tour config, video duration, provider info, etc.
+  createdAt  DateTime  @default(now()) @map("created_at")
 
   property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 
-  @@map("property_images")
+  @@index([propertyId, type])
+  @@map("property_media")
 }
 
 // ============================================
@@ -502,6 +506,14 @@ enum PropertyType {
   LAND
   COMMERCIAL
   OFFICE
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  TOUR_3D
+  FLOOR_PLAN
+  DOCUMENT
 }
 
 enum ListingType {

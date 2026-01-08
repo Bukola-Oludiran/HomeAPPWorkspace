@@ -271,7 +271,7 @@ class TenantService {
                     property: {
                         select: {
                             name: true,
-                            images: {
+                            media: {
                                 where: { isPrimary: true },
                                 take: 1,
                                 select: { url: true },
@@ -288,7 +288,7 @@ class TenantService {
                 id: a.id,
                 propertyId: a.propertyId,
                 propertyName: a.property.name,
-                propertyImage: a.property.images[0]?.url || null,
+                propertyImage: a.property.media[0]?.url || null,
                 status: a.status,
                 submittedAt: a.submittedAt,
                 moveInDate: a.moveInDate,
@@ -512,7 +512,7 @@ class TenantService {
                         price: true,
                         priceUnit: true,
                         status: true,
-                        images: {
+                        media: {
                             where: { isPrimary: true },
                             take: 1,
                             select: { url: true },
@@ -529,7 +529,7 @@ class TenantService {
                 name: f.property.name,
                 price: Number(f.property.price),
                 priceUnit: f.property.priceUnit,
-                primaryImage: f.property.images[0]?.url || null,
+                primaryImage: f.property.media[0]?.url || null,
                 favoritedAt: f.createdAt,
             }));
     }

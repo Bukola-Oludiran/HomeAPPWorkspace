@@ -56,7 +56,7 @@ class FavoritesService {
                         addressState: true,
                         addressNeighborhood: true,
                         status: true,
-                        images: {
+                        media: {
                             where: { isPrimary: true },
                             take: 1,
                             select: { url: true },
@@ -80,7 +80,7 @@ class FavoritesService {
                 addressCity: f.property.addressCity,
                 addressState: f.property.addressState,
                 addressNeighborhood: f.property.addressNeighborhood,
-                primaryImage: f.property.images[0]?.url || null,
+                primaryImage: f.property.media[0]?.url || null,
                 favoritedAt: f.createdAt,
             }));
     }

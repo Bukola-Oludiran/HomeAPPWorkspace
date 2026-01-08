@@ -113,11 +113,36 @@ core-backend/
 | PUT | `/api/v1/properties/:id` | Update property |
 | DELETE | `/api/v1/properties/:id` | Delete property |
 | PATCH | `/api/v1/properties/:id/status` | Update status |
-| POST | `/api/v1/properties/:id/images` | Upload images |
-| DELETE | `/api/v1/properties/:id/images/:imageId` | Delete image |
+| POST | `/api/v1/properties/:id/media` | Upload media (images, videos, 3D tours) |
+| DELETE | `/api/v1/properties/:id/media/:mediaId` | Delete media |
 | POST | `/api/v1/properties/draft` | Create draft |
 | PUT | `/api/v1/properties/draft/:id` | Update draft |
 | POST | `/api/v1/properties/draft/:id/publish` | Publish draft |
+
+### Property Media Types
+Properties support multiple media types via the `PropertyMedia` model:
+
+| Type | Description | Example URL |
+|------|-------------|-------------|
+| `IMAGE` | Property photos | Standard image URLs |
+| `VIDEO` | Video tours | YouTube, Vimeo, direct video URLs |
+| `TOUR_3D` | 3D virtual tours | Matterport, CloudPano embeds |
+| `FLOOR_PLAN` | Floor plan images | Layout diagrams |
+| `DOCUMENT` | Property documents | PDFs, certificates |
+
+Media object structure:
+```json
+{
+  "id": "uuid",
+  "url": "https://example.com/media.jpg",
+  "type": "IMAGE",
+  "isPrimary": true,
+  "caption": "Living room view",
+  "orderIndex": 0,
+  "metadata": { "provider": "matterport", "embedCode": "..." }
+}
+```
+
 
 ### Search Query Parameters
 - `propertyType`: APARTMENT, HOUSE, DUPLEX, etc.

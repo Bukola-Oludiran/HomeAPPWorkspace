@@ -63,7 +63,7 @@ async function main() {
     await prisma.application.deleteMany();
     await prisma.favorite.deleteMany();
     await prisma.agentJob.deleteMany();
-    await prisma.propertyImage.deleteMany();
+    await prisma.propertyMedia.deleteMany();
     await prisma.property.deleteMany();
     await prisma.verification.deleteMany();
     await prisma.deviceToken.deleteMany();
@@ -259,30 +259,69 @@ async function main() {
             },
         });
 
-        // Add property images
-        await prisma.propertyImage.createMany({
-            data: [
-                {
-                    propertyId: property.id,
-                    url: `https://picsum.photos/seed/${property.id}-1/800/600`,
-                    isPrimary: true,
-                },
-                {
-                    propertyId: property.id,
-                    url: `https://picsum.photos/seed/${property.id}-2/800/600`,
-                    isPrimary: false,
-                },
-                {
-                    propertyId: property.id,
-                    url: `https://picsum.photos/seed/${property.id}-3/800/600`,
-                    isPrimary: false,
-                },
-            ],
-        });
+        // Add property media (images, 3D tours, videos)
+        const mediaData: { propertyId: string; url: string; type: 'IMAGE' | 'VIDEO' | 'TOUR_3D' | 'FLOOR_PLAN' | 'DOCUMENT'; isPrimary: boolean; orderIndex: number }[] = [
+            {
+                propertyId: property.id,
+                url: `https://picsum.photos/seed/${property.id}-1/800/600`,
+                type: 'IMAGE' as const,
+                isPrimary: true,
+                orderIndex: 0,
+            },
+            {
+                propertyId: property.id,
+                url: `https://picsum.photos/seed/${property.id}-2/800/600`,
+                type: 'IMAGE' as const,
+                isPrimary: false,
+                orderIndex: 1,
+            },
+            {
+                propertyId: property.id,
+                url: `https://picsum.photos/seed/${property.id}-3/800/600`,
+                type: 'IMAGE' as const,
+                isPrimary: false,
+                orderIndex: 2,
+            },
+        ];
+
+        // Add 3D tour for some properties
+        if (i % 3 === 0) {
+            mediaData.push({
+                propertyId: property.id,
+                url: `https://my.matterport.com/show/?m=sample${property.id.slice(0, 8)}`,
+                type: 'TOUR_3D' as const,
+                isPrimary: false,
+                orderIndex: 10,
+            });
+        }
+
+        // Add video tour for some properties
+        if (i % 4 === 0) {
+            mediaData.push({
+                propertyId: property.id,
+                url: `https://www.youtube.com/watch?v=sample${property.id.slice(0, 8)}`,
+                type: 'VIDEO' as const,
+                isPrimary: false,
+                orderIndex: 11,
+            });
+        }
+
+        // Add floor plan for some properties
+        if (i % 2 === 0) {
+            mediaData.push({
+                propertyId: property.id,
+                url: `https://picsum.photos/seed/${property.id}-fp/600/400`,
+                type: 'FLOOR_PLAN' as const,
+                isPrimary: false,
+                orderIndex: 12,
+            });
+        }
+
+        await prisma.propertyMedia.createMany({ data: mediaData });
 
         properties.push(property);
     }
-    console.log(`  ✓ Properties: ${properties.length} created with images`);
+    console.log(`  ✓ Properties: ${properties.length} created with media (images, 3D tours, videos)`);
 
     // ----------------------------------------
     // CREATE LEASES

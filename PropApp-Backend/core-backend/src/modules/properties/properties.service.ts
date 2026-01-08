@@ -75,7 +75,15 @@ interface PropertyDetail {
     amenities: string[];
     status: string;
     verificationTier: string;
-    images: { id: string; url: string; isPrimary: boolean; orderIndex: number }[];
+    media: {
+        id: string;
+        url: string;
+        type: string;
+        isPrimary: boolean;
+        caption: string | null;
+        orderIndex: number;
+        metadata: Prisma.JsonValue;
+    }[];
     owner: {
         id: string;
         firstName: string | null;
@@ -170,8 +178,8 @@ class PropertyService {
                     verificationTier: true,
                     status: true,
                     createdAt: true,
-                    images: {
-                        where: { isPrimary: true },
+                    media: {
+                        where: { isPrimary: true, type: 'IMAGE' },
                         take: 1,
                         select: { url: true },
                     },
@@ -184,7 +192,7 @@ class PropertyService {
             properties: properties.map(p => ({
                 ...p,
                 price: Number(p.price),
-                primaryImage: p.images[0]?.url || null,
+                primaryImage: (p as any).media?.[0]?.url || null,
             })),
             total,
             page,
@@ -206,7 +214,7 @@ class PropertyService {
         const property = await prisma.property.findFirst({
             where,
             include: {
-                images: {
+                media: {
                     orderBy: { orderIndex: 'asc' },
                 },
                 owner: {
@@ -297,7 +305,7 @@ class PropertyService {
                 verificationTier: true,
                 status: true,
                 createdAt: true,
-                images: {
+                media: {
                     where: { isPrimary: true },
                     take: 1,
                     select: { url: true },
@@ -308,7 +316,7 @@ class PropertyService {
         return properties.map(p => ({
             ...p,
             price: Number(p.price),
-            primaryImage: p.images[0]?.url || null,
+            primaryImage: p.media[0]?.url || null,
         }));
     }
 
@@ -344,7 +352,7 @@ class PropertyService {
                 latitude: true,
                 longitude: true,
                 createdAt: true,
-                images: {
+                media: {
                     where: { isPrimary: true },
                     take: 1,
                     select: { url: true },
@@ -370,7 +378,7 @@ class PropertyService {
         return propertiesWithDistance.map(p => ({
             ...p,
             price: Number(p.price),
-            primaryImage: p.images[0]?.url || null,
+            primaryImage: p.media[0]?.url || null,
         }));
     }
 
@@ -391,7 +399,7 @@ class PropertyService {
                 amenities: data.amenities || [],
             },
             include: {
-                images: true,
+                media: true,
                 owner: {
                     select: {
                         id: true,
@@ -432,7 +440,7 @@ class PropertyService {
                 amenities: data.amenities,
             },
             include: {
-                images: {
+                media: {
                     orderBy: { orderIndex: 'asc' },
                 },
                 owner: {
@@ -529,7 +537,7 @@ class PropertyService {
                 status: 'DRAFT',
             },
             include: {
-                images: true,
+                media: true,
                 owner: {
                     select: {
                         id: true,
@@ -597,7 +605,7 @@ class PropertyService {
             where: { id: propertyId },
             data: { status: 'PENDING_REVIEW' },
             include: {
-                images: {
+                media: {
                     orderBy: { orderIndex: 'asc' },
                 },
                 owner: {
@@ -634,21 +642,21 @@ class PropertyService {
         propertyId: string,
         ownerId: string,
         imageUrls: string[]
-    ): Promise<{ images: { id: string; url: string }[] }> {
+    ): Promise<{ media: { id: string; url: string }[] }> {
         await this.verifyOwnership(propertyId, ownerId);
 
         // Get current max order index
-        const lastImage = await prisma.propertyImage.findFirst({
+        const lastImage = await prisma.propertyMedia.findFirst({
             where: { propertyId },
             orderBy: { orderIndex: 'desc' },
         });
         const startIndex = (lastImage?.orderIndex || -1) + 1;
 
         // Check if this is the first image (should be primary)
-        const imageCount = await prisma.propertyImage.count({ where: { propertyId } });
+        const imageCount = await prisma.propertyMedia.count({ where: { propertyId } });
         const isPrimary = imageCount === 0;
 
-        const images = await prisma.propertyImage.createMany({
+        const images = await prisma.propertyMedia.createMany({
             data: imageUrls.map((url, index) => ({
                 propertyId,
                 url,
@@ -657,7 +665,7 @@ class PropertyService {
             })),
         });
 
-        const createdImages = await prisma.propertyImage.findMany({
+        const createdImages = await prisma.propertyMedia.findMany({
             where: { propertyId },
             orderBy: { orderIndex: 'asc' },
             select: { id: true, url: true },
@@ -665,7 +673,7 @@ class PropertyService {
 
         logger.info(`${imageUrls.length} images added to property: ${propertyId}`);
 
-        return { images: createdImages };
+        return { media: createdImages };
     }
 
     /**
@@ -679,7 +687,7 @@ class PropertyService {
     ): Promise<{ message: string }> {
         await this.verifyOwnership(propertyId, ownerId);
 
-        const image = await prisma.propertyImage.findFirst({
+        const image = await prisma.propertyMedia.findFirst({
             where: { id: imageId, propertyId },
         });
 
@@ -689,16 +697,16 @@ class PropertyService {
             ]);
         }
 
-        await prisma.propertyImage.delete({ where: { id: imageId } });
+        await prisma.propertyMedia.delete({ where: { id: imageId } });
 
         // If deleted image was primary, set next image as primary
         if (image.isPrimary) {
-            const nextImage = await prisma.propertyImage.findFirst({
+            const nextImage = await prisma.propertyMedia.findFirst({
                 where: { propertyId },
                 orderBy: { orderIndex: 'asc' },
             });
             if (nextImage) {
-                await prisma.propertyImage.update({
+                await prisma.propertyMedia.update({
                     where: { id: nextImage.id },
                     data: { isPrimary: true },
                 });
@@ -741,7 +749,7 @@ class PropertyService {
                 verificationTier: true,
                 status: true,
                 createdAt: true,
-                images: {
+                media: {
                     where: { isPrimary: true },
                     take: 1,
                     select: { url: true },
@@ -752,7 +760,7 @@ class PropertyService {
         return properties.map(p => ({
             ...p,
             price: Number(p.price),
-            primaryImage: p.images[0]?.url || null,
+            primaryImage: p.media[0]?.url || null,
         }));
     }
 
