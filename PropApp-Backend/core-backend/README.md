@@ -150,6 +150,172 @@ Content-Type: application/json
 }
 ```
 
+**Connect Blockchain Wallet**
+```bash
+POST /api/v1/users/me/wallet/connect
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "walletAddress": "0x742d35Cc6634C0532925a3b844Bc9e7595f2bD5F",
+  "signature": "0x...",  # Signed message to prove ownership
+  "message": "Connect wallet to HomeAI: nonce_123456"
+}
+
+# Response:
+{
+  "success": true,
+  "data": {
+    "walletAddress": "0x742d35...",
+    "connected": true,
+    "connectedAt": "2024-01-08T12:00:00Z"
+  }
+}
+```
+
+**Submit Application**
+```bash
+POST /api/v1/tenant/applications
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "propertyId": "uuid-of-property",
+  "message": "I am interested in renting this property",
+  "moveInDate": "2024-02-01",
+  "employmentStatus": "EMPLOYED",
+  "monthlyIncome": 500000
+}
+```
+
+**Create Lease**
+```bash
+POST /api/v1/leases
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "propertyId": "uuid-of-property",
+  "tenantId": "uuid-of-tenant",
+  "startDate": "2024-02-01",
+  "endDate": "2025-01-31",
+  "monthlyRent": 250000,
+  "securityDeposit": 500000,
+  "paymentDueDay": 1,
+  "terms": "Standard 12-month residential lease"
+}
+```
+
+**Sign Lease**
+```bash
+POST /api/v1/leases/:id/sign
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "signature": "base64-encoded-signature",
+  "signedAt": "2024-01-15T10:30:00Z",
+  "ipAddress": "102.89.23.45"
+}
+```
+
+**Submit Identity Verification (KYC)**
+```bash
+POST /api/v1/verification/identity
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "type": "NIN",
+  "idNumber": "12345678901",
+  "firstName": "John",
+  "lastName": "Doe",
+  "dateOfBirth": "1990-05-15"
+}
+```
+
+**Submit C of O Verification**
+```bash
+POST /api/v1/verification/properties/:propertyId/cofo
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "documentUrl": "https://storage.example.com/cofo-document.pdf",
+  "type": "certificate_of_occupancy",
+  "notes": "Original document from 2018"
+}
+```
+
+**Start Conversation**
+```bash
+POST /api/v1/messages/conversations
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "propertyId": "uuid-of-property",
+  "recipientId": "uuid-of-landlord",
+  "initialMessage": "Hello, I am interested in this property"
+}
+```
+
+**Send Message**
+```bash
+POST /api/v1/messages/conversations/:conversationId
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "content": "Is the property still available?"
+}
+```
+
+**Create Maintenance Request**
+```bash
+POST /api/v1/maintenance
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "leaseId": "uuid-of-lease",
+  "title": "Broken AC Unit",
+  "description": "The living room AC is not cooling properly",
+  "priority": "MEDIUM",
+  "category": "HVAC",
+  "images": ["https://storage.example.com/ac-photo.jpg"]
+}
+```
+
+**Create Agent Job**
+```bash
+POST /api/v1/landlord/jobs
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "propertyId": "uuid-of-property",
+  "type": "PROPERTY_VIEWING",
+  "description": "Show property to potential tenant",
+  "scheduledDate": "2024-01-20T14:00:00Z",
+  "commission": 5000,
+  "requirements": ["Professional attire", "Property photos"]
+}
+```
+
+**Register Device for Push Notifications**
+```bash
+POST /api/v1/notifications/devices
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "token": "fcm-device-token-here",
+  "platform": "ios",
+  "deviceName": "iPhone 14 Pro"
+}
+```
+
 **Initiate Payment**
 ```bash
 POST /api/v1/transactions/pay
