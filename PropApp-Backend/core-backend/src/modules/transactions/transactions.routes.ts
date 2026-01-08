@@ -7,6 +7,8 @@ import { Router, Request, Response, NextFunction } from 'express';
 import { transactionService } from './transactions.service';
 import { authenticate, requireRoles } from '../../common/middleware/auth.middleware';
 import { sendSuccess, sendCreated } from '../../common/utils/response.util';
+import { paymentProviderFactory } from '../../integrations/payment';
+import { logger } from '../../common/utils/logger';
 import {
     transactionQuerySchema,
     initiatePaymentSchema,
@@ -55,11 +57,23 @@ const validateQuery = <T>(schema: { parse: (data: unknown) => T }) => {
  */
 router.post('/webhook/paystack', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        // TODO: Verify Paystack signature
+        // Verify Paystack signature
+        const signature = req.headers['x-paystack-signature'] as string;
+        const paystackProvider = paymentProviderFactory.getProviderById('paystack');
+
+        if (paystackProvider && signature) {
+            const isValid = paystackProvider.validateWebhook(req.body, signature);
+            if (!isValid) {
+                logger.warn('Invalid Paystack webhook signature');
+                return res.status(400).send('Invalid signature');
+            }
+        }
+
         const { reference } = req.body.data || {};
 
         if (reference) {
             await transactionService.verifyPayment({ reference, provider: 'paystack' });
+            logger.info(`Paystack webhook processed: ${reference}`);
         }
 
         res.status(200).send('OK');

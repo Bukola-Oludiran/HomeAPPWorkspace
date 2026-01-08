@@ -8,6 +8,8 @@ import multer from 'multer';
 import { propertyService } from './properties.service';
 import { authenticate, optionalAuth, requirePermission } from '../../common/middleware/auth.middleware';
 import { sendSuccess, sendCreated } from '../../common/utils/response.util';
+import { storageProviderFactory } from '../../integrations/storage';
+import { logger } from '../../common/utils/logger';
 import {
     createPropertySchema,
     updatePropertySchema,
@@ -20,8 +22,9 @@ import {
 
 const router = Router();
 
-// Multer config for image upload
+// Multer config for image upload (memory storage for S3)
 const upload = multer({
+    storage: multer.memoryStorage(),
     limits: { fileSize: 10 * 1024 * 1024 }, // 10MB max
     fileFilter: (req, file, cb) => {
         if (file.mimetype.startsWith('image/')) {
@@ -288,11 +291,31 @@ router.post(
                 throw new Error('No files uploaded');
             }
 
-            // TODO: Upload to S3 and get URLs
-            // For now, return mock URLs
-            const imageUrls = files.map(
-                (f, i) => `https://storage.homeai.ng/properties/${req.params.id}/${Date.now()}_${i}.jpg`
-            );
+            // Upload to S3 storage
+            const storage = storageProviderFactory.getProvider();
+            const imageUrls: string[] = [];
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const key = `properties/${req.params.id}/${Date.now()}_${i}.jpg`;
+
+                const uploadResult = await storage.upload({
+                    key,
+                    body: file.buffer,
+                    contentType: file.mimetype,
+                    bucket: 'homeai-properties',
+                });
+
+                if (uploadResult.success && uploadResult.url) {
+                    imageUrls.push(uploadResult.url);
+                } else {
+                    logger.warn(`Failed to upload image ${i}: ${uploadResult.error}`);
+                }
+            }
+
+            if (imageUrls.length === 0) {
+                throw new Error('Failed to upload any images');
+            }
 
             const result = await propertyService.addImages(req.params.id, req.user!.id, imageUrls);
             sendSuccess(res, result);

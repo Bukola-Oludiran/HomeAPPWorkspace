@@ -8,6 +8,8 @@ import { Prisma } from '@prisma/client';
 import { prisma } from '../../config/database';
 import { logger } from '../../common/utils/logger';
 import { ValidationError } from '../../common/utils/errors';
+import { communicationProviderFactory } from '../../integrations/communication';
+import { env } from '../../config/env';
 import {
     CreateConversationDto,
     ConversationQueryDto,
@@ -233,8 +235,10 @@ class MessagingService {
             data: { updatedAt: new Date() },
         });
 
-        // TODO: Send push notification to other participants
-        // TODO: WebSocket broadcast
+        // Send push notification to other participants (fire and forget)
+        this.notifyParticipants(conversationId, senderId, data.content).catch(err => {
+            logger.error(`Failed to notify participants: ${err.message}`);
+        });
 
         logger.info(`Message sent in conversation ${conversationId} by ${senderId}`);
 
@@ -247,6 +251,52 @@ class MessagingService {
             read: message.read,
             createdAt: message.createdAt,
         };
+    }
+
+    /**
+     * Notify other participants of new message
+     */
+    private async notifyParticipants(
+        conversationId: string,
+        senderId: string,
+        messageContent: string
+    ): Promise<void> {
+        // Get other participants
+        const participants = await prisma.conversationParticipant.findMany({
+            where: { conversationId, userId: { not: senderId } },
+            include: { user: { select: { id: true, firstName: true } } },
+        });
+
+        // Get sender name
+        const sender = await prisma.user.findUnique({
+            where: { id: senderId },
+            select: { firstName: true, lastName: true },
+        });
+        const senderName = sender ? `${sender.firstName || ''} ${sender.lastName || ''}`.trim() : 'Someone';
+
+        const regionCode = env.DEFAULT_REGION || 'NG';
+        const pushProvider = communicationProviderFactory.getPushProvider(regionCode);
+
+        for (const participant of participants) {
+            // Get user's device tokens
+            const devices = await prisma.deviceToken.findMany({
+                where: { userId: participant.userId, active: true },
+            });
+
+            if (devices.length === 0) continue;
+
+            const tokens = devices.map(d => d.token);
+            await pushProvider.sendPush({
+                tokens,
+                title: `New message from ${senderName}`,
+                body: messageContent.substring(0, 100),
+                data: {
+                    type: 'new_message',
+                    conversationId,
+                    senderId,
+                },
+            });
+        }
     }
 
     /**

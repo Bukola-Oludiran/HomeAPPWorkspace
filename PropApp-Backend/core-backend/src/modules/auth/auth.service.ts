@@ -11,6 +11,7 @@ import { env } from '../../config/env';
 import { prisma } from '../../config/database';
 import { UserRole, VerificationLevel } from '@prisma/client';
 import { JwtPayload } from '../../common/middleware/auth.middleware';
+import { communicationProviderFactory } from '../../integrations/communication';
 import {
     InvalidCredentialsError,
     EmailExistsError,
@@ -89,8 +90,20 @@ class AuthService {
             expiresAt,
         });
 
-        // TODO: Send verification email via communication provider
-        logger.info(`Verification code for ${email}: ${code}`);
+        // Send verification email
+        const emailProvider = communicationProviderFactory.getEmailProvider(regionCode);
+        emailProvider.sendEmail({
+            to: email,
+            subject: 'Your HomeAI Verification Code',
+            html: `
+                <h2>Welcome to HomeAI!</h2>
+                <p>Your verification code is: <strong>${code}</strong></p>
+                <p>This code expires in 10 minutes.</p>
+                <p>If you didn't request this, please ignore this email.</p>
+            `,
+        }).catch(err => logger.error(`Failed to send verification email: ${err.message}`));
+
+        logger.info(`Verification code sent to ${email}`);
 
         return {
             message: 'Verification code sent to your email',
@@ -326,8 +339,22 @@ class AuthService {
 
         passwordResetTokens.set(token, { userId: user.id, expiresAt });
 
-        // TODO: Send password reset email
-        logger.info(`Password reset token for ${email}: ${token}`);
+        // Send password reset email
+        const resetLink = `${env.FRONTEND_URL}/reset-password?token=${token}`;
+        const emailProvider = communicationProviderFactory.getEmailProvider(user.regionCode || 'NG');
+        emailProvider.sendEmail({
+            to: email,
+            subject: 'Reset Your HomeAI Password',
+            html: `
+                <h2>Password Reset Request</h2>
+                <p>Click the link below to reset your password:</p>
+                <p><a href="${resetLink}">${resetLink}</a></p>
+                <p>This link expires in 1 hour.</p>
+                <p>If you didn't request this, please ignore this email.</p>
+            `,
+        }).catch(err => logger.error(`Failed to send password reset email: ${err.message}`));
+
+        logger.info(`Password reset email sent to ${email}`);
 
         return { message: 'If the email exists, a reset link has been sent' };
     }

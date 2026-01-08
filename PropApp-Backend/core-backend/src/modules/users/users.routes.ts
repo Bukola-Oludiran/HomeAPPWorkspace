@@ -9,6 +9,7 @@ import { userService } from './users.service';
 import { authenticate } from '../../common/middleware/auth.middleware';
 import { authenticateService, requireService } from '../../common/middleware/service.middleware';
 import { sendSuccess } from '../../common/utils/response.util';
+import { storageProviderFactory } from '../../integrations/storage';
 import {
     updateProfileSchema,
     updatePasswordSchema,
@@ -19,8 +20,9 @@ import {
 
 const router = Router();
 
-// Multer config for avatar upload
+// Multer config for avatar upload (memory storage for S3)
 const upload = multer({
+    storage: multer.memoryStorage(),
     limits: { fileSize: 5 * 1024 * 1024 }, // 5MB max
     fileFilter: (req, file, cb) => {
         if (file.mimetype.startsWith('image/')) {
@@ -169,11 +171,22 @@ router.post(
                 throw new Error('No file uploaded');
             }
 
-            // TODO: Upload to S3 and get URL
-            // For now, return mock URL
-            const avatarUrl = `https://storage.homeai.ng/avatars/${req.user!.id}/${Date.now()}.jpg`;
+            // Upload to S3 storage
+            const storage = storageProviderFactory.getProvider();
+            const key = `avatars/${req.user!.id}/${Date.now()}.jpg`;
 
-            const result = await userService.updateAvatar(req.user!.id, avatarUrl);
+            const uploadResult = await storage.upload({
+                key,
+                body: req.file.buffer,
+                contentType: req.file.mimetype,
+                bucket: 'homeai-avatars',
+            });
+
+            if (!uploadResult.success || !uploadResult.url) {
+                throw new Error(uploadResult.error || 'Failed to upload avatar');
+            }
+
+            const result = await userService.updateAvatar(req.user!.id, uploadResult.url);
             sendSuccess(res, result);
         } catch (error) {
             next(error);
