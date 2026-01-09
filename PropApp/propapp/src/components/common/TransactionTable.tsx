@@ -1,5 +1,4 @@
 import React from 'react';
-import StatusBadge from './StatusBadge';
 
 interface TransactionColumn<T> {
     /** Column header label */
@@ -110,8 +109,8 @@ function TransactionTable<T extends Record<string, unknown>>({
                             onClick={onPrevious}
                             disabled={!hasPrevious}
                             className={`px-3 py-1 text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors ${!hasPrevious
-                                    ? 'text-slate-400 dark:text-slate-500 opacity-50 cursor-not-allowed'
-                                    : 'text-slate-500 dark:text-slate-400'
+                                ? 'text-slate-400 dark:text-slate-500 opacity-50 cursor-not-allowed'
+                                : 'text-slate-500 dark:text-slate-400'
                                 }`}
                         >
                             Previous
@@ -120,8 +119,8 @@ function TransactionTable<T extends Record<string, unknown>>({
                             onClick={onNext}
                             disabled={!hasNext}
                             className={`px-3 py-1 text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors ${!hasNext
-                                    ? 'text-slate-400 dark:text-slate-500 opacity-50 cursor-not-allowed'
-                                    : 'text-[#137fec]'
+                                ? 'text-slate-400 dark:text-slate-500 opacity-50 cursor-not-allowed'
+                                : 'text-[#137fec]'
                                 }`}
                         >
                             Next

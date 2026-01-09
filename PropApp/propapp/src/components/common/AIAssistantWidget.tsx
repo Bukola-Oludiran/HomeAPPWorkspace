@@ -6,6 +6,8 @@ interface AIAssistantWidgetProps {
     placeholder?: string;
     /** Callback when message is submitted */
     onSubmit?: (message: string) => void;
+    /** Quick suggestion buttons (optional) */
+    suggestions?: string[];
 }
 
 /**
