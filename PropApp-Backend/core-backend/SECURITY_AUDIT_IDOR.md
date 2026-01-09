@@ -2,19 +2,21 @@
 
 **Audit Date:** January 9, 2024  
 **Auditor:** Automated Security Review  
-**Scope:** All service files in `/src/modules/`
+**Scope:** All 14 service files in `/src/modules/`
 
 ---
 
 ## Executive Summary
 
-The HomeAI backend demonstrates **strong IDOR protection** across most services. Ownership and authorization checks are consistently implemented before accessing or modifying resources.
+The HomeAI backend demonstrates **strong IDOR protection** across all services. Ownership and authorization checks are consistently implemented before accessing or modifying resources.
 
 | Status | Count | Description |
 |--------|-------|-------------|
-| ✅ Secure | 9 | Proper ownership/access verification |
-| ⚠️ Warning | 1 | Admin endpoints need role verification |
+| ✅ Secure | 13 | Proper ownership/access verification |
+| ⚠️ Fixed | 1 | Verification admin endpoints now protected |
 | ❌ Critical | 0 | No critical IDOR vulnerabilities found |
+
+**Total Services Audited: 14/14**
 
 ---
 
@@ -204,6 +206,87 @@ const job = await prisma.agentJob.findFirst({
 });
 ```
 ✅ All job operations verify agent assignment.
+
+---
+
+### ✅ Favorites Service
+**File:** `src/modules/properties/favorites.service.ts`
+
+**Finding:** SECURE  
+**Evidence:**
+```typescript
+// addFavorite - uses userId from authenticated user
+async addFavorite(userId: string, propertyId: string) {
+    await prisma.favorite.create({
+        data: { userId, propertyId },  // ← Uses authenticated userId
+    });
+}
+
+// removeFavorite - filters by userId
+async removeFavorite(userId: string, propertyId: string) {
+    await prisma.favorite.delete({
+        where: { userId_propertyId: { userId, propertyId } },  // ← Composite key includes userId
+    });
+}
+```
+✅ All operations use composite key with `userId`, preventing access to others' favorites.
+
+---
+
+### ✅ Users Service
+**File:** `src/modules/users/users.service.ts`
+
+**Finding:** SECURE  
+**Evidence:**
+```typescript
+// getCurrentUser - only returns own profile
+async getCurrentUser(userId: string) {
+    const user = await prisma.user.findUnique({
+        where: { id: userId },  // ← Uses authenticated userId directly
+    });
+}
+
+// updateProfile - only updates own profile
+async updateProfile(userId: string, data: UpdateProfileDto) {
+    await prisma.user.update({
+        where: { id: userId },  // ← Uses authenticated userId directly
+    });
+}
+
+// Public profiles return limited, non-sensitive data
+async getPublicLandlordProfile(landlordId: string) {
+    // Only returns firstName, lastName, avatarUrl, verificationLevel
+    // No phone, email, or private data exposed
+}
+```
+✅ All personal operations use authenticated userId. Public profiles expose only non-sensitive data.
+
+---
+
+### ✅ Auth Service
+**File:** `src/modules/auth/auth.service.ts`
+
+**Finding:** SECURE (No IDOR Risk)  
+**Analysis:**
+- Registration: Uses email lookup (not user-controlled IDs)
+- Login: Validates credentials, doesn't expose other users' data
+- Password reset: Uses secure tokens, not user IDs
+- 2FA: Operates on authenticated user only
+
+✅ No IDOR vectors - authentication flows don't use direct object references.
+
+---
+
+### ✅ OAuth Service
+**File:** `src/modules/auth/oauth.service.ts`
+
+**Finding:** SECURE (No IDOR Risk)  
+**Analysis:**
+- OAuth login: Creates/finds user by email from OAuth provider
+- Token verification: Validates with external provider, not internal IDs
+- No user-controlled ID parameters accepted
+
+✅ No IDOR vectors - OAuth flows verify identity through external providers.
 
 ---
 
