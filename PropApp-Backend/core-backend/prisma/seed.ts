@@ -413,22 +413,222 @@ async function main() {
     console.log(`  ✓ Notifications: ${tenants.length} created`);
 
     // ----------------------------------------
+    // CREATE APPLICATIONS
+    // ----------------------------------------
+    console.log('📝 Creating applications...');
+
+    const availableProperties = properties.filter(p => p.status === 'ACTIVE' && p.listingType === 'RENT');
+    const applications = [];
+
+    for (let i = 0; i < Math.min(4, availableProperties.length); i++) {
+        const property = availableProperties[i];
+        const tenant = tenants[i % tenants.length];
+
+        const application = await prisma.application.create({
+            data: {
+                propertyId: property.id,
+                tenantId: tenant.id,
+                status: randomElement(['PENDING', 'PENDING', 'APPROVED', 'REJECTED']),
+                additionalNotes: `I am interested in renting this property. I am a ${randomElement(['software engineer', 'banker', 'doctor', 'teacher'])} with stable income.`,
+                moveInDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+                employmentInfo: JSON.parse(JSON.stringify({ status: randomElement(['EMPLOYED', 'SELF_EMPLOYED']), monthlyIncome: randomElement([300000, 500000, 750000, 1000000]) })),
+            },
+        });
+        applications.push(application);
+    }
+    console.log(`  ✓ Applications: ${applications.length} created`);
+
+    // ----------------------------------------
+    // CREATE VERIFICATIONS
+    // ----------------------------------------
+    console.log('✅ Creating verifications...');
+
+    // User identity verifications
+    for (const user of [...tenants, ...landlords]) {
+        await prisma.verification.create({
+            data: {
+                userId: user.id,
+                type: 'IDENTITY',
+                level: user.verificationLevel === 'GOLD' ? 'GOLD' : user.verificationLevel === 'SILVER' ? 'SILVER' : 'BRONZE',
+                status: user.verificationLevel !== 'UNVERIFIED' ? 'APPROVED' : 'PENDING',
+                documentType: 'NIN',
+                documentUrl: `https://storage.example.com/docs/${user.id}/nin.pdf`,
+                metadata: JSON.parse(JSON.stringify({ idNumber: '12345678901', verifiedAt: new Date().toISOString() })),
+            },
+        });
+    }
+
+    // Property verifications
+    for (const property of properties.filter(p => p.verificationTier !== 'UNVERIFIED')) {
+        await prisma.verification.create({
+            data: {
+                propertyId: property.id,
+                type: 'COFO',
+                level: property.verificationTier,
+                status: 'APPROVED',
+                documentType: 'certificate_of_occupancy',
+                documentUrl: `https://storage.example.com/docs/${property.id}/cofo.pdf`,
+                metadata: JSON.parse(JSON.stringify({ registryNumber: `COFO-${property.id.slice(0, 8)}`, verifiedAt: new Date().toISOString() })),
+            },
+        });
+    }
+    console.log(`  ✓ Verifications: ${tenants.length + landlords.length + properties.filter(p => p.verificationTier !== 'UNVERIFIED').length} created`);
+
+    // ----------------------------------------
+    // CREATE MAINTENANCE REQUESTS
+    // ----------------------------------------
+    console.log('🔧 Creating maintenance requests...');
+
+    const maintenanceRequests = [];
+    const maintenanceIssues = [
+        { title: 'AC not cooling', description: 'The living room AC unit is not cooling properly', priority: 'MEDIUM', category: 'HVAC' },
+        { title: 'Leaking faucet', description: 'Kitchen sink faucet is dripping constantly', priority: 'LOW', category: 'PLUMBING' },
+        { title: 'Power outage in bedroom', description: 'Electrical outlets in master bedroom stopped working', priority: 'HIGH', category: 'ELECTRICAL' },
+    ];
+
+    for (let i = 0; i < Math.min(leases.length, maintenanceIssues.length); i++) {
+        const lease = leases[i];
+        const issue = maintenanceIssues[i];
+
+        const request = await prisma.maintenanceRequest.create({
+            data: {
+                propertyId: lease.propertyId,
+                tenantId: lease.tenantId,
+                title: issue.title,
+                description: issue.description,
+                priority: issue.priority as 'LOW' | 'MEDIUM' | 'HIGH' | 'EMERGENCY',
+                category: issue.category,
+                status: randomElement(['SUBMITTED', 'IN_PROGRESS', 'COMPLETED']),
+                images: [`https://picsum.photos/seed/${lease.id}/400/300`],
+            },
+        });
+        maintenanceRequests.push(request);
+    }
+    console.log(`  ✓ Maintenance requests: ${maintenanceRequests.length} created`);
+
+    // ----------------------------------------
+    // CREATE AGENT JOBS
+    // ----------------------------------------
+    console.log('👷 Creating agent jobs...');
+
+    const agentJobs = [];
+    const jobTypes = ['PROPERTY_VIEWING', 'INSPECTION', 'KEY_HANDOVER', 'DOCUMENTATION'];
+
+    for (let i = 0; i < Math.min(4, properties.length); i++) {
+        const property = properties[i];
+        const agent = agents[i % agents.length];
+        const landlord = landlords.find(l => l.id === property.ownerId) || landlords[0];
+
+        const job = await prisma.agentJob.create({
+            data: {
+                propertyId: property.id,
+                assignedAgentId: i < 2 ? agent.id : null, // Some jobs unassigned
+                requesterId: landlord.id,
+                type: jobTypes[i % jobTypes.length] as 'PROPERTY_VIEWING' | 'PROPERTY_AUDIT' | 'KEY_HANDOVER' | 'INSPECTION',
+                description: `${jobTypes[i % jobTypes.length].replace('_', ' ')} for ${property.name}`,
+                status: randomElement(['OPEN', 'ASSIGNED', 'IN_PROGRESS', 'COMPLETED']),
+                scheduledDate: new Date(Date.now() + (i + 1) * 7 * 24 * 60 * 60 * 1000),
+                earnings: randomElement([5000, 7500, 10000, 15000]),
+            },
+        });
+        agentJobs.push(job);
+    }
+    console.log(`  ✓ Agent jobs: ${agentJobs.length} created`);
+
+    // ----------------------------------------
+    // CREATE CONVERSATIONS & MESSAGES
+    // ----------------------------------------
+    console.log('💬 Creating conversations and messages...');
+
+    const conversations = [];
+    for (let i = 0; i < Math.min(3, properties.length); i++) {
+        const property = properties[i];
+        const tenant = tenants[i % tenants.length];
+        const landlord = landlords.find(l => l.id === property.ownerId) || landlords[0];
+
+        const conversation = await prisma.conversation.create({
+            data: {
+                propertyId: property.id,
+                participants: {
+                    create: [
+                        { userId: tenant.id },
+                        { userId: landlord.id },
+                    ],
+                },
+            },
+        });
+
+        // Add messages to conversation
+        await prisma.message.createMany({
+            data: [
+                {
+                    conversationId: conversation.id,
+                    senderId: tenant.id,
+                    content: `Hello, I am interested in ${property.name}. Is it still available?`,
+                },
+                {
+                    conversationId: conversation.id,
+                    senderId: landlord.id,
+                    content: `Yes, the property is still available. Would you like to schedule a viewing?`,
+                },
+                {
+                    conversationId: conversation.id,
+                    senderId: tenant.id,
+                    content: `That would be great! I am available this weekend.`,
+                },
+            ],
+        });
+
+        conversations.push(conversation);
+    }
+    console.log(`  ✓ Conversations: ${conversations.length} created with ${conversations.length * 3} messages`);
+
+    // ----------------------------------------
+    // CREATE FAVORITES
+    // ----------------------------------------
+    console.log('❤️ Creating favorites...');
+
+    let favoritesCount = 0;
+    for (const tenant of tenants) {
+        // Each tenant saves 2-3 random properties
+        const shuffledProperties = [...properties].sort(() => Math.random() - 0.5);
+        const propertiesToSave = shuffledProperties.slice(0, randomElement([2, 3]));
+
+        for (const property of propertiesToSave) {
+            await prisma.favorite.create({
+                data: {
+                    userId: tenant.id,
+                    propertyId: property.id,
+                },
+            });
+            favoritesCount++;
+        }
+    }
+    console.log(`  ✓ Favorites: ${favoritesCount} created`);
+
+    // ----------------------------------------
     // SUMMARY
     // ----------------------------------------
     console.log('\n✅ Seed completed successfully!\n');
     console.log('📊 Summary:');
     console.log(`   • Users: ${1 + landlords.length + tenants.length + agents.length}`);
-    console.log(`   • Properties: ${properties.length}`);
+    console.log(`   • Properties: ${properties.length} (with ${properties.length * 3}+ media items)`);
+    console.log(`   • Applications: ${applications.length}`);
     console.log(`   • Leases: ${leases.length}`);
     console.log(`   • Transactions: ${leases.length * 2}`);
+    console.log(`   • Verifications: ${tenants.length + landlords.length + properties.filter(p => p.verificationTier !== 'UNVERIFIED').length}`);
+    console.log(`   • Maintenance Requests: ${maintenanceRequests.length}`);
+    console.log(`   • Agent Jobs: ${agentJobs.length}`);
+    console.log(`   • Conversations: ${conversations.length} (with ${conversations.length * 3} messages)`);
+    console.log(`   • Favorites: ${favoritesCount}`);
     console.log(`   • Notifications: ${tenants.length}`);
     console.log('\n🔐 Login credentials (all users):');
     console.log('   Password: Password123!');
     console.log('\n📧 Test accounts:');
     console.log('   • Admin: admin@homeai.ng');
-    console.log('   • Landlord: landlord1@homeai.ng');
-    console.log('   • Tenant: tenant1@homeai.ng');
-    console.log('   • Agent: agent1@homeai.ng');
+    console.log('   • Landlord: landlord1@homeai.ng, landlord2@homeai.ng');
+    console.log('   • Tenant: tenant1@homeai.ng, tenant2@homeai.ng, tenant3@homeai.ng');
+    console.log('   • Agent: agent1@homeai.ng, agent2@homeai.ng');
 }
 
 main()
