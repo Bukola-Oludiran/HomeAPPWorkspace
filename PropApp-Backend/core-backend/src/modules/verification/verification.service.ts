@@ -439,6 +439,14 @@ class VerificationService {
             throw new ValidationError('Verification not found', []);
         }
 
+        // Verify admin role - IDOR protection
+        const admin = await prisma.user.findUnique({ where: { id: adminId } });
+        if (admin?.role !== 'ADMIN') {
+            throw new ValidationError('Access denied', [
+                { field: 'adminId', message: 'Only admins can approve verifications' },
+            ]);
+        }
+
         const resultLevel = result.tier === 'PLATINUM' ? 'PLATINUM' : result.tier === 'GOLD' ? 'GOLD' : result.tier === 'SILVER' ? 'SILVER' : 'BRONZE';
 
         await prisma.verification.update({
@@ -546,6 +554,14 @@ class VerificationService {
 
         if (!verification) {
             throw new ValidationError('Verification not found', []);
+        }
+
+        // Verify admin role - IDOR protection
+        const admin = await prisma.user.findUnique({ where: { id: adminId } });
+        if (admin?.role !== 'ADMIN') {
+            throw new ValidationError('Access denied', [
+                { field: 'adminId', message: 'Only admins can reject verifications' },
+            ]);
         }
 
         await prisma.verification.update({
