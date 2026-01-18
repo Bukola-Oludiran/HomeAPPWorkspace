@@ -599,7 +599,7 @@ async function main() {
     console.log('👷 Creating agent jobs...');
 
     const agentJobs = [];
-    const jobTypes = ['PROPERTY_VIEWING', 'INSPECTION', 'KEY_HANDOVER', 'DOCUMENTATION'];
+    const jobTypes = ['PROPERTY_VIEWING', 'INSPECTION', 'KEY_HANDOVER', 'PROPERTY_AUDIT'] as const;
 
     for (let i = 0; i < Math.min(4, properties.length); i++) {
         const property = properties[i];
