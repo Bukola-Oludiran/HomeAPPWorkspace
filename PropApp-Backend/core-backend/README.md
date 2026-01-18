@@ -17,8 +17,52 @@ npm run prisma:generate
 # Run database migrations
 npm run prisma:migrate
 
+# Seed database with test data
+npm run prisma:seed
+
 # Start development server
 npm run dev
+```
+
+## 🧪 Test Accounts
+
+After running `npm run prisma:seed`, the following test accounts are available:
+
+| Role | Email | Password |
+|------|-------|----------|
+| **Admin** | admin@homeai.ng | Password123! |
+| **Landlord** | landlord1@homeai.ng | Password123! |
+| **Landlord** | landlord2@homeai.ng | Password123! |
+| **Tenant** | tenant1@homeai.ng | Password123! |
+| **Tenant** | tenant2@homeai.ng | Password123! |
+| **Tenant** | tenant3@homeai.ng | Password123! |
+| **Agent** | agent1@homeai.ng | Password123! |
+| **Agent** | agent2@homeai.ng | Password123! |
+
+### Seed Data Included
+
+| Entity | Count | Description |
+|--------|-------|-------------|
+| Users | 8 | 1 admin, 2 landlords, 3 tenants, 2 agents |
+| User Profiles | 7 | Role-specific profile data |
+| Properties | 10 | Various types across Lagos (with media) |
+| Property Media | 30+ | Images, 3D tours, videos, floor plans |
+| Applications | 4 | PENDING, APPROVED, REJECTED statuses |
+| Leases | 3 | Active leases with transactions |
+| Transactions | 8 | Rent payments, security deposits |
+| Escrows | 2 | FUNDED and RELEASED examples |
+| Verifications | 12+ | User identity + property verification |
+| Maintenance Requests | 3 | Different priorities and categories |
+| Agent Jobs | 4 | Viewings, inspections, key handovers |
+| Conversations | 3 | With 9 messages |
+| Favorites | 6-9 | Tenant saved properties |
+| Notifications | 3 | Payment reminders |
+
+### Quick Login Example
+```bash
+curl -X POST http://localhost:3000/api/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email": "tenant1@homeai.ng", "password": "Password123!"}'
 ```
 
 ## 📁 Project Structure
