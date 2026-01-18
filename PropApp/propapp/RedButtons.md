@@ -41,13 +41,6 @@ A comprehensive list of all red-themed buttons, clickables, and interactive elem
 | 25 | `Delete Listing` button | Header delete listing button |
 | 135, 148, 161, 174 | Delete image buttons | Remove buttons on property images |
 
-### LandlordEditLeaseTerms.tsx
-**File:** `src/features/landlord/pages/LandlordEditLeaseTerms.tsx`
-
-| Line | Element | Description |
-|------|---------|-------------|
-| 192 | Delete clause button | Remove clause from lease |
-| 213 | Delete clause button | Remove clause from lease |
 
 ### LandlordLeaseAgreement.tsx
 **File:** `src/features/landlord/pages/LandlordLeaseAgreement.tsx`
@@ -102,14 +95,6 @@ A comprehensive list of all red-themed buttons, clickables, and interactive elem
 |------|---------|-------------|
 | 298 | `Cancel Request` button | Cancel maintenance request |
 
-### TenantSavedProperties.tsx
-**File:** `src/features/tenant/pages/TenantSavedProperties.tsx`
-
-| Line | Element | Description |
-|------|---------|-------------|
-| 291 | Remove favorite button | Remove property from saved list |
-
----
 
 ## Agent Dashboard Pages
 
@@ -146,12 +131,6 @@ A comprehensive list of all red-themed buttons, clickables, and interactive elem
 |------|---------|-------------|
 | 70 | `Withdraw Application` button | Confirm withdrawal button |
 
-### VirtualTourModal.tsx
-**File:** `src/components/VirtualTourModal.tsx`
-
-| Line | Element | Description |
-|------|---------|-------------|
-| 36 | Close button | Modal close with hover:text-red-500 |
 
 ### SignLeaseRenewalModal.tsx
 **File:** `src/components/SignLeaseRenewalModal.tsx`
@@ -159,17 +138,6 @@ A comprehensive list of all red-themed buttons, clickables, and interactive elem
 | Line | Element | Description |
 |------|---------|-------------|
 | 209 | Remove signature button | Delete uploaded signature |
-
----
-
-## Other Interactive Elements
-
-### PropertyDetail.tsx
-**File:** `src/pages/Property/PropertyDetail.tsx`
-
-| Line | Element | Description |
-|------|---------|-------------|
-| 105 | Favorite heart icon | Active favorite state (icon-filled) |
 
 ---
 
@@ -181,9 +149,3 @@ A comprehensive list of all red-themed buttons, clickables, and interactive elem
 - Withdraw buttons (applications)
 - Cancel buttons (requests)
 - Deactivate buttons (accounts)
-
-### Styling Patterns Used
-- `text-red-600 dark:text-red-400` - Standard red text
-- `bg-red-50 dark:bg-red-900/10` - Light red background
-- `border-red-200 dark:border-red-900/30` - Red border
-- `hover:bg-red-100 dark:hover:bg-red-900/20` - Red hover state

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import PageContainer from '../../../components/common/PageContainer';
 import PageHeader from '../../../components/common/PageHeader';
+import ConfirmationModal from '../../../components/ConfirmationModal';
 
 // Mock profile data based on design
 const profileData = {
@@ -33,6 +34,8 @@ export default function AgentProfile() {
     });
     const [locations, setLocations] = useState(profileData.locations);
     const [newLocation, setNewLocation] = useState('');
+    const [locationToRemove, setLocationToRemove] = useState<string | null>(null);
+    const [certToDelete, setCertToDelete] = useState<{ id: number; name: string } | null>(null);
 
     const handleInputChange = (field: string, value: string) => {
         setFormData({ ...formData, [field]: value });
@@ -40,6 +43,7 @@ export default function AgentProfile() {
 
     const handleRemoveLocation = (locationToRemove: string) => {
         setLocations(locations.filter(loc => loc !== locationToRemove));
+        setLocationToRemove(null);
     };
 
     const handleAddLocation = () => {
@@ -242,7 +246,7 @@ export default function AgentProfile() {
                                     <div key={loc} className="flex items-center gap-1 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 px-3 py-1.5 rounded-lg shadow-sm">
                                         <span className="text-sm font-medium">{loc}</span>
                                         <button
-                                            onClick={() => handleRemoveLocation(loc)}
+                                            onClick={() => setLocationToRemove(loc)}
                                             className="text-slate-400 hover:text-red-500 transition-colors"
                                         >
                                             <span className="material-symbols-outlined text-[16px]">close</span>
@@ -294,7 +298,10 @@ export default function AgentProfile() {
                                         <button className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-all">
                                             <span className="material-symbols-outlined text-[20px]">edit</span>
                                         </button>
-                                        <button className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all">
+                                        <button
+                                            onClick={() => setCertToDelete({ id: cert.id, name: cert.name })}
+                                            className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all"
+                                        >
                                             <span className="material-symbols-outlined text-[20px]">delete</span>
                                         </button>
                                     </div>
@@ -342,6 +349,35 @@ export default function AgentProfile() {
                     </div>
                 </div>
             </div>
+
+            {/* Remove Location Confirmation Modal */}
+            <ConfirmationModal
+                isOpen={locationToRemove !== null}
+                onClose={() => setLocationToRemove(null)}
+                onConfirm={() => locationToRemove && handleRemoveLocation(locationToRemove)}
+                title="Remove Service Area?"
+                description={`Are you sure you want to remove "${locationToRemove}" from your service areas? You can add it back later.`}
+                confirmText="Remove"
+                cancelText="Cancel"
+                icon="delete"
+                variant="danger"
+            />
+
+            {/* Delete Certification Confirmation Modal */}
+            <ConfirmationModal
+                isOpen={certToDelete !== null}
+                onClose={() => setCertToDelete(null)}
+                onConfirm={() => {
+                    console.log('Deleting certification:', certToDelete?.id);
+                    setCertToDelete(null);
+                }}
+                title="Delete Certification?"
+                description={`Are you sure you want to delete "${certToDelete?.name}"? This will remove it from your public profile.`}
+                confirmText="Delete"
+                cancelText="Cancel"
+                icon="delete"
+                variant="danger"
+            />
         </PageContainer>
     );
 }

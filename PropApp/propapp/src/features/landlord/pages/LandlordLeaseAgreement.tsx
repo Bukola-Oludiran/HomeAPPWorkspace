@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import DocumentViewerModal from '../../../components/DocumentViewerModal';
 import DraftRenewalOfferModal from '../../../components/DraftRenewalOfferModal';
+import ConfirmationModal from '../../../components/ConfirmationModal';
 
 // Mock lease data
 const leaseData = {
@@ -49,6 +50,7 @@ export default function LandlordLeaseAgreement() {
     const { id } = useParams();
     const [isDocumentModalOpen, setIsDocumentModalOpen] = useState(false);
     const [isRenewalModalOpen, setIsRenewalModalOpen] = useState(false);
+    const [isVacateModalOpen, setIsVacateModalOpen] = useState(false);
     console.log('Lease ID:', id);
 
     return (
@@ -315,7 +317,10 @@ export default function LandlordLeaseAgreement() {
                             <span className="material-symbols-outlined text-[20px]">edit_document</span>
                             Edit Terms
                         </Link>
-                        <button className="flex-1 md:flex-none px-5 py-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 text-red-600 hover:border-red-100 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors whitespace-nowrap flex items-center justify-center gap-2">
+                        <button
+                            onClick={() => setIsVacateModalOpen(true)}
+                            className="flex-1 md:flex-none px-5 py-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 text-red-600 hover:border-red-100 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors whitespace-nowrap flex items-center justify-center gap-2"
+                        >
                             <span className="material-symbols-outlined text-[20px]">block</span>
                             Notice to Vacate
                         </button>
@@ -352,6 +357,19 @@ export default function LandlordLeaseAgreement() {
                 leaseId={`#${leaseData.id}`}
                 currentRent={leaseData.monthlyRent}
                 expiryDate={leaseData.leaseEnd}
+            />
+
+            {/* Notice to Vacate Confirmation Modal */}
+            <ConfirmationModal
+                isOpen={isVacateModalOpen}
+                onClose={() => setIsVacateModalOpen(false)}
+                onConfirm={() => console.log('Notice to vacate sent')}
+                title="Send Notice to Vacate?"
+                description="This will notify the tenant that they must vacate the property. This action cannot be undone and may have legal implications."
+                confirmText="Send Notice"
+                cancelText="Cancel"
+                icon="block"
+                variant="danger"
             />
         </div>
     );
