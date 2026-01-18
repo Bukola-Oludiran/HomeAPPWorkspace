@@ -209,6 +209,49 @@ async function main() {
     console.log(`  ✓ Agents: ${agents.length} created`);
 
     // ----------------------------------------
+    // CREATE USER PROFILES
+    // ----------------------------------------
+    console.log('👤 Creating user profiles...');
+
+    const allUsers = [...landlords, ...tenants, ...agents];
+    for (const user of allUsers) {
+        await prisma.userProfile.create({
+            data: {
+                userId: user.id,
+                profileData: JSON.parse(JSON.stringify({
+                    bio: `${user.role === 'LANDLORD' ? 'Property owner' : user.role === 'TENANT' ? 'Looking for quality housing' : 'Certified real estate agent'} in Nigeria`,
+                    languages: ['English', 'Yoruba', 'Igbo', 'Hausa'][Math.floor(Math.random() * 4)],
+                    preferences: {
+                        notifications: { email: true, sms: true, push: true },
+                        currency: 'NGN',
+                        language: 'en',
+                    },
+                    ...(user.role === 'LANDLORD' && {
+                        propertyManagementExperience: randomElement(['1-2 years', '3-5 years', '5+ years']),
+                        preferredTenantType: randomElement(['families', 'professionals', 'students', 'any']),
+                    }),
+                    ...(user.role === 'TENANT' && {
+                        occupation: randomElement(['Software Engineer', 'Doctor', 'Banker', 'Teacher', 'Entrepreneur']),
+                        housingPreferences: {
+                            preferredLocations: randomElement([['Lekki', 'Victoria Island'], ['Ikoyi', 'Lekki'], ['Yaba', 'Surulere']]),
+                            maxBudget: randomElement([1500000, 2000000, 3000000, 5000000]),
+                            preferredPropertyTypes: randomElement([['APARTMENT'], ['APARTMENT', 'DUPLEX'], ['HOUSE']]),
+                        },
+                    }),
+                    ...(user.role === 'AGENT' && {
+                        licenseNumber: `LASRERA-${Date.now().toString().slice(-6)}`,
+                        specializations: randomElement([['residential', 'rentals'], ['luxury', 'sales'], ['commercial', 'rentals']]),
+                        serviceAreas: randomElement([['Lekki', 'Victoria Island'], ['Ikoyi', 'Banana Island'], ['Ikeja', 'Maryland']]),
+                        yearsExperience: randomElement([2, 3, 5, 8, 10]),
+                        completedTransactions: randomElement([15, 30, 50, 100]),
+                    }),
+                })),
+            },
+        });
+    }
+    console.log(`  ✓ User Profiles: ${allUsers.length} created`);
+
+    // ----------------------------------------
     // CREATE PROPERTIES
     // ----------------------------------------
     console.log('🏠 Creating properties...');
@@ -392,6 +435,50 @@ async function main() {
         });
     }
     console.log(`  ✓ Transactions: ${leases.length * 2} created`);
+
+    // ----------------------------------------
+    // CREATE ESCROWS
+    // ----------------------------------------
+    console.log('🔐 Creating escrows...');
+
+    const escrows = [];
+    for (let i = 0; i < Math.min(2, leases.length); i++) {
+        const lease = leases[i];
+        const escrowAmount = Number(lease.securityDeposit) || 200000;
+        const platformFee = escrowAmount * 0.025; // 2.5% platform fee
+
+        // Create a transaction for escrow
+        const escrowTransaction = await prisma.transaction.create({
+            data: {
+                type: 'SECURITY_DEPOSIT',
+                payerId: lease.tenantId,
+                payeeId: lease.landlordId,
+                propertyId: lease.propertyId,
+                amount: escrowAmount,
+                currency: 'NGN',
+                status: 'COMPLETED',
+                metadata: JSON.parse(JSON.stringify({ escrowType: 'security_deposit', leaseId: lease.id })),
+            },
+        });
+
+        // Create escrow record linked to transaction
+        const escrow = await prisma.escrow.create({
+            data: {
+                transactionId: escrowTransaction.id,
+                payerId: lease.tenantId,
+                payeeId: lease.landlordId,
+                amount: escrowAmount,
+                platformFee: platformFee,
+                status: randomElement(['FUNDED', 'FUNDED', 'RELEASED']),
+                releaseAfter: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // 1 year from now
+                blockchainEscrowId: `ESC-${Date.now().toString().slice(-8)}`,
+                confirmedAt: new Date(),
+                ...(i === 1 && { releasedAt: new Date() }), // Second escrow is released
+            },
+        });
+        escrows.push(escrow);
+    }
+    console.log(`  ✓ Escrows: ${escrows.length} created`);
 
     // ----------------------------------------
     // CREATE NOTIFICATIONS
@@ -612,10 +699,12 @@ async function main() {
     console.log('\n✅ Seed completed successfully!\n');
     console.log('📊 Summary:');
     console.log(`   • Users: ${1 + landlords.length + tenants.length + agents.length}`);
+    console.log(`   • User Profiles: ${allUsers.length}`);
     console.log(`   • Properties: ${properties.length} (with ${properties.length * 3}+ media items)`);
     console.log(`   • Applications: ${applications.length}`);
     console.log(`   • Leases: ${leases.length}`);
-    console.log(`   • Transactions: ${leases.length * 2}`);
+    console.log(`   • Transactions: ${leases.length * 2 + escrows.length}`);
+    console.log(`   • Escrows: ${escrows.length}`);
     console.log(`   • Verifications: ${tenants.length + landlords.length + properties.filter(p => p.verificationTier !== 'UNVERIFIED').length}`);
     console.log(`   • Maintenance Requests: ${maintenanceRequests.length}`);
     console.log(`   • Agent Jobs: ${agentJobs.length}`);
