@@ -69,6 +69,10 @@ app.use(rateLimit({
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
+// Input sanitization (XSS protection)
+import { sanitizeInput } from './common/middleware/sanitize.middleware';
+app.use(sanitizeInput);
+
 // Request ID
 app.use(requestIdMiddleware);
 
