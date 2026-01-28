@@ -1,102 +1,45 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import FavoriteButton from '@/components/FavoriteButton';
+import { propertyService } from '@/lib/api/services/propertyService';
+import type { PropertySummary, PropertySearchFilters, ListingType, PropertyType } from '@/types/property';
+import type { ApiError } from '@/types/api';
+// Map UI property type names to backend PropertyType
+const propertyTypeMap: Record<string, PropertyType> = {
+    'House': 'HOUSE',
+    'Apartment': 'APARTMENT',
+    'Condo': 'DUPLEX', // Using DUPLEX as condo equivalent
+    'Townhouse': 'TERRACE',
+    'Land': 'LAND',
+    'Commercial': 'COMMERCIAL',
+};
 
-// Mock properties data for search results
-const searchResults = [
-    {
-        id: 1,
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l',
-        alt: 'Modern suburban house with large windows and garden',
-        price: '$850,000',
-        priceShort: '$850k',
-        name: 'Modern Oakwood Estate',
-        address: '1243 Oakwood Avenue, Austin, TX',
-        type: 'For Sale',
-        typeColor: 'bg-green-100 text-green-700',
-        beds: 4,
-        baths: 3,
-        sqft: '2,400',
-        sqftShort: '2.4k',
-        verified: 'Platinum Verified',
-        verifiedShort: 'Platinum',
-        verifiedStyle: 'bg-gradient-to-r from-slate-200 via-white to-slate-300 text-slate-900 border border-white/50',
-        photoCount: 12,
-        rating: 4.9,
-        reviews: 12,
-        position: { top: '45%', left: '40%' },
-    },
-    {
-        id: 2,
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAamBOyrzSpr22QFJVMWoHUc1mMMtnqiibkVvx1a1yyRMf7AZH_W5yo1RUtyBeDdX317BPpURBRfc781QxtqAke2rVYEqTii2io0uuHFkEJ0CmZ8MORlbNcSi1Rrn0MkZXgBn4TdOrfGT4AC6aP8LrSd-KrpDu9MncstN4oWLel5dWeiPY1Vna-TDIY0FVjIuHpWLA9XnqqLmHWL3dBb97dTEKd5I76wzI_hdZR1tk-bfpEmbo-gBSIaJNec2sLti-R_9FmipfOkxxP',
-        alt: 'Modern white two-story residential home with blue sky',
-        price: '$3,200',
-        priceShort: '$3,200',
-        priceUnit: '/mo',
-        name: 'Highland Park Villa',
-        address: '5500 Highland Park, Dallas, TX',
-        type: 'Rent',
-        typeColor: 'bg-blue-100 text-blue-700',
-        beds: 2,
-        baths: 2,
-        sqft: '1,100',
-        sqftShort: '1.1k',
-        verified: 'Verified Owner',
-        verifiedShort: 'Verified',
-        verifiedStyle: 'bg-[#137fec] text-white',
-        rating: 4.7,
-        reviews: 8,
-        position: { top: '60%', left: '65%' },
-    },
-    {
-        id: 3,
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCDbn_i6RapAYYCUtbpApN4lJMQNrA0rGJZXVvlV5ZLubEMNH1om_1mAstEefJ0spWkedOBAe5og228aYdYdVGMGx2otBaGsGAG_1DMh7rANSTYk0_MrBlyxCEDc66NFCgfMXVMcoMDPiPuhcBXg5_Iwjv_Fz2YEb4sU8vGb7xqSy9VX9nCTc1tUE2DL8uYW4jHmEa_B2GwMX24GP44NZ_TWI6Tc4Om0jvrCWW6cMyN3YxN1SrsIUBMkmeYENO3JUYvlZTV5Hn0Kqc',
-        alt: 'Interior view of a modern living room with large windows',
-        price: '$5,500',
-        priceShort: '$5,500',
-        priceUnit: '/mo',
-        name: 'Downtown Luxury Loft',
-        address: 'Downtown Loft, Seattle, WA',
-        type: 'Short-let',
-        typeColor: 'bg-purple-100 text-purple-700',
-        beds: 1,
-        baths: 1.5,
-        sqft: '850',
-        sqftShort: '850',
-        verified: 'Verified',
-        verifiedShort: 'Verified',
-        verifiedStyle: 'bg-[#137fec] text-white',
-        rating: 4.5,
-        reviews: 15,
-        position: { top: '25%', left: '75%' },
-    },
-    {
-        id: 4,
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDmzjPVnnkN0L0Df5m-edXXtRPMb0L9UALdUYVZ31ftX2hZoPcXfkk9cX0ppWUHkpAgEHDPt5z8Myghlu_sUmGC0p8uMQv-HbrXijHeC8ALkQAuqFOKKQ6BIlW3DyxKXmR68V6YLZxFKGKU5QA3f9KSaxdE-ZqCwq8CHWNZkHkt-0KyKZ6b8s_6sdVzJ5nMB7lFYMvczzRv1xvvE-i968QA_YLancFg-0dheYj1DUN0ylsh3qHXXWFqzKCnpvKn_5mHg9ar3r3Pfdeb',
-        alt: 'Backyard patio of a modern home with pool',
-        price: '$1,250,000',
-        priceShort: '$1.25M',
-        name: 'Sunnyvale Retreat',
-        address: '778 Sunnyvale Drive, Miami, FL',
-        type: 'For Sale',
-        typeColor: 'bg-green-100 text-green-700',
-        beds: 5,
-        baths: 4,
-        sqft: '3,200',
-        sqftShort: '3.2k',
-        verified: 'Platinum Verified',
-        verifiedShort: 'Platinum',
-        verifiedStyle: 'bg-gradient-to-r from-slate-200 via-white to-slate-300 text-slate-900 border border-white/50',
-        isNew: true,
-        rating: 4.8,
-        reviews: 6,
-        position: { top: '30%', left: '20%' },
-    },
-];
+// Map backend ListingType to UI display
+const listingTypeDisplay: Record<ListingType, { label: string; color: string }> = {
+    'SALE': { label: 'For Sale', color: 'bg-green-100 text-green-700' },
+    'RENT': { label: 'Rent', color: 'bg-blue-100 text-blue-700' },
+    'SHORT_LET': { label: 'Short-let', color: 'bg-purple-100 text-purple-700' },
+};
+
+
+
+// Helper to format price with full amount
+const formatPriceFull = (price: number, currency = 'USD'): string => {
+    return `${currency === 'NGN' ? '₦' : '$'}${price.toLocaleString()}`;
+};
+
+// Helper to format square meters to sqft display
+const formatSqft = (sqm?: number): string => {
+    if (!sqm) return 'N/A';
+    const sqft = Math.round(sqm * 10.764); // Convert sqm to sqft
+    if (sqft >= 1000) {
+        return `${(sqft / 1000).toFixed(1)}k`;
+    }
+    return sqft.toLocaleString();
+};
 
 // Cluster marker for map view
 const clusterPosition = { top: '75%', left: '25%' };
-const clusterCount = 8;
 
 // Property types for filter
 const propertyTypes = ['House', 'Apartment', 'Condo', 'Townhouse', 'Land', 'Commercial'];
@@ -117,7 +60,7 @@ export default function SearchPage() {
     const [searchQuery, setSearchQuery] = useState('Austin, TX');
     const [viewMode, setViewMode] = useState<'grid' | 'map'>('grid');
     const [verifiedOnly, setVerifiedOnly] = useState(true);
-    const [selectedProperty, setSelectedProperty] = useState<number | null>(1);
+
 
     // Dropdown visibility states
     const [showPriceDropdown, setShowPriceDropdown] = useState(false);
@@ -134,6 +77,79 @@ export default function SearchPage() {
     const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
     const [sqftRange, setSqftRange] = useState({ min: '', max: '' });
     const [yearBuilt, setYearBuilt] = useState({ min: '', max: '' });
+
+    // API state
+    const [properties, setProperties] = useState<PropertySummary[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<ApiError | null>(null);
+    const [totalCount, setTotalCount] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
+
+    // Fetch properties from API
+    const fetchProperties = useCallback(async (page = 1, append = false) => {
+        setIsLoading(true);
+        setError(null);
+
+        try {
+            // Build filters from UI state
+            const filters: PropertySearchFilters = {
+                page,
+                limit: 12,
+                query: searchQuery || undefined,
+                isVerified: verifiedOnly || undefined,
+            };
+
+            // Add price filters
+            if (priceRange.min) filters.minPrice = parseInt(priceRange.min);
+            if (priceRange.max) filters.maxPrice = parseInt(priceRange.max);
+
+            // Add property type filters
+            if (selectedTypes.length > 0) {
+                filters.propertyType = selectedTypes
+                    .map(t => propertyTypeMap[t])
+                    .filter(Boolean) as PropertyType[];
+            }
+
+            // Add bedroom filter
+            if (beds !== 'Any') {
+                filters.bedrooms = parseInt(beds.replace('+', ''));
+            }
+
+            // Add bathroom filter
+            if (baths !== 'Any') {
+                filters.bathrooms = parseInt(baths.replace('+', ''));
+            }
+
+            const responseData = await propertyService.searchProperties(filters);
+
+            if (append) {
+                setProperties(prev => [...prev, ...responseData.data]);
+            } else {
+                setProperties(responseData.data);
+            }
+
+            setTotalCount(responseData.pagination.total);
+            setHasMore(responseData.pagination.page < responseData.pagination.totalPages);
+            setCurrentPage(page);
+        } catch (err) {
+            setError(err as ApiError);
+        } finally {
+            setIsLoading(false);
+        }
+    }, [searchQuery, verifiedOnly, priceRange, selectedTypes, beds, baths]);
+
+    // Fetch on mount and when filters change
+    useEffect(() => {
+        fetchProperties(1);
+    }, [fetchProperties]);
+
+    // Handle load more
+    const handleLoadMore = () => {
+        if (!isLoading && hasMore) {
+            fetchProperties(currentPage + 1, true);
+        }
+    };
 
     // Close all dropdowns
     const closeAllDropdowns = () => {
@@ -710,7 +726,6 @@ export default function SearchPage() {
 
             {/* Conditional Content Based on View Mode */}
             {viewMode === 'grid' ? (
-                /* ===== GRID VIEW ===== */
                 <main className="flex-1 w-full bg-[#f6f7f8] dark:bg-[#101922] py-8 px-4 md:px-8">
                     <div className="max-w-[1600px] mx-auto">
                         {/* Results Header */}
@@ -718,7 +733,7 @@ export default function SearchPage() {
                             <h1 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">
                                 Stays in {searchQuery}
                                 <span className="ml-2 text-base font-normal text-slate-500 dark:text-slate-400">
-                                    {searchResults.length} properties
+                                    {totalCount} properties
                                 </span>
                             </h1>
                             <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
@@ -730,98 +745,141 @@ export default function SearchPage() {
                             </div>
                         </div>
 
+                        {/* Loading State */}
+                        {isLoading && properties.length === 0 && (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+                                {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                                    <div key={i} className="animate-pulse">
+                                        <div className="aspect-[4/3] rounded-2xl bg-slate-200 dark:bg-slate-700 mb-4"></div>
+                                        <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded w-3/4 mb-2"></div>
+                                        <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/2 mb-2"></div>
+                                        <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-full"></div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        {/* Error State */}
+                        {error && (
+                            <div className="text-center py-12">
+                                <span className="material-symbols-outlined text-6xl text-red-400 mb-4">error</span>
+                                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Something went wrong</h3>
+                                <p className="text-slate-500 dark:text-slate-400 mb-4">{error.error?.message || 'Failed to load properties'}</p>
+                                <button
+                                    onClick={() => fetchProperties(1)}
+                                    className="px-6 py-2 bg-[#137fec] text-white rounded-lg font-semibold hover:bg-blue-600"
+                                >
+                                    Try Again
+                                </button>
+                            </div>
+                        )}
+
+                        {/* Empty State */}
+                        {!isLoading && !error && properties.length === 0 && (
+                            <div className="text-center py-12">
+                                <span className="material-symbols-outlined text-6xl text-slate-300 mb-4">search_off</span>
+                                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">No properties found</h3>
+                                <p className="text-slate-500 dark:text-slate-400">Try adjusting your search criteria</p>
+                            </div>
+                        )}
+
                         {/* Properties Grid */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-                            {searchResults.map((property) => (
-                                <Link to={`/property/${property.id}`} key={property.id}>
-                                    <article className="group flex flex-col gap-4 cursor-pointer">
-                                        <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-slate-200">
-                                            <img
-                                                alt={property.alt}
-                                                className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
-                                                src={property.image}
-                                            />
-                                            {/* Verification Badge */}
-                                            <div
-                                                className={`absolute top-4 left-4 text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md ${property.verifiedStyle}`}
-                                            >
-                                                <span
-                                                    className={`material-symbols-outlined text-[16px] icon-filled ${property.verified === 'Platinum Verified' ? 'text-slate-700' : ''
-                                                        }`}
-                                                >
-                                                    verified
-                                                </span>
-                                                {property.verified}
-                                            </div>
-                                            {/* Favorite Button */}
-                                            <div className="absolute top-4 right-4">
-                                                <FavoriteButton
-                                                    propertyId={property.id}
-                                                    variant="overlay"
+                        {properties.length > 0 && (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+                                {properties.map((property) => (
+                                    <Link to={`/property/${property.id}`} key={property.id}>
+                                        <article className="group flex flex-col gap-4 cursor-pointer">
+                                            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-slate-200">
+                                                <img
+                                                    alt={property.name}
+                                                    className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                                                    src={property.primaryImage || 'https://placehold.co/400x300?text=No+Image'}
                                                 />
+                                                {/* Verification Badge */}
+                                                {property.isVerified && (
+                                                    <div
+                                                        className={`absolute top-4 left-4 text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md ${property.verificationTier === 'PLATINUM'
+                                                            ? 'bg-gradient-to-r from-slate-200 via-white to-slate-300 text-slate-900 border border-white/50'
+                                                            : 'bg-[#137fec] text-white'
+                                                            }`}
+                                                    >
+                                                        <span className="material-symbols-outlined text-[16px] icon-filled">verified</span>
+                                                        {property.verificationTier || 'Verified'}
+                                                    </div>
+                                                )}
+                                                {/* Favorite Button */}
+                                                <div className="absolute top-4 right-4">
+                                                    <FavoriteButton
+                                                        propertyId={property.id}
+                                                        variant="overlay"
+                                                    />
+                                                </div>
+                                                {/* Featured Badge */}
+                                                {property.isFeatured && (
+                                                    <div className="absolute bottom-4 left-4 bg-[#137fec] text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm">
+                                                        FEATURED
+                                                    </div>
+                                                )}
                                             </div>
-                                            {/* Photo Count */}
-                                            {property.photoCount && (
-                                                <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md px-2 py-1 rounded-md text-white text-xs font-medium flex items-center gap-1">
-                                                    <span className="material-symbols-outlined text-[14px]">photo_camera</span>{' '}
-                                                    {property.photoCount}
+                                            <div>
+                                                <div className="flex justify-between items-baseline mb-1">
+                                                    <p className="text-xl font-bold text-slate-900 dark:text-white">
+                                                        {formatPriceFull(property.price, property.currency)}
+                                                        {property.listingType === 'RENT' && (
+                                                            <span className="text-sm font-normal text-slate-500 ml-1">/mo</span>
+                                                        )}
+                                                        {property.listingType === 'SHORT_LET' && (
+                                                            <span className="text-sm font-normal text-slate-500 ml-1">/night</span>
+                                                        )}
+                                                    </p>
+                                                    <span
+                                                        className={`text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md ${listingTypeDisplay[property.listingType]?.color || 'bg-gray-100 text-gray-700'
+                                                            }`}
+                                                    >
+                                                        {listingTypeDisplay[property.listingType]?.label || property.listingType}
+                                                    </span>
                                                 </div>
-                                            )}
-                                            {/* New Listing Badge */}
-                                            {property.isNew && (
-                                                <div className="absolute bottom-4 left-4 bg-[#137fec] text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm">
-                                                    NEW LISTING
-                                                </div>
-                                            )}
-                                        </div>
-                                        <div>
-                                            <div className="flex justify-between items-baseline mb-1">
-                                                <p className="text-xl font-bold text-slate-900 dark:text-white">
-                                                    {property.price}
-                                                    {property.priceUnit && (
-                                                        <span className="text-sm font-normal text-slate-500 ml-1">
-                                                            {property.priceUnit}
+                                                <p className="text-slate-900 dark:text-white text-base font-semibold truncate">
+                                                    {property.name}
+                                                </p>
+                                                <p className="text-slate-500 dark:text-slate-400 text-sm truncate">
+                                                    {property.address.street}, {property.address.city}
+                                                </p>
+                                                <div className="flex items-center gap-4 mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 text-slate-600 dark:text-slate-400 text-sm">
+                                                    <span className="flex items-center gap-1.5">
+                                                        <span className="material-symbols-outlined text-[18px]">bed</span>
+                                                        {property.bedrooms}
+                                                    </span>
+                                                    <span className="flex items-center gap-1.5">
+                                                        <span className="material-symbols-outlined text-[18px]">bathtub</span>
+                                                        {property.bathrooms}
+                                                    </span>
+                                                    {property.squareMeters && (
+                                                        <span className="flex items-center gap-1.5">
+                                                            <span className="material-symbols-outlined text-[18px]">square_foot</span>
+                                                            {formatSqft(property.squareMeters)}
                                                         </span>
                                                     )}
-                                                </p>
-                                                <span
-                                                    className={`text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md ${property.typeColor}`}
-                                                >
-                                                    {property.type}
-                                                </span>
+                                                </div>
                                             </div>
-                                            <p className="text-slate-900 dark:text-white text-base font-semibold truncate">
-                                                {property.name}
-                                            </p>
-                                            <p className="text-slate-500 dark:text-slate-400 text-sm truncate">
-                                                {property.address}
-                                            </p>
-                                            <div className="flex items-center gap-4 mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 text-slate-600 dark:text-slate-400 text-sm">
-                                                <span className="flex items-center gap-1.5">
-                                                    <span className="material-symbols-outlined text-[18px]">bed</span>
-                                                    {property.beds}
-                                                </span>
-                                                <span className="flex items-center gap-1.5">
-                                                    <span className="material-symbols-outlined text-[18px]">bathtub</span>
-                                                    {property.baths}
-                                                </span>
-                                                <span className="flex items-center gap-1.5">
-                                                    <span className="material-symbols-outlined text-[18px]">square_foot</span>
-                                                    {property.sqft}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </article>
-                                </Link>
-                            ))}
-                        </div>
+                                        </article>
+                                    </Link>
+                                ))}
+                            </div>
+                        )}
 
                         {/* Load More Button */}
-                        <div className="mt-12 flex justify-center">
-                            <button className="px-8 py-3 rounded-xl bg-white dark:bg-[#1a2632] border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-sm">
-                                Show more properties
-                            </button>
-                        </div>
+                        {hasMore && properties.length > 0 && (
+                            <div className="mt-12 flex justify-center">
+                                <button
+                                    onClick={handleLoadMore}
+                                    disabled={isLoading}
+                                    className="px-8 py-3 rounded-xl bg-white dark:bg-[#1a2632] border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-sm disabled:opacity-50"
+                                >
+                                    {isLoading ? 'Loading...' : 'Show more properties'}
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </main>
             ) : (
@@ -854,99 +912,27 @@ export default function SearchPage() {
                         </button>
                     </div>
 
-                    {/* Property Markers */}
-                    {searchResults.map((property) => (
-                        <div
-                            key={property.id}
-                            className="absolute z-10"
-                            style={{ top: property.position.top, left: property.position.left }}
-                        >
-                            {property.id === selectedProperty ? (
-                                // Selected property with popup
-                                <div className="flex flex-col items-center">
-                                    {/* Property Card Popup */}
-                                    <div className="mb-3 w-[280px] sm:w-[320px] bg-white dark:bg-[#1a2632] rounded-xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-700 animate-in fade-in slide-in-from-bottom-2 duration-300">
-                                        <div className="relative h-40">
-                                            <img
-                                                alt={property.alt}
-                                                className="w-full h-full object-cover"
-                                                src={property.image}
-                                            />
-                                            <button
-                                                onClick={() => setSelectedProperty(null)}
-                                                className="absolute top-2 right-2 bg-black/30 hover:bg-black/50 p-1.5 rounded-full text-white transition-colors"
-                                            >
-                                                <span className="material-symbols-outlined text-[18px]">close</span>
-                                            </button>
-                                            <div className={`absolute bottom-2 left-2 text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1 shadow-md ${property.verifiedShort === 'Platinum'
-                                                ? 'bg-gradient-to-r from-slate-200 via-white to-slate-300 text-slate-900 border border-white/50'
-                                                : 'bg-[#137fec] text-white'
-                                                }`}>
-                                                <span className={`material-symbols-outlined text-[12px] icon-filled ${property.verifiedShort === 'Platinum' ? 'text-slate-700' : ''}`}>verified</span>
-                                                {property.verifiedShort}
-                                            </div>
-                                        </div>
-                                        <div className="p-3">
-                                            <div className="flex justify-between items-start mb-1">
-                                                <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-                                                    {property.price}
-                                                    {property.priceUnit && <span className="text-sm font-normal text-slate-500">{property.priceUnit}</span>}
-                                                </h3>
-                                                <div className="flex items-center gap-1 text-slate-600 dark:text-slate-400 text-xs bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded">
-                                                    <span className="material-symbols-outlined text-[14px] text-yellow-500 icon-filled">star</span>
-                                                    {property.rating} ({property.reviews})
-                                                </div>
-                                            </div>
-                                            <p className="text-sm font-medium text-slate-800 dark:text-slate-200 truncate">{property.name}</p>
-                                            <p className="text-xs text-slate-500 dark:text-slate-400 truncate mb-3">{property.address}</p>
-                                            <div className="flex items-center justify-between border-t border-slate-100 dark:border-slate-800 pt-3">
-                                                <div className="flex items-center gap-3 text-xs text-slate-600 dark:text-slate-400">
-                                                    <span className="flex items-center gap-1">
-                                                        <span className="material-symbols-outlined text-[14px]">bed</span>
-                                                        {property.beds}
-                                                    </span>
-                                                    <span className="flex items-center gap-1">
-                                                        <span className="material-symbols-outlined text-[14px]">bathtub</span>
-                                                        {property.baths}
-                                                    </span>
-                                                    <span className="flex items-center gap-1">
-                                                        <span className="material-symbols-outlined text-[14px]">square_foot</span>
-                                                        {property.sqftShort}
-                                                    </span>
-                                                </div>
-                                                <Link
-                                                    to={`/property/${property.id}`}
-                                                    className="text-[#137fec] hover:text-blue-600 text-xs font-bold uppercase tracking-wide"
-                                                >
-                                                    View Details
-                                                </Link>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {/* Selected Marker */}
-                                    <button className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold text-sm px-4 py-2 rounded-full shadow-xl border-2 border-white dark:border-slate-900 hover:scale-110 transition-all relative">
-                                        {property.priceShort}
-                                        {property.priceUnit && <span className="text-xs font-normal opacity-70">{property.priceUnit}</span>}
-                                        <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-slate-900 dark:border-t-white"></div>
-                                    </button>
-                                </div>
-                            ) : (
-                                // Regular price marker
-                                <button
-                                    onClick={() => setSelectedProperty(property.id)}
-                                    className="bg-white dark:bg-[#1a2632] text-slate-900 dark:text-white font-bold text-sm px-3 py-1.5 rounded-full shadow-md border border-slate-200 dark:border-slate-700 hover:scale-110 hover:z-20 transition-all"
-                                >
-                                    {property.priceShort}
-                                    {property.priceUnit && <span className="text-xs font-normal text-slate-500">{property.priceUnit}</span>}
-                                </button>
-                            )}
+                    {/* Property Count Badge - Coming Soon for full map integration */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 text-center">
+                        <div className="bg-white dark:bg-[#1a2632] rounded-2xl shadow-2xl p-8 border border-slate-200 dark:border-slate-700">
+                            <span className="material-symbols-outlined text-6xl text-[#137fec] mb-4">map</span>
+                            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Map View Coming Soon</h3>
+                            <p className="text-slate-500 dark:text-slate-400 mb-4">
+                                {properties.length} properties available in this area
+                            </p>
+                            <button
+                                onClick={() => setViewMode('grid')}
+                                className="px-6 py-2 bg-[#137fec] text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors"
+                            >
+                                View in Grid
+                            </button>
                         </div>
-                    ))}
+                    </div>
 
                     {/* Cluster Marker */}
                     <div className="absolute z-10" style={{ top: clusterPosition.top, left: clusterPosition.left }}>
                         <button className="bg-[#137fec] text-white font-bold text-sm size-10 rounded-full shadow-lg border-2 border-white hover:scale-110 hover:bg-blue-600 transition-all flex items-center justify-center">
-                            {clusterCount}
+                            {properties.length}
                         </button>
                     </div>
 
@@ -970,7 +956,8 @@ export default function SearchPage() {
                         © Mapbox © OpenStreetMap
                     </div>
                 </main>
-            )}
-        </div>
+            )
+            }
+        </div >
     );
 }

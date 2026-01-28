@@ -1,8 +1,46 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, type FormEvent } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function SignUpStep1() {
     const [showPassword, setShowPassword] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [termsAccepted, setTermsAccepted] = useState(false);
+    const navigate = useNavigate();
+    const { initiateRegistration, isLoading, error, clearError } = useAuth();
+
+    // Password validation
+    const hasMinLength = password.length >= 8;
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const isPasswordValid = hasMinLength && hasUppercase && hasNumber;
+
+    const handleSubmit = async (e: FormEvent) => {
+        e.preventDefault();
+        clearError();
+
+        if (!isPasswordValid) {
+            return;
+        }
+
+        if (!termsAccepted) {
+            return;
+        }
+
+        try {
+            // Initiate registration - email only (role will be selected in Step 3)
+            await initiateRegistration({ email, role: 'TENANT' }); // Default role, will be overridden at completion
+
+            // Store password temporarily in sessionStorage for Step 3
+            sessionStorage.setItem('signup_password', password);
+
+            // Navigate to Step 2 (email verification)
+            navigate('/auth/signup/step2');
+        } catch {
+            // Error is handled by AuthContext
+        }
+    };
 
     return (
         <div className="w-full max-w-lg bg-white/10 dark:bg-[#1a2632]/40 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col items-center">
@@ -18,7 +56,17 @@ export default function SignUpStep1() {
                 Start your journey to finding the perfect property.
             </p>
 
-            <form className="w-full space-y-5">
+            {/* Error Message */}
+            {error && (
+                <div className="w-full mb-4 p-3 rounded-xl bg-red-500/20 border border-red-500/30 text-red-200 text-sm">
+                    <div className="flex items-center gap-2">
+                        <span className="material-symbols-outlined text-[18px]">error</span>
+                        <span>{error.error.message}</span>
+                    </div>
+                </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="w-full space-y-5">
                 {/* Email */}
                 <div className="space-y-1.5">
                     <label className="block text-sm font-semibold text-slate-200" htmlFor="email">Email Address</label>
@@ -29,6 +77,10 @@ export default function SignUpStep1() {
                             name="email"
                             placeholder="name@example.com"
                             type="email"
+                            required
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            disabled={isLoading}
                         />
                         <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                             <span className="material-symbols-outlined text-slate-300 text-xl">mail</span>
@@ -46,6 +98,10 @@ export default function SignUpStep1() {
                             name="password"
                             placeholder="Create a secure password"
                             type={showPassword ? 'text' : 'password'}
+                            required
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            disabled={isLoading}
                         />
                         <button
                             className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-300 hover:text-white transition-colors cursor-pointer"
@@ -58,18 +114,18 @@ export default function SignUpStep1() {
                         </button>
                     </div>
 
-                    {/* Password Requirements */}
+                    {/* Password Requirements - with validation indicators */}
                     <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
-                        <div className="flex items-center gap-2 text-xs text-slate-300 transition-colors duration-300">
-                            <span className="material-symbols-outlined text-[16px]">check_circle</span>
+                        <div className={`flex items-center gap-2 text-xs transition-colors duration-300 ${hasMinLength ? 'text-green-400' : 'text-slate-300'}`}>
+                            <span className={`material-symbols-outlined text-[16px] ${hasMinLength ? 'icon-filled' : ''}`}>check_circle</span>
                             <span>8 characters minimum</span>
                         </div>
-                        <div className="flex items-center gap-2 text-xs text-slate-300 transition-colors duration-300">
-                            <span className="material-symbols-outlined text-[16px]">check_circle</span>
+                        <div className={`flex items-center gap-2 text-xs transition-colors duration-300 ${hasUppercase ? 'text-green-400' : 'text-slate-300'}`}>
+                            <span className={`material-symbols-outlined text-[16px] ${hasUppercase ? 'icon-filled' : ''}`}>check_circle</span>
                             <span>One uppercase letter</span>
                         </div>
-                        <div className="flex items-center gap-2 text-xs text-slate-300 transition-colors duration-300">
-                            <span className="material-symbols-outlined text-[16px]">check_circle</span>
+                        <div className={`flex items-center gap-2 text-xs transition-colors duration-300 ${hasNumber ? 'text-green-400' : 'text-slate-300'}`}>
+                            <span className={`material-symbols-outlined text-[16px] ${hasNumber ? 'icon-filled' : ''}`}>check_circle</span>
                             <span>One number</span>
                         </div>
                     </div>
@@ -83,6 +139,9 @@ export default function SignUpStep1() {
                             id="terms"
                             name="terms"
                             type="checkbox"
+                            checked={termsAccepted}
+                            onChange={(e) => setTermsAccepted(e.target.checked)}
+                            disabled={isLoading}
                         />
                     </div>
                     <div className="text-sm leading-6">
@@ -100,13 +159,23 @@ export default function SignUpStep1() {
                 </div>
 
                 {/* Submit Button */}
-                <Link
-                    to="/auth/signup/step2"
-                    className="w-full mt-4 py-3.5 px-4 rounded-xl bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-lg shadow-lg shadow-[#137fec]/25 hover:shadow-[#137fec]/40 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
+                <button
+                    type="submit"
+                    disabled={isLoading || !isPasswordValid || !termsAccepted || !email}
+                    className="w-full mt-4 py-3.5 px-4 rounded-xl bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-lg shadow-lg shadow-[#137fec]/25 hover:shadow-[#137fec]/40 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                 >
-                    Create Account
-                    <span className="material-symbols-outlined text-xl">arrow_forward</span>
-                </Link>
+                    {isLoading ? (
+                        <>
+                            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                            Sending verification...
+                        </>
+                    ) : (
+                        <>
+                            Create Account
+                            <span className="material-symbols-outlined text-xl">arrow_forward</span>
+                        </>
+                    )}
+                </button>
             </form>
 
             <p className="mt-8 text-sm text-slate-300">

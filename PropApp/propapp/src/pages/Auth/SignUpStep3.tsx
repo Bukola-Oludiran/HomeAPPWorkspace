@@ -1,10 +1,30 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect, type FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
+import type { UserRole } from '../../types/auth';
 
 type RoleType = 'tenant' | 'landlord' | 'agent' | 'other' | null;
 
+// Map frontend role values to backend UserRole enum
+const roleMap: Record<Exclude<RoleType, null | 'other'>, UserRole> = {
+    tenant: 'TENANT',
+    landlord: 'LANDLORD',
+    agent: 'AGENT',
+};
+
 export default function SignUpStep3() {
     const [selectedRole, setSelectedRole] = useState<RoleType>(null);
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const navigate = useNavigate();
+    const { completeRegistration, registrationState, isLoading, error, clearError } = useAuth();
+
+    // Redirect if not verified
+    useEffect(() => {
+        if (!registrationState.isEmailVerified || !registrationState.email) {
+            navigate('/auth/signup/step1');
+        }
+    }, [registrationState, navigate]);
 
     const roles = [
         { value: 'tenant' as const, icon: 'cottage', title: "I'm looking for a home", subtitle: 'Tenant / Buyer' },
@@ -15,19 +35,58 @@ export default function SignUpStep3() {
 
     const getStep4Route = () => {
         switch (selectedRole) {
-            case 'tenant': return '/auth/signup/step4/tenant';
-            case 'landlord': return '/auth/signup/step4/landlord';
-            case 'agent': return '/auth/signup/step4/agent';
-            default: return '/auth/signup/step4/tenant';
+            case 'tenant': return '/tenant/dashboard';
+            case 'landlord': return '/landlord/dashboard';
+            case 'agent': return '/agent/jobs';
+            default: return '/tenant/dashboard';
         }
     };
+
+    const handleSubmit = async (e: FormEvent) => {
+        e.preventDefault();
+        clearError();
+
+        if (!selectedRole || !firstName || !lastName) {
+            return;
+        }
+
+        // Get the stored password from Step 1
+        const password = sessionStorage.getItem('signup_password');
+        if (!password) {
+            // If password not found, redirect back to Step 1
+            navigate('/auth/signup/step1');
+            return;
+        }
+
+        // Determine backend role - 'other' defaults to TENANT
+        const backendRole: UserRole = selectedRole === 'other' ? 'TENANT' : roleMap[selectedRole];
+
+        try {
+            await completeRegistration({
+                firstName,
+                lastName,
+                password,
+                role: backendRole,
+            });
+
+            // Clear stored password
+            sessionStorage.removeItem('signup_password');
+
+            // Navigate to role-specific dashboard
+            navigate(getStep4Route(), { replace: true });
+        } catch {
+            // Error is handled by AuthContext
+        }
+    };
+
+    const isFormValid = selectedRole && firstName.trim() && lastName.trim();
 
     return (
         <div className="w-full max-w-2xl bg-white/10 dark:bg-[#1a2632]/40 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col">
             {/* Step Badge */}
             <div className="flex items-center justify-center mb-6">
                 <span className="px-3 py-1 rounded-full bg-white/80 border border-white/40 text-[#137fec] text-xs font-bold uppercase tracking-wider">
-                    Step 3 of 4
+                    Step 3 of 3
                 </span>
             </div>
 
@@ -36,7 +95,17 @@ export default function SignUpStep3() {
                 Select the option that best describes you to personalize your experience.
             </p>
 
-            <form className="w-full flex flex-col gap-6">
+            {/* Error Message */}
+            {error && (
+                <div className="w-full mb-4 p-3 rounded-xl bg-red-500/20 border border-red-500/30 text-red-200 text-sm">
+                    <div className="flex items-center gap-2">
+                        <span className="material-symbols-outlined text-[18px]">error</span>
+                        <span>{error.error.message}</span>
+                    </div>
+                </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="w-full flex flex-col gap-6">
                 {/* Role Selection */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {roles.map((role) => (
@@ -48,10 +117,11 @@ export default function SignUpStep3() {
                                 value={role.value}
                                 checked={selectedRole === role.value}
                                 onChange={() => setSelectedRole(role.value)}
+                                disabled={isLoading}
                             />
                             <div className={`flex flex-col h-full p-5 rounded-2xl border transition-all duration-200 ${selectedRole === role.value
-                                    ? 'border-[#137fec] bg-[#137fec]/10 ring-1 ring-[#137fec]'
-                                    : 'border-white/10 bg-white/5 hover:bg-white/10'
+                                ? 'border-[#137fec] bg-[#137fec]/10 ring-1 ring-[#137fec]'
+                                : 'border-white/10 bg-white/5 hover:bg-white/10'
                                 }`}>
                                 <span className={`material-symbols-outlined text-3xl mb-3 transition-colors ${selectedRole === role.value ? 'text-[#137fec] icon-filled' : 'text-slate-300'
                                     }`}>
@@ -75,6 +145,10 @@ export default function SignUpStep3() {
                                 name="firstname"
                                 placeholder="First Name"
                                 type="text"
+                                required
+                                value={firstName}
+                                onChange={(e) => setFirstName(e.target.value)}
+                                disabled={isLoading}
                             />
                         </div>
                         <div className="relative">
@@ -84,19 +158,33 @@ export default function SignUpStep3() {
                                 name="lastname"
                                 placeholder="Last Name"
                                 type="text"
+                                required
+                                value={lastName}
+                                onChange={(e) => setLastName(e.target.value)}
+                                disabled={isLoading}
                             />
                         </div>
                     </div>
                 </div>
 
                 {/* Submit Button */}
-                <Link
-                    to={getStep4Route()}
-                    className="w-full mt-2 py-3.5 px-4 rounded-xl bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-lg shadow-lg shadow-[#137fec]/25 hover:shadow-[#137fec]/40 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
+                <button
+                    type="submit"
+                    disabled={isLoading || !isFormValid}
+                    className="w-full mt-2 py-3.5 px-4 rounded-xl bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-lg shadow-lg shadow-[#137fec]/25 hover:shadow-[#137fec]/40 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                 >
-                    Finish Setup
-                    <span className="material-symbols-outlined text-xl">check</span>
-                </Link>
+                    {isLoading ? (
+                        <>
+                            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                            Creating account...
+                        </>
+                    ) : (
+                        <>
+                            Finish Setup
+                            <span className="material-symbols-outlined text-xl">check</span>
+                        </>
+                    )}
+                </button>
             </form>
         </div>
     );

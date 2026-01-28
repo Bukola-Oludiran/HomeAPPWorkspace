@@ -1,4 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
+import { AuthProvider } from './contexts/AuthContext'
+import { ProtectedRoute } from './components/auth/ProtectedRoute'
 import UnifiedNavbar from './components/common/UnifiedNavbar'
 import HomePage from './pages/Home/HomePage'
 import AIChatPage from './pages/Home/AIChatPage'
@@ -73,7 +75,7 @@ import PasswordResetSuccessPage from './pages/Auth/PasswordResetSuccessPage'
 
 function App() {
   return (
-    <>
+    <AuthProvider>
       {/* Unified Navbar - rendered at app level for persistent animations */}
       <UnifiedNavbar />
 
@@ -112,8 +114,12 @@ function App() {
         <Route path="/member/:id" element={<TenantPublicProfile />} />
         <Route path="/settings" element={<SettingsPage />} />
 
-        {/* Landlord Dashboard Routes */}
-        <Route path="/landlord" element={<LandlordLayout />}>
+        {/* Landlord Dashboard Routes - Protected */}
+        <Route path="/landlord" element={
+          <ProtectedRoute requiredRole="LANDLORD">
+            <LandlordLayout />
+          </ProtectedRoute>
+        }>
           <Route path="dashboard" element={<LandlordDashboard />} />
           <Route path="properties" element={<LandlordProperties />} />
           <Route path="properties/:id" element={<LandlordPropertyDetail />} />
@@ -133,8 +139,12 @@ function App() {
           <Route path="maintenance/:id" element={<LandlordMaintenanceDetail />} />
         </Route>
 
-        {/* Tenant Dashboard Routes */}
-        <Route path="/tenant" element={<TenantLayout />}>
+        {/* Tenant Dashboard Routes - Protected */}
+        <Route path="/tenant" element={
+          <ProtectedRoute requiredRole="TENANT">
+            <TenantLayout />
+          </ProtectedRoute>
+        }>
           <Route path="dashboard" element={<TenantDashboard />} />
           <Route path="my-home" element={<TenantMyHome />} />
           <Route path="applications" element={<TenantApplications />} />
@@ -149,8 +159,12 @@ function App() {
           <Route path="lease-details" element={<TenantLeaseDetails />} />
         </Route>
 
-        {/* Agent Dashboard Routes */}
-        <Route path="/agent" element={<AgentLayout />}>
+        {/* Agent Dashboard Routes - Protected */}
+        <Route path="/agent" element={
+          <ProtectedRoute requiredRole="AGENT">
+            <AgentLayout />
+          </ProtectedRoute>
+        }>
           <Route path="jobs" element={<AgentJobBoard />} />
           <Route path="my-jobs" element={<AgentMyJobs />} />
           <Route path="my-jobs/:id" element={<AgentJobDetail />} />
@@ -160,9 +174,8 @@ function App() {
           <Route path="profile" element={<AgentProfile />} />
         </Route>
       </Routes>
-    </>
+    </AuthProvider>
   )
 }
 
 export default App
-

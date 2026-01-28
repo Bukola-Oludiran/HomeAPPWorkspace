@@ -1,9 +1,49 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect, type FormEvent } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function PasswordResetPage() {
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
+    const { resetPassword, isLoading, error, clearError } = useAuth();
+
+    // Get reset token from URL
+    const token = searchParams.get('token');
+
+    // Redirect if no token
+    useEffect(() => {
+        if (!token) {
+            navigate('/auth/forgot-password');
+        }
+    }, [token, navigate]);
+
+    // Password validation
+    const hasMinLength = newPassword.length >= 8;
+    const hasUppercase = /[A-Z]/.test(newPassword);
+    const hasNumber = /[0-9]/.test(newPassword);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
+    const passwordsMatch = newPassword === confirmPassword && confirmPassword.length > 0;
+    const isPasswordValid = hasMinLength && hasUppercase && hasNumber;
+
+    const handleSubmit = async (e: FormEvent) => {
+        e.preventDefault();
+        clearError();
+
+        if (!isPasswordValid || !passwordsMatch || !token) {
+            return;
+        }
+
+        try {
+            await resetPassword(token, newPassword);
+            navigate('/auth/reset-password-success');
+        } catch {
+            // Error is handled by AuthContext
+        }
+    };
 
     return (
         <div className="w-full max-w-md bg-white/10 dark:bg-[#1a2632]/60 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col items-center transition-all duration-300">
@@ -18,7 +58,17 @@ export default function PasswordResetPage() {
                     Please enter and confirm your new password below.
                 </p>
 
-                <form className="w-full space-y-5" onSubmit={(e) => e.preventDefault()}>
+                {/* Error Message */}
+                {error && (
+                    <div className="w-full mb-4 p-3 rounded-xl bg-red-500/20 border border-red-500/30 text-red-200 text-sm">
+                        <div className="flex items-center gap-2">
+                            <span className="material-symbols-outlined text-[18px]">error</span>
+                            <span>{error.error.message}</span>
+                        </div>
+                    </div>
+                )}
+
+                <form onSubmit={handleSubmit} className="w-full space-y-5">
                     {/* New Password */}
                     <div className="space-y-3">
                         <label className="sr-only" htmlFor="new-password">New Password</label>
@@ -33,6 +83,9 @@ export default function PasswordResetPage() {
                                 placeholder="New Password"
                                 required
                                 type={showNewPassword ? 'text' : 'password'}
+                                value={newPassword}
+                                onChange={(e) => setNewPassword(e.target.value)}
+                                disabled={isLoading}
                             />
                             <button
                                 className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-300 hover:text-white transition-colors cursor-pointer focus:outline-none"
@@ -49,20 +102,28 @@ export default function PasswordResetPage() {
                         <div className="bg-white/5 dark:bg-slate-900/30 rounded-lg p-3 border border-white/5">
                             <p className="text-[11px] uppercase tracking-wider text-slate-300 font-semibold mb-2">Password Strength</p>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
-                                <div className="flex items-center gap-2 text-xs text-green-400 font-medium transition-colors">
-                                    <span className="material-symbols-outlined text-[16px] icon-filled">check_circle</span>
+                                <div className={`flex items-center gap-2 text-xs font-medium transition-colors ${hasMinLength ? 'text-green-400' : 'text-slate-300 opacity-70'}`}>
+                                    <span className={`material-symbols-outlined text-[16px] ${hasMinLength ? 'icon-filled' : ''}`}>
+                                        {hasMinLength ? 'check_circle' : 'radio_button_unchecked'}
+                                    </span>
                                     <span>8 characters minimum</span>
                                 </div>
-                                <div className="flex items-center gap-2 text-xs text-slate-300 font-medium transition-colors opacity-70">
-                                    <span className="material-symbols-outlined text-[16px]">radio_button_unchecked</span>
+                                <div className={`flex items-center gap-2 text-xs font-medium transition-colors ${hasUppercase ? 'text-green-400' : 'text-slate-300 opacity-70'}`}>
+                                    <span className={`material-symbols-outlined text-[16px] ${hasUppercase ? 'icon-filled' : ''}`}>
+                                        {hasUppercase ? 'check_circle' : 'radio_button_unchecked'}
+                                    </span>
                                     <span>One uppercase letter</span>
                                 </div>
-                                <div className="flex items-center gap-2 text-xs text-slate-300 font-medium transition-colors opacity-70">
-                                    <span className="material-symbols-outlined text-[16px]">radio_button_unchecked</span>
+                                <div className={`flex items-center gap-2 text-xs font-medium transition-colors ${hasNumber ? 'text-green-400' : 'text-slate-300 opacity-70'}`}>
+                                    <span className={`material-symbols-outlined text-[16px] ${hasNumber ? 'icon-filled' : ''}`}>
+                                        {hasNumber ? 'check_circle' : 'radio_button_unchecked'}
+                                    </span>
                                     <span>One number</span>
                                 </div>
-                                <div className="flex items-center gap-2 text-xs text-slate-300 font-medium transition-colors opacity-70">
-                                    <span className="material-symbols-outlined text-[16px]">radio_button_unchecked</span>
+                                <div className={`flex items-center gap-2 text-xs font-medium transition-colors ${hasSpecialChar ? 'text-green-400' : 'text-slate-300 opacity-70'}`}>
+                                    <span className={`material-symbols-outlined text-[16px] ${hasSpecialChar ? 'icon-filled' : ''}`}>
+                                        {hasSpecialChar ? 'check_circle' : 'radio_button_unchecked'}
+                                    </span>
                                     <span>One special character</span>
                                 </div>
                             </div>
@@ -76,12 +137,16 @@ export default function PasswordResetPage() {
                             <span className="material-symbols-outlined text-slate-300 text-[20px] group-focus-within:text-[#137fec] transition-colors">key</span>
                         </div>
                         <input
-                            className="block w-full pl-10 pr-10 py-3.5 border border-white/10 dark:border-slate-600 rounded-xl bg-white/5 dark:bg-slate-900/50 text-white placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent transition-all sm:text-sm"
+                            className={`block w-full pl-10 pr-10 py-3.5 border rounded-xl bg-white/5 dark:bg-slate-900/50 text-white placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent transition-all sm:text-sm ${confirmPassword && !passwordsMatch ? 'border-red-500/50' : 'border-white/10 dark:border-slate-600'
+                                }`}
                             id="confirm-password"
                             name="confirm-password"
                             placeholder="Confirm New Password"
                             required
                             type={showConfirmPassword ? 'text' : 'password'}
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            disabled={isLoading}
                         />
                         <button
                             className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-300 hover:text-white transition-colors cursor-pointer focus:outline-none"
@@ -93,14 +158,25 @@ export default function PasswordResetPage() {
                             </span>
                         </button>
                     </div>
+                    {confirmPassword && !passwordsMatch && (
+                        <p className="text-red-400 text-xs mt-1">Passwords do not match</p>
+                    )}
 
                     {/* Submit Button */}
-                    <Link
-                        to="/auth/reset-password-success"
-                        className="w-full py-3.5 px-4 mt-2 rounded-xl bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-lg shadow-lg shadow-[#137fec]/25 hover:shadow-[#137fec]/40 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
+                    <button
+                        type="submit"
+                        disabled={isLoading || !isPasswordValid || !passwordsMatch}
+                        className="w-full py-3.5 px-4 mt-2 rounded-xl bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-lg shadow-lg shadow-[#137fec]/25 hover:shadow-[#137fec]/40 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                     >
-                        Reset Password
-                    </Link>
+                        {isLoading ? (
+                            <>
+                                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                Resetting...
+                            </>
+                        ) : (
+                            'Reset Password'
+                        )}
+                    </button>
                 </form>
             </div>
         </div>

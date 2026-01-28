@@ -1,13 +1,32 @@
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function ForgotPasswordPage() {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [email, setEmail] = useState('');
+    const { forgotPassword, isLoading, error, clearError } = useAuth();
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        setIsSubmitted(true);
+        clearError();
+
+        try {
+            await forgotPassword(email);
+            setIsSubmitted(true);
+        } catch {
+            // Error is handled by AuthContext
+        }
+    };
+
+    const handleResend = async () => {
+        clearError();
+        try {
+            await forgotPassword(email);
+            // Show a brief success indicator here if needed
+        } catch {
+            // Error is handled by AuthContext
+        }
     };
 
     if (isSubmitted) {
@@ -29,10 +48,18 @@ export default function ForgotPasswordPage() {
                     </div>
                 </div>
                 <button
-                    onClick={() => setIsSubmitted(false)}
-                    className="w-full py-3.5 px-4 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-white font-semibold text-base transition-all mb-4"
+                    onClick={handleResend}
+                    disabled={isLoading}
+                    className="w-full py-3.5 px-4 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-white font-semibold text-base transition-all mb-4 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
-                    Resend Link
+                    {isLoading ? (
+                        <>
+                            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                            Sending...
+                        </>
+                    ) : (
+                        'Resend Link'
+                    )}
                 </button>
                 <Link
                     to="/auth/login"
@@ -55,6 +82,16 @@ export default function ForgotPasswordPage() {
                 Enter your registered email address below, and we'll send you a link to reset your password.
             </p>
 
+            {/* Error Message */}
+            {error && (
+                <div className="w-full mb-4 p-3 rounded-xl bg-red-500/20 border border-red-500/30 text-red-200 text-sm">
+                    <div className="flex items-center gap-2">
+                        <span className="material-symbols-outlined text-[18px]">error</span>
+                        <span>{error.error.message}</span>
+                    </div>
+                </div>
+            )}
+
             <form onSubmit={handleSubmit} className="w-full space-y-6">
                 <div className="relative">
                     <label className="sr-only" htmlFor="email">Email address</label>
@@ -70,14 +107,25 @@ export default function ForgotPasswordPage() {
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        disabled={isLoading}
                     />
                 </div>
                 <button
-                    className="w-full py-3.5 px-4 rounded-xl bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-lg shadow-lg shadow-[#137fec]/25 hover:shadow-[#137fec]/40 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
                     type="submit"
+                    disabled={isLoading || !email}
+                    className="w-full py-3.5 px-4 rounded-xl bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-lg shadow-lg shadow-[#137fec]/25 hover:shadow-[#137fec]/40 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                 >
-                    Send Reset Link
-                    <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                    {isLoading ? (
+                        <>
+                            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                            Sending...
+                        </>
+                    ) : (
+                        <>
+                            Send Reset Link
+                            <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                        </>
+                    )}
                 </button>
             </form>
 

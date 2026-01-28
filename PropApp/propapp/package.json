@@ -19,6 +19,7 @@
     "@react-three/fiber": "^9.4.2",
     "@shadergradient/react": "^2.4.20",
     "@types/canvas-confetti": "^1.9.0",
+    "axios": "^1.13.2",
     "camera-controls": "^3.1.2",
     "canvas-confetti": "^1.9.4",
     "class-variance-authority": "^0.7.1",

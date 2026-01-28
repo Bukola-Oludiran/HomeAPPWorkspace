@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import ScheduleViewingModal from '../../components/ScheduleViewingModal';
 import VirtualTourModal from '../../components/VirtualTourModal';
@@ -7,60 +7,34 @@ import BuyFlowModal from '../../components/BuyFlowModal';
 import ShareModal from '../../components/ShareModal';
 import ContactAgentModal from '../../components/ContactAgentModal';
 import FavoriteButton from '../../components/FavoriteButton';
+import { propertyService } from '@/lib/api/services/propertyService';
+import type { Property } from '@/types/property';
+import type { ApiError } from '@/types/api';
 
-// Mock property data
-const propertyData = {
-    id: 1,
-    name: 'Modern Oakwood Estate',
-    address: '1243 Oakwood Avenue, Austin, TX 78704',
-    neighborhood: 'Travis Heights Neighborhood',
-    price: '$850,000',
-    mortgageEstimate: '$4,800/mo',
-    type: 'For Sale',
-    listedDays: 2,
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l',
-    beds: 4,
-    baths: 3,
-    sqft: '2,400',
-    yearBuilt: 2021,
-    verified: 'Platinum Verified',
-    photoCount: 12,
-    description: `Stunning modern estate located in the heart of Austin's most desirable neighborhood. This architectural masterpiece features floor-to-ceiling windows that flood the open-concept living space with natural light. The gourmet kitchen is equipped with top-of-the-line appliances and a massive quartz island, perfect for entertaining.
-
-Retreat to the luxurious primary suite with a spa-like bathroom and walk-in closet. The backyard is a private oasis with a sparkling pool, outdoor kitchen, and manicured landscaping. Smart home technology is integrated throughout, offering convenience and security at your fingertips.`,
-    agent: {
-        name: 'Sarah Jenkins',
-        title: 'Senior Agent @ LuxRealty',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCjSrFpmEFzY7DuSYzvGMyJ6_AbhHnvodMyset9lUUft__qqjtpv9mHHcZ_G89QxFqf2R2dKoTB_fJz4U92uCsFUL3184Bj0EySgXTcecuQVsdTPcTR-TEh34WNcFyDdaft0v9SsIZVgNjqHkcAVrUnkmB4ERkwtSLbgbP8lvDFna76LCjamOuHb71kIA10Hd2U-QwIyYE8BfDzezNODnKbjf1aE1aWwURtZm-0bYkj-A3IN-FzxBdGE2Vxyue4rROjFp2w4T6q4RmT',
-        verified: true,
-        responseRate: '100%',
-        responseTime: '1 hr',
-    },
-    aiInsights: [
-        {
-            icon: 'trending_up',
-            iconColor: 'text-green-500',
-            title: 'Great Investment:',
-            text: 'This area has seen a 12% property value increase over the last year, outperforming the city average.',
-        },
-        {
-            icon: 'wb_sunny',
-            iconColor: 'text-blue-500',
-            title: 'Natural Light:',
-            text: 'Based on orientation and window placement, this home receives excellent morning sunlight in the kitchen and living areas.',
-        },
-        {
-            icon: 'school',
-            iconColor: 'text-orange-500',
-            title: 'Top Schools:',
-            text: 'Located within the catchment area for 9/10 rated elementary and high schools.',
-        },
-    ],
+// Helper to format price
+const formatPrice = (price: number, currency = 'NGN'): string => {
+    const symbol = currency === 'NGN' ? '₦' : '$';
+    return `${symbol}${price.toLocaleString()}`;
 };
 
+// Helper to format listing type label
+const getTypeLabel = (listingType: string): string => {
+    if (listingType === 'SALE') return 'For Sale';
+    if (listingType === 'RENT') return 'For Rent';
+    if (listingType === 'SHORT_LET') return 'Short Let';
+    return listingType;
+};
+
+
 export default function PropertyDetail() {
-    const { id: _id } = useParams();
-    const [isFavorited, setIsFavorited] = useState(true);
+    const { id } = useParams<{ id: string }>();
+
+    // API state
+    const [property, setProperty] = useState<Property | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<ApiError | null>(null);
+
+    // Modal states
     const [showBuyModal, setShowBuyModal] = useState(false);
     const [showViewingModal, setShowViewingModal] = useState(false);
     const [showTourModal, setShowTourModal] = useState(false);
@@ -68,24 +42,68 @@ export default function PropertyDetail() {
     const [showShareModal, setShowShareModal] = useState(false);
     const [showContactModal, setShowContactModal] = useState(false);
 
-    // In a real app, fetch property data based on id
-    const property = propertyData;
+    // Fetch property on mount
+    useEffect(() => {
+        if (!id) return;
 
-    // Mock gallery images
-    const galleryImages = [
-        property.image,
-        property.image,
-        property.image,
-        property.image,
-        property.image,
-        property.image,
-        property.image,
-        property.image,
-        property.image,
-        property.image,
-        property.image,
-        property.image,
-    ];
+        const fetchProperty = async () => {
+            setIsLoading(true);
+            setError(null);
+            try {
+                const response = await propertyService.getPropertyById(id);
+                setProperty(response.data);
+            } catch (err) {
+                setError(err as ApiError);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchProperty();
+    }, [id]);
+
+    // Loading state
+    if (isLoading) {
+        return (
+            <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex items-center justify-center">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#137fec] mx-auto mb-4"></div>
+                    <p className="text-slate-500 dark:text-slate-400">Loading property...</p>
+                </div>
+            </div>
+        );
+    }
+
+    // Error state
+    if (error || !property) {
+        return (
+            <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex items-center justify-center">
+                <div className="text-center">
+                    <span className="material-symbols-outlined text-6xl text-red-400 mb-4">error</span>
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+                        {error?.error?.code === 'RES_002' ? 'Property Not Found' : 'Something went wrong'}
+                    </h3>
+                    <p className="text-slate-500 dark:text-slate-400 mb-4">
+                        {error?.error?.message || 'Failed to load property details'}
+                    </p>
+                    <Link
+                        to="/search"
+                        className="px-6 py-2 bg-[#137fec] text-white rounded-lg font-semibold hover:bg-blue-600 inline-block"
+                    >
+                        Back to Search
+                    </Link>
+                </div>
+            </div>
+        );
+    }
+
+    // Derived values for UI
+    const primaryImage = property.media.find(m => m.isPrimary)?.url || property.media[0]?.url || 'https://placehold.co/800x600?text=No+Image';
+    const galleryImages = property.media.filter(m => m.type === 'IMAGE').map(m => m.url);
+    const priceDisplay = formatPrice(property.price, property.currency);
+    const typeLabel = getTypeLabel(property.listingType);
+    const fullAddress = `${property.address.street}, ${property.address.city}, ${property.address.state}`;
+    const sqft = property.squareMeters ? Math.round(property.squareMeters * 10.764).toLocaleString() : 'N/A';
 
     return (
         <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex flex-col font-[Manrope,Noto_Sans,sans-serif] text-slate-900 dark:text-white overflow-x-hidden pb-[140px]">
@@ -107,9 +125,7 @@ export default function PropertyDetail() {
                         </button>
                         <FavoriteButton
                             propertyId={property.id}
-                            initialFavorited={isFavorited}
                             variant="overlay"
-                            onToggle={(favorited) => setIsFavorited(favorited)}
                         />
                     </div>
                 </div>
@@ -120,7 +136,7 @@ export default function PropertyDetail() {
                 <img
                     alt={`${property.name} large windows`}
                     className="w-full h-full object-cover"
-                    src={property.image}
+                    src={primaryImage}
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/10"></div>
                 {/* Image Pagination Dots */}
@@ -145,7 +161,7 @@ export default function PropertyDetail() {
                         className="px-4 py-2 bg-white/90 dark:bg-black/60 backdrop-blur-md rounded-lg text-sm font-semibold flex items-center gap-2 hover:bg-white dark:hover:bg-black/80 transition-colors shadow-sm text-slate-900 dark:text-white justify-center"
                     >
                         <span className="material-symbols-outlined text-[18px]">grid_view</span>
-                        View all {property.photoCount} photos
+                        View all {galleryImages.length} photos
                     </button>
                 </div>
             </div>
@@ -161,10 +177,10 @@ export default function PropertyDetail() {
                                 <div>
                                     <div className="flex items-center gap-3 mb-2">
                                         <span className="px-2.5 py-1 bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-xs font-bold uppercase tracking-wider rounded-md">
-                                            {property.type}
+                                            {typeLabel}
                                         </span>
                                         <span className="text-slate-500 dark:text-slate-400 text-sm">
-                                            Listed {property.listedDays} days ago
+                                            Listed recently
                                         </span>
                                     </div>
                                     <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-2 leading-tight">
@@ -174,15 +190,15 @@ export default function PropertyDetail() {
                                         <span className="material-symbols-outlined text-[20px] mr-1.5">
                                             location_on
                                         </span>
-                                        <p className="text-lg">{property.address}</p>
+                                        <p className="text-lg">{fullAddress}</p>
                                     </div>
                                 </div>
                                 <div className="flex flex-col items-start md:items-end">
                                     <h2 className="text-3xl md:text-4xl font-extrabold text-[#137fec]">
-                                        {property.price}
+                                        {priceDisplay}
                                     </h2>
                                     <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
-                                        Est. {property.mortgageEstimate} mortgage
+                                        {property.listingType === 'RENT' ? '/month' : property.listingType === 'SHORT_LET' ? '/night' : ''}
                                     </p>
                                 </div>
                             </div>
@@ -228,7 +244,7 @@ export default function PropertyDetail() {
                             <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 flex flex-col items-center justify-center text-center gap-1">
                                 <span className="material-symbols-outlined text-slate-400 text-[24px]">bed</span>
                                 <span className="text-xl font-bold text-slate-900 dark:text-white">
-                                    {property.beds}
+                                    {property.bedrooms}
                                 </span>
                                 <span className="text-xs text-slate-500 uppercase tracking-wide">Bedrooms</span>
                             </div>
@@ -237,7 +253,7 @@ export default function PropertyDetail() {
                                     bathtub
                                 </span>
                                 <span className="text-xl font-bold text-slate-900 dark:text-white">
-                                    {property.baths}
+                                    {property.bathrooms}
                                 </span>
                                 <span className="text-xs text-slate-500 uppercase tracking-wide">Bathrooms</span>
                             </div>
@@ -246,7 +262,7 @@ export default function PropertyDetail() {
                                     square_foot
                                 </span>
                                 <span className="text-xl font-bold text-slate-900 dark:text-white">
-                                    {property.sqft}
+                                    {sqft}
                                 </span>
                                 <span className="text-xs text-slate-500 uppercase tracking-wide">Sq Ft</span>
                             </div>
@@ -255,7 +271,7 @@ export default function PropertyDetail() {
                                     calendar_month
                                 </span>
                                 <span className="text-xl font-bold text-slate-900 dark:text-white">
-                                    {property.yearBuilt}
+                                    {property.yearBuilt || 'N/A'}
                                 </span>
                                 <span className="text-xs text-slate-500 uppercase tracking-wide">Year Built</span>
                             </div>
@@ -267,7 +283,7 @@ export default function PropertyDetail() {
                                 About this home
                             </h3>
                             <div className="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-300">
-                                {property.description.split('\n\n').map((paragraph, index) => (
+                                {(property.description || 'No description available.').split('\n\n').map((paragraph, index) => (
                                     <p key={index} className="mb-4">
                                         {paragraph}
                                     </p>
@@ -290,18 +306,18 @@ export default function PropertyDetail() {
                                 </h3>
                             </div>
                             <ul className="space-y-3">
-                                {property.aiInsights.map((insight, index) => (
+                                {(property.highlights || []).map((highlight, index: number) => (
                                     <li
                                         key={index}
                                         className="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300"
                                     >
                                         <span
-                                            className={`material-symbols-outlined ${insight.iconColor} text-[20px] mt-0.5`}
+                                            className={`material-symbols-outlined ${highlight.iconColor} text-[20px] mt-0.5`}
                                         >
-                                            {insight.icon}
+                                            {highlight.icon}
                                         </span>
                                         <span>
-                                            <strong>{insight.title}</strong> {insight.text}
+                                            <strong>{highlight.title}</strong> {highlight.text}
                                         </span>
                                     </li>
                                 ))}
@@ -326,7 +342,7 @@ export default function PropertyDetail() {
                                 </button>
                             </div>
                             <p className="mt-3 text-slate-500 dark:text-slate-400 text-sm">
-                                Austin, TX 78704 - {property.neighborhood}
+                                {property.address.city}, {property.address.state} - {property.address.neighborhood || 'Neighborhood'}
                             </p>
                         </div>
                     </div>
@@ -340,16 +356,16 @@ export default function PropertyDetail() {
                                         <img
                                             alt="Agent Profile"
                                             className="size-16 rounded-full object-cover border-2 border-slate-100 dark:border-slate-600"
-                                            src={property.agent.image}
+                                            src={property.agent?.avatarUrl || 'https://placehold.co/64x64?text=Agent'}
                                         />
                                         <span className="absolute bottom-0 right-0 size-4 bg-green-500 border-2 border-white dark:border-slate-800 rounded-full"></span>
                                     </div>
                                     <div>
                                         <h4 className="font-bold text-lg text-slate-900 dark:text-white">
-                                            {property.agent.name}
+                                            {property.agent?.name || 'Property Agent'}
                                         </h4>
-                                        <p className="text-slate-500 text-sm">{property.agent.title}</p>
-                                        {property.agent.verified && (
+                                        <p className="text-slate-500 text-sm">{property.agent?.title || 'Real Estate Agent'}</p>
+                                        {property.agent && (
                                             <div className="flex items-center gap-1 text-xs font-semibold text-[#137fec] mt-1">
                                                 <span className="material-symbols-outlined text-[14px] icon-filled">
                                                     verified
@@ -363,8 +379,7 @@ export default function PropertyDetail() {
                                     Message Host
                                 </button>
                                 <div className="text-center text-xs text-slate-400">
-                                    Response rate: {property.agent.responseRate} • Responds within{' '}
-                                    {property.agent.responseTime}
+                                    {property.agent?.rating ? `Rating: ${property.agent.rating}/5` : 'Contact for more info'}
                                 </div>
                             </div>
                         </div>
@@ -430,9 +445,9 @@ export default function PropertyDetail() {
                 onClose={() => setShowBuyModal(false)}
                 property={{
                     name: property.name,
-                    address: property.address,
-                    image: property.image,
-                    listingPrice: 850000,
+                    address: fullAddress,
+                    image: primaryImage,
+                    listingPrice: property.price,
                 }}
             />
 
@@ -442,8 +457,8 @@ export default function PropertyDetail() {
                 onClose={() => setShowViewingModal(false)}
                 property={{
                     name: property.name,
-                    address: property.address,
-                    image: property.image,
+                    address: fullAddress,
+                    image: primaryImage,
                 }}
             />
 
@@ -453,12 +468,12 @@ export default function PropertyDetail() {
                 onClose={() => setShowTourModal(false)}
                 property={{
                     name: property.name,
-                    address: property.address,
-                    image: property.image,
+                    address: fullAddress,
+                    image: primaryImage,
                 }}
                 agent={{
-                    name: property.agent.name,
-                    image: property.agent.image,
+                    name: property.agent?.name || 'Agent',
+                    image: property.agent?.avatarUrl || 'https://placehold.co/64x64?text=Agent',
                 }}
             />
 
@@ -468,7 +483,7 @@ export default function PropertyDetail() {
                 onClose={() => setShowGalleryModal(false)}
                 property={{
                     name: property.name,
-                    address: property.address,
+                    address: fullAddress,
                 }}
                 images={galleryImages}
             />
@@ -477,7 +492,7 @@ export default function PropertyDetail() {
             <ShareModal
                 isOpen={showShareModal}
                 onClose={() => setShowShareModal(false)}
-                title={`${property.name} - ${property.beds} bed, ${property.baths} bath • ${property.sqft} sqft • ${property.price}`}
+                title={`${property.name} - ${property.bedrooms} bed, ${property.bathrooms} bath • ${sqft} sqft • ${priceDisplay}`}
                 url={window.location.href}
             />
 
@@ -486,13 +501,13 @@ export default function PropertyDetail() {
                 isOpen={showContactModal}
                 onClose={() => setShowContactModal(false)}
                 agent={{
-                    name: property.agent.name,
-                    title: property.agent.title,
-                    image: property.agent.image,
+                    name: property.agent?.name || 'Property Agent',
+                    title: property.agent?.title || 'Real Estate Agent',
+                    image: property.agent?.avatarUrl || 'https://placehold.co/64x64?text=Agent',
                 }}
                 property={{
                     name: property.name,
-                    address: property.address,
+                    address: fullAddress,
                 }}
             />
         </div>

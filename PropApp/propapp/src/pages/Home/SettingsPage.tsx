@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ConfirmationModal from '../../components/ConfirmationModal';
 
-type SettingsSection = 'profile' | 'security' | 'email' | 'push' | 'privacy' | 'visibility' | 'payment' | 'payout' | 'preferences' | 'help';
+type SettingsSection = 'profile' | 'security' | 'email' | 'push' | 'privacy' | 'visibility' | 'payment' | 'payout' | 'preferences' | 'help' | 'tenant-profile' | 'landlord-profile' | 'agent-profile';
 
 export default function SettingsPage() {
     const [activeSection, setActiveSection] = useState<SettingsSection>('profile');
@@ -14,6 +14,13 @@ export default function SettingsPage() {
             section: 'Account', items: [
                 { id: 'profile' as SettingsSection, icon: 'person', label: 'Profile Information' },
                 { id: 'security' as SettingsSection, icon: 'lock', label: 'Login & Security' },
+            ]
+        },
+        {
+            section: 'My Profiles', items: [
+                { id: 'tenant-profile' as SettingsSection, icon: 'vpn_key', label: 'Tenant Profile' },
+                { id: 'landlord-profile' as SettingsSection, icon: 'apartment', label: 'Landlord Profile' },
+                { id: 'agent-profile' as SettingsSection, icon: 'support_agent', label: 'Agent Profile' },
             ]
         },
         {
@@ -237,6 +244,9 @@ export default function SettingsPage() {
                         {activeSection === 'payout' && <PayoutPreferencesContent />}
                         {activeSection === 'preferences' && <GeneralPreferencesContent />}
                         {activeSection === 'help' && <HelpSupportContent />}
+                        {activeSection === 'tenant-profile' && <TenantProfileContent />}
+                        {activeSection === 'landlord-profile' && <LandlordProfileContent />}
+                        {activeSection === 'agent-profile' && <AgentProfileContent />}
                     </div>
                 </div>
             </main>
@@ -338,41 +348,6 @@ function ProfileContent() {
                     </div>
                 </div>
 
-                <hr className="border-slate-100 dark:border-slate-800" />
-
-                {/* Manage Persona Profiles */}
-                <div>
-                    <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-4">Manage Persona Profiles</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <Link to="/settings/tenant-profile" className="flex items-start gap-4 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-[#137fec] dark:hover:border-[#137fec] hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all group">
-                            <div className="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-lg text-blue-600 dark:text-blue-400">
-                                <span className="material-symbols-outlined">vpn_key</span>
-                            </div>
-                            <div>
-                                <h4 className="font-bold text-slate-900 dark:text-white group-hover:text-[#137fec] transition-colors">Tenant Profile</h4>
-                                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Preferences, search history & applications.</p>
-                            </div>
-                        </Link>
-                        <Link to="/settings/landlord-profile" className="flex items-start gap-4 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-[#137fec] dark:hover:border-[#137fec] hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all group">
-                            <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-lg text-purple-600 dark:text-purple-400">
-                                <span className="material-symbols-outlined">dashboard</span>
-                            </div>
-                            <div>
-                                <h4 className="font-bold text-slate-900 dark:text-white group-hover:text-[#137fec] transition-colors">Landlord Profile</h4>
-                                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Properties, listings & verification status.</p>
-                            </div>
-                        </Link>
-                        <Link to="/settings/agent-profile" className="flex items-start gap-4 p-4 rounded-xl border border-dashed border-slate-300 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all opacity-75">
-                            <div className="bg-slate-100 dark:bg-slate-800 p-2 rounded-lg text-slate-400">
-                                <span className="material-symbols-outlined">add</span>
-                            </div>
-                            <div>
-                                <h4 className="font-bold text-slate-600 dark:text-slate-300">Become an Agent</h4>
-                                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Set up your professional profile.</p>
-                            </div>
-                        </Link>
-                    </div>
-                </div>
             </div>
             <SettingsFooter />
         </>
@@ -838,12 +813,784 @@ function ToggleSetting({ title, description, defaultChecked }: { title: string; 
 function SettingsFooter() {
     return (
         <div className="p-6 md:p-8 bg-slate-50 dark:bg-[#15202b] border-t border-slate-100 dark:border-slate-800 flex justify-end gap-3 rounded-b-2xl">
-            <button className="px-5 py-2.5 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-600 transition-all shadow-sm">
+            <button className="px-5 py-2.5 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-600 transition-all shadow-sm cursor-pointer">
                 Cancel
             </button>
-            <button className="px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-[#137fec] hover:bg-[#137fec]/90 shadow-lg shadow-[#137fec]/20 transition-all">
+            <button className="px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-[#137fec] hover:bg-[#137fec]/90 shadow-lg shadow-[#137fec]/20 transition-all cursor-pointer">
                 Save Changes
             </button>
         </div>
     );
 }
+
+// Tenant Profile Content
+function TenantProfileContent() {
+    const [checked, setChecked] = useState({ laundry: true, petFriendly: true, parking: false, gym: false });
+    const [showHistoryModal, setShowHistoryModal] = useState(false);
+    const [showDocumentsModal, setShowDocumentsModal] = useState(false);
+
+    const rentalHistory = [
+        { address: '123 Oak Street, Apt 4B', landlord: 'Jane Smith', period: 'Jan 2021 - Dec 2022', rating: 'Excellent' },
+        { address: '456 Maple Ave, Unit 12', landlord: 'Bob Johnson', period: 'Mar 2019 - Dec 2020', rating: 'Good' },
+        { address: '789 Pine Road, Suite 3', landlord: 'Mary Davis', period: 'Jun 2017 - Feb 2019', rating: 'Excellent' },
+    ];
+
+    return (
+        <>
+            {/* Rental History Modal */}
+            {showHistoryModal && (
+                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setShowHistoryModal(false)}>
+                    <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-lg w-full max-h-[80vh] overflow-hidden shadow-xl" onClick={e => e.stopPropagation()}>
+                        <div className="p-6 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
+                            <h3 className="text-lg font-bold text-slate-900 dark:text-white">Rental History</h3>
+                            <button onClick={() => setShowHistoryModal(false)} className="text-slate-400 hover:text-slate-600 cursor-pointer">
+                                <span className="material-symbols-outlined">close</span>
+                            </button>
+                        </div>
+                        <div className="p-6 space-y-4 overflow-y-auto max-h-96">
+                            {rentalHistory.map((rental, idx) => (
+                                <div key={idx} className="p-4 bg-slate-50 dark:bg-slate-800 rounded-lg">
+                                    <p className="font-semibold text-slate-900 dark:text-white">{rental.address}</p>
+                                    <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Landlord: {rental.landlord}</p>
+                                    <p className="text-sm text-slate-500 dark:text-slate-400">{rental.period}</p>
+                                    <span className="inline-block mt-2 px-2 py-0.5 text-xs font-semibold bg-green-100 text-green-700 rounded">{rental.rating}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Documents Modal */}
+            {showDocumentsModal && (
+                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setShowDocumentsModal(false)}>
+                    <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-lg w-full max-h-[80vh] overflow-hidden shadow-xl" onClick={e => e.stopPropagation()}>
+                        <div className="p-6 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
+                            <h3 className="text-lg font-bold text-slate-900 dark:text-white">Manage Documents</h3>
+                            <button onClick={() => setShowDocumentsModal(false)} className="text-slate-400 hover:text-slate-600 cursor-pointer">
+                                <span className="material-symbols-outlined">close</span>
+                            </button>
+                        </div>
+                        <div className="p-6 space-y-4">
+                            <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-lg">
+                                <div className="flex items-center gap-3">
+                                    <span className="material-symbols-outlined text-green-500">verified_user</span>
+                                    <span className="text-slate-900 dark:text-white">Identity Verification</span>
+                                </div>
+                                <span className="text-xs text-green-600">Verified</span>
+                            </div>
+                            <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-lg">
+                                <div className="flex items-center gap-3">
+                                    <span className="material-symbols-outlined text-orange-500">attach_money</span>
+                                    <span className="text-slate-900 dark:text-white">Proof of Income</span>
+                                </div>
+                                <button className="text-xs text-[#137fec] hover:underline cursor-pointer">Upload New</button>
+                            </div>
+                            <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-lg">
+                                <div className="flex items-center gap-3">
+                                    <span className="material-symbols-outlined text-blue-500">description</span>
+                                    <span className="text-slate-900 dark:text-white">Credit Report</span>
+                                </div>
+                                <button className="text-xs text-[#137fec] hover:underline cursor-pointer">Upload</button>
+                            </div>
+                            <button className="w-full mt-4 py-2 text-sm font-medium text-white bg-[#137fec] rounded-lg hover:bg-[#137fec]/90 cursor-pointer">
+                                Upload New Document
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <div className="p-6 md:p-8 border-b border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <div className="flex items-center gap-2 mb-1">
+                        <span className="text-xs font-semibold text-[#137fec] uppercase tracking-wide">Global Settings</span>
+                        <span className="text-slate-300 dark:text-slate-600">/</span>
+                        <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Profiles</span>
+                    </div>
+                    <h2 className="text-xl font-bold text-slate-900 dark:text-white">Manage Tenant Profile</h2>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Your Tenant Profile Settings: Personal details, preferences, and verified documents.</p>
+                </div>
+            </div>
+            <div className="p-6 md:p-8 space-y-10 flex-1">
+                {/* Personal Details */}
+                <section>
+                    <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                        <span className="material-symbols-outlined text-slate-400">badge</span> Personal Details
+                    </h3>
+                    <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-6">
+                        <div className="relative group">
+                            <img alt="Tenant profile photo" className="w-24 h-24 rounded-full object-cover ring-4 ring-slate-50 dark:ring-slate-800" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwTu80T-Ii1i2JHfbWEMDgwXRNP0ehdOTldQ7IxlyR1MCzL8MrOZBjoYfXJZAXXTJlIi2HNi9nfioA7ksEMvF5HBEBODUnWum2NL5XhkC95MK52bAAZDSe9d891ZAw5MbM9oRR30lP8umsxTAf1eXbePW_bZ0I5rsOo88ELIF5aCU07WBBeE1z6_RwK6Y9O6FRPgxUzYEmE3EzdyA9_YtX-v69bXptpU6g1Xr3eGcYlqLvJjRJJdBDyZYyiAuPmTNA3aMrKcO3r42a" />
+                            <button className="absolute bottom-0 right-0 bg-white dark:bg-slate-700 text-slate-600 dark:text-white p-1.5 rounded-full shadow-md border border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors cursor-pointer">
+                                <span className="material-symbols-outlined text-[18px]">edit</span>
+                            </button>
+                        </div>
+                        <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Display Name</label>
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="text" defaultValue="Alex J." />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Contact Phone</label>
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="tel" defaultValue="+1 (555) 123-4567" />
+                            </div>
+                            <div className="md:col-span-2">
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Short Bio (Visible to Landlords)</label>
+                                <textarea className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" rows={2} defaultValue="Young professional working in tech. Quiet, reliable, and have excellent references from previous landlords." />
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr className="border-slate-100 dark:border-slate-800" />
+
+                {/* Application Preferences */}
+                <section>
+                    <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                        <span className="material-symbols-outlined text-slate-400">tune</span> Application Preferences
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Desired Bedrooms</label>
+                            <select className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm">
+                                <option>Studio</option>
+                                <option>1 Bedroom</option>
+                                <option>2 Bedrooms</option>
+                                <option>3+ Bedrooms</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Monthly Budget (Max)</label>
+                            <div className="relative">
+                                <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">$</span>
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white pl-7 shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="number" defaultValue="2500" />
+                            </div>
+                        </div>
+                        <div className="md:col-span-2">
+                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Desired Amenities</label>
+                            <div className="flex flex-wrap gap-2">
+                                {[
+                                    { key: 'laundry', label: 'In-unit Laundry' },
+                                    { key: 'petFriendly', label: 'Pet Friendly' },
+                                    { key: 'parking', label: 'Parking Spot' },
+                                    { key: 'gym', label: 'Gym / Fitness' }
+                                ].map(amenity => (
+                                    <label key={amenity.key} className="inline-flex items-center px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                                        <input
+                                            checked={checked[amenity.key as keyof typeof checked]}
+                                            onChange={(e) => setChecked({ ...checked, [amenity.key]: e.target.checked })}
+                                            className="form-checkbox h-4 w-4 text-[#137fec] rounded border-slate-300 focus:ring-[#137fec]"
+                                            type="checkbox"
+                                        />
+                                        <span className="ml-2 text-sm text-slate-700 dark:text-slate-300">{amenity.label}</span>
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr className="border-slate-100 dark:border-slate-800" />
+
+                {/* Rental History Summary */}
+                <section>
+                    <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                        <span className="material-symbols-outlined text-slate-400">history</span> Rental History Summary
+                    </h3>
+                    <div className="bg-blue-50 dark:bg-slate-800/50 border border-blue-100 dark:border-slate-700 rounded-xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                        <div className="flex items-start gap-4">
+                            <div className="bg-white dark:bg-slate-700 p-2 rounded-lg text-[#137fec] shadow-sm">
+                                <span className="material-symbols-outlined">apartment</span>
+                            </div>
+                            <div>
+                                <h4 className="font-bold text-slate-900 dark:text-white text-sm">Excellent Rental Track Record</h4>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">3 Verified past rentals • No reported disputes • 5 Years history</p>
+                            </div>
+                        </div>
+                        <button onClick={() => setShowHistoryModal(true)} className="text-sm font-medium text-[#137fec] hover:text-[#137fec]/80 whitespace-nowrap flex items-center gap-1 cursor-pointer">
+                            View Full History <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+                        </button>
+                    </div>
+                </section>
+
+                <hr className="border-slate-100 dark:border-slate-800" />
+
+                {/* Linked Documents */}
+                <section>
+                    <div className="flex justify-between items-center mb-4">
+                        <h3 className="text-base font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+                            <span className="material-symbols-outlined text-slate-400">folder_shared</span> Linked Documents
+                        </h3>
+                        <button onClick={() => setShowDocumentsModal(true)} className="text-xs font-semibold text-[#137fec] hover:underline cursor-pointer">Manage Tenant Documents</button>
+                    </div>
+                    <div className="space-y-3">
+                        <div className="flex items-center justify-between p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400 rounded-lg">
+                                    <span className="material-symbols-outlined text-[20px]">verified_user</span>
+                                </div>
+                                <div>
+                                    <p className="text-sm font-medium text-slate-900 dark:text-white">Identity Verification</p>
+                                    <p className="text-xs text-green-600 dark:text-green-400">Verified on Oct 12, 2023</p>
+                                </div>
+                            </div>
+                            <span className="material-symbols-outlined text-slate-400 text-[20px]">check_circle</span>
+                        </div>
+                        <div className="flex items-center justify-between p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 bg-orange-100 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 rounded-lg">
+                                    <span className="material-symbols-outlined text-[20px]">attach_money</span>
+                                </div>
+                                <div>
+                                    <p className="text-sm font-medium text-slate-900 dark:text-white">Proof of Income</p>
+                                    <p className="text-xs text-orange-600 dark:text-orange-400">Update needed (Older than 3 months)</p>
+                                </div>
+                            </div>
+                            <button onClick={() => setShowDocumentsModal(true)} className="text-xs font-medium bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 px-2 py-1 rounded text-slate-700 dark:text-slate-300 hover:text-[#137fec] cursor-pointer">Update</button>
+                        </div>
+                    </div>
+                </section>
+
+                <hr className="border-slate-100 dark:border-slate-800" />
+
+                {/* Privacy Settings */}
+                <section>
+                    <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                        <span className="material-symbols-outlined text-slate-400">lock</span> Tenant Privacy Settings
+                    </h3>
+                    <div className="space-y-4">
+                        <ToggleSetting title="Allow landlords to search my profile" description="Your profile will appear in tenant search results." defaultChecked={false} />
+                        <ToggleSetting title="Show income verification badge" description="Increase trust by showing you have verified income." defaultChecked={true} />
+                    </div>
+                </section>
+            </div>
+            <SettingsFooter />
+        </>
+    );
+}
+
+// Landlord Profile Content
+function LandlordProfileContent() {
+    return (
+        <>
+            <div className="p-6 md:p-8 border-b border-slate-100 dark:border-slate-800 flex justify-between items-start gap-4">
+                <div>
+                    <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        Manage Landlord Profile
+                    </h2>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Manage your landlord details, business info, and verification status.</p>
+                </div>
+                <div className="hidden sm:flex flex-col items-end gap-2">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-yellow-50 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 text-xs font-semibold border border-yellow-100 dark:border-yellow-800">
+                        <span className="material-symbols-outlined text-[16px]">verified_user</span>
+                        Identity Verified
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-semibold border border-slate-200 dark:border-slate-700">
+                        Public Profile Active
+                    </span>
+                </div>
+            </div>
+            <div className="p-6 md:p-8 space-y-8 flex-1">
+                {/* Verification Status */}
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-800/50 rounded-xl p-5 border border-blue-100 dark:border-slate-700 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-4 opacity-10">
+                        <span className="material-symbols-outlined text-[100px] text-blue-500">verified</span>
+                    </div>
+                    <div className="relative z-10">
+                        <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
+                            <span className="material-symbols-outlined text-blue-600 dark:text-blue-400">shield_person</span>
+                            Landlord Verification Status
+                        </h3>
+                        <div className="flex flex-col sm:flex-row gap-4 sm:items-center justify-between">
+                            <div className="space-y-1">
+                                <p className="text-sm text-slate-600 dark:text-slate-300">
+                                    <span className="font-medium">Identity:</span> <span className="text-green-600 dark:text-green-400 font-bold">Verified</span>
+                                </p>
+                                <p className="text-sm text-slate-600 dark:text-slate-300">
+                                    <span className="font-medium">Business Registration:</span> <span className="text-slate-500 dark:text-slate-400 italic">Not Submitted</span>
+                                </p>
+                            </div>
+                            <Link to="/landlord/verification" className="shrink-0 px-4 py-2 text-xs font-semibold text-blue-700 bg-white border border-blue-200 rounded-lg hover:bg-blue-50 hover:border-blue-300 transition-colors shadow-sm dark:bg-slate-700 dark:text-blue-300 dark:border-slate-600 dark:hover:bg-slate-600">
+                                Manage Verification Documents
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Personal and Business Details */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div className="space-y-6">
+                        <h3 className="text-base font-semibold text-slate-900 dark:text-white">Personal Details</h3>
+                        <div className="flex items-center gap-4">
+                            <div className="relative group">
+                                <img alt="Landlord profile photo" className="w-16 h-16 rounded-full object-cover ring-2 ring-slate-100 dark:ring-slate-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwTu80T-Ii1i2JHfbWEMDgwXRNP0ehdOTldQ7IxlyR1MCzL8MrOZBjoYfXJZAXXTJlIi2HNi9nfioA7ksEMvF5HBEBODUnWum2NL5XhkC95MK52bAAZDSe9d891ZAw5MbM9oRR30lP8umsxTAf1eXbePW_bZ0I5rsOo88ELIF5aCU07WBBeE1z6_RwK6Y9O6FRPgxUzYEmE3EzdyA9_YtX-v69bXptpU6g1Xr3eGcYlqLvJjRJJdBDyZYyiAuPmTNA3aMrKcO3r42a" />
+                                <button className="absolute -bottom-1 -right-1 bg-white dark:bg-slate-700 text-slate-600 dark:text-white p-1 rounded-full shadow-md border border-slate-200 dark:border-slate-600 hover:text-[#137fec] transition-colors cursor-pointer">
+                                    <span className="material-symbols-outlined text-[14px]">edit</span>
+                                </button>
+                            </div>
+                            <div>
+                                <p className="text-sm font-medium text-slate-900 dark:text-white">Display Photo</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400">Visible to tenants.</p>
+                            </div>
+                        </div>
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">Display Name</label>
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] text-sm" type="text" defaultValue="Alex Johnson" />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">Contact Email</label>
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] text-sm" type="email" defaultValue="alex.properties@example.com" />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">Contact Phone</label>
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] text-sm" type="tel" defaultValue="+1 (555) 987-6543" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="space-y-6">
+                        <h3 className="text-base font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+                            Business Information
+                            <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-300 uppercase">Optional</span>
+                        </h3>
+                        <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700 space-y-4">
+                            <div>
+                                <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">Company / Business Name</label>
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] text-sm" placeholder="e.g. Johnson Properties LLC" type="text" />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">Registration / Tax ID</label>
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] text-sm" placeholder="e.g. 12-3456789" type="text" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr className="border-slate-100 dark:border-slate-800" />
+
+                {/* Managed Properties Overview */}
+                <div>
+                    <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-4">Managed Properties Overview</h3>
+                    <div className="flex flex-col sm:flex-row items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm">
+                        <div className="flex items-center gap-4 mb-3 sm:mb-0">
+                            <div className="p-3 bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 rounded-lg">
+                                <span className="material-symbols-outlined">apartment</span>
+                            </div>
+                            <div>
+                                <p className="text-sm text-slate-500 dark:text-slate-400">Total Properties Managed</p>
+                                <p className="text-2xl font-bold text-slate-900 dark:text-white">12</p>
+                            </div>
+                        </div>
+                        <div className="h-8 w-px bg-slate-200 dark:bg-slate-700 mx-6 hidden sm:block"></div>
+                        <div className="flex items-center gap-4 mb-3 sm:mb-0">
+                            <div>
+                                <p className="text-sm text-slate-500 dark:text-slate-400">Active Listings</p>
+                                <p className="text-lg font-bold text-slate-900 dark:text-white text-center sm:text-left">3</p>
+                            </div>
+                        </div>
+                        <Link to="/landlord/properties" className="ml-auto text-sm font-medium text-[#137fec] hover:text-[#137fec]/80 flex items-center gap-1 group">
+                            View All Properties <span className="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                        </Link>
+                    </div>
+                </div>
+
+                <hr className="border-slate-100 dark:border-slate-800" />
+
+                {/* Public Profile Visibility */}
+                <div>
+                    <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                        <span className="material-symbols-outlined text-slate-400">visibility</span>
+                        Public Profile Visibility
+                    </h3>
+                    <div className="space-y-4">
+                        <ToggleSetting title="Show Contact Phone to Public" description="Allows potential tenants to see your number on listings." defaultChecked={false} />
+                        <ToggleSetting title="Show Business Address" description="Display your registered business address on your profile." defaultChecked={true} />
+                        <ToggleSetting title="Show Verification Badge" description="Increase trust by showing your verified status." defaultChecked={true} />
+                    </div>
+                </div>
+            </div>
+            <SettingsFooter />
+        </>
+    );
+}
+
+// Agent Profile Content
+function AgentProfileContent() {
+    const [certifications, setCertifications] = useState([
+        { id: 1, name: 'Real Estate Broker License', issuer: 'State Board of Realtors', expiry: 'Dec 2025', icon: 'workspace_premium', color: 'yellow' },
+        { id: 2, name: 'Green Property Specialist', issuer: 'EcoHomes Certified', expiry: 'Never', icon: 'eco', color: 'green' },
+    ]);
+    const [regions, setRegions] = useState(['Downtown', 'Westside']);
+    const [specialties, setSpecialties] = useState(['Residential Sales', 'Commercial Leasing']);
+    const [newSpecialty, setNewSpecialty] = useState('');
+    const [showCertModal, setShowCertModal] = useState(false);
+    const [showReviewsModal, setShowReviewsModal] = useState(false);
+    const [showAddAreaModal, setShowAddAreaModal] = useState(false);
+    const [newArea, setNewArea] = useState('');
+    const [certMenuOpen, setCertMenuOpen] = useState<number | null>(null);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState<{ type: string; id?: number; name?: string } | null>(null);
+
+    const handleAddSpecialty = () => {
+        if (newSpecialty.trim() && !specialties.includes(newSpecialty.trim())) {
+            setSpecialties([...specialties, newSpecialty.trim()]);
+            setNewSpecialty('');
+        }
+    };
+
+    const handleAddArea = () => {
+        if (newArea.trim() && !regions.includes(newArea.trim())) {
+            setRegions([...regions, newArea.trim()]);
+            setNewArea('');
+            setShowAddAreaModal(false);
+        }
+    };
+
+    const handleDeleteCert = (id: number) => {
+        setCertifications(certifications.filter(c => c.id !== id));
+        setShowDeleteConfirm(null);
+        setCertMenuOpen(null);
+    };
+
+    const handleRemoveRegion = (region: string) => {
+        setRegions(regions.filter(r => r !== region));
+        setShowDeleteConfirm(null);
+    };
+
+    const reviews = [
+        { author: 'Sarah M.', rating: 5, text: 'Alex was incredibly helpful and professional throughout the entire process.', date: 'Dec 2024' },
+        { author: 'John D.', rating: 5, text: 'Found us the perfect home within our budget. Highly recommend!', date: 'Nov 2024' },
+        { author: 'Lisa K.', rating: 4, text: 'Great communication and market knowledge.', date: 'Oct 2024' },
+    ];
+
+    return (
+        <>
+            {/* Delete Confirmation Modal */}
+            {showDeleteConfirm && (
+                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setShowDeleteConfirm(null)}>
+                    <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-sm w-full p-6 shadow-xl" onClick={e => e.stopPropagation()}>
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="p-2 bg-red-100 rounded-full">
+                                <span className="material-symbols-outlined text-red-600">warning</span>
+                            </div>
+                            <h3 className="text-lg font-bold text-slate-900 dark:text-white">Confirm Delete</h3>
+                        </div>
+                        <p className="text-slate-600 dark:text-slate-400 mb-6">
+                            Are you sure you want to remove "{showDeleteConfirm.name}"?
+                        </p>
+                        <div className="flex gap-3 justify-end">
+                            <button onClick={() => setShowDeleteConfirm(null)} className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer">Cancel</button>
+                            <button
+                                onClick={() => {
+                                    if (showDeleteConfirm.type === 'cert' && showDeleteConfirm.id) {
+                                        handleDeleteCert(showDeleteConfirm.id);
+                                    } else if (showDeleteConfirm.type === 'region' && showDeleteConfirm.name) {
+                                        handleRemoveRegion(showDeleteConfirm.name);
+                                    }
+                                }}
+                                className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 cursor-pointer"
+                            >Delete</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Add Certification Modal */}
+            {showCertModal && (
+                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setShowCertModal(false)}>
+                    <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 shadow-xl" onClick={e => e.stopPropagation()}>
+                        <div className="flex justify-between items-center mb-6">
+                            <h3 className="text-lg font-bold text-slate-900 dark:text-white">Add Certification</h3>
+                            <button onClick={() => setShowCertModal(false)} className="text-slate-400 hover:text-slate-600 cursor-pointer">
+                                <span className="material-symbols-outlined">close</span>
+                            </button>
+                        </div>
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Certification Name</label>
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="text" placeholder="e.g. Certified Property Manager" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Issuing Authority</label>
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="text" placeholder="e.g. National Association of Realtors" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Expiration Date</label>
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="date" />
+                            </div>
+                            <button
+                                onClick={() => {
+                                    setCertifications([...certifications, { id: Date.now(), name: 'New Certification', issuer: 'Issuing Authority', expiry: 'TBD', icon: 'verified', color: 'blue' }]);
+                                    setShowCertModal(false);
+                                }}
+                                className="w-full py-2 text-sm font-medium text-white bg-[#137fec] rounded-lg hover:bg-[#137fec]/90 cursor-pointer"
+                            >
+                                Add Certification
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Add Area Modal */}
+            {showAddAreaModal && (
+                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setShowAddAreaModal(false)}>
+                    <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-sm w-full p-6 shadow-xl" onClick={e => e.stopPropagation()}>
+                        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">Add Service Area</h3>
+                        <input
+                            value={newArea}
+                            onChange={(e) => setNewArea(e.target.value)}
+                            className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm mb-4"
+                            type="text"
+                            placeholder="e.g. Northside"
+                            onKeyDown={(e) => e.key === 'Enter' && handleAddArea()}
+                        />
+                        <div className="flex gap-3 justify-end">
+                            <button onClick={() => setShowAddAreaModal(false)} className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-50 cursor-pointer">Cancel</button>
+                            <button onClick={handleAddArea} className="px-4 py-2 text-sm font-medium text-white bg-[#137fec] rounded-lg hover:bg-[#137fec]/90 cursor-pointer">Add</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Reviews Modal */}
+            {showReviewsModal && (
+                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setShowReviewsModal(false)}>
+                    <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-lg w-full max-h-[80vh] overflow-hidden shadow-xl" onClick={e => e.stopPropagation()}>
+                        <div className="p-6 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
+                            <h3 className="text-lg font-bold text-slate-900 dark:text-white">All Reviews</h3>
+                            <button onClick={() => setShowReviewsModal(false)} className="text-slate-400 hover:text-slate-600 cursor-pointer">
+                                <span className="material-symbols-outlined">close</span>
+                            </button>
+                        </div>
+                        <div className="p-6 space-y-4 overflow-y-auto max-h-96">
+                            {reviews.map((review, idx) => (
+                                <div key={idx} className="p-4 bg-slate-50 dark:bg-slate-800 rounded-lg">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <span className="font-semibold text-slate-900 dark:text-white">{review.author}</span>
+                                        <div className="flex text-yellow-400">
+                                            {[...Array(review.rating)].map((_, i) => (
+                                                <span key={i} className="material-symbols-outlined text-[14px] icon-filled">star</span>
+                                            ))}
+                                        </div>
+                                        <span className="text-xs text-slate-500">{review.date}</span>
+                                    </div>
+                                    <p className="text-sm text-slate-600 dark:text-slate-400">{review.text}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <div className="p-6 md:p-8 border-b border-slate-100 dark:border-slate-800 flex justify-between items-start md:items-center">
+                <div>
+                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Manage Agent Profile</h2>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Control your professional presence, service areas, and qualifications.</p>
+                </div>
+                <div className="hidden md:block">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs font-semibold border border-blue-100 dark:border-blue-800">
+                        <span className="material-symbols-outlined text-[16px]">verified</span>
+                        Verified Agent
+                    </span>
+                </div>
+            </div>
+            <div className="p-6 md:p-8 space-y-8 flex-1 overflow-y-auto">
+                {/* Professional Details */}
+                <section>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-5 flex items-center gap-2">
+                        <span className="material-symbols-outlined text-[#137fec]">id_card</span> Professional Details
+                    </h3>
+                    <div className="flex flex-col md:flex-row gap-8">
+                        <div className="flex-shrink-0 flex flex-col items-center space-y-3">
+                            <div className="relative group cursor-pointer">
+                                <img alt="Agent Profile Photo" className="w-32 h-32 rounded-xl object-cover ring-4 ring-slate-50 dark:ring-slate-800 shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwTu80T-Ii1i2JHfbWEMDgwXRNP0ehdOTldQ7IxlyR1MCzL8MrOZBjoYfXJZAXXTJlIi2HNi9nfioA7ksEMvF5HBEBODUnWum2NL5XhkC95MK52bAAZDSe9d891ZAw5MbM9oRR30lP8umsxTAf1eXbePW_bZ0I5rsOo88ELIF5aCU07WBBeE1z6_RwK6Y9O6FRPgxUzYEmE3EzdyA9_YtX-v69bXptpU6g1Xr3eGcYlqLvJjRJJdBDyZYyiAuPmTNA3aMrKcO3r42a" />
+                                <div className="absolute inset-0 bg-black/40 rounded-xl opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                                    <span className="material-symbols-outlined text-white text-3xl">photo_camera</span>
+                                </div>
+                            </div>
+                            <button className="text-sm font-medium text-[#137fec] hover:text-[#137fec]/80 transition-colors cursor-pointer">Update Photo</button>
+                        </div>
+                        <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div className="col-span-1 md:col-span-2">
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Professional Name</label>
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="text" defaultValue="Alex Johnson" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Business Email</label>
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="email" defaultValue="alex.agent@realty.com" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Business Phone</label>
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="tel" defaultValue="+1 (555) 987-6543" />
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr className="border-slate-100 dark:border-slate-800" />
+
+                {/* Certifications */}
+                <section>
+                    <div className="flex justify-between items-center mb-5">
+                        <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                            <span className="material-symbols-outlined text-[#137fec]">verified_user</span> Certifications
+                        </h3>
+                        <button onClick={() => setShowCertModal(true)} className="text-sm font-semibold text-[#137fec] hover:text-[#137fec]/80 flex items-center gap-1 cursor-pointer">
+                            <span className="material-symbols-outlined text-[18px]">add</span> Add New
+                        </button>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {certifications.map(cert => (
+                            <div key={cert.id} className="flex items-start gap-3 p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 relative">
+                                <div className={`bg-white dark:bg-slate-700 p-2 rounded-lg text-${cert.color}-600 shadow-sm`}>
+                                    <span className="material-symbols-outlined">{cert.icon}</span>
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                    <h4 className="font-semibold text-slate-900 dark:text-white truncate">{cert.name}</h4>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{cert.issuer} • Exp: {cert.expiry}</p>
+                                </div>
+                                <div className="relative">
+                                    <button onClick={() => setCertMenuOpen(certMenuOpen === cert.id ? null : cert.id)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer">
+                                        <span className="material-symbols-outlined">more_vert</span>
+                                    </button>
+                                    {certMenuOpen === cert.id && (
+                                        <div className="absolute right-0 top-8 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg z-10 min-w-[120px]">
+                                            <button className="w-full px-4 py-2 text-left text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer">Edit</button>
+                                            <button onClick={() => setShowDeleteConfirm({ type: 'cert', id: cert.id, name: cert.name })} className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 cursor-pointer">Delete</button>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                <hr className="border-slate-100 dark:border-slate-800" />
+
+                {/* Service Area */}
+                <section>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                        <span className="material-symbols-outlined text-[#137fec]">location_on</span> Service Area
+                    </h3>
+                    <div className="space-y-4">
+                        <div className="relative w-full h-40 bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 group">
+                            <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                <button onClick={() => alert('Map feature coming soon!')} className="px-4 py-2 bg-white dark:bg-slate-700 text-slate-700 dark:text-white rounded-lg shadow-sm font-medium text-sm hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors border border-slate-200 dark:border-slate-600 cursor-pointer">
+                                    Open Interactive Map
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Active Regions</label>
+                            <div className="flex flex-wrap gap-2">
+                                {regions.map(region => (
+                                    <span key={region} className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm border border-slate-200 dark:border-slate-700">
+                                        {region}
+                                        <button onClick={() => setShowDeleteConfirm({ type: 'region', name: region })} className="hover:text-red-500 cursor-pointer">
+                                            <span className="material-symbols-outlined text-[14px]">close</span>
+                                        </button>
+                                    </span>
+                                ))}
+                                <button onClick={() => setShowAddAreaModal(true)} className="inline-flex items-center gap-1 px-3 py-1 rounded-full border border-dashed border-slate-300 dark:border-slate-600 text-slate-500 hover:text-[#137fec] hover:border-[#137fec] transition-colors text-sm cursor-pointer">
+                                    <span className="material-symbols-outlined text-[14px]">add</span> Add Area
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr className="border-slate-100 dark:border-slate-800" />
+
+                {/* Specialties */}
+                <section>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                        <span className="material-symbols-outlined text-[#137fec]">label</span> Specialties
+                    </h3>
+                    <div className="space-y-4">
+                        <p className="text-sm text-slate-500 dark:text-slate-400">Select the tags that best describe your expertise to help clients find you.</p>
+                        <div className="flex flex-wrap gap-2">
+                            {['Residential Sales', 'Commercial Leasing', 'Property Management', 'Luxury Homes'].map((specialty) => (
+                                <label key={specialty} className="cursor-pointer select-none">
+                                    <input
+                                        checked={specialties.includes(specialty)}
+                                        onChange={(e) => {
+                                            if (e.target.checked) {
+                                                setSpecialties([...specialties, specialty]);
+                                            } else {
+                                                setSpecialties(specialties.filter(s => s !== specialty));
+                                            }
+                                        }}
+                                        className="peer sr-only"
+                                        type="checkbox"
+                                    />
+                                    <div className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-sm peer-checked:bg-[#137fec]/10 peer-checked:text-[#137fec] peer-checked:border-[#137fec] transition-all">
+                                        {specialty}
+                                    </div>
+                                </label>
+                            ))}
+                        </div>
+                        <div className="flex gap-2">
+                            <input
+                                value={newSpecialty}
+                                onChange={(e) => setNewSpecialty(e.target.value)}
+                                onKeyDown={(e) => e.key === 'Enter' && handleAddSpecialty()}
+                                className="flex-1 rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm"
+                                placeholder="Add custom tag..."
+                                type="text"
+                            />
+                            <button onClick={handleAddSpecialty} className="px-3 py-2 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg font-medium text-sm hover:bg-slate-200 dark:hover:bg-slate-600 cursor-pointer">Add</button>
+                        </div>
+                    </div>
+                </section>
+
+                <hr className="border-slate-100 dark:border-slate-800" />
+
+                {/* Public Visibility */}
+                <section>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                        <span className="material-symbols-outlined text-[#137fec]">visibility</span> Public Visibility
+                    </h3>
+                    <div className="space-y-4">
+                        <ToggleSetting title="Show Contact Email" description="Allow public users to see your email address" defaultChecked={true} />
+                        <ToggleSetting title="Show Phone Number" description="Display your business phone on your profile" defaultChecked={true} />
+                        <ToggleSetting title="Profile Searchable" description="Appear in 'Find an Agent' search results" defaultChecked={true} />
+                    </div>
+                </section>
+
+                <hr className="border-slate-100 dark:border-slate-800" />
+
+                {/* Reviews & Ratings */}
+                <section>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                        <span className="material-symbols-outlined text-[#137fec]">star</span> Reviews & Ratings
+                    </h3>
+                    <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
+                        <div className="flex items-center gap-4 mb-4">
+                            <div className="flex flex-col items-center justify-center bg-white dark:bg-slate-800 rounded-lg p-3 shadow-sm border border-slate-100 dark:border-slate-700 w-24">
+                                <span className="text-3xl font-extrabold text-slate-900 dark:text-white leading-none">4.8</span>
+                                <div className="flex text-yellow-400 text-xs mt-1">
+                                    <span className="material-symbols-outlined text-[14px] icon-filled">star</span>
+                                    <span className="material-symbols-outlined text-[14px] icon-filled">star</span>
+                                    <span className="material-symbols-outlined text-[14px] icon-filled">star</span>
+                                    <span className="material-symbols-outlined text-[14px] icon-filled">star</span>
+                                    <span className="material-symbols-outlined text-[14px] icon-filled">star_half</span>
+                                </div>
+                            </div>
+                            <div>
+                                <p className="text-sm font-medium text-slate-900 dark:text-white">Excellent Reputation</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Based on <span className="font-bold text-slate-700 dark:text-slate-300">124 verified reviews</span></p>
+                            </div>
+                        </div>
+                        <button onClick={() => setShowReviewsModal(true)} className="w-full mt-4 py-2 text-sm text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors cursor-pointer">
+                            View All Reviews
+                        </button>
+                    </div>
+                </section>
+            </div>
+            <SettingsFooter />
+        </>
+    );
+}
+
