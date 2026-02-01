@@ -1,132 +1,132 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import MaintenanceRequestModal from '../../../components/MaintenanceRequestModal';
 import PageContainer from '../../../components/common/PageContainer';
 import PageHeader from '../../../components/common/PageHeader';
 import SectionCard from '../../../components/common/SectionCard';
+import { maintenanceService } from '../../../lib/api/services';
+import type { MaintenanceRequest, MaintenanceCategory, MaintenancePriority, MaintenanceStatus } from '../../../types/lease';
 
-// Mock maintenance data matching design
-const maintenanceRequests = [
-    {
-        id: 1,
-        title: 'Leaky Faucet',
-        description: 'Kitchen sink dripping constantly into the cabinet below.',
-        category: 'Plumbing',
-        categoryIcon: 'plumbing',
-        categoryBg: 'bg-amber-100 dark:bg-amber-900/30',
-        categoryColor: 'text-amber-600 dark:text-amber-500',
-        property: '5500 Highland Park',
-        unit: 'Unit 4B',
-        dateSubmitted: 'Oct 24, 2024',
-        timeSubmitted: '2:30 PM',
-        urgency: 'Medium',
-        urgencyColor: 'text-orange-600 dark:text-orange-400',
-        urgencyDot: 'bg-orange-500',
-        urgencyPing: true,
-        status: 'In Progress',
-        statusBg: 'bg-amber-100 dark:bg-amber-900/30',
-        statusColor: 'text-amber-700 dark:text-amber-400',
-        statusBorder: 'border-amber-200 dark:border-amber-800/50',
-        hasPhotos: true,
-        photoCount: 2,
-    },
-    {
-        id: 2,
-        title: 'AC Filter Replacement',
-        description: 'Routine maintenance requested for HVAC system.',
-        category: 'HVAC',
-        categoryIcon: 'hvac',
-        categoryBg: 'bg-purple-100 dark:bg-purple-900/30',
-        categoryColor: 'text-purple-600 dark:text-purple-400',
-        property: '5500 Highland Park',
-        unit: 'Unit 4B',
-        dateSubmitted: 'Oct 20, 2024',
-        timeSubmitted: '9:15 AM',
-        urgency: 'Low',
-        urgencyColor: 'text-slate-600 dark:text-slate-400',
-        urgencyDot: 'bg-slate-300 dark:bg-slate-600',
-        urgencyPing: false,
-        status: 'Scheduled',
-        statusBg: 'bg-purple-100 dark:bg-purple-900/30',
-        statusColor: 'text-purple-700 dark:text-purple-400',
-        statusBorder: 'border-purple-200 dark:border-purple-800/50',
-        scheduledDate: 'Oct 26, 2:00 PM',
-        hasPhotos: false,
-        photoCount: 0,
-    },
-    {
-        id: 3,
-        title: 'Dishwasher Noise',
-        description: 'Making loud grinding noise during drain cycle.',
-        category: 'Appliance',
-        categoryIcon: 'kitchen',
-        categoryBg: 'bg-blue-100 dark:bg-blue-900/30',
-        categoryColor: 'text-blue-600 dark:text-blue-400',
-        property: '5500 Highland Park',
-        unit: 'Unit 4B',
-        dateSubmitted: 'Today',
-        timeSubmitted: '10:45 AM',
-        urgency: 'Medium',
-        urgencyColor: 'text-orange-600 dark:text-orange-400',
-        urgencyDot: 'bg-orange-500',
-        urgencyPing: true,
-        status: 'Submitted',
-        statusBg: 'bg-blue-100 dark:bg-blue-900/30',
-        statusColor: 'text-blue-700 dark:text-blue-400',
-        statusBorder: 'border-blue-200 dark:border-blue-800/50',
-        hasPhotos: false,
-        photoCount: 0,
-        isNew: true,
-    },
-    {
-        id: 4,
-        title: 'Hallway Light Fixture',
-        description: 'Fixture fell down, needs re-mounting.',
-        category: 'Electrical',
-        categoryIcon: 'lightbulb',
-        categoryBg: 'bg-green-100 dark:bg-green-900/30',
-        categoryColor: 'text-green-600 dark:text-green-400',
-        property: '778 Sunnyvale Dr',
-        unit: 'Miami, FL',
-        dateSubmitted: 'Sep 15, 2024',
-        timeSubmitted: '',
-        urgency: 'Low',
-        urgencyColor: 'text-slate-600 dark:text-slate-400',
-        urgencyDot: 'bg-slate-300 dark:bg-slate-600',
-        urgencyPing: false,
-        status: 'Completed',
-        statusBg: 'bg-green-100 dark:bg-green-900/30',
-        statusColor: 'text-green-700 dark:text-green-400',
-        statusBorder: 'border-green-200 dark:border-green-800/50',
-        hasPhotos: false,
-        photoCount: 0,
-        isCompleted: true,
-    },
-    {
-        id: 5,
-        title: 'Broken Window Lock',
-        description: "Front bedroom window won't lock properly.",
-        category: 'Security',
-        categoryIcon: 'lock_open',
-        categoryBg: 'bg-red-100 dark:bg-red-900/30',
-        categoryColor: 'text-red-600 dark:text-red-400',
-        property: '5500 Highland Park',
-        unit: 'Unit 4B',
-        dateSubmitted: 'Aug 2, 2024',
-        timeSubmitted: '',
-        urgency: 'High',
-        urgencyColor: 'text-red-600 dark:text-red-400',
-        urgencyDot: 'bg-red-500',
-        urgencyPing: false,
-        status: 'Resolved',
-        statusBg: 'bg-green-100 dark:bg-green-900/30',
-        statusColor: 'text-green-700 dark:text-green-400',
-        statusBorder: 'border-green-200 dark:border-green-800/50',
-        hasPhotos: false,
-        photoCount: 0,
-        isCompleted: true,
-    },
-];
+// UI types for maintenance requests
+interface UIMaintenanceRequest {
+    id: string;
+    title: string;
+    description: string;
+    category: string;
+    categoryIcon: string;
+    categoryBg: string;
+    categoryColor: string;
+    property: string;
+    unit: string;
+    dateSubmitted: string;
+    timeSubmitted: string;
+    urgency: string;
+    urgencyColor: string;
+    urgencyDot: string;
+    urgencyPing: boolean;
+    status: string;
+    statusBg: string;
+    statusColor: string;
+    statusBorder: string;
+    hasPhotos: boolean;
+    photoCount: number;
+    scheduledDate?: string;
+    isNew?: boolean;
+    isCompleted?: boolean;
+}
+
+// Category mapping for icons and colors
+function getCategoryStyle(category: MaintenanceCategory): { icon: string; bg: string; color: string; label: string } {
+    const styles: Record<MaintenanceCategory, { icon: string; bg: string; color: string; label: string }> = {
+        PLUMBING: { icon: 'plumbing', bg: 'bg-amber-100 dark:bg-amber-900/30', color: 'text-amber-600 dark:text-amber-500', label: 'Plumbing' },
+        ELECTRICAL: { icon: 'lightbulb', bg: 'bg-green-100 dark:bg-green-900/30', color: 'text-green-600 dark:text-green-400', label: 'Electrical' },
+        HVAC: { icon: 'hvac', bg: 'bg-purple-100 dark:bg-purple-900/30', color: 'text-purple-600 dark:text-purple-400', label: 'HVAC' },
+        APPLIANCES: { icon: 'kitchen', bg: 'bg-blue-100 dark:bg-blue-900/30', color: 'text-blue-600 dark:text-blue-400', label: 'Appliance' },
+        STRUCTURAL: { icon: 'foundation', bg: 'bg-slate-100 dark:bg-slate-900/30', color: 'text-slate-600 dark:text-slate-400', label: 'Structural' },
+        PEST_CONTROL: { icon: 'pest_control', bg: 'bg-orange-100 dark:bg-orange-900/30', color: 'text-orange-600 dark:text-orange-400', label: 'Pest Control' },
+        CLEANING: { icon: 'cleaning_services', bg: 'bg-cyan-100 dark:bg-cyan-900/30', color: 'text-cyan-600 dark:text-cyan-400', label: 'Cleaning' },
+        SECURITY: { icon: 'lock_open', bg: 'bg-red-100 dark:bg-red-900/30', color: 'text-red-600 dark:text-red-400', label: 'Security' },
+        OTHER: { icon: 'build', bg: 'bg-gray-100 dark:bg-gray-900/30', color: 'text-gray-600 dark:text-gray-400', label: 'Other' },
+    };
+    return styles[category] || styles.OTHER;
+}
+
+// Priority/urgency mapping
+function getUrgencyStyle(priority: MaintenancePriority): { label: string; color: string; dot: string; ping: boolean } {
+    const styles: Record<MaintenancePriority, { label: string; color: string; dot: string; ping: boolean }> = {
+        LOW: { label: 'Low', color: 'text-slate-600 dark:text-slate-400', dot: 'bg-slate-300 dark:bg-slate-600', ping: false },
+        MEDIUM: { label: 'Medium', color: 'text-orange-600 dark:text-orange-400', dot: 'bg-orange-500', ping: true },
+        HIGH: { label: 'High', color: 'text-red-600 dark:text-red-400', dot: 'bg-red-500', ping: true },
+        EMERGENCY: { label: 'Emergency', color: 'text-red-700 dark:text-red-300', dot: 'bg-red-600', ping: true },
+    };
+    return styles[priority] || styles.MEDIUM;
+}
+
+// Status mapping
+function getStatusStyle(status: MaintenanceStatus): { label: string; bg: string; color: string; border: string; isCompleted: boolean } {
+    const styles: Record<MaintenanceStatus, { label: string; bg: string; color: string; border: string; isCompleted: boolean }> = {
+        PENDING: { label: 'Submitted', bg: 'bg-blue-100 dark:bg-blue-900/30', color: 'text-blue-700 dark:text-blue-400', border: 'border-blue-200 dark:border-blue-800/50', isCompleted: false },
+        ACKNOWLEDGED: { label: 'Scheduled', bg: 'bg-purple-100 dark:bg-purple-900/30', color: 'text-purple-700 dark:text-purple-400', border: 'border-purple-200 dark:border-purple-800/50', isCompleted: false },
+        IN_PROGRESS: { label: 'In Progress', bg: 'bg-amber-100 dark:bg-amber-900/30', color: 'text-amber-700 dark:text-amber-400', border: 'border-amber-200 dark:border-amber-800/50', isCompleted: false },
+        COMPLETED: { label: 'Completed', bg: 'bg-green-100 dark:bg-green-900/30', color: 'text-green-700 dark:text-green-400', border: 'border-green-200 dark:border-green-800/50', isCompleted: true },
+        CANCELLED: { label: 'Cancelled', bg: 'bg-gray-100 dark:bg-gray-900/30', color: 'text-gray-700 dark:text-gray-400', border: 'border-gray-200 dark:border-gray-800/50', isCompleted: true },
+    };
+    return styles[status] || styles.PENDING;
+}
+
+// Format date for display
+function formatDate(dateStr: string): { date: string; time: string } {
+    const date = new Date(dateStr);
+    const now = new Date();
+    const isToday = date.toDateString() === now.toDateString();
+
+    const dateFormatted = isToday
+        ? 'Today'
+        : date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    const timeFormatted = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+
+    return { date: dateFormatted, time: timeFormatted };
+}
+
+// Transform API MaintenanceRequest to UI format
+function transformMaintenanceRequest(req: MaintenanceRequest): UIMaintenanceRequest {
+    const categoryStyle = getCategoryStyle(req.category);
+    const urgencyStyle = getUrgencyStyle(req.priority);
+    const statusStyle = getStatusStyle(req.status);
+    const { date, time } = formatDate(req.createdAt);
+
+    // Check if request is new (submitted within last 24 hours and still pending)
+    const createdDate = new Date(req.createdAt);
+    const isNew = req.status === 'PENDING' && (Date.now() - createdDate.getTime()) < 24 * 60 * 60 * 1000;
+
+    return {
+        id: req.id,
+        title: req.title,
+        description: req.description,
+        category: categoryStyle.label,
+        categoryIcon: categoryStyle.icon,
+        categoryBg: categoryStyle.bg,
+        categoryColor: categoryStyle.color,
+        property: req.lease?.property?.name || 'N/A',
+        unit: typeof req.lease?.property?.address === 'object'
+            ? `${req.lease?.property?.address?.city || ''}, ${req.lease?.property?.address?.state || ''}`.trim().replace(/^,\s*|,\s*$/g, '')
+            : '',
+        dateSubmitted: date,
+        timeSubmitted: time,
+        urgency: urgencyStyle.label,
+        urgencyColor: urgencyStyle.color,
+        urgencyDot: urgencyStyle.dot,
+        urgencyPing: urgencyStyle.ping && !statusStyle.isCompleted,
+        status: statusStyle.label,
+        statusBg: statusStyle.bg,
+        statusColor: statusStyle.color,
+        statusBorder: statusStyle.border,
+        hasPhotos: (req.images?.length || 0) > 0,
+        photoCount: req.images?.length || 0,
+        isNew,
+        isCompleted: statusStyle.isCompleted,
+    };
+}
 
 export default function TenantMaintenance() {
     const [searchQuery, setSearchQuery] = useState('');
@@ -134,6 +134,97 @@ export default function TenantMaintenance() {
     const [urgencyFilter, setUrgencyFilter] = useState('all');
     const [sortOrder, setSortOrder] = useState('newest');
     const [isMaintenanceModalOpen, setIsMaintenanceModalOpen] = useState(false);
+
+    // API data state
+    const [maintenanceRequests, setMaintenanceRequests] = useState<UIMaintenanceRequest[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [page, setPage] = useState(1);
+    const [totalRequests, setTotalRequests] = useState(0);
+    const [totalPages, setTotalPages] = useState(1);
+    const limit = 10;
+
+    // Map filter values to API status values
+    const mapStatusFilter = (filter: string): MaintenanceStatus | undefined => {
+        const mapping: Record<string, MaintenanceStatus> = {
+            'submitted': 'PENDING',
+            'in-progress': 'IN_PROGRESS',
+            'scheduled': 'ACKNOWLEDGED',
+            'completed': 'COMPLETED',
+            'canceled': 'CANCELLED',
+        };
+        return mapping[filter];
+    };
+
+    const mapUrgencyFilter = (filter: string): MaintenancePriority | undefined => {
+        const mapping: Record<string, MaintenancePriority> = {
+            'low': 'LOW',
+            'medium': 'MEDIUM',
+            'high': 'HIGH',
+            'critical': 'EMERGENCY',
+        };
+        return mapping[filter];
+    };
+
+    // Fetch maintenance requests
+    useEffect(() => {
+        async function fetchMaintenanceRequests() {
+            try {
+                setIsLoading(true);
+                setError(null);
+
+                const params: { page: number; limit: number; status?: MaintenanceStatus; priority?: MaintenancePriority } = {
+                    page,
+                    limit,
+                };
+
+                if (statusFilter !== 'all') {
+                    const mappedStatus = mapStatusFilter(statusFilter);
+                    if (mappedStatus) params.status = mappedStatus;
+                }
+
+                if (urgencyFilter !== 'all') {
+                    const mappedPriority = mapUrgencyFilter(urgencyFilter);
+                    if (mappedPriority) params.priority = mappedPriority;
+                }
+
+                const response = await maintenanceService.getMaintenanceRequests(params);
+
+                if (response.data?.data) {
+                    const transformed = response.data.data.map(transformMaintenanceRequest);
+
+                    // Client-side sorting
+                    let sorted = [...transformed];
+                    if (sortOrder === 'newest') {
+                        sorted.sort((a, b) => new Date(b.dateSubmitted).getTime() - new Date(a.dateSubmitted).getTime());
+                    } else if (sortOrder === 'oldest') {
+                        sorted.sort((a, b) => new Date(a.dateSubmitted).getTime() - new Date(b.dateSubmitted).getTime());
+                    }
+
+                    // Client-side search filter
+                    if (searchQuery) {
+                        const query = searchQuery.toLowerCase();
+                        sorted = sorted.filter(req =>
+                            req.title.toLowerCase().includes(query) ||
+                            req.description.toLowerCase().includes(query) ||
+                            req.id.toLowerCase().includes(query)
+                        );
+                    }
+
+                    setMaintenanceRequests(sorted);
+                    setTotalRequests(response.data.pagination?.total || sorted.length);
+                    setTotalPages(response.data.pagination?.totalPages || 1);
+                }
+            } catch (err) {
+                console.error('Error fetching maintenance requests:', err);
+                setError('Failed to load maintenance requests');
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchMaintenanceRequests();
+    }, [page, statusFilter, urgencyFilter, sortOrder, searchQuery]);
 
     return (
         <PageContainer>
@@ -227,7 +318,68 @@ export default function TenantMaintenance() {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                            {maintenanceRequests.map((request) => (
+                            {isLoading ? (
+                                // Loading skeleton rows
+                                Array.from({ length: 5 }).map((_, index) => (
+                                    <tr key={`skeleton-${index}`} className="animate-pulse">
+                                        <td className="p-5 pl-6">
+                                            <div className="flex items-start gap-4">
+                                                <div className="size-11 rounded-xl bg-slate-200 dark:bg-slate-700" />
+                                                <div className="space-y-2 flex-1">
+                                                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-3/4" />
+                                                    <div className="h-3 bg-slate-200 dark:bg-slate-700 rounded w-1/2" />
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="p-5">
+                                            <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-3/4 mb-1" />
+                                            <div className="h-3 bg-slate-200 dark:bg-slate-700 rounded w-1/2" />
+                                        </td>
+                                        <td className="p-5">
+                                            <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-2/3" />
+                                        </td>
+                                        <td className="p-5">
+                                            <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/2" />
+                                        </td>
+                                        <td className="p-5">
+                                            <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded w-20" />
+                                        </td>
+                                        <td className="p-5 pr-6">
+                                            <div className="h-8 bg-slate-200 dark:bg-slate-700 rounded w-16 ml-auto" />
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : error ? (
+                                <tr>
+                                    <td colSpan={6} className="p-12 text-center">
+                                        <div className="flex flex-col items-center gap-3">
+                                            <span className="material-symbols-outlined text-4xl text-red-400">error</span>
+                                            <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+                                            <button
+                                                onClick={() => window.location.reload()}
+                                                className="px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                                            >
+                                                Try Again
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ) : maintenanceRequests.length === 0 ? (
+                                <tr>
+                                    <td colSpan={6} className="p-12 text-center">
+                                        <div className="flex flex-col items-center gap-3">
+                                            <span className="material-symbols-outlined text-4xl text-slate-300 dark:text-slate-600">build</span>
+                                            <p className="text-sm text-slate-500 dark:text-slate-400">No maintenance requests found</p>
+                                            <button
+                                                onClick={() => setIsMaintenanceModalOpen(true)}
+                                                className="px-4 py-2 rounded-lg bg-[#137fec] text-xs font-bold text-white hover:bg-[#137fec]/90 transition-colors"
+                                            >
+                                                Submit New Request
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ) : maintenanceRequests.map((request) => (
                                 <tr
                                     key={request.id}
                                     className={`hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group ${request.isCompleted ? 'opacity-80 hover:opacity-100' : ''}`}
@@ -326,13 +478,35 @@ export default function TenantMaintenance() {
                 {/* Footer Pagination */}
                 <div className="p-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-[#101922]">
                     <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
-                        Showing <span className="text-slate-900 dark:text-white font-bold">1-5</span> of <span className="text-slate-900 dark:text-white font-bold">12</span> requests
+                        {isLoading ? (
+                            <span className="animate-pulse">Loading...</span>
+                        ) : (
+                            <>
+                                Showing <span className="text-slate-900 dark:text-white font-bold">{maintenanceRequests.length > 0 ? (page - 1) * limit + 1 : 0}-{Math.min(page * limit, totalRequests)}</span> of <span className="text-slate-900 dark:text-white font-bold">{totalRequests}</span> requests
+                            </>
+                        )}
                     </span>
                     <div className="flex gap-2">
-                        <button className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-400 dark:text-slate-500 cursor-not-allowed opacity-50" disabled>
+                        <button
+                            onClick={() => setPage(p => Math.max(1, p - 1))}
+                            disabled={page === 1 || isLoading}
+                            className={`px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-bold transition-all ${
+                                page === 1 || isLoading
+                                    ? 'text-slate-400 dark:text-slate-500 cursor-not-allowed opacity-50'
+                                    : 'text-slate-700 dark:text-white hover:bg-white dark:hover:bg-slate-700 hover:shadow-sm'
+                            }`}
+                        >
                             Previous
                         </button>
-                        <button className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-white hover:bg-white dark:hover:bg-slate-700 hover:shadow-sm transition-all">
+                        <button
+                            onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                            disabled={page >= totalPages || isLoading}
+                            className={`px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-bold transition-all ${
+                                page >= totalPages || isLoading
+                                    ? 'text-slate-400 dark:text-slate-500 cursor-not-allowed opacity-50'
+                                    : 'text-slate-700 dark:text-white hover:bg-white dark:hover:bg-slate-700 hover:shadow-sm'
+                            }`}
+                        >
                             Next
                         </button>
                     </div>
