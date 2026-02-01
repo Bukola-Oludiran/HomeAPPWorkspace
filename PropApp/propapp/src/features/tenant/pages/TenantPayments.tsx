@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import MakePaymentModal from '../../../components/MakePaymentModal';
 import BillingDetailsModal from '../../../components/BillingDetailsModal';
@@ -6,62 +6,72 @@ import PageContainer from '../../../components/common/PageContainer';
 import PageHeader from '../../../components/common/PageHeader';
 import SectionCard from '../../../components/common/SectionCard';
 import { AnimatedGroup, MagneticButton, SuccessCelebration } from '../../../components/animation';
+import { tenantService } from '../../../lib/api/services/tenantService';
+import type { TenantPayment } from '../../../types/dashboard';
 
-// Mock transaction history data
-const transactionHistory = [
-    {
-        id: 1,
+// UI transaction interface matching the component's expected structure
+interface UITransaction {
+    id: string;
+    title: string;
+    description: string;
+    date: string;
+    time: string;
+    status: string;
+    statusColor: string;
+    amount: string;
+    icon: string;
+    iconBg: string;
+}
+
+// Helper to format currency
+function formatCurrency(amount: number): string {
+    return new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: 'NGN',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    }).format(amount);
+}
+
+// Helper to format date
+function formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
+}
+
+// Helper to get month name from date
+function getMonthYear(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+}
+
+// Transform API TenantPayment to UI format
+function transformPayment(payment: TenantPayment): UITransaction {
+    const isPaid = payment.status === 'paid';
+    const isPending = payment.status === 'pending';
+
+    return {
+        id: payment.id,
         title: 'Monthly Rent',
-        description: 'October 2023 • Lekki Phase 1',
-        date: 'Oct 01, 2023',
-        time: 'Auto-Pay',
-        status: 'Paid',
-        statusColor: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800',
-        amount: '₦120,000',
+        description: getMonthYear(payment.dueDate),
+        date: formatDate(payment.dueDate),
+        time: payment.paidDate ? 'Auto-Pay' : (isPending ? 'Due Now' : 'Manual'),
+        status: isPaid ? 'Paid' : isPending ? 'Pending' : 'Failed',
+        statusColor: isPaid
+            ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800'
+            : isPending
+                ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400 border-orange-200 dark:border-orange-800'
+                : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800',
+        amount: formatCurrency(payment.amount),
         icon: 'home',
         iconBg: 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400',
-    },
-    {
-        id: 2,
-        title: 'Electricity Bill',
-        description: 'Utility • Sept Usage',
-        date: 'Oct 05, 2023',
-        time: 'Manual',
-        status: 'Paid',
-        statusColor: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800',
-        amount: '₦15,000',
-        icon: 'lightbulb',
-        iconBg: 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-600 dark:text-yellow-400',
-    },
-    {
-        id: 3,
-        title: 'AC Maintenance',
-        description: 'Service Request #992',
-        date: 'Oct 12, 2023',
-        time: 'Due Now',
-        status: 'Pending',
-        statusColor: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400 border-orange-200 dark:border-orange-800',
-        amount: '₦5,000',
-        icon: 'build',
-        iconBg: 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400',
-    },
-    {
-        id: 4,
-        title: 'Monthly Rent',
-        description: 'September 2023',
-        date: 'Sept 01, 2023',
-        time: 'Auto-Pay',
-        status: 'Paid',
-        statusColor: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800',
-        amount: '₦120,000',
-        icon: 'home',
-        iconBg: 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400',
-    },
-];
+    };
+}
 
+// Default payment methods (would come from user service in full implementation)
 const paymentMethods = [
-    { id: 1, name: 'Visa Card', lastFour: '4592', icon: 'credit_card', isPrimary: true },
-    { id: 2, name: 'GTBank', lastFour: '8821', icon: 'account_balance', isPrimary: false },
+    { id: '1', name: 'Visa Card', lastFour: '4592', icon: 'credit_card', isPrimary: true },
+    { id: '2', name: 'GTBank', lastFour: '8821', icon: 'account_balance', isPrimary: false },
 ];
 
 export default function TenantPayments() {
@@ -70,6 +80,105 @@ export default function TenantPayments() {
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
     const [isBillingModalOpen, setIsBillingModalOpen] = useState(false);
     const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+    const [transactionHistory, setTransactionHistory] = useState<UITransaction[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [stats, setStats] = useState({
+        upcomingDue: 0,
+        lastPayment: 0,
+        lastPaymentDate: '',
+        totalPaidYTD: 0,
+    });
+
+    // Fetch payments on mount
+    useEffect(() => {
+        async function fetchPayments() {
+            try {
+                setIsLoading(true);
+                setError(null);
+                const response = await tenantService.getPayments({ limit: 50 });
+                const payments = response.data.data;
+                const transformed = payments.map(transformPayment);
+                setTransactionHistory(transformed);
+
+                // Calculate stats
+                const paidPayments = payments.filter(p => p.status === 'paid');
+                const pendingPayments = payments.filter(p => p.status === 'pending');
+                const totalPaid = paidPayments.reduce((sum, p) => sum + p.amount, 0);
+                const lastPaid = paidPayments.sort((a, b) =>
+                    new Date(b.paidDate || b.dueDate).getTime() - new Date(a.paidDate || a.dueDate).getTime()
+                )[0];
+                const nextDue = pendingPayments.sort((a, b) =>
+                    new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()
+                )[0];
+
+                setStats({
+                    upcomingDue: nextDue?.amount || 0,
+                    lastPayment: lastPaid?.amount || 0,
+                    lastPaymentDate: lastPaid?.paidDate || lastPaid?.dueDate || '',
+                    totalPaidYTD: totalPaid,
+                });
+            } catch (err) {
+                console.error('Failed to fetch payments:', err);
+                setError('Failed to load payment history');
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchPayments();
+    }, []);
+
+    // Filter transactions based on status
+    const filteredTransactions = transactionHistory.filter(t => {
+        if (statusFilter === 'all') return true;
+        if (statusFilter === 'paid') return t.status === 'Paid';
+        if (statusFilter === 'pending') return t.status === 'Pending';
+        if (statusFilter === 'overdue') return t.status === 'Failed';
+        return true;
+    });
+
+    // Loading state
+    if (isLoading) {
+        return (
+            <PageContainer>
+                <PageHeader
+                    title="Payments & History"
+                    subtitle="Manage your rent, view history, and handle transactions."
+                />
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    {Array.from({ length: 3 }).map((_, i) => (
+                        <div key={i} className="bg-white dark:bg-[#101922] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 animate-pulse">
+                            <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/3 mb-4" />
+                            <div className="h-8 bg-slate-200 dark:bg-slate-700 rounded w-2/3" />
+                        </div>
+                    ))}
+                </div>
+            </PageContainer>
+        );
+    }
+
+    // Error state
+    if (error) {
+        return (
+            <PageContainer>
+                <PageHeader
+                    title="Payments & History"
+                    subtitle="Manage your rent, view history, and handle transactions."
+                />
+                <div className="p-12 bg-red-50 dark:bg-red-900/20 rounded-2xl text-center">
+                    <span className="material-symbols-outlined text-red-500 text-4xl mb-3">error</span>
+                    <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
+                    <button
+                        onClick={() => window.location.reload()}
+                        className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-semibold"
+                    >
+                        Retry
+                    </button>
+                </div>
+            </PageContainer>
+        );
+    }
 
     return (
         <PageContainer>
@@ -97,15 +206,14 @@ export default function TenantPayments() {
                     <div>
                         <p className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Upcoming Due</p>
                         <h3 className="text-4xl font-extrabold text-slate-900 dark:text-white mt-2">
-                            ₦120,000<span className="text-xl text-slate-400 font-medium">.00</span>
+                            {formatCurrency(stats.upcomingDue)}
                         </h3>
                     </div>
                     <div className="mt-6 flex items-center gap-2 text-sm font-medium text-orange-600 dark:text-orange-400">
                         <span className="bg-orange-100 dark:bg-orange-900/30 px-2 py-0.5 rounded-full flex items-center gap-1">
                             <span className="material-symbols-outlined text-[16px]">event_upcoming</span>
-                            Due Nov 1
+                            {stats.upcomingDue > 0 ? 'Due Soon' : 'No Pending'}
                         </span>
-                        <span className="text-slate-400 dark:text-slate-500">7 days left</span>
                     </div>
                 </div>
 
@@ -117,7 +225,7 @@ export default function TenantPayments() {
                     <div>
                         <p className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Last Payment</p>
                         <h3 className="text-4xl font-extrabold text-slate-900 dark:text-white mt-2">
-                            ₦120,000<span className="text-xl text-slate-400 font-medium">.00</span>
+                            {formatCurrency(stats.lastPayment)}
                         </h3>
                     </div>
                     <div className="mt-6 flex items-center gap-2 text-sm font-medium text-slate-500">
@@ -125,7 +233,7 @@ export default function TenantPayments() {
                             <span className="material-symbols-outlined text-[16px]">done</span>
                             Paid
                         </span>
-                        <span>on Oct 1, 2023</span>
+                        {stats.lastPaymentDate && <span>on {formatDate(stats.lastPaymentDate)}</span>}
                     </div>
                 </div>
 
@@ -137,11 +245,11 @@ export default function TenantPayments() {
                     <div>
                         <p className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Total Paid (YTD)</p>
                         <h3 className="text-4xl font-extrabold text-slate-900 dark:text-white mt-2">
-                            ₦1,200,000<span className="text-xl text-slate-400 font-medium">.00</span>
+                            {formatCurrency(stats.totalPaidYTD)}
                         </h3>
                     </div>
                     <div className="mt-6 w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
-                        <div className="bg-[#137fec] h-full rounded-full" style={{ width: '83%' }}></div>
+                        <div className="bg-[#137fec] h-full rounded-full" style={{ width: `${Math.min((transactionHistory.filter(t => t.status === 'Paid').length / 12) * 100, 100)}%` }}></div>
                     </div>
                 </div>
             </AnimatedGroup>
@@ -254,7 +362,7 @@ export default function TenantPayments() {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                                    {transactionHistory.map((item) => (
+                                    {filteredTransactions.map((item) => (
                                         <tr key={item.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
                                             <td className="px-6 py-4">
                                                 <div className="flex items-center gap-3">
@@ -314,8 +422,8 @@ export default function TenantPayments() {
                             </div>
                             <div className="mb-6">
                                 <p className="text-slate-400 text-sm mb-1">Next Payment Due</p>
-                                <h2 className="text-3xl font-extrabold tracking-tight">₦120,000.00</h2>
-                                <p className="text-sm text-slate-400 mt-1">Due Date: Nov 01, 2023</p>
+                                <h2 className="text-3xl font-extrabold tracking-tight">{formatCurrency(stats.upcomingDue)}</h2>
+                                <p className="text-sm text-slate-400 mt-1">{stats.upcomingDue > 0 ? 'Awaiting Payment' : 'No Pending Payments'}</p>
                             </div>
                             <MagneticButton>
                                 <button

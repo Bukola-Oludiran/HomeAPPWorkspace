@@ -38,6 +38,47 @@ const formatSqft = (sqm?: number): string => {
     return sqft.toLocaleString();
 };
 
+// Helper to format address (matching HomePage format)
+const formatAddress = (address: PropertySummary['address'] | undefined | string): string => {
+    if (!address) return 'Location not available';
+    if (typeof address === 'string') return address;
+    const parts = [address.street, address.neighborhood, address.city, address.state].filter(Boolean);
+    return parts.length > 0 ? parts.join(', ') : 'Location not available';
+};
+
+// Helper to get verification badge info based on tier (matches PropertyDetail styling)
+function getVerificationBadge(isVerified: boolean, tier?: string): { label: string; className: string; iconClassName: string } | null {
+    if (!isVerified) return null;
+
+    if (tier === 'PLATINUM') {
+        return {
+            label: 'PLATINUM VERIFIED',
+            className: 'bg-gradient-to-r from-slate-200 via-white to-slate-300 dark:from-slate-700 dark:via-slate-600 dark:to-slate-700 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-500',
+            iconClassName: 'text-[#137fec]',
+        };
+    }
+    if (tier === 'GOLD') {
+        return {
+            label: 'GOLD VERIFIED',
+            className: 'bg-gradient-to-r from-yellow-200 via-yellow-100 to-yellow-300 dark:from-yellow-600 dark:via-yellow-500 dark:to-yellow-600 text-yellow-900 dark:text-yellow-100 border border-yellow-400 dark:border-yellow-500',
+            iconClassName: 'text-yellow-600 dark:text-yellow-300',
+        };
+    }
+    if (tier === 'SILVER') {
+        return {
+            label: 'VERIFIED',
+            className: 'bg-[#137fec] text-white',
+            iconClassName: 'text-white',
+        };
+    }
+    // BRONZE or default verified
+    return {
+        label: 'VERIFIED',
+        className: 'bg-[#137fec] text-white',
+        iconClassName: 'text-white',
+    };
+}
+
 // Cluster marker for map view
 const clusterPosition = { top: '75%', left: '25%' };
 
@@ -255,7 +296,13 @@ export default function SearchPage() {
 
                     {/* Search Bar */}
                     <div className="flex-1 max-w-2xl">
-                        <div className="relative group">
+                        <form
+                            className="relative group"
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                fetchProperties(1);
+                            }}
+                        >
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <span className="material-symbols-outlined text-slate-400">search</span>
                             </div>
@@ -266,12 +313,12 @@ export default function SearchPage() {
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
-                            <button className="absolute inset-y-0 right-1.5 flex items-center">
+                            <button type="submit" className="absolute inset-y-0 right-1.5 flex items-center">
                                 <div className="size-8 bg-[#137fec] rounded-full text-white hover:bg-blue-600 transition-colors shadow-sm flex items-center justify-center">
                                     <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
                                 </div>
                             </button>
-                        </div>
+                        </form>
                     </div>
 
                     {/* Right Actions */}
@@ -759,8 +806,8 @@ export default function SearchPage() {
                             </div>
                         )}
 
-                        {/* Error State */}
-                        {error && (
+                        {/* Error State - only show if no properties loaded */}
+                        {error && properties.length === 0 && (
                             <div className="text-center py-12">
                                 <span className="material-symbols-outlined text-6xl text-red-400 mb-4">error</span>
                                 <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Something went wrong</h3>
@@ -796,17 +843,16 @@ export default function SearchPage() {
                                                     src={property.primaryImage || 'https://placehold.co/400x300?text=No+Image'}
                                                 />
                                                 {/* Verification Badge */}
-                                                {property.isVerified && (
-                                                    <div
-                                                        className={`absolute top-4 left-4 text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md ${property.verificationTier === 'PLATINUM'
-                                                            ? 'bg-gradient-to-r from-slate-200 via-white to-slate-300 text-slate-900 border border-white/50'
-                                                            : 'bg-[#137fec] text-white'
-                                                            }`}
-                                                    >
-                                                        <span className="material-symbols-outlined text-[16px] icon-filled">verified</span>
-                                                        {property.verificationTier || 'Verified'}
-                                                    </div>
-                                                )}
+                                                {(() => {
+                                                    const badge = getVerificationBadge(property.isVerified, property.verificationTier);
+                                                    if (!badge) return null;
+                                                    return (
+                                                        <div className={`absolute top-4 left-4 text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md ${badge.className}`}>
+                                                            <span className={`material-symbols-outlined text-[16px] icon-filled ${badge.iconClassName}`}>verified</span>
+                                                            {badge.label}
+                                                        </div>
+                                                    );
+                                                })()}
                                                 {/* Favorite Button */}
                                                 <div className="absolute top-4 right-4">
                                                     <FavoriteButton
@@ -843,7 +889,7 @@ export default function SearchPage() {
                                                     {property.name}
                                                 </p>
                                                 <p className="text-slate-500 dark:text-slate-400 text-sm truncate">
-                                                    {property.address.street}, {property.address.city}
+                                                    {formatAddress(property.address)}
                                                 </p>
                                                 <div className="flex items-center gap-4 mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 text-slate-600 dark:text-slate-400 text-sm">
                                                     <span className="flex items-center gap-1.5">

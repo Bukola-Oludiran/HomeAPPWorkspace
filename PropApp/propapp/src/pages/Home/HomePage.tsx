@@ -1,66 +1,79 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import heroVideo from '@/assets/HeroSectionVideo.mp4';
 import FavoriteButton from '@/components/FavoriteButton';
 import VoiceInputButton from '@/components/VoiceInputButton';
+import { propertyService } from '@/lib/api/services/propertyService';
+import type { PropertySummary, ListingType } from '@/types/property';
 
-// Featured properties mock data
-const featuredProperties = [
-    {
-        id: 1,
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l',
-        alt: 'Modern suburban house with large windows and garden',
-        price: '$850,000',
-        type: 'For Sale',
-        typeColor: 'bg-green-100 text-green-700',
-        address: '1243 Oakwood Avenue, Austin, TX',
-        beds: 4,
-        baths: 3,
-        sqft: '2,400',
-        verified: 'Verified Owner',
-    },
-    {
-        id: 2,
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAamBOyrzSpr22QFJVMWoHUc1mMMtnqiibkVvx1a1yyRMf7AZH_W5yo1RUtyBeDdX317BPpURBRfc781QxtqAke2rVYEqTii2io0uuHFkEJ0CmZ8MORlbNcSi1Rrn0MkZXgBn4TdOrfGT4AC6aP8LrSd-KrpDu9MncstN4oWLel5dWeiPY1Vna-TDIY0FVjIuHpWLA9XnqqLmHWL3dBb97dTEKd5I76wzI_hdZR1tk-bfpEmbo-gBSIaJNec2sLti-R_9FmipfOkxxP',
-        alt: 'Modern white two-story residential home with blue sky',
-        price: '$3,200',
-        priceUnit: '/mo',
-        type: 'For Rent',
-        typeColor: 'bg-blue-100 text-blue-700',
-        address: '5500 Highland Park, Dallas, TX',
-        beds: 2,
-        baths: 2,
-        sqft: '1,100',
-        verified: 'Verified',
-    },
-    {
-        id: 3,
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCDbn_i6RapAYYCUtbpApN4lJMQNrA0rGJZXVvlV5ZLubEMNH1omk_1mAstEefJ0spWkedOBAe5og228aYdYdVGMGx2otBaGsGAG_1DMh7rANSTYk0_MrBlyxCEDc66NFCgfMXVMcoMDPiPuhcBXg5_Iwjv_Fz2YEb4sU8vGb7xqSy9VX9nCTc1tUE2DL8uYW4jHmEa_B2GwMX24GP44NZ_TWI6Tc4Om0jvrCWW6cMyN3YxN1SrsIUBMkmeYENO3JUYvlZTV5Hn0Kqc',
-        alt: 'Interior view of a modern living room with large windows',
-        price: '$5,500',
-        priceUnit: '/mo',
-        type: 'Short-let',
-        typeColor: 'bg-purple-100 text-purple-700',
-        address: 'Downtown Loft, Seattle, WA',
-        beds: 1,
-        baths: 1.5,
-        sqft: '850',
-        verified: 'Verified Owner',
-    },
-    {
-        id: 4,
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDmzjPVnnkN0L0Df5m-edXXtRPMb0L9UALdUYVZ31ftX2hZoPcXfkk9cX0ppWUHkpAgEHDPt5z8Myghlu_sUmGC0p8uMQv-HbrXijHeC8ALkQAuqFOKKQ6BIlW3DyxKXmR68V6YLZxFKGKU5QA3f9KSaxdE-ZqCwq8CHWNZkHkt-0KyKZ6b8s_6sdVzJ5nMB7lFYMvczzRv1xvvE-i968QA_YLancFg-0dheYj1DUN0ylsh3qHXXWFqzKCnpvKn_5mHg9ar3r3Pfdeb',
-        alt: 'Backyard patio of a modern home with pool',
-        price: '$1,250,000',
-        type: 'For Sale',
-        typeColor: 'bg-green-100 text-green-700',
-        address: '778 Sunnyvale Drive, Miami, FL',
-        beds: 5,
-        baths: 4,
-        sqft: '3,200',
-        verified: 'Verified',
-    },
-];
+// Helper to format price with currency
+function formatPrice(price: number, currency: string = 'NGN'): string {
+    const formatter = new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: currency,
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    });
+    return formatter.format(price);
+}
+
+// Helper to get listing type display info
+function getListingTypeInfo(listingType: ListingType): { label: string; color: string; priceUnit?: string } {
+    switch (listingType) {
+        case 'SALE':
+            return { label: 'For Sale', color: 'bg-green-100 text-green-700' };
+        case 'RENT':
+            return { label: 'For Rent', color: 'bg-blue-100 text-blue-700', priceUnit: '/mo' };
+        case 'SHORT_LET':
+            return { label: 'Short-let', color: 'bg-purple-100 text-purple-700', priceUnit: '/night' };
+        default:
+            return { label: 'For Sale', color: 'bg-green-100 text-green-700' };
+    }
+}
+
+// Helper to format address
+function formatAddress(address: PropertySummary['address'] | undefined | string): string {
+    if (!address) return 'Location not available';
+    if (typeof address === 'string') return address;
+    const parts = [address.street, address.neighborhood, address.city, address.state].filter(Boolean);
+    return parts.length > 0 ? parts.join(', ') : 'Location not available';
+}
+
+// Helper to get verification badge info based on tier (matches PropertyDetail styling)
+function getVerificationBadge(isVerified: boolean, tier?: string): { label: string; className: string; iconClassName: string } | null {
+    if (!isVerified) return null;
+
+    if (tier === 'PLATINUM') {
+        return {
+            label: 'PLATINUM VERIFIED',
+            className: 'bg-gradient-to-r from-slate-200 via-white to-slate-300 dark:from-slate-700 dark:via-slate-600 dark:to-slate-700 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-500',
+            iconClassName: 'text-[#137fec]',
+        };
+    }
+    if (tier === 'GOLD') {
+        return {
+            label: 'GOLD VERIFIED',
+            className: 'bg-gradient-to-r from-yellow-200 via-yellow-100 to-yellow-300 dark:from-yellow-600 dark:via-yellow-500 dark:to-yellow-600 text-yellow-900 dark:text-yellow-100 border border-yellow-400 dark:border-yellow-500',
+            iconClassName: 'text-yellow-600 dark:text-yellow-300',
+        };
+    }
+    if (tier === 'SILVER') {
+        return {
+            label: 'VERIFIED',
+            className: 'bg-[#137fec] text-white',
+            iconClassName: 'text-white',
+        };
+    }
+    // BRONZE or default verified
+    return {
+        label: 'VERIFIED',
+        className: 'bg-[#137fec] text-white',
+        iconClassName: 'text-white',
+    };
+}
+
+// Default placeholder image
+const PLACEHOLDER_IMAGE = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=600&fit=crop';
 
 type CategoryType = 'Buy' | 'Rent' | 'Short-let' | 'Land';
 
@@ -68,6 +81,29 @@ export default function HomePage() {
     const [activeCategory, setActiveCategory] = useState<CategoryType>('Buy');
     const [aiSearchEnabled, setAiSearchEnabled] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [featuredProperties, setFeaturedProperties] = useState<PropertySummary[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Fetch featured properties on mount
+    useEffect(() => {
+        async function fetchFeaturedProperties() {
+            try {
+                setIsLoading(true);
+                setError(null);
+                const response = await propertyService.getFeaturedProperties(8);
+                // API returns ApiResponse<PropertySummary[]>, extract data
+                setFeaturedProperties(response.data);
+            } catch (err) {
+                console.error('Failed to fetch featured properties:', err);
+                setError('Failed to load featured properties');
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchFeaturedProperties();
+    }, []);
 
     const categories: CategoryType[] = ['Buy', 'Rent', 'Short-let', 'Land'];
 
@@ -202,66 +238,108 @@ export default function HomePage() {
 
                         {/* Property Grid */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                            {featuredProperties.map((property) => (
-                                <Link to={`/property/${property.id}`} key={property.id}>
-                                    <article className="group flex flex-col gap-4 cursor-pointer">
-                                        <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-slate-200">
-                                            <img
-                                                alt={property.alt}
-                                                className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
-                                                src={property.image}
-                                            />
-                                            <div className="absolute top-3 left-3 bg-white/95 dark:bg-slate-900/90 backdrop-blur-sm text-[#137fec] text-xs font-bold px-2.5 py-1.5 rounded-md flex items-center gap-1.5 shadow-sm border border-slate-100 dark:border-slate-800">
-                                                <span className="material-symbols-outlined text-[16px] icon-filled">
-                                                    verified
-                                                </span>
-                                                {property.verified}
-                                            </div>
-                                            <div className="absolute top-3 right-3">
-                                                <FavoriteButton
-                                                    propertyId={property.id}
-                                                    size="sm"
-                                                    variant="overlay"
-                                                />
-                                            </div>
+                            {isLoading ? (
+                                // Loading skeleton
+                                Array.from({ length: 4 }).map((_, index) => (
+                                    <div key={index} className="animate-pulse">
+                                        <div className="w-full aspect-[4/3] rounded-xl bg-slate-200 dark:bg-slate-700" />
+                                        <div className="mt-4 space-y-2">
+                                            <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded w-2/3" />
+                                            <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-full" />
+                                            <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/2" />
                                         </div>
-                                        <div>
-                                            <div className="flex justify-between items-baseline mb-1">
-                                                <p className="text-xl font-bold text-slate-900 dark:text-white">
-                                                    {property.price}
-                                                    {property.priceUnit && (
-                                                        <span className="text-sm font-normal text-slate-500">
-                                                            {property.priceUnit}
-                                                        </span>
+                                    </div>
+                                ))
+                            ) : error ? (
+                                // Error state
+                                <div className="col-span-full text-center py-12">
+                                    <span className="material-symbols-outlined text-4xl text-slate-400 mb-2">error</span>
+                                    <p className="text-slate-500 dark:text-slate-400">{error}</p>
+                                    <button
+                                        onClick={() => window.location.reload()}
+                                        className="mt-4 px-4 py-2 bg-[#137fec] text-white rounded-lg hover:bg-[#137fec]/90"
+                                    >
+                                        Try Again
+                                    </button>
+                                </div>
+                            ) : featuredProperties.length === 0 ? (
+                                // Empty state
+                                <div className="col-span-full text-center py-12">
+                                    <span className="material-symbols-outlined text-4xl text-slate-400 mb-2">home</span>
+                                    <p className="text-slate-500 dark:text-slate-400">No featured properties available</p>
+                                </div>
+                            ) : (
+                                // Property cards
+                                featuredProperties.map((property) => {
+                                    const listingInfo = getListingTypeInfo(property.listingType);
+                                    const badge = getVerificationBadge(property.isVerified, property.verificationTier);
+
+                                    return (
+                                        <Link to={`/property/${property.id}`} key={property.id}>
+                                            <article className="group flex flex-col gap-4 cursor-pointer">
+                                                <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-slate-200">
+                                                    <img
+                                                        alt={property.name}
+                                                        className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                                                        src={property.primaryImage || PLACEHOLDER_IMAGE}
+                                                    />
+                                                    {badge && (
+                                                        <div className={`absolute top-4 left-4 text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md ${badge.className}`}>
+                                                            <span className={`material-symbols-outlined text-[16px] icon-filled ${badge.iconClassName}`}>
+                                                                verified
+                                                            </span>
+                                                            {badge.label}
+                                                        </div>
                                                     )}
-                                                </p>
-                                                <span
-                                                    className={`text-xs font-semibold px-2 py-1 rounded-md ${property.typeColor}`}
-                                                >
-                                                    {property.type}
-                                                </span>
-                                            </div>
-                                            <p className="text-slate-700 dark:text-slate-200 text-base font-medium truncate">
-                                                {property.address}
-                                            </p>
-                                            <div className="flex gap-4 mt-3 text-slate-500 dark:text-slate-400 text-sm">
-                                                <span className="flex items-center gap-1.5">
-                                                    <span className="material-symbols-outlined text-[18px]">bed</span>
-                                                    {property.beds} Beds
-                                                </span>
-                                                <span className="flex items-center gap-1.5">
-                                                    <span className="material-symbols-outlined text-[18px]">bathtub</span>
-                                                    {property.baths} Baths
-                                                </span>
-                                                <span className="flex items-center gap-1.5">
-                                                    <span className="material-symbols-outlined text-[18px]">square_foot</span>
-                                                    {property.sqft} sqft
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </article>
-                                </Link>
-                            ))}
+                                                    <div className="absolute top-3 right-3">
+                                                        <FavoriteButton
+                                                            propertyId={property.id}
+                                                            size="sm"
+                                                            variant="overlay"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div className="flex justify-between items-baseline mb-1">
+                                                        <p className="text-xl font-bold text-slate-900 dark:text-white">
+                                                            {formatPrice(property.price, property.currency)}
+                                                            {listingInfo.priceUnit && (
+                                                                <span className="text-sm font-normal text-slate-500">
+                                                                    {listingInfo.priceUnit}
+                                                                </span>
+                                                            )}
+                                                        </p>
+                                                        <span
+                                                            className={`text-xs font-semibold px-2 py-1 rounded-md ${listingInfo.color}`}
+                                                        >
+                                                            {listingInfo.label}
+                                                        </span>
+                                                    </div>
+                                                    <p className="text-slate-700 dark:text-slate-200 text-base font-medium truncate">
+                                                        {formatAddress(property.address)}
+                                                    </p>
+                                                    <div className="flex gap-4 mt-3 text-slate-500 dark:text-slate-400 text-sm">
+                                                        <span className="flex items-center gap-1.5">
+                                                            <span className="material-symbols-outlined text-[18px]">bed</span>
+                                                            {property.bedrooms} Beds
+                                                        </span>
+                                                        <span className="flex items-center gap-1.5">
+                                                            <span className="material-symbols-outlined text-[18px]">bathtub</span>
+                                                            {property.bathrooms} Baths
+                                                        </span>
+                                                        {property.squareMeters && (
+                                                            <span className="flex items-center gap-1.5">
+                                                                <span className="material-symbols-outlined text-[18px]">square_foot</span>
+                                                                {property.squareMeters} m²
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </article>
+                                        </Link>
+                                    );
+                                })
+                            )}
                         </div>
 
                         {/* Mobile View All Link */}
