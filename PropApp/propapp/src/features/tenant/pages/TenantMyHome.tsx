@@ -1,70 +1,121 @@
 // Tenant My Home page
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import MakePaymentModal from '../../../components/MakePaymentModal';
 import LeaseRenewalModal from '../../../components/LeaseRenewalModal';
 import DocumentViewerModal from '../../../components/DocumentViewerModal';
 import PhotoGalleryModal from '../../../components/PhotoGalleryModal';
 import MaintenanceRequestModal from '../../../components/MaintenanceRequestModal';
+import { tenantService } from '../../../lib/api/services/tenantService';
 
-// Mock data for My Home page
-const homeData = {
+// Helper to format currency
+function formatCurrency(amount: number): string {
+    return new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: 'NGN',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    }).format(amount);
+}
+
+// Helper to format date
+function formatDate(dateString: string): string {
+    return new Date(dateString).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+    });
+}
+
+// UI home data structure
+interface HomeData {
     property: {
-        name: '1243 Oakwood Avenue',
-        location: 'Austin, TX 78704 • Unit 4B',
-        beds: 2,
-        baths: 2,
-        sqft: '1,250',
-        rent: '$2,400',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l',
-        verified: true,
+        name: string;
+        location: string;
+        beds: number;
+        baths: number;
+        sqft: string;
+        rent: string;
+        image: string;
+        verified: boolean;
+    };
+    payment: {
+        nextAmount: string;
+        dueDate: string;
+        autoPayEnabled: boolean;
+    };
+    lease: {
+        startDate: string;
+        endDate: string;
+        term: string;
+        hasRenewalOffer: boolean;
+        renewalExpiresDate: string;
+    };
+    maintenance: Array<{
+        id: number;
+        title: string;
+        requestNumber: string;
+        submittedDate: string;
+        status: string;
+        statusColor: string;
+        iconColor: string;
+        icon: string;
+    }>;
+    documents: Array<{
+        id: number;
+        name: string;
+        type: string;
+        size: string;
+        icon: string;
+        iconColor: string;
+    }>;
+    manager: {
+        name: string;
+        company: string;
+        phone: string;
+        email: string;
+        image: string;
+        online: boolean;
+    };
+}
+
+// Default home data (fallback)
+const defaultHomeData: HomeData = {
+    property: {
+        name: 'No Property',
+        location: 'Not Available',
+        beds: 0,
+        baths: 0,
+        sqft: '0',
+        rent: '₦0',
+        image: 'https://via.placeholder.com/800x600?text=No+Property',
+        verified: false,
     },
     payment: {
-        nextAmount: '$2,400.00',
-        dueDate: 'Oct 1',
-        autoPayEnabled: true,
+        nextAmount: '₦0',
+        dueDate: 'N/A',
+        autoPayEnabled: false,
     },
     lease: {
-        startDate: 'Sep 1, 2023',
-        endDate: 'Aug 31, 2024',
-        term: '12 Months',
-        hasRenewalOffer: true,
-        renewalExpiresDate: 'Oct 15',
+        startDate: 'N/A',
+        endDate: 'N/A',
+        term: 'N/A',
+        hasRenewalOffer: false,
+        renewalExpiresDate: '',
     },
-    maintenance: [
-        {
-            id: 1,
-            title: 'Leaking Kitchen Faucet',
-            requestNumber: '4829',
-            submittedDate: 'Aug 12, 2023',
-            status: 'Resolved',
-            statusColor: 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400',
-            iconColor: 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400',
-            icon: 'check_circle',
-        },
-        {
-            id: 2,
-            title: 'HVAC Filter Replacement',
-            requestNumber: '4901',
-            submittedDate: 'Sep 10, 2023',
-            status: 'Scheduled',
-            statusColor: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400',
-            iconColor: 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400',
-            icon: 'schedule',
-        },
-    ],
+    maintenance: [],
     documents: [
         { id: 1, name: 'Move-in Checklist', type: 'PDF', size: '1.2 MB', icon: 'picture_as_pdf', iconColor: 'text-red-500' },
         { id: 2, name: 'Utility Information', type: 'DOCX', size: '800 KB', icon: 'description', iconColor: 'text-blue-500' },
         { id: 3, name: "Renter's Insurance Policy", type: 'PDF', size: '2.4 MB', icon: 'policy', iconColor: 'text-green-500' },
     ],
     manager: {
-        name: 'Sarah Jenkins',
-        company: 'LuxRealty Management',
-        phone: '(512) 555-0123',
-        email: 'sarah.j@luxrealty.com',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCjSrFpmEFzY7DuSYzvGMyJ6_AbhHnvodMyset9lUUft__qqjtpv9mHHcZ_G89QxFqf2R2dKoTB_fJz4U92uCsFUL3184Bj0EySgXTcecuQVsdTPcTR-TEh34WNcFyDdaft0v9SsIZVgNjqHkcAVrUnkmB4ERkwtSLbgbP8lvDFna76LCjamOuHb71kIA10Hd2U-QwIyYE8BfDzezNODnKbjf1aE1aWwURtZm-0bYkj-A3IN-FzxBdGE2Vxyue4rROjFp2w4T6q4RmT',
-        online: true,
+        name: 'Property Manager',
+        company: 'Management Company',
+        phone: 'N/A',
+        email: 'N/A',
+        image: 'https://via.placeholder.com/100?text=PM',
+        online: false,
     },
 };
 
@@ -75,6 +126,82 @@ export default function TenantMyHome() {
     const [selectedDocument, setSelectedDocument] = useState<{ name: string; type: string } | null>(null);
     const [isGalleryOpen, setIsGalleryOpen] = useState(false);
     const [isMaintenanceModalOpen, setIsMaintenanceModalOpen] = useState(false);
+
+    // API state
+    const [homeData, setHomeData] = useState<HomeData>(defaultHomeData);
+    const [isLoading, setIsLoading] = useState(true);
+
+    // Fetch rental info from API
+    useEffect(() => {
+        async function fetchRentalInfo() {
+            try {
+                setIsLoading(true);
+                const response = await tenantService.getRentalInfo();
+                const data = response.data;
+
+                if (data) {
+                    // Calculate lease term in months
+                    const startDate = new Date(data.lease.startDate);
+                    const endDate = new Date(data.lease.endDate);
+                    const months = Math.round((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24 * 30));
+
+                    setHomeData({
+                        property: {
+                            name: data.property.name,
+                            location: `${data.property.address?.city || ''}, ${data.property.address?.state || ''} • Unit`,
+                            beds: data.property.bedrooms,
+                            baths: data.property.bathrooms,
+                            sqft: data.property.squareMeters ? `${data.property.squareMeters}` : 'N/A',
+                            rent: formatCurrency(data.lease.monthlyRent),
+                            image: data.property.primaryImage || defaultHomeData.property.image,
+                            verified: data.property.isVerified || false,
+                        },
+                        payment: {
+                            nextAmount: formatCurrency(data.lease.monthlyRent),
+                            dueDate: formatDate(data.lease.endDate).split(',')[0],
+                            autoPayEnabled: false,
+                        },
+                        lease: {
+                            startDate: formatDate(data.lease.startDate),
+                            endDate: formatDate(data.lease.endDate),
+                            term: `${months} Months`,
+                            hasRenewalOffer: false,
+                            renewalExpiresDate: '',
+                        },
+                        maintenance: defaultHomeData.maintenance,
+                        documents: defaultHomeData.documents,
+                        manager: {
+                            name: data.landlord.name,
+                            company: 'Property Management',
+                            phone: data.landlord.phone || 'N/A',
+                            email: 'contact@property.com',
+                            image: data.landlord.avatarUrl || defaultHomeData.manager.image,
+                            online: true,
+                        },
+                    });
+                }
+            } catch (err) {
+                console.error('Failed to fetch rental info:', err);
+                // Keep default data on error
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchRentalInfo();
+    }, []);
+
+    // Show loading state
+    if (isLoading) {
+        return (
+            <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex items-center justify-center">
+                <div className="flex flex-col items-center gap-3">
+                    <div className="size-8 border-3 border-[#137fec] border-t-transparent rounded-full animate-spin"></div>
+                    <span className="text-sm text-slate-500">Loading your home...</span>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex flex-col font-[Manrope,Noto_Sans,sans-serif] text-slate-900 dark:text-white overflow-x-hidden pb-[120px]">
