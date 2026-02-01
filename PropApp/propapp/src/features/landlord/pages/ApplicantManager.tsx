@@ -6,103 +6,137 @@ import PageContainer from '../../../components/common/PageContainer';
 import PageHeader from '../../../components/common/PageHeader';
 import SearchInput from '../../../components/common/SearchInput';
 import { AnimatedGroup } from '../../../components/animation';
+import { landlordService } from '../../../lib/api/services/landlordService';
+import type { RentalApplication } from '../../../types/lease';
 
-// Mock applicant data
-const applicants = [
-    {
-        id: 1,
-        name: 'James Wilson',
-        initials: 'JW',
-        property: '5500 Highland Park',
-        status: 'Pending',
-        statusColor: 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-300 border-blue-100 dark:border-blue-800',
-        barColor: 'bg-blue-500',
+// UI applicant type
+interface UIApplicant {
+    id: string;
+    name: string;
+    initials: string;
+    property: string;
+    status: string;
+    statusColor: string;
+    barColor: string;
+    avatarColor: string;
+    image?: string;
+    creditScore?: number;
+    creditIcon?: string;
+    creditIconColor?: string;
+    monthlyIncome?: string;
+    employment?: string;
+    hasBackgroundCheck?: boolean;
+    backgroundResult?: string;
+    moveInDate?: string;
+    rejectionReason?: string;
+    missingDocs?: string;
+    rentCoverage?: string;
+    pet?: string;
+    actions: string[];
+}
+
+// Helper to format currency
+function formatCurrency(amount: number): string {
+    return new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: 'NGN',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    }).format(amount);
+}
+
+// Get initials from name
+function getInitials(firstName?: string, lastName?: string): string {
+    const first = firstName?.charAt(0)?.toUpperCase() || '';
+    const last = lastName?.charAt(0)?.toUpperCase() || '';
+    return `${first}${last}` || 'NA';
+}
+
+// Get status styling
+function getStatusStyle(status: string): { statusColor: string; barColor: string } {
+    const statusLower = status.toLowerCase();
+    if (statusLower === 'pending' || statusLower === 'submitted') {
+        return {
+            statusColor: 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-300 border-blue-100 dark:border-blue-800',
+            barColor: 'bg-blue-500',
+        };
+    }
+    if (statusLower === 'under_review' || statusLower === 'under review') {
+        return {
+            statusColor: 'bg-amber-50 text-amber-600 dark:bg-amber-900/30 dark:text-amber-300 border-amber-100 dark:border-amber-800',
+            barColor: 'bg-amber-500',
+        };
+    }
+    if (statusLower === 'approved') {
+        return {
+            statusColor: 'bg-green-50 text-green-600 dark:bg-green-900/30 dark:text-green-300 border-green-100 dark:border-green-800',
+            barColor: 'bg-green-500',
+        };
+    }
+    if (statusLower === 'rejected') {
+        return {
+            statusColor: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border-slate-200 dark:border-slate-700',
+            barColor: 'bg-slate-300 dark:bg-slate-600',
+        };
+    }
+    return {
+        statusColor: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400',
+        barColor: 'bg-slate-300',
+    };
+}
+
+// Get actions based on status
+function getActions(status: string): string[] {
+    const statusLower = status.toLowerCase();
+    if (statusLower === 'pending' || statusLower === 'submitted') {
+        return ['review', 'background-check'];
+    }
+    if (statusLower === 'under_review' || statusLower === 'under review') {
+        return ['approve', 'reject', 'view-profile'];
+    }
+    if (statusLower === 'approved') {
+        return ['view-lease'];
+    }
+    if (statusLower === 'rejected') {
+        return ['reopen'];
+    }
+    return ['review'];
+}
+
+// Map API status to display status
+function mapStatus(status: string): string {
+    const statusMap: Record<string, string> = {
+        'SUBMITTED': 'Pending',
+        'PENDING': 'Pending',
+        'UNDER_REVIEW': 'Under Review',
+        'APPROVED': 'Approved',
+        'REJECTED': 'Rejected',
+    };
+    return statusMap[status.toUpperCase()] || status;
+}
+
+// Transform API application to UI format
+function transformApplicant(app: RentalApplication): UIApplicant {
+    const name = app.tenant ? `${app.tenant.firstName} ${app.tenant.lastName}` : 'Unknown Applicant';
+    const displayStatus = mapStatus(app.status);
+    const style = getStatusStyle(displayStatus);
+
+    return {
+        id: app.id,
+        name,
+        initials: getInitials(app.tenant?.firstName, app.tenant?.lastName),
+        property: app.property?.name || 'Unknown Property',
+        status: displayStatus,
+        ...style,
         avatarColor: 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300',
-        creditScore: 720,
-        creditIcon: 'credit_score',
-        creditIconColor: 'text-green-500',
-        monthlyIncome: '$5,400',
-        employment: 'Senior Graphic Designer at CreativeInc',
-        hasBackgroundCheck: false,
-        actions: ['review', 'background-check'],
-    },
-    {
-        id: 2,
-        name: 'Sarah Jenkins',
-        initials: 'SJ',
-        property: '1243 Oakwood Ave',
-        status: 'Under Review',
-        statusColor: 'bg-amber-50 text-amber-600 dark:bg-amber-900/30 dark:text-amber-300 border-amber-100 dark:border-amber-800',
-        barColor: 'bg-amber-500',
-        avatarColor: 'bg-amber-100 dark:bg-amber-900 text-amber-600 dark:text-amber-300',
-        creditScore: 680,
-        creditIcon: 'warning',
-        creditIconColor: 'text-amber-500',
-        monthlyIncome: '$8,200',
-        hasBackgroundCheck: true,
-        backgroundResult: 'Clean record. No evictions found.',
-        actions: ['approve', 'reject', 'view-profile'],
-    },
-    {
-        id: 3,
-        name: 'Michael Chen',
-        initials: 'MC',
-        property: 'Downtown Loft',
-        status: 'Approved',
-        statusColor: 'bg-green-50 text-green-600 dark:bg-green-900/30 dark:text-green-300 border-green-100 dark:border-green-800',
-        barColor: 'bg-green-500',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB5dmBEM49k6nb_0lncUiaLqTewd6ROrrxnYS5o8fL5SaGWVhYXk1qMjXSzEb-S58Ubtqj_2itVgwitaReBDuNUIdq4rKs6y2wuxac4M2MfKPpBDYk3dVGp3HFZZXGoqIgCZed7QsAgEyqOO0ZSP3z-9neZWMQ5vJsBS32Q-RquT7pKA2N_-0VGIo-ltkFrKFkU9Nk9vA9adfdFSLc78pYsvmOiKI8xBJ5Wp92xiK7dCEf2UH0Pn0A_mSsccm9pnZFbt3LUDYIyPaCH',
-        creditScore: 780,
-        creditIcon: 'star',
-        creditIconColor: 'text-green-500',
-        moveInDate: 'Oct 1st',
-        actions: ['view-lease'],
-    },
-    {
-        id: 4,
-        name: 'Emily Davis',
-        initials: 'ED',
-        property: '5500 Highland Park',
-        status: 'Rejected',
-        statusColor: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border-slate-200 dark:border-slate-700',
-        barColor: 'bg-slate-300 dark:bg-slate-600',
-        avatarColor: 'bg-slate-100 dark:bg-slate-800 text-slate-500',
-        rejectionReason: 'Credit score below property requirements. Debt-to-income ratio too high.',
-        actions: ['reopen'],
-    },
-    {
-        id: 5,
-        name: 'Robert Park',
-        initials: 'RP',
-        property: '778 Sunnyvale Dr',
-        status: 'Pending',
-        statusColor: 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-300 border-blue-100 dark:border-blue-800',
-        barColor: 'bg-blue-500',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuACwUSfbRA_c6rI_R9LSNST9zUxWbuOfZ4Hx-7QdrzuRtQm4nUn652Faa4lUKUPWe4IAkyL5wNFh_9mow2G5CvB43VtYfOLrvlwQO7-0Tbm_WcLFvO_J6Z7DdWEHNfKtywFJ62H8RsnGC8fdANWtIedvJu8If_cAL_RQfbh2v8nJuo0i1-zE5ITqFWilraF6AfgLgr4gT6bgJzaBN2SUDVJf_0WqefWFE3mntTiYn7V9Aa-9WXJk98h-DJjzvlNweYXlKF0Ut_QnELn',
-        creditScore: 745,
-        creditIcon: 'credit_score',
-        creditIconColor: 'text-green-500',
-        monthlyIncome: '$7,100',
-        missingDocs: 'Missing Proof of Income',
-        actions: ['request-docs'],
-    },
-    {
-        id: 6,
-        name: 'Alice Moore',
-        initials: 'AM',
-        property: '1243 Oakwood Ave',
-        status: 'Pending',
-        statusColor: 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-300 border-blue-100 dark:border-blue-800',
-        barColor: 'bg-blue-500',
-        avatarColor: 'bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300',
-        creditScore: 710,
-        creditIcon: 'credit_score',
-        creditIconColor: 'text-green-500',
-        rentCoverage: '3.5x',
-        pet: 'Has 1 Dog (Golden Retriever)',
-        actions: ['review', 'background-check'],
-    },
-];
+        image: app.tenant?.avatarUrl || undefined,
+        monthlyIncome: formatCurrency(app.monthlyIncome),
+        employment: app.employmentStatus,
+        moveInDate: app.moveInDate ? new Date(app.moveInDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : undefined,
+        rejectionReason: app.rejectionReason,
+        actions: getActions(displayStatus),
+    };
+}
 
 type FilterType = 'all' | 'pending' | 'under-review' | 'approved' | 'rejected';
 
@@ -115,6 +149,32 @@ export default function ApplicantManager() {
     const [propertyFilter, setPropertyFilter] = useState('all');
     const [showPropertyDropdown, setShowPropertyDropdown] = useState(false);
     const propertyDropdownRef = useRef<HTMLDivElement>(null);
+
+    // API state
+    const [applicants, setApplicants] = useState<UIApplicant[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Fetch applicants from API
+    useEffect(() => {
+        async function fetchApplicants() {
+            try {
+                setIsLoading(true);
+                setError(null);
+
+                const response = await landlordService.getApplicants();
+                const data = response.data?.data || [];
+                setApplicants(data.map(transformApplicant));
+            } catch (err) {
+                console.error('Failed to fetch applicants:', err);
+                setError('Failed to load applicants. Please try again.');
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchApplicants();
+    }, []);
 
     // Get unique properties from applicants
     const uniqueProperties = ['all', ...Array.from(new Set(applicants.map(a => a.property)))];
@@ -139,7 +199,7 @@ export default function ApplicantManager() {
     ];
 
     // Filter applicants based on active filter and search
-    const filteredApplicants = applicants.filter(applicant => {
+    const filteredApplicants = applicants.filter((applicant: UIApplicant) => {
         // Property filter
         if (propertyFilter !== 'all') {
             if (applicant.property !== propertyFilter) return false;
