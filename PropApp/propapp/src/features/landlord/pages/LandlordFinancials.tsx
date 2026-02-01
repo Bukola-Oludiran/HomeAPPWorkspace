@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import DocumentViewerModal from '../../../components/DocumentViewerModal';
 import PageContainer from '../../../components/common/PageContainer';
@@ -7,54 +7,67 @@ import SectionCard from '../../../components/common/SectionCard';
 import StatsCard from '../../../components/common/StatsCard';
 import SearchInput from '../../../components/common/SearchInput';
 import { AnimatedGroup } from '../../../components/animation';
+import { landlordService } from '../../../lib/api/services/landlordService';
+import type { LandlordFinancials as LandlordFinancialsType, LandlordFinancialSummary, LandlordTransaction } from '../../../types/dashboard';
 
-// Mock transaction data
-const transactionsData = [
-    {
-        id: 1,
-        date: 'Oct 24, 2024',
-        property: '778 Sunnyvale Drive',
-        category: 'Rent',
-        categoryColor: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
-        description: 'Monthly Rent Payment - Unit A',
-        amount: '+$8,500.00',
-        amountColor: 'text-green-600',
-        status: 'completed',
-    },
-    {
-        id: 2,
-        date: 'Oct 22, 2024',
-        property: 'Downtown Loft',
-        category: 'Maintenance',
-        categoryColor: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
-        description: 'Plumbing Repair - Bathroom Leak',
-        amount: '-$450.00',
-        amountColor: 'text-slate-900 dark:text-white',
-        status: 'completed',
-    },
-    {
-        id: 3,
-        date: 'Oct 20, 2024',
-        property: '1243 Oakwood Avenue',
-        category: 'Prop. Tax',
-        categoryColor: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300',
-        description: 'Q3 Property Tax Assessment',
-        amount: '-$2,100.00',
-        amountColor: 'text-slate-900 dark:text-white',
-        status: 'completed',
-    },
-    {
-        id: 4,
-        date: 'Oct 18, 2024',
-        property: '5500 Highland Park',
-        category: 'Fee',
-        categoryColor: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300',
-        description: 'Late Payment Fee - Unit 4B',
-        amount: '+$75.00',
-        amountColor: 'text-green-600',
-        status: 'pending',
-    },
-];
+// UI transaction type
+interface UITransaction {
+    id: string;
+    date: string;
+    property: string;
+    category: string;
+    categoryColor: string;
+    description: string;
+    amount: string;
+    amountColor: string;
+    status: string;
+}
+
+// Helper to format currency
+function formatCurrency(amount: number): string {
+    return new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: 'NGN',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    }).format(amount);
+}
+
+// Helper to format date
+function formatDate(dateString: string): string {
+    return new Date(dateString).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+    });
+}
+
+// Get category color based on transaction type
+function getCategoryColor(type: string): string {
+    const typeLower = type.toLowerCase();
+    if (typeLower.includes('rent')) return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300';
+    if (typeLower.includes('maintenance')) return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
+    if (typeLower.includes('tax')) return 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300';
+    if (typeLower.includes('fee')) return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300';
+    if (typeLower.includes('deposit')) return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
+    return 'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300';
+}
+
+// Transform API transaction to UI format
+function transformTransaction(tx: LandlordTransaction): UITransaction {
+    const isPositive = tx.amount > 0;
+    return {
+        id: tx.id,
+        date: formatDate(tx.createdAt),
+        property: tx.propertyName || 'N/A',
+        category: tx.type,
+        categoryColor: getCategoryColor(tx.type),
+        description: tx.tenantName ? `From ${tx.tenantName}` : tx.type,
+        amount: `${isPositive ? '+' : ''}${formatCurrency(tx.amount)}`,
+        amountColor: isPositive ? 'text-green-600' : 'text-slate-900 dark:text-white',
+        status: tx.status.toLowerCase(),
+    };
+}
 
 type TimePeriod = 'monthly' | 'quarterly' | 'annually';
 
@@ -64,6 +77,61 @@ export default function LandlordFinancials() {
     const [propertyFilter, setPropertyFilter] = useState('all');
     const [categoryFilter, setCategoryFilter] = useState('all');
     const [showDocumentViewer, setShowDocumentViewer] = useState(false);
+
+    // API state
+    const [financials, setFinancials] = useState<LandlordFinancialsType | null>(null);
+    const [summary, setSummary] = useState<LandlordFinancialSummary | null>(null);
+    const [transactions, setTransactions] = useState<UITransaction[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Fetch financial data
+    useEffect(() => {
+        async function fetchFinancials() {
+            try {
+                setIsLoading(true);
+                setError(null);
+
+                const [financialsRes, summaryRes, transactionsRes] = await Promise.all([
+                    landlordService.getFinancials(),
+                    landlordService.getFinancialSummary(),
+                    landlordService.getTransactions({ limit: 10 }),
+                ]);
+
+                setFinancials(financialsRes.data);
+                setSummary(summaryRes.data);
+
+                // Transform transactions
+                const txData = transactionsRes.data?.data || [];
+                setTransactions(txData.map(transformTransaction));
+            } catch (err) {
+                console.error('Failed to fetch financials:', err);
+                setError('Failed to load financial data. Please try again.');
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchFinancials();
+    }, [timePeriod]);
+
+    // Calculate derived values from API data
+    const totalRevenue = summary?.totalRevenue || 0;
+    const totalExpenses = summary?.expenseBreakdown?.reduce((sum, e) => sum + e.amount, 0) || 0;
+    const netOperatingIncome = totalRevenue - totalExpenses;
+    const cashFlow = financials?.availableBalance || 0;
+
+    // Filter transactions based on search and filters
+    const filteredTransactions = transactions.filter(tx => {
+        const matchesSearch = !searchQuery ||
+            tx.property.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            tx.description.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesProperty = propertyFilter === 'all' ||
+            tx.property.toLowerCase().includes(propertyFilter.toLowerCase());
+        const matchesCategory = categoryFilter === 'all' ||
+            tx.category.toLowerCase().includes(categoryFilter.toLowerCase());
+        return matchesSearch && matchesProperty && matchesCategory;
+    });
 
     const reportDocument = {
         title: 'Monthly Financial Report - October 2024',
@@ -125,10 +193,10 @@ export default function LandlordFinancials() {
                     icon="payments"
                     iconColor="blue"
                     label="Total Revenue"
-                    value="$42,500"
-                    animateValue
-                    numericValue={42500}
-                    valuePrefix="$"
+                    value={isLoading ? '...' : formatCurrency(totalRevenue)}
+                    animateValue={!isLoading}
+                    numericValue={totalRevenue}
+                    valuePrefix="₦"
                     change={{ value: "+8.2%", isPositive: true }}
                 />
 
@@ -137,10 +205,10 @@ export default function LandlordFinancials() {
                     icon="request_quote"
                     iconColor="red"
                     label="Total Expenses"
-                    value="$12,840"
-                    animateValue
-                    numericValue={12840}
-                    valuePrefix="$"
+                    value={isLoading ? '...' : formatCurrency(totalExpenses)}
+                    animateValue={!isLoading}
+                    numericValue={totalExpenses}
+                    valuePrefix="₦"
                     change={{ value: "+2.4%", isPositive: false }}
                 />
 
@@ -149,10 +217,10 @@ export default function LandlordFinancials() {
                     icon="account_balance_wallet"
                     iconColor="emerald"
                     label="Net Operating Income"
-                    value="$29,660"
-                    animateValue
-                    numericValue={29660}
-                    valuePrefix="$"
+                    value={isLoading ? '...' : formatCurrency(netOperatingIncome)}
+                    animateValue={!isLoading}
+                    numericValue={netOperatingIncome}
+                    valuePrefix="₦"
                     change={{ value: "+12.5%", isPositive: true }}
                 />
 
@@ -160,11 +228,11 @@ export default function LandlordFinancials() {
                 <StatsCard
                     icon="savings"
                     iconColor="purple"
-                    label="Cash Flow"
-                    value="$18,200"
-                    animateValue
-                    numericValue={18200}
-                    valuePrefix="$"
+                    label="Available Balance"
+                    value={isLoading ? '...' : formatCurrency(cashFlow)}
+                    animateValue={!isLoading}
+                    numericValue={cashFlow}
+                    valuePrefix="₦"
                     badge={{ text: "vs last period", variant: "default" }}
                 />
             </AnimatedGroup>
@@ -369,7 +437,21 @@ export default function LandlordFinancials() {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                                {transactionsData.map((transaction) => (
+                                {error && (
+                                    <tr>
+                                        <td colSpan={7} className="px-6 py-8 text-center text-red-500">
+                                            {error}
+                                        </td>
+                                    </tr>
+                                )}
+                                {!error && filteredTransactions.length === 0 && !isLoading && (
+                                    <tr>
+                                        <td colSpan={7} className="px-6 py-8 text-center text-slate-500">
+                                            No transactions found
+                                        </td>
+                                    </tr>
+                                )}
+                                {filteredTransactions.map((transaction) => (
                                     <tr key={transaction.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
                                         <td className="px-6 py-4 text-sm text-slate-900 dark:text-white font-medium">{transaction.date}</td>
                                         <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">{transaction.property}</td>
@@ -399,7 +481,7 @@ export default function LandlordFinancials() {
                     </div>
                     {/* Pagination */}
                     <div className="px-6 py-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                        <p className="text-sm text-slate-500 dark:text-slate-400">Showing 1-4 of 128 transactions</p>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">Showing {filteredTransactions.length} transactions</p>
                         <div className="flex gap-2">
                             <button className="p-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 disabled:opacity-50">
                                 <span className="material-symbols-outlined text-[20px]">chevron_left</span>

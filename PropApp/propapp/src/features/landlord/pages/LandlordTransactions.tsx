@@ -1,104 +1,119 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PageContainer from '../../../components/common/PageContainer';
 import PageHeader from '../../../components/common/PageHeader';
 import SectionCard from '../../../components/common/SectionCard';
 import StatusBadge from '../../../components/common/StatusBadge';
 import SearchInput from '../../../components/common/SearchInput';
 import DateRangeFilter from '../../../components/common/DateRangeFilter';
+import { landlordService } from '../../../lib/api/services/landlordService';
+import type { LandlordTransaction } from '../../../types/dashboard';
 
-// Mock transaction data for landlord (income-focused)
-const transactions = [
-    {
-        id: 'TRX-88231',
-        description: 'Rent Payment - Oct 2023',
-        tenant: 'Anderson Family',
-        property: 'Modern Oakwood Estate',
-        date: 'Oct 01, 2023',
-        time: '09:15 AM',
+// UI transaction type
+interface UITransaction {
+    id: string;
+    description: string;
+    tenant: string;
+    property: string;
+    date: string;
+    time: string;
+    method: string;
+    methodIcon: string;
+    status: string;
+    amount: string;
+    icon: string;
+    iconBg: string;
+    iconColor: string;
+}
+
+// Helper to format currency
+function formatCurrency(amount: number): string {
+    return new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: 'NGN',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    }).format(Math.abs(amount));
+}
+
+// Helper to format date and time
+function formatDateTime(dateString: string): { date: string; time: string } {
+    const date = new Date(dateString);
+    return {
+        date: date.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }),
+        time: date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+    };
+}
+
+// Get icon and colors based on transaction type
+function getTransactionStyle(type: string, amount: number): { icon: string; iconBg: string; iconColor: string } {
+    const typeLower = type.toLowerCase();
+    const isPositive = amount > 0;
+
+    if (typeLower.includes('rent')) {
+        return {
+            icon: isPositive ? 'home' : 'home',
+            iconBg: isPositive ? 'bg-green-50 dark:bg-green-900/20' : 'bg-red-50 dark:bg-red-900/20',
+            iconColor: isPositive ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400',
+        };
+    }
+    if (typeLower.includes('fee') || typeLower.includes('service')) {
+        return {
+            icon: 'payments',
+            iconBg: 'bg-red-50 dark:bg-red-900/20',
+            iconColor: 'text-red-600 dark:text-red-400',
+        };
+    }
+    if (typeLower.includes('deposit')) {
+        return {
+            icon: 'security',
+            iconBg: 'bg-teal-50 dark:bg-teal-900/20',
+            iconColor: 'text-teal-600 dark:text-teal-400',
+        };
+    }
+    if (typeLower.includes('late')) {
+        return {
+            icon: 'schedule',
+            iconBg: 'bg-purple-50 dark:bg-purple-900/20',
+            iconColor: 'text-purple-600 dark:text-purple-400',
+        };
+    }
+    return {
+        icon: isPositive ? 'arrow_downward' : 'arrow_upward',
+        iconBg: isPositive ? 'bg-green-50 dark:bg-green-900/20' : 'bg-orange-50 dark:bg-orange-900/20',
+        iconColor: isPositive ? 'text-green-600 dark:text-green-400' : 'text-orange-600 dark:text-orange-400',
+    };
+}
+
+// Map API status to UI status
+function mapStatus(status: string): string {
+    const statusLower = status.toLowerCase();
+    if (statusLower === 'completed' || statusLower === 'success') return 'Received';
+    if (statusLower === 'pending') return 'Pending';
+    if (statusLower === 'failed') return 'Failed';
+    if (statusLower === 'held') return 'Held';
+    return status;
+}
+
+// Transform API transaction to UI format
+function transformTransaction(tx: LandlordTransaction): UITransaction {
+    const { date, time } = formatDateTime(tx.createdAt);
+    const isPositive = tx.amount > 0;
+    const style = getTransactionStyle(tx.type, tx.amount);
+
+    return {
+        id: tx.id,
+        description: tx.type,
+        tenant: tx.tenantName || 'System',
+        property: tx.propertyName || 'All Properties',
+        date,
+        time,
         method: 'Bank Transfer',
         methodIcon: 'account_balance',
-        status: 'Received',
-        amount: '+₦450,000.00',
-        icon: 'home',
-        iconBg: 'bg-green-50 dark:bg-green-900/20',
-        iconColor: 'text-green-600 dark:text-green-400',
-    },
-    {
-        id: 'TRX-88190',
-        description: 'Rent Payment - Oct 2023',
-        tenant: 'Chen Wei',
-        property: 'Downtown Loft, Unit 8A',
-        date: 'Oct 02, 2023',
-        time: '10:00 AM',
-        method: 'Auto-Debit',
-        methodIcon: 'credit_card',
-        status: 'Pending',
-        amount: '+₦280,000.00',
-        icon: 'apartment',
-        iconBg: 'bg-orange-50 dark:bg-orange-900/20',
-        iconColor: 'text-orange-600 dark:text-orange-400',
-    },
-    {
-        id: 'TRX-87992',
-        description: 'Platform Service Fee',
-        tenant: 'PropertyApp',
-        property: 'All Properties',
-        date: 'Sept 30, 2023',
-        time: '11:59 PM',
-        method: 'Auto-Debit',
-        methodIcon: 'credit_card',
-        status: 'Deducted',
-        amount: '-₦45,000.00',
-        icon: 'payments',
-        iconBg: 'bg-red-50 dark:bg-red-900/20',
-        iconColor: 'text-red-600 dark:text-red-400',
-    },
-    {
-        id: 'TRX-87800',
-        description: 'Late Fee Collected',
-        tenant: 'Sarah Miller',
-        property: 'Riverside Condo',
-        date: 'Sept 29, 2023',
-        time: '01:15 PM',
-        method: 'Bank Transfer',
-        methodIcon: 'account_balance',
-        status: 'Received',
-        amount: '+₦15,000.00',
-        icon: 'schedule',
-        iconBg: 'bg-purple-50 dark:bg-purple-900/20',
-        iconColor: 'text-purple-600 dark:text-purple-400',
-    },
-    {
-        id: 'TRX-87654',
-        description: 'Rent Payment - Sept 2023',
-        tenant: 'Anderson Family',
-        property: 'Modern Oakwood Estate',
-        date: 'Sept 01, 2023',
-        time: '11:00 AM',
-        method: 'Bank Transfer',
-        methodIcon: 'account_balance',
-        status: 'Received',
-        amount: '+₦450,000.00',
-        icon: 'home',
-        iconBg: 'bg-green-50 dark:bg-green-900/20',
-        iconColor: 'text-green-600 dark:text-green-400',
-    },
-    {
-        id: 'TRX-86500',
-        description: 'Security Deposit Received',
-        tenant: 'New Tenant',
-        property: 'Sunset View Apt',
-        date: 'Sept 15, 2023',
-        time: '03:45 PM',
-        method: 'Bank Transfer',
-        methodIcon: 'account_balance',
-        status: 'Held',
-        amount: '+₦300,000.00',
-        icon: 'security',
-        iconBg: 'bg-teal-50 dark:bg-teal-900/20',
-        iconColor: 'text-teal-600 dark:text-teal-400',
-    },
-];
+        status: mapStatus(tx.status),
+        amount: `${isPositive ? '+' : '-'}${formatCurrency(tx.amount)}`,
+        ...style,
+    };
+}
 
 const statusToVariant: Record<string, 'success' | 'warning' | 'error' | 'info' | 'neutral' | 'pending'> = {
     Received: 'success',
@@ -111,11 +126,61 @@ export default function LandlordTransactions() {
     const [searchQuery, setSearchQuery] = useState('');
     const [showAIChat, setShowAIChat] = useState(false);
 
-    // Calculate summary stats
+    // API state
+    const [transactions, setTransactions] = useState<UITransaction[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [page, setPage] = useState(1);
+    const [totalCount, setTotalCount] = useState(0);
+    const limit = 10;
+
+    // Fetch transactions
+    useEffect(() => {
+        async function fetchTransactions() {
+            try {
+                setIsLoading(true);
+                setError(null);
+
+                const response = await landlordService.getTransactions({ page, limit });
+                const txData = response.data?.data || [];
+                setTransactions(txData.map(transformTransaction));
+                setTotalCount(response.data?.pagination?.total || 0);
+            } catch (err) {
+                console.error('Failed to fetch transactions:', err);
+                setError('Failed to load transactions. Please try again.');
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchTransactions();
+    }, [page]);
+
+    // Calculate summary stats from transactions
     const totalIncome = transactions.filter(t => t.amount.startsWith('+')).reduce((sum, t) => {
         const amount = parseFloat(t.amount.replace(/[^0-9.]/g, ''));
         return sum + amount;
     }, 0);
+
+    const pendingAmount = transactions
+        .filter(t => t.status === 'Pending' && t.amount.startsWith('+'))
+        .reduce((sum, t) => sum + parseFloat(t.amount.replace(/[^0-9.]/g, '')), 0);
+
+    const deductions = transactions
+        .filter(t => t.amount.startsWith('-'))
+        .reduce((sum, t) => sum + parseFloat(t.amount.replace(/[^0-9.]/g, '')), 0);
+
+    const netRevenue = totalIncome - deductions;
+
+    // Filter transactions based on search
+    const filteredTransactions = transactions.filter(tx => {
+        if (!searchQuery) return true;
+        const query = searchQuery.toLowerCase();
+        return tx.description.toLowerCase().includes(query) ||
+            tx.tenant.toLowerCase().includes(query) ||
+            tx.property.toLowerCase().includes(query) ||
+            tx.id.toLowerCase().includes(query);
+    });
 
     return (
         <PageContainer>
@@ -139,19 +204,19 @@ export default function LandlordTransactions() {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                 <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
                     <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Total Income (Month)</p>
-                    <p className="text-2xl font-extrabold text-green-600">₦{totalIncome.toLocaleString()}</p>
+                    <p className="text-2xl font-extrabold text-green-600">{isLoading ? '...' : `₦${totalIncome.toLocaleString()}`}</p>
                 </div>
                 <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
                     <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Pending Payments</p>
-                    <p className="text-2xl font-extrabold text-orange-600">₦280,000</p>
+                    <p className="text-2xl font-extrabold text-orange-600">{isLoading ? '...' : `₦${pendingAmount.toLocaleString()}`}</p>
                 </div>
                 <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
                     <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Fees & Deductions</p>
-                    <p className="text-2xl font-extrabold text-red-500">₦45,000</p>
+                    <p className="text-2xl font-extrabold text-red-500">{isLoading ? '...' : `₦${deductions.toLocaleString()}`}</p>
                 </div>
                 <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
                     <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Net Revenue</p>
-                    <p className="text-2xl font-extrabold text-[#137fec]">₦1,450,000</p>
+                    <p className="text-2xl font-extrabold text-[#137fec]">{isLoading ? '...' : `₦${netRevenue.toLocaleString()}`}</p>
                 </div>
             </div>
 
@@ -222,7 +287,21 @@ export default function LandlordTransactions() {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                            {transactions.map((tx) => (
+                            {error && (
+                                <tr>
+                                    <td colSpan={7} className="px-6 py-8 text-center text-red-500">
+                                        {error}
+                                    </td>
+                                </tr>
+                            )}
+                            {!error && filteredTransactions.length === 0 && !isLoading && (
+                                <tr>
+                                    <td colSpan={7} className="px-6 py-8 text-center text-slate-500">
+                                        No transactions found
+                                    </td>
+                                </tr>
+                            )}
+                            {filteredTransactions.map((tx) => (
                                 <tr key={tx.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-3">
@@ -261,10 +340,24 @@ export default function LandlordTransactions() {
                     </table>
                 </div>
                 <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/20 flex items-center justify-between">
-                    <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Showing 6 of 48 transactions</span>
+                    <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                        Showing {filteredTransactions.length} of {totalCount} transactions
+                    </span>
                     <div className="flex gap-2">
-                        <button className="px-3 py-1 text-xs font-bold text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors opacity-50 cursor-not-allowed">Previous</button>
-                        <button className="px-3 py-1 text-xs font-bold text-[#137fec] bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">Next</button>
+                        <button
+                            onClick={() => setPage(p => Math.max(1, p - 1))}
+                            disabled={page === 1}
+                            className={`px-3 py-1 text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded transition-colors ${page === 1 ? 'text-slate-400 opacity-50 cursor-not-allowed' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'}`}
+                        >
+                            Previous
+                        </button>
+                        <button
+                            onClick={() => setPage(p => p + 1)}
+                            disabled={page * limit >= totalCount}
+                            className={`px-3 py-1 text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded transition-colors ${page * limit >= totalCount ? 'text-slate-400 opacity-50 cursor-not-allowed' : 'text-[#137fec] hover:bg-slate-50 dark:hover:bg-slate-700'}`}
+                        >
+                            Next
+                        </button>
                     </div>
                 </div>
             </SectionCard>
