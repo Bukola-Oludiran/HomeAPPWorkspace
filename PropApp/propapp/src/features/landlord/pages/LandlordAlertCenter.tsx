@@ -1,134 +1,301 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageContainer from '../../../components/common/PageContainer';
 import PageHeader from '../../../components/common/PageHeader';
 import { AnimatedGroup } from '../../../components/animation';
+import { landlordService } from '../../../lib/api/services/landlordService';
+import type { Alert, AlertType, AlertPriority } from '../../../types/dashboard';
 
-// Mock alerts data
-const alertsData = [
-    {
-        id: 1,
-        type: 'maintenance',
-        title: 'Emergency Maintenance: Major Water Leak',
-        description: 'Tenant reported active water leak in the master bathroom ceiling. Maintenance request #4092 created automatically. Requires immediate contractor assignment.',
-        urgency: 'high',
-        urgencyLabel: 'High Urgency',
-        urgencyBg: 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300 border-red-200 dark:border-red-800',
-        status: 'new',
-        statusLabel: 'New',
-        statusBg: 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border-blue-100 dark:border-blue-800',
-        icon: 'plumbing',
-        iconBg: 'bg-red-100 dark:bg-red-900/30 text-red-600',
-        barColor: 'bg-red-500',
-        property: 'Downtown Loft, Unit 402',
+// UI Alert interface matching the component's expected structure
+interface UIAlert {
+    id: string;
+    type: string;
+    title: string;
+    description: string;
+    urgency: string;
+    urgencyLabel: string;
+    urgencyBg: string;
+    status: string;
+    statusLabel: string;
+    statusBg: string;
+    icon: string;
+    iconBg: string;
+    barColor: string;
+    property: string;
+    propertyIcon: string;
+    secondaryInfo?: string;
+    secondaryIcon?: string;
+    time: string;
+    actions: string[];
+    primaryAction?: string;
+    primaryActionBg?: string;
+    isResolved?: boolean;
+    isAIInsight?: boolean;
+    actionUrl?: string;
+}
+
+// Helper to format relative time
+function formatRelativeTime(dateString: string): string {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffMins = Math.floor(diffMs / (1000 * 60));
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return `${diffMins} mins ago`;
+    if (diffHours < 24) return `${diffHours} hours ago`;
+    if (diffDays === 1) return 'Yesterday';
+    if (diffDays < 7) return `${diffDays} days ago`;
+    return date.toLocaleDateString();
+}
+
+// Get UI styling based on alert type
+function getAlertTypeStyles(type: AlertType): {
+    icon: string;
+    iconBg: string;
+    barColor: string;
+    uiType: string;
+} {
+    switch (type) {
+        case 'MAINTENANCE_EMERGENCY':
+            return {
+                icon: 'plumbing',
+                iconBg: 'bg-red-100 dark:bg-red-900/30 text-red-600',
+                barColor: 'bg-red-500',
+                uiType: 'maintenance',
+            };
+        case 'PAYMENT_OVERDUE':
+            return {
+                icon: 'payments',
+                iconBg: 'bg-red-100 dark:bg-red-900/30 text-red-600',
+                barColor: 'bg-red-500',
+                uiType: 'financial',
+            };
+        case 'LEASE_EXPIRING':
+            return {
+                icon: 'history_edu',
+                iconBg: 'bg-orange-100 dark:bg-orange-900/30 text-orange-600',
+                barColor: 'bg-orange-400',
+                uiType: 'leasing',
+            };
+        case 'VERIFICATION_PENDING':
+            return {
+                icon: 'verified_user',
+                iconBg: 'bg-blue-100 dark:bg-blue-900/30 text-[#137fec]',
+                barColor: 'bg-blue-500',
+                uiType: 'verification',
+            };
+        case 'APPLICATION_NEW':
+            return {
+                icon: 'person_add',
+                iconBg: 'bg-green-100 dark:bg-green-900/30 text-green-600',
+                barColor: 'bg-green-500',
+                uiType: 'application',
+            };
+        case 'MESSAGE_NEW':
+            return {
+                icon: 'chat',
+                iconBg: 'bg-blue-100 dark:bg-blue-900/30 text-blue-600',
+                barColor: 'bg-blue-500',
+                uiType: 'message',
+            };
+        default:
+            return {
+                icon: 'info',
+                iconBg: 'bg-slate-100 dark:bg-slate-800 text-slate-500',
+                barColor: 'bg-slate-300',
+                uiType: 'other',
+            };
+    }
+}
+
+// Get UI styling based on priority
+function getPriorityStyles(priority: AlertPriority): {
+    urgencyLabel: string;
+    urgencyBg: string;
+    primaryActionBg: string;
+} {
+    switch (priority) {
+        case 'critical':
+        case 'high':
+            return {
+                urgencyLabel: priority === 'critical' ? 'Critical' : 'High Urgency',
+                urgencyBg: 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300 border-red-200 dark:border-red-800',
+                primaryActionBg: 'bg-red-600 hover:bg-red-700 text-white shadow-red-200',
+            };
+        case 'medium':
+            return {
+                urgencyLabel: 'Medium',
+                urgencyBg: 'bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-300 border-orange-200 dark:border-orange-800',
+                primaryActionBg: 'bg-[#137fec] hover:bg-[#137fec]/90 text-white shadow-blue-200',
+            };
+        case 'low':
+        default:
+            return {
+                urgencyLabel: 'Low',
+                urgencyBg: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border-slate-200 dark:border-slate-700',
+                primaryActionBg: 'bg-white dark:bg-[#1a2632] border border-slate-200 dark:border-slate-700 hover:border-[#137fec] hover:text-[#137fec] text-slate-700 dark:text-slate-300',
+            };
+    }
+}
+
+// Get default actions based on alert type
+function getDefaultActions(type: AlertType): string[] {
+    switch (type) {
+        case 'MAINTENANCE_EMERGENCY':
+            return ['Assign Contractor', 'Message Tenant', 'View Details'];
+        case 'PAYMENT_OVERDUE':
+            return ['Send Reminder', 'View Details'];
+        case 'LEASE_EXPIRING':
+            return ['Send Renewal Offer', 'View Lease'];
+        case 'VERIFICATION_PENDING':
+            return ['Review Application', 'Approve'];
+        case 'APPLICATION_NEW':
+            return ['Review Application', 'View Details'];
+        case 'MESSAGE_NEW':
+            return ['View Message', 'Reply'];
+        default:
+            return ['View Details'];
+    }
+}
+
+// Transform API Alert to UI format
+function transformAlert(alert: Alert): UIAlert {
+    const typeStyles = getAlertTypeStyles(alert.type);
+    const priorityStyles = getPriorityStyles(alert.priority);
+    const actions = getDefaultActions(alert.type);
+
+    return {
+        id: alert.id,
+        type: typeStyles.uiType,
+        title: alert.title,
+        description: alert.description,
+        urgency: alert.priority,
+        urgencyLabel: priorityStyles.urgencyLabel,
+        urgencyBg: priorityStyles.urgencyBg,
+        status: alert.isRead ? 'read' : 'new',
+        statusLabel: alert.isRead ? 'Read' : 'New',
+        statusBg: alert.isRead
+            ? 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400 border-slate-200 dark:border-slate-700'
+            : 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border-blue-100 dark:border-blue-800',
+        icon: typeStyles.icon,
+        iconBg: typeStyles.iconBg,
+        barColor: typeStyles.barColor,
+        property: alert.relatedId || 'Property',
         propertyIcon: 'apartment',
-        time: '25 mins ago',
-        actions: ['Assign Contractor', 'Message Tenant', 'View Details'],
-        primaryAction: 'Assign Contractor',
-        primaryActionBg: 'bg-red-600 hover:bg-red-700 text-white shadow-red-200',
-    },
-    {
-        id: 2,
-        type: 'verification',
-        title: 'Tenant Verification Complete',
-        description: 'Comprehensive background check, credit report, and employment verification are now available for review. Score: 780.',
-        urgency: 'medium',
-        urgencyLabel: 'Medium',
-        urgencyBg: 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border-blue-200 dark:border-blue-800',
-        status: 'new',
-        statusLabel: 'New',
-        statusBg: 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border-blue-100 dark:border-blue-800',
-        icon: 'verified_user',
-        iconBg: 'bg-blue-100 dark:bg-blue-900/30 text-[#137fec]',
-        barColor: 'bg-blue-500',
-        property: 'Sarah Johnson',
-        propertyIcon: 'person',
-        secondaryInfo: '1243 Oakwood Avenue',
-        secondaryIcon: 'home',
-        time: '2 hours ago',
-        actions: ['Review Application', 'Approve'],
-        primaryAction: 'Review Application',
-        primaryActionBg: 'bg-[#137fec] hover:bg-[#137fec]/90 text-white shadow-blue-200',
-    },
-    {
-        id: 3,
-        type: 'leasing',
-        title: 'Lease Expiring Soon',
-        description: 'Current lease ends in 30 days. Automated renewal offer has been drafted but requires your approval to send. AI suggests a 3% rent increase.',
-        urgency: 'medium',
-        urgencyLabel: 'Medium',
-        urgencyBg: 'bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-300 border-orange-200 dark:border-orange-800',
-        status: 'pending',
-        statusLabel: 'Pending Action',
-        statusBg: 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400 border-slate-200 dark:border-slate-700',
-        icon: 'history_edu',
-        iconBg: 'bg-orange-100 dark:bg-orange-900/30 text-orange-600',
-        barColor: 'bg-orange-400',
-        property: '5500 Highland Park, Unit 4B',
-        propertyIcon: 'apartment',
-        secondaryInfo: 'Expires: Nov 30, 2024',
-        secondaryIcon: 'calendar_month',
-        time: '',
-        actions: ['Send Renewal Offer', 'Prepare Move-out'],
-        primaryAction: 'Send Renewal Offer',
-        primaryActionBg: 'bg-white dark:bg-[#1a2632] border border-slate-200 dark:border-slate-700 hover:border-[#137fec] hover:text-[#137fec] text-slate-700 dark:text-slate-300',
-    },
-    {
-        id: 4,
-        type: 'financial',
-        title: 'Late Payment Notification',
-        description: 'Tenant missed the rent due date of Oct 1st. Payment was received successfully on Oct 2nd with late fee included. No further action needed.',
-        urgency: 'low',
-        urgencyLabel: 'Low',
-        urgencyBg: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border-slate-200 dark:border-slate-700',
-        status: 'resolved',
-        statusLabel: 'Resolved',
-        statusBg: 'bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-300 border-green-100 dark:border-green-800',
-        icon: 'payments',
-        iconBg: 'bg-slate-100 dark:bg-slate-800 text-slate-500',
-        barColor: 'bg-slate-300 dark:bg-slate-600',
-        property: 'Michael Chen',
-        propertyIcon: 'person',
-        time: 'Yesterday',
-        actions: ['View Receipt', 'Archive'],
-        isResolved: true,
-    },
-    {
-        id: 5,
-        type: 'ai-insight',
-        title: 'Market Opportunity Detected',
-        description: 'Rental rates in the Austin area have increased by 5% this month. You have 1 property currently listed below market value.',
-        urgency: 'opportunity',
-        urgencyLabel: 'Opportunity',
-        urgencyBg: 'bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300 border-purple-200 dark:border-purple-800',
-        status: 'new',
-        statusLabel: 'New',
-        statusBg: 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border-blue-100 dark:border-blue-800',
-        icon: 'smart_toy',
-        iconBg: 'bg-gradient-to-tr from-[#137fec] to-blue-400 text-white shadow-sm',
-        barColor: 'bg-[#137fec]',
-        property: 'Austin Area Portfolio',
-        propertyIcon: 'location_on',
-        time: 'Today',
-        actions: ['View Analysis', 'Update Listing'],
-        primaryAction: 'View Analysis',
-        primaryActionBg: 'bg-white dark:bg-[#1a2632] border border-slate-200 dark:border-slate-700 hover:border-[#137fec] hover:text-[#137fec] text-slate-700 dark:text-slate-300',
-        isAIInsight: true,
-    },
-];
+        time: formatRelativeTime(alert.createdAt),
+        actions: alert.actionLabel ? [alert.actionLabel, ...actions.slice(1)] : actions,
+        primaryAction: alert.actionLabel || actions[0],
+        primaryActionBg: priorityStyles.primaryActionBg,
+        actionUrl: alert.actionUrl,
+        isResolved: alert.isRead,
+    };
+}
 
 export default function LandlordAlertCenter() {
     const [typeFilter, setTypeFilter] = useState('all');
     const [urgencyFilter, setUrgencyFilter] = useState('all');
     const [statusFilter, setStatusFilter] = useState('new');
     const [searchQuery, setSearchQuery] = useState('');
-    const [selectedAlerts, setSelectedAlerts] = useState<number[]>([]);
+    const [selectedAlerts, setSelectedAlerts] = useState<string[]>([]);
+    const [alertsData, setAlertsData] = useState<UIAlert[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-    const toggleAlert = (id: number) => {
+    // Fetch alerts on mount
+    useEffect(() => {
+        async function fetchAlerts() {
+            try {
+                setIsLoading(true);
+                setError(null);
+                const response = await landlordService.getAlerts();
+                const transformed = response.data.map(transformAlert);
+                setAlertsData(transformed);
+            } catch (err) {
+                console.error('Failed to fetch alerts:', err);
+                setError('Failed to load alerts');
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchAlerts();
+    }, []);
+
+    const toggleAlert = (id: string) => {
         setSelectedAlerts(prev =>
             prev.includes(id) ? prev.filter(a => a !== id) : [...prev, id]
         );
     };
+
+    // Filter alerts based on filters and search
+    const filteredAlerts = alertsData.filter(alert => {
+        if (typeFilter !== 'all' && alert.type !== typeFilter) return false;
+        if (urgencyFilter !== 'all' && alert.urgency !== urgencyFilter) return false;
+        if (statusFilter !== 'all') {
+            if (statusFilter === 'new' && alert.isResolved) return false;
+            if (statusFilter === 'resolved' && !alert.isResolved) return false;
+        }
+        if (searchQuery) {
+            const query = searchQuery.toLowerCase();
+            return (
+                alert.title.toLowerCase().includes(query) ||
+                alert.description.toLowerCase().includes(query) ||
+                alert.property.toLowerCase().includes(query)
+            );
+        }
+        return true;
+    });
+
+    // Loading state
+    if (isLoading) {
+        return (
+            <PageContainer>
+                <PageHeader
+                    title="Alert Center"
+                    subtitle="Manage notifications and urgent tasks across your portfolio."
+                />
+                <div className="flex flex-col gap-4">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                        <div key={i} className="bg-white dark:bg-[#101922] p-5 rounded-xl border border-slate-200 dark:border-slate-800 animate-pulse">
+                            <div className="flex gap-4">
+                                <div className="w-12 h-12 bg-slate-200 dark:bg-slate-700 rounded-full" />
+                                <div className="flex-1">
+                                    <div className="h-5 bg-slate-200 dark:bg-slate-700 rounded w-1/3 mb-2" />
+                                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-2/3 mb-4" />
+                                    <div className="h-3 bg-slate-200 dark:bg-slate-700 rounded w-full" />
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </PageContainer>
+        );
+    }
+
+    // Error state
+    if (error) {
+        return (
+            <PageContainer>
+                <PageHeader
+                    title="Alert Center"
+                    subtitle="Manage notifications and urgent tasks across your portfolio."
+                />
+                <div className="p-12 bg-red-50 dark:bg-red-900/20 rounded-2xl text-center">
+                    <span className="material-symbols-outlined text-red-500 text-4xl mb-3">error</span>
+                    <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
+                    <button
+                        onClick={() => window.location.reload()}
+                        className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-semibold"
+                    >
+                        Retry
+                    </button>
+                </div>
+            </PageContainer>
+        );
+    }
 
     return (
         <PageContainer>
@@ -219,8 +386,17 @@ export default function LandlordAlertCenter() {
             </div>
 
             {/* Alerts List */}
+            {filteredAlerts.length === 0 ? (
+                <div className="py-16 text-center bg-white dark:bg-[#101922] rounded-xl border border-slate-200 dark:border-slate-800">
+                    <span className="material-symbols-outlined text-5xl text-slate-300 dark:text-slate-600 mb-4">notifications_off</span>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">No alerts found</h3>
+                    <p className="text-slate-500 dark:text-slate-400">
+                        {searchQuery ? 'Try adjusting your search or filters' : 'You\'re all caught up!'}
+                    </p>
+                </div>
+            ) : (
             <AnimatedGroup className="flex flex-col gap-4" stagger={0.08}>
-                {alertsData.map((alert) => (
+                {filteredAlerts.map((alert) => (
                     <div
                         key={alert.id}
                         className={`group bg-white dark:bg-[#101922] p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-[#137fec]/50 dark:hover:border-[#137fec]/50 hover:shadow-md transition-all relative overflow-hidden ${alert.isResolved ? 'opacity-75 hover:opacity-100' : ''
@@ -320,21 +496,16 @@ export default function LandlordAlertCenter() {
                     </div>
                 ))}
             </AnimatedGroup>
+            )}
 
             {/* Pagination */}
+            {filteredAlerts.length > 0 && (
             <div className="mt-8 flex items-center justify-between border-t border-slate-200 dark:border-slate-800 pt-6">
                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                    Showing <span className="font-bold text-slate-900 dark:text-white">1-5</span> of <span className="font-bold text-slate-900 dark:text-white">12</span> alerts
+                    Showing <span className="font-bold text-slate-900 dark:text-white">{filteredAlerts.length}</span> of <span className="font-bold text-slate-900 dark:text-white">{alertsData.length}</span> alerts
                 </p>
-                <div className="flex gap-2">
-                    <button className="px-3 py-1.5 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-400 cursor-not-allowed" disabled>
-                        Previous
-                    </button>
-                    <button className="px-3 py-1.5 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                        Next
-                    </button>
-                </div>
             </div>
+            )}
         </PageContainer>
     );
 }

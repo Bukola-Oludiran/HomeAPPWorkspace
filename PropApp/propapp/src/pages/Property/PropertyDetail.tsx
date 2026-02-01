@@ -25,6 +25,53 @@ const getTypeLabel = (listingType: string): string => {
     return listingType;
 };
 
+// Helper to get verification badge info based on tier
+function getVerificationBadge(isVerified: boolean, tier?: string): {
+    label: string;
+    className: string;
+    iconClassName: string;
+    tooltipTitle: string;
+    tooltipText: string;
+} | null {
+    if (!isVerified) return null;
+
+    if (tier === 'PLATINUM') {
+        return {
+            label: 'PLATINUM VERIFIED',
+            className: 'bg-gradient-to-r from-slate-200 via-white to-slate-300 dark:from-slate-700 dark:via-slate-600 dark:to-slate-700 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-500',
+            iconClassName: 'text-[#137fec]',
+            tooltipTitle: 'Platinum Verification',
+            tooltipText: 'This property has passed our most rigorous in-person inspection, legal title check, and owner identity verification.',
+        };
+    }
+    if (tier === 'GOLD') {
+        return {
+            label: 'GOLD VERIFIED',
+            className: 'bg-gradient-to-r from-yellow-200 via-yellow-100 to-yellow-300 dark:from-yellow-600 dark:via-yellow-500 dark:to-yellow-600 text-yellow-900 dark:text-yellow-100 border border-yellow-400 dark:border-yellow-500',
+            iconClassName: 'text-yellow-600 dark:text-yellow-300',
+            tooltipTitle: 'Gold Verification',
+            tooltipText: 'This property has been verified with document checks and owner identity confirmation.',
+        };
+    }
+    if (tier === 'SILVER') {
+        return {
+            label: 'VERIFIED',
+            className: 'bg-[#137fec] text-white',
+            iconClassName: 'text-white',
+            tooltipTitle: 'Silver Verification',
+            tooltipText: 'This property has been verified with basic document verification.',
+        };
+    }
+    // BRONZE or default verified
+    return {
+        label: 'VERIFIED',
+        className: 'bg-[#137fec] text-white',
+        iconClassName: 'text-white',
+        tooltipTitle: 'Verified Property',
+        tooltipText: 'This property has been verified by our team.',
+    };
+}
+
 
 export default function PropertyDetail() {
     const { id } = useParams<{ id: string }>();
@@ -204,38 +251,45 @@ export default function PropertyDetail() {
                             </div>
                             {/* Verification Badges */}
                             <div className="mt-6 flex flex-wrap items-center gap-4">
-                                <div className="group relative cursor-pointer">
-                                    <div className="bg-gradient-to-r from-slate-200 via-white to-slate-300 dark:from-slate-700 dark:via-slate-600 dark:to-slate-700 text-slate-900 dark:text-white text-sm font-bold px-4 py-2 rounded-full flex items-center gap-2 shadow-sm border border-slate-300 dark:border-slate-500">
-                                        <span className="material-symbols-outlined text-[20px] icon-filled text-[#137fec]">
-                                            verified
-                                        </span>
-                                        PLATINUM VERIFIED
-                                        <span className="material-symbols-outlined text-[16px] text-slate-500 ml-1">
-                                            info
-                                        </span>
-                                    </div>
-                                    {/* Tooltip */}
-                                    <div className="absolute bottom-full left-0 mb-2 w-64 p-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-20 shadow-xl">
-                                        <p className="font-bold mb-1">Platinum Verification</p>
-                                        <p>
-                                            This property has passed our most rigorous in-person inspection, legal title
-                                            check, and owner identity verification.
-                                        </p>
-                                        <div className="absolute top-full left-6 -mt-1 border-4 border-transparent border-t-slate-900 dark:border-t-white"></div>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-1.5 text-sm font-medium text-slate-600 dark:text-slate-400">
-                                    <span className="material-symbols-outlined text-green-500 text-[18px] icon-filled">
-                                        check_circle
-                                    </span>
-                                    Title Clear
-                                </div>
-                                <div className="flex items-center gap-1.5 text-sm font-medium text-slate-600 dark:text-slate-400">
-                                    <span className="material-symbols-outlined text-green-500 text-[18px] icon-filled">
-                                        check_circle
-                                    </span>
-                                    In-Person Inspection
-                                </div>
+                                {(() => {
+                                    const badge = getVerificationBadge(property.isVerified, property.verificationTier);
+                                    if (!badge) return null;
+                                    return (
+                                        <div className="group relative cursor-pointer">
+                                            <div className={`text-sm font-bold px-4 py-2 rounded-full flex items-center gap-2 shadow-sm ${badge.className}`}>
+                                                <span className={`material-symbols-outlined text-[20px] icon-filled ${badge.iconClassName}`}>
+                                                    verified
+                                                </span>
+                                                {badge.label}
+                                                <span className="material-symbols-outlined text-[16px] opacity-50 ml-1">
+                                                    info
+                                                </span>
+                                            </div>
+                                            {/* Tooltip */}
+                                            <div className="absolute bottom-full left-0 mb-2 w-64 p-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-20 shadow-xl">
+                                                <p className="font-bold mb-1">{badge.tooltipTitle}</p>
+                                                <p>{badge.tooltipText}</p>
+                                                <div className="absolute top-full left-6 -mt-1 border-4 border-transparent border-t-slate-900 dark:border-t-white"></div>
+                                            </div>
+                                        </div>
+                                    );
+                                })()}
+                                {property.isVerified && (
+                                    <>
+                                        <div className="flex items-center gap-1.5 text-sm font-medium text-slate-600 dark:text-slate-400">
+                                            <span className="material-symbols-outlined text-green-500 text-[18px] icon-filled">
+                                                check_circle
+                                            </span>
+                                            Title Clear
+                                        </div>
+                                        <div className="flex items-center gap-1.5 text-sm font-medium text-slate-600 dark:text-slate-400">
+                                            <span className="material-symbols-outlined text-green-500 text-[18px] icon-filled">
+                                                check_circle
+                                            </span>
+                                            In-Person Inspection
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         </div>
 

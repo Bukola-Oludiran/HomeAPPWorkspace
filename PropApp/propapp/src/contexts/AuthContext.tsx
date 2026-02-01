@@ -218,8 +218,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
             };
             const response = await api.post<LoginResponse>(API_ENDPOINTS.AUTH.REGISTER_COMPLETE, requestData);
 
-            // Store tokens and user
-            tokenManager.setTokens(response.data.accessToken, response.data.refreshToken);
+            // Store tokens and user - backend returns { user, tokens: { accessToken, refreshToken, expiresIn } }
+            tokenManager.setTokens(response.data.tokens.accessToken, response.data.tokens.refreshToken);
             tokenManager.setStoredUser(response.data.user);
 
             setRegistrationState((prev) => ({ ...prev, step: 4 }));
@@ -249,19 +249,40 @@ export function AuthProvider({ children }: AuthProviderProps) {
         try {
             const response = await api.post<LoginResponse>(API_ENDPOINTS.AUTH.LOGIN, data);
 
-            if (response.data.requires2FA) {
+            // Extract login data - backend returns { user, tokens: { accessToken, refreshToken, expiresIn } }
+            const loginData = response.data;
+
+            if (!loginData || !loginData.tokens?.accessToken) {
+                console.error('Login response missing tokens:', response);
+                throw new Error('Invalid login response: missing access token');
+            }
+
+            if (loginData.requires2FA) {
                 // Store temporary token for 2FA verification
-                pending2FAToken = response.data.accessToken;
+                pending2FAToken = loginData.tokens.accessToken;
                 setAuthState((prev) => ({ ...prev, isLoading: false }));
                 return { requires2FA: true };
             }
 
+            // Validate tokens before storing
+            if (!loginData.tokens.refreshToken) {
+                console.error('Login response missing refreshToken:', response);
+                throw new Error('Invalid login response: missing refresh token');
+            }
+
             // Store tokens and user
-            tokenManager.setTokens(response.data.accessToken, response.data.refreshToken);
-            tokenManager.setStoredUser(response.data.user);
+            tokenManager.setTokens(loginData.tokens.accessToken, loginData.tokens.refreshToken);
+            tokenManager.setStoredUser(loginData.user);
+
+            // Verify tokens were stored correctly
+            const storedToken = tokenManager.getAccessToken();
+            if (!storedToken || storedToken === 'undefined') {
+                console.error('Failed to store access token correctly');
+                throw new Error('Failed to store authentication tokens');
+            }
 
             setAuthState({
-                user: response.data.user,
+                user: loginData.user,
                 isAuthenticated: true,
                 isLoading: false,
                 error: null,
@@ -290,8 +311,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
             // Clear pending token
             pending2FAToken = null;
 
-            // Store tokens and user
-            tokenManager.setTokens(response.data.accessToken, response.data.refreshToken);
+            // Store tokens and user - backend returns { user, tokens: { accessToken, refreshToken, expiresIn } }
+            tokenManager.setTokens(response.data.tokens.accessToken, response.data.tokens.refreshToken);
             tokenManager.setStoredUser(response.data.user);
 
             setAuthState({
@@ -316,8 +337,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
         try {
             const response = await api.post<LoginResponse>(API_ENDPOINTS.AUTH.OAUTH_LOGIN(provider), data);
 
-            // Store tokens and user
-            tokenManager.setTokens(response.data.accessToken, response.data.refreshToken);
+            // Store tokens and user - backend returns { user, tokens: { accessToken, refreshToken, expiresIn } }
+            tokenManager.setTokens(response.data.tokens.accessToken, response.data.tokens.refreshToken);
             tokenManager.setStoredUser(response.data.user);
 
             setAuthState({

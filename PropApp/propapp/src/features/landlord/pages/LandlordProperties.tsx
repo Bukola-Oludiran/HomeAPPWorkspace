@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageContainer from '../../../components/common/PageContainer';
 import PageHeader from '../../../components/common/PageHeader';
@@ -6,105 +6,95 @@ import SearchInput from '../../../components/common/SearchInput';
 import ViewToggle from '../../../components/common/ViewToggle';
 import FilterDropdown from '../../../components/FilterDropdown';
 import { AnimatedGroup, MagneticButton } from '../../../components/animation';
+import { landlordService } from '../../../lib/api/services/landlordService';
+import type { PropertySummary } from '../../../types/property';
 
-// Mock property data
-const propertiesData = {
-    rented: [
-        {
-            id: 1,
-            name: '5500 Highland Park',
-            location: 'Dallas, TX',
-            unit: 'Unit 4B',
-            beds: 2,
-            baths: 2,
-            sqft: '1,200',
-            price: '$3,200',
-            priceType: '/mo',
-            status: 'Rented',
-            statusColor: 'bg-blue-500',
-            image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAamBOyrzSpr22QFJVMWoHUc1mMMtnqiibkVvx1a1yyRMf7AZH_W5yo1RUtyBeDdX317BPpURBRfc781QxtqAke2rVYEqTii2io0uuHFkEJ0CmZ8MORlbNcSi1Rrn0MkZXgBn4TdOrfGT4AC6aP8LrSd-KrpDu9MncstN4oWLel5dWeiPY1Vna-TDIY0FVjIuHpWLA9XnqqLmHWL3dBb97dTEKd5I76wzI_hdZR1tk-bfpEmbo-gBSIaJNec2sLti-R_9FmipfOkxxP',
-        },
-        {
-            id: 2,
-            name: '778 Sunnyvale Drive',
-            location: 'Miami, FL',
-            unit: 'Villa',
-            beds: 5,
-            baths: 4.5,
-            sqft: '4,200',
-            price: '$8,500',
-            priceType: '/mo',
-            status: 'Rented',
-            statusColor: 'bg-blue-500',
-            image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDmzjPVnnkN0L0Df5m-edXXtRPMb0L9UALdUYVZ31ftX2hZoPcXfkk9cX0ppWUHkpAgEHDPt5z8Myghlu_sUmGC0p8uMQv-HbrXijHeC8ALkQAuqFOKKQ6BIlW3DyxKXmR68V6YLZxFKGKU5QA3f9KSaxdE-ZqCwq8CHWNZkHkt-0KyKZ6b8s_6sdVzJ5nMB7lFYMvczzRv1xvvE-i968QA_YLancFg-0dheYj1DUN0ylsh3qHXXWFqzKCnpvKn_5mHg9ar3r3Pfdeb',
-        },
-    ],
-    forSale: [
-        {
-            id: 3,
-            name: '1243 Oakwood Avenue',
-            location: 'Austin, TX',
-            unit: 'Entire Home',
-            beds: 4,
-            baths: 3.5,
-            sqft: '2,800',
-            price: '$850,000',
-            priceType: '',
-            status: 'Active',
-            statusColor: 'bg-green-500',
-            image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l',
-        },
-    ],
-    vacant: [
-        {
-            id: 4,
-            name: 'Downtown Loft',
-            location: 'Seattle, WA',
-            unit: 'Apt 402',
-            beds: 1,
-            baths: 1,
-            sqft: 'HVAC',
-            sqftIcon: 'plumbing',
-            price: '$5,500',
-            priceType: '/mo',
-            status: 'Maintenance',
-            statusColor: 'bg-amber-500',
-            image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCDbn_i6RapAYYCUtbpApN4lJMQNrA0rGJZXVvlV5ZLubEMNH1omk_1mAstEefJ0spWkedOBAe5og228aYdYdVGMGx2otBaGsGAG_1DMh7rANSTYk0_MrBlyxCEDc66NFCgfMXVMcoMDPiPuhcBXg5_Iwjv_Fz2YEb4sU8vGb7xqSy9VX9nCTc1tUE2DL8uYW4jHmEa_B2GwMX24GP44NZ_TWI6Tc4Om0jvrCWW6cMyN3YxN1SrsIUBMkmeYENO3JUYvlZTV5Hn0Kqc',
-        },
-    ],
-    incoming: [
-        {
-            id: 5,
-            name: '8809 Westview Lane',
-            location: 'Austin, TX',
-            unit: 'Triplex',
-            status: 'Under Contract',
-            statusColor: 'bg-purple-600',
-            progress: 75,
-            progressLabel: 'Acquisition Progress',
-            progressColor: 'bg-purple-600',
-            closingDate: 'Oct 25',
-            image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l',
-        },
-        {
-            id: 6,
-            name: 'The Pinnacle, Unit 902',
-            location: 'Chicago, IL',
-            unit: 'Condo',
-            status: 'Onboarding',
-            statusColor: 'bg-orange-500',
-            progress: 30,
-            progressLabel: 'Onboarding Progress',
-            progressColor: 'bg-orange-500',
-            closingDate: 'Docs Pending',
-            image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAamBOyrzSpr22QFJVMWoHUc1mMMtnqiibkVvx1a1yyRMf7AZH_W5yo1RUtyBeDdX317BPpURBRfc781QxtqAke2rVYEqTii2io0uuHFkEJ0CmZ8MORlbNcSi1Rrn0MkZXgBn4TdOrfGT4AC6aP8LrSd-KrpDu9MncstN4oWLel5dWeiPY1Vna-TDIY0FVjIuHpWLA9XnqqLmHWL3dBb97dTEKd5I76wzI_hdZR1tk-bfpEmbo-gBSIaJNec2sLti-R_9FmipfOkxxP',
-        },
-    ],
-};
+// Placeholder image for properties without images
+const PLACEHOLDER_IMAGE = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=300&fit=crop';
+
+// Helper to format currency
+function formatCurrency(amount: number, currency: string = 'NGN'): string {
+    return new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: currency,
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    }).format(amount);
+}
+
+// Helper to format square meters
+function formatSquareMeters(sqm?: number): string {
+    if (!sqm) return 'N/A';
+    return sqm.toLocaleString();
+}
+
+// Helper to get price type suffix based on listing type
+function getPriceType(listingType: string, priceUnit: string): string {
+    if (listingType === 'SALE') return '';
+    if (priceUnit === 'PER_MONTH') return '/mo';
+    if (priceUnit === 'PER_YEAR') return '/yr';
+    return '';
+}
+
+// Helper to get status display info
+function getStatusInfo(status: string, listingType: string): { label: string; color: string } {
+    switch (status) {
+        case 'RENTED':
+            return { label: 'Rented', color: 'bg-blue-500' };
+        case 'SOLD':
+            return { label: 'Sold', color: 'bg-green-500' };
+        case 'ACTIVE':
+            if (listingType === 'SALE') return { label: 'Active', color: 'bg-green-500' };
+            return { label: 'Vacant', color: 'bg-amber-500' };
+        case 'DRAFT':
+            return { label: 'Onboarding', color: 'bg-orange-500' };
+        case 'INACTIVE':
+            return { label: 'Inactive', color: 'bg-slate-500' };
+        default:
+            return { label: status, color: 'bg-slate-500' };
+    }
+}
+
+// Transform API PropertySummary to UI format
+function transformProperty(property: PropertySummary): RegularProperty {
+    const statusInfo = getStatusInfo(property.status, property.listingType);
+    return {
+        id: property.id,
+        name: property.name,
+        location: `${property.address.city}, ${property.address.state}`,
+        unit: property.propertyType.replace('_', ' '),
+        beds: property.bedrooms,
+        baths: property.bathrooms,
+        sqft: formatSquareMeters(property.squareMeters),
+        price: formatCurrency(property.price, property.currency),
+        priceType: getPriceType(property.listingType, property.priceUnit),
+        status: statusInfo.label,
+        statusColor: statusInfo.color,
+        image: property.primaryImage || PLACEHOLDER_IMAGE,
+    };
+}
+
+// Transform API PropertySummary to incoming property format (for drafts)
+function transformIncomingProperty(property: PropertySummary): IncomingProperty {
+    const statusInfo = getStatusInfo(property.status, property.listingType);
+    return {
+        id: property.id,
+        name: property.name,
+        location: `${property.address.city}, ${property.address.state}`,
+        unit: property.propertyType.replace('_', ' '),
+        status: statusInfo.label,
+        statusColor: statusInfo.color,
+        progress: 30, // Default progress for drafts
+        progressLabel: 'Onboarding Progress',
+        progressColor: 'bg-orange-500',
+        closingDate: 'Docs Pending',
+        image: property.primaryImage || PLACEHOLDER_IMAGE,
+    };
+}
 
 // TypeScript interfaces for properties
 interface BaseProperty {
-    id: number;
+    id: string;
     name: string;
     location: string;
     unit: string;
@@ -130,6 +120,42 @@ interface IncomingProperty extends BaseProperty {
 }
 
 type Property = RegularProperty | IncomingProperty;
+
+// Categorized properties structure
+interface CategorizedProperties {
+    rented: RegularProperty[];
+    forSale: RegularProperty[];
+    vacant: RegularProperty[];
+    incoming: IncomingProperty[];
+}
+
+// Categorize properties based on status and listing type
+function categorizeProperties(properties: PropertySummary[]): CategorizedProperties {
+    const result: CategorizedProperties = {
+        rented: [],
+        forSale: [],
+        vacant: [],
+        incoming: [],
+    };
+
+    for (const property of properties) {
+        if (property.status === 'DRAFT') {
+            result.incoming.push(transformIncomingProperty(property));
+        } else if (property.status === 'RENTED') {
+            result.rented.push(transformProperty(property));
+        } else if (property.status === 'SOLD') {
+            result.forSale.push(transformProperty(property));
+        } else if (property.status === 'ACTIVE') {
+            if (property.listingType === 'SALE') {
+                result.forSale.push(transformProperty(property));
+            } else {
+                result.vacant.push(transformProperty(property));
+            }
+        }
+    }
+
+    return result;
+}
 
 // Property Card Component - Grid View
 interface PropertyCardGridProps {
@@ -306,6 +332,100 @@ export default function LandlordProperties() {
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
     const [searchQuery, setSearchQuery] = useState('');
     const [propertyFilter, setPropertyFilter] = useState('all');
+    const [propertiesData, setPropertiesData] = useState<CategorizedProperties>({
+        rented: [],
+        forSale: [],
+        vacant: [],
+        incoming: [],
+    });
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Fetch properties on mount
+    useEffect(() => {
+        async function fetchProperties() {
+            try {
+                setIsLoading(true);
+                setError(null);
+                const response = await landlordService.getProperties({ limit: 100 });
+                const categorized = categorizeProperties(response.data.data);
+                setPropertiesData(categorized);
+            } catch (err) {
+                console.error('Failed to fetch properties:', err);
+                setError('Failed to load properties');
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchProperties();
+    }, []);
+
+    // Filter properties based on search query
+    const filterBySearch = <T extends BaseProperty>(properties: T[]): T[] => {
+        if (!searchQuery) return properties;
+        const query = searchQuery.toLowerCase();
+        return properties.filter(p =>
+            p.name.toLowerCase().includes(query) ||
+            p.location.toLowerCase().includes(query)
+        );
+    };
+
+    // Apply search filter to all categories
+    const filteredRented = filterBySearch(propertiesData.rented);
+    const filteredForSale = filterBySearch(propertiesData.forSale);
+    const filteredVacant = filterBySearch(propertiesData.vacant);
+    const filteredIncoming = filterBySearch(propertiesData.incoming);
+
+    // Loading state
+    if (isLoading) {
+        return (
+            <PageContainer>
+                <PageHeader
+                    title="Properties"
+                    subtitle="Manage your active portfolio and track incoming acquisitions."
+                />
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {Array.from({ length: 8 }).map((_, i) => (
+                        <div key={i} className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden animate-pulse">
+                            <div className="h-48 bg-slate-200 dark:bg-slate-700" />
+                            <div className="p-5">
+                                <div className="h-5 bg-slate-200 dark:bg-slate-700 rounded w-3/4 mb-2" />
+                                <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/2 mb-4" />
+                                <div className="flex gap-2">
+                                    <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded w-12" />
+                                    <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded w-12" />
+                                    <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded w-12" />
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </PageContainer>
+        );
+    }
+
+    // Error state
+    if (error) {
+        return (
+            <PageContainer>
+                <PageHeader
+                    title="Properties"
+                    subtitle="Manage your active portfolio and track incoming acquisitions."
+                />
+                <div className="p-12 bg-red-50 dark:bg-red-900/20 rounded-2xl text-center">
+                    <span className="material-symbols-outlined text-red-500 text-4xl mb-3">error</span>
+                    <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
+                    <button
+                        onClick={() => window.location.reload()}
+                        className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-semibold"
+                    >
+                        Retry
+                    </button>
+                </div>
+            </PageContainer>
+        );
+    }
 
     return (
         <PageContainer>
@@ -351,94 +471,101 @@ export default function LandlordProperties() {
             </div>
 
             {/* Rented Properties Section */}
+            {filteredRented.length > 0 && (
             <section className="mb-10">
                 <div className="flex items-center justify-between mb-6">
                     <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                         Rented Properties
-                        <span className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-semibold px-2.5 py-0.5 rounded-full">{propertiesData.rented.length}</span>
+                        <span className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-semibold px-2.5 py-0.5 rounded-full">{filteredRented.length}</span>
                     </h2>
                 </div>
                 {viewMode === 'grid' ? (
                     <AnimatedGroup className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" stagger={0.06}>
-                        {propertiesData.rented.map((property) => (
+                        {filteredRented.map((property) => (
                             <PropertyCardGrid key={property.id} property={property} />
                         ))}
                     </AnimatedGroup>
                 ) : (
                     <AnimatedGroup className="flex flex-col gap-3" stagger={0.05}>
-                        {propertiesData.rented.map((property) => (
+                        {filteredRented.map((property) => (
                             <PropertyCardList key={property.id} property={property} verifyColor="primary" />
                         ))}
                     </AnimatedGroup>
                 )}
             </section>
+            )}
 
             {/* Properties For Sale Section */}
+            {filteredForSale.length > 0 && (
             <section className="mb-10">
                 <div className="flex items-center justify-between mb-6">
                     <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                         Properties For Sale
-                        <span className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-semibold px-2.5 py-0.5 rounded-full">{propertiesData.forSale.length}</span>
+                        <span className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-semibold px-2.5 py-0.5 rounded-full">{filteredForSale.length}</span>
                     </h2>
                 </div>
                 {viewMode === 'grid' ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        {propertiesData.forSale.map((property) => (
+                        {filteredForSale.map((property) => (
                             <PropertyCardGrid key={property.id} property={property} />
                         ))}
                     </div>
                 ) : (
                     <div className="flex flex-col gap-3">
-                        {propertiesData.forSale.map((property) => (
+                        {filteredForSale.map((property) => (
                             <PropertyCardList key={property.id} property={property} verifyColor="green" />
                         ))}
                     </div>
                 )}
             </section>
+            )}
 
             {/* Vacant Properties Section */}
+            {filteredVacant.length > 0 && (
             <section className="mb-12">
                 <div className="flex items-center justify-between mb-6">
                     <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                         Vacant Properties
-                        <span className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-semibold px-2.5 py-0.5 rounded-full">{propertiesData.vacant.length}</span>
+                        <span className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-semibold px-2.5 py-0.5 rounded-full">{filteredVacant.length}</span>
                     </h2>
                 </div>
                 {viewMode === 'grid' ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        {propertiesData.vacant.map((property) => (
+                        {filteredVacant.map((property) => (
                             <PropertyCardGrid key={property.id} property={property} />
                         ))}
                     </div>
                 ) : (
                     <div className="flex flex-col gap-3">
-                        {propertiesData.vacant.map((property) => (
+                        {filteredVacant.map((property) => (
                             <PropertyCardList key={property.id} property={property} verifyColor="amber" />
                         ))}
                     </div>
                 )}
             </section>
+            )}
 
             {/* Incoming Properties Section */}
+            {filteredIncoming.length > 0 && (
             <section>
                 <div className="flex items-center justify-between mb-6">
                     <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                         Incoming Properties
-                        <span className="bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">{propertiesData.incoming.length} Processing</span>
+                        <span className="bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">{filteredIncoming.length} Processing</span>
                     </h2>
                 </div>
                 {viewMode === 'grid' ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        {propertiesData.incoming.map((property) => (
-                            <PropertyCardGrid key={property.id} property={property as any} isIncoming />
+                        {filteredIncoming.map((property) => (
+                            <PropertyCardGrid key={property.id} property={property} isIncoming />
                         ))}
                     </div>
                 ) : (
                     <div className="flex flex-col gap-3">
-                        {propertiesData.incoming.map((property) => (
+                        {filteredIncoming.map((property) => (
                             <PropertyCardList
                                 key={property.id}
-                                property={property as any}
+                                property={property}
                                 isIncoming
                                 verifyColor={property.statusColor === 'bg-purple-600' ? 'purple' : 'orange'}
                             />
@@ -446,6 +573,26 @@ export default function LandlordProperties() {
                     </div>
                 )}
             </section>
+            )}
+
+            {/* Empty State */}
+            {filteredRented.length === 0 && filteredForSale.length === 0 && filteredVacant.length === 0 && filteredIncoming.length === 0 && (
+                <div className="py-16 text-center">
+                    <span className="material-symbols-outlined text-5xl text-slate-300 dark:text-slate-600 mb-4">home</span>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">No properties found</h3>
+                    <p className="text-slate-500 dark:text-slate-400 mb-6">
+                        {searchQuery ? 'Try adjusting your search terms' : 'Add your first property to get started'}
+                    </p>
+                    {!searchQuery && (
+                        <Link
+                            to="/landlord/new-property"
+                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-sm"
+                        >
+                            <span className="material-symbols-outlined text-[20px]">add_home</span> Add Property
+                        </Link>
+                    )}
+                </div>
+            )}
         </PageContainer>
     );
 }

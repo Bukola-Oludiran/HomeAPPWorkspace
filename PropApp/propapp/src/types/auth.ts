@@ -79,9 +79,10 @@ export interface AuthTokens {
     expiresIn: number;
 }
 
-// Login response
-export interface LoginResponse extends AuthTokens {
+// Login response - matches backend V4 structure where tokens are nested
+export interface LoginResponse {
     user: User;
+    tokens: AuthTokens;
     requires2FA?: boolean;
 }
 
