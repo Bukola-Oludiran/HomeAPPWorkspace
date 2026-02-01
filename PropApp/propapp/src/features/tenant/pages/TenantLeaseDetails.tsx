@@ -1,46 +1,104 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import MakePaymentModal from '../../../components/MakePaymentModal';
 import DocumentViewerModal from '../../../components/DocumentViewerModal';
+import { tenantService } from '../../../lib/api/services/tenantService';
 
-// Mock lease data
-const leaseData = {
-    leaseId: 'L-2023-8492',
-    status: 'Active',
+// Helper to format currency
+function formatCurrency(amount: number): string {
+    return new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: 'NGN',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    }).format(amount);
+}
+
+// Helper to format date
+function formatDate(dateString: string): string {
+    return new Date(dateString).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+    });
+}
+
+// Helper to calculate days until expiry
+function calculateDaysUntilExpiry(endDate: string): number {
+    const end = new Date(endDate);
+    const today = new Date();
+    const diff = end.getTime() - today.getTime();
+    return Math.ceil(diff / (1000 * 60 * 60 * 24));
+}
+
+// UI lease data structure
+interface LeaseData {
+    leaseId: string;
+    status: string;
     property: {
-        address: '1243 Oakwood Avenue',
-        city: 'Austin, TX 78704',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l',
-    },
-    monthlyRent: 4800,
-    securityDeposit: 9600,
-    startDate: 'Dec 1, 2023',
-    endDate: 'Nov 30, 2024',
-    term: '1 year',
-    daysUntilExpiry: 45,
-    paymentStatus: 'Paid',
-    clauses: [
-        { id: 1, title: 'Pet Policy Addendum', icon: 'pets', description: 'Permits 1 dog under 40lbs. Non-refundable fee of $250 applied.' },
-        { id: 2, title: 'Maintenance Responsibilities', icon: 'build', description: 'Tenant responsible for lawn care and minor repairs under $50.' },
-        { id: 3, title: 'No Smoking Clause', icon: 'smoking_rooms', description: 'Strict no-smoking policy within the premises and 20ft perimeter.' },
-    ],
-    paymentSchedule: [
-        { id: 1, date: 'Dec 1, 2024', description: 'Monthly Rent', amount: 4800, status: 'Upcoming' },
-        { id: 2, date: 'Nov 1, 2024', description: 'Monthly Rent', amount: 4800, status: 'Paid' },
-        { id: 3, date: 'Oct 1, 2024', description: 'Monthly Rent', amount: 4800, status: 'Paid' },
-    ],
+        address: string;
+        city: string;
+        image: string;
+    };
+    monthlyRent: number;
+    securityDeposit: number;
+    startDate: string;
+    endDate: string;
+    term: string;
+    daysUntilExpiry: number;
+    paymentStatus: string;
+    clauses: Array<{ id: number; title: string; icon: string; description: string }>;
+    paymentSchedule: Array<{ id: number; date: string; description: string; amount: number; status: string }>;
     landlord: {
-        name: 'Sarah Jenkins',
-        initials: 'SJ',
+        name: string;
+        initials: string;
+        role: string;
+        company: string;
+        phone: string;
+        email: string;
+    };
+    tenant: {
+        name: string;
+        email: string;
+        phone: string;
+        role: string;
+    };
+}
+
+// Default lease data (fallback)
+const defaultLeaseData: LeaseData = {
+    leaseId: 'N/A',
+    status: 'Unknown',
+    property: {
+        address: 'No Property',
+        city: 'N/A',
+        image: 'https://via.placeholder.com/800x600?text=No+Property',
+    },
+    monthlyRent: 0,
+    securityDeposit: 0,
+    startDate: 'N/A',
+    endDate: 'N/A',
+    term: 'N/A',
+    daysUntilExpiry: 0,
+    paymentStatus: 'Unknown',
+    clauses: [
+        { id: 1, title: 'Pet Policy Addendum', icon: 'pets', description: 'Policy details not available.' },
+        { id: 2, title: 'Maintenance Responsibilities', icon: 'build', description: 'Details not available.' },
+        { id: 3, title: 'No Smoking Clause', icon: 'smoking_rooms', description: 'Details not available.' },
+    ],
+    paymentSchedule: [],
+    landlord: {
+        name: 'Property Manager',
+        initials: 'PM',
         role: 'Property Manager',
-        company: 'Oakwood Mgmt Group',
-        phone: '(512) 555-9988',
-        email: 'support@oakwood.com',
+        company: 'Management Company',
+        phone: 'N/A',
+        email: 'N/A',
     },
     tenant: {
-        name: 'Mark Anderson',
-        email: 'mark.anderson@example.com',
-        phone: '(512) 555-0123',
+        name: 'Tenant',
+        email: 'N/A',
+        phone: 'N/A',
         role: 'Primary Tenant',
     },
 };
@@ -48,6 +106,77 @@ const leaseData = {
 export default function TenantLeaseDetails() {
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
     const [isDocumentModalOpen, setIsDocumentModalOpen] = useState(false);
+
+    // API state
+    const [leaseData, setLeaseData] = useState<LeaseData>(defaultLeaseData);
+    const [isLoading, setIsLoading] = useState(true);
+
+    // Fetch rental/lease info from API
+    useEffect(() => {
+        async function fetchLeaseInfo() {
+            try {
+                setIsLoading(true);
+                const response = await tenantService.getRentalInfo();
+                const data = response.data;
+
+                if (data) {
+                    const startDate = new Date(data.lease.startDate);
+                    const endDate = new Date(data.lease.endDate);
+                    const months = Math.round((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24 * 30));
+                    const daysUntilExpiry = calculateDaysUntilExpiry(data.lease.endDate);
+
+                    setLeaseData({
+                        leaseId: data.lease.id,
+                        status: data.lease.status,
+                        property: {
+                            address: data.property.name,
+                            city: `${data.property.address?.city || ''}, ${data.property.address?.state || ''}`,
+                            image: data.property.primaryImage || defaultLeaseData.property.image,
+                        },
+                        monthlyRent: data.lease.monthlyRent,
+                        securityDeposit: data.lease.monthlyRent * 2, // Typically 2 months
+                        startDate: formatDate(data.lease.startDate),
+                        endDate: formatDate(data.lease.endDate),
+                        term: months <= 12 ? '1 year' : `${Math.round(months / 12)} years`,
+                        daysUntilExpiry,
+                        paymentStatus: 'Paid',
+                        clauses: defaultLeaseData.clauses,
+                        paymentSchedule: defaultLeaseData.paymentSchedule.map(p => ({
+                            ...p,
+                            amount: data.lease.monthlyRent,
+                        })),
+                        landlord: {
+                            name: data.landlord.name,
+                            initials: data.landlord.name.split(' ').map(n => n[0]).join(''),
+                            role: 'Property Manager',
+                            company: 'Property Management',
+                            phone: data.landlord.phone || 'N/A',
+                            email: 'contact@property.com',
+                        },
+                        tenant: defaultLeaseData.tenant,
+                    });
+                }
+            } catch (err) {
+                console.error('Failed to fetch lease info:', err);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchLeaseInfo();
+    }, []);
+
+    // Show loading state
+    if (isLoading) {
+        return (
+            <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex items-center justify-center">
+                <div className="flex flex-col items-center gap-3">
+                    <div className="size-8 border-3 border-[#137fec] border-t-transparent rounded-full animate-spin"></div>
+                    <span className="text-sm text-slate-500">Loading lease details...</span>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex flex-col font-[Manrope,Noto_Sans,sans-serif] text-slate-900 dark:text-white overflow-x-hidden pb-[140px]">
