@@ -4,99 +4,196 @@ import WithdrawApplicationModal from '../../../components/WithdrawApplicationMod
 import SignLeaseRenewalModal from '../../../components/SignLeaseRenewalModal';
 import PageContainer from '../../../components/common/PageContainer';
 import { AnimatedGroup } from '../../../components/animation';
+import { tenantService } from '../../../lib/api/services/tenantService';
+import type { RentalApplication, ApplicationStatus } from '../../../types/lease';
 
-// Mock applications data
-const applicationsData = [
-    {
-        id: 1,
-        propertyName: '5500 Highland Park, Unit 4B',
-        location: 'Dallas, TX 75205',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAamBOyrzSpr22QFJVMWoHUc1mMMtnqiibkVvx1a1yyRMf7AZH_W5yo1RUtyBeDdX317BPpURBRfc781QxtqAke2rVYEqTii2io0uuHFkEJ0CmZ8MORlbNcSi1Rrn0MkZXgBn4TdOrfGT4AC6aP8LrSd-KrpDu9MncstN4oWLel5dWeiPY1Vna-TDIY0FVjIuHpWLA9XnqqLmHWL3dBb97dTEKd5I76wzI_hdZR1tk-bfpEmbo-gBSIaJNec2sLti-R_9FmipfOkxxP',
-        beds: 2,
-        baths: 2,
-        sqft: '1,250',
-        price: '$2,450/mo',
-        status: 'Approved',
-        statusColor: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800',
-        statusDotColor: 'bg-green-600',
-        statusIcon: 'check_circle',
-        statusIconColor: 'text-green-500',
-        statusMessage: 'Background check completed',
-        lastUpdated: 'Today, 9:30 AM',
-        primaryAction: { label: 'Proceed to Lease', icon: 'arrow_forward' },
-        showWithdraw: false,
-    },
-    {
-        id: 2,
-        propertyName: '1243 Oakwood Ave',
-        location: 'Austin, TX 78704',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l',
-        beds: 1,
-        baths: 1,
-        sqft: '850',
-        price: '$1,800/mo',
-        status: 'Pending Review',
-        statusColor: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 border-blue-200 dark:border-blue-800',
-        statusDotColor: 'bg-blue-600 animate-pulse',
-        statusIcon: 'hourglass_top',
-        statusIconColor: 'text-blue-500',
-        statusMessage: 'Awaiting landlord decision',
-        lastUpdated: 'Oct 24, 2:15 PM',
-        primaryAction: null,
-        showWithdraw: true,
-    },
-    {
-        id: 3,
-        propertyName: 'Downtown Loft',
-        location: 'Seattle, WA 98101',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCDbn_i6RapAYYCUtbpApN4lJMQNrA0rGJZXVvlV5ZLubEMNH1om_1mAstEefJ0spWkedOBAe5og228aYdYdVGMGx2otBaGsGAG_1DMh7rANSTYk0_MrBlyxCEDc66NFCgfMXVMcoMDPiPuhcBXg5_Iwjv_Fz2YEb4sU8vGb7xqSy9VX9nCTc1tUE2DL8uYW4jHmEa_B2GwMX24GP44NZ_TWI6Tc4Om0jvrCWW6cMyN3YxN1SrsIUBMkmeYENO3JUYvlZTV5Hn0Kqc',
-        beds: 'Studio',
-        baths: 1,
-        sqft: '600',
-        price: '$2,100/mo',
-        status: 'Escrow',
-        statusColor: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400 border-purple-200 dark:border-purple-800',
-        statusDotColor: 'bg-purple-600',
-        statusIcon: 'payments',
-        statusIconColor: 'text-purple-500',
-        statusMessage: 'Deposit processing',
-        lastUpdated: 'Oct 20, 4:45 PM',
-        primaryAction: { label: 'Sign Lease', icon: 'history_edu' },
-        showWithdraw: false,
-    },
-    {
-        id: 4,
-        propertyName: '778 Sunnyvale Dr',
-        location: 'Miami, FL 33101',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDmzjPVnnkN0L0Df5m-edXXtRPMb0L9UALdUYVZ31ftX2hZoPcXfkk9cX0ppWUHkpAgEHDPt5z8Myghlu_sUmGC0p8uMQv-HbrXijHeC8ALkQAuqFOKKQ6BIlW3DyxKXmR68V6YLZxFKGKU5QA3f9KSaxdE-ZqCwq8CHWNZkHkt-0KyKZ6b8s_6sdVzJ5nMB7lFYMvczzRv1xvvE-i968QA_YLancFg-0dheYj1DUN0ylsh3qHXXWFqzKCnpvKn_5mHg9ar3r3Pfdeb',
-        beds: 3,
-        baths: 2,
-        sqft: '1,800',
-        price: '$3,200/mo',
-        status: 'Rejected',
-        statusColor: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border-slate-200 dark:border-slate-700',
-        statusDotColor: 'bg-slate-500',
-        statusIcon: 'cancel',
-        statusIconColor: 'text-slate-400',
-        statusMessage: 'Application declined by landlord',
-        lastUpdated: 'Oct 15, 11:00 AM',
-        primaryAction: null,
-        showWithdraw: false,
-        isRejected: true,
-    },
-];
+// Placeholder image
+const PLACEHOLDER_IMAGE = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=300&fit=crop';
+
+// UI application interface matching the component's expected structure
+interface UIApplication {
+    id: string;
+    propertyName: string;
+    location: string;
+    image: string;
+    beds: number | string;
+    baths: number;
+    sqft: string;
+    price: string;
+    status: string;
+    statusColor: string;
+    statusDotColor: string;
+    statusIcon: string;
+    statusIconColor: string;
+    statusMessage: string;
+    lastUpdated: string;
+    primaryAction: { label: string; icon: string } | null;
+    showWithdraw: boolean;
+    isRejected?: boolean;
+}
+
+// Helper to format currency
+function formatCurrency(amount: number, currency: string = 'NGN'): string {
+    return new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: currency,
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    }).format(amount);
+}
+
+// Helper to format relative date
+function formatRelativeDate(dateString: string): string {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+    if (diffDays === 0) {
+        return `Today, ${date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}`;
+    }
+    if (diffDays === 1) return 'Yesterday';
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+}
+
+// Get status styling based on application status
+function getStatusStyles(status: ApplicationStatus): {
+    label: string;
+    color: string;
+    dotColor: string;
+    icon: string;
+    iconColor: string;
+    message: string;
+    primaryAction: { label: string; icon: string } | null;
+    showWithdraw: boolean;
+    isRejected: boolean;
+} {
+    switch (status) {
+        case 'APPROVED':
+            return {
+                label: 'Approved',
+                color: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800',
+                dotColor: 'bg-green-600',
+                icon: 'check_circle',
+                iconColor: 'text-green-500',
+                message: 'Background check completed',
+                primaryAction: { label: 'Proceed to Lease', icon: 'arrow_forward' },
+                showWithdraw: false,
+                isRejected: false,
+            };
+        case 'PENDING':
+        case 'UNDER_REVIEW':
+            return {
+                label: status === 'PENDING' ? 'Pending Review' : 'Under Review',
+                color: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 border-blue-200 dark:border-blue-800',
+                dotColor: 'bg-blue-600 animate-pulse',
+                icon: 'hourglass_top',
+                iconColor: 'text-blue-500',
+                message: 'Awaiting landlord decision',
+                primaryAction: null,
+                showWithdraw: true,
+                isRejected: false,
+            };
+        case 'REJECTED':
+            return {
+                label: 'Rejected',
+                color: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border-slate-200 dark:border-slate-700',
+                dotColor: 'bg-slate-500',
+                icon: 'cancel',
+                iconColor: 'text-slate-400',
+                message: 'Application declined by landlord',
+                primaryAction: null,
+                showWithdraw: false,
+                isRejected: true,
+            };
+        case 'WITHDRAWN':
+            return {
+                label: 'Withdrawn',
+                color: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border-slate-200 dark:border-slate-700',
+                dotColor: 'bg-slate-500',
+                icon: 'undo',
+                iconColor: 'text-slate-400',
+                message: 'Application withdrawn',
+                primaryAction: null,
+                showWithdraw: false,
+                isRejected: false,
+            };
+        default:
+            return {
+                label: status,
+                color: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border-slate-200 dark:border-slate-700',
+                dotColor: 'bg-slate-500',
+                icon: 'info',
+                iconColor: 'text-slate-400',
+                message: 'Processing',
+                primaryAction: null,
+                showWithdraw: false,
+                isRejected: false,
+            };
+    }
+}
+
+// Transform API RentalApplication to UI format
+function transformApplication(app: RentalApplication): UIApplication {
+    const statusStyles = getStatusStyles(app.status);
+    const property = app.property;
+
+    return {
+        id: app.id,
+        propertyName: property?.name || 'Property',
+        location: property ? `${property.address.city}, ${property.address.state}` : 'N/A',
+        image: property?.primaryImage || PLACEHOLDER_IMAGE,
+        beds: property?.bedrooms === 0 ? 'Studio' : (property?.bedrooms || 0),
+        baths: property?.bathrooms || 0,
+        sqft: property?.squareMeters?.toLocaleString() || 'N/A',
+        price: property ? `${formatCurrency(property.price, property.currency)}/mo` : 'N/A',
+        status: statusStyles.label,
+        statusColor: statusStyles.color,
+        statusDotColor: statusStyles.dotColor,
+        statusIcon: statusStyles.icon,
+        statusIconColor: statusStyles.iconColor,
+        statusMessage: app.rejectionReason || statusStyles.message,
+        lastUpdated: formatRelativeDate(app.updatedAt),
+        primaryAction: statusStyles.primaryAction,
+        showWithdraw: statusStyles.showWithdraw,
+        isRejected: statusStyles.isRejected,
+    };
+}
 
 type FilterTab = 'all' | 'pending' | 'approved';
 
 export default function TenantApplications() {
     const [activeFilter, setActiveFilter] = useState<FilterTab>('all');
     const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
-    const [selectedApp, setSelectedApp] = useState<{ id: number; propertyName: string } | null>(null);
+    const [selectedApp, setSelectedApp] = useState<{ id: string; propertyName: string } | null>(null);
     const [isSignLeaseModalOpen, setIsSignLeaseModalOpen] = useState(false);
     const [sortBy, setSortBy] = useState<'date' | 'name' | 'status'>('date');
     const [showSortDropdown, setShowSortDropdown] = useState(false);
+    const [applicationsData, setApplicationsData] = useState<UIApplication[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const sortDropdownRef = useRef<HTMLDivElement>(null);
     const navigate = useNavigate();
+
+    // Fetch applications on mount
+    useEffect(() => {
+        async function fetchApplications() {
+            try {
+                setIsLoading(true);
+                setError(null);
+                const response = await tenantService.getApplications({ limit: 50 });
+                const transformed = response.data.data.map(transformApplication);
+                setApplicationsData(transformed);
+            } catch (err) {
+                console.error('Failed to fetch applications:', err);
+                setError('Failed to load applications');
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchApplications();
+    }, []);
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -111,10 +208,61 @@ export default function TenantApplications() {
 
     const filteredApplications = applicationsData.filter((app) => {
         if (activeFilter === 'all') return true;
-        if (activeFilter === 'pending') return app.status === 'Pending Review' || app.status === 'Escrow';
+        if (activeFilter === 'pending') return app.status === 'Pending Review' || app.status === 'Under Review';
         if (activeFilter === 'approved') return app.status === 'Approved';
         return true;
     });
+
+    // Loading state
+    if (isLoading) {
+        return (
+            <PageContainer maxWidth="lg">
+                <div className="mb-8">
+                    <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                        Applications Tracker
+                    </h1>
+                    <p className="text-slate-800 dark:text-slate-400 mt-2 text-lg">Loading...</p>
+                </div>
+                <div className="flex flex-col gap-6">
+                    {Array.from({ length: 3 }).map((_, i) => (
+                        <div key={i} className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-200 dark:border-slate-800 p-6 animate-pulse">
+                            <div className="flex gap-6">
+                                <div className="w-64 h-40 bg-slate-200 dark:bg-slate-700 rounded-xl" />
+                                <div className="flex-1">
+                                    <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded w-1/3 mb-2" />
+                                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/4 mb-4" />
+                                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-2/3" />
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </PageContainer>
+        );
+    }
+
+    // Error state
+    if (error) {
+        return (
+            <PageContainer maxWidth="lg">
+                <div className="mb-8">
+                    <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                        Applications Tracker
+                    </h1>
+                </div>
+                <div className="p-12 bg-red-50 dark:bg-red-900/20 rounded-2xl text-center">
+                    <span className="material-symbols-outlined text-red-500 text-4xl mb-3">error</span>
+                    <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
+                    <button
+                        onClick={() => window.location.reload()}
+                        className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-semibold"
+                    >
+                        Retry
+                    </button>
+                </div>
+            </PageContainer>
+        );
+    }
 
     return (
         <PageContainer maxWidth="lg">

@@ -3,78 +3,105 @@ import { Link } from 'react-router-dom';
 import PageContainer from '../../../components/common/PageContainer';
 import ViewToggle from '../../../components/common/ViewToggle';
 import { AnimatedGroup } from '../../../components/animation';
+import { tenantService } from '../../../lib/api/services/tenantService';
+import type { PropertySummary } from '../../../types/property';
 
-// Mock saved properties data
-const savedPropertiesData = [
-    {
-        id: 1,
-        title: '778 Sunnyvale Dr, Unit 12',
-        location: 'Miami, FL 33101',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDmzjPVnnkN0L0Df5m-edXXtRPMb0L9UALdUYVZ31ftX2hZoPcXfkk9cX0ppWUHkpAgEHDPt5z8Myghlu_sUmGC0p8uMQv-HbrXijHeC8ALkQAuqFOKKQ6BIlW3DyxKXmR68V6YLZxFKGKU5QA3f9KSaxdE-ZqCwq8CHWNZkHkt-0KyKZ6b8s_6sdVzJ5nMB7lFYMvczzRv1xvvE-i968QA_YLancFg-0dheYj1DUN0ylsh3qHXXWFqzKCnpvKn_5mHg9ar3r3Pfdeb',
-        price: '$3,200',
-        period: '/mo',
-        type: 'FOR RENT',
-        beds: '2 Beds',
-        baths: '2 Baths',
-        sqft: '1,150 sqft',
-        isVerified: true,
-        availability: 'Available Now',
-    },
-    {
-        id: 2,
-        title: '1243 Oakwood Ave',
-        location: 'Austin, TX 78704',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l',
-        price: '$2,850',
-        period: '/mo',
-        type: 'FOR RENT',
-        beds: '3 Beds',
-        baths: '2.5 Baths',
-        sqft: '1,800 sqft',
-        isVerified: true,
-        availability: 'Available Now',
-    },
-    {
-        id: 3,
-        title: 'The Lofts at 4th',
-        location: 'Seattle, WA 98101',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCDbn_i6RapAYYCUtbpApN4lJMQNrA0rGJZXVvlV5ZLubEMNH1omk_1mAstEefJ0spWkedOBAe5og228aYdYdVGMGx2otBaGsGAG_1DMh7rANSTYk0_MrBlyxCEDc66NFCgfMXVMcoMDPiPuhcBXg5_Iwjv_Fz2YEb4sU8vGb7xqSy9VX9nCTc1tUE2DL8uYW4jHmEa_B2GwMX24GP44NZ_TWI6Tc4Om0jvrCWW6cMyN3YxN1SrsIUBMkmeYENO3JUYvlZTV5Hn0Kqc',
-        price: '$1,950',
-        period: '/mo',
-        type: 'FOR RENT',
-        beds: 'Studio',
-        baths: '1 Bath',
-        sqft: '650 sqft',
-        isVerified: false,
-        availability: 'Available Now',
-    },
-    {
-        id: 4,
-        title: '5500 Highland Park, Unit 4B',
-        location: 'Dallas, TX 75205',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAamBOyrzSpr22QFJVMWoHUc1mMMtnqiibkVvx1a1yyRMf7AZH_W5yo1RUtyBeDdX317BPpURBRfc781QxtqAke2rVYEqTii2io0uuHFkEJ0CmZ8MORlbNcSi1Rrn0MkZXgBn4TdOrfGT4AC6aP8LrSd-KrpDu9MncstN4oWLel5dWeiPY1Vna-TDIY0FVjIuHpWLA9XnqqLmHWL3dBb97dTEKd5I76wzI_hdZR1tk-bfpEmbo-gBSIaJNec2sLti-R_9FmipfOkxxP',
-        price: '$4,100',
-        period: '/mo',
-        type: 'FOR RENT',
-        beds: '2 Beds',
-        baths: '2 Baths',
-        sqft: '1,420 sqft',
-        isVerified: true,
-        availability: 'Available Now',
-    },
-];
+// Placeholder image for properties without images
+const PLACEHOLDER_IMAGE = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=300&fit=crop';
+
+// UI property interface matching the component's expected structure
+interface UISavedProperty {
+    id: string;
+    title: string;
+    location: string;
+    image: string;
+    price: string;
+    period: string;
+    type: string;
+    beds: string;
+    baths: string;
+    sqft: string;
+    isVerified: boolean;
+    availability: string;
+}
+
+// Helper to format currency
+function formatCurrency(amount: number, currency: string = 'NGN'): string {
+    return new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: currency,
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    }).format(amount);
+}
+
+// Helper to get price period based on listing type
+function getPricePeriod(listingType: string, priceUnit: string): string {
+    if (listingType === 'SALE') return '';
+    if (priceUnit === 'PER_MONTH') return '/mo';
+    if (priceUnit === 'PER_YEAR') return '/yr';
+    return '';
+}
+
+// Helper to get listing type label
+function getListingTypeLabel(listingType: string): string {
+    if (listingType === 'SALE') return 'FOR SALE';
+    if (listingType === 'RENT') return 'FOR RENT';
+    if (listingType === 'SHORT_LET') return 'SHORT LET';
+    return listingType;
+}
+
+// Transform API PropertySummary to UI format
+function transformSavedProperty(property: PropertySummary): UISavedProperty {
+    return {
+        id: property.id,
+        title: property.name,
+        location: `${property.address.city}, ${property.address.state}`,
+        image: property.primaryImage || PLACEHOLDER_IMAGE,
+        price: formatCurrency(property.price, property.currency),
+        period: getPricePeriod(property.listingType, property.priceUnit),
+        type: getListingTypeLabel(property.listingType),
+        beds: property.bedrooms === 0 ? 'Studio' : `${property.bedrooms} Bed${property.bedrooms > 1 ? 's' : ''}`,
+        baths: `${property.bathrooms} Bath${property.bathrooms > 1 ? 's' : ''}`,
+        sqft: property.squareMeters ? `${property.squareMeters.toLocaleString()} sqm` : 'N/A',
+        isVerified: property.isVerified,
+        availability: property.status === 'ACTIVE' ? 'Available Now' : 'Not Available',
+    };
+}
 
 type ViewMode = 'grid' | 'list';
 
 export default function TenantSavedProperties() {
     const [viewMode, setViewMode] = useState<ViewMode>('grid');
-    const [savedProperties, setSavedProperties] = useState(savedPropertiesData);
+    const [savedProperties, setSavedProperties] = useState<UISavedProperty[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const [typeFilter, setTypeFilter] = useState('all');
     const [sortBy, setSortBy] = useState('price-low');
     const [showTypeDropdown, setShowTypeDropdown] = useState(false);
     const [showSortDropdown, setShowSortDropdown] = useState(false);
     const typeDropdownRef = useRef<HTMLDivElement>(null);
     const sortDropdownRef = useRef<HTMLDivElement>(null);
+
+    // Fetch saved properties on mount
+    useEffect(() => {
+        async function fetchSavedProperties() {
+            try {
+                setIsLoading(true);
+                setError(null);
+                const response = await tenantService.getSavedProperties();
+                const transformed = response.data.map(transformSavedProperty);
+                setSavedProperties(transformed);
+            } catch (err) {
+                console.error('Failed to fetch saved properties:', err);
+                setError('Failed to load saved properties');
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchSavedProperties();
+    }, []);
 
     // Close dropdowns when clicking outside
     useEffect(() => {
@@ -90,9 +117,68 @@ export default function TenantSavedProperties() {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const handleRemove = (id: number) => {
-        setSavedProperties(savedProperties.filter(p => p.id !== id));
+    const handleRemove = async (id: string) => {
+        try {
+            await tenantService.removeSavedProperty(id);
+            setSavedProperties(savedProperties.filter(p => p.id !== id));
+        } catch (err) {
+            console.error('Failed to remove property:', err);
+        }
     };
+
+    // Filter properties by type
+    const filteredProperties = savedProperties.filter(p => {
+        if (typeFilter === 'all') return true;
+        return p.type === typeFilter;
+    });
+
+    // Loading state
+    if (isLoading) {
+        return (
+            <PageContainer maxWidth="lg">
+                <div className="mb-8">
+                    <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                        Saved Properties
+                    </h1>
+                    <p className="text-slate-800 dark:text-slate-400 mt-2 text-lg">Loading...</p>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {Array.from({ length: 4 }).map((_, i) => (
+                        <div key={i} className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden animate-pulse">
+                            <div className="h-48 bg-slate-200 dark:bg-slate-700" />
+                            <div className="p-4">
+                                <div className="h-5 bg-slate-200 dark:bg-slate-700 rounded w-3/4 mb-2" />
+                                <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/2" />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </PageContainer>
+        );
+    }
+
+    // Error state
+    if (error) {
+        return (
+            <PageContainer maxWidth="lg">
+                <div className="mb-8">
+                    <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                        Saved Properties
+                    </h1>
+                </div>
+                <div className="p-12 bg-red-50 dark:bg-red-900/20 rounded-2xl text-center">
+                    <span className="material-symbols-outlined text-red-500 text-4xl mb-3">error</span>
+                    <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
+                    <button
+                        onClick={() => window.location.reload()}
+                        className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-semibold"
+                    >
+                        Retry
+                    </button>
+                </div>
+            </PageContainer>
+        );
+    }
 
     return (
         <PageContainer maxWidth="lg">
@@ -103,7 +189,7 @@ export default function TenantSavedProperties() {
                         Saved Properties
                     </h1>
                     <p className="text-slate-800 dark:text-slate-400 mt-2 text-lg">
-                        You have {savedProperties.length} saved homes.
+                        You have {filteredProperties.length} saved homes.
                     </p>
                 </div>
                 <div className="flex flex-wrap gap-3 items-center">
@@ -179,7 +265,7 @@ export default function TenantSavedProperties() {
                 viewMode === 'grid' ? (
                     /* ===== GRID VIEW ===== */
                     <AnimatedGroup className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" stagger={0.06}>
-                        {savedProperties.map((property) => (
+                        {filteredProperties.map((property) => (
                             <div key={property.id} className="group bg-white dark:bg-[#101922] rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl hover:border-[#137fec]/30 transition-all duration-300 flex flex-col">
                                 {/* Image with overlays */}
                                 <div className="relative w-full h-48 shrink-0 overflow-hidden">
@@ -274,7 +360,7 @@ export default function TenantSavedProperties() {
                 ) : (
                     /* ===== LIST VIEW ===== */
                     <AnimatedGroup className="flex flex-col gap-4" stagger={0.05}>
-                        {savedProperties.map((property) => (
+                        {filteredProperties.map((property) => (
                             <div key={property.id} className="group bg-white dark:bg-[#101922] rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl hover:border-[#137fec]/30 transition-all duration-300 flex flex-col md:flex-row">
                                 {/* Image */}
                                 <div className="relative w-full md:w-80 h-56 md:h-auto shrink-0 overflow-hidden">
