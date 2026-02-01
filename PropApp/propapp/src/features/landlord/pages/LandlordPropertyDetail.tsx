@@ -1,87 +1,305 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import PhotoGalleryModal from '../../../components/PhotoGalleryModal';
 import ScheduleMaintenanceModal from '../../../components/ScheduleMaintenanceModal';
 import { AnimatedGroup } from '../../../components/animation';
+import { propertyService, landlordService } from '../../../lib/api/services';
+import type { Property, PropertyViewAnalytics, PropertyMarketComparison, VerificationTier } from '../../../types/property';
 
-// Mock property data for landlord view
-const propertyData = {
-    id: 1,
-    name: 'Modern Oakwood Estate',
-    address: '1243 Oakwood Avenue, Austin, TX 78704',
-    targetRent: '$4,800',
-    marketComparison: '+5%',
-    status: 'Active Listing',
-    onlineDays: 2,
-    verified: 'Platinum Verified',
-    verificationPending: true, // Set to true to show verification pending banner
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l',
-    photoCount: 12,
-    beds: 4,
-    baths: 3,
-    sqft: '2,400',
-    yearBuilt: 2021,
+// UI types for property detail
+interface UIPropertyData {
+    id: string;
+    name: string;
+    address: string;
+    targetRent: string;
+    marketComparison: string;
+    status: string;
+    onlineDays: number;
+    verified: string;
+    verificationPending: boolean;
+    image: string;
+    photoCount: number;
+    beds: number;
+    baths: number;
+    sqft: string;
+    yearBuilt: number;
     metrics: {
-        views: 1245,
-        viewsChange: '+12%',
-        applicants: 5,
-        newApplicants: 3,
-        maintenance: 0,
-        yield: '5.8%',
-    },
+        views: number;
+        viewsChange: string;
+        applicants: number;
+        newApplicants: number;
+        maintenance: number;
+        yield: string;
+    };
     tenant: {
-        name: 'The Anderson Family',
-        since: 2021,
-        leaseEnd: 'Nov 30, 2024',
-        paymentStatus: 'Paid',
-        monthlyRent: '$4,650',
-    },
+        name: string;
+        since: number;
+        leaseEnd: string;
+        paymentStatus: string;
+        monthlyRent: string;
+    } | null;
     financials: {
-        grossRevenue: '$45,600',
-        expenses: '$8,450',
-        noi: '$37,150',
-        revenuePercent: 85,
-        expensePercent: 18,
-    },
-    description: `Stunning modern estate located in the heart of Austin's most desirable neighborhood. This architectural masterpiece features floor-to-ceiling windows that flood the open-concept living space with natural light.`,
-    insights: [
-        {
-            icon: 'trending_up',
-            iconColor: 'text-green-500',
-            title: 'Market Rent Opportunity:',
-            text: 'Similar units in Travis Heights are listing for $5,100/mo. Consider a 6% increase for the next lease.',
+        grossRevenue: string;
+        expenses: string;
+        noi: string;
+        revenuePercent: number;
+        expensePercent: number;
+    };
+    description: string;
+    insights: Array<{
+        icon: string;
+        iconColor: string;
+        title: string;
+        text: string;
+    }>;
+    tasks: Array<{
+        id: number;
+        title: string;
+        due: string;
+    }>;
+    galleryImages: string[];
+}
+
+// Format currency
+function formatCurrency(amount: number, currency = 'NGN'): string {
+    return new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency,
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    }).format(amount);
+}
+
+// Get verification label
+function getVerificationLabel(tier?: VerificationTier): string {
+    if (!tier) return 'Not Verified';
+    const labels: Record<VerificationTier, string> = {
+        BRONZE: 'Bronze Verified',
+        SILVER: 'Silver Verified',
+        GOLD: 'Gold Verified',
+        PLATINUM: 'Platinum Verified',
+    };
+    return labels[tier] || 'Verified';
+}
+
+// Get status label
+function getStatusLabel(status: string): string {
+    const labels: Record<string, string> = {
+        AVAILABLE: 'Active Listing',
+        RENTED: 'Currently Rented',
+        PENDING: 'Pending Review',
+        MAINTENANCE: 'Under Maintenance',
+        DRAFT: 'Draft',
+    };
+    return labels[status] || status;
+}
+
+// Calculate days online
+function getDaysOnline(createdAt: string): number {
+    const created = new Date(createdAt);
+    const now = new Date();
+    return Math.floor((now.getTime() - created.getTime()) / (1000 * 60 * 60 * 24));
+}
+
+// Format address
+function formatAddress(address: Property['address']): string {
+    const parts = [address.street, address.city, address.state];
+    return parts.filter(Boolean).join(', ');
+}
+
+// Transform property to UI format
+function transformToUIProperty(
+    property: Property,
+    analytics?: PropertyViewAnalytics,
+    marketComparison?: PropertyMarketComparison,
+    applicantsCount = 0
+): UIPropertyData {
+    const primaryImage = property.media?.find(m => m.isPrimary)?.url || property.media?.[0]?.url || '';
+    const galleryImages = property.media?.map(m => m.url) || [];
+
+    // Calculate estimated yield (placeholder calculation)
+    const annualRent = property.price * 12;
+    const estimatedYield = property.price > 0 ? ((annualRent * 0.85) / (property.price * 100) * 100).toFixed(1) : '0';
+
+    return {
+        id: property.id,
+        name: property.name,
+        address: formatAddress(property.address),
+        targetRent: formatCurrency(property.price, property.currency),
+        marketComparison: marketComparison ? `${marketComparison.pricePercentile > 50 ? '+' : ''}${(marketComparison.pricePercentile - 50).toFixed(0)}%` : 'N/A',
+        status: getStatusLabel(property.status),
+        onlineDays: getDaysOnline(property.createdAt),
+        verified: getVerificationLabel(property.verificationTier),
+        verificationPending: !property.isVerified && property.verificationTier !== 'PLATINUM',
+        image: primaryImage,
+        photoCount: property.media?.length || 0,
+        beds: property.bedrooms,
+        baths: property.bathrooms,
+        sqft: property.squareMeters?.toLocaleString() || 'N/A',
+        yearBuilt: property.yearBuilt || new Date().getFullYear(),
+        metrics: {
+            views: analytics?.totalViews || property.viewCount || 0,
+            viewsChange: analytics?.viewsByDay?.length ? '+12%' : 'N/A',
+            applicants: applicantsCount,
+            newApplicants: Math.min(applicantsCount, 3),
+            maintenance: 0,
+            yield: `${estimatedYield}%`,
         },
-        {
-            icon: 'calendar_clock',
-            iconColor: 'text-blue-500',
-            title: 'Seasonal Timing:',
-            text: 'Listing now aligns with peak relocation season in Austin (May-July). Expect lower vacancy time.',
+        tenant: null, // Would come from lease data if available
+        financials: {
+            grossRevenue: formatCurrency(property.price * 10), // Placeholder
+            expenses: formatCurrency(property.price * 2),
+            noi: formatCurrency(property.price * 8),
+            revenuePercent: 85,
+            expensePercent: 18,
         },
-        {
-            icon: 'home_repair_service',
-            iconColor: 'text-orange-500',
-            title: 'Preventative Maintenance:',
-            text: 'HVAC system is 3 years old. Schedule a check-up before summer heat to avoid emergency calls.',
-        },
-    ],
-    tasks: [
-        { id: 1, title: 'Approve Lease Renewal', due: 'Due in 5 days' },
-        { id: 2, title: 'Schedule Gutter Cleaning', due: 'Recommended for Nov' },
-    ],
+        description: property.description || 'No description available.',
+        insights: [
+            {
+                icon: 'trending_up',
+                iconColor: 'text-green-500',
+                title: 'Market Analysis:',
+                text: marketComparison?.recommendation || 'Market data will be available soon.',
+            },
+            {
+                icon: 'calendar_clock',
+                iconColor: 'text-blue-500',
+                title: 'Listing Status:',
+                text: `This property has been online for ${getDaysOnline(property.createdAt)} days.`,
+            },
+            {
+                icon: 'home_repair_service',
+                iconColor: 'text-orange-500',
+                title: 'Preventative Maintenance:',
+                text: 'Schedule regular maintenance checks to keep the property in top condition.',
+            },
+        ],
+        tasks: [
+            { id: 1, title: 'Review Listing Details', due: 'Recommended' },
+            { id: 2, title: 'Update Photos', due: 'Optional' },
+        ],
+        galleryImages,
+    };
+}
+
+// Default property data for loading state
+const defaultPropertyData: UIPropertyData = {
+    id: '',
+    name: 'Loading...',
+    address: '',
+    targetRent: '...',
+    marketComparison: '...',
+    status: '...',
+    onlineDays: 0,
+    verified: '...',
+    verificationPending: false,
+    image: '',
+    photoCount: 0,
+    beds: 0,
+    baths: 0,
+    sqft: '...',
+    yearBuilt: 0,
+    metrics: { views: 0, viewsChange: '...', applicants: 0, newApplicants: 0, maintenance: 0, yield: '...' },
+    tenant: null,
+    financials: { grossRevenue: '...', expenses: '...', noi: '...', revenuePercent: 0, expensePercent: 0 },
+    description: '',
+    insights: [],
+    tasks: [],
+    galleryImages: [],
 };
 
 export default function LandlordPropertyDetail() {
     const { id } = useParams();
-    const property = propertyData;
     const [isGalleryOpen, setIsGalleryOpen] = useState(false);
     const [isMaintenanceModalOpen, setIsMaintenanceModalOpen] = useState(false);
 
-    // Gallery images
-    const galleryImages = [
-        property.image,
-        'https://lh3.googleusercontent.com/aida-public/AB6AXuCjSrFpmEFzY7DuSYzvGMyJ6_AbhHnvodMyset9lUUft__qqjtpv9mHHcZ_G89QxFqf2R2dKoTB_fJz4U92uCsFUL3184Bj0EySgXTcecuQVsdTPcTR-TEh34WNcFyDdaft0v9SsIZVgNjqHkcAVrUnkmB4ERkwtSLbgbP8lvDFna76LCjamOuHb71kIA10Hd2U-QwIyYE8BfDzezNODnKbjf1aE1aWwURtZm-0bYkj-A3IN-FzxBdGE2Vxyue4rROjFp2w4T6q4RmT',
-        'https://lh3.googleusercontent.com/aida-public/AB6AXuD1hNQWLqnlQOLYZ9f-8d7fV5L-8lvqQqH6fKMEVvKNT5RfVS45bLpjNr_JKmg9AoX3Jfz2VOzM0XSBBZNiZZFDN2dLJEZqBPP8gMKrqVA7JJfC6mV-8xQZHHpJLH2vLkHT_m3D2w5v2X6a',
-    ];
+    // API data state
+    const [property, setProperty] = useState<UIPropertyData>(defaultPropertyData);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Fetch property data
+    useEffect(() => {
+        async function fetchPropertyData() {
+            if (!id) return;
+
+            try {
+                setIsLoading(true);
+                setError(null);
+
+                // Fetch property details, analytics, and applicants in parallel
+                const [propertyResponse, analyticsResponse, applicantsResponse] = await Promise.allSettled([
+                    propertyService.getPropertyById(id),
+                    propertyService.getPropertyViewAnalytics(id),
+                    landlordService.getApplicants({ propertyId: id, limit: 100 }),
+                ]);
+
+                // Get property data
+                const propertyData = propertyResponse.status === 'fulfilled' ? propertyResponse.value.data : null;
+                const analytics = analyticsResponse.status === 'fulfilled' ? analyticsResponse.value.data : undefined;
+                const applicantsCount = applicantsResponse.status === 'fulfilled'
+                    ? (applicantsResponse.value.data?.pagination?.total || 0)
+                    : 0;
+
+                if (propertyData) {
+                    // Try to get market comparison (may fail if not available)
+                    let marketComparison: PropertyMarketComparison | undefined;
+                    try {
+                        const marketResponse = await propertyService.getPropertyMarketComparison(id);
+                        marketComparison = marketResponse.data;
+                    } catch {
+                        // Market comparison not available
+                    }
+
+                    setProperty(transformToUIProperty(propertyData, analytics, marketComparison, applicantsCount));
+                } else {
+                    setError('Property not found');
+                }
+            } catch (err) {
+                console.error('Error fetching property details:', err);
+                setError('Failed to load property details');
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchPropertyData();
+    }, [id]);
+
+    // Gallery images from property data
+    const galleryImages = property.galleryImages.length > 0
+        ? property.galleryImages
+        : [property.image].filter(Boolean);
+
+    // Loading state
+    if (isLoading) {
+        return (
+            <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex items-center justify-center">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#137fec] mx-auto mb-4"></div>
+                    <p className="text-slate-500 dark:text-slate-400">Loading property details...</p>
+                </div>
+            </div>
+        );
+    }
+
+    // Error state
+    if (error) {
+        return (
+            <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex items-center justify-center">
+                <div className="text-center">
+                    <span className="material-symbols-outlined text-5xl text-red-400 mb-4">error</span>
+                    <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
+                    <button
+                        onClick={() => window.location.reload()}
+                        className="px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-sm font-bold text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                    >
+                        Try Again
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex flex-col font-[Manrope,Noto_Sans,sans-serif] text-slate-900 dark:text-white overflow-x-hidden pb-[140px]">
@@ -284,52 +502,64 @@ export default function LandlordPropertyDetail() {
                         </div>
 
                         {/* Current Tenant */}
-                        <div className="mb-10 p-6 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700">
-                            <div className="flex items-center justify-between mb-4">
-                                <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                                    <span className="material-symbols-outlined">person</span>
-                                    Current Tenant Information
-                                </h3>
-                                <span className="px-2 py-1 bg-yellow-100 text-yellow-700 text-xs font-bold rounded uppercase">
-                                    Lease Ending
-                                </span>
-                            </div>
-                            <div className="flex flex-col md:flex-row gap-6">
-                                <Link to="/landlord/tenants/1/profile" className="flex items-center gap-4 group cursor-pointer">
-                                    <div className="size-12 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-500 group-hover:ring-2 group-hover:ring-[#137fec] transition-all">
-                                        <span className="material-symbols-outlined">face</span>
-                                    </div>
-                                    <div>
-                                        <p className="font-bold text-slate-900 dark:text-white group-hover:text-[#137fec] transition-colors">{property.tenant.name}</p>
-                                        <p className="text-sm text-slate-500">Occupants since {property.tenant.since}</p>
-                                    </div>
-                                    <span className="material-symbols-outlined text-slate-400 group-hover:text-[#137fec] transition-colors text-[18px]">chevron_right</span>
-                                </Link>
-                                <div className="h-px md:h-auto w-full md:w-px bg-slate-200 dark:bg-slate-700"></div>
-                                <div className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm">
-                                    <span className="text-slate-500">Lease Ends:</span>
-                                    <span className="font-medium text-slate-900 dark:text-white">
-                                        {property.tenant.leaseEnd}
-                                    </span>
-                                    <span className="text-slate-500">Payment Status:</span>
-                                    <span className="font-medium text-green-600 flex items-center gap-1">
-                                        <span className="material-symbols-outlined text-[16px] icon-filled">
-                                            check_circle
-                                        </span>
-                                        {property.tenant.paymentStatus}
-                                    </span>
-                                    <span className="text-slate-500">Monthly Rent:</span>
-                                    <span className="font-medium text-slate-900 dark:text-white">
-                                        {property.tenant.monthlyRent}
+                        {property.tenant ? (
+                            <div className="mb-10 p-6 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700">
+                                <div className="flex items-center justify-between mb-4">
+                                    <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                        <span className="material-symbols-outlined">person</span>
+                                        Current Tenant Information
+                                    </h3>
+                                    <span className="px-2 py-1 bg-yellow-100 text-yellow-700 text-xs font-bold rounded uppercase">
+                                        Lease Ending
                                     </span>
                                 </div>
-                                <div className="flex-1 flex md:justify-end items-center">
-                                    <Link to="/landlord/leases/1" className="text-[#137fec] font-semibold text-sm hover:underline">
-                                        View Lease Details
+                                <div className="flex flex-col md:flex-row gap-6">
+                                    <Link to="/landlord/tenants/1/profile" className="flex items-center gap-4 group cursor-pointer">
+                                        <div className="size-12 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-500 group-hover:ring-2 group-hover:ring-[#137fec] transition-all">
+                                            <span className="material-symbols-outlined">face</span>
+                                        </div>
+                                        <div>
+                                            <p className="font-bold text-slate-900 dark:text-white group-hover:text-[#137fec] transition-colors">{property.tenant.name}</p>
+                                            <p className="text-sm text-slate-500">Occupants since {property.tenant.since}</p>
+                                        </div>
+                                        <span className="material-symbols-outlined text-slate-400 group-hover:text-[#137fec] transition-colors text-[18px]">chevron_right</span>
                                     </Link>
+                                    <div className="h-px md:h-auto w-full md:w-px bg-slate-200 dark:bg-slate-700"></div>
+                                    <div className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm">
+                                        <span className="text-slate-500">Lease Ends:</span>
+                                        <span className="font-medium text-slate-900 dark:text-white">
+                                            {property.tenant.leaseEnd}
+                                        </span>
+                                        <span className="text-slate-500">Payment Status:</span>
+                                        <span className="font-medium text-green-600 flex items-center gap-1">
+                                            <span className="material-symbols-outlined text-[16px] icon-filled">
+                                                check_circle
+                                            </span>
+                                            {property.tenant.paymentStatus}
+                                        </span>
+                                        <span className="text-slate-500">Monthly Rent:</span>
+                                        <span className="font-medium text-slate-900 dark:text-white">
+                                            {property.tenant.monthlyRent}
+                                        </span>
+                                    </div>
+                                    <div className="flex-1 flex md:justify-end items-center">
+                                        <Link to="/landlord/leases/1" className="text-[#137fec] font-semibold text-sm hover:underline">
+                                            View Lease Details
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        ) : (
+                            <div className="mb-10 p-6 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700">
+                                <div className="flex items-center justify-between mb-4">
+                                    <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                        <span className="material-symbols-outlined">person</span>
+                                        Current Tenant Information
+                                    </h3>
+                                </div>
+                                <p className="text-sm text-slate-500 dark:text-slate-400">No tenant currently assigned to this property.</p>
+                            </div>
+                        )}
 
                         {/* Property Stats */}
                         <AnimatedGroup className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8" stagger={0.1}>
