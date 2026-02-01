@@ -46,36 +46,44 @@ const formatAddress = (address: PropertySummary['address'] | undefined | string)
     return parts.length > 0 ? parts.join(', ') : 'Location not available';
 };
 
-// Helper to get verification badge info based on tier (matches PropertyDetail styling)
-function getVerificationBadge(isVerified: boolean, tier?: string): { label: string; className: string; iconClassName: string } | null {
+// Helper to get verification badge info based on tier
+// Styling based on DesignLanguage.md specifications
+function getVerificationBadge(isVerified: boolean, tier?: string): { label: string; className: string; iconClassName: string; icon: string } | null {
     if (!isVerified) return null;
 
+    // PLATINUM: Background #2980B9, Text White, Icon: Shield Check
     if (tier === 'PLATINUM') {
         return {
             label: 'PLATINUM VERIFIED',
-            className: 'bg-gradient-to-r from-slate-200 via-white to-slate-300 dark:from-slate-700 dark:via-slate-600 dark:to-slate-700 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-500',
-            iconClassName: 'text-[#137fec]',
+            className: 'bg-[#2980B9] text-white shadow-lg',
+            iconClassName: 'text-white',
+            icon: 'verified_user',
         };
     }
+    // GOLD: #F1C40F (gold color)
     if (tier === 'GOLD') {
         return {
             label: 'GOLD VERIFIED',
-            className: 'bg-gradient-to-r from-yellow-200 via-yellow-100 to-yellow-300 dark:from-yellow-600 dark:via-yellow-500 dark:to-yellow-600 text-yellow-900 dark:text-yellow-100 border border-yellow-400 dark:border-yellow-500',
-            iconClassName: 'text-yellow-600 dark:text-yellow-300',
+            className: 'bg-[#F1C40F] text-slate-900 shadow-lg',
+            iconClassName: 'text-slate-900',
+            icon: 'verified',
         };
     }
+    // SILVER: Gray Pill
     if (tier === 'SILVER') {
         return {
-            label: 'VERIFIED',
-            className: 'bg-[#137fec] text-white',
+            label: 'SILVER VERIFIED',
+            className: 'bg-slate-400 dark:bg-slate-500 text-white',
             iconClassName: 'text-white',
+            icon: 'verified',
         };
     }
-    // BRONZE or default verified
+    // BRONZE: Orange Pill
     return {
-        label: 'VERIFIED',
-        className: 'bg-[#137fec] text-white',
+        label: 'BRONZE VERIFIED',
+        className: 'bg-orange-500 text-white',
         iconClassName: 'text-white',
+        icon: 'verified',
     };
 }
 
@@ -847,8 +855,8 @@ export default function SearchPage() {
                                                     const badge = getVerificationBadge(property.isVerified, property.verificationTier);
                                                     if (!badge) return null;
                                                     return (
-                                                        <div className={`absolute top-4 left-4 text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md ${badge.className}`}>
-                                                            <span className={`material-symbols-outlined text-[16px] icon-filled ${badge.iconClassName}`}>verified</span>
+                                                        <div className={`absolute top-4 left-4 text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 ${badge.className}`}>
+                                                            <span className={`material-symbols-outlined text-[16px] icon-filled ${badge.iconClassName}`}>{badge.icon}</span>
                                                             {badge.label}
                                                         </div>
                                                     );

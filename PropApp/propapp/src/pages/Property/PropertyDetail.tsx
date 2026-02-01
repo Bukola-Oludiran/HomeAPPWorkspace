@@ -26,48 +26,57 @@ const getTypeLabel = (listingType: string): string => {
 };
 
 // Helper to get verification badge info based on tier
+// Styling based on DesignLanguage.md specifications
 function getVerificationBadge(isVerified: boolean, tier?: string): {
     label: string;
     className: string;
     iconClassName: string;
+    icon: string;
     tooltipTitle: string;
     tooltipText: string;
 } | null {
     if (!isVerified) return null;
 
+    // PLATINUM: Background #2980B9, Text White, Icon: Shield Check
     if (tier === 'PLATINUM') {
         return {
             label: 'PLATINUM VERIFIED',
-            className: 'bg-gradient-to-r from-slate-200 via-white to-slate-300 dark:from-slate-700 dark:via-slate-600 dark:to-slate-700 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-500',
-            iconClassName: 'text-[#137fec]',
+            className: 'bg-[#2980B9] text-white shadow-lg',
+            iconClassName: 'text-white',
+            icon: 'verified_user',
             tooltipTitle: 'Platinum Verification',
             tooltipText: 'This property has passed our most rigorous in-person inspection, legal title check, and owner identity verification.',
         };
     }
+    // GOLD: #F1C40F (gold color)
     if (tier === 'GOLD') {
         return {
             label: 'GOLD VERIFIED',
-            className: 'bg-gradient-to-r from-yellow-200 via-yellow-100 to-yellow-300 dark:from-yellow-600 dark:via-yellow-500 dark:to-yellow-600 text-yellow-900 dark:text-yellow-100 border border-yellow-400 dark:border-yellow-500',
-            iconClassName: 'text-yellow-600 dark:text-yellow-300',
+            className: 'bg-[#F1C40F] text-slate-900 shadow-lg',
+            iconClassName: 'text-slate-900',
+            icon: 'verified',
             tooltipTitle: 'Gold Verification',
             tooltipText: 'This property has been verified with document checks and owner identity confirmation.',
         };
     }
+    // SILVER: Gray Pill
     if (tier === 'SILVER') {
         return {
-            label: 'VERIFIED',
-            className: 'bg-[#137fec] text-white',
+            label: 'SILVER VERIFIED',
+            className: 'bg-slate-400 dark:bg-slate-500 text-white',
             iconClassName: 'text-white',
+            icon: 'verified',
             tooltipTitle: 'Silver Verification',
             tooltipText: 'This property has been verified with basic document verification.',
         };
     }
-    // BRONZE or default verified
+    // BRONZE: Orange Pill
     return {
-        label: 'VERIFIED',
-        className: 'bg-[#137fec] text-white',
+        label: 'BRONZE VERIFIED',
+        className: 'bg-orange-500 text-white',
         iconClassName: 'text-white',
-        tooltipTitle: 'Verified Property',
+        icon: 'verified',
+        tooltipTitle: 'Bronze Verification',
         tooltipText: 'This property has been verified by our team.',
     };
 }
@@ -256,9 +265,9 @@ export default function PropertyDetail() {
                                     if (!badge) return null;
                                     return (
                                         <div className="group relative cursor-pointer">
-                                            <div className={`text-sm font-bold px-4 py-2 rounded-full flex items-center gap-2 shadow-sm ${badge.className}`}>
+                                            <div className={`text-sm font-bold px-4 py-2 rounded-full flex items-center gap-2 ${badge.className}`}>
                                                 <span className={`material-symbols-outlined text-[20px] icon-filled ${badge.iconClassName}`}>
-                                                    verified
+                                                    {badge.icon}
                                                 </span>
                                                 {badge.label}
                                                 <span className="material-symbols-outlined text-[16px] opacity-50 ml-1">
