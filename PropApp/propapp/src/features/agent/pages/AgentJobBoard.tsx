@@ -1,78 +1,87 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AnimatedGroup, MagneticButton, SuccessCelebration } from '../../../components/animation';
 import AIAssistantWidget from '../../../components/common/AIAssistantWidget';
+import { agentService } from '../../../lib/api/services/agentService';
+import type { AgentJob, AgentEarnings } from '../../../types/dashboard';
 
-// Mock data for agent job board
-const jobs = [
-    {
-        id: 1,
-        type: 'Property Viewing',
-        property: '5500 Highland Park, Unit 4B',
-        city: 'Dallas, TX',
-        clientName: 'Amanda Chen',
-        date: 'Today, 2:00 PM',
-        earnings: '$75',
-        status: 'Confirmed',
-        statusColor: 'bg-green-100 text-green-700',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAamBOyrzSpr22QFJVMWoHUc1mMMtnqiibkVvx1a1yyRMf7AZH_W5yo1RUtyBeDdX317BPpURBRfc781QxtqAke2rVYEqTii2io0uuHFkEJ0CmZ8MORlbNcSi1Rrn0MkZXgBn4TdOrfGT4AC6aP8LrSd-KrpDu9MncstN4oWLel5dWeiPY1Vna-TDIY0FVjIuHpWLA9XnqqLmHWL3dBb97dTEKd5I76wzI_hdZR1tk-bfpEmbo-gBSIaJNec2sLti-R_9FmipfOkxxP',
-        priority: 'high',
-    },
-    {
-        id: 2,
-        type: 'Property Inspection',
-        property: '1243 Oakwood Avenue',
-        city: 'Austin, TX',
-        clientName: 'Robert Wilson',
-        date: 'Tomorrow, 10:00 AM',
-        earnings: '$150',
-        status: 'Pending Confirmation',
-        statusColor: 'bg-amber-100 text-amber-700',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l',
-        priority: 'medium',
-    },
-    {
-        id: 3,
-        type: 'Document Pickup',
-        property: 'Downtown Loft',
-        city: 'Seattle, WA',
-        clientName: 'Jennifer Smith',
-        date: 'Wed, Nov 6, 3:00 PM',
-        earnings: '$50',
-        status: 'Open',
-        statusColor: 'bg-blue-100 text-blue-700',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCDbn_i6RapAYYCUtbpApN4lJMQNrA0rGJZXVvlV5ZLubEMNH1omk_1mAstEefJ0spWkedOBAe5og228aYdYdVGMGx2otBaGsGAG_1DMh7rANSTYk0_MrBlyxCEDc66NFCgfMXVMcoMDPiPuhcBXg5_Iwjv_Fz2YEb4sU8vGb7xqSy9VX9nCTc1tUE2DL8uYW4jHmEa_B2GwMX24GP44NZ_TWI6Tc4Om0jvrCWW6cMyN3YxN1SrsIUBMkmeYENO3JUYvlZTV5Hn0Kqc',
-        priority: 'low',
-    },
-    {
-        id: 4,
-        type: 'Verification Visit',
-        property: '778 Sunnyvale Drive',
-        city: 'Miami, FL',
-        clientName: 'Michael Johnson',
-        date: 'Thu, Nov 7, 11:00 AM',
-        earnings: '$200',
-        status: 'Open',
-        statusColor: 'bg-blue-100 text-blue-700',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDmzjPVnnkN0L0Df5m-edXXtRPMb0L9UALdUYVZ31ftX2hZoPcXfkk9cX0ppWUHkpAgEHDPt5z8Myghlu_sUmGC0p8uMQv-HbrXijHeC8ALkQAuqFOKKQ6BIlW3DyxKXmR68V6YLZxFKGKU5QA3f9KSaxdE-ZqCwq8CHWNZkHkt-0KyKZ6b8s_6sdVzJ5nMB7lFYMvczzRv1xvvE-i968QA_YLancFg-0dheYj1DUN0ylsh3qHXXWFqzKCnpvKn_5mHg9ar3r3Pfdeb',
-        priority: 'high',
-    },
-];
+// Helper to format currency
+function formatCurrency(amount: number): string {
+    return new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: 'NGN',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    }).format(amount);
+}
 
-const stats = {
-    totalEarnings: '$2,450',
-    earningsChange: '+18.5%',
-    completedJobs: 47,
-    jobsThisWeek: 5,
-    rating: '4.9',
-    reviewCount: 156,
-    activeJobs: 3,
-};
+// Helper to get status color
+function getStatusColor(status: string): string {
+    switch (status) {
+        case 'Open':
+            return 'bg-blue-100 text-blue-700';
+        case 'Accepted':
+            return 'bg-green-100 text-green-700';
+        case 'Completed':
+            return 'bg-slate-100 text-slate-700';
+        case 'Cancelled':
+            return 'bg-red-100 text-red-700';
+        default:
+            return 'bg-slate-100 text-slate-700';
+    }
+}
+
+// Placeholder image
+const PLACEHOLDER_IMAGE = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=300&fit=crop';
 
 type FilterType = 'all' | 'viewing' | 'inspection' | 'verification' | 'documents';
 
 export default function AgentJobBoard() {
     const [activeFilter, setActiveFilter] = useState<FilterType>('all');
     const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+    const [jobs, setJobs] = useState<AgentJob[]>([]);
+    const [earnings, setEarnings] = useState<AgentEarnings | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [acceptingJobId, setAcceptingJobId] = useState<string | null>(null);
+
+    // Fetch jobs and earnings on mount
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                setIsLoading(true);
+                setError(null);
+                const [jobsResponse, earningsResponse] = await Promise.all([
+                    agentService.getAvailableJobs(),
+                    agentService.getEarnings(),
+                ]);
+                setJobs(jobsResponse.data.data || []);
+                setEarnings(earningsResponse.data);
+            } catch (err) {
+                console.error('Failed to fetch agent data:', err);
+                setError('Failed to load job board data');
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchData();
+    }, []);
+
+    // Handle accepting a job
+    async function handleAcceptJob(jobId: string) {
+        try {
+            setAcceptingJobId(jobId);
+            await agentService.acceptJob(jobId);
+            // Remove accepted job from list
+            setJobs(prev => prev.filter(j => j.id !== jobId));
+            setIsSuccessOpen(true);
+        } catch (err) {
+            console.error('Failed to accept job:', err);
+            alert('Failed to accept job. Please try again.');
+        } finally {
+            setAcceptingJobId(null);
+        }
+    }
 
     const filters: { key: FilterType; label: string }[] = [
         { key: 'all', label: 'All Jobs' },
@@ -83,7 +92,7 @@ export default function AgentJobBoard() {
     ];
 
     // Filter jobs based on active filter
-    const filteredJobs = jobs.filter(job => {
+    const filteredJobs = jobs.filter((job: AgentJob) => {
         if (activeFilter === 'all') return true;
         const typeMap: Record<FilterType, string> = {
             'all': '',
@@ -119,63 +128,76 @@ export default function AgentJobBoard() {
                 </div>
 
                 {/* Stats Grid */}
+                {isLoading ? (
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                        {Array.from({ length: 4 }).map((_, i) => (
+                            <div key={i} className="bg-white dark:bg-[#101922] p-5 rounded-2xl animate-pulse">
+                                <div className="h-6 w-6 bg-slate-200 dark:bg-slate-700 rounded mb-4" />
+                                <div className="h-3 bg-slate-200 dark:bg-slate-700 rounded w-1/2 mb-2" />
+                                <div className="h-8 bg-slate-200 dark:bg-slate-700 rounded w-2/3" />
+                            </div>
+                        ))}
+                    </div>
+                ) : error ? (
+                    <div className="mb-8 p-6 bg-red-50 dark:bg-red-900/20 rounded-2xl text-center">
+                        <span className="material-symbols-outlined text-red-500 text-3xl mb-2">error</span>
+                        <p className="text-red-600 dark:text-red-400">{error}</p>
+                        <button onClick={() => window.location.reload()} className="mt-3 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+                            Retry
+                        </button>
+                    </div>
+                ) : (
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                     {/* Total Earnings */}
                     <div className="bg-white dark:bg-[#101922] p-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
                         <div className="flex items-center justify-between mb-2">
                             <span className="material-symbols-outlined text-green-500 text-[24px]">payments</span>
-                            <span className="text-xs font-bold text-green-600 bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded">
-                                {stats.earningsChange}
-                            </span>
                         </div>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">This Month</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Total Earned</p>
                         <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white">
-                            {stats.totalEarnings}
+                            {formatCurrency(earnings?.totalEarned || 0)}
                         </h3>
                     </div>
 
-                    {/* Completed Jobs */}
+                    {/* Available Balance */}
                     <div className="bg-white dark:bg-[#101922] p-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
                         <div className="flex items-center justify-between mb-2">
                             <span className="material-symbols-outlined text-blue-500 text-[24px]">
-                                check_circle
+                                account_balance_wallet
                             </span>
                         </div>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Completed</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Available</p>
                         <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white">
-                            {stats.completedJobs}
-                            <span className="text-sm font-normal text-slate-400 ml-1">jobs</span>
+                            {formatCurrency(earnings?.availableBalance || 0)}
                         </h3>
                     </div>
 
-                    {/* Rating */}
+                    {/* Pending Balance */}
                     <div className="bg-white dark:bg-[#101922] p-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
                         <div className="flex items-center justify-between mb-2">
-                            <span className="material-symbols-outlined text-amber-500 text-[24px] icon-filled">
-                                star
+                            <span className="material-symbols-outlined text-amber-500 text-[24px]">
+                                schedule
                             </span>
                         </div>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Rating</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Pending</p>
                         <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white">
-                            {stats.rating}
-                            <span className="text-sm font-normal text-slate-400 ml-1">
-                                ({stats.reviewCount} reviews)
-                            </span>
+                            {formatCurrency(earnings?.pendingBalance || 0)}
                         </h3>
                     </div>
 
-                    {/* Active Jobs */}
+                    {/* Available Jobs */}
                     <div className="bg-white dark:bg-[#101922] p-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
                         <div className="flex items-center justify-between mb-2">
-                            <span className="material-symbols-outlined text-purple-500 text-[24px]">pending</span>
+                            <span className="material-symbols-outlined text-purple-500 text-[24px]">work</span>
                         </div>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Active</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Available Jobs</p>
                         <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white">
-                            {stats.activeJobs}
-                            <span className="text-sm font-normal text-slate-400 ml-1">in progress</span>
+                            {jobs.length}
+                            <span className="text-sm font-normal text-slate-400 ml-1">open</span>
                         </h3>
                     </div>
                 </div>
+                )}
 
                 {/* Filter Tabs */}
                 <div className="flex items-center gap-2 overflow-x-auto no-scrollbar mb-6 pb-2">
@@ -194,8 +216,29 @@ export default function AgentJobBoard() {
                 </div>
 
                 {/* Job Cards */}
+                {isLoading ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {Array.from({ length: 4 }).map((_, i) => (
+                            <div key={i} className="bg-white dark:bg-[#101922] rounded-2xl p-5 animate-pulse">
+                                <div className="flex gap-4">
+                                    <div className="w-32 h-32 bg-slate-200 dark:bg-slate-700 rounded-lg shrink-0" />
+                                    <div className="flex-1 space-y-3">
+                                        <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/4" />
+                                        <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded w-3/4" />
+                                        <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/2" />
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                ) : filteredJobs.length === 0 ? (
+                    <div className="text-center py-12 bg-white dark:bg-[#101922] rounded-2xl">
+                        <span className="material-symbols-outlined text-4xl text-slate-300 mb-2">work_off</span>
+                        <p className="text-slate-500 dark:text-slate-400">No jobs available</p>
+                    </div>
+                ) : (
                 <AnimatedGroup className="grid grid-cols-1 md:grid-cols-2 gap-6" stagger={0.08}>
-                    {filteredJobs.map((job) => (
+                    {filteredJobs.map((job: AgentJob) => (
                         <div
                             key={job.id}
                             className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden hover:border-[#137fec]/50 transition-colors cursor-pointer"
@@ -204,13 +247,13 @@ export default function AgentJobBoard() {
                                 <img
                                     alt={job.property}
                                     className="w-32 h-full object-cover shrink-0"
-                                    src={job.image}
+                                    src={PLACEHOLDER_IMAGE}
                                 />
                                 <div className="flex-1 p-5">
                                     <div className="flex items-start justify-between gap-2 mb-3">
                                         <div>
                                             <span
-                                                className={`text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded ${job.statusColor}`}
+                                                className={`text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded ${getStatusColor(job.status)}`}
                                             >
                                                 {job.status}
                                             </span>
@@ -219,7 +262,7 @@ export default function AgentJobBoard() {
                                             </h3>
                                         </div>
                                         <div className="text-right shrink-0">
-                                            <p className="text-xl font-extrabold text-green-600">{job.earnings}</p>
+                                            <p className="text-xl font-extrabold text-green-600">{formatCurrency(job.earnings)}</p>
                                             <p className="text-[10px] text-slate-400">Payout</p>
                                         </div>
                                     </div>
@@ -240,10 +283,11 @@ export default function AgentJobBoard() {
                                     <div className="flex gap-2 mt-4">
                                         <MagneticButton className="flex-1">
                                             <button
-                                                onClick={() => setIsSuccessOpen(true)}
-                                                className="w-full py-2 bg-[#137fec] text-white font-bold text-sm rounded-lg hover:bg-[#137fec]/90 transition-colors"
+                                                onClick={() => handleAcceptJob(job.id)}
+                                                disabled={acceptingJobId === job.id}
+                                                className="w-full py-2 bg-[#137fec] text-white font-bold text-sm rounded-lg hover:bg-[#137fec]/90 transition-colors disabled:opacity-50"
                                             >
-                                                Accept Job
+                                                {acceptingJobId === job.id ? 'Accepting...' : 'Accept Job'}
                                             </button>
                                         </MagneticButton>
                                         <button className="px-4 py-2 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold text-sm rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
@@ -255,6 +299,7 @@ export default function AgentJobBoard() {
                         </div>
                     ))}
                 </AnimatedGroup>
+                )}
 
                 {/* Load More */}
                 <div className="mt-10 flex justify-center">

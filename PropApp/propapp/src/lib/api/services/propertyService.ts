@@ -6,6 +6,7 @@
 import axios from 'axios';
 import { api } from '../client';
 import { API_BASE_URL, API_ENDPOINTS } from '../config';
+import { transformProperty, transformProperties, type ApiPropertyResponse } from '../transforms';
 import type { PaginatedResponse } from '../../../types/api';
 import type {
     Property,
@@ -29,42 +30,66 @@ import { tokenManager } from '../client';
  */
 export async function searchProperties(filters?: PropertySearchFilters): Promise<PaginatedResponse<PropertySummary>> {
     const token = tokenManager.getAccessToken();
-    const response = await axios.get<PaginatedResponse<PropertySummary>>(
+    const response = await axios.get<PaginatedResponse<ApiPropertyResponse>>(
         `${API_BASE_URL}${API_ENDPOINTS.PROPERTIES.SEARCH}`,
         {
             params: filters as Record<string, unknown>,
             headers: token ? { Authorization: `Bearer ${token}` } : {},
         }
     );
-    return response.data;
+
+    // Transform flat address fields to nested structure
+    return {
+        ...response.data,
+        data: transformProperties(response.data.data || []) as unknown as PropertySummary[],
+    };
 }
 
 /**
  * List all properties (for landlord)
  */
 export async function listProperties(filters?: PropertySearchFilters) {
-    return api.get<PaginatedResponse<PropertySummary>>(API_ENDPOINTS.PROPERTIES.LIST, filters as Record<string, unknown>);
+    const response = await api.get<PaginatedResponse<ApiPropertyResponse>>(API_ENDPOINTS.PROPERTIES.LIST, filters as Record<string, unknown>);
+    return {
+        ...response,
+        data: {
+            ...response.data,
+            data: transformProperties(response.data.data || []) as unknown as PropertySummary[],
+        },
+    };
 }
 
 /**
  * Get featured properties
  */
 export async function getFeaturedProperties(limit?: number) {
-    return api.get<PropertySummary[]>(API_ENDPOINTS.PROPERTIES.FEATURED, { limit });
+    const response = await api.get<ApiPropertyResponse[]>(API_ENDPOINTS.PROPERTIES.FEATURED, { limit });
+    return {
+        ...response,
+        data: transformProperties(response.data || []) as unknown as PropertySummary[],
+    };
 }
 
 /**
  * Get nearby properties
  */
 export async function getNearbyProperties(latitude: number, longitude: number, radius?: number) {
-    return api.get<PropertySummary[]>(API_ENDPOINTS.PROPERTIES.NEARBY, { latitude, longitude, radius });
+    const response = await api.get<ApiPropertyResponse[]>(API_ENDPOINTS.PROPERTIES.NEARBY, { latitude, longitude, radius });
+    return {
+        ...response,
+        data: transformProperties(response.data || []) as unknown as PropertySummary[],
+    };
 }
 
 /**
  * Get property details by ID
  */
 export async function getPropertyById(id: string) {
-    return api.get<Property>(API_ENDPOINTS.PROPERTIES.DETAIL(id));
+    const response = await api.get<ApiPropertyResponse>(API_ENDPOINTS.PROPERTIES.DETAIL(id));
+    return {
+        ...response,
+        data: transformProperty(response.data) as unknown as Property,
+    };
 }
 
 /**

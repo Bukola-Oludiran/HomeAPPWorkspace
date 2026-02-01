@@ -1,74 +1,89 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageContainer from '../../../components/common/PageContainer';
 import PageHeader from '../../../components/common/PageHeader';
 import SectionCard from '../../../components/common/SectionCard';
 import { AnimatedGroup } from '../../../components/animation';
+import { useAuth } from '../../../contexts/AuthContext';
+import { agentService } from '../../../lib/api/services/agentService';
+import { userService } from '../../../lib/api/services/userService';
+import type { AgentEarnings as EarningsData } from '../../../types/dashboard';
+import type { Payout, BankAccount } from '../../../types/lease';
 
-// Mock payout history data
-const payoutHistory = [
-    {
-        id: 1,
-        title: 'AC Repair - Leakage',
-        jobId: '#88231',
-        location: 'Lekki Phase 1',
-        date: 'Oct 24, 2023',
-        time: '2:30 PM',
-        status: 'Paid',
-        statusColor: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800',
-        amount: '₦15,000',
-        icon: 'plumbing',
-        iconBg: 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400',
-    },
-    {
-        id: 2,
-        title: 'VIP Client Tour',
-        jobId: '#88190',
-        location: 'Victoria Island',
-        date: 'Oct 22, 2023',
-        time: '10:00 AM',
-        status: 'Pending',
-        statusColor: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400 border-orange-200 dark:border-orange-800',
-        amount: '₦25,000',
-        icon: 'person',
-        iconBg: 'bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400',
-    },
-    {
-        id: 3,
-        title: 'Move-out Inspection',
-        jobId: '#87992',
-        location: 'Ikeja GRA',
-        date: 'Oct 20, 2023',
-        time: '4:30 PM',
-        status: 'Paid',
-        statusColor: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800',
-        amount: '₦8,000',
-        icon: 'corporate_fare',
-        iconBg: 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400',
-    },
-    {
-        id: 4,
-        title: 'Monthly Bonus',
-        jobId: 'Performance Incentive',
-        location: 'Sept',
-        date: 'Oct 01, 2023',
-        time: '9:00 AM',
-        status: 'Paid',
-        statusColor: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800',
-        amount: '₦5,000',
-        icon: 'account_balance',
-        iconBg: 'bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400',
-    },
-];
+// Helper to format currency
+function formatCurrency(amount: number): string {
+    return new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: 'NGN',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    }).format(amount);
+}
 
-const payoutMethods = [
-    { id: 1, name: 'GTBank', lastFour: '4592', icon: 'account_balance', isPrimary: true },
-    { id: 2, name: 'Visa Card', lastFour: '8821', icon: 'credit_card', isPrimary: false },
-];
+// Helper to format date
+function formatDate(dateString: string): { date: string; time: string } {
+    const date = new Date(dateString);
+    return {
+        date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+        time: date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }),
+    };
+}
+
+// Helper to get status styles
+function getPayoutStatusStyles(status: Payout['status']): { color: string; dotColor: string } {
+    switch (status) {
+        case 'COMPLETED':
+            return { color: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800', dotColor: 'bg-green-500' };
+        case 'PENDING':
+        case 'PROCESSING':
+            return { color: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400 border-orange-200 dark:border-orange-800', dotColor: 'bg-orange-500' };
+        case 'FAILED':
+            return { color: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800', dotColor: 'bg-red-500' };
+        default:
+            return { color: 'bg-slate-100 text-slate-700 dark:bg-slate-900/30 dark:text-slate-400 border-slate-200 dark:border-slate-800', dotColor: 'bg-slate-500' };
+    }
+}
 
 export default function AgentEarnings() {
+    const { user } = useAuth();
     const [dateFilter, setDateFilter] = useState('this-month');
     const [statusFilter, setStatusFilter] = useState('all');
+    const [earnings, setEarnings] = useState<EarningsData | null>(null);
+    const [payouts, setPayouts] = useState<Payout[]>([]);
+    const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Fetch earnings, payout history, and bank accounts on mount
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                setIsLoading(true);
+                setError(null);
+                const [earningsResponse, payoutsResponse, bankAccountsResponse] = await Promise.all([
+                    agentService.getEarnings(),
+                    agentService.getPayoutHistory(),
+                    userService.getBankAccounts(),
+                ]);
+                setEarnings(earningsResponse.data);
+                setPayouts(payoutsResponse.data.data || []);
+                setBankAccounts(bankAccountsResponse.data || []);
+            } catch (err) {
+                console.error('Failed to fetch earnings data:', err);
+                setError('Failed to load earnings data');
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchData();
+    }, []);
+
+    // Format user's full name
+    const accountHolderName = user ? `${user.firstName} ${user.lastName}`.trim() : 'Agent';
+
+    // Calculate total balance (available + pending)
+    const totalBalance = (earnings?.availableBalance || 0) + (earnings?.pendingBalance || 0);
 
     return (
         <PageContainer>
@@ -84,6 +99,25 @@ export default function AgentEarnings() {
             />
 
             {/* Stats Cards */}
+            {isLoading ? (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    {Array.from({ length: 3 }).map((_, i) => (
+                        <div key={i} className="bg-white dark:bg-[#101922] p-6 rounded-2xl animate-pulse">
+                            <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/3 mb-4" />
+                            <div className="h-10 bg-slate-200 dark:bg-slate-700 rounded w-2/3 mb-4" />
+                            <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/2" />
+                        </div>
+                    ))}
+                </div>
+            ) : error ? (
+                <div className="mb-8 p-6 bg-red-50 dark:bg-red-900/20 rounded-2xl text-center">
+                    <span className="material-symbols-outlined text-red-500 text-3xl mb-2">error</span>
+                    <p className="text-red-600 dark:text-red-400">{error}</p>
+                    <button onClick={() => window.location.reload()} className="mt-3 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+                        Retry
+                    </button>
+                </div>
+            ) : (
             <AnimatedGroup className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8" stagger={0.1}>
                 {/* Available Balance */}
                 <div className="bg-white dark:bg-[#101922] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between relative overflow-hidden group">
@@ -93,15 +127,14 @@ export default function AgentEarnings() {
                     <div>
                         <p className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Available Balance</p>
                         <h3 className="text-4xl font-extrabold text-slate-900 dark:text-white mt-2">
-                            ₦42,500<span className="text-xl text-slate-400 font-medium">.00</span>
+                            {formatCurrency(earnings?.availableBalance || 0)}
                         </h3>
                     </div>
                     <div className="mt-6 flex items-center gap-2 text-sm font-medium text-green-600">
                         <span className="bg-green-100 dark:bg-green-900/30 px-2 py-0.5 rounded-full flex items-center gap-1">
-                            <span className="material-symbols-outlined text-[16px]">trending_up</span>
-                            +12%
+                            <span className="material-symbols-outlined text-[16px]">account_balance_wallet</span>
+                            Ready to withdraw
                         </span>
-                        <span className="text-slate-400 dark:text-slate-500">vs last week</span>
                     </div>
                 </div>
 
@@ -113,7 +146,7 @@ export default function AgentEarnings() {
                     <div>
                         <p className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Pending Payouts</p>
                         <h3 className="text-4xl font-extrabold text-slate-900 dark:text-white mt-2">
-                            ₦15,000<span className="text-xl text-slate-400 font-medium">.00</span>
+                            {formatCurrency(earnings?.pendingBalance || 0)}
                         </h3>
                     </div>
                     <div className="mt-6 flex items-center gap-2 text-sm font-medium text-slate-500">
@@ -128,16 +161,18 @@ export default function AgentEarnings() {
                         <span className="material-symbols-outlined text-[100px] text-[#137fec]">savings</span>
                     </div>
                     <div>
-                        <p className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Total Earnings (YTD)</p>
+                        <p className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Total Earnings</p>
                         <h3 className="text-4xl font-extrabold text-slate-900 dark:text-white mt-2">
-                            ₦845,200<span className="text-xl text-slate-400 font-medium">.00</span>
+                            {formatCurrency(earnings?.totalEarned || 0)}
                         </h3>
                     </div>
-                    <div className="mt-6 w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
-                        <div className="bg-[#137fec] h-full rounded-full" style={{ width: '75%' }}></div>
+                    <div className="mt-6 flex items-center gap-2 text-sm font-medium text-slate-500">
+                        <span className="material-symbols-outlined text-[18px] text-[#137fec]">trending_up</span>
+                        <span>Withdrawn: {formatCurrency(earnings?.totalWithdrawn || 0)}</span>
                     </div>
                 </div>
             </AnimatedGroup>
+            )}
 
             {/* Main Content Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -203,39 +238,56 @@ export default function AgentEarnings() {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                                    {payoutHistory.map((item) => (
-                                        <tr key={item.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
-                                            <td className="px-6 py-4">
-                                                <div className="flex items-center gap-3">
-                                                    <div className={`size-10 rounded-full flex items-center justify-center ${item.iconBg}`}>
-                                                        <span className="material-symbols-outlined text-[20px]">{item.icon}</span>
-                                                    </div>
-                                                    <div>
-                                                        <p className="text-sm font-bold text-slate-900 dark:text-white">{item.title}</p>
-                                                        <p className="text-xs text-slate-500">Job ID: {item.jobId} • {item.location}</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">
-                                                {item.date}<br />
-                                                <span className="text-xs text-slate-400">{item.time}</span>
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border ${item.statusColor}`}>
-                                                    <span className={`size-1.5 rounded-full ${item.status === 'Paid' ? 'bg-green-500' : 'bg-orange-500'}`}></span>
-                                                    {item.status}
-                                                </span>
-                                            </td>
-                                            <td className="px-6 py-4 text-right">
-                                                <p className="font-bold text-slate-900 dark:text-white">+ {item.amount}</p>
-                                            </td>
-                                            <td className="px-6 py-4 text-right">
-                                                <button className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-[#137fec] hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors">
-                                                    <span className="material-symbols-outlined text-[20px]">visibility</span>
-                                                </button>
+                                    {payouts.length === 0 ? (
+                                        <tr>
+                                            <td colSpan={5} className="px-6 py-12 text-center">
+                                                <span className="material-symbols-outlined text-4xl text-slate-300 mb-2">receipt_long</span>
+                                                <p className="text-slate-500 dark:text-slate-400">No payout history yet</p>
                                             </td>
                                         </tr>
-                                    ))}
+                                    ) : (
+                                        payouts.map((payout: Payout) => {
+                                            const { date, time } = formatDate(payout.createdAt);
+                                            const styles = getPayoutStatusStyles(payout.status);
+                                            return (
+                                                <tr key={payout.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
+                                                    <td className="px-6 py-4">
+                                                        <div className="flex items-center gap-3">
+                                                            <div className="size-10 rounded-full flex items-center justify-center bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400">
+                                                                <span className="material-symbols-outlined text-[20px]">payments</span>
+                                                            </div>
+                                                            <div>
+                                                                <p className="text-sm font-bold text-slate-900 dark:text-white">
+                                                                    {payout.description || 'Payout'}
+                                                                </p>
+                                                                <p className="text-xs text-slate-500">
+                                                                    Ref: {payout.reference || payout.id.slice(0, 8)}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">
+                                                        {date}<br />
+                                                        <span className="text-xs text-slate-400">{time}</span>
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border ${styles.color}`}>
+                                                            <span className={`size-1.5 rounded-full ${styles.dotColor}`}></span>
+                                                            {payout.status}
+                                                        </span>
+                                                    </td>
+                                                    <td className="px-6 py-4 text-right">
+                                                        <p className="font-bold text-slate-900 dark:text-white">+ {formatCurrency(payout.amount)}</p>
+                                                    </td>
+                                                    <td className="px-6 py-4 text-right">
+                                                        <button className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-[#137fec] hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors">
+                                                            <span className="material-symbols-outlined text-[20px]">visibility</span>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })
+                                    )}
                                 </tbody>
                             </table>
                         </div>
@@ -261,16 +313,16 @@ export default function AgentEarnings() {
                             </div>
                             <div className="mb-6">
                                 <p className="text-slate-400 text-sm mb-1">Total Balance</p>
-                                <h2 className="text-3xl font-extrabold tracking-tight">₦42,500.00</h2>
+                                <h2 className="text-3xl font-extrabold tracking-tight">{formatCurrency(totalBalance)}</h2>
                             </div>
                             <div className="flex justify-between items-end">
                                 <div className="flex flex-col">
                                     <span className="text-[10px] text-slate-400 uppercase tracking-wider">Account Holder</span>
-                                    <span className="font-medium text-sm">John Doe</span>
+                                    <span className="font-medium text-sm">{accountHolderName}</span>
                                 </div>
                                 <div className="flex flex-col items-end">
-                                    <span className="text-[10px] text-slate-400 uppercase tracking-wider">Expires</span>
-                                    <span className="font-medium text-sm">12/25</span>
+                                    <span className="text-[10px] text-slate-400 uppercase tracking-wider">Status</span>
+                                    <span className="font-medium text-sm">Active</span>
                                 </div>
                             </div>
                         </div>
@@ -305,28 +357,34 @@ export default function AgentEarnings() {
                             </button>
                         </div>
                         <div className="space-y-3">
-                            {payoutMethods.map((method) => (
-                                <div
-                                    key={method.id}
-                                    className={`flex items-center gap-3 p-3 rounded-lg border ${method.isPrimary
-                                        ? 'border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50'
-                                        : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-[#101922] opacity-70 hover:opacity-100 transition-opacity cursor-pointer'
-                                        }`}
-                                >
-                                    <div className="size-10 bg-white dark:bg-slate-700 rounded-md shadow-sm flex items-center justify-center">
-                                        <span className="material-symbols-outlined text-slate-600 dark:text-slate-300">{method.icon}</span>
-                                    </div>
-                                    <div className="flex-1">
-                                        <p className="text-sm font-bold text-slate-900 dark:text-white">{method.name}</p>
-                                        <p className="text-xs text-slate-500">**** {method.lastFour}</p>
-                                    </div>
-                                    {method.isPrimary && (
-                                        <div className="text-green-600 dark:text-green-400">
-                                            <span className="material-symbols-outlined text-[20px]">check_circle</span>
-                                        </div>
-                                    )}
+                            {bankAccounts.length === 0 ? (
+                                <div className="text-center py-4 text-slate-500 text-sm">
+                                    No payout methods added yet
                                 </div>
-                            ))}
+                            ) : (
+                                bankAccounts.map((account) => (
+                                    <div
+                                        key={account.id}
+                                        className={`flex items-center gap-3 p-3 rounded-lg border ${account.isDefault
+                                            ? 'border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50'
+                                            : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-[#101922] opacity-70 hover:opacity-100 transition-opacity cursor-pointer'
+                                            }`}
+                                    >
+                                        <div className="size-10 bg-white dark:bg-slate-700 rounded-md shadow-sm flex items-center justify-center">
+                                            <span className="material-symbols-outlined text-slate-600 dark:text-slate-300">account_balance</span>
+                                        </div>
+                                        <div className="flex-1">
+                                            <p className="text-sm font-bold text-slate-900 dark:text-white">{account.bankName}</p>
+                                            <p className="text-xs text-slate-500">**** {account.accountNumber.slice(-4)}</p>
+                                        </div>
+                                        {account.isDefault && (
+                                            <div className="text-green-600 dark:text-green-400">
+                                                <span className="material-symbols-outlined text-[20px]">check_circle</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                ))
+                            )}
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './contexts/AuthContext'
-import { ProtectedRoute } from './components/auth/ProtectedRoute'
+import { ProtectedRoute, GuestRoute } from './components/auth/ProtectedRoute'
 import UnifiedNavbar from './components/common/UnifiedNavbar'
 import HomePage from './pages/Home/HomePage'
 import AIChatPage from './pages/Home/AIChatPage'
@@ -81,7 +81,8 @@ function App() {
 
       <Routes>
         {/* Auth Routes - No navbar, full-screen video background */}
-        <Route path="/auth" element={<AuthLayout />}>
+        {/* GuestRoute redirects authenticated users to their dashboard */}
+        <Route path="/auth" element={<GuestRoute><AuthLayout /></GuestRoute>}>
           <Route index element={<AuthHomePage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="forgot-password" element={<ForgotPasswordPage />} />

@@ -1,41 +1,103 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PageContainer from '../../../components/common/PageContainer';
 import PageHeader from '../../../components/common/PageHeader';
 import ConfirmationModal from '../../../components/ConfirmationModal';
+import { useAuth } from '../../../contexts/AuthContext';
+import { userService } from '../../../lib/api/services/userService';
+import { agentService } from '../../../lib/api/services/agentService';
+import type { AgentProfile as AgentProfileType, AgentCertification } from '../../../types/auth';
+import type { AgentEarnings } from '../../../types/dashboard';
 
-// Mock profile data based on design
-const profileData = {
-    name: 'Alex Johnson',
-    title: 'Senior Maintenance Agent',
-    email: 'alex.j@propertyapp.com',
-    phone: '+234 801 234 5678',
-    verified: true,
-    rating: 4.9,
-    jobsDone: 124,
-    walletBalance: '₦45,200',
-    locations: ['Lekki Phase 1', 'Victoria Island'],
-    certifications: [
-        { id: 1, name: 'HVAC Technician License', idNumber: '#882910', expiry: 'Oct 2025', icon: 'verified', iconColor: 'text-green-600' },
-        { id: 2, name: 'Certified Property Manager', idNumber: '#CPM-2022', expiry: 'Does not expire', icon: 'school', iconColor: 'text-blue-600' },
-    ],
-    reviews: [
-        { id: 1, stars: 5, text: '"Alex was very professional and fixed the AC leak quickly. Highly recommended!"', author: 'Emeka O.', date: '2 days ago' },
-        { id: 2, stars: 4.5, text: '"Great service overall, arrived a bit late but did a fantastic job with the inspection."', author: 'Sarah K.', date: '1 week ago' },
-    ],
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDqXdl37sfEazlyxSBTV5lF8kGRieE_SYwtDyVySc1aWbjBke5mu8mh567-fZNihR7nyy7Nfe4SYcazxMiKGgNKSeL-pK6TTSI0rcTQ7dbJIQKnzeNyA5B8mtOx-6qYJZAofjSjdD8ldObnUD1GG6Bhtge7vN74aD4o-lYTQsnW57HV4JVB1KwsSZjj0-u_ihV37S1T2wUzJ4OUpL_J-KaQoB-x1dKtj4hswAcNfkWRrd6qvgWhIynlCNRWBdnV8D3xputK0iKXBrm9',
-};
+// Mock reviews data (not available from API yet)
+const mockReviews = [
+    { id: 1, stars: 5, text: '"Very professional service. Highly recommended!"', author: 'Client', date: 'Recently' },
+    { id: 2, stars: 4.5, text: '"Great service overall, did a fantastic job."', author: 'Client', date: 'Recently' },
+];
 
 export default function AgentProfile() {
+    const { user } = useAuth();
+    const [loading, setLoading] = useState(true);
+    const [saving, setSaving] = useState(false);
+    const [agentProfile, setAgentProfile] = useState<AgentProfileType | null>(null);
+    const [earnings, setEarnings] = useState<AgentEarnings | null>(null);
+    const [certifications, setCertifications] = useState<AgentCertification[]>([]);
+
     const [formData, setFormData] = useState({
-        name: profileData.name,
-        title: profileData.title,
-        email: profileData.email,
-        phone: profileData.phone,
+        name: '',
+        title: '',
+        email: '',
+        phone: '',
     });
-    const [locations, setLocations] = useState(profileData.locations);
+    const [locations, setLocations] = useState<string[]>([]);
+
+    // Load profile data from backend
+    useEffect(() => {
+        async function loadProfileData() {
+            setLoading(true);
+            try {
+                // Load agent profile
+                const profileResponse = await userService.getAgentProfile();
+                if (profileResponse.data) {
+                    setAgentProfile(profileResponse.data);
+                    setLocations(profileResponse.data.serviceAreas || []);
+                }
+
+                // Load earnings for wallet balance
+                const earningsResponse = await agentService.getEarnings();
+                if (earningsResponse.data) {
+                    setEarnings(earningsResponse.data);
+                }
+            } catch (error) {
+                console.error('Failed to load agent profile:', error);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        loadProfileData();
+    }, []);
+
+    // Initialize form with user data
+    useEffect(() => {
+        if (user) {
+            setFormData({
+                name: `${user.firstName || ''} ${user.lastName || ''}`.trim(),
+                title: agentProfile?.companyName || 'Property Agent',
+                email: user.email || '',
+                phone: user.phone || '',
+            });
+        }
+    }, [user, agentProfile]);
+
+    // Handle save changes
+    const handleSaveChanges = async () => {
+        setSaving(true);
+        try {
+            await userService.updateAgentProfile({
+                companyName: formData.title,
+                serviceAreas: locations,
+            });
+        } catch (error) {
+            console.error('Failed to save profile:', error);
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    // Format wallet balance
+    const walletBalance = earnings?.availableBalance
+        ? `₦${earnings.availableBalance.toLocaleString()}`
+        : '₦0';
+
+    // Check verification status
+    const isVerified = user?.verificationLevel && user.verificationLevel !== 'BRONZE';
+
+    // Calculate stats (placeholder - these would come from a stats endpoint)
+    const rating = 4.9; // Would come from reviews/stats API
+    const jobsDone = 0; // Would come from completed jobs count
     const [newLocation, setNewLocation] = useState('');
     const [locationToRemove, setLocationToRemove] = useState<string | null>(null);
-    const [certToDelete, setCertToDelete] = useState<{ id: number; name: string } | null>(null);
+    const [certToDelete, setCertToDelete] = useState<{ id: string; name: string } | null>(null);
 
     const handleInputChange = (field: string, value: string) => {
         setFormData({ ...formData, [field]: value });
@@ -63,8 +125,12 @@ export default function AgentProfile() {
                         <button className="px-5 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-sm bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 transition-all">
                             Cancel
                         </button>
-                        <button className="px-5 py-2.5 rounded-lg bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-sm transition-all shadow-lg shadow-[#137fec]/25">
-                            Save Changes
+                        <button
+                            onClick={handleSaveChanges}
+                            disabled={saving}
+                            className="px-5 py-2.5 rounded-lg bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-sm transition-all shadow-lg shadow-[#137fec]/25 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            {saving ? 'Saving...' : 'Save Changes'}
                         </button>
                     </>
                 }
@@ -79,19 +145,25 @@ export default function AgentProfile() {
                         <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-r from-[#137fec]/10 to-blue-500/10 dark:from-[#137fec]/20 dark:to-blue-500/20"></div>
                         <div className="relative z-10 mb-4">
                             <div className="relative w-32 h-32 mx-auto rounded-full p-1 bg-white dark:bg-[#101922]">
-                                <img
-                                    alt="Profile"
-                                    className="w-full h-full object-cover rounded-full"
-                                    src={profileData.image}
-                                />
+                                {user?.avatarUrl ? (
+                                    <img
+                                        alt="Profile"
+                                        className="w-full h-full object-cover rounded-full"
+                                        src={user.avatarUrl}
+                                    />
+                                ) : (
+                                    <div className="w-full h-full rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                                        <span className="material-symbols-outlined text-5xl text-slate-400">person</span>
+                                    </div>
+                                )}
                                 <button className="absolute bottom-1 right-1 p-2 bg-slate-900 dark:bg-slate-700 text-white rounded-full hover:bg-[#137fec] transition-colors shadow-md">
                                     <span className="material-symbols-outlined text-[18px]">photo_camera</span>
                                 </button>
                             </div>
                         </div>
-                        <h3 className="text-xl font-bold text-slate-900 dark:text-white">{profileData.name}</h3>
-                        <p className="text-slate-500 dark:text-slate-400 text-sm mb-3">{profileData.title}</p>
-                        {profileData.verified && (
+                        <h3 className="text-xl font-bold text-slate-900 dark:text-white">{formData.name || 'Agent'}</h3>
+                        <p className="text-slate-500 dark:text-slate-400 text-sm mb-3">{formData.title}</p>
+                        {isVerified && (
                             <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 rounded-full text-xs font-bold uppercase tracking-wider mb-6">
                                 <span className="material-symbols-outlined text-[16px]">verified</span>
                                 Verified Agent
@@ -100,14 +172,14 @@ export default function AgentProfile() {
                         <div className="grid grid-cols-2 gap-4 border-t border-slate-100 dark:border-slate-800 pt-6">
                             <div className="text-center">
                                 <div className="flex items-center justify-center gap-1 text-orange-500 mb-1">
-                                    <span className="font-bold text-xl">{profileData.rating}</span>
+                                    <span className="font-bold text-xl">{rating}</span>
                                     <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
                                 </div>
                                 <p className="text-xs text-slate-400 uppercase font-bold tracking-wide">Rating</p>
                             </div>
                             <div className="text-center border-l border-slate-100 dark:border-slate-800">
                                 <div className="flex items-center justify-center gap-1 text-slate-700 dark:text-white mb-1">
-                                    <span className="font-bold text-xl">{profileData.jobsDone}</span>
+                                    <span className="font-bold text-xl">{jobsDone}</span>
                                 </div>
                                 <p className="text-xs text-slate-400 uppercase font-bold tracking-wide">Jobs Done</p>
                             </div>
@@ -151,7 +223,7 @@ export default function AgentProfile() {
                         </div>
                         <div className="relative z-10">
                             <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Wallet</p>
-                            <h4 className="text-2xl font-bold mb-1">{profileData.walletBalance}</h4>
+                            <h4 className="text-2xl font-bold mb-1">{walletBalance}</h4>
                             <p className="text-sm text-slate-400 mb-4">Available for withdrawal</p>
                             <button className="inline-flex items-center gap-2 text-[#137fec] font-bold text-sm hover:text-[#137fec]/80 transition-colors">
                                 Manage Payment Methods
@@ -283,30 +355,34 @@ export default function AgentProfile() {
                             </button>
                         </div>
                         <div className="space-y-4">
-                            {profileData.certifications.map((cert) => (
-                                <div key={cert.id} className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl">
-                                    <div className="flex items-center gap-4">
-                                        <div className="size-10 rounded-lg bg-white dark:bg-slate-700 flex items-center justify-center border border-slate-100 dark:border-slate-600 shadow-sm">
-                                            <span className={`material-symbols-outlined ${cert.iconColor}`}>{cert.icon}</span>
+                            {certifications.length === 0 ? (
+                                <div className="text-center py-4 text-slate-500">No certifications added yet</div>
+                            ) : (
+                                certifications.map((cert) => (
+                                    <div key={cert.id} className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl">
+                                        <div className="flex items-center gap-4">
+                                            <div className="size-10 rounded-lg bg-white dark:bg-slate-700 flex items-center justify-center border border-slate-100 dark:border-slate-600 shadow-sm">
+                                                <span className="material-symbols-outlined text-green-600">verified</span>
+                                            </div>
+                                            <div>
+                                                <h4 className="font-bold text-slate-900 dark:text-white text-sm">{cert.name}</h4>
+                                                <p className="text-xs text-slate-500 dark:text-slate-400">Issuer: {cert.issuer} • Exp: {cert.expiryDate || 'Does not expire'}</p>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <h4 className="font-bold text-slate-900 dark:text-white text-sm">{cert.name}</h4>
-                                            <p className="text-xs text-slate-500 dark:text-slate-400">ID: {cert.idNumber} • Exp: {cert.expiry}</p>
+                                        <div className="flex items-center gap-2">
+                                            <button className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-all">
+                                                <span className="material-symbols-outlined text-[20px]">edit</span>
+                                            </button>
+                                            <button
+                                                onClick={() => setCertToDelete({ id: cert.id, name: cert.name })}
+                                                className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all"
+                                            >
+                                                <span className="material-symbols-outlined text-[20px]">delete</span>
+                                            </button>
                                         </div>
                                     </div>
-                                    <div className="flex items-center gap-2">
-                                        <button className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-all">
-                                            <span className="material-symbols-outlined text-[20px]">edit</span>
-                                        </button>
-                                        <button
-                                            onClick={() => setCertToDelete({ id: cert.id, name: cert.name })}
-                                            className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all"
-                                        >
-                                            <span className="material-symbols-outlined text-[20px]">delete</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
+                                ))
+                            )}
                         </div>
                     </div>
 
@@ -322,7 +398,7 @@ export default function AgentProfile() {
                             </div>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {profileData.reviews.map((review) => (
+                            {mockReviews.map((review) => (
                                 <div key={review.id} className="p-4 rounded-xl border border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/30">
                                     <div className="flex items-center gap-1 mb-2 text-yellow-500">
                                         {[1, 2, 3, 4, 5].map((star) => (
@@ -344,7 +420,7 @@ export default function AgentProfile() {
                             ))}
                         </div>
                         <button className="w-full mt-4 text-center text-[#137fec] text-sm font-bold hover:underline">
-                            View all {profileData.jobsDone} reviews
+                            View all {jobsDone} reviews
                         </button>
                     </div>
                 </div>

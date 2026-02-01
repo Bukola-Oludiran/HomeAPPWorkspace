@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import MakePaymentModal from '../../../components/MakePaymentModal';
 import SignLeaseRenewalModal from '../../../components/SignLeaseRenewalModal';
@@ -9,97 +9,69 @@ import SectionCard from '../../../components/common/SectionCard';
 import StatsCard from '../../../components/common/StatsCard';
 import AIAssistantWidget from '../../../components/common/AIAssistantWidget';
 import { AnimatedGroup } from '../../../components/animation';
+import { useAuth } from '../../../contexts/AuthContext';
+import { tenantService } from '../../../lib/api/services/tenantService';
+import type { TenantDashboard as DashboardData } from '../../../types/dashboard';
 
-// Mock data for tenant dashboard (from Tenant Dashboard Home code.html)
-const dashboardData = {
-    nextPayment: {
-        amount: '$2,450',
-        dueDate: 'Nov 1, 2024',
-        status: 'Due Soon',
-    },
-    lease: {
-        remaining: '11 Months',
-        endDate: 'Aug 31, 2025',
-        status: 'Active',
-    },
-    openRequests: 1,
-    lastUpdate: '2 hrs ago',
-    applications: {
-        pending: 1,
-        saved: 2,
-    },
-    currentRental: {
-        address: '5500 Highland Park, Unit 4B',
-        city: 'Dallas, TX 75205',
-        rent: '$2,450',
-        leasePeriod: 'Sep 2024 - Aug 2025',
-        leaseLength: '12 Months',
-        manager: {
-            name: 'Robert Johnson',
-            initials: 'RJ',
-        },
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAamBOyrzSpr22QFJVMWoHUc1mMMtnqiibkVvx1a1yyRMf7AZH_W5yo1RUtyBeDdX317BPpURBRfc781QxtqAke2rVYEqTii2io0uuHFkEJ0CmZ8MORlbNcSi1Rrn0MkZXgBn4TdOrfGT4AC6aP8LrSd-KrpDu9MncstN4oWLel5dWeiPY1Vna-TDIY0FVjIuHpWLA9XnqqLmHWL3dBb97dTEKd5I76wzI_hdZR1tk-bfpEmbo-gBSIaJNec2sLti-R_9FmipfOkxxP',
-    },
-    maintenanceLog: [
-        {
-            id: 1,
-            title: 'Leaky Faucet',
-            status: 'In Progress',
-            statusColor: 'bg-amber-100 text-amber-700',
-            icon: 'plumbing',
-            iconBg: 'bg-amber-100 dark:bg-amber-900/30 text-amber-600',
-            description: 'Submitted yesterday. Plumber scheduled for tomorrow 2PM.',
-        },
-        {
-            id: 2,
-            title: 'AC Filter Replacement',
-            status: 'Completed',
-            statusColor: 'bg-green-100 text-green-700',
-            icon: 'check',
-            iconBg: 'bg-green-100 dark:bg-green-900/30 text-green-600',
-            description: 'Resolved on Sep 15.',
-            completed: true,
-        },
-    ],
-    applicationsList: [
-        {
-            id: 1,
-            address: '1243 Oakwood Ave',
-            city: 'Austin, TX',
-            status: 'Approved',
-            statusColor: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400',
-            image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l',
-        },
-        {
-            id: 2,
-            address: 'Downtown Loft',
-            city: 'Seattle, WA',
-            status: 'Pending',
-            statusColor: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
-            image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCDbn_i6RapAYYCUtbpApN4lJMQNrA0rGJZXVvlV5ZLubEMNH1omk_1mAstEefJ0spWkedOBAe5og228aYdYdVGMGx2otBaGsGAG_1DMh7rANSTYk0_MrBlyxCEDc66NFCgfMXVMcoMDPiPuhcBXg5_Iwjv_Fz2YEb4sU8vGb7xqSy9VX9nCTc1tUE2DL8uYW4jHmEa_B2GwMX24GP44NZ_TWI6Tc4Om0jvrCWW6cMyN3YxN1SrsIUBMkmeYENO3JUYvlZTV5Hn0Kqc',
-        },
-    ],
-    savedProperties: [
-        {
-            id: 1,
-            address: '778 Sunnyvale Dr',
-            city: 'Miami, FL',
-            price: '$3,200',
-            image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDmzjPVnnkN0L0Df5m-edXXtRPMb0L9UALdUYVZ31ftX2hZoPcXfkk9cX0ppWUHkpAgEHDPt5z8Myghlu_sUmGC0p8uMQv-HbrXijHeC8ALkQAuqFOKKQ6BIlW3DyxKXmR68V6YLZxFKGKU5QA3f9KSaxdE-ZqCwq8CHWNZkHkt-0KyKZ6b8s_6sdVzJ5nMB7lFYMvczzRv1xvvE-i968QA_YLancFg-0dheYj1DUN0ylsh3qHXXWFqzKCnpvKn_5mHg9ar3r3Pfdeb',
-        },
-    ],
-};
+// Helper to format currency
+function formatCurrency(amount: number): string {
+    return new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: 'NGN',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    }).format(amount);
+}
 
-export default function TenantDashboard() {
+// Helper to format date
+function formatDate(dateString: string): string {
+    return new Date(dateString).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+    });
+}
+
+
+// Placeholder image
+const PLACEHOLDER_IMAGE = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=300&fit=crop';
+
+export default function TenantDashboardPage() {
+    const { user } = useAuth();
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
     const [isSignLeaseModalOpen, setIsSignLeaseModalOpen] = useState(false);
     const [isMaintenanceModalOpen, setIsMaintenanceModalOpen] = useState(false);
+    const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Get user's first name for greeting
+    const userName = user?.firstName || 'there';
+
+    // Fetch dashboard data on mount
+    useEffect(() => {
+        async function fetchDashboard() {
+            try {
+                setIsLoading(true);
+                setError(null);
+                const response = await tenantService.getDashboard();
+                setDashboardData(response.data);
+            } catch (err) {
+                console.error('Failed to fetch tenant dashboard:', err);
+                setError('Failed to load dashboard data');
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchDashboard();
+    }, []);
 
     return (
         <PageContainer>
             <PageHeader
                 title="Tenant Dashboard"
-                subtitle="Welcome back, Sarah. Here's your rental overview."
+                subtitle={`Welcome back, ${userName}. Here's your rental overview.`}
                 actions={
                     <>
                         <button
@@ -119,18 +91,37 @@ export default function TenantDashboard() {
             />
 
             {/* Stats Grid */}
+            {isLoading ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+                    {Array.from({ length: 4 }).map((_, i) => (
+                        <div key={i} className="bg-white dark:bg-[#101922] p-6 rounded-2xl animate-pulse">
+                            <div className="h-10 w-10 bg-slate-200 dark:bg-slate-700 rounded-xl mb-4" />
+                            <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-2/3 mb-2" />
+                            <div className="h-8 bg-slate-200 dark:bg-slate-700 rounded w-1/2" />
+                        </div>
+                    ))}
+                </div>
+            ) : error ? (
+                <div className="mb-10 p-6 bg-red-50 dark:bg-red-900/20 rounded-2xl text-center">
+                    <span className="material-symbols-outlined text-red-500 text-3xl mb-2">error</span>
+                    <p className="text-red-600 dark:text-red-400">{error}</p>
+                    <button onClick={() => window.location.reload()} className="mt-3 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+                        Retry
+                    </button>
+                </div>
+            ) : dashboardData ? (
             <AnimatedGroup className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10" stagger={0.1}>
                 {/* Next Rent Payment */}
                 <StatsCard
                     icon="calendar_today"
                     iconColor="blue"
                     label="Next Rent Payment"
-                    value={dashboardData.nextPayment.amount}
+                    value={formatCurrency(dashboardData.nextPayment.amount)}
                     animateValue
-                    numericValue={2450}
-                    valuePrefix="$"
-                    badge={{ text: "Due Soon", variant: "warning" }}
-                    subtext={`Due: ${dashboardData.nextPayment.dueDate}`}
+                    numericValue={dashboardData.nextPayment.amount}
+                    valuePrefix="₦"
+                    badge={{ text: dashboardData.nextPayment.status, variant: dashboardData.nextPayment.status === 'Paid' ? 'success' : 'warning' }}
+                    subtext={`Due: ${formatDate(dashboardData.nextPayment.dueDate)}`}
                 />
 
                 {/* Lease Status */}
@@ -139,17 +130,17 @@ export default function TenantDashboard() {
                     iconColor="purple"
                     label="Lease Status"
                     value={dashboardData.lease.remaining}
-                    badge={{ text: "Active", variant: "success" }}
-                    subtext={`Ends: ${dashboardData.lease.endDate}`}
+                    badge={{ text: dashboardData.lease.status, variant: dashboardData.lease.status === 'Active' ? 'success' : 'warning' }}
+                    subtext={`Ends: ${formatDate(dashboardData.lease.endDate)}`}
                 />
 
                 {/* Open Requests */}
                 <StatsCard
                     icon="home_repair_service"
                     iconColor="amber"
-                    label="Open Requests"
-                    value={`${dashboardData.openRequests} Open`}
-                    subtext={`Last update: ${dashboardData.lastUpdate}`}
+                    label="Maintenance Requests"
+                    value={`${dashboardData.maintenanceRequests} Open`}
+                    subtext="Active maintenance items"
                 />
 
                 {/* Applications */}
@@ -157,13 +148,15 @@ export default function TenantDashboard() {
                     icon="description"
                     iconColor="indigo"
                     label="Applications"
-                    value="1 Pending"
-                    badge={{ text: "2 Saved", variant: "default" }}
-                    subtext="Awaiting approval"
+                    value={`${dashboardData.applicationsList?.length || 0} Total`}
+                    badge={{ text: `${dashboardData.savedProperties?.length || 0} Saved`, variant: "default" }}
+                    subtext="Property applications"
                 />
             </AnimatedGroup>
+            ) : null}
 
             {/* Main Content Grid */}
+            {dashboardData && (
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
                 {/* Main Column */}
                 <div className="xl:col-span-2 flex flex-col gap-6">
@@ -174,12 +167,13 @@ export default function TenantDashboard() {
                             View Lease Details
                         </Link>
                     </div>
+                    {dashboardData.property ? (
                     <SectionCard padding="none">
                         <div className="relative h-64 md:h-80 w-full">
                             <img
                                 alt="Current Property"
                                 className="w-full h-full object-cover"
-                                src={dashboardData.currentRental.image}
+                                src={dashboardData.property.image || PLACEHOLDER_IMAGE}
                             />
                             <div className="absolute top-4 left-4 bg-white/90 dark:bg-black/80 backdrop-blur px-3 py-1 rounded-lg text-xs font-bold text-slate-900 dark:text-white shadow-sm flex items-center gap-1">
                                 <span className="material-symbols-outlined text-[14px] text-green-500">
@@ -192,10 +186,10 @@ export default function TenantDashboard() {
                             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                                 <div>
                                     <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
-                                        {dashboardData.currentRental.address}
+                                        {dashboardData.property.name}
                                     </h3>
                                     <p className="text-slate-500 dark:text-slate-400">
-                                        {dashboardData.currentRental.city}
+                                        {dashboardData.property.address}
                                     </p>
                                 </div>
                                 <div className="flex items-center gap-3">
@@ -211,7 +205,7 @@ export default function TenantDashboard() {
                                         Monthly Rent
                                     </p>
                                     <p className="text-xl font-bold text-slate-900 dark:text-white">
-                                        {dashboardData.currentRental.rent}
+                                        {formatCurrency(dashboardData.property.monthlyRent)}
                                     </p>
                                     <p className="text-xs text-green-600 mt-1 flex items-center gap-1">
                                         <span className="material-symbols-outlined text-[14px]">check</span>Auto-pay on
@@ -222,10 +216,7 @@ export default function TenantDashboard() {
                                         Lease Period
                                     </p>
                                     <p className="text-lg font-bold text-slate-900 dark:text-white">
-                                        {dashboardData.currentRental.leasePeriod}
-                                    </p>
-                                    <p className="text-xs text-slate-400 mt-1">
-                                        {dashboardData.currentRental.leaseLength}
+                                        {formatDate(dashboardData.property.leaseStart)} - {formatDate(dashboardData.property.leaseEnd)}
                                     </p>
                                 </div>
                                 <div>
@@ -233,12 +224,16 @@ export default function TenantDashboard() {
                                         Property Manager
                                     </p>
                                     <div className="flex items-center gap-2 mt-1">
-                                        <div className="size-8 rounded-full bg-[#137fec]/10 text-[#137fec] flex items-center justify-center font-bold text-xs">
-                                            {dashboardData.currentRental.manager.initials}
-                                        </div>
+                                        {dashboardData.property.landlordAvatar ? (
+                                            <img src={dashboardData.property.landlordAvatar} alt="" className="size-8 rounded-full object-cover" />
+                                        ) : (
+                                            <div className="size-8 rounded-full bg-[#137fec]/10 text-[#137fec] flex items-center justify-center font-bold text-xs">
+                                                {dashboardData.property.landlordName.split(' ').map(n => n[0]).join('')}
+                                            </div>
+                                        )}
                                         <div>
                                             <p className="text-sm font-bold text-slate-900 dark:text-white">
-                                                {dashboardData.currentRental.manager.name}
+                                                {dashboardData.property.landlordName}
                                             </p>
                                         </div>
                                     </div>
@@ -246,6 +241,15 @@ export default function TenantDashboard() {
                             </div>
                         </div>
                     </SectionCard>
+                    ) : (
+                        <SectionCard className="text-center py-12">
+                            <span className="material-symbols-outlined text-4xl text-slate-300 mb-2">home</span>
+                            <p className="text-slate-500 dark:text-slate-400">No active rental</p>
+                            <Link to="/search" className="mt-4 inline-block px-4 py-2 bg-[#137fec] text-white rounded-lg hover:bg-[#137fec]/90">
+                                Browse Properties
+                            </Link>
+                        </SectionCard>
+                    )}
 
                     {/* Saved Properties */}
                     <div className="flex items-center justify-between mt-4">
@@ -399,6 +403,7 @@ export default function TenantDashboard() {
                     </div>
                 </div>
             </div>
+            )}
 
             {/* Floating AI Bar */}
             <AIAssistantWidget

@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import { propertyService } from '@/lib/api/services/propertyService';
 
 interface FavoriteButtonProps {
     propertyId: number | string;
@@ -6,7 +8,6 @@ interface FavoriteButtonProps {
     size?: 'sm' | 'md' | 'lg';
     variant?: 'default' | 'overlay' | 'outline';
     onToggle?: (isFavorited: boolean) => void;
-    requiresAuth?: boolean;
     onAuthRequired?: () => void;
 }
 
@@ -16,35 +17,61 @@ export default function FavoriteButton({
     size = 'md',
     variant = 'default',
     onToggle,
-    requiresAuth = false,
     onAuthRequired,
 }: FavoriteButtonProps) {
+    const { isAuthenticated } = useAuth();
     const [isFavorited, setIsFavorited] = useState(initialFavorited);
     const [isAnimating, setIsAnimating] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const handleClick = (e: React.MouseEvent) => {
+    // Update local state when initialFavorited prop changes
+    useEffect(() => {
+        setIsFavorited(initialFavorited);
+    }, [initialFavorited]);
+
+    const handleClick = async (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
 
-        if (requiresAuth && onAuthRequired) {
-            onAuthRequired();
+        // Check authentication - prompt login if not authenticated
+        if (!isAuthenticated) {
+            if (onAuthRequired) {
+                onAuthRequired();
+            }
             return;
         }
 
+        // Prevent double-clicks while loading
+        if (isLoading) return;
+
         setIsAnimating(true);
+        setIsLoading(true);
         const newState = !isFavorited;
+
+        // Optimistic update
         setIsFavorited(newState);
 
-        // Reset animation
-        setTimeout(() => setIsAnimating(false), 300);
+        try {
+            const propertyIdStr = String(propertyId);
+            if (newState) {
+                await propertyService.saveToFavorites(propertyIdStr);
+            } else {
+                await propertyService.removeFromFavorites(propertyIdStr);
+            }
 
-        // Call callback
-        if (onToggle) {
-            onToggle(newState);
+            // Call callback on success
+            if (onToggle) {
+                onToggle(newState);
+            }
+        } catch (error) {
+            // Revert optimistic update on error
+            setIsFavorited(!newState);
+            console.error('Failed to update favorite status:', error);
+        } finally {
+            setIsLoading(false);
+            // Reset animation
+            setTimeout(() => setIsAnimating(false), 300);
         }
-
-        // Simulate API call (in real app, this would save to backend)
-        console.log(`Property ${propertyId} ${newState ? 'added to' : 'removed from'} favorites`);
     };
 
     const sizeClasses = {
@@ -71,16 +98,23 @@ export default function FavoriteButton({
     return (
         <button
             onClick={handleClick}
+            disabled={isLoading}
             className={`rounded-full flex items-center justify-center transition-all ${sizeClasses[size]} ${variantClasses[variant]} ${isAnimating ? 'scale-125' : 'active:scale-95'
-                }`}
+                } ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
             aria-label={isFavorited ? 'Remove from favorites' : 'Add to favorites'}
         >
-            <span
-                className={`material-symbols-outlined ${isAnimating ? 'animate-pulse' : ''} ${isFavorited ? 'icon-filled' : ''
-                    }`}
-            >
-                {isFavorited ? 'favorite' : 'favorite_border'}
-            </span>
+            {isLoading ? (
+                <span className="material-symbols-outlined animate-spin text-current">
+                    progress_activity
+                </span>
+            ) : (
+                <span
+                    className={`material-symbols-outlined ${isAnimating ? 'animate-pulse' : ''} ${isFavorited ? 'icon-filled' : ''
+                        }`}
+                >
+                    {isFavorited ? 'favorite' : 'favorite_border'}
+                </span>
+            )}
         </button>
     );
 }

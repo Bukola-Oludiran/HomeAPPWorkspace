@@ -1,36 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageContainer from '../../../components/common/PageContainer';
 import PageHeader from '../../../components/common/PageHeader';
 import SectionCard from '../../../components/common/SectionCard';
+import { useAuth } from '../../../contexts/AuthContext';
+import { userService } from '../../../lib/api/services/userService';
+import { tenantService } from '../../../lib/api/services/tenantService';
 
-// Mock profile data
-const profileData = {
-    name: 'Sarah Johnson',
-    joinDate: 'September 2024',
-    verified: true,
-    personal: {
-        fullName: 'Sarah Johnson',
-        dob: '1995-08-15',
-        email: 'sarah.johnson@example.com',
-        phone: '(555) 123-4567',
-    },
-    employment: {
-        employer: 'Tech Solutions Inc.',
-        jobTitle: 'Senior UX Designer',
-        income: '95,000',
-    },
-    preferences: {
-        emailNotifications: true,
-        pushAlerts: true,
-        bedrooms: '2 Bedrooms',
-        maxRent: '3,500',
-        amenities: 'Gym, Pool, Parking, In-unit Laundry',
-    },
-    applications: [
-        { id: 1, property: '1243 Oakwood Ave', date: 'Sep 28, 2024', status: 'Pending' },
-    ],
-};
+interface ApplicationSummary {
+    id: string;
+    property: string;
+    date: string;
+    status: string;
+}
 
 const menuItems = [
     { id: 'personal', icon: 'person', label: 'Personal Information' },
@@ -40,21 +22,100 @@ const menuItems = [
 ];
 
 export default function TenantProfile() {
+    const { user } = useAuth();
     const [activeMenu, setActiveMenu] = useState('personal');
+    const [loading, setLoading] = useState(true);
+    const [saving, setSaving] = useState(false);
+    const [applications, setApplications] = useState<ApplicationSummary[]>([]);
     const [formData, setFormData] = useState({
-        fullName: profileData.personal.fullName,
-        dob: profileData.personal.dob,
-        email: profileData.personal.email,
-        phone: profileData.personal.phone,
-        employer: profileData.employment.employer,
-        jobTitle: profileData.employment.jobTitle,
-        income: profileData.employment.income,
-        emailNotifications: profileData.preferences.emailNotifications,
-        pushAlerts: profileData.preferences.pushAlerts,
-        bedrooms: profileData.preferences.bedrooms,
-        maxRent: profileData.preferences.maxRent,
-        amenities: profileData.preferences.amenities,
+        fullName: '',
+        dob: '',
+        email: '',
+        phone: '',
+        employer: '',
+        jobTitle: '',
+        income: '',
+        emailNotifications: true,
+        pushAlerts: true,
+        bedrooms: '2 Bedrooms',
+        maxRent: '2500',
+        amenities: '',
     });
+
+    // Load profile data from backend
+    useEffect(() => {
+        async function loadProfileData() {
+            setLoading(true);
+            try {
+                // Load tenant profile preferences
+                const profileResponse = await userService.getTenantProfile();
+                if (profileResponse.data) {
+                    const prefs = profileResponse.data.preferences;
+                    setFormData(prev => ({
+                        ...prev,
+                        bedrooms: prefs?.desiredBedrooms || prev.bedrooms,
+                        maxRent: prefs?.monthlyBudgetMax?.toString() || prev.maxRent,
+                    }));
+                }
+
+                // Load applications for summary
+                const appsResponse = await tenantService.getApplications({ limit: 3 });
+                if (appsResponse.data?.data) {
+                    setApplications(appsResponse.data.data.map((app) => ({
+                        id: app.id,
+                        property: app.property?.name || 'Property',
+                        date: new Date(app.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+                        status: app.status,
+                    })));
+                }
+            } catch (error) {
+                console.error('Failed to load profile data:', error);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        loadProfileData();
+    }, []);
+
+    // Initialize form with user data when available
+    useEffect(() => {
+        if (user) {
+            setFormData(prev => ({
+                ...prev,
+                fullName: `${user.firstName || ''} ${user.lastName || ''}`.trim(),
+                email: user.email || '',
+                phone: user.phone || '',
+            }));
+        }
+    }, [user]);
+
+    // Handle save changes
+    const handleSaveChanges = async () => {
+        setSaving(true);
+        try {
+            // Update tenant profile preferences
+            await userService.updateTenantProfile({
+                preferences: {
+                    desiredBedrooms: formData.bedrooms,
+                    monthlyBudgetMax: parseInt(formData.maxRent) || undefined,
+                },
+            });
+            // Could also update user profile if name/phone changed
+        } catch (error) {
+            console.error('Failed to save profile:', error);
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    // Format join date
+    const joinDate = user?.createdAt
+        ? new Date(user.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+        : 'Recently';
+
+    // Check verification status (user has verificationLevel, BRONZE or above means verified)
+    const isVerified = user?.verificationLevel && user.verificationLevel !== 'BRONZE';
 
     const handleInputChange = (field: string, value: string | boolean) => {
         setFormData({ ...formData, [field]: value });
@@ -77,16 +138,20 @@ export default function TenantProfile() {
                         <div className="relative inline-block mx-auto mb-4 mt-8">
                             <div className="size-24 rounded-full bg-gradient-to-tr from-[#137fec] to-blue-300 p-1 shadow-xl">
                                 <div className="w-full h-full rounded-full bg-white dark:bg-slate-800 flex items-center justify-center overflow-hidden">
-                                    <span className="material-symbols-outlined text-5xl text-slate-300 dark:text-slate-600">person</span>
+                                    {user?.avatarUrl ? (
+                                        <img src={user.avatarUrl} alt={formData.fullName} className="w-full h-full object-cover" />
+                                    ) : (
+                                        <span className="material-symbols-outlined text-5xl text-slate-300 dark:text-slate-600">person</span>
+                                    )}
                                 </div>
                             </div>
                             <button className="absolute bottom-0 right-0 size-8 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-lg cursor-pointer">
                                 <span className="material-symbols-outlined text-[16px]">photo_camera</span>
                             </button>
                         </div>
-                        <h2 className="text-xl font-bold text-slate-900 dark:text-white">{profileData.name}</h2>
-                        <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Joined {profileData.joinDate}</p>
-                        {profileData.verified && (
+                        <h2 className="text-xl font-bold text-slate-900 dark:text-white">{formData.fullName || 'User'}</h2>
+                        <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Joined {joinDate}</p>
+                        {isVerified && (
                             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-xs font-bold border border-green-100 dark:border-green-800">
                                 <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
                                 Identity Verified
@@ -309,23 +374,29 @@ export default function TenantProfile() {
                             <span className="material-symbols-outlined text-[#137fec]">history</span>
                             Application History Summary
                         </h3>
-                        {profileData.applications.map((app) => (
-                            <div key={app.id} className="flex items-center gap-4 bg-slate-50 dark:bg-slate-800/30 p-4 rounded-xl border border-slate-100 dark:border-slate-700/50">
-                                <div className="size-10 bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400 rounded-lg flex items-center justify-center shrink-0">
-                                    <span className="material-symbols-outlined">apartment</span>
+                        {loading ? (
+                            <div className="text-center py-4 text-slate-500">Loading applications...</div>
+                        ) : applications.length === 0 ? (
+                            <div className="text-center py-4 text-slate-500">No applications yet</div>
+                        ) : (
+                            applications.map((app) => (
+                                <div key={app.id} className="flex items-center gap-4 bg-slate-50 dark:bg-slate-800/30 p-4 rounded-xl border border-slate-100 dark:border-slate-700/50 mb-2">
+                                    <div className="size-10 bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400 rounded-lg flex items-center justify-center shrink-0">
+                                        <span className="material-symbols-outlined">apartment</span>
+                                    </div>
+                                    <div className="flex-1">
+                                        <h4 className="text-sm font-bold text-slate-900 dark:text-white">{app.property}</h4>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400">Submitted on {app.date}</p>
+                                    </div>
+                                    <span className="px-2 py-1 bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 text-[10px] font-bold rounded-full border border-blue-200 dark:border-blue-800">
+                                        {app.status}
+                                    </span>
+                                    <Link to="/tenant/applications" className="text-slate-400 hover:text-[#137fec] transition-colors">
+                                        <span className="material-symbols-outlined">chevron_right</span>
+                                    </Link>
                                 </div>
-                                <div className="flex-1">
-                                    <h4 className="text-sm font-bold text-slate-900 dark:text-white">{app.property}</h4>
-                                    <p className="text-xs text-slate-500 dark:text-slate-400">Submitted on {app.date}</p>
-                                </div>
-                                <span className="px-2 py-1 bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 text-[10px] font-bold rounded-full border border-blue-200 dark:border-blue-800">
-                                    {app.status}
-                                </span>
-                                <Link to="/tenant/applications" className="text-slate-400 hover:text-[#137fec] transition-colors">
-                                    <span className="material-symbols-outlined">chevron_right</span>
-                                </Link>
-                            </div>
-                        ))}
+                            ))
+                        )}
                         <Link to="/tenant/applications" className="block text-center text-sm font-bold text-[#137fec] mt-4 hover:underline">
                             View All Applications
                         </Link>
@@ -339,9 +410,13 @@ export default function TenantProfile() {
                     <button className="px-6 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-sm">
                         Cancel
                     </button>
-                    <button className="px-8 py-3 rounded-xl bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-sm shadow-lg shadow-[#137fec]/20 transition-all flex items-center gap-2">
-                        <span className="material-symbols-outlined text-[18px]">save</span>
-                        Save Changes
+                    <button
+                        onClick={handleSaveChanges}
+                        disabled={saving}
+                        className="px-8 py-3 rounded-xl bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-sm shadow-lg shadow-[#137fec]/20 transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        <span className="material-symbols-outlined text-[18px]">{saving ? 'sync' : 'save'}</span>
+                        {saving ? 'Saving...' : 'Save Changes'}
                     </button>
                 </div>
             </div>
