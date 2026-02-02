@@ -1,38 +1,135 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageContainer from '../../../components/common/PageContainer';
 import PageHeader from '../../../components/common/PageHeader';
 import SectionCard from '../../../components/common/SectionCard';
+import { userService, landlordService } from '../../../lib/api/services';
+import type { UserWithProfile } from '../../../types/auth';
+import type { PropertySummary } from '../../../types/property';
 
-// Mock profile data
-const profileData = {
-    firstName: 'James',
-    lastName: 'Anderson',
-    email: 'james.anderson@example.com',
-    phone: '+1 (555) 123-4567',
-    bio: "Hi, I'm James! I've been managing properties in the greater metro area for over 5 years. I pride myself on quick responses and well-maintained homes. My goal is to provide a comfortable and hassle-free living experience for all my tenants.",
+// UI types for profile data
+interface UIProfileData {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    bio: string;
+    avatarUrl: string;
+    memberSince: string;
     stats: {
-        properties: 12,
-        rating: 4.8,
-        responseRate: 98,
-    },
-    verifications: [
-        { id: 1, name: 'Identity Verified', status: 'verified', icon: 'verified_user' },
-        { id: 2, name: 'Business Registration', status: 'pending', icon: 'domain_verification' },
-    ],
-    properties: [
-        { id: 1, name: '1243 Oakwood Avenue', location: 'Austin, TX', status: 'Active', image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l' },
-        { id: 2, name: 'Downtown Loft', location: 'Seattle, WA', status: 'Maintenance', image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCDbn_i6RapAYYCUtbpApN4lJMQNrA0rGJZXVvlV5ZLubEMNH1omk_1mAstEefJ0spWkedOBAe5og228aYdYdVGMGx2otBaGsGAG_1DMh7rANSTYk0_MrBlyxCEDc66NFCgfMXVMcoMDPiPuhcBXg5_Iwjv_Fz2YEb4sU8vGb7xqSy9VX9nCTc1tUE2DL8uYW4jHmEa_B2GwMX24GP44NZ_TWI6Tc4Om0jvrCWW6cMyN3YxN1SrsIUBMkmeYENO3JUYvlZTV5Hn0Kqc' },
-    ],
+        properties: number;
+        rating: number;
+        responseRate: number;
+    };
+    verifications: Array<{
+        id: number;
+        name: string;
+        status: 'verified' | 'pending';
+        icon: string;
+    }>;
+    properties: Array<{
+        id: string;
+        name: string;
+        location: string;
+        status: string;
+        image: string;
+    }>;
     reviews: {
-        total: 24,
-        average: 4.8,
-        breakdown: [
-            { stars: 5, count: 19, percentage: 80 },
-            { stars: 4, count: 4, percentage: 15 },
-            { stars: 3, count: 1, percentage: 5 },
+        total: number;
+        average: number;
+        breakdown: Array<{
+            stars: number;
+            count: number;
+            percentage: number;
+        }>;
+    };
+}
+
+// Get member since year from createdAt
+function getMemberSinceYear(createdAt: string): string {
+    return new Date(createdAt).getFullYear().toString();
+}
+
+// Get status label from property status
+function getPropertyStatusLabel(status: string): string {
+    const mapping: Record<string, string> = {
+        AVAILABLE: 'Active',
+        RENTED: 'Rented',
+        PENDING: 'Pending',
+        MAINTENANCE: 'Maintenance',
+        DRAFT: 'Draft',
+    };
+    return mapping[status] || status;
+}
+
+// Format address for location display
+function formatLocation(address: PropertySummary['address']): string {
+    if (typeof address === 'object' && address) {
+        return [address.city, address.state].filter(Boolean).join(', ');
+    }
+    return '';
+}
+
+// Transform API data to UI format
+function transformProfileData(
+    user: UserWithProfile,
+    properties: PropertySummary[]
+): UIProfileData {
+    return {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        phone: user.phone || '',
+        bio: user.bio || '',
+        avatarUrl: user.avatarUrl || '',
+        memberSince: getMemberSinceYear(user.createdAt),
+        stats: {
+            properties: properties.length,
+            rating: 0, // Would come from reviews API
+            responseRate: 0, // Would come from analytics API
+        },
+        verifications: [
+            {
+                id: 1,
+                name: 'Identity Verified',
+                status: user.isEmailVerified ? 'verified' : 'pending',
+                icon: 'verified_user',
+            },
+            {
+                id: 2,
+                name: 'Business Registration',
+                status: 'pending',
+                icon: 'domain_verification',
+            },
         ],
-    },
+        properties: properties.slice(0, 5).map((p) => ({
+            id: p.id,
+            name: p.name,
+            location: formatLocation(p.address),
+            status: getPropertyStatusLabel(p.status),
+            image: '',
+        })),
+        reviews: {
+            total: 0,
+            average: 0,
+            breakdown: [],
+        },
+    };
+}
+
+// Default empty data for loading state
+const defaultProfileData: UIProfileData = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    bio: '',
+    avatarUrl: '',
+    memberSince: '',
+    stats: { properties: 0, rating: 0, responseRate: 0 },
+    verifications: [],
+    properties: [],
+    reviews: { total: 0, average: 0, breakdown: [] },
 };
 
 const menuItems = [
@@ -45,17 +142,96 @@ const menuItems = [
 
 export default function LandlordProfile() {
     const [activeMenu, setActiveMenu] = useState('personal');
+
+    // API data state
+    const [profileData, setProfileData] = useState<UIProfileData>(defaultProfileData);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Form state (initialized after data loads)
     const [formData, setFormData] = useState({
-        firstName: profileData.firstName,
-        lastName: profileData.lastName,
-        email: profileData.email,
-        phone: profileData.phone,
-        bio: profileData.bio,
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        bio: '',
     });
+
+    // Fetch profile data
+    useEffect(() => {
+        async function fetchProfileData() {
+            try {
+                setIsLoading(true);
+                setError(null);
+
+                // Fetch user profile and properties in parallel
+                const [userResponse, propertiesResponse] = await Promise.all([
+                    userService.getCurrentUser(),
+                    landlordService.getProperties({ limit: 5 }),
+                ]);
+
+                const user = userResponse.data;
+                const properties = propertiesResponse.data?.data || [];
+
+                if (user) {
+                    const transformed = transformProfileData(user, properties);
+                    setProfileData(transformed);
+                    setFormData({
+                        firstName: transformed.firstName,
+                        lastName: transformed.lastName,
+                        email: transformed.email,
+                        phone: transformed.phone,
+                        bio: transformed.bio,
+                    });
+                }
+            } catch (err) {
+                console.error('Error fetching profile:', err);
+                setError('Failed to load profile data');
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchProfileData();
+    }, []);
 
     const handleInputChange = (field: string, value: string) => {
         setFormData({ ...formData, [field]: value });
     };
+
+    // Loading state
+    if (isLoading) {
+        return (
+            <PageContainer maxWidth="lg">
+                <div className="flex items-center justify-center min-h-[400px]">
+                    <div className="text-center">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#137fec] mx-auto mb-4"></div>
+                        <p className="text-slate-500 dark:text-slate-400">Loading profile...</p>
+                    </div>
+                </div>
+            </PageContainer>
+        );
+    }
+
+    // Error state
+    if (error) {
+        return (
+            <PageContainer maxWidth="lg">
+                <div className="flex items-center justify-center min-h-[400px]">
+                    <div className="text-center">
+                        <span className="material-symbols-outlined text-5xl text-red-400 mb-4">error</span>
+                        <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
+                        <button
+                            onClick={() => window.location.reload()}
+                            className="px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-sm font-bold text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                        >
+                            Try Again
+                        </button>
+                    </div>
+                </div>
+            </PageContainer>
+        );
+    }
 
     return (
         <PageContainer maxWidth="lg">
@@ -91,7 +267,7 @@ export default function LandlordProfile() {
                             </div>
                         </div>
                         <h2 className="text-xl font-bold text-slate-900 dark:text-white">{formData.firstName} {formData.lastName}</h2>
-                        <p className="text-sm text-slate-500 dark:text-slate-400">Landlord since 2018</p>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">Landlord since {profileData.memberSince}</p>
                         <div className="w-full mt-6 pt-6 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center px-2">
                             <div className="text-center">
                                 <p className="text-xl font-bold text-slate-900 dark:text-white">{profileData.stats.properties}</p>
