@@ -1,50 +1,313 @@
+import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import PageContainer from '../../../components/common/PageContainer';
+import { maintenanceService } from '../../../lib/api/services';
+import type { MaintenanceRequest, MaintenanceCategory, MaintenancePriority, MaintenanceStatus } from '../../../types/lease';
 
-// Mock maintenance request data
-const maintenanceRequest = {
-    id: 'MR-8921',
-    title: 'Water Leak in Master Bathroom',
-    status: 'in-progress',
-    statusLabel: 'In Progress',
-    urgency: 'high',
-    urgencyLabel: 'High Urgency',
-    submittedDate: 'Oct 24, 2023 at 09:15 AM',
+// UI types for maintenance request detail
+interface UIMaintenanceRequest {
+    id: string;
+    title: string;
+    status: string;
+    statusLabel: string;
+    statusColor: string;
+    urgency: string;
+    urgencyLabel: string;
+    submittedDate: string;
     property: {
-        name: '1243 Oakwood Avenue',
-        location: 'Austin, TX • Unit 4B',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l',
-    },
+        id: string;
+        name: string;
+        location: string;
+        image: string;
+    };
     tenant: {
-        name: 'Sarah Johnson',
-        initials: 'SJ',
-        verified: true,
-        leaseEnd: 'Nov 2024',
-    },
-    description: `"I came home from work around 6 PM and noticed water dripping from the ceiling in the master bathroom, right above the vanity. There is a small puddle forming on the floor. I've placed a bucket underneath for now, but the dripping seems to be getting faster. It might be coming from the unit upstairs."`,
+        name: string;
+        initials: string;
+        verified: boolean;
+        leaseEnd: string;
+    } | null;
+    description: string;
     vendor: {
-        name: 'Speedy Fix Plumbing',
-        icon: 'plumbing',
-        rating: 4.8,
-        jobs: 24,
-        responseTime: '2 hours',
-    },
-    estimatedCost: '$150 - $300',
-    timeline: [
-        { id: 1, time: 'Today, 10:30 AM', title: 'Vendor On-Site', description: 'Speedy Fix Plumbing has checked in at the property.', color: 'bg-amber-500' },
-        { id: 2, time: 'Today, 09:45 AM', title: 'Vendor Assigned', description: 'You assigned Speedy Fix Plumbing to this request.', color: 'bg-blue-500' },
-        { id: 3, time: 'Oct 24, 09:30 AM', title: 'Viewed by Landlord', description: "Status changed from 'New' to 'In Review'.", color: 'bg-slate-300 dark:bg-slate-600' },
-        { id: 4, time: 'Oct 24, 09:15 AM', title: 'Request Submitted', description: 'Tenant submitted a new maintenance request.', color: 'bg-slate-300 dark:bg-slate-600' },
-    ],
-    messages: [
-        { id: 1, from: 'tenant', name: 'Sarah Johnson (Tenant)', initials: 'SJ', time: 'Oct 24, 09:20 AM', text: "Is there an ETA on when someone can come look at this? It's dripping pretty fast." },
-        { id: 2, from: 'landlord', name: 'You', time: 'Oct 24, 09:40 AM', text: "Hi Sarah, I've just contacted a plumber. They should be reaching out to you shortly to schedule a time. Please keep the bucket there for now." },
-    ],
+        name: string;
+        icon: string;
+        rating: number;
+        jobs: number;
+        responseTime: string;
+    } | null;
+    estimatedCost: string;
+    timeline: Array<{
+        id: number;
+        time: string;
+        title: string;
+        description: string;
+        color: string;
+    }>;
+    messages: Array<{
+        id: number;
+        from: 'tenant' | 'landlord';
+        name: string;
+        initials?: string;
+        time: string;
+        text: string;
+    }>;
+    images: string[];
+}
+
+// Category icon mapping
+function getCategoryIcon(category: MaintenanceCategory): string {
+    const mapping: Record<MaintenanceCategory, string> = {
+        PLUMBING: 'plumbing',
+        ELECTRICAL: 'lightbulb',
+        HVAC: 'hvac',
+        APPLIANCES: 'kitchen',
+        STRUCTURAL: 'foundation',
+        PEST_CONTROL: 'pest_control',
+        CLEANING: 'cleaning_services',
+        SECURITY: 'lock_open',
+        OTHER: 'build',
+    };
+    return mapping[category] || 'build';
+}
+
+// Priority/urgency mapping
+function getUrgencyInfo(priority: MaintenancePriority): { label: string; color: string } {
+    const mapping: Record<MaintenancePriority, { label: string; color: string }> = {
+        LOW: { label: 'Low Priority', color: 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-600' },
+        MEDIUM: { label: 'Medium Priority', color: 'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300 border-orange-200 dark:border-orange-800' },
+        HIGH: { label: 'High Urgency', color: 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300 border-red-200 dark:border-red-800' },
+        EMERGENCY: { label: 'Emergency', color: 'bg-red-200 text-red-800 dark:bg-red-900/60 dark:text-red-200 border-red-300 dark:border-red-700' },
+    };
+    return mapping[priority] || { label: priority, color: 'bg-orange-100 text-orange-700' };
+}
+
+// Status mapping
+function getStatusInfo(status: MaintenanceStatus): { label: string; color: string } {
+    const mapping: Record<MaintenanceStatus, { label: string; color: string }> = {
+        PENDING: { label: 'New', color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 border-blue-200 dark:border-blue-800' },
+        ACKNOWLEDGED: { label: 'In Review', color: 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300 border-purple-200 dark:border-purple-800' },
+        IN_PROGRESS: { label: 'In Progress', color: 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300 border-amber-200 dark:border-amber-800' },
+        COMPLETED: { label: 'Resolved', color: 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300 border-green-200 dark:border-green-800' },
+        CANCELLED: { label: 'Cancelled', color: 'bg-gray-100 text-gray-700 dark:bg-gray-900/40 dark:text-gray-300 border-gray-200 dark:border-gray-800' },
+    };
+    return mapping[status] || { label: status, color: 'bg-slate-100 text-slate-700' };
+}
+
+// Format date for display
+function formatDateTime(dateStr: string): string {
+    const date = new Date(dateStr);
+    const today = new Date();
+    const isToday = date.toDateString() === today.toDateString();
+
+    const timeStr = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+
+    if (isToday) {
+        return `Today, ${timeStr}`;
+    }
+    return `${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}, ${timeStr}`;
+}
+
+function formatSubmittedDate(dateStr: string): string {
+    const date = new Date(dateStr);
+    return `${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} at ${date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}`;
+}
+
+// Generate timeline from maintenance request
+function generateTimeline(request: MaintenanceRequest): UIMaintenanceRequest['timeline'] {
+    const timeline: UIMaintenanceRequest['timeline'] = [];
+    let idCounter = 1;
+
+    // Add events based on status progression
+    if (request.status === 'COMPLETED' && request.completedAt) {
+        timeline.push({
+            id: idCounter++,
+            time: formatDateTime(request.completedAt),
+            title: 'Request Resolved',
+            description: 'The maintenance work has been completed.',
+            color: 'bg-green-500',
+        });
+    }
+
+    if (request.status === 'IN_PROGRESS' || request.status === 'COMPLETED') {
+        timeline.push({
+            id: idCounter++,
+            time: formatDateTime(request.updatedAt),
+            title: 'Maintenance In Progress',
+            description: 'Work is being performed on this request.',
+            color: 'bg-amber-500',
+        });
+    }
+
+    if (request.assignedAgent) {
+        timeline.push({
+            id: idCounter++,
+            time: formatDateTime(request.updatedAt),
+            title: 'Vendor Assigned',
+            description: `${request.assignedAgent.firstName} ${request.assignedAgent.lastName} has been assigned to this request.`,
+            color: 'bg-blue-500',
+        });
+    }
+
+    if (request.status !== 'PENDING') {
+        timeline.push({
+            id: idCounter++,
+            time: formatDateTime(request.updatedAt),
+            title: 'Viewed by Landlord',
+            description: "Status changed from 'New' to 'In Review'.",
+            color: 'bg-slate-300 dark:bg-slate-600',
+        });
+    }
+
+    // Always add submission event
+    timeline.push({
+        id: idCounter++,
+        time: formatDateTime(request.createdAt),
+        title: 'Request Submitted',
+        description: 'Tenant submitted a new maintenance request.',
+        color: 'bg-slate-300 dark:bg-slate-600',
+    });
+
+    return timeline;
+}
+
+// Get initials from name
+function getInitials(firstName?: string, lastName?: string): string {
+    return `${firstName?.[0] || ''}${lastName?.[0] || ''}`.toUpperCase();
+}
+
+// Transform API data to UI format
+function transformMaintenanceRequest(request: MaintenanceRequest): UIMaintenanceRequest {
+    const statusInfo = getStatusInfo(request.status);
+    const urgencyInfo = getUrgencyInfo(request.priority);
+
+    const property = request.lease?.property;
+    const tenant = request.lease?.tenant;
+    const address = property?.address;
+
+    const formattedLocation = address && typeof address === 'object'
+        ? [address.city, address.state].filter(Boolean).join(', ')
+        : '';
+
+    return {
+        id: request.id,
+        title: request.title,
+        status: request.status,
+        statusLabel: statusInfo.label,
+        statusColor: statusInfo.color,
+        urgency: request.priority,
+        urgencyLabel: urgencyInfo.label,
+        submittedDate: formatSubmittedDate(request.createdAt),
+        property: {
+            id: property?.id || '',
+            name: property?.name || 'Property',
+            location: formattedLocation,
+            image: '',
+        },
+        tenant: tenant ? {
+            name: `${tenant.firstName} ${tenant.lastName}`,
+            initials: getInitials(tenant.firstName, tenant.lastName),
+            verified: false, // Would come from full tenant data if available
+            leaseEnd: 'N/A', // Would come from full lease data if available
+        } : null,
+        description: `"${request.description}"`,
+        vendor: request.assignedAgent ? {
+            name: `${request.assignedAgent.firstName} ${request.assignedAgent.lastName}`,
+            icon: getCategoryIcon(request.category),
+            rating: 4.5,
+            jobs: 10,
+            responseTime: '2 hours',
+        } : null,
+        estimatedCost: 'TBD',
+        timeline: generateTimeline(request),
+        messages: [], // Messages would come from a separate API
+        images: request.images || [],
+    };
+}
+
+// Default empty data for loading state
+const defaultMaintenanceRequest: UIMaintenanceRequest = {
+    id: '',
+    title: 'Loading...',
+    status: '',
+    statusLabel: '',
+    statusColor: 'bg-slate-100 text-slate-700',
+    urgency: '',
+    urgencyLabel: '',
+    submittedDate: '',
+    property: { id: '', name: '', location: '', image: '' },
+    tenant: null,
+    description: '',
+    vendor: null,
+    estimatedCost: '',
+    timeline: [],
+    messages: [],
+    images: [],
 };
 
 export default function LandlordMaintenanceDetail() {
     const { id } = useParams();
-    console.log('Maintenance ID:', id);
+
+    // API data state
+    const [maintenanceRequest, setMaintenanceRequest] = useState<UIMaintenanceRequest>(defaultMaintenanceRequest);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Fetch maintenance request details
+    useEffect(() => {
+        async function fetchMaintenanceRequest() {
+            if (!id) return;
+
+            try {
+                setIsLoading(true);
+                setError(null);
+
+                const response = await maintenanceService.getMaintenanceRequestById(id);
+                if (response.data) {
+                    setMaintenanceRequest(transformMaintenanceRequest(response.data));
+                }
+            } catch (err) {
+                console.error('Error fetching maintenance request:', err);
+                setError('Failed to load maintenance request details');
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchMaintenanceRequest();
+    }, [id]);
+
+    // Loading state
+    if (isLoading) {
+        return (
+            <PageContainer>
+                <div className="flex items-center justify-center min-h-[400px]">
+                    <div className="text-center">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#137fec] mx-auto mb-4"></div>
+                        <p className="text-slate-500 dark:text-slate-400">Loading maintenance request...</p>
+                    </div>
+                </div>
+            </PageContainer>
+        );
+    }
+
+    // Error state
+    if (error) {
+        return (
+            <PageContainer>
+                <div className="flex items-center justify-center min-h-[400px]">
+                    <div className="text-center">
+                        <span className="material-symbols-outlined text-5xl text-red-400 mb-4">error</span>
+                        <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
+                        <button
+                            onClick={() => window.location.reload()}
+                            className="px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-sm font-bold text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                        >
+                            Try Again
+                        </button>
+                    </div>
+                </div>
+            </PageContainer>
+        );
+    }
 
     return (
         <PageContainer>
@@ -115,28 +378,34 @@ export default function LandlordMaintenanceDetail() {
                             </div>
                             <div className="p-6">
                                 <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-3">Tenant Details</h3>
-                                <div className="flex items-center gap-3 mb-4">
-                                    <div className="size-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold text-lg">
-                                        {maintenanceRequest.tenant.initials}
-                                    </div>
-                                    <div>
-                                        <h4 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                                            {maintenanceRequest.tenant.name}
-                                            {maintenanceRequest.tenant.verified && (
-                                                <span className="material-symbols-outlined text-blue-500 text-[16px]" title="Verified Tenant">verified</span>
-                                            )}
-                                        </h4>
-                                        <p className="text-xs text-slate-500 dark:text-slate-400">Lease ends {maintenanceRequest.tenant.leaseEnd}</p>
-                                    </div>
-                                </div>
-                                <div className="flex gap-2">
-                                    <button className="flex-1 py-2 px-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg text-xs font-bold text-slate-800 dark:text-slate-300 flex items-center justify-center gap-2 transition-colors">
-                                        <span className="material-symbols-outlined text-[16px] text-slate-800 dark:text-slate-400">call</span> Call
-                                    </button>
-                                    <button className="flex-1 py-2 px-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg text-xs font-bold text-slate-800 dark:text-slate-300 flex items-center justify-center gap-2 transition-colors">
-                                        <span className="material-symbols-outlined text-[16px] text-slate-800 dark:text-slate-400">mail</span> Message
-                                    </button>
-                                </div>
+                                {maintenanceRequest.tenant ? (
+                                    <>
+                                        <div className="flex items-center gap-3 mb-4">
+                                            <div className="size-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold text-lg">
+                                                {maintenanceRequest.tenant.initials}
+                                            </div>
+                                            <div>
+                                                <h4 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                                    {maintenanceRequest.tenant.name}
+                                                    {maintenanceRequest.tenant.verified && (
+                                                        <span className="material-symbols-outlined text-blue-500 text-[16px]" title="Verified Tenant">verified</span>
+                                                    )}
+                                                </h4>
+                                                <p className="text-xs text-slate-500 dark:text-slate-400">Lease ends {maintenanceRequest.tenant.leaseEnd}</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <button className="flex-1 py-2 px-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg text-xs font-bold text-slate-800 dark:text-slate-300 flex items-center justify-center gap-2 transition-colors">
+                                                <span className="material-symbols-outlined text-[16px] text-slate-800 dark:text-slate-400">call</span> Call
+                                            </button>
+                                            <button className="flex-1 py-2 px-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg text-xs font-bold text-slate-800 dark:text-slate-300 flex items-center justify-center gap-2 transition-colors">
+                                                <span className="material-symbols-outlined text-[16px] text-slate-800 dark:text-slate-400">mail</span> Message
+                                            </button>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <p className="text-sm text-slate-500 dark:text-slate-400">Tenant information not available</p>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -282,37 +551,51 @@ export default function LandlordMaintenanceDetail() {
                         <div>
                             <div className="flex items-center justify-between mb-3">
                                 <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Assigned Vendor</h3>
-                                <button className="text-xs font-bold text-[#137fec] hover:underline">Change</button>
+                                <button className="text-xs font-bold text-[#137fec] hover:underline">
+                                    {maintenanceRequest.vendor ? 'Change' : 'Assign'}
+                                </button>
                             </div>
-                            <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4 border border-slate-100 dark:border-slate-800">
-                                <div className="flex items-center gap-3 mb-3">
-                                    <div className="size-10 bg-white dark:bg-slate-700 rounded-lg flex items-center justify-center text-slate-500 shadow-sm">
-                                        <span className="material-symbols-outlined">{maintenanceRequest.vendor.icon}</span>
-                                    </div>
-                                    <div>
-                                        <h4 className="text-sm font-bold text-slate-900 dark:text-white">{maintenanceRequest.vendor.name}</h4>
-                                        <div className="flex items-center gap-1">
-                                            <span className="material-symbols-outlined text-[14px] text-amber-400 icon-filled">star</span>
-                                            <span className="text-xs font-bold text-slate-700 dark:text-slate-300">{maintenanceRequest.vendor.rating}</span>
-                                            <span className="text-xs text-slate-400">({maintenanceRequest.vendor.jobs} jobs)</span>
+                            {maintenanceRequest.vendor ? (
+                                <>
+                                    <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4 border border-slate-100 dark:border-slate-800">
+                                        <div className="flex items-center gap-3 mb-3">
+                                            <div className="size-10 bg-white dark:bg-slate-700 rounded-lg flex items-center justify-center text-slate-500 shadow-sm">
+                                                <span className="material-symbols-outlined">{maintenanceRequest.vendor.icon}</span>
+                                            </div>
+                                            <div>
+                                                <h4 className="text-sm font-bold text-slate-900 dark:text-white">{maintenanceRequest.vendor.name}</h4>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="material-symbols-outlined text-[14px] text-amber-400 icon-filled">star</span>
+                                                    <span className="text-xs font-bold text-slate-700 dark:text-slate-300">{maintenanceRequest.vendor.rating}</span>
+                                                    <span className="text-xs text-slate-400">({maintenanceRequest.vendor.jobs} jobs)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <button className="flex-1 py-1.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg text-xs font-bold text-slate-800 dark:text-slate-200 shadow-sm hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
+                                                Contact
+                                            </button>
+                                            <button className="flex-1 py-1.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg text-xs font-bold text-slate-800 dark:text-slate-200 shadow-sm hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
+                                                View Profile
+                                            </button>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="flex gap-2">
-                                    <button className="flex-1 py-1.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg text-xs font-bold text-slate-800 dark:text-slate-200 shadow-sm hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
-                                        Contact
+                                    <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-100 dark:border-blue-800/50 flex gap-3">
+                                        <span className="material-symbols-outlined text-blue-600 dark:text-blue-400 shrink-0">info</span>
+                                        <p className="text-xs text-slate-700 dark:text-slate-300 leading-snug">
+                                            This vendor typically responds within <span className="font-bold">{maintenanceRequest.vendor.responseTime}</span> for emergency requests.
+                                        </p>
+                                    </div>
+                                </>
+                            ) : (
+                                <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4 border border-slate-100 dark:border-slate-800 text-center">
+                                    <span className="material-symbols-outlined text-3xl text-slate-300 dark:text-slate-600 mb-2">person_add</span>
+                                    <p className="text-sm text-slate-500 dark:text-slate-400">No vendor assigned yet</p>
+                                    <button className="mt-3 px-4 py-2 bg-[#137fec] hover:bg-[#137fec]/90 text-white text-xs font-bold rounded-lg transition-colors">
+                                        Assign Vendor
                                     </button>
-                                    <button className="flex-1 py-1.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg text-xs font-bold text-slate-800 dark:text-slate-200 shadow-sm hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
-                                        View Profile
-                                    </button>
                                 </div>
-                            </div>
-                            <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-100 dark:border-blue-800/50 flex gap-3">
-                                <span className="material-symbols-outlined text-blue-600 dark:text-blue-400 shrink-0">info</span>
-                                <p className="text-xs text-slate-700 dark:text-slate-300 leading-snug">
-                                    This vendor typically responds within <span className="font-bold">{maintenanceRequest.vendor.responseTime}</span> for emergency requests.
-                                </p>
-                            </div>
+                            )}
                         </div>
                     </div>
 

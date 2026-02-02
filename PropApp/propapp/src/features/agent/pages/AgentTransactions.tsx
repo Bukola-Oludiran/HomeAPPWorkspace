@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageContainer from '../../../components/common/PageContainer';
 import ExportModal from '../../../components/ExportModal';
@@ -6,94 +6,106 @@ import SectionCard from '../../../components/common/SectionCard';
 import StatusBadge from '../../../components/common/StatusBadge';
 import SearchInput from '../../../components/common/SearchInput';
 import DateRangeFilter from '../../../components/common/DateRangeFilter';
+import { agentService } from '../../../lib/api/services';
+import type { Payout } from '../../../types/lease';
 
-// Mock transaction data for agent
-const transactions = [
-    {
-        id: 'TRX-88231',
-        description: 'Commission - Property Showing',
-        property: 'Sunset Apartments, Unit 4B',
-        date: 'Oct 01, 2023',
-        time: '09:15 AM',
-        method: 'Bank Transfer',
-        methodIcon: 'account_balance',
-        status: 'Paid',
-        amount: '₦25,000.00',
-        icon: 'handshake',
-        iconBg: 'bg-blue-50 dark:bg-blue-900/20',
-        iconColor: 'text-blue-600 dark:text-blue-400',
-    },
-    {
-        id: 'TRX-88190',
-        description: 'Commission - Lease Signing',
-        property: 'Modern Oakwood Estate',
-        date: 'Oct 05, 2023',
-        time: '10:00 AM',
-        method: 'GTBank **** 4592',
-        methodIcon: 'account_balance',
-        status: 'Pending',
-        amount: '₦75,000.00',
-        icon: 'description',
-        iconBg: 'bg-orange-50 dark:bg-orange-900/20',
-        iconColor: 'text-orange-600 dark:text-orange-400',
-    },
-    {
-        id: 'TRX-87992',
-        description: 'Bonus - Top Agent Award',
+// UI transaction type
+interface UITransaction {
+    id: string;
+    description: string;
+    property: string;
+    date: string;
+    time: string;
+    method: string;
+    methodIcon: string;
+    status: string;
+    amount: string;
+    icon: string;
+    iconBg: string;
+    iconColor: string;
+}
+
+// Format currency
+function formatCurrency(amount: number, currency = 'NGN'): string {
+    return new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency,
+        minimumFractionDigits: 2,
+    }).format(amount);
+}
+
+// Format date and time
+function formatDateTime(dateStr: string): { date: string; time: string } {
+    const date = new Date(dateStr);
+    return {
+        date: date.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }),
+        time: date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }),
+    };
+}
+
+// Map API status to UI status
+function mapStatus(status: Payout['status']): { label: string; variant: 'success' | 'warning' | 'error' } {
+    const mapping: Record<Payout['status'], { label: string; variant: 'success' | 'warning' | 'error' }> = {
+        COMPLETED: { label: 'Paid', variant: 'success' },
+        PENDING: { label: 'Pending', variant: 'warning' },
+        PROCESSING: { label: 'Pending', variant: 'warning' },
+        FAILED: { label: 'Failed', variant: 'error' },
+    };
+    return mapping[status] || { label: status, variant: 'warning' };
+}
+
+// Get icon and styling based on status
+function getTransactionStyle(status: Payout['status']): { icon: string; iconBg: string; iconColor: string } {
+    switch (status) {
+        case 'COMPLETED':
+            return {
+                icon: 'account_balance_wallet',
+                iconBg: 'bg-green-50 dark:bg-green-900/20',
+                iconColor: 'text-green-600 dark:text-green-400',
+            };
+        case 'PENDING':
+        case 'PROCESSING':
+            return {
+                icon: 'schedule',
+                iconBg: 'bg-orange-50 dark:bg-orange-900/20',
+                iconColor: 'text-orange-600 dark:text-orange-400',
+            };
+        case 'FAILED':
+            return {
+                icon: 'error',
+                iconBg: 'bg-red-50 dark:bg-red-900/20',
+                iconColor: 'text-red-600 dark:text-red-400',
+            };
+        default:
+            return {
+                icon: 'payments',
+                iconBg: 'bg-blue-50 dark:bg-blue-900/20',
+                iconColor: 'text-blue-600 dark:text-blue-400',
+            };
+    }
+}
+
+// Transform API payout to UI format
+function transformPayout(payout: Payout): UITransaction {
+    const { date, time } = formatDateTime(payout.createdAt);
+    const statusInfo = mapStatus(payout.status);
+    const style = getTransactionStyle(payout.status);
+
+    return {
+        id: `TRX-${payout.id.slice(-5).toUpperCase()}`,
+        description: payout.description || 'Withdrawal',
         property: 'N/A',
-        date: 'Sept 28, 2023',
-        time: '2:30 PM',
-        method: 'Bank Transfer',
+        date,
+        time,
+        method: payout.bankAccount?.bankName
+            ? `${payout.bankAccount.bankName} **** ${payout.bankAccount.accountNumber?.slice(-4) || ''}`
+            : 'Bank Transfer',
         methodIcon: 'account_balance',
-        status: 'Paid',
-        amount: '₦50,000.00',
-        icon: 'emoji_events',
-        iconBg: 'bg-purple-50 dark:bg-purple-900/20',
-        iconColor: 'text-purple-600 dark:text-purple-400',
-    },
-    {
-        id: 'TRX-87800',
-        description: 'Withdrawal to Bank',
-        property: 'N/A',
-        date: 'Sept 29, 2023',
-        time: '01:15 PM',
-        method: 'GTBank **** 4592',
-        methodIcon: 'account_balance',
-        status: 'Failed',
-        amount: '₦100,000.00',
-        icon: 'account_balance_wallet',
-        iconBg: 'bg-red-50 dark:bg-red-900/20',
-        iconColor: 'text-red-600 dark:text-red-400',
-    },
-    {
-        id: 'TRX-87654',
-        description: 'Commission - Property Tour',
-        property: 'Lakeview Condo, Unit 12A',
-        date: 'Sept 01, 2023',
-        time: '11:00 AM',
-        method: 'Bank Transfer',
-        methodIcon: 'account_balance',
-        status: 'Paid',
-        amount: '₦15,000.00',
-        icon: 'home',
-        iconBg: 'bg-blue-50 dark:bg-blue-900/20',
-        iconColor: 'text-blue-600 dark:text-blue-400',
-    },
-    {
-        id: 'TRX-86500',
-        description: 'Referral Bonus',
-        property: 'N/A',
-        date: 'Aug 25, 2023',
-        time: '03:45 PM',
-        method: 'Bank Transfer',
-        methodIcon: 'account_balance',
-        status: 'Paid',
-        amount: '₦20,000.00',
-        icon: 'group_add',
-        iconBg: 'bg-teal-50 dark:bg-teal-900/20',
-        iconColor: 'text-teal-600 dark:text-teal-400',
-    },
-];
+        status: statusInfo.label,
+        amount: formatCurrency(payout.amount, payout.currency),
+        ...style,
+    };
+}
 
 const statusToVariant: Record<string, 'success' | 'warning' | 'error' | 'info' | 'neutral' | 'pending'> = {
     Paid: 'success',
@@ -105,6 +117,51 @@ export default function AgentTransactions() {
     const [searchQuery, setSearchQuery] = useState('');
     const [showAIChat, setShowAIChat] = useState(false);
     const [isExportModalOpen, setIsExportModalOpen] = useState(false);
+
+    // API data state
+    const [transactions, setTransactions] = useState<UITransaction[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [page, setPage] = useState(1);
+    const [totalCount, setTotalCount] = useState(0);
+    const [totalPages, setTotalPages] = useState(1);
+    const limit = 10;
+
+    // Fetch payout history
+    useEffect(() => {
+        async function fetchPayouts() {
+            try {
+                setIsLoading(true);
+                setError(null);
+
+                const response = await agentService.getPayoutHistory({ page, limit });
+
+                if (response.data?.data) {
+                    let transformed = response.data.data.map(transformPayout);
+
+                    // Client-side search filter
+                    if (searchQuery) {
+                        const query = searchQuery.toLowerCase();
+                        transformed = transformed.filter(tx =>
+                            tx.description.toLowerCase().includes(query) ||
+                            tx.id.toLowerCase().includes(query)
+                        );
+                    }
+
+                    setTransactions(transformed);
+                    setTotalCount(response.data.pagination?.total || transformed.length);
+                    setTotalPages(response.data.pagination?.totalPages || 1);
+                }
+            } catch (err) {
+                console.error('Error fetching payout history:', err);
+                setError('Failed to load transaction history');
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchPayouts();
+    }, [page, searchQuery]);
 
     return (
         <PageContainer>
@@ -200,7 +257,52 @@ export default function AgentTransactions() {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                            {transactions.map((tx) => (
+                            {isLoading ? (
+                                // Loading skeleton rows
+                                Array.from({ length: 5 }).map((_, index) => (
+                                    <tr key={`skeleton-${index}`} className="animate-pulse">
+                                        <td className="px-6 py-4">
+                                            <div className="flex items-center gap-3">
+                                                <div className="size-10 rounded-full bg-slate-200 dark:bg-slate-700" />
+                                                <div className="space-y-2">
+                                                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-32" />
+                                                    <div className="h-3 bg-slate-200 dark:bg-slate-700 rounded w-20" />
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4"><div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-24" /></td>
+                                        <td className="px-6 py-4"><div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-20" /></td>
+                                        <td className="px-6 py-4"><div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-24" /></td>
+                                        <td className="px-6 py-4"><div className="h-6 bg-slate-200 dark:bg-slate-700 rounded w-16" /></td>
+                                        <td className="px-6 py-4"><div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-20 ml-auto" /></td>
+                                        <td className="px-6 py-4"><div className="h-8 bg-slate-200 dark:bg-slate-700 rounded w-8 mx-auto" /></td>
+                                    </tr>
+                                ))
+                            ) : error ? (
+                                <tr>
+                                    <td colSpan={7} className="px-6 py-12 text-center">
+                                        <div className="flex flex-col items-center gap-3">
+                                            <span className="material-symbols-outlined text-4xl text-red-400">error</span>
+                                            <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+                                            <button
+                                                onClick={() => window.location.reload()}
+                                                className="px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                                            >
+                                                Try Again
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ) : transactions.length === 0 ? (
+                                <tr>
+                                    <td colSpan={7} className="px-6 py-12 text-center">
+                                        <div className="flex flex-col items-center gap-3">
+                                            <span className="material-symbols-outlined text-4xl text-slate-300 dark:text-slate-600">receipt_long</span>
+                                            <p className="text-sm text-slate-500 dark:text-slate-400">No transactions found</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ) : transactions.map((tx) => (
                                 <tr key={tx.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-3">
@@ -244,10 +346,36 @@ export default function AgentTransactions() {
                     </table>
                 </div>
                 <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/20 flex items-center justify-between">
-                    <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Showing 6 of 24 transactions</span>
+                    <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                        {isLoading ? (
+                            <span className="animate-pulse">Loading...</span>
+                        ) : (
+                            <>Showing {transactions.length > 0 ? (page - 1) * limit + 1 : 0}-{Math.min(page * limit, totalCount)} of {totalCount} transactions</>
+                        )}
+                    </span>
                     <div className="flex gap-2">
-                        <button className="px-3 py-1 text-xs font-bold text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors opacity-50 cursor-not-allowed">Previous</button>
-                        <button className="px-3 py-1 text-xs font-bold text-[#137fec] bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">Next</button>
+                        <button
+                            onClick={() => setPage(p => Math.max(1, p - 1))}
+                            disabled={page === 1 || isLoading}
+                            className={`px-3 py-1 text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded transition-colors ${
+                                page === 1 || isLoading
+                                    ? 'text-slate-500 dark:text-slate-400 opacity-50 cursor-not-allowed'
+                                    : 'text-slate-700 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-700'
+                            }`}
+                        >
+                            Previous
+                        </button>
+                        <button
+                            onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                            disabled={page >= totalPages || isLoading}
+                            className={`px-3 py-1 text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded transition-colors ${
+                                page >= totalPages || isLoading
+                                    ? 'text-slate-500 dark:text-slate-400 opacity-50 cursor-not-allowed'
+                                    : 'text-[#137fec] hover:bg-slate-50 dark:hover:bg-slate-700'
+                            }`}
+                        >
+                            Next
+                        </button>
                     </div>
                 </div>
             </SectionCard>

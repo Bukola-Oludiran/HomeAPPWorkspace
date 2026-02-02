@@ -1,57 +1,269 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import ConfirmationModal from '../../../components/ConfirmationModal';
 import PageContainer from '../../../components/common/PageContainer';
 import Breadcrumb from '../../../components/common/Breadcrumb';
+import { landlordService } from '../../../lib/api/services';
+import type { RentalApplication, ApplicationStatus, EmploymentStatus } from '../../../types/lease';
 
-// Mock applicant data
-const applicantData = {
-    id: 'APP-8921-TX',
-    name: 'Sarah Jenkins',
-    initials: 'SJ',
-    status: 'Pending Review',
-    statusColor: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200 dark:border-amber-800',
-    submittedDate: 'Oct 24, 2024',
-    occupation: 'Senior Software Engineer • TechCorp Inc.',
-    creditScore: 745,
-    creditRating: 'Good',
-    monthlyIncome: '$12.1k',
-    rentCoverage: '3.9x',
-    identityVerified: true,
+// UI types for applicant detail
+interface UIApplicantData {
+    id: string;
+    name: string;
+    initials: string;
+    status: string;
+    statusColor: string;
+    submittedDate: string;
+    occupation: string;
+    creditScore: number;
+    creditRating: string;
+    monthlyIncome: string;
+    rentCoverage: string;
+    identityVerified: boolean;
     property: {
-        name: '1243 Oakwood Ave',
-        unit: 'Unit 4B',
-        location: 'Austin, TX',
-        rent: '$3,100',
-        leaseTerm: '12 Mos',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l',
-    },
+        id: string;
+        name: string;
+        unit: string;
+        location: string;
+        rent: string;
+        leaseTerm: string;
+        image: string;
+    };
     screening: {
-        completedDate: 'Oct 25',
-        criminal: { status: 'pass', text: 'No records found' },
-        eviction: { status: 'pass', text: 'No records found' },
-        reference: { status: 'warning', text: 'Action Required' },
+        completedDate: string;
+        criminal: { status: 'pass' | 'warning'; text: string };
+        eviction: { status: 'pass' | 'warning'; text: string };
+        reference: { status: 'pass' | 'warning'; text: string };
+    };
+    documents: Array<{
+        id: number;
+        name: string;
+        icon: string;
+        uploaded: string;
+        status: 'ok' | 'flagged';
+        flagReason?: string;
+    }>;
+    notes: Array<{
+        id: number;
+        author: string;
+        message: string;
+        time: string;
+    }>;
+    timeline: Array<{
+        id: number;
+        date: string;
+        title: string;
+        description: string;
+        color: string;
+    }>;
+}
+
+// Format currency
+function formatCurrency(amount: number): string {
+    if (amount >= 1000) {
+        return `$${(amount / 1000).toFixed(1)}k`;
+    }
+    return `$${amount.toLocaleString()}`;
+}
+
+// Format date
+function formatDate(dateStr: string): string {
+    return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function formatTimelineDate(dateStr: string): string {
+    const date = new Date(dateStr);
+    const now = new Date();
+    const yesterday = new Date(now);
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    if (date.toDateString() === now.toDateString()) {
+        return `Today, ${date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}`;
+    }
+    if (date.toDateString() === yesterday.toDateString()) {
+        return `Yesterday, ${date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}`;
+    }
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+// Get initials from name
+function getInitials(firstName?: string, lastName?: string): string {
+    return `${firstName?.[0] || ''}${lastName?.[0] || ''}`.toUpperCase();
+}
+
+// Get status styling
+function getStatusInfo(status: ApplicationStatus): { label: string; color: string } {
+    const mapping: Record<ApplicationStatus, { label: string; color: string }> = {
+        PENDING: { label: 'Pending Review', color: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200 dark:border-amber-800' },
+        UNDER_REVIEW: { label: 'Under Review', color: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 border-blue-200 dark:border-blue-800' },
+        APPROVED: { label: 'Approved', color: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800' },
+        REJECTED: { label: 'Rejected', color: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800' },
+        WITHDRAWN: { label: 'Withdrawn', color: 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400 border-gray-200 dark:border-gray-800' },
+    };
+    return mapping[status] || { label: status, color: 'bg-slate-100 text-slate-800' };
+}
+
+// Get occupation from employment status
+function getOccupationLabel(status: EmploymentStatus): string {
+    const mapping: Record<EmploymentStatus, string> = {
+        EMPLOYED: 'Employed',
+        SELF_EMPLOYED: 'Self-Employed',
+        UNEMPLOYED: 'Unemployed',
+        STUDENT: 'Student',
+        RETIRED: 'Retired',
+    };
+    return mapping[status] || status;
+}
+
+// Transform API data to UI format
+function transformApplicant(app: RentalApplication): UIApplicantData {
+    const statusInfo = getStatusInfo(app.status);
+    const property = app.property;
+    const address = property?.address;
+    const location = address && typeof address === 'object'
+        ? [address.city, address.state].filter(Boolean).join(', ')
+        : '';
+
+    // Calculate rent coverage ratio
+    const rentCoverage = property?.price && app.monthlyIncome > 0
+        ? (app.monthlyIncome / property.price).toFixed(1)
+        : 'N/A';
+
+    return {
+        id: app.id,
+        name: app.tenant ? `${app.tenant.firstName} ${app.tenant.lastName}` : 'Unknown Applicant',
+        initials: getInitials(app.tenant?.firstName, app.tenant?.lastName),
+        status: statusInfo.label,
+        statusColor: statusInfo.color,
+        submittedDate: formatDate(app.createdAt),
+        occupation: getOccupationLabel(app.employmentStatus),
+        creditScore: 0, // Would come from a screening API
+        creditRating: 'N/A', // Would come from a screening API
+        monthlyIncome: formatCurrency(app.monthlyIncome),
+        rentCoverage: `${rentCoverage}x`,
+        identityVerified: false, // Would come from verification API
+        property: {
+            id: property?.id || '',
+            name: property?.name || 'Property',
+            unit: '',
+            location,
+            rent: property?.price ? `$${property.price.toLocaleString()}` : 'N/A',
+            leaseTerm: '12 Mos',
+            image: '',
+        },
+        screening: {
+            completedDate: 'Pending',
+            criminal: { status: 'warning', text: 'Pending' },
+            eviction: { status: 'warning', text: 'Pending' },
+            reference: { status: 'warning', text: 'Pending' },
+        },
+        documents: [],
+        notes: [],
+        timeline: [
+            {
+                id: 1,
+                date: formatTimelineDate(app.createdAt),
+                title: 'Application Received',
+                description: 'Applicant submitted form.',
+                color: 'bg-slate-300 dark:bg-slate-600',
+            },
+        ],
+    };
+}
+
+// Default empty data for loading state
+const defaultApplicantData: UIApplicantData = {
+    id: '',
+    name: 'Loading...',
+    initials: '',
+    status: '',
+    statusColor: 'bg-slate-100 text-slate-700',
+    submittedDate: '',
+    occupation: '',
+    creditScore: 0,
+    creditRating: '',
+    monthlyIncome: '',
+    rentCoverage: '',
+    identityVerified: false,
+    property: { id: '', name: '', unit: '', location: '', rent: '', leaseTerm: '', image: '' },
+    screening: {
+        completedDate: '',
+        criminal: { status: 'warning', text: '' },
+        eviction: { status: 'warning', text: '' },
+        reference: { status: 'warning', text: '' },
     },
-    documents: [
-        { id: 1, name: 'Employment Verification.pdf', icon: 'description', uploaded: '2 days ago', status: 'ok' },
-        { id: 2, name: 'Bank_Statements_Oct.pdf', icon: 'account_balance', uploaded: '2 days ago', status: 'ok' },
-        { id: 3, name: 'Drivers_License_Front.jpg', icon: 'id_card', uploaded: '2 days ago', status: 'flagged', flagReason: 'Blurry image' },
-    ],
-    notes: [
-        { id: 1, author: 'RJ', message: 'Called references. Previous landlord (Mike) spoke highly of her. Confirmed timely payments for 3 years.', time: 'Today, 10:30 AM' },
-    ],
-    timeline: [
-        { id: 1, date: 'Yesterday, 4:30 PM', title: 'Doc Request Sent', description: 'Requested re-upload of ID.', color: 'bg-amber-500' },
-        { id: 2, date: 'Oct 26, 2024', title: 'Background Check', description: 'Screening completed automatically.', color: 'bg-green-500' },
-        { id: 3, date: 'Oct 24, 2024', title: 'Application Received', description: 'Applicant submitted form.', color: 'bg-slate-300 dark:bg-slate-600' },
-    ],
+    documents: [],
+    notes: [],
+    timeline: [],
 };
 
 export default function LandlordApplicantDetail() {
     const { id } = useParams();
     const [newNote, setNewNote] = useState('');
     const [showRejectModal, setShowRejectModal] = useState(false);
-    console.log('Applicant ID:', id);
+
+    // API data state
+    const [applicantData, setApplicantData] = useState<UIApplicantData>(defaultApplicantData);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Fetch applicant details
+    useEffect(() => {
+        async function fetchApplicant() {
+            if (!id) return;
+
+            try {
+                setIsLoading(true);
+                setError(null);
+
+                const response = await landlordService.getApplicantById(id);
+                if (response.data) {
+                    setApplicantData(transformApplicant(response.data));
+                }
+            } catch (err) {
+                console.error('Error fetching applicant:', err);
+                setError('Failed to load applicant details');
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchApplicant();
+    }, [id]);
+
+    // Loading state
+    if (isLoading) {
+        return (
+            <PageContainer>
+                <div className="flex items-center justify-center min-h-[400px]">
+                    <div className="text-center">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#137fec] mx-auto mb-4"></div>
+                        <p className="text-slate-500 dark:text-slate-400">Loading applicant details...</p>
+                    </div>
+                </div>
+            </PageContainer>
+        );
+    }
+
+    // Error state
+    if (error) {
+        return (
+            <PageContainer>
+                <div className="flex items-center justify-center min-h-[400px]">
+                    <div className="text-center">
+                        <span className="material-symbols-outlined text-5xl text-red-400 mb-4">error</span>
+                        <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
+                        <button
+                            onClick={() => window.location.reload()}
+                            className="px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-sm font-bold text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                        >
+                            Try Again
+                        </button>
+                    </div>
+                </div>
+            </PageContainer>
+        );
+    }
 
     return (
         <PageContainer>

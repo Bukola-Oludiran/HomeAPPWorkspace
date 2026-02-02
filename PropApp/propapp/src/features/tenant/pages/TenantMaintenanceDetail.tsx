@@ -1,52 +1,292 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import ConfirmationModal from '../../../components/ConfirmationModal';
 import PageContainer from '../../../components/common/PageContainer';
+import { maintenanceService } from '../../../lib/api/services';
+import type { MaintenanceRequest, MaintenanceCategory, MaintenancePriority, MaintenanceStatus } from '../../../types/lease';
 
-// Mock maintenance request data
-const requestData = {
-    id: 'REQ-2024-001',
-    title: 'Leaky Faucet',
-    status: 'In Progress',
-    statusColor: 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-800/50',
-    dateSubmitted: 'Oct 24, 2024',
-    category: 'Plumbing',
-    urgency: 'Medium',
-    urgencyColor: 'text-orange-600 dark:text-orange-400',
-    description: "The kitchen sink is dripping constantly into the cabinet below. I've placed a bucket underneath but it fills up every few hours. The wood in the cabinet is starting to warp slightly. Please address this as soon as possible to prevent mold.",
+// UI types for maintenance request detail
+interface UIMaintenanceRequest {
+    id: string;
+    title: string;
+    status: string;
+    statusColor: string;
+    dateSubmitted: string;
+    category: string;
+    urgency: string;
+    urgencyColor: string;
+    urgencyDot: string;
+    description: string;
     property: {
-        name: '5500 Highland Park',
-        unit: 'Unit 4B',
-        address: '5500 Highland Park Blvd, Miami FL',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA9e_2ULRQ227PvtVeIOD_4NZZMh0g-OUNXmXzn_TfV8Ndro3xbNF2jbh6HgeeSNsENiaG9Y8OZI2uFVETjB4ZipmBBq2Ls0O24nYbxnWaFTNZFcws1owDG2pA-rIQIYiLJJhgpYVw7laejncko84gJKTE_Ykfs6ozHSotR_D6Jy73nmn_r6UQFh8PUWUd_1IyFNgBCzhRVBi18lsXl33xVxb0VCkNsueqMJVooBmVehpEBo_dZ1_JQBz5upmi23mmPxTrYcma7BgPS',
-    },
+        name: string;
+        unit: string;
+        address: string;
+        image: string;
+    };
     vendor: {
-        name: "Mike's Plumbing",
-        type: 'Licensed Vendor',
-        icon: 'plumbing',
-    },
+        name: string;
+        type: string;
+        icon: string;
+    } | null;
     manager: {
-        name: 'Robert Johnson',
-        initials: 'RJ',
-    },
-    timeline: [
-        { date: 'Oct 26, 2024 - 10:00 AM', title: 'Maintenance In Progress', description: 'Technician arrived on site. Started diagnosis of the pipe leakage.', icon: 'build', iconColor: 'bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400' },
-        { date: 'Oct 25, 2024 - 09:15 AM', title: 'Visit Scheduled', description: "Appointment scheduled with Mike's Plumbing Services for Oct 26, 10:00 AM - 12:00 PM.", icon: 'event', iconColor: 'bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400' },
-        { date: 'Oct 24, 2024 - 4:00 PM', title: 'Request Reviewed', description: 'Property Manager (Robert Johnson) reviewed the request and assigned it to a vendor.', icon: 'assignment_turned_in', iconColor: 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400' },
-        { date: 'Oct 24, 2024 - 2:30 PM', title: 'Request Submitted', description: 'You submitted a new maintenance request.', icon: 'send', iconColor: 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400' },
-    ],
-    messages: [
-        { id: 1, from: 'manager', name: 'Robert Johnson', message: "Hi! I've contacted the plumber. They should be reaching out to schedule a time shortly.", time: 'Oct 24, 4:05 PM' },
-        { id: 2, from: 'user', message: "Great, thanks Robert. I'll be home all day tomorrow.", time: 'Oct 24, 4:10 PM' },
-        { id: 3, from: 'vendor', name: "Mike's Plumbing Services", message: 'Appointment confirmed for Oct 26, 10:00 AM - 12:00 PM. Please ensure access to the unit.', time: 'Oct 25, 9:15 AM' },
-    ],
+        name: string;
+        initials: string;
+    } | null;
+    timeline: Array<{
+        date: string;
+        title: string;
+        description: string;
+        icon: string;
+        iconColor: string;
+    }>;
+    messages: Array<{
+        id: number;
+        from: 'manager' | 'user' | 'vendor';
+        name?: string;
+        message: string;
+        time: string;
+    }>;
+    images: string[];
+}
+
+// Category label and icon mapping
+function getCategoryInfo(category: MaintenanceCategory): { label: string; icon: string } {
+    const mapping: Record<MaintenanceCategory, { label: string; icon: string }> = {
+        PLUMBING: { label: 'Plumbing', icon: 'plumbing' },
+        ELECTRICAL: { label: 'Electrical', icon: 'lightbulb' },
+        HVAC: { label: 'HVAC', icon: 'hvac' },
+        APPLIANCES: { label: 'Appliance', icon: 'kitchen' },
+        STRUCTURAL: { label: 'Structural', icon: 'foundation' },
+        PEST_CONTROL: { label: 'Pest Control', icon: 'pest_control' },
+        CLEANING: { label: 'Cleaning', icon: 'cleaning_services' },
+        SECURITY: { label: 'Security', icon: 'lock_open' },
+        OTHER: { label: 'Other', icon: 'build' },
+    };
+    return mapping[category] || { label: category, icon: 'build' };
+}
+
+// Priority/urgency mapping
+function getUrgencyInfo(priority: MaintenancePriority): { label: string; color: string; dot: string } {
+    const mapping: Record<MaintenancePriority, { label: string; color: string; dot: string }> = {
+        LOW: { label: 'Low', color: 'text-slate-600 dark:text-slate-400', dot: 'bg-slate-400' },
+        MEDIUM: { label: 'Medium', color: 'text-orange-600 dark:text-orange-400', dot: 'bg-orange-500' },
+        HIGH: { label: 'High', color: 'text-red-600 dark:text-red-400', dot: 'bg-red-500' },
+        EMERGENCY: { label: 'Emergency', color: 'text-red-700 dark:text-red-300', dot: 'bg-red-600' },
+    };
+    return mapping[priority] || { label: priority, color: 'text-orange-600', dot: 'bg-orange-500' };
+}
+
+// Status mapping
+function getStatusInfo(status: MaintenanceStatus): { label: string; color: string } {
+    const mapping: Record<MaintenanceStatus, { label: string; color: string }> = {
+        PENDING: { label: 'Submitted', color: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-800/50' },
+        ACKNOWLEDGED: { label: 'Scheduled', color: 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 border-purple-200 dark:border-purple-800/50' },
+        IN_PROGRESS: { label: 'In Progress', color: 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-800/50' },
+        COMPLETED: { label: 'Completed', color: 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 border-green-200 dark:border-green-800/50' },
+        CANCELLED: { label: 'Cancelled', color: 'bg-gray-100 dark:bg-gray-900/30 text-gray-700 dark:text-gray-400 border-gray-200 dark:border-gray-800/50' },
+    };
+    return mapping[status] || { label: status, color: 'bg-slate-100 text-slate-700' };
+}
+
+// Format date for display
+function formatDate(dateStr: string): string {
+    return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function formatDateTime(dateStr: string): string {
+    const date = new Date(dateStr);
+    return `${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} - ${date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}`;
+}
+
+// Generate timeline from maintenance request status history
+function generateTimeline(request: MaintenanceRequest): UIMaintenanceRequest['timeline'] {
+    const timeline: UIMaintenanceRequest['timeline'] = [];
+
+    // Always add the submission event
+    timeline.push({
+        date: formatDateTime(request.createdAt),
+        title: 'Request Submitted',
+        description: 'You submitted a new maintenance request.',
+        icon: 'send',
+        iconColor: 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400',
+    });
+
+    // Add status-based events
+    if (request.status === 'ACKNOWLEDGED' || request.status === 'IN_PROGRESS' || request.status === 'COMPLETED') {
+        timeline.unshift({
+            date: formatDateTime(request.updatedAt),
+            title: 'Request Reviewed',
+            description: 'Property manager reviewed the request and assigned it to a vendor.',
+            icon: 'assignment_turned_in',
+            iconColor: 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400',
+        });
+    }
+
+    if (request.status === 'IN_PROGRESS' || request.status === 'COMPLETED') {
+        timeline.unshift({
+            date: formatDateTime(request.updatedAt),
+            title: 'Maintenance In Progress',
+            description: 'Technician is working on the issue.',
+            icon: 'build',
+            iconColor: 'bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400',
+        });
+    }
+
+    if (request.status === 'COMPLETED' && request.completedAt) {
+        timeline.unshift({
+            date: formatDateTime(request.completedAt),
+            title: 'Maintenance Completed',
+            description: 'The maintenance work has been completed.',
+            icon: 'check_circle',
+            iconColor: 'bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400',
+        });
+    }
+
+    if (request.status === 'CANCELLED') {
+        timeline.unshift({
+            date: formatDateTime(request.updatedAt),
+            title: 'Request Cancelled',
+            description: 'This maintenance request has been cancelled.',
+            icon: 'cancel',
+            iconColor: 'bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400',
+        });
+    }
+
+    return timeline;
+}
+
+// Transform API data to UI format
+function transformMaintenanceRequest(request: MaintenanceRequest): UIMaintenanceRequest {
+    const categoryInfo = getCategoryInfo(request.category);
+    const urgencyInfo = getUrgencyInfo(request.priority);
+    const statusInfo = getStatusInfo(request.status);
+
+    // Format address
+    const property = request.lease?.property;
+    const address = property?.address;
+    const formattedAddress = address && typeof address === 'object'
+        ? [address.street, address.city, address.state].filter(Boolean).join(', ')
+        : '';
+
+    return {
+        id: request.id,
+        title: request.title,
+        status: statusInfo.label,
+        statusColor: statusInfo.color,
+        dateSubmitted: formatDate(request.createdAt),
+        category: categoryInfo.label,
+        urgency: urgencyInfo.label,
+        urgencyColor: urgencyInfo.color,
+        urgencyDot: urgencyInfo.dot,
+        description: request.description,
+        property: {
+            name: property?.name || 'Property',
+            unit: '',
+            address: formattedAddress,
+            image: '',
+        },
+        vendor: request.assignedAgent ? {
+            name: `${request.assignedAgent.firstName} ${request.assignedAgent.lastName}`,
+            type: 'Assigned Agent',
+            icon: categoryInfo.icon,
+        } : null,
+        manager: request.lease?.landlord ? {
+            name: `${request.lease.landlord.firstName} ${request.lease.landlord.lastName}`,
+            initials: `${request.lease.landlord.firstName?.[0] || ''}${request.lease.landlord.lastName?.[0] || ''}`,
+        } : null,
+        timeline: generateTimeline(request),
+        messages: [], // Messages would come from a separate API endpoint
+        images: request.images || [],
+    };
+}
+
+// Default empty data for loading state
+const defaultRequestData: UIMaintenanceRequest = {
+    id: '',
+    title: 'Loading...',
+    status: '',
+    statusColor: 'bg-slate-100 text-slate-700',
+    dateSubmitted: '',
+    category: '',
+    urgency: '',
+    urgencyColor: '',
+    urgencyDot: '',
+    description: '',
+    property: { name: '', unit: '', address: '', image: '' },
+    vendor: null,
+    manager: null,
+    timeline: [],
+    messages: [],
+    images: [],
 };
 
 export default function TenantMaintenanceDetail() {
     const { id } = useParams();
     const [newMessage, setNewMessage] = useState('');
     const [showCancelModal, setShowCancelModal] = useState(false);
-    console.log('Request ID:', id);
+
+    // API data state
+    const [requestData, setRequestData] = useState<UIMaintenanceRequest>(defaultRequestData);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Fetch maintenance request details
+    useEffect(() => {
+        async function fetchMaintenanceRequest() {
+            if (!id) return;
+
+            try {
+                setIsLoading(true);
+                setError(null);
+
+                const response = await maintenanceService.getMaintenanceRequestById(id);
+                if (response.data) {
+                    setRequestData(transformMaintenanceRequest(response.data));
+                }
+            } catch (err) {
+                console.error('Error fetching maintenance request:', err);
+                setError('Failed to load maintenance request details');
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchMaintenanceRequest();
+    }, [id]);
+
+    // Loading state
+    if (isLoading) {
+        return (
+            <PageContainer maxWidth="lg">
+                <div className="flex items-center justify-center min-h-[400px]">
+                    <div className="text-center">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#137fec] mx-auto mb-4"></div>
+                        <p className="text-slate-500 dark:text-slate-400">Loading maintenance request...</p>
+                    </div>
+                </div>
+            </PageContainer>
+        );
+    }
+
+    // Error state
+    if (error) {
+        return (
+            <PageContainer maxWidth="lg">
+                <div className="flex items-center justify-center min-h-[400px]">
+                    <div className="text-center">
+                        <span className="material-symbols-outlined text-5xl text-red-400 mb-4">error</span>
+                        <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
+                        <button
+                            onClick={() => window.location.reload()}
+                            className="px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-sm font-bold text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                        >
+                            Try Again
+                        </button>
+                    </div>
+                </div>
+            </PageContainer>
+        );
+    }
 
     return (
         <PageContainer maxWidth="lg">
@@ -113,7 +353,7 @@ export default function TenantMaintenanceDetail() {
                             <div>
                                 <span className="block text-slate-500 dark:text-slate-400 font-medium text-xs uppercase tracking-wide mb-1">Urgency</span>
                                 <span className={`inline-flex items-center gap-1.5 font-bold ${requestData.urgencyColor}`}>
-                                    <span className="w-2 h-2 rounded-full bg-orange-500"></span>
+                                    <span className={`w-2 h-2 rounded-full ${requestData.urgencyDot}`}></span>
                                     {requestData.urgency}
                                 </span>
                             </div>
@@ -131,18 +371,20 @@ export default function TenantMaintenanceDetail() {
                         <div>
                             <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-3">Attached Media</h3>
                             <div className="flex gap-4 overflow-x-auto pb-2">
-                                <div className="relative w-32 h-24 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center group overflow-hidden cursor-pointer">
-                                    <span className="material-symbols-outlined text-slate-400">image</span>
-                                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
-                                        <span className="material-symbols-outlined">visibility</span>
+                                {requestData.images.length > 0 ? (
+                                    requestData.images.map((image, index) => (
+                                        <div key={index} className="relative w-32 h-24 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center group overflow-hidden cursor-pointer">
+                                            <img src={image} alt={`Attachment ${index + 1}`} className="w-full h-full object-cover" />
+                                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
+                                                <span className="material-symbols-outlined">visibility</span>
+                                            </div>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div className="relative w-32 h-24 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center">
+                                        <span className="material-symbols-outlined text-slate-400">image</span>
                                     </div>
-                                </div>
-                                <div className="relative w-32 h-24 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center group overflow-hidden cursor-pointer">
-                                    <span className="material-symbols-outlined text-slate-400">image</span>
-                                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
-                                        <span className="material-symbols-outlined">visibility</span>
-                                    </div>
-                                </div>
+                                )}
                                 <button className="w-32 h-24 rounded-lg border-2 border-dashed border-slate-300 dark:border-slate-600 flex flex-col items-center justify-center text-slate-500 hover:text-[#137fec] hover:border-[#137fec] hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all gap-1">
                                     <span className="material-symbols-outlined text-[20px]">add</span>
                                     <span className="text-[10px] font-bold uppercase">Add More</span>
@@ -264,33 +506,43 @@ export default function TenantMaintenanceDetail() {
                     {/* Assigned Vendor */}
                     <div className="bg-white dark:bg-[#101922] p-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
                         <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-4">Assigned Vendor</h3>
-                        <div className="flex items-center gap-3 mb-4">
-                            <div className="size-10 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300">
-                                <span className="material-symbols-outlined">{requestData.vendor.icon}</span>
-                            </div>
-                            <div>
-                                <h4 className="text-sm font-bold text-slate-900 dark:text-white">{requestData.vendor.name}</h4>
-                                <p className="text-xs text-slate-500 dark:text-slate-400">{requestData.vendor.type}</p>
-                            </div>
-                        </div>
-                        <div className="flex gap-2">
-                            <button className="flex-1 py-2 bg-[#137fec]/10 hover:bg-[#137fec]/20 text-[#137fec] rounded-lg text-xs font-bold transition-colors flex items-center justify-center gap-1.5">
-                                <span className="material-symbols-outlined text-[16px]">call</span>
-                                Call
-                            </button>
-                            <button className="flex-1 py-2 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-white rounded-lg text-xs font-bold transition-colors flex items-center justify-center gap-1.5">
-                                <span className="material-symbols-outlined text-[16px]">mail</span>
-                                Email
-                            </button>
-                        </div>
+                        {requestData.vendor ? (
+                            <>
+                                <div className="flex items-center gap-3 mb-4">
+                                    <div className="size-10 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300">
+                                        <span className="material-symbols-outlined">{requestData.vendor.icon}</span>
+                                    </div>
+                                    <div>
+                                        <h4 className="text-sm font-bold text-slate-900 dark:text-white">{requestData.vendor.name}</h4>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400">{requestData.vendor.type}</p>
+                                    </div>
+                                </div>
+                                <div className="flex gap-2">
+                                    <button className="flex-1 py-2 bg-[#137fec]/10 hover:bg-[#137fec]/20 text-[#137fec] rounded-lg text-xs font-bold transition-colors flex items-center justify-center gap-1.5">
+                                        <span className="material-symbols-outlined text-[16px]">call</span>
+                                        Call
+                                    </button>
+                                    <button className="flex-1 py-2 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-white rounded-lg text-xs font-bold transition-colors flex items-center justify-center gap-1.5">
+                                        <span className="material-symbols-outlined text-[16px]">mail</span>
+                                        Email
+                                    </button>
+                                </div>
+                            </>
+                        ) : (
+                            <p className="text-sm text-slate-500 dark:text-slate-400">No vendor assigned yet</p>
+                        )}
                         <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
                             <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-3">Property Manager</h3>
-                            <div className="flex items-center gap-3">
-                                <div className="size-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 text-xs font-bold">
-                                    {requestData.manager.initials}
+                            {requestData.manager ? (
+                                <div className="flex items-center gap-3">
+                                    <div className="size-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 text-xs font-bold">
+                                        {requestData.manager.initials}
+                                    </div>
+                                    <h4 className="text-sm font-medium text-slate-900 dark:text-white">{requestData.manager.name}</h4>
                                 </div>
-                                <h4 className="text-sm font-medium text-slate-900 dark:text-white">{requestData.manager.name}</h4>
-                            </div>
+                            ) : (
+                                <p className="text-sm text-slate-500 dark:text-slate-400">Not assigned</p>
+                            )}
                         </div>
                     </div>
 
