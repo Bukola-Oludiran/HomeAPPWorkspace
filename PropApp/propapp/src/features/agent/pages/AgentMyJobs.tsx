@@ -50,7 +50,7 @@ export default function AgentMyJobs() {
                 setIsLoading(true);
                 setError(null);
                 const response = await agentService.getAcceptedJobs();
-                setJobs(response.data.data || []);
+                setJobs(response.data || []);
             } catch (err) {
                 console.error('Failed to fetch jobs:', err);
                 setError('Failed to load your jobs');

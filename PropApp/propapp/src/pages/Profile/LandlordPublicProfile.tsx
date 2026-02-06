@@ -1,59 +1,104 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { userService } from '../../lib/api/services/userService';
 
-// Mock landlord data from design
-const landlordData = {
-    id: 'landlord-1',
-    name: 'James Anderson',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAamBOyrzSpr22QFJVMWoHUc1mMMtnqiibkVvx1a1yyRMf7AZH_W5yo1RUtyBeDdX317BPpURBRfc781QxtqAke2rVYEqTii2io0uuHFkEJ0CmZ8MORlbNcSi1Rrn0MkZXgBn4TdOrfGT4AC6aP8LrSd-KrpDu9MncstN4oWLel5dWeiPY1Vna-TDIY0FVjIuHpWLA9XnqqLmHWL3dBb97dTEKd5I76wzI_hdZR1tk-bfpEmbo-gBSIaJNec2sLti-R_9FmipfOkxxP',
-    verified: true,
-    memberSince: '2018',
-    propertiesCount: 12,
-    rating: 4.8,
-    responseRate: 98,
-    email: 'james.anderson@example.com',
-    phone: '+1 (555) 123-4567',
-    location: 'Austin, TX',
-    languages: 'English, Spanish',
-    about: "Hi, I'm James! I've been managing properties in the greater metro area for over 5 years. I pride myself on quick responses and well-maintained homes. My goal is to provide a comfortable and hassle-free living experience for all my tenants. I specialize in urban lofts and family homes near downtown.",
-    verificationItems: [
-        { name: 'Identity Verified', verified: true },
-        { name: 'Business Registration', verified: false, status: 'Pending' },
-    ],
-    listings: [
-        {
-            id: 1,
-            name: '1243 Oakwood Avenue',
-            location: 'Austin, TX',
-            price: '$2,400/mo',
-            beds: 3,
-            baths: 2,
-            image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l',
-        },
-        {
-            id: 2,
-            name: 'Downtown Loft',
-            location: 'Seattle, WA',
-            price: '$1,850/mo',
-            beds: 1,
-            baths: 1,
-            image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCDbn_i6RapAYYCUtbpApN4lJMQNrA0rGJZXVvlV5ZLubEMNH1omk_1mAstEefJ0spWkedOBAe5og228aYdYdVGMGx2otBaGsGAG_1DMh7rANSTYk0_MrBlyxCEDc66NFCgfMXVMcoMDPiPuhcBXg5_Iwjv_Fz2YEb4sU8vGb7xqSy9VX9nCTc1tUE2DL8uYW4jHmEa_B2GwMX24GP44NZ_TWI6Tc4Om0jvrCWW6cMyN3YxN1SrsIUBMkmeYENO3JUYvlZTV5Hn0Kqc',
-        },
-    ],
-    reviews: {
-        total: 24,
-        breakdown: [
-            { stars: 5, count: 19, percentage: 80 },
-            { stars: 4, count: 4, percentage: 15 },
-            { stars: 3, count: 1, percentage: 5 },
-        ],
-    },
-};
+interface LandlordData {
+    id: string;
+    name: string;
+    image: string;
+    verified: boolean;
+    memberSince: string;
+    propertiesCount: number;
+    rating: number;
+    responseRate: number;
+    email: string;
+    phone: string;
+    location: string;
+    languages: string;
+    about: string;
+    verificationItems: Array<{ name: string; verified: boolean; status?: string }>;
+    listings: Array<{ id: string | number; name: string; location: string; price: string; beds: number; baths: number; image: string }>;
+    reviews: { total: number; breakdown: Array<{ stars: number; count: number; percentage: number }> };
+}
 
 export default function LandlordPublicProfile() {
-    const { id: _id } = useParams();
+    const { id } = useParams();
     const [showAIChat, setShowAIChat] = useState(false);
-    const landlord = landlordData;
+    const [landlord, setLandlord] = useState<LandlordData | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        async function fetchProfile() {
+            if (!id) return;
+            try {
+                setLoading(true);
+                setError(null);
+                const response = await userService.getPublicLandlordProfile(id);
+                const profileData = response.data;
+                const user = profileData.user || { firstName: '', lastName: '', avatarUrl: '' };
+                // Cast to access any extra fields the backend may include
+                const extra = profileData as unknown as Record<string, unknown>;
+
+                const name = `${user.firstName || ''} ${user.lastName || ''}`.trim() || profileData.businessName || 'Landlord';
+
+                // Extract listings if the backend includes them in the public profile
+                const listings: LandlordData['listings'] = Array.isArray(extra.listings)
+                    ? (extra.listings as LandlordData['listings'])
+                    : [];
+
+                setLandlord({
+                    id: id,
+                    name,
+                    image: user.avatarUrl || '',
+                    verified: (extra.verified as boolean) ?? true,
+                    memberSince: extra.createdAt ? new Date(extra.createdAt as string).getFullYear().toString() : '',
+                    propertiesCount: (extra.propertiesCount as number) || listings.length || 0,
+                    rating: (extra.rating as number) || 0,
+                    responseRate: (extra.responseRate as number) || 0,
+                    email: profileData.businessEmail || '',
+                    phone: (extra.phone as string) || '',
+                    location: (extra.location as string) || '',
+                    languages: (extra.languages as string) || '',
+                    about: (extra.bio as string) || (extra.about as string) || '',
+                    verificationItems: Array.isArray(extra.verificationItems)
+                        ? (extra.verificationItems as LandlordData['verificationItems'])
+                        : [],
+                    listings,
+                    reviews: (extra.reviews as LandlordData['reviews']) || { total: 0, breakdown: [] },
+                });
+            } catch (err) {
+                console.error('Failed to load landlord profile:', err);
+                setError('Failed to load profile. Please try again.');
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchProfile();
+    }, [id]);
+
+    if (loading) {
+        return (
+            <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex items-center justify-center">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#137fec] mx-auto mb-4"></div>
+                    <p className="text-slate-500 dark:text-slate-400">Loading profile...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (error || !landlord) {
+        return (
+            <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex items-center justify-center">
+                <div className="text-center">
+                    <span className="material-symbols-outlined text-4xl text-slate-400 mb-4">error_outline</span>
+                    <p className="text-slate-600 dark:text-slate-400">{error || 'Profile not found'}</p>
+                    <Link to="/" className="text-[#137fec] font-semibold mt-4 inline-block hover:underline">Go Home</Link>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex flex-col font-[Manrope,Noto_Sans,sans-serif] text-slate-900 dark:text-white overflow-x-hidden pb-32">

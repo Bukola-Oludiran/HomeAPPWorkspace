@@ -5,7 +5,6 @@
 
 import { api } from '../client';
 import { API_ENDPOINTS } from '../config';
-import type { PaginatedResponse } from '../../../types/api';
 import type {
     Notification,
     NotificationDevice,
@@ -16,7 +15,7 @@ import type {
  * Get user's notifications
  */
 export async function getNotifications(params?: { page?: number; limit?: number; type?: string }) {
-    return api.get<PaginatedResponse<Notification>>(API_ENDPOINTS.NOTIFICATIONS.LIST, params);
+    return api.get<Notification[]>(API_ENDPOINTS.NOTIFICATIONS.LIST, params);
 }
 
 /**
@@ -89,6 +88,13 @@ export async function clearAllNotifications() {
     return api.delete<{ message: string }>(API_ENDPOINTS.NOTIFICATIONS.DELETE_ALL);
 }
 
+/**
+ * Send a notification (Admin only)
+ */
+export async function sendNotification(data: { userId: string; title: string; body: string; type: string }) {
+    return api.post<{ message: string }>(API_ENDPOINTS.NOTIFICATIONS.SEND, data);
+}
+
 // Export all functions as named exports and as default object
 export const notificationService = {
     getNotifications,
@@ -102,6 +108,7 @@ export const notificationService = {
     updatePreferences,
     deleteNotifications,
     clearAllNotifications,
+    sendNotification,
 };
 
 export default notificationService;

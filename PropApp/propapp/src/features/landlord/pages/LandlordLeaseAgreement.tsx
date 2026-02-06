@@ -1,57 +1,103 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import DocumentViewerModal from '../../../components/DocumentViewerModal';
 import DraftRenewalOfferModal from '../../../components/DraftRenewalOfferModal';
 import ConfirmationModal from '../../../components/ConfirmationModal';
+import { leaseService } from '../../../lib/api/services/leaseService';
+import type { Lease } from '../../../types/lease';
 
-// Mock lease data
-const leaseData = {
-    id: 'L-2023-8492',
-    status: 'Active',
-    property: {
-        name: '1243 Oakwood Avenue',
-        address: 'Austin, TX 78704',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l',
-    },
-    monthlyRent: '$4,800',
-    securityDeposit: '$9,600',
-    leaseStart: 'Dec 1, 2023',
-    leaseEnd: 'Nov 30, 2024',
-    term: '1 year term',
-    daysRemaining: 45,
-    tenant: {
-        name: 'The Anderson Family',
-        primary: 'Mark Anderson',
-        email: 'mark.anderson@example.com',
-        phone: '(512) 555-0123',
-    },
-    manager: {
-        name: 'Sarah Jenkins',
-        initials: 'SJ',
-        role: 'Property Manager',
-        agency: 'Oakwood Mgmt Group',
-        phone: '(512) 555-9988',
-        email: 'support@oakwood.com',
-    },
-    clauses: [
-        { id: 1, icon: 'pets', title: 'Pet Policy Addendum', description: 'Permits 1 dog under 40lbs. Non-refundable fee of $250 applied.' },
-        { id: 2, icon: 'build', title: 'Maintenance Responsibilities', description: 'Tenant responsible for lawn care and minor repairs under $50.' },
-        { id: 3, icon: 'smoking_rooms', title: 'No Smoking Clause', description: 'Strict no-smoking policy within the premises and 20ft perimeter.' },
-    ],
-    payments: [
-        { id: 1, date: 'Dec 1, 2024', description: 'Monthly Rent', amount: '$4,800.00', status: 'Upcoming', statusColor: 'bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400' },
-        { id: 2, date: 'Nov 1, 2024', description: 'Monthly Rent', amount: '$4,800.00', status: 'Paid', statusColor: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400', icon: 'check_circle' },
-        { id: 3, date: 'Oct 1, 2024', description: 'Monthly Rent', amount: '$4,800.00', status: 'Paid', statusColor: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400', icon: 'check_circle' },
-    ],
-    renewalSuggestion: '$5,050',
-};
+function formatCurrency(amount: number): string {
+    return new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: 'NGN',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    }).format(amount);
+}
+
+function formatDate(dateStr: string): string {
+    return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function getLeaseStatusColor(status: string): string {
+    switch (status) {
+        case 'ACTIVE': return 'bg-green-500/90';
+        case 'PENDING': return 'bg-amber-500/90';
+        case 'EXPIRED': return 'bg-red-500/90';
+        case 'TERMINATED': return 'bg-red-500/90';
+        case 'RENEWED': return 'bg-blue-500/90';
+        default: return 'bg-slate-500/90';
+    }
+}
+
+// Static data (no API backing for these)
+const payments = [
+    { id: 1, date: 'Dec 1, 2024', description: 'Monthly Rent', amount: '$4,800.00', status: 'Upcoming', statusColor: 'bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400' },
+    { id: 2, date: 'Nov 1, 2024', description: 'Monthly Rent', amount: '$4,800.00', status: 'Paid', statusColor: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400', icon: 'check_circle' },
+    { id: 3, date: 'Oct 1, 2024', description: 'Monthly Rent', amount: '$4,800.00', status: 'Paid', statusColor: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400', icon: 'check_circle' },
+];
+
+const clauses = [
+    { id: 1, icon: 'pets', title: 'Pet Policy Addendum', description: 'Permits 1 dog under 40lbs. Non-refundable fee of $250 applied.' },
+    { id: 2, icon: 'build', title: 'Maintenance Responsibilities', description: 'Tenant responsible for lawn care and minor repairs under $50.' },
+    { id: 3, icon: 'smoking_rooms', title: 'No Smoking Clause', description: 'Strict no-smoking policy within the premises and 20ft perimeter.' },
+];
 
 export default function LandlordLeaseAgreement() {
     const { id } = useParams();
     const [isDocumentModalOpen, setIsDocumentModalOpen] = useState(false);
     const [isRenewalModalOpen, setIsRenewalModalOpen] = useState(false);
     const [isVacateModalOpen, setIsVacateModalOpen] = useState(false);
-    console.log('Lease ID:', id);
+    const [lease, setLease] = useState<Lease | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchLease() {
+            if (!id) return;
+            try {
+                setIsLoading(true);
+                const response = await leaseService.getLeaseById(id);
+                setLease(response.data);
+            } catch (err) {
+                console.error('Failed to fetch lease:', err);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+        fetchLease();
+    }, [id]);
+
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="flex flex-col items-center gap-3">
+                    <div className="size-10 border-4 border-[#137fec] border-t-transparent rounded-full animate-spin"></div>
+                    <p className="text-slate-500 font-medium">Loading lease agreement...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (!lease) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-screen gap-4">
+                <span className="material-symbols-outlined text-5xl text-slate-300">error</span>
+                <p className="text-slate-500 font-medium">Lease not found</p>
+                <Link to="/landlord/dashboard" className="text-[#137fec] font-bold hover:underline">Back to Dashboard</Link>
+            </div>
+        );
+    }
+
+    const propertyName = lease.property?.name || 'Property';
+    const propertyAddress = lease.property ? `${lease.property.address?.city || ''}, ${lease.property.address?.state || ''}`.trim() : '';
+    const tenantName = lease.tenant ? `${lease.tenant.firstName} ${lease.tenant.lastName}` : 'Tenant';
+    const tenantInitials = tenantName.split(' ').map(n => n[0]).join('').toUpperCase();
+    const landlordName = lease.landlord ? `${lease.landlord.firstName} ${lease.landlord.lastName}` : 'Landlord';
+    const landlordInitials = landlordName.split(' ').map(n => n[0]).join('').toUpperCase();
+    const daysRemaining = Math.max(0, Math.ceil((new Date(lease.endDate).getTime() - Date.now()) / (1000 * 60 * 60 * 24)));
+    const leaseStartFormatted = formatDate(lease.startDate);
+    const leaseEndFormatted = formatDate(lease.endDate);
+    const statusLabel = lease.status.charAt(0) + lease.status.slice(1).toLowerCase();
 
     return (
         <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex flex-col font-[Manrope,Noto_Sans,sans-serif] text-slate-900 dark:text-white overflow-x-hidden pb-[140px]">
@@ -62,21 +108,27 @@ export default function LandlordLeaseAgreement() {
                         <span className="material-symbols-outlined">download</span>
                     </button>
                 </div>
-                <img
-                    alt={leaseData.property.name}
-                    className="w-full h-full object-cover"
-                    src={leaseData.property.image}
-                />
+                {lease.property?.primaryImage ? (
+                    <img
+                        alt={propertyName}
+                        className="w-full h-full object-cover"
+                        src={lease.property.primaryImage}
+                    />
+                ) : (
+                    <div className="w-full h-full bg-slate-300 dark:bg-slate-700 flex items-center justify-center">
+                        <span className="material-symbols-outlined text-6xl text-slate-400">apartment</span>
+                    </div>
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
                 <div className="absolute bottom-6 left-4 md:left-8 text-white">
                     <div className="flex items-center gap-2 mb-2">
-                        <span className="px-2.5 py-1 bg-green-500/90 text-white text-xs font-bold uppercase tracking-wider rounded-md backdrop-blur-sm">
-                            {leaseData.status} Lease
+                        <span className={`px-2.5 py-1 ${getLeaseStatusColor(lease.status)} text-white text-xs font-bold uppercase tracking-wider rounded-md backdrop-blur-sm`}>
+                            {statusLabel} Lease
                         </span>
-                        <span className="text-white/80 text-sm font-medium">#{leaseData.id}</span>
+                        <span className="text-white/80 text-sm font-medium">#{lease.id.slice(0, 12).toUpperCase()}</span>
                     </div>
                     <h1 className="text-2xl md:text-3xl font-extrabold text-white leading-tight">Lease Agreement</h1>
-                    <p className="text-white/90 font-medium">{leaseData.property.name}, {leaseData.property.address}</p>
+                    <p className="text-white/90 font-medium">{propertyName}, {propertyAddress}</p>
                 </div>
             </div>
 
@@ -87,7 +139,7 @@ export default function LandlordLeaseAgreement() {
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col gap-1">
                         <span className="text-xs text-slate-500 font-bold uppercase tracking-wide">Monthly Rent</span>
                         <div className="flex items-baseline gap-1">
-                            <span className="text-2xl font-bold text-slate-900 dark:text-white">{leaseData.monthlyRent}</span>
+                            <span className="text-2xl font-bold text-slate-900 dark:text-white">{formatCurrency(lease.monthlyRent)}</span>
                             <span className="text-xs text-slate-500">/mo</span>
                         </div>
                         <div className="mt-1 flex items-center text-xs text-green-600 font-medium bg-green-50 dark:bg-green-900/20 w-fit px-1.5 py-0.5 rounded">
@@ -96,18 +148,18 @@ export default function LandlordLeaseAgreement() {
                     </div>
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col gap-1">
                         <span className="text-xs text-slate-500 font-bold uppercase tracking-wide">Security Deposit</span>
-                        <span className="text-2xl font-bold text-slate-900 dark:text-white">{leaseData.securityDeposit}</span>
+                        <span className="text-2xl font-bold text-slate-900 dark:text-white">{formatCurrency(lease.securityDeposit)}</span>
                         <span className="text-xs text-slate-500">Held in escrow</span>
                     </div>
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col gap-1">
                         <span className="text-xs text-slate-500 font-bold uppercase tracking-wide">Lease Start</span>
-                        <span className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">{leaseData.leaseStart}</span>
-                        <span className="text-xs text-slate-500">{leaseData.term}</span>
+                        <span className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">{leaseStartFormatted}</span>
+                        <span className="text-xs text-slate-500">{lease.status === 'ACTIVE' ? 'Active' : statusLabel}</span>
                     </div>
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col gap-1">
                         <span className="text-xs text-slate-500 font-bold uppercase tracking-wide">Lease End</span>
-                        <span className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">{leaseData.leaseEnd}</span>
-                        <span className="text-xs text-orange-500 font-medium">Expiring soon</span>
+                        <span className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">{leaseEndFormatted}</span>
+                        <span className={`text-xs font-medium ${daysRemaining <= 60 ? 'text-orange-500' : 'text-slate-500'}`}>{daysRemaining <= 60 ? 'Expiring soon' : `${daysRemaining} days remaining`}</span>
                     </div>
                 </section>
 
@@ -162,7 +214,7 @@ export default function LandlordLeaseAgreement() {
                         <div>
                             <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-4">Clauses & Addendums</h3>
                             <div className="space-y-3">
-                                {leaseData.clauses.map((clause) => (
+                                {clauses.map((clause) => (
                                     <div key={clause.id} className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex items-start gap-3">
                                         <span className="material-symbols-outlined text-slate-400 mt-0.5">{clause.icon}</span>
                                         <div>
@@ -193,7 +245,7 @@ export default function LandlordLeaseAgreement() {
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-slate-100 dark:divide-slate-700 text-slate-700 dark:text-slate-300">
-                                            {leaseData.payments.map((payment) => (
+                                            {payments.map((payment) => (
                                                 <tr key={payment.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
                                                     <td className="px-6 py-4 font-medium">{payment.date}</td>
                                                     <td className="px-6 py-4">{payment.description}</td>
@@ -220,32 +272,18 @@ export default function LandlordLeaseAgreement() {
                             <h4 className="font-bold text-lg text-slate-900 dark:text-white mb-4 flex items-center gap-2">
                                 <span className="material-symbols-outlined text-[#137fec]">group</span> Tenant Information
                             </h4>
-                            <Link to="/landlord/tenants/1/profile" className="flex items-center gap-4 mb-6 group cursor-pointer">
-                                <div className="size-14 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-500 overflow-hidden group-hover:ring-2 group-hover:ring-[#137fec] transition-all">
-                                    <span className="material-symbols-outlined text-[32px]">face</span>
+                            <Link to={`/landlord/tenants/${lease.tenantId}/profile`} className="flex items-center gap-4 mb-6 group cursor-pointer">
+                                <div className="size-14 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-500 overflow-hidden group-hover:ring-2 group-hover:ring-[#137fec] transition-all font-bold text-lg">
+                                    {tenantInitials}
                                 </div>
                                 <div>
-                                    <p className="font-bold text-slate-900 dark:text-white text-lg group-hover:text-[#137fec] transition-colors">{leaseData.tenant.name}</p>
-                                    <p className="text-sm text-slate-500">Primary: {leaseData.tenant.primary}</p>
+                                    <p className="font-bold text-slate-900 dark:text-white text-lg group-hover:text-[#137fec] transition-colors">{tenantName}</p>
+                                    <p className="text-sm text-slate-500">Tenant</p>
                                 </div>
                             </Link>
-                            <div className="space-y-3 text-sm">
-                                <div className="flex items-center gap-3">
-                                    <div className="size-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-500 shrink-0">
-                                        <span className="material-symbols-outlined text-[18px]">mail</span>
-                                    </div>
-                                    <span className="text-slate-600 dark:text-slate-300">{leaseData.tenant.email}</span>
-                                </div>
-                                <div className="flex items-center gap-3">
-                                    <div className="size-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-500 shrink-0">
-                                        <span className="material-symbols-outlined text-[18px]">call</span>
-                                    </div>
-                                    <span className="text-slate-600 dark:text-slate-300">{leaseData.tenant.phone}</span>
-                                </div>
-                            </div>
                             <div className="mt-6 pt-6 border-t border-slate-100 dark:border-slate-700 flex gap-2">
                                 <button className="flex-1 py-2 rounded-lg border border-slate-300 dark:border-slate-600 font-semibold text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">Message</button>
-                                <Link to="/landlord/tenants/1/profile" className="flex-1 py-2 rounded-lg border border-slate-300 dark:border-slate-600 font-semibold text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-center">View Profile</Link>
+                                <Link to={`/landlord/tenants/${lease.tenantId}/profile`} className="flex-1 py-2 rounded-lg border border-slate-300 dark:border-slate-600 font-semibold text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-center">View Profile</Link>
                             </div>
                         </div>
 
@@ -256,17 +294,12 @@ export default function LandlordLeaseAgreement() {
                             </h4>
                             <div className="flex items-center gap-3 mb-4">
                                 <div className="size-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold">
-                                    {leaseData.manager.initials}
+                                    {landlordInitials}
                                 </div>
                                 <div>
-                                    <p className="font-bold text-slate-900 dark:text-white">{leaseData.manager.name}</p>
-                                    <p className="text-xs text-slate-500 uppercase tracking-wide">{leaseData.manager.role}</p>
+                                    <p className="font-bold text-slate-900 dark:text-white">{landlordName}</p>
+                                    <p className="text-xs text-slate-500 uppercase tracking-wide">Landlord</p>
                                 </div>
-                            </div>
-                            <div className="space-y-2 text-sm">
-                                <p className="text-slate-600 dark:text-slate-400"><strong>Agency:</strong> {leaseData.manager.agency}</p>
-                                <p className="text-slate-600 dark:text-slate-400"><strong>Phone:</strong> {leaseData.manager.phone}</p>
-                                <p className="text-slate-600 dark:text-slate-400"><strong>Email:</strong> {leaseData.manager.email}</p>
                             </div>
                         </div>
 
@@ -279,7 +312,7 @@ export default function LandlordLeaseAgreement() {
                                 <h3 className="text-lg font-bold text-slate-900 dark:text-white">Renewal Insight</h3>
                             </div>
                             <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">
-                                This lease expires in <strong className="text-slate-900 dark:text-white">{leaseData.daysRemaining} days</strong>. Based on payment history and market rates, we recommend offering a renewal at <strong className="text-green-600">{leaseData.renewalSuggestion}/mo</strong>.
+                                This lease expires in <strong className="text-slate-900 dark:text-white">{daysRemaining} days</strong>. Based on payment history and market rates, consider offering a renewal to {tenantName}.
                             </p>
                             <button
                                 onClick={() => setIsRenewalModalOpen(true)}
@@ -300,13 +333,13 @@ export default function LandlordLeaseAgreement() {
                             <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-0.5">Lease Status</p>
                             <div className="flex items-center gap-2">
                                 <span className="size-2.5 rounded-full bg-green-500 animate-pulse"></span>
-                                <span className="font-bold text-slate-900 dark:text-white">{leaseData.status}</span>
+                                <span className="font-bold text-slate-900 dark:text-white">{statusLabel}</span>
                             </div>
                         </div>
                         <div className="h-8 w-px bg-slate-200 dark:bg-slate-700 mx-2"></div>
                         <div>
                             <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-0.5">Days Remaining</p>
-                            <span className="font-bold text-slate-900 dark:text-white">{leaseData.daysRemaining} Days</span>
+                            <span className="font-bold text-slate-900 dark:text-white">{daysRemaining} Days</span>
                         </div>
                     </div>
                     <div className="flex-1 md:flex-none flex gap-3 w-full md:w-auto overflow-x-auto">
@@ -342,9 +375,9 @@ export default function LandlordLeaseAgreement() {
                 document={{
                     title: 'Lease Agreement',
                     type: 'pdf',
-                    property: leaseData.property.name,
-                    modifiedTime: leaseData.leaseStart,
-                    status: 'Signed',
+                    property: propertyName,
+                    modifiedTime: leaseStartFormatted,
+                    status: lease.signedByLandlord && lease.signedByTenant ? 'Signed' : 'Pending',
                     totalPages: 14,
                 }}
             />
@@ -353,10 +386,10 @@ export default function LandlordLeaseAgreement() {
             <DraftRenewalOfferModal
                 isOpen={isRenewalModalOpen}
                 onClose={() => setIsRenewalModalOpen(false)}
-                propertyAddress={`${leaseData.property.name}, ${leaseData.property.address}`}
-                leaseId={`#${leaseData.id}`}
-                currentRent={leaseData.monthlyRent}
-                expiryDate={leaseData.leaseEnd}
+                propertyAddress={`${propertyName}, ${propertyAddress}`}
+                leaseId={`#${lease.id.slice(0, 12).toUpperCase()}`}
+                currentRent={formatCurrency(lease.monthlyRent)}
+                expiryDate={leaseEndFormatted}
             />
 
             {/* Notice to Vacate Confirmation Modal */}

@@ -1,27 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { MagneticButton, SuccessCelebration } from '../../components/animation';
-
-// Mock property data
-const propertyData = {
-    id: 1,
-    name: 'Modern Oakwood Estate',
-    address: '1243 Oakwood Avenue, Austin, TX 78704',
-    neighborhood: 'Travis Heights Neighborhood',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l',
-    beds: 4,
-    baths: 3,
-    sqft: '2.4k',
-    rent: '$4,500',
-    status: 'AVAILABLE',
-};
-
-// Applicant data
-const applicantData = {
-    name: 'Sarah Jenkins',
-    email: 'sarah.jenkins@example.com',
-    phone: '+1 (555) 123-4567',
-};
+import { propertyService } from '../../lib/api/services/propertyService';
+import { userService } from '../../lib/api/services/userService';
+import { tenantService } from '../../lib/api/services/tenantService';
 
 interface ApplicationFormData {
     leaseDuration: string;
@@ -34,13 +16,101 @@ interface ApplicationFormData {
     reasonForMoving: string;
 }
 
+interface PropertyInfo {
+    id: string;
+    name: string;
+    address: string;
+    neighborhood: string;
+    image: string;
+    beds: number;
+    baths: number;
+    sqft: string;
+    rent: string;
+    status: string;
+}
+
+interface ApplicantInfo {
+    name: string;
+    email: string;
+    phone: string;
+}
+
 export default function RentalApplicationWizard() {
     const { id } = useParams();
     const navigate = useNavigate();
     const [currentStep, setCurrentStep] = useState(1);
     const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
     const totalSteps = 4;
-    console.log('Property ID:', id);
+
+    const [propertyData, setPropertyData] = useState<PropertyInfo>({
+        id: id || '', name: '', address: '', neighborhood: '', image: '', beds: 0, baths: 0, sqft: '0', rent: '₦0', status: '',
+    });
+    const [applicantData, setApplicantData] = useState<ApplicantInfo>({ name: '', email: '', phone: '' });
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchData() {
+            setLoading(true);
+            try {
+                const [propRes, userRes] = await Promise.all([
+                    id ? propertyService.getPropertyById(id) : Promise.resolve(null),
+                    userService.getCurrentUser(),
+                ]);
+
+                if (propRes?.data) {
+                    const p = propRes.data;
+                    const addr = p.address || {};
+                    const sqm = p.squareMeters || 0;
+                    setPropertyData({
+                        id: p.id || id || '',
+                        name: p.name || '',
+                        address: [addr.street, addr.city, addr.state].filter(Boolean).join(', '),
+                        neighborhood: addr.neighborhood || '',
+                        image: (p.media?.[0]?.url) || '',
+                        beds: p.bedrooms || 0,
+                        baths: p.bathrooms || 0,
+                        sqft: sqm > 1000 ? `${(sqm / 1000).toFixed(1)}k` : `${sqm}`,
+                        rent: `₦${Number(p.price || 0).toLocaleString()}`,
+                        status: p.status || 'AVAILABLE',
+                    });
+                }
+
+                if (userRes?.data) {
+                    const u = userRes.data;
+                    setApplicantData({
+                        name: `${u.firstName || ''} ${u.lastName || ''}`.trim(),
+                        email: u.email || '',
+                        phone: u.phone || '',
+                    });
+                }
+            } catch (err) {
+                console.error('Failed to load application data:', err);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchData();
+    }, [id]);
+
+    const handleSubmit = async () => {
+        if (!id) return;
+        try {
+            setSubmitting(true);
+            await tenantService.submitApplication({
+                propertyId: id,
+                moveInDate: formData.moveInDate,
+                employmentStatus: 'EMPLOYED' as const,
+                monthlyIncome: Number(formData.monthlyIncome) || 0,
+                message: formData.reasonForMoving || undefined,
+            });
+            setIsSuccessOpen(true);
+        } catch (err) {
+            console.error('Failed to submit application:', err);
+        } finally {
+            setSubmitting(false);
+        }
+    };
 
     const [formData, setFormData] = useState<ApplicationFormData>({
         leaseDuration: '12',
@@ -444,6 +514,17 @@ export default function RentalApplicationWizard() {
         }
     };
 
+    if (loading) {
+        return (
+            <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex items-center justify-center">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#137fec] mx-auto mb-4"></div>
+                    <p className="text-slate-500 dark:text-slate-400">Loading application...</p>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex flex-col font-[Manrope,Noto_Sans,sans-serif] text-slate-900 dark:text-white overflow-x-hidden pb-[100px]">
             {/* Header */}
@@ -511,10 +592,11 @@ export default function RentalApplicationWizard() {
                                 ) : (
                                     <MagneticButton>
                                         <button
-                                            onClick={() => setIsSuccessOpen(true)}
-                                            className="px-6 md:px-8 py-3 rounded-xl bg-green-600 text-white font-bold hover:bg-green-700 transition-colors shadow-lg shadow-green-600/25 flex items-center gap-2"
+                                            onClick={handleSubmit}
+                                            disabled={submitting}
+                                            className="px-6 md:px-8 py-3 rounded-xl bg-green-600 text-white font-bold hover:bg-green-700 transition-colors shadow-lg shadow-green-600/25 flex items-center gap-2 disabled:opacity-60"
                                         >
-                                            <span className="material-symbols-outlined text-[18px]">send</span> Submit Application
+                                            <span className="material-symbols-outlined text-[18px]">{submitting ? 'hourglass_empty' : 'send'}</span> {submitting ? 'Submitting...' : 'Submit Application'}
                                         </button>
                                     </MagneticButton>
                                 )}

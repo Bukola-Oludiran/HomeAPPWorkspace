@@ -136,8 +136,8 @@ export default function AgentTransactions() {
 
                 const response = await agentService.getPayoutHistory({ page, limit });
 
-                if (response.data?.data) {
-                    let transformed = response.data.data.map(transformPayout);
+                if (response.data) {
+                    let transformed = (response.data || []).map(transformPayout);
 
                     // Client-side search filter
                     if (searchQuery) {

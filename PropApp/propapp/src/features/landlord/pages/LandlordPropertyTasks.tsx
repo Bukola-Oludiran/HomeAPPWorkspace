@@ -1,7 +1,83 @@
+import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { maintenanceService } from '../../../lib/api/services/maintenanceService';
+import type { MaintenanceRequest } from '../../../types/lease';
+
+function getCategoryIcon(category: string): string {
+    const map: Record<string, string> = {
+        PLUMBING: 'plumbing', ELECTRICAL: 'electrical_services', HVAC: 'ac_unit',
+        APPLIANCES: 'kitchen', STRUCTURAL: 'foundation', PEST_CONTROL: 'pest_control',
+        CLEANING: 'cleaning_services', SECURITY: 'security', OTHER: 'build',
+    };
+    return map[category] || 'build';
+}
+
+function getCategoryColor(category: string): string {
+    const map: Record<string, string> = {
+        PLUMBING: 'bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400',
+        ELECTRICAL: 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400',
+        CLEANING: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400',
+        STRUCTURAL: 'bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400',
+    };
+    return map[category] || 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400';
+}
+
+function getStatusBadge(status: string) {
+    switch (status) {
+        case 'PENDING': return { label: 'Pending', className: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200 dark:border-amber-800' };
+        case 'ACKNOWLEDGED': return { label: 'Acknowledged', className: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 border-blue-200 dark:border-blue-800' };
+        case 'IN_PROGRESS': return { label: 'In Progress', className: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400 border-purple-200 dark:border-purple-800' };
+        case 'COMPLETED': return { label: 'Completed', className: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800' };
+        case 'CANCELLED': return { label: 'Cancelled', className: 'bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400 border-slate-200 dark:border-slate-700' };
+        default: return { label: status, className: 'bg-slate-100 text-slate-500 border-slate-200' };
+    }
+}
+
+function getPriorityBadge(priority: string) {
+    switch (priority) {
+        case 'EMERGENCY': return { label: 'Emergency', className: 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/10' };
+        case 'HIGH': return { label: 'High', className: 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/10' };
+        case 'MEDIUM': return { label: 'Medium', className: 'text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/10' };
+        case 'LOW': return { label: 'Low', className: 'text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800' };
+        default: return { label: priority, className: 'text-slate-500 bg-slate-100' };
+    }
+}
 
 export default function LandlordPropertyTasks() {
     const { id } = useParams();
+    const [tasks, setTasks] = useState<MaintenanceRequest[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchTasks() {
+            try {
+                setIsLoading(true);
+                const response = await maintenanceService.getMaintenanceRequests();
+                setTasks(response.data || []);
+            } catch (err) {
+                console.error('Failed to fetch tasks:', err);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+        fetchTasks();
+    }, []);
+
+    const totalTasks = tasks.length;
+    const pendingTasks = tasks.filter(t => t.status === 'PENDING' || t.status === 'ACKNOWLEDGED').length;
+    const inProgressTasks = tasks.filter(t => t.status === 'IN_PROGRESS').length;
+    const completedTasks = tasks.filter(t => t.status === 'COMPLETED').length;
+
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="flex flex-col items-center gap-3">
+                    <div className="size-10 border-4 border-[#137fec] border-t-transparent rounded-full animate-spin"></div>
+                    <p className="text-slate-500 font-medium">Loading tasks...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <>
@@ -60,7 +136,7 @@ export default function LandlordPropertyTasks() {
                             </div>
                             <div>
                                 <p className="text-xs text-slate-500 uppercase font-bold tracking-wide">Total Tasks</p>
-                                <p className="text-xl font-bold text-slate-900 dark:text-white">24</p>
+                                <p className="text-xl font-bold text-slate-900 dark:text-white">{totalTasks}</p>
                             </div>
                         </div>
                         <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-red-200 dark:border-red-900/50 shadow-sm flex items-center gap-3">
@@ -68,8 +144,8 @@ export default function LandlordPropertyTasks() {
                                 <span className="material-symbols-outlined">warning</span>
                             </div>
                             <div>
-                                <p className="text-xs text-slate-500 uppercase font-bold tracking-wide">Overdue</p>
-                                <p className="text-xl font-bold text-red-600 dark:text-red-400">3</p>
+                                <p className="text-xs text-slate-500 uppercase font-bold tracking-wide">In Progress</p>
+                                <p className="text-xl font-bold text-red-600 dark:text-red-400">{inProgressTasks}</p>
                             </div>
                         </div>
                         <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center gap-3">
@@ -78,7 +154,7 @@ export default function LandlordPropertyTasks() {
                             </div>
                             <div>
                                 <p className="text-xs text-slate-500 uppercase font-bold tracking-wide">Pending</p>
-                                <p className="text-xl font-bold text-slate-900 dark:text-white">8</p>
+                                <p className="text-xl font-bold text-slate-900 dark:text-white">{pendingTasks}</p>
                             </div>
                         </div>
                         <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center gap-3">
@@ -87,7 +163,7 @@ export default function LandlordPropertyTasks() {
                             </div>
                             <div>
                                 <p className="text-xs text-slate-500 uppercase font-bold tracking-wide">Completed</p>
-                                <p className="text-xl font-bold text-slate-900 dark:text-white">13</p>
+                                <p className="text-xl font-bold text-slate-900 dark:text-white">{completedTasks}</p>
                             </div>
                         </div>
                     </div>
@@ -137,242 +213,103 @@ export default function LandlordPropertyTasks() {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
-                                {/* Row 1 - Overdue */}
-                                <tr className="group hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-start gap-3">
-                                            <div className="mt-0.5 p-1.5 rounded bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400">
-                                                <span className="material-symbols-outlined text-[18px]">plumbing</span>
+                                {tasks.length === 0 ? (
+                                    <tr>
+                                        <td colSpan={6} className="px-6 py-12 text-center">
+                                            <div className="flex flex-col items-center gap-2">
+                                                <span className="material-symbols-outlined text-4xl text-slate-300">assignment</span>
+                                                <p className="text-slate-500 font-medium">No tasks found</p>
                                             </div>
-                                            <div>
-                                                <p className="font-bold text-slate-900 dark:text-white">Fix Leaky Faucet</p>
-                                                <p className="text-xs text-slate-500">Master Bathroom</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="text-sm text-red-600 font-medium flex items-center gap-1">
-                                            <span className="material-symbols-outlined text-[16px]">event_busy</span>
-                                            Yesterday
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800">
-                                            Overdue
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center gap-1 text-xs font-bold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/10 px-2 py-1 rounded w-fit">
-                                            <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>flag</span>
-                                            High
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center gap-2">
-                                            <div className="size-6 rounded-full bg-slate-200 dark:bg-slate-600 flex items-center justify-center text-[10px] font-bold">JP</div>
-                                            <span className="text-sm text-slate-600 dark:text-slate-300">John's Plumbing</span>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4 text-right">
-                                        <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button className="size-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:border-[#137fec] hover:text-[#137fec] text-slate-400 transition-colors" title="Mark Complete">
-                                                <span className="material-symbols-outlined text-[18px]">check</span>
-                                            </button>
-                                            <button className="size-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:border-[#137fec] hover:text-[#137fec] text-slate-400 transition-colors" title="Edit Task">
-                                                <span className="material-symbols-outlined text-[18px]">edit</span>
-                                            </button>
-                                            <button className="size-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:border-[#137fec] hover:text-[#137fec] text-slate-400 transition-colors" title="Remind Vendor">
-                                                <span className="material-symbols-outlined text-[18px]">notification_important</span>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    tasks.map((task) => {
+                                        const isCompleted = task.status === 'COMPLETED';
+                                        const statusBadge = getStatusBadge(task.status);
+                                        const priorityBadge = getPriorityBadge(task.priority);
+                                        const categoryColor = getCategoryColor(task.category);
+                                        const categoryIcon = getCategoryIcon(task.category);
+                                        const agentName = task.assignedAgent
+                                            ? `${task.assignedAgent.firstName} ${task.assignedAgent.lastName}`
+                                            : 'Unassigned';
+                                        const agentInitials = task.assignedAgent
+                                            ? `${task.assignedAgent.firstName?.[0] || ''}${task.assignedAgent.lastName?.[0] || ''}`
+                                            : '—';
+                                        const taskDate = new Date(task.createdAt).toLocaleDateString('en-US', {
+                                            month: 'short', day: 'numeric', year: 'numeric',
+                                        });
 
-                                {/* Row 2 - Pending Approval */}
-                                <tr className="group hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-start gap-3">
-                                            <div className="mt-0.5 p-1.5 rounded bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
-                                                <span className="material-symbols-outlined text-[18px]">description</span>
-                                            </div>
-                                            <div>
-                                                <p className="font-bold text-slate-900 dark:text-white">Approve Lease Renewal</p>
-                                                <p className="text-xs text-slate-500">Anderson Family</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="text-sm text-orange-600 dark:text-orange-400 font-medium flex items-center gap-1">
-                                            <span className="material-symbols-outlined text-[16px]">schedule</span>
-                                            Tomorrow, 5:00 PM
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border border-amber-200 dark:border-amber-800">
-                                            Pending Approval
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center gap-1 text-xs font-bold text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/10 px-2 py-1 rounded w-fit">
-                                            <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>flag</span>
-                                            Medium
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center gap-2">
-                                            <div className="size-6 rounded-full bg-[#137fec]/10 flex items-center justify-center text-[10px] font-bold text-[#137fec]">ME</div>
-                                            <span className="text-sm text-slate-600 dark:text-slate-300">Self</span>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4 text-right">
-                                        <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button className="px-3 py-1 rounded-lg bg-[#137fec] text-white text-xs font-bold hover:bg-[#0e64bd] transition-colors">Review</button>
-                                            <button className="size-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:border-[#137fec] hover:text-[#137fec] text-slate-400 transition-colors">
-                                                <span className="material-symbols-outlined text-[18px]">more_vert</span>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                {/* Row 3 - Scheduled */}
-                                <tr className="group hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-start gap-3">
-                                            <div className="mt-0.5 p-1.5 rounded bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400">
-                                                <span className="material-symbols-outlined text-[18px]">cleaning_services</span>
-                                            </div>
-                                            <div>
-                                                <p className="font-bold text-slate-900 dark:text-white">Gutter Cleaning</p>
-                                                <p className="text-xs text-slate-500">Seasonal Maintenance</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">
-                                            Nov 15, 2024
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 border border-blue-200 dark:border-blue-800">
-                                            Scheduled
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center gap-1 text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded w-fit">
-                                            <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>flag</span>
-                                            Low
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center gap-2">
-                                            <div className="size-6 rounded-full bg-slate-200 dark:bg-slate-600 flex items-center justify-center text-[10px] font-bold">CC</div>
-                                            <span className="text-sm text-slate-600 dark:text-slate-300">CleanCo Inc.</span>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4 text-right">
-                                        <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button className="size-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:border-[#137fec] hover:text-[#137fec] text-slate-400 transition-colors" title="View Details">
-                                                <span className="material-symbols-outlined text-[18px]">visibility</span>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                {/* Row 4 - In Progress */}
-                                <tr className="group hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-start gap-3">
-                                            <div className="mt-0.5 p-1.5 rounded bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400">
-                                                <span className="material-symbols-outlined text-[18px]">format_paint</span>
-                                            </div>
-                                            <div>
-                                                <p className="font-bold text-slate-900 dark:text-white">Repaint Guest Bedroom</p>
-                                                <p className="text-xs text-slate-500">Tenant Request</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">
-                                            Nov 20, 2024
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400 border border-purple-200 dark:border-purple-800">
-                                            In Progress
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center gap-1 text-xs font-bold text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/10 px-2 py-1 rounded w-fit">
-                                            <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>flag</span>
-                                            Medium
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center gap-2">
-                                            <div className="size-6 rounded-full bg-slate-200 dark:bg-slate-600 flex items-center justify-center text-[10px] font-bold">HA</div>
-                                            <span className="text-sm text-slate-600 dark:text-slate-300">HandyAnd Services</span>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4 text-right">
-                                        <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button className="size-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:border-[#137fec] hover:text-[#137fec] text-slate-400 transition-colors">
-                                                <span className="material-symbols-outlined text-[18px]">chat</span>
-                                            </button>
-                                            <button className="size-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:border-[#137fec] hover:text-[#137fec] text-slate-400 transition-colors">
-                                                <span className="material-symbols-outlined text-[18px]">edit</span>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                {/* Row 5 - Completed */}
-                                <tr className="group hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors opacity-60 hover:opacity-100">
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-start gap-3">
-                                            <div className="mt-0.5 p-1.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-500">
-                                                <span className="material-symbols-outlined text-[18px]">detector_smoke</span>
-                                            </div>
-                                            <div>
-                                                <p className="font-bold text-slate-900 dark:text-white line-through decoration-slate-400">Smoke Detector Check</p>
-                                                <p className="text-xs text-slate-500">Annual Safety Inspection</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="text-sm text-slate-500 dark:text-slate-500 font-medium">
-                                            Oct 01, 2024
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800 flex items-center w-fit gap-1">
-                                            <span className="material-symbols-outlined text-[14px]">check</span> Completed
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center gap-1 text-xs font-bold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/10 px-2 py-1 rounded w-fit grayscale">
-                                            <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>flag</span>
-                                            High
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center gap-2">
-                                            <div className="size-6 rounded-full bg-[#137fec]/10 flex items-center justify-center text-[10px] font-bold text-[#137fec]">ME</div>
-                                            <span className="text-sm text-slate-600 dark:text-slate-300">Self</span>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4 text-right">
-                                        <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button className="text-xs text-[#137fec] font-bold hover:underline">View Receipt</button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                        return (
+                                            <tr
+                                                key={task.id}
+                                                className={`group hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors ${isCompleted ? 'opacity-60 hover:opacity-100' : ''}`}
+                                            >
+                                                <td className="px-6 py-4">
+                                                    <div className="flex items-start gap-3">
+                                                        <div className={`mt-0.5 p-1.5 rounded ${isCompleted ? 'bg-slate-100 dark:bg-slate-800 text-slate-500' : categoryColor}`}>
+                                                            <span className="material-symbols-outlined text-[18px]">{categoryIcon}</span>
+                                                        </div>
+                                                        <div>
+                                                            <p className={`font-bold text-slate-900 dark:text-white ${isCompleted ? 'line-through decoration-slate-400' : ''}`}>{task.title}</p>
+                                                            <p className="text-xs text-slate-500">{task.category.replace(/_/g, ' ').toLowerCase().replace(/^\w/, c => c.toUpperCase())}</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    <div className={`text-sm font-medium ${isCompleted ? 'text-slate-500 dark:text-slate-500' : 'text-slate-600 dark:text-slate-400'}`}>
+                                                        {taskDate}
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    {isCompleted ? (
+                                                        <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${statusBadge.className} flex items-center w-fit gap-1`}>
+                                                            <span className="material-symbols-outlined text-[14px]">check</span> {statusBadge.label}
+                                                        </span>
+                                                    ) : (
+                                                        <span className={`px-2.5 py-1 rounded-full text-xs font-bold border ${statusBadge.className}`}>
+                                                            {statusBadge.label}
+                                                        </span>
+                                                    )}
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    <div className={`flex items-center gap-1 text-xs font-bold ${priorityBadge.className} px-2 py-1 rounded w-fit ${isCompleted ? 'grayscale' : ''}`}>
+                                                        <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>flag</span>
+                                                        {priorityBadge.label}
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    <div className="flex items-center gap-2">
+                                                        <div className="size-6 rounded-full bg-slate-200 dark:bg-slate-600 flex items-center justify-center text-[10px] font-bold">{agentInitials}</div>
+                                                        <span className="text-sm text-slate-600 dark:text-slate-300">{agentName}</span>
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-4 text-right">
+                                                    <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                        {isCompleted ? (
+                                                            <button className="text-xs text-[#137fec] font-bold hover:underline">View Details</button>
+                                                        ) : (
+                                                            <>
+                                                                <button className="size-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:border-[#137fec] hover:text-[#137fec] text-slate-400 transition-colors" title="Mark Complete">
+                                                                    <span className="material-symbols-outlined text-[18px]">check</span>
+                                                                </button>
+                                                                <button className="size-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:border-[#137fec] hover:text-[#137fec] text-slate-400 transition-colors" title="Edit Task">
+                                                                    <span className="material-symbols-outlined text-[18px]">edit</span>
+                                                                </button>
+                                                            </>
+                                                        )}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })
+                                )}
                             </tbody>
                         </table>
                     </div>
 
                     {/* Pagination */}
                     <div className="px-6 py-4 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between bg-slate-50 dark:bg-slate-900/50">
-                        <p className="text-sm text-slate-500">Showing <span className="font-bold text-slate-900 dark:text-white">1-5</span> of <span className="font-bold text-slate-900 dark:text-white">24</span> tasks</p>
+                        <p className="text-sm text-slate-500">Showing <span className="font-bold text-slate-900 dark:text-white">{tasks.length > 0 ? `1-${tasks.length}` : '0'}</span> of <span className="font-bold text-slate-900 dark:text-white">{totalTasks}</span> tasks</p>
                         <div className="flex gap-2">
                             <button className="px-3 py-1 rounded border border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-400 text-sm hover:bg-white dark:hover:bg-slate-800 disabled:opacity-50" disabled>Previous</button>
                             <button className="px-3 py-1 rounded border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white text-sm hover:bg-white dark:hover:bg-slate-800 font-medium">Next</button>

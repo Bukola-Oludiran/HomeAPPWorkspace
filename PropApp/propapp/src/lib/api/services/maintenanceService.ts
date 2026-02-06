@@ -5,7 +5,6 @@
 
 import { api } from '../client';
 import { API_ENDPOINTS } from '../config';
-import type { PaginatedResponse } from '../../../types/api';
 import type {
     MaintenanceRequest,
     CreateMaintenanceRequest,
@@ -18,7 +17,7 @@ import type {
  * Get maintenance requests
  */
 export async function getMaintenanceRequests(params?: MaintenanceFilters) {
-    return api.get<PaginatedResponse<MaintenanceRequest>>(API_ENDPOINTS.MAINTENANCE.LIST, params as Record<string, unknown>);
+    return api.get<MaintenanceRequest[]>(API_ENDPOINTS.MAINTENANCE.LIST, params as Record<string, unknown>);
 }
 
 /**

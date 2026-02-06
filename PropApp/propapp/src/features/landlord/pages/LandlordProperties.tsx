@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import PageContainer from '../../../components/common/PageContainer';
 import PageHeader from '../../../components/common/PageHeader';
 import SearchInput from '../../../components/common/SearchInput';
@@ -55,14 +55,22 @@ function getStatusInfo(status: string, listingType: string): { label: string; co
     }
 }
 
+// Extract city/state from nested or flat address fields
+function getLocation(property: PropertySummary): string {
+    const extra = property as unknown as Record<string, unknown>;
+    const city = property.address?.city || (extra.addressCity as string) || '';
+    const state = property.address?.state || (extra.addressState as string) || '';
+    return [city, state].filter(Boolean).join(', ');
+}
+
 // Transform API PropertySummary to UI format
 function transformProperty(property: PropertySummary): RegularProperty {
     const statusInfo = getStatusInfo(property.status, property.listingType);
     return {
         id: property.id,
         name: property.name,
-        location: `${property.address.city}, ${property.address.state}`,
-        unit: property.propertyType.replace('_', ' '),
+        location: getLocation(property),
+        unit: (property.propertyType || '').replace('_', ' '),
         beds: property.bedrooms,
         baths: property.bathrooms,
         sqft: formatSquareMeters(property.squareMeters),
@@ -80,8 +88,8 @@ function transformIncomingProperty(property: PropertySummary): IncomingProperty 
     return {
         id: property.id,
         name: property.name,
-        location: `${property.address.city}, ${property.address.state}`,
-        unit: property.propertyType.replace('_', ' '),
+        location: getLocation(property),
+        unit: (property.propertyType || '').replace('_', ' '),
         status: statusInfo.label,
         statusColor: statusInfo.color,
         progress: 30, // Default progress for drafts
@@ -164,6 +172,7 @@ interface PropertyCardGridProps {
 }
 
 function PropertyCardGrid({ property, isIncoming = false }: PropertyCardGridProps) {
+    const navigate = useNavigate();
     const incomingProp = property as IncomingProperty;
     const regularProp = property as RegularProperty;
 
@@ -200,9 +209,9 @@ function PropertyCardGrid({ property, isIncoming = false }: PropertyCardGridProp
                         </div>
                         <div className="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
                             <span className="text-xs font-medium text-slate-500">{incomingProp.closingDate.includes('Docs') ? incomingProp.closingDate : `Closing: ${incomingProp.closingDate}`}</span>
-                            <Link to={`/landlord/verification`} className={`flex items-center gap-1.5 text-xs font-bold ${incomingProp.progressColor === 'bg-purple-600' ? 'text-purple-600 hover:text-purple-700 bg-purple-50 dark:bg-purple-900/20' : 'text-orange-600 hover:text-orange-700 bg-orange-50 dark:bg-orange-900/20'} transition-colors px-3 py-1.5 rounded-full`}>
+                            <button onClick={(e) => { e.preventDefault(); e.stopPropagation(); navigate('/landlord/verification'); }} className={`flex items-center gap-1.5 text-xs font-bold ${incomingProp.progressColor === 'bg-purple-600' ? 'text-purple-600 hover:text-purple-700 bg-purple-50 dark:bg-purple-900/20' : 'text-orange-600 hover:text-orange-700 bg-orange-50 dark:bg-orange-900/20'} transition-colors px-3 py-1.5 rounded-full`}>
                                 <span className="material-symbols-outlined text-[16px]">verified_user</span> Verify Status
-                            </Link>
+                            </button>
                         </div>
                     </>
                 ) : (
@@ -222,9 +231,9 @@ function PropertyCardGrid({ property, isIncoming = false }: PropertyCardGridProp
                             <div>
                                 <p className="text-lg font-bold text-slate-900 dark:text-white">{regularProp.price}<span className="text-xs font-normal text-slate-400">{regularProp.priceType}</span></p>
                             </div>
-                            <Link to={`/landlord/verification`} className="flex items-center gap-1.5 text-xs font-bold text-[#137fec] hover:text-[#137fec]/80 transition-colors bg-blue-50 dark:bg-blue-900/20 px-3 py-1.5 rounded-full">
+                            <button onClick={(e) => { e.preventDefault(); e.stopPropagation(); navigate('/landlord/verification'); }} className="flex items-center gap-1.5 text-xs font-bold text-[#137fec] hover:text-[#137fec]/80 transition-colors bg-blue-50 dark:bg-blue-900/20 px-3 py-1.5 rounded-full">
                                 <span className="material-symbols-outlined text-[16px]">verified_user</span> Verify Status
-                            </Link>
+                            </button>
                         </div>
                     </>
                 )}
@@ -348,7 +357,7 @@ export default function LandlordProperties() {
                 setIsLoading(true);
                 setError(null);
                 const response = await landlordService.getProperties({ limit: 100 });
-                const categorized = categorizeProperties(response.data.data);
+                const categorized = categorizeProperties(response.data);
                 setPropertiesData(categorized);
             } catch (err) {
                 console.error('Failed to fetch properties:', err);

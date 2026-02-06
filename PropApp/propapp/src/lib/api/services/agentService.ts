@@ -5,7 +5,6 @@
 
 import { api } from '../client';
 import { API_ENDPOINTS } from '../config';
-import type { PaginatedResponse } from '../../../types/api';
 import type {
     AgentJob,
     AgentEarnings,
@@ -17,14 +16,14 @@ import type { Payout, RequestPayoutRequest } from '../../../types/lease';
  * Get available jobs for agents
  */
 export async function getAvailableJobs(params?: { type?: string; city?: string; page?: number; limit?: number }) {
-    return api.get<PaginatedResponse<AgentJob>>(API_ENDPOINTS.AGENT.JOBS, params);
+    return api.get<AgentJob[]>(API_ENDPOINTS.AGENT.JOBS, params);
 }
 
 /**
  * Get agent's accepted jobs
  */
 export async function getAcceptedJobs(params?: { status?: string; page?: number; limit?: number }) {
-    return api.get<PaginatedResponse<AgentJob>>(API_ENDPOINTS.AGENT.JOBS_ACCEPTED, params);
+    return api.get<AgentJob[]>(API_ENDPOINTS.AGENT.JOBS_ACCEPTED, params);
 }
 
 /**
@@ -66,7 +65,7 @@ export async function getEarnings() {
  * Get payout history
  */
 export async function getPayoutHistory(params?: { page?: number; limit?: number }) {
-    return api.get<PaginatedResponse<Payout>>(API_ENDPOINTS.AGENT.EARNINGS_HISTORY, params);
+    return api.get<Payout[]>(API_ENDPOINTS.AGENT.EARNINGS_HISTORY, params);
 }
 
 /**

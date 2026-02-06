@@ -5,7 +5,6 @@
 
 import { api } from '../client';
 import { API_ENDPOINTS } from '../config';
-import type { PaginatedResponse } from '../../../types/api';
 import type {
     Lease,
     CreateLeaseRequest,
@@ -19,7 +18,7 @@ import type {
  * Get user's leases
  */
 export async function getLeases(params?: { status?: string; page?: number; limit?: number }) {
-    return api.get<PaginatedResponse<Lease>>(API_ENDPOINTS.LEASES.LIST, params);
+    return api.get<Lease[]>(API_ENDPOINTS.LEASES.LIST, params);
 }
 
 /**

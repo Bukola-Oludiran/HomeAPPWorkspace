@@ -1,57 +1,124 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import ShareModal from '../../components/ShareModal';
 import ContactAgentModal from '../../components/ContactAgentModal';
 import ReviewModal from '../../components/ReviewModal';
+import { userService } from '../../lib/api/services/userService';
 
-// Mock agent data
-const agentData = {
-    id: 'agent-1',
-    name: 'Alex Johnson',
-    title: 'Senior Maintenance Agent',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDqXdl37sfEazlyxSBTV5lF8kGRieE_SYwtDyVySc1aWbjBke5mu8mh567-fZNihR7nyy7Nfe4SYcazxMiKGgNKSeL-pK6TTSI0rcTQ7dbJIQKnzeNyA5B8mtOx-6qYJZAofjSjdD8ldObnUD1GG6Bhtge7vN74aD4o-lYTQsnW57HV4JVB1KwsSZjj0-u_ihV37S1T2wUzJ4OUpL_J-KaQoB-x1dKtj4hswAcNfkWRrd6qvgWhIynlCNRWBdnV8D3xputK0iKXBrm9',
-    verified: true,
-    rating: 4.9,
-    jobsDone: 124,
-    email: 'alex.j@propertyapp.com',
-    phone: '+234 801 234 5678',
-    available: true,
-    about: `I am a dedicated Senior Maintenance Agent specializing in residential and commercial property upkeep. With over 8 years of experience in HVAC systems, electrical troubleshooting, and general facility repairs, I ensure that all maintenance requests are handled promptly and professionally. 
-    
-My goal is to provide peace of mind to landlords and tenants alike through reliable service, transparent communication, and high-quality workmanship. I am fully licensed and insured, committed to safety standards and efficient problem-solving.`,
-    certifications: [
-        { name: 'HVAC Technician License', issuer: 'State Board', status: 'Active', expiry: 'Oct 2025' },
-        { name: 'Certified Property Manager', issuer: 'National Assoc.', status: 'Active', expiry: 'No Expiration' },
-    ],
-    serviceAreas: ['Lekki Phase 1', 'Victoria Island', 'Ikoyi'],
-    baseLocation: 'Lekki Phase 1',
-    reviews: [
-        {
-            initials: 'EO',
-            name: 'Emeka O.',
-            date: '2 days ago',
-            rating: 5,
-            text: '"Alex was very professional and fixed the AC leak quickly. He explained what went wrong and how to prevent it. Highly recommended!"',
-            color: 'bg-blue-100 text-blue-600',
-        },
-        {
-            initials: 'SK',
-            name: 'Sarah K.',
-            date: '1 week ago',
-            rating: 4.5,
-            text: '"Great service overall, arrived a bit late but did a fantastic job with the inspection. Very thorough report."',
-            color: 'bg-pink-100 text-pink-600',
-        },
-    ],
-};
+interface AgentReview {
+    initials: string;
+    name: string;
+    date: string;
+    rating: number;
+    text: string;
+    color: string;
+}
+
+interface AgentCert {
+    name: string;
+    issuer: string;
+    status: string;
+    expiry: string;
+}
+
+interface AgentData {
+    id: string;
+    name: string;
+    title: string;
+    image: string;
+    verified: boolean;
+    rating: number;
+    jobsDone: number;
+    email: string;
+    phone: string;
+    available: boolean;
+    about: string;
+    certifications: AgentCert[];
+    serviceAreas: string[];
+    baseLocation: string;
+    reviews: AgentReview[];
+}
 
 export default function AgentPublicProfile() {
-    const { id: _id } = useParams();
+    const { id } = useParams();
     const [showAIChat, setShowAIChat] = useState(false);
     const [showShareModal, setShowShareModal] = useState(false);
     const [showContactModal, setShowContactModal] = useState(false);
     const [showReviewModal, setShowReviewModal] = useState(false);
-    const agent = agentData;
+    const [agent, setAgent] = useState<AgentData | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        async function fetchProfile() {
+            if (!id) return;
+            try {
+                setLoading(true);
+                setError(null);
+                const response = await userService.getPublicAgentProfile(id);
+                const profileData = response.data;
+                const user = profileData.user || { firstName: '', lastName: '', avatarUrl: '' };
+                const extra = profileData as unknown as Record<string, unknown>;
+
+                const name = `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Agent';
+
+                // Map certifications from API format
+                const certs: AgentCert[] = (profileData.certifications || []).map((c) => ({
+                    name: c.name,
+                    issuer: c.issuer,
+                    status: (c as unknown as Record<string, unknown>).status as string || 'Active',
+                    expiry: c.expiryDate ? new Date(c.expiryDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'No Expiration',
+                }));
+
+                setAgent({
+                    id: id,
+                    name,
+                    title: (extra.title as string) || profileData.companyName || 'Agent',
+                    image: user.avatarUrl || '',
+                    verified: (extra.verified as boolean) ?? true,
+                    rating: (extra.rating as number) || 0,
+                    jobsDone: (extra.jobsDone as number) || (extra.completedJobs as number) || 0,
+                    email: (extra.email as string) || '',
+                    phone: (extra.phone as string) || '',
+                    available: (extra.available as boolean) ?? true,
+                    about: (extra.bio as string) || (extra.about as string) || '',
+                    certifications: certs,
+                    serviceAreas: profileData.serviceAreas || [],
+                    baseLocation: (extra.baseLocation as string) || (profileData.serviceAreas?.[0] || ''),
+                    reviews: Array.isArray(extra.reviews) ? (extra.reviews as AgentReview[]) : [],
+                });
+            } catch (err) {
+                console.error('Failed to load agent profile:', err);
+                setError('Failed to load profile. Please try again.');
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchProfile();
+    }, [id]);
+
+    if (loading) {
+        return (
+            <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex items-center justify-center">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#137fec] mx-auto mb-4"></div>
+                    <p className="text-slate-500 dark:text-slate-400">Loading profile...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (error || !agent) {
+        return (
+            <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex items-center justify-center">
+                <div className="text-center">
+                    <span className="material-symbols-outlined text-4xl text-slate-400 mb-4">error_outline</span>
+                    <p className="text-slate-600 dark:text-slate-400">{error || 'Profile not found'}</p>
+                    <Link to="/" className="text-[#137fec] font-semibold mt-4 inline-block hover:underline">Go Home</Link>
+                </div>
+            </div>
+        );
+    }
 
     const renderStars = (rating: number) => {
         const stars = [];

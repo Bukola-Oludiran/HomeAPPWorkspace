@@ -5,7 +5,6 @@
 
 import { api } from '../client';
 import { API_ENDPOINTS } from '../config';
-import type { PaginatedResponse } from '../../../types/api';
 import type { PropertySummary } from '../../../types/property';
 import type { RentalApplication } from '../../../types/lease';
 import type {
@@ -35,14 +34,14 @@ export async function getDashboardAnalytics() {
  * Get landlord's properties
  */
 export async function getProperties(params?: { status?: string; page?: number; limit?: number }) {
-    return api.get<PaginatedResponse<PropertySummary>>(API_ENDPOINTS.LANDLORD.PROPERTIES, params);
+    return api.get<PropertySummary[]>(API_ENDPOINTS.LANDLORD.PROPERTIES, params);
 }
 
 /**
  * Get pending applicants
  */
 export async function getApplicants(params?: { propertyId?: string; status?: string; page?: number; limit?: number }) {
-    return api.get<PaginatedResponse<RentalApplication>>(API_ENDPOINTS.LANDLORD.APPLICANTS, params);
+    return api.get<RentalApplication[]>(API_ENDPOINTS.LANDLORD.APPLICANTS, params);
 }
 
 /**
@@ -84,7 +83,7 @@ export async function getFinancialSummary(params?: { startDate?: string; endDate
  * Get transaction history
  */
 export async function getTransactions(params?: { page?: number; limit?: number; type?: string }) {
-    return api.get<PaginatedResponse<LandlordTransaction>>(API_ENDPOINTS.LANDLORD.FINANCIALS_TRANSACTIONS, params);
+    return api.get<LandlordTransaction[]>(API_ENDPOINTS.LANDLORD.FINANCIALS_TRANSACTIONS, params);
 }
 
 /**
@@ -125,7 +124,7 @@ export async function createAgentJob(data: {
  * Get landlord's created jobs
  */
 export async function getJobs(params?: { status?: string; page?: number; limit?: number }) {
-    return api.get<PaginatedResponse<AgentJob>>(API_ENDPOINTS.LANDLORD.JOBS, params);
+    return api.get<AgentJob[]>(API_ENDPOINTS.LANDLORD.JOBS, params);
 }
 
 // Export all functions as named exports and as default object

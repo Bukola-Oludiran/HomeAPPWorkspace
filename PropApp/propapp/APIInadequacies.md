@@ -627,48 +627,87 @@ All critical backend enhancements have been implemented. The backend now returns
 | 2026-01-30 | Agent Earnings Structure | ✅ **Resolved** - Replaced daily/weekly/monthly totals with `availableBalance`, `pendingBalance`, `totalEarned`, `totalWithdrawn`, `earningsByMonth` |
 | 2026-01-30 | Agent Schedule Structure | ✅ **Resolved** - Unified response from separate `jobs`/`events` to single `items` array with full schedule details |
 | 2026-01-31 | Login Response Token Structure | ✅ **Fixed in Frontend** - Backend returns `{ user, tokens: { accessToken, refreshToken, expiresIn } }` but frontend expected tokens at root. Updated `LoginResponse` type and `AuthContext` to use `response.data.tokens.accessToken` |
+| 2026-02-06 | Property `yearBuilt` Field | ✅ **Resolved** - Added `yearBuilt` to property list responses, added `yearBuiltMin`/`yearBuiltMax` search filters |
+| 2026-02-06 | Verification Tier Inconsistency | ✅ **Resolved** - Updated `/verification/properties/:id` to use `property.verificationTier` as source of truth |
+| 2026-02-06 | Landlord Properties Insufficient Data | ✅ **Resolved** - Enhanced `/landlord/properties` to return all fields matching public `/properties` endpoint |
 
 ---
 
 ## Outstanding Issues
 
-### 🟠 Property `yearBuilt` Field - NOT IMPLEMENTED
+*All issues resolved as of 2026-02-06.*
+
+---
+
+## Recently Resolved Issues
+
+### 🟢 Property `yearBuilt` Field - RESOLVED (2026-02-06)
 
 **Frontend Feature:** Property search filters, PropertyDetail page, LandlordPropertyDetail page
 
-**Frontend Has:**
-- `yearBuilt?: number` field defined in `PropertySummary` ([property.ts:119](src/types/property.ts#L119)) and `Property` ([property.ts:194](src/types/property.ts#L194))
-- Year Built filter UI in SearchPage (lines 113, 683-694) with `yearBuiltMin` / `yearBuiltMax` inputs
-- Display in PropertyDetail.tsx (line 274) - currently shows "N/A"
-- Hardcoded value in LandlordPropertyDetail.tsx (line 23) - `yearBuilt: 2021`
+**✅ Resolution:**
+- `yearBuilt` field already existed in database schema
+- Added `yearBuilt` to property list responses (select statement)
+- Added `yearBuiltMin` and `yearBuiltMax` query parameters to search DTO
+- Added filter logic in `listProperties` method
 
-**Backend Gap:**
-- Property responses do NOT include `yearBuilt` field
-- Search filters do NOT support `yearBuiltMin` / `yearBuiltMax` parameters
-- Not listed in BACKEND_READMEV4.md search parameters
+**Files Modified:**
+- `core-backend/src/modules/properties/properties.service.ts` - Added yearBuilt to select, added filter logic
+- `core-backend/src/modules/properties/properties.dto.ts` - Added yearBuiltMin/yearBuiltMax to searchPropertiesSchema
 
-**Impact:** 🟠 Medium
-- Year Built filter on SearchPage is non-functional (UI exists but filter not sent to API)
-- PropertyDetail shows "N/A" for all properties
-- Users cannot search by property age
+### 🟢 Verification Endpoint Tier Inconsistency - RESOLVED (2026-02-06)
 
-**Suggested Solution:**
-1. Add `yearBuilt` (integer, optional) to Property model in database
-2. Include `yearBuilt` in property list and detail responses
-3. Add `yearBuiltMin` and `yearBuiltMax` query parameters to search endpoint
+**Issue:** The property detail page shows the correct verification tier (it reads `property.verificationTier` directly from the property record), while the Verification Hub shows the wrong tier because it relies on a separate, inconsistent endpoint.
 
-**Required Response Field:**
+**✅ Resolution:**
+- Updated `getPropertyVerificationStatus` method to use `property.verificationTier` as the source of truth
+- The endpoint now returns the tier directly from the property record instead of calculating from approved verification count
+- Both endpoints now return consistent tier values
+
+**File Modified:**
+- `core-backend/src/modules/verification/verification.service.ts` - Updated tier to use property.verificationTier
+
+### 🟢 Landlord Properties Endpoint - RESOLVED (2026-02-06)
+
+**Issue:** The `/landlord/properties` endpoint returns only 6 fields per property, while the LandlordProperties page needs 20+ fields to render property cards (type, bedrooms, bathrooms, price, address, images, etc.).
+
+**✅ Resolution:**
+- Updated `getMyProperties` method to include all fields matching the public `/properties` endpoint
+- Added: `propertyType`, `listingType`, `price`, `priceUnit`, `currency`, `bedrooms`, `bathrooms`, `squareFeet`, `squareMeters`, `yearBuilt`, `addressCity`, `addressState`, `addressNeighborhood`, `primaryImage`, `createdAt`, `isVerified`, `isFeatured`
+- Uses `regionConfigService` for region-aware currency code
+- Uses `squareFeetToMeters` for unit conversion
+
+**File Modified:**
+- `core-backend/src/modules/landlord/landlord.service.ts` - Enhanced select and mapping in getMyProperties
+
+**New Response Format:**
 ```json
 {
-  "yearBuilt": 2021  // integer, optional - year property was constructed
+  "id": "...",
+  "name": "Golden Gate Residences - Ibadan",
+  "propertyType": "STUDIO",
+  "listingType": "SHORT_LET",
+  "price": 150000,
+  "priceUnit": "PER_NIGHT",
+  "currency": "NGN",
+  "bedrooms": 2,
+  "bathrooms": 4,
+  "squareFeet": 45,
+  "squareMeters": 4,
+  "yearBuilt": 2021,
+  "addressCity": "Ibadan",
+  "addressState": "Oyo",
+  "addressNeighborhood": "Bodija",
+  "status": "ACTIVE",
+  "occupancyStatus": "VACANT",
+  "monthlyRent": null,
+  "verificationTier": "UNVERIFIED",
+  "isVerified": false,
+  "isFeatured": false,
+  "primaryImage": "https://...",
+  "createdAt": "2026-01-15T..."
 }
 ```
-
-**Required Search Parameters:**
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `yearBuiltMin` | number | Minimum year built |
-| `yearBuiltMax` | number | Maximum year built |
 
 ---
 

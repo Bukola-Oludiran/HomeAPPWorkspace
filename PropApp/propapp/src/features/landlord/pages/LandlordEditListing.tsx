@@ -1,20 +1,107 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import ConfirmationModal from '../../../components/ConfirmationModal';
+import { propertyService } from '../../../lib/api/services/propertyService';
+import type { Property } from '../../../types/property';
 
 export default function LandlordEditListing() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [description, setDescription] = useState("Stunning modern estate located in the heart of Austin's most desirable neighborhood. This architectural masterpiece features floor-to-ceiling windows that flood the open-concept living space with natural light. The chef's kitchen boasts top-of-the-line appliances and a massive quartz island. Step outside to a private oasis with a covered patio and lush landscaping. Walking distance to local cafes and parks.");
+    const [property, setProperty] = useState<Property | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isSaving, setIsSaving] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [description, setDescription] = useState('');
     const [isPublished, setIsPublished] = useState(true);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+    // Form state
+    const [title, setTitle] = useState('');
+    const [address, setAddress] = useState('');
+    const [bedrooms, setBedrooms] = useState(0);
+    const [bathrooms, setBathrooms] = useState(0);
+    const [squareMeters, setSquareMeters] = useState(0);
+    const [price, setPrice] = useState('');
+
+    useEffect(() => {
+        async function fetchProperty() {
+            if (!id) return;
+            try {
+                setIsLoading(true);
+                const response = await propertyService.getPropertyById(id);
+                const data = response.data;
+                setProperty(data);
+                setTitle(data.name || '');
+                setDescription(data.description || '');
+                setAddress(data.address ? `${data.address.street || ''}, ${data.address.city || ''}, ${data.address.state || ''}` : '');
+                setBedrooms(data.bedrooms || 0);
+                setBathrooms(data.bathrooms || 0);
+                setSquareMeters(data.squareMeters || 0);
+                setPrice(data.price?.toString() || '');
+                setIsPublished(data.status === 'ACTIVE');
+            } catch (err) {
+                console.error('Failed to fetch property:', err);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+        fetchProperty();
+    }, [id]);
+
+    async function handleSave() {
+        if (!id) return;
+        try {
+            setIsSaving(true);
+            await propertyService.updateProperty(id, {
+                name: title,
+                description,
+                bedrooms,
+                bathrooms,
+                squareMeters: squareMeters || undefined,
+                price: parseFloat(price) || undefined,
+                status: isPublished ? 'ACTIVE' : 'DRAFT',
+            });
+            navigate(`/landlord/properties/${id}`);
+        } catch (err) {
+            console.error('Failed to save changes:', err);
+            alert('Failed to save changes. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
+    }
+
+    async function handleDelete() {
+        if (!id) return;
+        try {
+            setIsDeleting(true);
+            await propertyService.deleteProperty(id);
+            navigate('/landlord/dashboard');
+        } catch (err) {
+            console.error('Failed to delete listing:', err);
+            alert('Failed to delete listing. Please try again.');
+        } finally {
+            setIsDeleting(false);
+            setShowDeleteModal(false);
+        }
+    }
+
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="flex flex-col items-center gap-3">
+                    <div className="size-10 border-4 border-[#137fec] border-t-transparent rounded-full animate-spin"></div>
+                    <p className="text-slate-500 font-medium">Loading property...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <>
             <ConfirmationModal
                 isOpen={showDeleteModal}
                 onClose={() => setShowDeleteModal(false)}
-                onConfirm={() => console.log('Listing deleted')}
+                onConfirm={handleDelete}
                 title="Delete Listing?"
                 description="Are you sure you want to permanently delete this listing? All associated data including photos, applications, and analytics will be lost forever."
                 confirmText="Delete Listing"
@@ -48,10 +135,11 @@ export default function LandlordEditListing() {
                             Cancel
                         </Link>
                         <button
-                            onClick={() => navigate(`/landlord/properties/${id}`)}
-                            className="px-5 py-2.5 rounded-lg bg-[#137fec] text-white font-semibold hover:bg-[#0e64bd] transition-colors shadow-lg shadow-[#137fec]/25"
+                            onClick={handleSave}
+                            disabled={isSaving}
+                            className="px-5 py-2.5 rounded-lg bg-[#137fec] text-white font-semibold hover:bg-[#0e64bd] transition-colors shadow-lg shadow-[#137fec]/25 disabled:opacity-50"
                         >
-                            Save Changes
+                            {isSaving ? 'Saving...' : 'Save Changes'}
                         </button>
                     </div>
                 </div>
@@ -69,13 +157,13 @@ export default function LandlordEditListing() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="col-span-1 md:col-span-2">
                             <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Property Title</label>
-                            <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] px-4 py-3" type="text" defaultValue="Modern Oakwood Estate" />
+                            <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] px-4 py-3" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
                         </div>
                         <div className="col-span-1 md:col-span-2">
                             <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Address</label>
                             <div className="relative">
                                 <span className="absolute left-4 top-3.5 material-symbols-outlined text-slate-400 text-[20px]">location_on</span>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] pl-11 pr-4 py-3" type="text" defaultValue="1243 Oakwood Avenue, Austin, TX 78704" />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] pl-11 pr-4 py-3" type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
                             </div>
                         </div>
                         <div>
@@ -98,7 +186,7 @@ export default function LandlordEditListing() {
                                     <button className="absolute left-3 top-3 text-slate-400 hover:text-[#137fec] transition-colors">
                                         <span className="material-symbols-outlined text-[18px]">remove</span>
                                     </button>
-                                    <input className="w-full text-center rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] px-8 py-3" type="number" defaultValue="4" />
+                                    <input className="w-full text-center rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] px-8 py-3" type="number" value={bedrooms} onChange={(e) => setBedrooms(parseInt(e.target.value) || 0)} />
                                     <button className="absolute right-3 top-3 text-slate-400 hover:text-[#137fec] transition-colors">
                                         <span className="material-symbols-outlined text-[18px]">add</span>
                                     </button>
@@ -110,7 +198,7 @@ export default function LandlordEditListing() {
                                     <button className="absolute left-3 top-3 text-slate-400 hover:text-[#137fec] transition-colors">
                                         <span className="material-symbols-outlined text-[18px]">remove</span>
                                     </button>
-                                    <input className="w-full text-center rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] px-8 py-3" type="number" defaultValue="3" />
+                                    <input className="w-full text-center rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] px-8 py-3" type="number" value={bathrooms} onChange={(e) => setBathrooms(parseInt(e.target.value) || 0)} />
                                     <button className="absolute right-3 top-3 text-slate-400 hover:text-[#137fec] transition-colors">
                                         <span className="material-symbols-outlined text-[18px]">add</span>
                                     </button>
@@ -118,7 +206,7 @@ export default function LandlordEditListing() {
                             </div>
                             <div>
                                 <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Square Footage</label>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] px-4 py-3" type="number" defaultValue="2400" />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] px-4 py-3" type="number" value={squareMeters} onChange={(e) => setSquareMeters(parseInt(e.target.value) || 0)} />
                             </div>
                         </div>
                     </div>
@@ -210,8 +298,8 @@ export default function LandlordEditListing() {
                             <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Monthly Rent</label>
                             <div className="relative">
                                 <span className="absolute left-4 top-3.5 text-slate-500 font-bold">$</span>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] pl-8 pr-4 py-3 font-bold text-lg" type="text" defaultValue="4,800" />
-                                <span className="absolute right-4 top-3.5 text-slate-400 text-sm">USD/mo</span>
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] pl-8 pr-4 py-3 font-bold text-lg" type="text" value={price} onChange={(e) => setPrice(e.target.value)} />
+                                <span className="absolute right-4 top-3.5 text-slate-400 text-sm">/mo</span>
                             </div>
                         </div>
                         <div>

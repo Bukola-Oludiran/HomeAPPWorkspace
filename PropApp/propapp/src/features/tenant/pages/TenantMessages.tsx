@@ -1,25 +1,102 @@
-import { useState } from 'react';
-
-// Mock conversation data
-const conversations = [
-    { id: 1, name: 'Robert Johnson', initials: 'RJ', role: 'Landlord', property: '5500 Highland Park, Unit 4B', lastMessage: "I've attached the lease renewal docs.", time: '10:42 AM', online: true, unread: false, active: true },
-    { id: 2, name: 'Leasing Office', icon: 'apartment', lastMessage: 'Maintenance request update: Ticket #442...', time: 'Yesterday', online: true, unread: true, active: false },
-    { id: 3, name: 'Sarah Miller (Agent)', image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l', lastMessage: 'Thanks for your interest in the property.', time: 'Sep 28', online: false, unread: false, active: false },
-    { id: 4, name: 'Main St. Properties', initials: 'MS', color: 'bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400', lastMessage: 'Your application has been approved!', time: 'Aug 15', online: false, unread: false, active: false },
-];
-
-const messages = [
-    { id: 1, from: 'other', name: 'RJ', message: 'Hi Sarah, just checking in. Did the plumber come by to fix the faucet in the master bath?', time: '10:23 AM' },
-    { id: 2, from: 'me', message: 'Hi Robert! Yes, he just left about 10 minutes ago. No more leaking. Thanks for getting that sorted so quickly!', time: '10:35 AM' },
-    { id: 3, from: 'other', name: 'RJ', message: "Great to hear. Also, as we discussed, I've attached the lease renewal documents for next year. Let me know if you have questions.", time: '10:42 AM', attachment: { name: 'Lease_Renewal_2025.pdf', size: '2.4 MB', type: 'PDF' } },
-];
+import { useState, useEffect, useRef } from 'react';
+import { messageService } from '../../../lib/api/services/messageService';
+import { useAuth } from '../../../contexts/AuthContext';
+import type { Conversation, Message } from '../../../types/dashboard';
 
 export default function TenantMessages() {
-    const [selectedConversation, setSelectedConversation] = useState(conversations[0]);
+    const { user } = useAuth();
+    const [conversations, setConversations] = useState<Conversation[]>([]);
+    const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
+    const [messages, setMessages] = useState<Message[]>([]);
+    const [isLoadingConversations, setIsLoadingConversations] = useState(true);
+    const [isLoadingMessages, setIsLoadingMessages] = useState(false);
     const [newMessage, setNewMessage] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
+    const [isSending, setIsSending] = useState(false);
     const [isAiOpen, setIsAiOpen] = useState(false);
     const [aiQuery, setAiQuery] = useState('');
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    // Fetch conversations on mount
+    useEffect(() => {
+        async function fetchConversations() {
+            try {
+                setIsLoadingConversations(true);
+                const response = await messageService.getConversations();
+                const data = response.data || [];
+                setConversations(data);
+                if (data.length > 0) {
+                    setSelectedConversation(data[0]);
+                }
+            } catch (err) {
+                console.error('Failed to fetch conversations:', err);
+            } finally {
+                setIsLoadingConversations(false);
+            }
+        }
+        fetchConversations();
+    }, []);
+
+    // Fetch messages when selected conversation changes
+    useEffect(() => {
+        async function fetchMessages() {
+            if (!selectedConversation) return;
+            try {
+                setIsLoadingMessages(true);
+                const response = await messageService.getMessages(selectedConversation.id);
+                const data = response.data || [];
+                setMessages(data);
+            } catch (err) {
+                console.error('Failed to fetch messages:', err);
+            } finally {
+                setIsLoadingMessages(false);
+            }
+        }
+        fetchMessages();
+    }, [selectedConversation?.id]);
+
+    // Scroll to bottom when messages change
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [messages]);
+
+    async function handleSendMessage() {
+        if (!newMessage.trim() || !selectedConversation || isSending) return;
+        try {
+            setIsSending(true);
+            const response = await messageService.sendMessage(selectedConversation.id, { content: newMessage.trim() });
+            setMessages(prev => [...prev, response.data]);
+            setNewMessage('');
+        } catch (err) {
+            console.error('Failed to send message:', err);
+        } finally {
+            setIsSending(false);
+        }
+    }
+
+    function getOtherParticipant(conversation: Conversation) {
+        return conversation.participants.find(p => p.userId !== user?.id) || conversation.participants[0];
+    }
+
+    function getParticipantInitials(participant: { firstName: string; lastName: string }) {
+        return `${participant.firstName.charAt(0)}${participant.lastName.charAt(0)}`.toUpperCase();
+    }
+
+    function formatMessageTime(dateStr: string) {
+        const date = new Date(dateStr);
+        const now = new Date();
+        const diffDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
+        if (diffDays === 0) return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+        if (diffDays === 1) return 'Yesterday';
+        return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    }
+
+    const filteredConversations = conversations.filter(conv => {
+        if (!searchQuery) return true;
+        const other = getOtherParticipant(conv);
+        const name = `${other.firstName} ${other.lastName}`.toLowerCase();
+        return name.includes(searchQuery.toLowerCase());
+    });
 
     return (
         <div className="flex-1 flex flex-col overflow-hidden p-4 md:p-6 lg:p-8">
@@ -40,154 +117,198 @@ export default function TenantMessages() {
                         </div>
                     </div>
                     <div className="flex-1 overflow-y-auto">
-                        <ul className="flex flex-col">
-                            {conversations.map((conv) => (
-                                <li
-                                    key={conv.id}
-                                    onClick={() => setSelectedConversation(conv)}
-                                    className={`cursor-pointer p-4 border-l-4 transition-colors ${conv.active
-                                        ? 'bg-blue-50/50 dark:bg-slate-800/50 border-[#137fec]'
-                                        : 'border-transparent hover:bg-slate-50 dark:hover:bg-slate-800'
-                                        } ${!conv.active && !conv.unread ? 'opacity-70' : ''}`}
-                                >
-                                    <div className="flex gap-3">
-                                        <div className="relative">
-                                            {conv.image ? (
-                                                <img alt={conv.name} className="size-12 rounded-full object-cover shrink-0" src={conv.image} />
-                                            ) : conv.icon ? (
-                                                <div className="size-12 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-500 flex items-center justify-center shrink-0">
-                                                    <span className="material-symbols-outlined text-[20px]">{conv.icon}</span>
+                        {isLoadingConversations ? (
+                            <div className="flex items-center justify-center py-12">
+                                <div className="size-8 border-4 border-[#137fec] border-t-transparent rounded-full animate-spin"></div>
+                            </div>
+                        ) : filteredConversations.length === 0 ? (
+                            <div className="flex flex-col items-center justify-center py-12 text-slate-400">
+                                <span className="material-symbols-outlined text-4xl mb-2">chat</span>
+                                <p className="text-sm font-medium">No conversations yet</p>
+                            </div>
+                        ) : (
+                            <ul className="flex flex-col">
+                                {filteredConversations.map((conv) => {
+                                    const other = getOtherParticipant(conv);
+                                    const isActive = selectedConversation?.id === conv.id;
+                                    const hasUnread = conv.unreadCount > 0;
+                                    return (
+                                        <li
+                                            key={conv.id}
+                                            onClick={() => setSelectedConversation(conv)}
+                                            className={`cursor-pointer p-4 border-l-4 transition-colors ${isActive
+                                                ? 'bg-blue-50/50 dark:bg-slate-800/50 border-[#137fec]'
+                                                : 'border-transparent hover:bg-slate-50 dark:hover:bg-slate-800'
+                                                } ${!isActive && !hasUnread ? 'opacity-70' : ''}`}
+                                        >
+                                            <div className="flex gap-3">
+                                                <div className="relative">
+                                                    {other.avatarUrl ? (
+                                                        <img alt={`${other.firstName} ${other.lastName}`} className="size-12 rounded-full object-cover shrink-0" src={other.avatarUrl} />
+                                                    ) : (
+                                                        <div className="size-12 rounded-full flex items-center justify-center font-bold text-sm shrink-0 bg-[#137fec]/10 text-[#137fec]">
+                                                            {getParticipantInitials(other)}
+                                                        </div>
+                                                    )}
                                                 </div>
-                                            ) : (
-                                                <div className={`size-12 rounded-full flex items-center justify-center font-bold text-sm shrink-0 ${conv.color || 'bg-[#137fec]/10 text-[#137fec]'}`}>
-                                                    {conv.initials}
+                                                <div className="flex-1 min-w-0">
+                                                    <div className="flex justify-between items-baseline mb-1">
+                                                        <h3 className="font-bold text-slate-900 dark:text-white text-sm truncate">{other.firstName} {other.lastName}</h3>
+                                                        <span className={`text-xs whitespace-nowrap ${hasUnread ? 'text-[#137fec] font-bold' : 'text-slate-500 font-medium'}`}>
+                                                            {conv.lastMessage ? formatMessageTime(conv.lastMessage.createdAt) : ''}
+                                                        </span>
+                                                    </div>
+                                                    <p className={`text-sm truncate ${hasUnread ? 'text-slate-900 dark:text-white font-bold' : 'text-slate-600 dark:text-slate-300'}`}>
+                                                        {conv.lastMessage?.content || 'No messages yet'}
+                                                    </p>
                                                 </div>
-                                            )}
-                                            {conv.online && (
-                                                <span className="absolute bottom-0 right-0 size-3 bg-green-500 border-2 border-white dark:border-[#101922] rounded-full"></span>
-                                            )}
-                                        </div>
-                                        <div className="flex-1 min-w-0">
-                                            <div className="flex justify-between items-baseline mb-1">
-                                                <h3 className="font-bold text-slate-900 dark:text-white text-sm truncate">{conv.name}</h3>
-                                                <span className={`text-xs whitespace-nowrap ${conv.unread ? 'text-[#137fec] font-bold' : 'text-slate-500 font-medium'}`}>{conv.time}</span>
+                                                {hasUnread && (
+                                                    <div className="flex items-center">
+                                                        <span className="size-2.5 bg-[#137fec] rounded-full"></span>
+                                                    </div>
+                                                )}
                                             </div>
-                                            <p className={`text-sm truncate ${conv.unread ? 'text-slate-900 dark:text-white font-bold' : 'text-slate-600 dark:text-slate-300'}`}>
-                                                {conv.lastMessage}
-                                            </p>
-                                        </div>
-                                        {conv.unread && (
-                                            <div className="flex items-center">
-                                                <span className="size-2.5 bg-[#137fec] rounded-full"></span>
-                                            </div>
-                                        )}
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        )}
                     </div>
                 </aside>
 
                 {/* Chat View */}
                 <section className="hidden md:flex flex-1 flex-col bg-white dark:bg-[#101922] rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden relative">
-                    {/* Chat Header */}
-                    <header className="flex items-center justify-between px-6 py-4 bg-white dark:bg-[#101922] border-b border-slate-200 dark:border-slate-800 z-20">
-                        <div className="flex items-center gap-4">
-                            <div className="size-10 rounded-full bg-[#137fec]/10 text-[#137fec] flex items-center justify-center font-bold text-sm">
-                                {selectedConversation.initials || selectedConversation.name.charAt(0)}
-                            </div>
-                            <div>
-                                <h2 className="text-lg font-bold text-slate-900 dark:text-white leading-tight">{selectedConversation.name}</h2>
-                                {selectedConversation.role && (
-                                    <span className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400 hover:text-[#137fec] transition-colors cursor-pointer">
-                                        <span>{selectedConversation.role}</span>
-                                        <span className="mx-1">•</span>
-                                        <span>{selectedConversation.property}</span>
-                                        <span className="material-symbols-outlined text-[14px]">open_in_new</span>
-                                    </span>
-                                )}
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <button className="p-2 text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" title="View Profile">
-                                <span className="material-symbols-outlined">info</span>
-                            </button>
-                            <button className="p-2 text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" title="Settings">
-                                <span className="material-symbols-outlined">more_vert</span>
-                            </button>
-                        </div>
-                    </header>
+                    {selectedConversation ? (
+                        <>
+                            {/* Chat Header */}
+                            <header className="flex items-center justify-between px-6 py-4 bg-white dark:bg-[#101922] border-b border-slate-200 dark:border-slate-800 z-20">
+                                <div className="flex items-center gap-4">
+                                    {(() => {
+                                        const other = getOtherParticipant(selectedConversation);
+                                        return (
+                                            <>
+                                                {other.avatarUrl ? (
+                                                    <img alt={`${other.firstName} ${other.lastName}`} className="size-10 rounded-full object-cover" src={other.avatarUrl} />
+                                                ) : (
+                                                    <div className="size-10 rounded-full bg-[#137fec]/10 text-[#137fec] flex items-center justify-center font-bold text-sm">
+                                                        {getParticipantInitials(other)}
+                                                    </div>
+                                                )}
+                                                <div>
+                                                    <h2 className="text-lg font-bold text-slate-900 dark:text-white leading-tight">{other.firstName} {other.lastName}</h2>
+                                                    <span className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400">
+                                                        <span>{other.role}</span>
+                                                        {selectedConversation.property && (
+                                                            <>
+                                                                <span className="mx-1">•</span>
+                                                                <span>{selectedConversation.property.name}</span>
+                                                            </>
+                                                        )}
+                                                    </span>
+                                                </div>
+                                            </>
+                                        );
+                                    })()}
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <button className="p-2 text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" title="View Profile">
+                                        <span className="material-symbols-outlined">info</span>
+                                    </button>
+                                    <button className="p-2 text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" title="Settings">
+                                        <span className="material-symbols-outlined">more_vert</span>
+                                    </button>
+                                </div>
+                            </header>
 
-                    {/* Messages */}
-                    <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6 scroll-smooth relative z-0" style={{ backgroundImage: 'radial-gradient(#cbd5e1 2px, transparent 2px)', backgroundSize: '32px 32px' }}>
-                        <div className="flex justify-center my-4">
-                            <span className="px-3 py-1 bg-slate-200/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-full text-xs font-semibold text-slate-600 dark:text-slate-400 shadow-sm">
-                                Today, Oct 24
-                            </span>
-                        </div>
-                        {messages.map((msg) => (
-                            <div key={msg.id} className={`flex gap-4 max-w-[80%] ${msg.from === 'me' ? 'flex-row-reverse self-end' : ''}`}>
-                                {msg.from === 'other' ? (
-                                    <div className="size-8 rounded-full bg-[#137fec]/10 text-[#137fec] flex items-center justify-center font-bold text-xs shrink-0 mt-1">
-                                        {msg.name}
+                            {/* Messages */}
+                            <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6 scroll-smooth relative z-0" style={{ backgroundImage: 'radial-gradient(#cbd5e1 2px, transparent 2px)', backgroundSize: '32px 32px' }}>
+                                {isLoadingMessages ? (
+                                    <div className="flex items-center justify-center flex-1">
+                                        <div className="size-8 border-4 border-[#137fec] border-t-transparent rounded-full animate-spin"></div>
+                                    </div>
+                                ) : messages.length === 0 ? (
+                                    <div className="flex flex-col items-center justify-center flex-1 text-slate-400">
+                                        <span className="material-symbols-outlined text-4xl mb-2">chat_bubble_outline</span>
+                                        <p className="text-sm font-medium">No messages yet. Start the conversation!</p>
                                     </div>
                                 ) : (
-                                    <div className="size-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center shrink-0 mt-1 overflow-hidden">
-                                        <span className="material-symbols-outlined text-slate-500 text-sm">person</span>
-                                    </div>
+                                    <>
+                                        {messages.map((msg) => {
+                                            const isMe = msg.senderId === user?.id;
+                                            const sender = selectedConversation.participants.find(p => p.userId === msg.senderId);
+                                            return (
+                                                <div key={msg.id} className={`flex gap-4 max-w-[80%] ${isMe ? 'flex-row-reverse self-end' : ''}`}>
+                                                    {!isMe ? (
+                                                        <div className="size-8 rounded-full bg-[#137fec]/10 text-[#137fec] flex items-center justify-center font-bold text-xs shrink-0 mt-1">
+                                                            {sender ? getParticipantInitials(sender) : '?'}
+                                                        </div>
+                                                    ) : (
+                                                        <div className="size-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center shrink-0 mt-1 overflow-hidden">
+                                                            <span className="material-symbols-outlined text-slate-500 text-sm">person</span>
+                                                        </div>
+                                                    )}
+                                                    <div className={`flex flex-col gap-1 ${isMe ? 'items-end' : ''}`}>
+                                                        <div className={`p-4 rounded-2xl shadow-sm ${isMe
+                                                            ? 'bg-[#137fec] text-white rounded-tr-sm'
+                                                            : 'bg-white dark:bg-[#1e293b] border border-slate-200 dark:border-slate-700 rounded-tl-sm'
+                                                            }`}>
+                                                            <p className={`text-sm leading-relaxed ${isMe ? '' : 'text-slate-800 dark:text-slate-200'}`}>
+                                                                {msg.content}
+                                                            </p>
+                                                        </div>
+                                                        <span className={`text-[11px] text-slate-400 font-medium ${isMe ? 'mr-1' : 'ml-1'}`}>
+                                                            {formatMessageTime(msg.createdAt)}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                        <div ref={messagesEndRef} />
+                                    </>
                                 )}
-                                <div className={`flex flex-col gap-1 ${msg.from === 'me' ? 'items-end' : ''}`}>
-                                    <div className={`p-4 rounded-2xl shadow-sm ${msg.from === 'me'
-                                        ? 'bg-[#137fec] text-white rounded-tr-sm'
-                                        : 'bg-white dark:bg-[#1e293b] border border-slate-200 dark:border-slate-700 rounded-tl-sm'
-                                        }`}>
-                                        <p className={`text-sm leading-relaxed ${msg.from === 'me' ? '' : 'text-slate-800 dark:text-slate-200'}`}>
-                                            {msg.message}
-                                        </p>
-                                        {msg.attachment && (
-                                            <div className="flex items-center gap-3 p-3 mt-3 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors group">
-                                                <div className="size-10 rounded-lg bg-red-100 text-red-600 flex items-center justify-center">
-                                                    <span className="material-symbols-outlined">description</span>
-                                                </div>
-                                                <div className="flex-1 min-w-0">
-                                                    <h4 className="text-sm font-bold text-slate-900 dark:text-white truncate">{msg.attachment.name}</h4>
-                                                    <p className="text-xs text-slate-500">{msg.attachment.size} • {msg.attachment.type}</p>
-                                                </div>
-                                                <button className="size-8 flex items-center justify-center rounded-full bg-white dark:bg-slate-600 text-slate-400 group-hover:text-[#137fec] shadow-sm border border-slate-200 dark:border-slate-500">
-                                                    <span className="material-symbols-outlined text-[18px]">download</span>
-                                                </button>
-                                            </div>
-                                        )}
+                            </div>
+
+                            {/* Message Input */}
+                            <div className="p-4 bg-white dark:bg-[#101922] border-t border-slate-200 dark:border-slate-800 z-20">
+                                <div className="max-w-4xl mx-auto relative flex gap-3 items-end">
+                                    <button className="p-3 text-slate-400 hover:text-[#137fec] hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-colors shrink-0" title="Attach file">
+                                        <span className="material-symbols-outlined">attach_file</span>
+                                    </button>
+                                    <div className="flex-1 bg-slate-50 dark:bg-[#1e293b] border border-slate-200 dark:border-slate-700 rounded-xl focus-within:ring-2 focus-within:ring-[#137fec]/20 focus-within:border-[#137fec] transition-all flex items-center">
+                                        <textarea
+                                            className="w-full bg-transparent border-none text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-0 py-3 px-4 resize-none h-[48px] max-h-[120px]"
+                                            placeholder="Type your message..."
+                                            rows={1}
+                                            value={newMessage}
+                                            onChange={(e) => setNewMessage(e.target.value)}
+                                            onKeyDown={(e) => {
+                                                if (e.key === 'Enter' && !e.shiftKey) {
+                                                    e.preventDefault();
+                                                    handleSendMessage();
+                                                }
+                                            }}
+                                        />
+                                        <button className="mr-2 p-2 text-slate-400 hover:text-[#137fec] transition-colors rounded-lg">
+                                            <span className="material-symbols-outlined text-[20px]">mood</span>
+                                        </button>
                                     </div>
-                                    <span className={`text-[11px] text-slate-400 font-medium ${msg.from === 'me' ? 'mr-1' : 'ml-1'}`}>{msg.time}</span>
+                                    <button
+                                        onClick={handleSendMessage}
+                                        disabled={isSending || !newMessage.trim()}
+                                        className="p-3 bg-[#137fec] hover:bg-[#137fec]/90 text-white rounded-xl shadow-lg shadow-[#137fec]/20 transition-all hover:scale-105 active:scale-95 shrink-0 flex items-center justify-center disabled:opacity-50 disabled:hover:scale-100"
+                                    >
+                                        <span className="material-symbols-outlined">send</span>
+                                    </button>
                                 </div>
                             </div>
-                        ))}
-                    </div>
-
-                    {/* Message Input */}
-                    <div className="p-4 bg-white dark:bg-[#101922] border-t border-slate-200 dark:border-slate-800 z-20">
-                        <div className="max-w-4xl mx-auto relative flex gap-3 items-end">
-                            <button className="p-3 text-slate-400 hover:text-[#137fec] hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-colors shrink-0" title="Attach file">
-                                <span className="material-symbols-outlined">attach_file</span>
-                            </button>
-                            <div className="flex-1 bg-slate-50 dark:bg-[#1e293b] border border-slate-200 dark:border-slate-700 rounded-xl focus-within:ring-2 focus-within:ring-[#137fec]/20 focus-within:border-[#137fec] transition-all flex items-center">
-                                <textarea
-                                    className="w-full bg-transparent border-none text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-0 py-3 px-4 resize-none h-[48px] max-h-[120px]"
-                                    placeholder="Type your message..."
-                                    rows={1}
-                                    value={newMessage}
-                                    onChange={(e) => setNewMessage(e.target.value)}
-                                />
-                                <button className="mr-2 p-2 text-slate-400 hover:text-[#137fec] transition-colors rounded-lg">
-                                    <span className="material-symbols-outlined text-[20px]">mood</span>
-                                </button>
-                            </div>
-                            <button className="p-3 bg-[#137fec] hover:bg-[#137fec]/90 text-white rounded-xl shadow-lg shadow-[#137fec]/20 transition-all hover:scale-105 active:scale-95 shrink-0 flex items-center justify-center">
-                                <span className="material-symbols-outlined">send</span>
-                            </button>
+                        </>
+                    ) : (
+                        <div className="flex-1 flex flex-col items-center justify-center text-slate-400">
+                            <span className="material-symbols-outlined text-6xl mb-3">forum</span>
+                            <p className="text-lg font-medium">Select a conversation</p>
+                            <p className="text-sm">Choose from your existing conversations to start messaging</p>
                         </div>
-                    </div>
+                    )}
                 </section>
             </div>
 
@@ -219,20 +340,17 @@ export default function TenantMessages() {
                                     <span className="material-symbols-outlined text-[16px]">smart_toy</span>
                                 </div>
                                 <div className="bg-white dark:bg-[#1e293b] border border-slate-100 dark:border-slate-700 p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[85%]">
-                                    <p className="text-sm text-slate-700 dark:text-slate-300">I noticed Robert sent a lease renewal. Would you like me to summarize the key changes or draft a reply confirming receipt?</p>
+                                    <p className="text-sm text-slate-700 dark:text-slate-300">How can I help you with your messages? I can help draft replies or summarize conversations.</p>
                                 </div>
                             </div>
                             <div className="mt-auto">
                                 <p className="text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide px-1">Suggested actions</p>
                                 <div className="flex flex-wrap gap-2">
                                     <button className="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors shadow-sm flex items-center gap-1">
-                                        <span className="material-symbols-outlined text-[14px] text-[#137fec]">summarize</span> Summarize changes
+                                        <span className="material-symbols-outlined text-[14px] text-[#137fec]">summarize</span> Summarize chat
                                     </button>
                                     <button className="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors shadow-sm flex items-center gap-1">
-                                        <span className="material-symbols-outlined text-[14px] text-[#137fec]">edit_note</span> Draft confirmation
-                                    </button>
-                                    <button className="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors shadow-sm">
-                                        Ask about rent increase
+                                        <span className="material-symbols-outlined text-[14px] text-[#137fec]">edit_note</span> Draft reply
                                     </button>
                                 </div>
                             </div>
@@ -273,4 +391,3 @@ export default function TenantMessages() {
         </div>
     );
 }
-

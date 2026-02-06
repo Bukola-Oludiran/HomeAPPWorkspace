@@ -1,15 +1,85 @@
-import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { leaseService } from '../../../lib/api/services/leaseService';
+import type { Lease } from '../../../types/lease';
 
 export default function LandlordEditLeaseTerms() {
     const { id } = useParams();
-    const [monthlyRent, setMonthlyRent] = useState('4800');
-    const [securityDeposit, setSecurityDeposit] = useState('9600');
+    const navigate = useNavigate();
+    const [lease, setLease] = useState<Lease | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isSaving, setIsSaving] = useState(false);
+    const [monthlyRent, setMonthlyRent] = useState('');
+    const [securityDeposit, setSecurityDeposit] = useState('');
     const [duration, setDuration] = useState('12');
-    const [leaseStart, setLeaseStart] = useState('2023-12-01');
-    const [leaseEnd, setLeaseEnd] = useState('2024-11-30');
-    const [effectiveDate, setEffectiveDate] = useState('2024-01-01');
+    const [leaseStart, setLeaseStart] = useState('');
+    const [leaseEnd, setLeaseEnd] = useState('');
+    const [effectiveDate, setEffectiveDate] = useState('');
     const [additionalTerms, setAdditionalTerms] = useState('');
+
+    useEffect(() => {
+        async function fetchLease() {
+            if (!id) return;
+            try {
+                setIsLoading(true);
+                const response = await leaseService.getLeaseById(id);
+                const data = response.data;
+                setLease(data);
+                setMonthlyRent(data.monthlyRent?.toString() || '');
+                setSecurityDeposit(data.securityDeposit?.toString() || '');
+                setLeaseStart(data.startDate?.split('T')[0] || '');
+                setLeaseEnd(data.endDate?.split('T')[0] || '');
+                setAdditionalTerms(data.terms || '');
+                if (data.startDate && data.endDate) {
+                    const start = new Date(data.startDate);
+                    const end = new Date(data.endDate);
+                    const months = Math.round((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24 * 30));
+                    if (months <= 1) setDuration('mtm');
+                    else if (months <= 6) setDuration('6');
+                    else if (months <= 12) setDuration('12');
+                    else setDuration('24');
+                }
+            } catch (err) {
+                console.error('Failed to fetch lease:', err);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+        fetchLease();
+    }, [id]);
+
+    async function handleSave() {
+        if (!id) return;
+        try {
+            setIsSaving(true);
+            await leaseService.updateLease(id, {
+                monthlyRent: parseFloat(monthlyRent) || undefined,
+                endDate: leaseEnd || undefined,
+                terms: additionalTerms || undefined,
+            });
+            navigate(`/landlord/leases/${id}`);
+        } catch (err) {
+            console.error('Failed to save lease changes:', err);
+            alert('Failed to save changes. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
+    }
+
+    const tenantName = lease?.tenant ? `${lease.tenant.firstName} ${lease.tenant.lastName}` : 'the tenant';
+    const propertyAddress = lease?.property ? `${lease.property.address?.street || ''}, ${lease.property.address?.city || ''}, ${lease.property.address?.state || ''}`.trim() : '';
+    const leaseIdDisplay = lease?.id ? `#${lease.id.slice(0, 12).toUpperCase()}` : '';
+
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="flex flex-col items-center gap-3">
+                    <div className="size-10 border-4 border-[#137fec] border-t-transparent rounded-full animate-spin"></div>
+                    <p className="text-slate-500 font-medium">Loading lease details...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex flex-col font-[Manrope,Noto_Sans,sans-serif] text-slate-900 dark:text-white overflow-x-hidden pb-[140px]">
@@ -40,10 +110,10 @@ export default function LandlordEditLeaseTerms() {
                         <span className="px-2.5 py-1 bg-amber-500/90 text-white text-xs font-bold uppercase tracking-wider rounded-md backdrop-blur-sm shadow-sm flex items-center gap-1">
                             <span className="material-symbols-outlined text-[14px]">edit</span> Edit Mode
                         </span>
-                        <span className="text-slate-600 dark:text-slate-300 text-sm font-medium">#L-2023-8492</span>
+                        <span className="text-slate-600 dark:text-slate-300 text-sm font-medium">{leaseIdDisplay}</span>
                     </div>
                     <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white leading-tight">Edit Lease Terms</h1>
-                    <p className="text-slate-600 dark:text-slate-400 font-medium">1243 Oakwood Avenue, Austin, TX 78704</p>
+                    <p className="text-slate-600 dark:text-slate-400 font-medium">{propertyAddress || lease?.property?.name || ''}</p>
                 </div>
             </div>
 
@@ -57,7 +127,7 @@ export default function LandlordEditLeaseTerms() {
                     <div>
                         <h3 className="font-bold text-slate-900 dark:text-white text-base">Important: Tenant Notification Required</h3>
                         <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
-                            Saving these changes will generate a lease amendment. The tenant, <span className="font-semibold text-slate-900 dark:text-white">Mark Anderson</span>, will be notified to review and digitally sign the updated terms.
+                            Saving these changes will generate a lease amendment. The tenant, <span className="font-semibold text-slate-900 dark:text-white">{tenantName}</span>, will be notified to review and digitally sign the updated terms.
                         </p>
                     </div>
                 </div>
@@ -269,9 +339,13 @@ export default function LandlordEditLeaseTerms() {
                         >
                             Cancel
                         </Link>
-                        <button className="flex-1 md:flex-none px-8 py-3 rounded-xl bg-[#137fec] text-white font-bold hover:bg-[#0e64bd] transition-colors shadow-lg shadow-[#137fec]/25 flex items-center justify-center gap-2">
+                        <button
+                            onClick={handleSave}
+                            disabled={isSaving}
+                            className="flex-1 md:flex-none px-8 py-3 rounded-xl bg-[#137fec] text-white font-bold hover:bg-[#0e64bd] transition-colors shadow-lg shadow-[#137fec]/25 flex items-center justify-center gap-2 disabled:opacity-50"
+                        >
                             <span className="material-symbols-outlined text-[20px]">save</span>
-                            Save Changes
+                            {isSaving ? 'Saving...' : 'Save Changes'}
                         </button>
                     </div>
                 </div>

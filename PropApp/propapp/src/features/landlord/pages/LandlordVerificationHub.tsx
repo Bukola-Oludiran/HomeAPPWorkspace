@@ -1,52 +1,223 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { verificationService } from '../../../lib/api/services/verificationService';
+import { landlordService } from '../../../lib/api/services/landlordService';
 
-// Mock verification data
-const verificationSteps = [
-    {
-        id: 1,
-        title: 'Identity Verification',
-        level: 'Account Level',
-        status: 'completed',
-        description: 'Confirmed via Government ID on Oct 12, 2023',
-        icon: 'verified_user',
-    },
-    {
-        id: 2,
-        title: 'Landlord Address Proof',
-        level: 'Account Level',
-        status: 'completed',
-        description: 'Utility bill verified on Oct 14, 2023',
-        icon: 'home',
-    },
-    {
-        id: 3,
-        title: 'Certificate of Occupancy (C of O)',
-        level: 'Property Level',
-        status: 'pending',
-        description: 'Please upload the Certificate of Occupancy for this specific property listing. This document must be less than 5 years old.',
-        icon: 'description',
-    },
-    {
-        id: 4,
-        title: 'Physical Property Audit',
-        level: 'Property Level',
-        status: 'locked',
-        description: 'Unlocks after C of O verification is approved for this unit',
-        icon: 'search',
-    },
-];
+interface VerificationStep {
+    id: number;
+    title: string;
+    level: string;
+    status: string;
+    description: string;
+    icon: string;
+}
 
-const properties = [
-    { id: 1, name: 'Highland Heights Apt 4B', address: '123 Highland Ave, Apt 4B' },
-    { id: 2, name: 'Sunset Boulevard Retail, Unit 10', address: '456 Sunset Blvd, Unit 10' },
-    { id: 3, name: 'Ocean View Villa, Miami', address: '789 Ocean Dr, Miami' },
-];
+interface PropertyOption {
+    id: string;
+    name: string;
+    address: string;
+}
 
 export default function LandlordVerificationHub() {
-    const [selectedProperty, setSelectedProperty] = useState(properties[0]);
+    const [properties, setProperties] = useState<PropertyOption[]>([]);
+    const [selectedProperty, setSelectedProperty] = useState<PropertyOption>({ id: '', name: '', address: '' });
+    const [verificationSteps, setVerificationSteps] = useState<VerificationStep[]>([]);
+    const [currentTier, setCurrentTier] = useState<string>('BRONZE');
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchData() {
+            setLoading(true);
+            try {
+                // Fetch landlord's properties and verification status in parallel
+                const [propsRes, verStatusRes] = await Promise.all([
+                    landlordService.getProperties({ limit: 50 }),
+                    verificationService.getVerificationStatus(),
+                ]);
+
+                // Map properties (backend returns flat address fields)
+                const propsList: PropertyOption[] = (propsRes.data || []).map((p) => {
+                    const extra = p as unknown as Record<string, unknown>;
+                    const neighborhood = (extra.addressNeighborhood as string) || '';
+                    const city = (extra.addressCity as string) || '';
+                    const state = (extra.addressState as string) || '';
+                    return {
+                        id: p.id,
+                        name: p.name,
+                        address: [neighborhood, city, state].filter(Boolean).join(', ') || '',
+                    };
+                });
+
+                if (propsList.length > 0) {
+                    setProperties(propsList);
+                    setSelectedProperty(propsList[0]);
+                }
+
+                // Build verification steps from API status
+                const vs = verStatusRes.data;
+                const steps: VerificationStep[] = [
+                    {
+                        id: 1,
+                        title: 'Identity Verification',
+                        level: 'Account Level',
+                        status: vs.identityVerified ? 'completed' : 'pending',
+                        description: vs.identityVerified ? 'Identity verified' : 'Please complete identity verification',
+                        icon: 'verified_user',
+                    },
+                    {
+                        id: 2,
+                        title: 'Landlord Address Proof',
+                        level: 'Account Level',
+                        status: vs.addressVerified ? 'completed' : (vs.identityVerified ? 'pending' : 'locked'),
+                        description: vs.addressVerified ? 'Address verified' : 'Upload a utility bill or official document',
+                        icon: 'home',
+                    },
+                    {
+                        id: 3,
+                        title: 'Certificate of Occupancy (C of O)',
+                        level: 'Property Level',
+                        status: vs.addressVerified ? 'pending' : 'locked',
+                        description: vs.addressVerified
+                            ? 'Please upload the Certificate of Occupancy for this specific property listing. This document must be less than 5 years old.'
+                            : 'Unlocks after address verification',
+                        icon: 'description',
+                    },
+                    {
+                        id: 4,
+                        title: 'Physical Property Audit',
+                        level: 'Property Level',
+                        status: 'locked',
+                        description: 'Unlocks after C of O verification is approved for this unit',
+                        icon: 'search',
+                    },
+                ];
+
+                // Try to get property-specific verification if properties exist
+                if (propsList.length > 0) {
+                    try {
+                        const propVerRes = await verificationService.getPropertyVerificationStatus(propsList[0].id);
+                        const propVer = propVerRes.data;
+                        if (propVer) {
+                            if (propVer.tier) setCurrentTier(propVer.tier);
+                            const cofo = propVer.verifications?.find(v => v.type === 'COFO');
+                            if (cofo?.status === 'APPROVED') {
+                                steps[2].status = 'completed';
+                                steps[2].description = 'Certificate of Occupancy verified';
+                                steps[3].status = 'pending';
+                                steps[3].description = 'Request a physical property audit to unlock higher tiers';
+                            } else if (cofo?.status === 'PENDING') {
+                                steps[2].status = 'pending';
+                                steps[2].description = 'Your Certificate of Occupancy is under review';
+                            }
+                            const audit = propVer.verifications?.find(v => v.type === 'AUDIT');
+                            if (audit?.status === 'APPROVED') {
+                                steps[3].status = 'completed';
+                                steps[3].description = 'Physical property audit completed';
+                            } else if (audit?.status === 'PENDING') {
+                                steps[3].status = 'pending';
+                                steps[3].description = 'Physical property audit is in progress';
+                            }
+                        }
+                    } catch {
+                        setCurrentTier('BRONZE');
+                    }
+                }
+
+                setVerificationSteps(steps);
+            } catch (err) {
+                console.error('Failed to load verification data:', err);
+                // Set default steps on error
+                setVerificationSteps([
+                    { id: 1, title: 'Identity Verification', level: 'Account Level', status: 'pending', description: 'Please complete identity verification', icon: 'verified_user' },
+                    { id: 2, title: 'Landlord Address Proof', level: 'Account Level', status: 'locked', description: 'Upload a utility bill or official document', icon: 'home' },
+                    { id: 3, title: 'Certificate of Occupancy (C of O)', level: 'Property Level', status: 'locked', description: 'Unlocks after address verification', icon: 'description' },
+                    { id: 4, title: 'Physical Property Audit', level: 'Property Level', status: 'locked', description: 'Unlocks after C of O verification', icon: 'search' },
+                ]);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchData();
+    }, []);
+
+    // Refetch property verification when selected property changes
+    useEffect(() => {
+        if (!selectedProperty.id) return;
+        async function fetchPropertyVerification() {
+            try {
+                const propVerRes = await verificationService.getPropertyVerificationStatus(selectedProperty.id);
+                const propVer = propVerRes.data;
+                if (propVer?.tier) setCurrentTier(propVer.tier);
+                const cofo = propVer?.verifications?.find(v => v.type === 'COFO');
+                const audit = propVer?.verifications?.find(v => v.type === 'AUDIT');
+                setVerificationSteps(prev => prev.map(step => {
+                    if (step.id === 3) {
+                        if (cofo?.status === 'APPROVED') {
+                            return { ...step, status: 'completed', description: 'Certificate of Occupancy verified' };
+                        } else if (cofo?.status === 'PENDING') {
+                            return { ...step, status: 'pending', description: 'Your Certificate of Occupancy is under review' };
+                        }
+                        return { ...step, status: 'pending', description: 'Please upload the Certificate of Occupancy for this specific property listing.' };
+                    }
+                    if (step.id === 4) {
+                        if (audit?.status === 'APPROVED') {
+                            return { ...step, status: 'completed', description: 'Physical property audit completed' };
+                        } else if (audit?.status === 'PENDING') {
+                            return { ...step, status: 'pending', description: 'Physical property audit is in progress' };
+                        }
+                        const cofoApproved = cofo?.status === 'APPROVED';
+                        return {
+                            ...step,
+                            status: cofoApproved ? 'pending' : 'locked',
+                            description: cofoApproved ? 'Request a physical property audit' : 'Unlocks after C of O verification is approved',
+                        };
+                    }
+                    return step;
+                }));
+            } catch {
+                // No property verification found — reset property-level steps
+                setCurrentTier('BRONZE');
+                setVerificationSteps(prev => prev.map(step => {
+                    if (step.id === 3) {
+                        const addressDone = prev.find(s => s.id === 2)?.status === 'completed';
+                        return { ...step, status: addressDone ? 'pending' : 'locked', description: addressDone ? 'Please upload the Certificate of Occupancy for this specific property listing.' : 'Unlocks after address verification' };
+                    }
+                    if (step.id === 4) {
+                        return { ...step, status: 'locked', description: 'Unlocks after C of O verification is approved for this unit' };
+                    }
+                    return step;
+                }));
+            }
+        }
+        fetchPropertyVerification();
+    }, [selectedProperty.id]);
+
     const completedSteps = verificationSteps.filter(s => s.status === 'completed').length;
-    const totalSteps = verificationSteps.length;
+    const totalSteps = verificationSteps.length || 4;
     const progressPercent = Math.round((completedSteps / totalSteps) * 100);
+
+    const tierOrder = ['BRONZE', 'SILVER', 'GOLD', 'PLATINUM'] as const;
+    const tierIndex = tierOrder.indexOf(currentTier.toUpperCase() as typeof tierOrder[number]);
+    const nextTier = tierIndex < tierOrder.length - 1 ? tierOrder[tierIndex + 1] : null;
+
+    const tierConfig: Record<string, { label: string; icon: string; bgClass: string; iconBg: string; textColor: string; iconColor: string; checkColor: string }> = {
+        BRONZE: { label: 'Bronze Property', icon: 'workspace_premium', bgClass: 'bg-orange-50 border-orange-100 dark:bg-orange-900/20 dark:border-orange-900/30', iconBg: 'bg-white dark:bg-orange-900/40 border-orange-100 dark:border-orange-800/50', textColor: 'text-orange-600 dark:text-orange-400', iconColor: 'text-orange-600 dark:text-orange-400', checkColor: 'text-orange-300 dark:text-orange-800' },
+        SILVER: { label: 'Silver Property', icon: 'military_tech', bgClass: 'bg-slate-50 border-slate-200 dark:bg-slate-800/40 dark:border-slate-700', iconBg: 'bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600', textColor: 'text-slate-500 dark:text-slate-400', iconColor: 'text-slate-500 dark:text-slate-400', checkColor: 'text-slate-300 dark:text-slate-600' },
+        GOLD: { label: 'Gold Property', icon: 'emoji_events', bgClass: 'bg-yellow-50 border-yellow-100 dark:bg-yellow-900/20 dark:border-yellow-900/30', iconBg: 'bg-white dark:bg-yellow-900/40 border-yellow-100 dark:border-yellow-800/50', textColor: 'text-yellow-600 dark:text-yellow-500', iconColor: 'text-yellow-600 dark:text-yellow-500', checkColor: 'text-yellow-300 dark:text-yellow-800' },
+        PLATINUM: { label: 'Platinum Property', icon: 'diamond', bgClass: 'bg-indigo-50 border-indigo-100 dark:bg-indigo-900/20 dark:border-indigo-900/30', iconBg: 'bg-white dark:bg-indigo-900/40 border-indigo-100 dark:border-indigo-800/50', textColor: 'text-indigo-600 dark:text-indigo-400', iconColor: 'text-indigo-600 dark:text-indigo-400', checkColor: 'text-indigo-300 dark:text-indigo-800' },
+    };
+    const currentTierConfig = tierConfig[currentTier.toUpperCase()] || tierConfig.BRONZE;
+    const nextTierConfig = nextTier ? tierConfig[nextTier] : null;
+
+    if (loading) {
+        return (
+            <div className="flex-1 flex items-center justify-center py-20">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#137fec] mx-auto mb-4"></div>
+                    <p className="text-slate-500 dark:text-slate-400">Loading verification data...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="flex-1 flex flex-col py-8 px-4 md:px-10 lg:px-20">
@@ -86,7 +257,7 @@ export default function LandlordVerificationHub() {
                                 </div>
                                 <select
                                     value={selectedProperty.id}
-                                    onChange={(e) => setSelectedProperty(properties.find(p => p.id === Number(e.target.value)) || properties[0])}
+                                    onChange={(e) => setSelectedProperty(properties.find(p => p.id === e.target.value) || properties[0])}
                                     className="w-full appearance-none bg-transparent text-slate-900 dark:text-white py-3 pl-11 pr-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#137fec]/20 focus:bg-slate-50 dark:focus:bg-slate-800 font-bold text-sm cursor-pointer transition-colors"
                                 >
                                     {properties.map((property) => (
@@ -136,30 +307,45 @@ export default function LandlordVerificationHub() {
 
                             {/* Tier Status */}
                             <div className="w-full space-y-4">
-                                <div className="flex items-center justify-between p-3.5 rounded-xl bg-orange-50 border border-orange-100 dark:bg-orange-900/20 dark:border-orange-900/30">
+                                <div className={`flex items-center justify-between p-3.5 rounded-xl border ${currentTierConfig.bgClass}`}>
                                     <div className="flex items-center gap-3">
-                                        <div className="size-10 rounded-full bg-white dark:bg-orange-900/40 flex items-center justify-center text-orange-600 dark:text-orange-400 shadow-sm border border-orange-100 dark:border-orange-800/50">
-                                            <span className="material-symbols-outlined text-[20px]">workspace_premium</span>
+                                        <div className={`size-10 rounded-full flex items-center justify-center ${currentTierConfig.iconColor} shadow-sm border ${currentTierConfig.iconBg}`}>
+                                            <span className="material-symbols-outlined text-[20px]">{currentTierConfig.icon}</span>
                                         </div>
                                         <div className="text-left">
-                                            <p className="text-[10px] text-orange-600 dark:text-orange-400 font-bold uppercase tracking-wider mb-0.5">Current Tier</p>
-                                            <p className="font-bold text-slate-900 dark:text-white text-sm">Bronze Property</p>
+                                            <p className={`text-[10px] ${currentTierConfig.textColor} font-bold uppercase tracking-wider mb-0.5`}>Current Tier</p>
+                                            <p className="font-bold text-slate-900 dark:text-white text-sm">{currentTierConfig.label}</p>
                                         </div>
                                     </div>
-                                    <span className="material-symbols-outlined text-orange-300 dark:text-orange-800">check_circle</span>
+                                    <span className={`material-symbols-outlined ${currentTierConfig.checkColor}`}>check_circle</span>
                                 </div>
+                                {nextTierConfig ? (
                                 <div className="relative flex items-center justify-between p-3.5 rounded-xl border border-dashed border-slate-300 dark:border-slate-700 opacity-70 hover:opacity-100 transition-opacity cursor-help">
                                     <div className="flex items-center gap-3">
                                         <div className="size-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400">
-                                            <span className="material-symbols-outlined text-[20px]">military_tech</span>
+                                            <span className="material-symbols-outlined text-[20px]">{nextTierConfig.icon}</span>
                                         </div>
                                         <div className="text-left">
                                             <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-0.5">Next Tier</p>
-                                            <p className="font-bold text-slate-900 dark:text-white text-sm">Silver Property</p>
+                                            <p className="font-bold text-slate-900 dark:text-white text-sm">{nextTierConfig.label}</p>
                                         </div>
                                     </div>
                                     <span className="material-symbols-outlined text-slate-300">lock</span>
                                 </div>
+                                ) : (
+                                <div className={`flex items-center justify-between p-3.5 rounded-xl border ${currentTierConfig.bgClass}`}>
+                                    <div className="flex items-center gap-3">
+                                        <div className={`size-10 rounded-full flex items-center justify-center ${currentTierConfig.iconColor} shadow-sm border ${currentTierConfig.iconBg}`}>
+                                            <span className="material-symbols-outlined text-[20px]">verified</span>
+                                        </div>
+                                        <div className="text-left">
+                                            <p className={`text-[10px] ${currentTierConfig.textColor} font-bold uppercase tracking-wider mb-0.5`}>Max Tier</p>
+                                            <p className="font-bold text-slate-900 dark:text-white text-sm">Fully Verified</p>
+                                        </div>
+                                    </div>
+                                    <span className={`material-symbols-outlined ${currentTierConfig.checkColor}`}>check_circle</span>
+                                </div>
+                                )}
                             </div>
                         </div>
 
@@ -170,7 +356,7 @@ export default function LandlordVerificationHub() {
                                     <span className="material-symbols-outlined text-[18px]">smart_toy</span>
                                     <span className="text-xs font-bold uppercase tracking-wider opacity-90">AI Assistant</span>
                                 </div>
-                                <p className="text-sm text-indigo-100 leading-snug">Based on <strong>Highland Heights</strong>
+                                <p className="text-sm text-indigo-100 leading-snug">Based on <strong>{selectedProperty.name || 'your property'}</strong>{' '}
                                     location, completing C of O increases visibility by 25%.</p>
                             </div>
                             <span className="material-symbols-outlined absolute -right-3 -bottom-3 text-8xl text-white/10 rotate-12">verified</span>

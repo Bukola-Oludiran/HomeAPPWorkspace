@@ -1,57 +1,99 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { userService } from '../../lib/api/services/userService';
 
-// Mock tenant data from design
-const tenantData = {
-    id: 'tenant-1',
-    name: 'Sarah Johnson',
-    verified: true,
-    memberSince: 'Sep 2024',
-    about: "Hi there! I'm Sarah, a UX Designer who recently moved to the city. I love exploring new neighborhoods, finding the best coffee shops, and spending my weekends outdoors. I'm generally quiet but love a good community event now and then. Looking forward to connecting!",
-    interests: ['Hiking', 'Community Gardening', 'Photography', 'Quiet Neighborhoods', 'Pet Friendly'],
-    lookingFor: {
-        quote: '"Ideally looking for a place with good natural light and proximity to parks. I prefer a 2-bedroom setup in the Lekki area or similar quiet districts."',
-        unitType: '2 Bedrooms',
-        area: 'Lekki, Victoria Island',
-        amenities: 'Pool, Gym',
-    },
-    contributions: [
-        {
-            type: 'review',
-            icon: 'rate_review',
-            iconBg: 'bg-green-50 dark:bg-green-900/20',
-            iconColor: 'text-green-600 dark:text-green-400',
-            title: 'Review: The Green Park Apartments',
-            description: '"Great place for families, the new playground is excellent..."',
-            rating: 5,
-            time: '1 week ago',
-        },
-        {
-            type: 'tip',
-            icon: 'tips_and_updates',
-            iconBg: 'bg-blue-50 dark:bg-blue-900/20',
-            iconColor: 'text-blue-600 dark:text-blue-400',
-            title: 'Local Tip: Best Movers in town?',
-            description: 'Shared a recommendation for moving services.',
-            time: '2 weeks ago',
-        },
-        {
-            type: 'question',
-            icon: 'psychology',
-            iconBg: 'bg-purple-50 dark:bg-purple-900/20',
-            iconColor: 'text-purple-600 dark:text-purple-400',
-            title: 'Question: Pet friendly cafes?',
-            description: 'Asked for advice in the General Forum.',
-            time: '1 month ago',
-        },
-    ],
-    lastActive: '2 days ago',
-};
+interface Contribution {
+    type: string;
+    icon: string;
+    iconBg: string;
+    iconColor: string;
+    title: string;
+    description: string;
+    rating?: number;
+    time: string;
+}
+
+interface TenantData {
+    id: string;
+    name: string;
+    verified: boolean;
+    memberSince: string;
+    about: string;
+    interests: string[];
+    lookingFor: { quote: string; unitType: string; area: string; amenities: string };
+    contributions: Contribution[];
+    lastActive: string;
+}
 
 export default function TenantPublicProfile() {
-    const { id: _id } = useParams();
+    const { id } = useParams();
     const [showAIChat, setShowAIChat] = useState(false);
-    const tenant = tenantData;
+    const [tenant, setTenant] = useState<TenantData | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        async function fetchProfile() {
+            if (!id) return;
+            try {
+                setLoading(true);
+                setError(null);
+                const response = await userService.getPublicTenantProfile(id);
+                const profileData = response.data;
+                const user = profileData.user || { firstName: '', lastName: '', avatarUrl: '' };
+                const extra = profileData as unknown as Record<string, unknown>;
+
+                const name = `${user.firstName || ''} ${user.lastName || ''}`.trim() || profileData.displayName || 'Tenant';
+                const prefs = profileData.preferences || {};
+
+                setTenant({
+                    id: id,
+                    name,
+                    verified: (extra.verified as boolean) ?? true,
+                    memberSince: extra.createdAt ? new Date(extra.createdAt as string).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : '',
+                    about: profileData.bio || (extra.about as string) || '',
+                    interests: Array.isArray(extra.interests) ? (extra.interests as string[]) : [],
+                    lookingFor: {
+                        quote: (extra.lookingForQuote as string) || '',
+                        unitType: prefs.desiredBedrooms ? `${prefs.desiredBedrooms} Bedrooms` : '',
+                        area: (extra.preferredArea as string) || '',
+                        amenities: (extra.desiredAmenities as string) || '',
+                    },
+                    contributions: Array.isArray(extra.contributions) ? (extra.contributions as Contribution[]) : [],
+                    lastActive: (extra.lastActive as string) || '',
+                });
+            } catch (err) {
+                console.error('Failed to load tenant profile:', err);
+                setError('Failed to load profile. Please try again.');
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchProfile();
+    }, [id]);
+
+    if (loading) {
+        return (
+            <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex items-center justify-center">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#137fec] mx-auto mb-4"></div>
+                    <p className="text-slate-500 dark:text-slate-400">Loading profile...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (error || !tenant) {
+        return (
+            <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex items-center justify-center">
+                <div className="text-center">
+                    <span className="material-symbols-outlined text-4xl text-slate-400 mb-4">error_outline</span>
+                    <p className="text-slate-600 dark:text-slate-400">{error || 'Profile not found'}</p>
+                    <Link to="/" className="text-[#137fec] font-semibold mt-4 inline-block hover:underline">Go Home</Link>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex flex-col font-[Manrope,Noto_Sans,sans-serif] text-slate-900 dark:text-white overflow-x-hidden pb-32">
@@ -200,7 +242,7 @@ export default function TenantPublicProfile() {
                                                         <div className="flex items-center gap-2 mt-2">
                                                             <div className="flex text-yellow-400 text-[14px]">
                                                                 {[1, 2, 3, 4, 5].map((i) => (
-                                                                    <span key={i} className={`material-symbols-outlined icon-filled ${i <= contribution.rating ? '' : 'text-slate-300'}`}>star</span>
+                                                                    <span key={i} className={`material-symbols-outlined icon-filled ${i <= (contribution.rating ?? 0) ? '' : 'text-slate-300'}`}>star</span>
                                                                 ))}
                                                             </div>
                                                             <span className="text-[10px] text-slate-400">• {contribution.time}</span>

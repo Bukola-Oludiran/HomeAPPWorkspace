@@ -1,22 +1,141 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import ConfirmationModal from '../../../components/ConfirmationModal';
 import Breadcrumb from '../../../components/common/Breadcrumb';
+import { landlordService } from '../../../lib/api/services/landlordService';
+import type { RentalApplication } from '../../../types/lease';
+
+function formatCurrency(amount: number): string {
+    return new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: 'NGN',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    }).format(amount);
+}
+
+function getStatusStyles(status: string) {
+    switch (status) {
+        case 'APPROVED':
+            return { bg: 'bg-green-100 dark:bg-green-900/30', color: 'text-green-800 dark:text-green-400', border: 'border-green-200 dark:border-green-800', label: 'Approved', icon: 'check_circle' };
+        case 'REJECTED':
+            return { bg: 'bg-red-100 dark:bg-red-900/30', color: 'text-red-800 dark:text-red-400', border: 'border-red-200 dark:border-red-800', label: 'Rejected', icon: 'cancel' };
+        case 'UNDER_REVIEW':
+            return { bg: 'bg-blue-100 dark:bg-blue-900/30', color: 'text-blue-800 dark:text-blue-400', border: 'border-blue-200 dark:border-blue-800', label: 'Under Review', icon: 'visibility' };
+        case 'WITHDRAWN':
+            return { bg: 'bg-slate-100 dark:bg-slate-800', color: 'text-slate-600 dark:text-slate-400', border: 'border-slate-200 dark:border-slate-700', label: 'Withdrawn', icon: 'undo' };
+        case 'PENDING':
+        default:
+            return { bg: 'bg-amber-100 dark:bg-amber-900/30', color: 'text-amber-800 dark:text-amber-400', border: 'border-amber-200 dark:border-amber-800', label: 'Pending Review', icon: 'pending' };
+    }
+}
+
+function formatEmploymentStatus(status: string): string {
+    const map: Record<string, string> = {
+        EMPLOYED: 'Employed',
+        SELF_EMPLOYED: 'Self-Employed',
+        UNEMPLOYED: 'Unemployed',
+        STUDENT: 'Student',
+        RETIRED: 'Retired',
+    };
+    return map[status] || status;
+}
 
 export default function ApplicantDetail() {
     const { id } = useParams();
     const [showAIChat, setShowAIChat] = useState(false);
     const [internalNote, setInternalNote] = useState('');
     const [showRejectModal, setShowRejectModal] = useState(false);
+    const [applicant, setApplicant] = useState<RentalApplication | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [isApproving, setIsApproving] = useState(false);
+
+    useEffect(() => {
+        async function fetchApplicant() {
+            if (!id) return;
+            try {
+                setIsLoading(true);
+                setError(null);
+                const response = await landlordService.getApplicantById(id);
+                setApplicant(response.data);
+            } catch (err) {
+                console.error('Failed to fetch applicant:', err);
+                setError('Failed to load applicant details');
+            } finally {
+                setIsLoading(false);
+            }
+        }
+        fetchApplicant();
+    }, [id]);
+
+    async function handleApprove() {
+        if (!id || !applicant) return;
+        try {
+            setIsApproving(true);
+            await landlordService.approveApplicant(id, {
+                moveInDate: applicant.moveInDate,
+                monthlyRent: applicant.property?.price || 0,
+                securityDeposit: applicant.property?.price || 0,
+            });
+            setApplicant(prev => prev ? { ...prev, status: 'APPROVED' as const } : prev);
+        } catch (err) {
+            console.error('Failed to approve applicant:', err);
+            alert('Failed to approve applicant. Please try again.');
+        } finally {
+            setIsApproving(false);
+        }
+    }
+
+    async function handleReject() {
+        if (!id) return;
+        try {
+            await landlordService.rejectApplicant(id, 'Application rejected by landlord');
+            setApplicant(prev => prev ? { ...prev, status: 'REJECTED' as const } : prev);
+            setShowRejectModal(false);
+        } catch (err) {
+            console.error('Failed to reject applicant:', err);
+            alert('Failed to reject applicant. Please try again.');
+        }
+    }
+
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="flex flex-col items-center gap-3">
+                    <div className="size-10 border-4 border-[#137fec] border-t-transparent rounded-full animate-spin"></div>
+                    <p className="text-slate-500 font-medium">Loading applicant details...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (error || !applicant) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-screen gap-4">
+                <span className="material-symbols-outlined text-5xl text-slate-300">error</span>
+                <p className="text-slate-500 font-medium">{error || 'Applicant not found'}</p>
+                <Link to="/landlord/tenants" className="text-[#137fec] font-bold hover:underline">Back to Applications</Link>
+            </div>
+        );
+    }
+
+    const applicantName = `${applicant.tenant?.firstName || ''} ${applicant.tenant?.lastName || ''}`.trim() || 'Unknown Applicant';
+    const initials = applicantName.split(' ').map(n => n[0]).join('').toUpperCase();
+    const statusStyles = getStatusStyles(applicant.status);
+    const submittedDate = new Date(applicant.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    const propertyName = applicant.property?.name || 'Property';
+    const propertyLocation = applicant.property ? `${applicant.property.address?.street || ''}, ${applicant.property.address?.city || ''} ${applicant.property.address?.state || ''}`.trim() : '';
+    const canActOnApplication = applicant.status === 'PENDING' || applicant.status === 'UNDER_REVIEW';
 
     return (
         <>
             <ConfirmationModal
                 isOpen={showRejectModal}
                 onClose={() => setShowRejectModal(false)}
-                onConfirm={() => console.log('Applicant rejected')}
+                onConfirm={handleReject}
                 title="Reject Application?"
-                description="Are you sure you want to reject Sarah Jenkins's application? They will be notified and removed from consideration for this property."
+                description={`Are you sure you want to reject ${applicantName}'s application? They will be notified and removed from consideration for this property.`}
                 confirmText="Reject Application"
                 icon="block"
             />
@@ -55,7 +174,7 @@ export default function ApplicantDetail() {
                     <Breadcrumb
                         items={[
                             { label: 'Applications', href: '/landlord/tenants' },
-                            { label: 'Sarah Jenkins' },
+                            { label: applicantName },
                         ]}
                     />
 
@@ -63,30 +182,36 @@ export default function ApplicantDetail() {
                     <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-8">
                         <div>
                             <div className="flex flex-wrap items-center gap-3 mb-2">
-                                <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Sarah Jenkins</h1>
-                                <span className="bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 border border-amber-200 dark:border-amber-800 px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1.5">
-                                    <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>pending</span> Pending Review
+                                <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">{applicantName}</h1>
+                                <span className={`${statusStyles.bg} ${statusStyles.color} border ${statusStyles.border} px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1.5`}>
+                                    <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>{statusStyles.icon}</span> {statusStyles.label}
                                 </span>
                             </div>
-                            <div className="flex items-center gap-4 text-slate-500 dark:text-slate-400 text-sm md:text-base">
-                                <p>Application ID: <span className="font-mono text-slate-700 dark:text-slate-300">#APP-8921-TX</span></p>
+                            <div className="flex items-center gap-4 text-slate-500 dark:text-slate-400 text-sm md:text-base flex-wrap">
+                                <p>Application ID: <span className="font-mono text-slate-700 dark:text-slate-300">#{applicant.id.slice(0, 8).toUpperCase()}</span></p>
                                 <span className="size-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
-                                <p>Submitted: Oct 24, 2024</p>
+                                <p>Submitted: {submittedDate}</p>
                                 <span className="size-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
-                                <Link className="text-[#137fec] hover:underline" to="/landlord/properties/1">1243 Oakwood Ave, Austin TX</Link>
+                                <Link className="text-[#137fec] hover:underline" to={`/landlord/properties/${applicant.propertyId}`}>{propertyLocation || propertyName}</Link>
                             </div>
                         </div>
-                        <div className="flex gap-3">
-                            <button
-                                onClick={() => setShowRejectModal(true)}
-                                className="px-4 py-2.5 rounded-lg border border-red-200 dark:border-red-900/50 text-red-600 dark:text-red-400 font-semibold text-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors flex items-center gap-2 cursor-pointer"
-                            >
-                                <span className="material-symbols-outlined text-[20px]">close</span> Reject
-                            </button>
-                            <button className="px-5 py-2.5 rounded-lg bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-sm shadow-lg shadow-[#137fec]/20 transition-all flex items-center gap-2">
-                                <span className="material-symbols-outlined text-[20px]">check</span> Approve Application
-                            </button>
-                        </div>
+                        {canActOnApplication && (
+                            <div className="flex gap-3">
+                                <button
+                                    onClick={() => setShowRejectModal(true)}
+                                    className="px-4 py-2.5 rounded-lg border border-red-200 dark:border-red-900/50 text-red-600 dark:text-red-400 font-semibold text-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors flex items-center gap-2 cursor-pointer"
+                                >
+                                    <span className="material-symbols-outlined text-[20px]">close</span> Reject
+                                </button>
+                                <button
+                                    onClick={handleApprove}
+                                    disabled={isApproving}
+                                    className="px-5 py-2.5 rounded-lg bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-sm shadow-lg shadow-[#137fec]/20 transition-all flex items-center gap-2 disabled:opacity-50"
+                                >
+                                    <span className="material-symbols-outlined text-[20px]">check</span> {isApproving ? 'Approving...' : 'Approve Application'}
+                                </button>
+                            </div>
+                        )}
                     </div>
 
                     {/* Main Content Grid */}
@@ -98,43 +223,41 @@ export default function ApplicantDetail() {
                                 <div className="flex justify-between items-start mb-6">
                                     <div className="flex items-center gap-4">
                                         <div className="size-16 rounded-full bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900 dark:to-purple-900 text-indigo-600 dark:text-indigo-300 flex items-center justify-center text-xl font-bold border-2 border-white dark:border-slate-700 shadow-sm">
-                                            SJ
+                                            {initials}
                                         </div>
                                         <div>
                                             <h3 className="text-lg font-bold text-slate-900 dark:text-white">Applicant Summary</h3>
-                                            <p className="text-sm text-slate-500 dark:text-slate-400">Senior Software Engineer • TechCorp Inc.</p>
+                                            <p className="text-sm text-slate-500 dark:text-slate-400">{formatEmploymentStatus(applicant.employmentStatus)} • {applicant.tenant?.email || ''}</p>
                                         </div>
                                     </div>
-                                    <Link className="text-[#137fec] text-sm font-bold hover:underline flex items-center gap-1" to={`/landlord/tenants/${id}/profile`}>
+                                    <Link className="text-[#137fec] text-sm font-bold hover:underline flex items-center gap-1" to={`/landlord/tenants/${applicant.tenantId}/profile`}>
                                         View Full Profile <span className="material-symbols-outlined text-sm">open_in_new</span>
                                     </Link>
                                 </div>
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                     <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
-                                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Credit Score</p>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Employment</p>
                                         <div className="flex items-center gap-2">
-                                            <span className="text-xl font-extrabold text-green-600 dark:text-green-400">745</span>
-                                            <span className="text-[10px] bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 px-1.5 py-0.5 rounded font-bold">Good</span>
+                                            <span className="text-base font-extrabold text-slate-900 dark:text-white">{formatEmploymentStatus(applicant.employmentStatus)}</span>
                                         </div>
                                     </div>
                                     <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
                                         <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Monthly Income</p>
                                         <div className="flex items-center gap-2">
-                                            <span className="text-xl font-extrabold text-slate-900 dark:text-white">$12.1k</span>
+                                            <span className="text-xl font-extrabold text-slate-900 dark:text-white">{formatCurrency(applicant.monthlyIncome)}</span>
                                         </div>
                                     </div>
                                     <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
-                                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Rent Coverage</p>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Move-in Date</p>
                                         <div className="flex items-center gap-2">
-                                            <span className="text-xl font-extrabold text-slate-900 dark:text-white">3.9x</span>
-                                            <span className="text-xs text-slate-400">Rent</span>
+                                            <span className="text-base font-extrabold text-slate-900 dark:text-white">{new Date(applicant.moveInDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                                         </div>
                                     </div>
                                     <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
-                                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Identity</p>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Contact</p>
                                         <div className="flex items-center gap-2">
-                                            <span className="material-symbols-outlined text-green-500 text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
-                                            <span className="text-sm font-bold text-slate-900 dark:text-white">Verified</span>
+                                            <span className="material-symbols-outlined text-[#137fec] text-[20px]">phone</span>
+                                            <span className="text-sm font-bold text-slate-900 dark:text-white">{applicant.tenant?.phone || 'N/A'}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -283,26 +406,32 @@ export default function ApplicantDetail() {
                         {/* Right Column - Sidebar */}
                         <div className="flex flex-col gap-6">
                             {/* Property Card */}
-                            <div className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden group">
+                            <Link to={`/landlord/properties/${applicant.propertyId}`} className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden group block">
                                 <div className="relative h-40 w-full overflow-hidden">
-                                    <img alt="Property" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l" />
+                                    {applicant.property?.primaryImage ? (
+                                        <img alt="Property" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src={applicant.property.primaryImage} />
+                                    ) : (
+                                        <div className="w-full h-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
+                                            <span className="material-symbols-outlined text-4xl text-slate-400">apartment</span>
+                                        </div>
+                                    )}
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                                     <div className="absolute bottom-3 left-4 text-white">
-                                        <h3 className="font-bold text-base shadow-sm">1243 Oakwood Ave</h3>
-                                        <p className="text-xs opacity-90">Unit 4B • Austin, TX</p>
+                                        <h3 className="font-bold text-base shadow-sm">{propertyName}</h3>
+                                        <p className="text-xs opacity-90">{applicant.property?.address?.city || ''}, {applicant.property?.address?.state || ''}</p>
                                     </div>
                                 </div>
                                 <div className="p-4 grid grid-cols-2 divide-x divide-slate-100 dark:divide-slate-800">
                                     <div className="text-center px-2">
-                                        <p className="text-[10px] text-slate-500 uppercase font-bold">Monthly Rent</p>
-                                        <p className="text-base font-bold text-slate-900 dark:text-white">$3,100</p>
+                                        <p className="text-[10px] text-slate-500 uppercase font-bold">Price</p>
+                                        <p className="text-base font-bold text-slate-900 dark:text-white">{applicant.property ? formatCurrency(applicant.property.price) : 'N/A'}</p>
                                     </div>
                                     <div className="text-center px-2">
-                                        <p className="text-[10px] text-slate-500 uppercase font-bold">Lease Term</p>
-                                        <p className="text-base font-bold text-slate-900 dark:text-white">12 Mos</p>
+                                        <p className="text-[10px] text-slate-500 uppercase font-bold">Type</p>
+                                        <p className="text-base font-bold text-slate-900 dark:text-white">{applicant.property?.propertyType || 'N/A'}</p>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
 
                             {/* Quick Actions */}
                             <div className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-5">
@@ -333,23 +462,19 @@ export default function ApplicantDetail() {
                             <div className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6">
                                 <h3 className="font-bold text-slate-900 dark:text-white mb-5">Timeline</h3>
                                 <div className="relative border-l-2 border-slate-100 dark:border-slate-800 ml-3 space-y-6">
-                                    <div className="relative pl-6">
-                                        <div className="absolute -left-[9px] top-0 size-4 bg-amber-500 rounded-full border-4 border-white dark:border-[#101922]"></div>
-                                        <p className="text-xs text-slate-400 font-mono mb-0.5">Yesterday, 4:30 PM</p>
-                                        <h4 className="text-sm font-bold text-slate-900 dark:text-white">Doc Request Sent</h4>
-                                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Requested re-upload of ID.</p>
-                                    </div>
-                                    <div className="relative pl-6">
-                                        <div className="absolute -left-[9px] top-0 size-4 bg-green-500 rounded-full border-4 border-white dark:border-[#101922]"></div>
-                                        <p className="text-xs text-slate-400 font-mono mb-0.5">Oct 26, 2024</p>
-                                        <h4 className="text-sm font-bold text-slate-900 dark:text-white">Background Check</h4>
-                                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Screening completed automatically.</p>
-                                    </div>
+                                    {applicant.updatedAt !== applicant.createdAt && (
+                                        <div className="relative pl-6">
+                                            <div className="absolute -left-[9px] top-0 size-4 bg-amber-500 rounded-full border-4 border-white dark:border-[#101922]"></div>
+                                            <p className="text-xs text-slate-400 font-mono mb-0.5">{new Date(applicant.updatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
+                                            <h4 className="text-sm font-bold text-slate-900 dark:text-white">Last Updated</h4>
+                                            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Application status changed to {statusStyles.label}.</p>
+                                        </div>
+                                    )}
                                     <div className="relative pl-6">
                                         <div className="absolute -left-[9px] top-0 size-4 bg-slate-300 dark:bg-slate-600 rounded-full border-4 border-white dark:border-[#101922]"></div>
-                                        <p className="text-xs text-slate-400 font-mono mb-0.5">Oct 24, 2024</p>
+                                        <p className="text-xs text-slate-400 font-mono mb-0.5">{new Date(applicant.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
                                         <h4 className="text-sm font-bold text-slate-900 dark:text-white">Application Received</h4>
-                                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Applicant submitted form.</p>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{applicantName} submitted application.</p>
                                     </div>
                                 </div>
                             </div>
@@ -403,7 +528,7 @@ export default function ApplicantDetail() {
                             <div className="bg-blue-50 dark:bg-blue-900/20 p-3.5 rounded-2xl rounded-tl-sm flex gap-3 items-start border border-blue-100 dark:border-blue-800 shadow-sm">
                                 <span className="material-symbols-outlined text-[#137fec] text-xl mt-0.5">smart_toy</span>
                                 <div className="text-sm">
-                                    <p className="text-slate-900 dark:text-white font-medium leading-relaxed">Hello! I'm reviewing Sarah's application. How can I assist you?</p>
+                                    <p className="text-slate-900 dark:text-white font-medium leading-relaxed">Hello! I'm reviewing {applicant.tenant?.firstName || 'this applicant'}'s application. How can I assist you?</p>
                                 </div>
                             </div>
                             <div className="grid grid-cols-1 gap-2">

@@ -182,7 +182,7 @@ export default function TenantApplications() {
                 setIsLoading(true);
                 setError(null);
                 const response = await tenantService.getApplications({ limit: 50 });
-                const transformed = response.data.data.map(transformApplication);
+                const transformed = (response.data || []).map(transformApplication);
                 setApplicationsData(transformed);
             } catch (err) {
                 console.error('Failed to fetch applications:', err);

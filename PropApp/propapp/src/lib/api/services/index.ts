@@ -13,3 +13,8 @@ export { maintenanceService } from './maintenanceService';
 export { messageService } from './messageService';
 export { notificationService } from './notificationService';
 export { userService } from './userService';
+export { transactionService } from './transactionService';
+export { verificationService } from './verificationService';
+export { reportService } from './reportService';
+export { bankingService } from './bankingService';
+export { analyticsService } from './analyticsService';

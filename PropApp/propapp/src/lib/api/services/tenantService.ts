@@ -5,7 +5,6 @@
 
 import { api } from '../client';
 import { API_ENDPOINTS } from '../config';
-import type { PaginatedResponse } from '../../../types/api';
 import type { PropertySummary } from '../../../types/property';
 import type { RentalApplication, SubmitApplicationRequest } from '../../../types/lease';
 import type {
@@ -46,7 +45,7 @@ export async function getRentalInfo() {
  * Get tenant's applications
  */
 export async function getApplications(params?: { status?: string; page?: number; limit?: number }) {
-    return api.get<PaginatedResponse<RentalApplication>>(API_ENDPOINTS.TENANT.APPLICATIONS, params);
+    return api.get<RentalApplication[]>(API_ENDPOINTS.TENANT.APPLICATIONS, params);
 }
 
 /**
@@ -88,7 +87,7 @@ export async function removeSavedProperty(propertyId: string) {
  * Get payment history
  */
 export async function getPayments(params?: { page?: number; limit?: number }) {
-    return api.get<PaginatedResponse<TenantPayment>>(API_ENDPOINTS.TENANT.PAYMENTS, params);
+    return api.get<TenantPayment[]>(API_ENDPOINTS.TENANT.PAYMENTS, params);
 }
 
 /**

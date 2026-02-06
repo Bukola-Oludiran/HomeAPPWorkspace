@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ConfirmationModal from '../../components/ConfirmationModal';
+import { userService } from '../../lib/api/services/userService';
+import type { UserWithProfile, TenantProfile, LandlordProfile, AgentProfile } from '../../types/auth';
 
 type SettingsSection = 'profile' | 'security' | 'email' | 'push' | 'privacy' | 'visibility' | 'payment' | 'payout' | 'preferences' | 'help' | 'tenant-profile' | 'landlord-profile' | 'agent-profile';
 
@@ -269,6 +271,34 @@ export default function SettingsPage() {
 // Profile Information Content
 function ProfileContent() {
     const [showRemovePhotoModal, setShowRemovePhotoModal] = useState(false);
+    const [user, setUser] = useState<UserWithProfile | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchUser() {
+            try {
+                setIsLoading(true);
+                const response = await userService.getCurrentUser();
+                setUser(response.data);
+            } catch (err) {
+                console.error('Failed to fetch user profile:', err);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+        fetchUser();
+    }, []);
+
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center min-h-[400px]">
+                <div className="flex flex-col items-center gap-3">
+                    <div className="size-10 border-4 border-[#137fec] border-t-transparent rounded-full animate-spin"></div>
+                    <p className="text-slate-500 font-medium">Loading profile...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <>
@@ -295,7 +325,13 @@ function ProfileContent() {
                 {/* Profile Photo */}
                 <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
                     <div className="relative group">
-                        <img alt="Current profile photo" className="w-24 h-24 rounded-full object-cover ring-4 ring-slate-50 dark:ring-slate-800" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwTu80T-Ii1i2JHfbWEMDgwXRNP0ehdOTldQ7IxlyR1MCzL8MrOZBjoYfXJZAXXTJlIi2HNi9nfioA7ksEMvF5HBEBODUnWum2NL5XhkC95MK52bAAZDSe9d891ZAw5MbM9oRR30lP8umsxTAf1eXbePW_bZ0I5rsOo88ELIF5aCU07WBBeE1z6_RwK6Y9O6FRPgxUzYEmE3EzdyA9_YtX-v69bXptpU6g1Xr3eGcYlqLvJjRJJdBDyZYyiAuPmTNA3aMrKcO3r42a" />
+                        {user?.avatarUrl ? (
+                            <img alt="Current profile photo" className="w-24 h-24 rounded-full object-cover ring-4 ring-slate-50 dark:ring-slate-800" src={user.avatarUrl} />
+                        ) : (
+                            <div className="w-24 h-24 rounded-full ring-4 ring-slate-50 dark:ring-slate-800 bg-[#137fec]/10 flex items-center justify-center text-2xl font-bold text-[#137fec]">
+                                {user ? `${user.firstName?.[0] || ''}${user.lastName?.[0] || ''}` : ''}
+                            </div>
+                        )}
                         <button className="absolute bottom-0 right-0 bg-white dark:bg-slate-700 text-slate-600 dark:text-white p-1.5 rounded-full shadow-md border border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors cursor-pointer">
                             <span className="material-symbols-outlined text-[18px]">edit</span>
                         </button>
@@ -321,11 +357,11 @@ function ProfileContent() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="col-span-1">
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" htmlFor="firstName">First Name</label>
-                        <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" id="firstName" name="firstName" type="text" defaultValue="Alex" />
+                        <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" id="firstName" name="firstName" type="text" defaultValue={user?.firstName || ''} />
                     </div>
                     <div className="col-span-1">
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" htmlFor="lastName">Last Name</label>
-                        <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" id="lastName" name="lastName" type="text" defaultValue="Johnson" />
+                        <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" id="lastName" name="lastName" type="text" defaultValue={user?.lastName || ''} />
                     </div>
                     <div className="col-span-1 md:col-span-2">
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" htmlFor="email">Email Address</label>
@@ -333,7 +369,7 @@ function ProfileContent() {
                             <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                                 <span className="material-symbols-outlined text-[20px]">mail</span>
                             </span>
-                            <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white pl-10 shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" id="email" name="email" type="email" defaultValue="alex.johnson@example.com" />
+                            <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white pl-10 shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" id="email" name="email" type="email" defaultValue={user?.email || ''} />
                         </div>
                         <p className="mt-1.5 text-xs text-slate-500">This is the email you use to log in.</p>
                     </div>
@@ -343,7 +379,7 @@ function ProfileContent() {
                             <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                                 <span className="material-symbols-outlined text-[20px]">call</span>
                             </span>
-                            <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white pl-10 shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" id="phone" name="phone" type="tel" defaultValue="+1 (555) 123-4567" />
+                            <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white pl-10 shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" id="phone" name="phone" type="tel" defaultValue={user?.phone || ''} />
                         </div>
                     </div>
                 </div>
@@ -828,6 +864,19 @@ function TenantProfileContent() {
     const [checked, setChecked] = useState({ laundry: true, petFriendly: true, parking: false, gym: false });
     const [showHistoryModal, setShowHistoryModal] = useState(false);
     const [showDocumentsModal, setShowDocumentsModal] = useState(false);
+    const [tenantProfile, setTenantProfile] = useState<TenantProfile | null>(null);
+
+    useEffect(() => {
+        async function fetchTenantProfile() {
+            try {
+                const response = await userService.getTenantProfile();
+                setTenantProfile(response.data);
+            } catch (err) {
+                console.error('Failed to fetch tenant profile:', err);
+            }
+        }
+        fetchTenantProfile();
+    }, []);
 
     const rentalHistory = [
         { address: '123 Oak Street, Apt 4B', landlord: 'Jane Smith', period: 'Jan 2021 - Dec 2022', rating: 'Excellent' },
@@ -928,7 +977,7 @@ function TenantProfileContent() {
                         <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Display Name</label>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="text" defaultValue="Alex J." />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="text" defaultValue={tenantProfile?.displayName || ''} />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Contact Phone</label>
@@ -936,7 +985,7 @@ function TenantProfileContent() {
                             </div>
                             <div className="md:col-span-2">
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Short Bio (Visible to Landlords)</label>
-                                <textarea className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" rows={2} defaultValue="Young professional working in tech. Quiet, reliable, and have excellent references from previous landlords." />
+                                <textarea className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" rows={2} defaultValue={tenantProfile?.bio || ''} />
                             </div>
                         </div>
                     </div>
@@ -963,7 +1012,7 @@ function TenantProfileContent() {
                             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Monthly Budget (Max)</label>
                             <div className="relative">
                                 <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">$</span>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white pl-7 shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="number" defaultValue="2500" />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white pl-7 shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="number" defaultValue={tenantProfile?.preferences?.monthlyBudgetMax || ''} />
                             </div>
                         </div>
                         <div className="md:col-span-2">
@@ -1071,6 +1120,35 @@ function TenantProfileContent() {
 
 // Landlord Profile Content
 function LandlordProfileContent() {
+    const [landlordProfile, setLandlordProfile] = useState<LandlordProfile | null>(null);
+    const [isLoadingProfile, setIsLoadingProfile] = useState(true);
+
+    useEffect(() => {
+        async function fetchLandlordProfile() {
+            try {
+                setIsLoadingProfile(true);
+                const response = await userService.getLandlordProfile();
+                setLandlordProfile(response.data);
+            } catch (err) {
+                console.error('Failed to fetch landlord profile:', err);
+            } finally {
+                setIsLoadingProfile(false);
+            }
+        }
+        fetchLandlordProfile();
+    }, []);
+
+    if (isLoadingProfile) {
+        return (
+            <div className="flex items-center justify-center min-h-[400px]">
+                <div className="flex flex-col items-center gap-3">
+                    <div className="size-10 border-4 border-[#137fec] border-t-transparent rounded-full animate-spin"></div>
+                    <p className="text-slate-500 font-medium">Loading landlord profile...</p>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <>
             <div className="p-6 md:p-8 border-b border-slate-100 dark:border-slate-800 flex justify-between items-start gap-4">
@@ -1136,15 +1214,15 @@ function LandlordProfileContent() {
                         <div className="space-y-4">
                             <div>
                                 <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">Display Name</label>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] text-sm" type="text" defaultValue="Alex Johnson" />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] text-sm" type="text" defaultValue={landlordProfile?.businessName || ''} />
                             </div>
                             <div>
                                 <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">Contact Email</label>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] text-sm" type="email" defaultValue="alex.properties@example.com" />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] text-sm" type="email" defaultValue={landlordProfile?.businessEmail || ''} />
                             </div>
                             <div>
                                 <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">Contact Phone</label>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] text-sm" type="tel" defaultValue="+1 (555) 987-6543" />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] text-sm" type="tel" placeholder="+1 (555) 000-0000" />
                             </div>
                         </div>
                     </div>
@@ -1157,7 +1235,7 @@ function LandlordProfileContent() {
                         <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700 space-y-4">
                             <div>
                                 <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">Company / Business Name</label>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] text-sm" placeholder="e.g. Johnson Properties LLC" type="text" />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] text-sm" placeholder="e.g. Johnson Properties LLC" type="text" defaultValue={landlordProfile?.businessName || ''} />
                             </div>
                             <div>
                                 <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">Registration / Tax ID</label>
@@ -1223,6 +1301,22 @@ function AgentProfileContent() {
     ]);
     const [regions, setRegions] = useState(['Downtown', 'Westside']);
     const [specialties, setSpecialties] = useState(['Residential Sales', 'Commercial Leasing']);
+    const [agentProfile, setAgentProfile] = useState<AgentProfile | null>(null);
+
+    useEffect(() => {
+        async function fetchAgentProfile() {
+            try {
+                const response = await userService.getAgentProfile();
+                setAgentProfile(response.data);
+                if (response.data.specialties?.length) {
+                    setSpecialties(response.data.specialties);
+                }
+            } catch (err) {
+                console.error('Failed to fetch agent profile:', err);
+            }
+        }
+        fetchAgentProfile();
+    }, []);
     const [newSpecialty, setNewSpecialty] = useState('');
     const [showCertModal, setShowCertModal] = useState(false);
     const [showReviewsModal, setShowReviewsModal] = useState(false);
@@ -1414,15 +1508,15 @@ function AgentProfileContent() {
                         <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-5">
                             <div className="col-span-1 md:col-span-2">
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Professional Name</label>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="text" defaultValue="Alex Johnson" />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="text" defaultValue={agentProfile?.companyName || ''} />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Business Email</label>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="email" defaultValue="alex.agent@realty.com" />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="email" placeholder="agent@example.com" />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Business Phone</label>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="tel" defaultValue="+1 (555) 987-6543" />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="tel" placeholder="+1 (555) 000-0000" />
                             </div>
                         </div>
                     </div>

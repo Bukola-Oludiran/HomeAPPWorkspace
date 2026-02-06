@@ -190,8 +190,8 @@ export default function TenantMaintenance() {
 
                 const response = await maintenanceService.getMaintenanceRequests(params);
 
-                if (response.data?.data) {
-                    const transformed = response.data.data.map(transformMaintenanceRequest);
+                if (response.data) {
+                    const transformed = (response.data || []).map(transformMaintenanceRequest);
 
                     // Client-side sorting
                     let sorted = [...transformed];

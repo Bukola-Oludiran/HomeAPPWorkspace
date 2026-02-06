@@ -21,7 +21,6 @@ import type {
     OAuthProvider,
 } from '../../../types/auth';
 import type { BankAccount, AddBankAccountRequest, PayoutSettings, Payout } from '../../../types/lease';
-import type { PaginatedResponse } from '../../../types/api';
 
 /**
  * Get current user profile
@@ -217,7 +216,7 @@ export async function updatePayoutSettings(data: Partial<PayoutSettings>) {
  * Get payout history
  */
 export async function getPayouts(params?: { page?: number; limit?: number }) {
-    return api.get<PaginatedResponse<Payout>>(API_ENDPOINTS.BANKING.PAYOUTS, params);
+    return api.get<Payout[]>(API_ENDPOINTS.BANKING.PAYOUTS, params);
 }
 
 /**
@@ -256,6 +255,59 @@ export async function getPublicAgentProfile(id: string) {
     );
 }
 
+// Wallet
+
+/**
+ * Get wallet info
+ */
+export async function getWallet() {
+    return api.get<{ walletAddress?: string; balance?: number }>(API_ENDPOINTS.USERS.WALLET);
+}
+
+/**
+ * Connect blockchain wallet
+ */
+export async function connectWallet(data: { walletAddress: string; signature: string; message: string }) {
+    return api.post<{ message: string }>(API_ENDPOINTS.USERS.WALLET_CONNECT, data);
+}
+
+// User documents
+
+/**
+ * Get user's documents
+ */
+export async function getDocuments(params?: { type?: string; page?: number; limit?: number }) {
+    return api.get<Array<{ id: string; name: string; type: string; subtype?: string; url: string; createdAt: string }>>(
+        API_ENDPOINTS.USERS.DOCUMENTS, params as Record<string, unknown>
+    );
+}
+
+/**
+ * Upload a document
+ */
+export async function uploadDocument(file: File, options: { type: string; subtype?: string; name?: string }) {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('type', options.type);
+    if (options.subtype) formData.append('subtype', options.subtype);
+    if (options.name) formData.append('name', options.name);
+    return api.upload<{ id: string; url: string }>(API_ENDPOINTS.USERS.DOCUMENTS, formData);
+}
+
+/**
+ * Download a document
+ */
+export async function downloadDocument(id: string) {
+    return api.get<{ downloadUrl: string }>(API_ENDPOINTS.USERS.DOCUMENT_DOWNLOAD(id));
+}
+
+/**
+ * Delete a document
+ */
+export async function deleteDocument(id: string) {
+    return api.delete<{ message: string }>(API_ENDPOINTS.USERS.DOCUMENT(id));
+}
+
 // Export all functions as named exports and as default object
 export const userService = {
     getCurrentUser,
@@ -289,6 +341,12 @@ export const userService = {
     getPublicLandlordProfile,
     getPublicTenantProfile,
     getPublicAgentProfile,
+    getWallet,
+    connectWallet,
+    getDocuments,
+    uploadDocument,
+    downloadDocument,
+    deleteDocument,
 };
 
 export default userService;

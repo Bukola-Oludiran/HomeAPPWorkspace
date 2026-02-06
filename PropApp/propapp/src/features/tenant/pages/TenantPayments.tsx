@@ -97,7 +97,7 @@ export default function TenantPayments() {
                 setIsLoading(true);
                 setError(null);
                 const response = await tenantService.getPayments({ limit: 50 });
-                const payments = response.data.data;
+                const payments = response.data || [];
                 const transformed = payments.map(transformPayment);
                 setTransactionHistory(transformed);
 

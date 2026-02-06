@@ -16,6 +16,7 @@ interface UIPropertyData {
     status: string;
     onlineDays: number;
     verified: string;
+    verificationTier?: VerificationTier;
     verificationPending: boolean;
     image: string;
     photoCount: number;
@@ -130,6 +131,7 @@ function transformToUIProperty(
         status: getStatusLabel(property.status),
         onlineDays: getDaysOnline(property.createdAt),
         verified: getVerificationLabel(property.verificationTier),
+        verificationTier: property.verificationTier,
         verificationPending: !property.isVerified && property.verificationTier !== 'PLATINUM',
         image: primaryImage,
         photoCount: property.media?.length || 0,
@@ -159,7 +161,11 @@ function transformToUIProperty(
                 icon: 'trending_up',
                 iconColor: 'text-green-500',
                 title: 'Market Analysis:',
-                text: marketComparison?.recommendation || 'Market data will be available soon.',
+                text: typeof marketComparison?.recommendation === 'string'
+                    ? marketComparison.recommendation
+                    : marketComparison?.recommendation
+                        ? (marketComparison.recommendation as unknown as { action?: string }).action || 'Market data available.'
+                        : 'Market data will be available soon.',
             },
             {
                 icon: 'calendar_clock',
@@ -413,8 +419,21 @@ export default function LandlordPropertyDetail() {
                             {/* Verification Badge */}
                             <div className="mt-6 flex flex-wrap items-center gap-4">
                                 <div className="group relative cursor-pointer">
-                                    <div className="bg-gradient-to-r from-slate-200 via-white to-slate-300 dark:from-slate-700 dark:via-slate-600 dark:to-slate-700 text-slate-900 dark:text-white text-sm font-bold px-4 py-2 rounded-full flex items-center gap-2 shadow-sm border border-slate-300 dark:border-slate-500">
-                                        <span className="material-symbols-outlined text-[20px] icon-filled text-[#137fec]">
+                                    <div className={`text-sm font-bold px-4 py-2 rounded-full flex items-center gap-2 shadow-sm border ${
+                                        property.verificationTier === 'PLATINUM'
+                                            ? 'bg-gradient-to-r from-slate-200 via-white to-slate-300 dark:from-slate-700 dark:via-slate-600 dark:to-slate-700 text-slate-900 dark:text-white border-slate-300 dark:border-slate-500'
+                                            : property.verificationTier === 'GOLD'
+                                            ? 'bg-gradient-to-r from-yellow-100 via-yellow-50 to-amber-100 dark:from-yellow-900/40 dark:via-yellow-800/30 dark:to-amber-900/40 text-yellow-900 dark:text-yellow-200 border-yellow-300 dark:border-yellow-700'
+                                            : property.verificationTier === 'SILVER'
+                                            ? 'bg-gradient-to-r from-slate-200 via-slate-100 to-slate-200 dark:from-slate-600 dark:via-slate-500 dark:to-slate-600 text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-500'
+                                            : 'bg-gradient-to-r from-orange-100 via-orange-50 to-amber-100 dark:from-orange-900/40 dark:via-orange-800/30 dark:to-amber-900/40 text-orange-900 dark:text-orange-200 border-orange-300 dark:border-orange-700'
+                                    }`}>
+                                        <span className={`material-symbols-outlined text-[20px] icon-filled ${
+                                            property.verificationTier === 'PLATINUM' ? 'text-slate-600 dark:text-slate-300'
+                                            : property.verificationTier === 'GOLD' ? 'text-yellow-600 dark:text-yellow-400'
+                                            : property.verificationTier === 'SILVER' ? 'text-slate-500 dark:text-slate-300'
+                                            : 'text-orange-600 dark:text-orange-400'
+                                        }`}>
                                             verified
                                         </span>
                                         {property.verified.toUpperCase()}

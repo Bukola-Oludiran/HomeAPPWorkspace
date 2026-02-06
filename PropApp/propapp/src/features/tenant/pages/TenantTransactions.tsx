@@ -105,8 +105,8 @@ export default function TenantTransactions() {
 
                 const response = await tenantService.getPayments({ page, limit });
 
-                if (response.data?.data) {
-                    let transformed = response.data.data.map(transformPayment);
+                if (response.data) {
+                    let transformed = (response.data || []).map(transformPayment);
 
                     // Client-side search filter
                     if (searchQuery) {

@@ -1,9 +1,53 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import PageContainer from '../../../components/common/PageContainer';
+import { userService } from '../../../lib/api/services/userService';
+import type { TenantProfile } from '../../../types/auth';
+import type { User } from '../../../types/auth';
+
+type TenantPublicProfile = TenantProfile & { user: Pick<User, 'firstName' | 'lastName' | 'avatarUrl'> };
 
 export default function TenantProfileLandlordView() {
+    const { id } = useParams();
     const [showAIChat, setShowAIChat] = useState(false);
+    const [profile, setProfile] = useState<TenantPublicProfile | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchProfile() {
+            if (!id) return;
+            try {
+                setIsLoading(true);
+                const response = await userService.getPublicTenantProfile(id);
+                setProfile(response.data);
+            } catch (err) {
+                console.error('Failed to fetch tenant profile:', err);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+        fetchProfile();
+    }, [id]);
+
+    const tenantName = profile?.user
+        ? `${profile.user.firstName} ${profile.user.lastName}`
+        : 'Tenant';
+    const tenantInitials = profile?.user
+        ? `${profile.user.firstName?.[0] || ''}${profile.user.lastName?.[0] || ''}`
+        : '';
+
+    if (isLoading) {
+        return (
+            <PageContainer>
+                <div className="flex items-center justify-center min-h-[60vh]">
+                    <div className="flex flex-col items-center gap-3">
+                        <div className="size-10 border-4 border-[#137fec] border-t-transparent rounded-full animate-spin"></div>
+                        <p className="text-slate-500 font-medium">Loading tenant profile...</p>
+                    </div>
+                </div>
+            </PageContainer>
+        );
+    }
 
     return (
         <PageContainer>
@@ -29,11 +73,15 @@ export default function TenantProfileLandlordView() {
                         <div className="relative inline-block mx-auto mb-4 mt-8">
                             <div className="size-24 rounded-full bg-gradient-to-tr from-[#137fec] to-blue-300 p-1 shadow-xl">
                                 <div className="w-full h-full rounded-full bg-white dark:bg-slate-800 flex items-center justify-center overflow-hidden">
-                                    <span className="material-symbols-outlined text-5xl text-slate-300 dark:text-slate-600">person</span>
+                                    {profile?.user?.avatarUrl ? (
+                                        <img src={profile.user.avatarUrl} alt={tenantName} className="w-full h-full object-cover" />
+                                    ) : (
+                                        <span className="text-2xl font-bold text-[#137fec]">{tenantInitials}</span>
+                                    )}
                                 </div>
                             </div>
                         </div>
-                        <h2 className="text-xl font-bold text-slate-900 dark:text-white">Sarah Johnson</h2>
+                        <h2 className="text-xl font-bold text-slate-900 dark:text-white">{tenantName}</h2>
                         <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Applicant since Sep 2024</p>
                         <div className="flex flex-col gap-2 items-center">
                             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-xs font-bold border border-green-100 dark:border-green-800">
@@ -121,7 +169,7 @@ export default function TenantProfileLandlordView() {
                             <div>
                                 <label className="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase mb-1">Full Name</label>
                                 <div className="text-base font-semibold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 px-4 py-3 rounded-xl border border-transparent dark:border-slate-800">
-                                    Sarah Johnson
+                                    {tenantName}
                                 </div>
                             </div>
                             <div>
@@ -196,11 +244,11 @@ export default function TenantProfileLandlordView() {
                                 <ul className="space-y-3">
                                     <li className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
                                         <span className="text-sm text-slate-500 dark:text-slate-400">Desired Bedrooms</span>
-                                        <span className="text-sm font-bold text-slate-900 dark:text-white">2 Bedrooms</span>
+                                        <span className="text-sm font-bold text-slate-900 dark:text-white">{profile?.preferences?.desiredBedrooms || '—'}</span>
                                     </li>
                                     <li className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
                                         <span className="text-sm text-slate-500 dark:text-slate-400">Max Budget</span>
-                                        <span className="text-sm font-bold text-slate-900 dark:text-white">$3,500</span>
+                                        <span className="text-sm font-bold text-slate-900 dark:text-white">{profile?.preferences?.monthlyBudgetMax ? `₦${profile.preferences.monthlyBudgetMax.toLocaleString()}` : '—'}</span>
                                     </li>
                                 </ul>
                             </div>
@@ -261,7 +309,7 @@ export default function TenantProfileLandlordView() {
                                     <span className="material-symbols-outlined text-[16px]">psychology_alt</span>
                                 </div>
                                 <div className="bg-white dark:bg-[#1e293b] border border-slate-100 dark:border-slate-700 p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[85%]">
-                                    <p className="text-sm text-slate-700 dark:text-slate-300">Based on my review, this tenant has an excellent rental history. Their income-to-rent ratio is 3.5x, and they have no late payments on record. I recommend approving.</p>
+                                    <p className="text-sm text-slate-700 dark:text-slate-300">Based on my review, {profile?.user?.firstName || 'this tenant'} has an excellent rental history. Their income-to-rent ratio is 3.5x, and they have no late payments on record. I recommend approving.</p>
                                 </div>
                             </div>
                         </div>

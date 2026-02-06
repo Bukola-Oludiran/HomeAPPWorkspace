@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { propertyService } from '../../../lib/api/services/propertyService';
 
 // Step components
 const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormData: React.Dispatch<React.SetStateAction<WizardFormData>> }) => {
@@ -611,8 +612,12 @@ interface WizardFormData {
 
 // Main Wizard Component
 export default function PropertyWizard() {
+    const navigate = useNavigate();
     const [currentStep, setCurrentStep] = useState(1);
     const totalSteps = 5;
+    const [draftId, setDraftId] = useState<string | null>(null);
+    const [isSaving, setIsSaving] = useState(false);
+    const [isPublishing, setIsPublishing] = useState(false);
 
     const [formData, setFormData] = useState<WizardFormData>({
         title: '',
@@ -629,6 +634,70 @@ export default function PropertyWizard() {
         furnishing: '',
         selectedAmenities: ['electricity', 'security'],
     });
+
+    function buildPropertyPayload() {
+        const propertyTypeMap: Record<string, 'APARTMENT' | 'HOUSE' | 'DUPLEX' | 'STUDIO' | 'TERRACE'> = {
+            'Apartment': 'APARTMENT',
+            'House': 'HOUSE',
+            'Condo': 'APARTMENT',
+            'Townhouse': 'TERRACE',
+        };
+        const priceUnitMap: Record<string, 'PER_YEAR' | 'PER_MONTH' | 'TOTAL'> = {
+            'Per Year': 'PER_YEAR',
+            'Per Month': 'PER_MONTH',
+            'Short Let': 'PER_MONTH',
+            'Per Week': 'PER_MONTH',
+        };
+        return {
+            name: formData.title,
+            propertyType: propertyTypeMap[formData.propertyType] || 'APARTMENT' as const,
+            listingType: 'RENT' as const,
+            price: parseFloat(formData.rent) || 0,
+            priceUnit: priceUnitMap[formData.leaseDuration] || 'PER_YEAR' as const,
+            bedrooms: parseInt(formData.beds) || 0,
+            bathrooms: parseInt(formData.baths) || 0,
+            squareMeters: parseFloat(formData.sqft) || undefined,
+            addressStreet: formData.address,
+            addressCity: '',
+            addressState: '',
+        };
+    }
+
+    async function handleSaveDraft() {
+        try {
+            setIsSaving(true);
+            const payload = buildPropertyPayload();
+            if (draftId) {
+                await propertyService.updatePropertyDraft(draftId, payload);
+            } else {
+                const response = await propertyService.createPropertyDraft(payload);
+                setDraftId(response.data.id);
+            }
+        } catch (err) {
+            console.error('Failed to save draft:', err);
+            alert('Failed to save draft. Please try again.');
+        } finally {
+            setIsSaving(false);
+        }
+    }
+
+    async function handlePublish() {
+        try {
+            setIsPublishing(true);
+            if (draftId) {
+                await propertyService.publishPropertyDraft(draftId);
+            } else {
+                const payload = buildPropertyPayload();
+                await propertyService.createProperty(payload as Parameters<typeof propertyService.createProperty>[0]);
+            }
+            navigate('/landlord/dashboard');
+        } catch (err) {
+            console.error('Failed to publish listing:', err);
+            alert('Failed to publish listing. Please try again.');
+        } finally {
+            setIsPublishing(false);
+        }
+    }
 
     const stepTitles = [
         { title: 'List Your Property', subtitle: "Let's start with the basics." },
@@ -688,8 +757,12 @@ export default function PropertyWizard() {
                         </Link>
                     </div>
                     <div className="flex w-full md:w-auto gap-4">
-                        <button className="w-full md:w-auto px-6 py-3 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                            Save Draft
+                        <button
+                            onClick={handleSaveDraft}
+                            disabled={isSaving}
+                            className="w-full md:w-auto px-6 py-3 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors disabled:opacity-50"
+                        >
+                            {isSaving ? 'Saving...' : 'Save Draft'}
                         </button>
                         {currentStep < totalSteps ? (
                             <button
@@ -699,12 +772,13 @@ export default function PropertyWizard() {
                                 Next Step <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
                             </button>
                         ) : (
-                            <Link
-                                to="/landlord/dashboard"
-                                className="w-full md:w-auto bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-bold text-sm shadow-lg shadow-green-600/30 transition-all flex items-center justify-center gap-2"
+                            <button
+                                onClick={handlePublish}
+                                disabled={isPublishing}
+                                className="w-full md:w-auto bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-bold text-sm shadow-lg shadow-green-600/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                             >
-                                <span className="material-symbols-outlined text-[18px]">publish</span> Publish Listing
-                            </Link>
+                                <span className="material-symbols-outlined text-[18px]">publish</span> {isPublishing ? 'Publishing...' : 'Publish Listing'}
+                            </button>
                         )}
                     </div>
                 </div>

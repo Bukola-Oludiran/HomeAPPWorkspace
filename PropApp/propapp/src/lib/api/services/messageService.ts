@@ -5,7 +5,6 @@
 
 import { api } from '../client';
 import { API_ENDPOINTS } from '../config';
-import type { PaginatedResponse } from '../../../types/api';
 import type {
     Conversation,
     Message,
@@ -17,7 +16,7 @@ import type {
  * Get user's conversations
  */
 export async function getConversations(params?: { page?: number; limit?: number }) {
-    return api.get<PaginatedResponse<Conversation>>(API_ENDPOINTS.MESSAGES.CONVERSATIONS, params);
+    return api.get<Conversation[]>(API_ENDPOINTS.MESSAGES.CONVERSATIONS, params);
 }
 
 /**
@@ -31,7 +30,7 @@ export async function startConversation(data: StartConversationRequest) {
  * Get messages in a conversation
  */
 export async function getMessages(conversationId: string, params?: { page?: number; limit?: number }) {
-    return api.get<PaginatedResponse<Message>>(API_ENDPOINTS.MESSAGES.CONVERSATION(conversationId), params);
+    return api.get<Message[]>(API_ENDPOINTS.MESSAGES.CONVERSATION(conversationId), params);
 }
 
 /**

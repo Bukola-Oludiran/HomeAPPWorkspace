@@ -49,13 +49,10 @@ export async function searchProperties(filters?: PropertySearchFilters): Promise
  * List all properties (for landlord)
  */
 export async function listProperties(filters?: PropertySearchFilters) {
-    const response = await api.get<PaginatedResponse<ApiPropertyResponse>>(API_ENDPOINTS.PROPERTIES.LIST, filters as Record<string, unknown>);
+    const response = await api.get<ApiPropertyResponse[]>(API_ENDPOINTS.PROPERTIES.LIST, filters as Record<string, unknown>);
     return {
         ...response,
-        data: {
-            ...response.data,
-            data: transformProperties(response.data.data || []) as unknown as PropertySummary[],
-        },
+        data: transformProperties(response.data || []) as unknown as PropertySummary[],
     };
 }
 
