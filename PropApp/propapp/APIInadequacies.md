@@ -630,12 +630,36 @@ All critical backend enhancements have been implemented. The backend now returns
 | 2026-02-06 | Property `yearBuilt` Field | ✅ **Resolved** - Added `yearBuilt` to property list responses, added `yearBuiltMin`/`yearBuiltMax` search filters |
 | 2026-02-06 | Verification Tier Inconsistency | ✅ **Resolved** - Updated `/verification/properties/:id` to use `property.verificationTier` as source of truth |
 | 2026-02-06 | Landlord Properties Insufficient Data | ✅ **Resolved** - Enhanced `/landlord/properties` to return all fields matching public `/properties` endpoint |
+| 2026-02-06 | Missing Expense Breakdown in Financials | 🔴 **Open** - `/landlord/financials` has no `expenseBreakdown` data; Expense Categories chart shows empty state |
 
 ---
 
 ## Outstanding Issues
 
-*All issues resolved as of 2026-02-06.*
+### 🔴 Missing Expense Breakdown in Landlord Financials (2026-02-06)
+
+**Frontend Feature:** Expense Categories chart on `/landlord/financials` page
+
+**Backend Gap:** The `/landlord/financials` and `/landlord/financials/summary` endpoints do not return any `expenseBreakdown` data. The response only includes:
+- `totalRevenue`, `pendingPayouts`, `availableBalance`
+- `recentTransactions[]` (payments received)
+- `revenueByProperty[]` (revenue per property)
+
+**Impact:** Medium — The Expense Categories chart on the financials page cannot display real data. Currently shows a "No expense data available" empty state.
+
+**Suggested Solution:** Add an `expenseBreakdown` array to the financial summary response:
+```json
+{
+  "expenseBreakdown": [
+    { "category": "Maintenance", "amount": 5136 },
+    { "category": "Property Tax", "amount": 3210 },
+    { "category": "Management Fees", "amount": 1926 },
+    { "category": "Insurance", "amount": 2568 }
+  ]
+}
+```
+
+Also missing: **period-over-period change percentages** for stats cards (e.g., revenue change vs last month). The `revenueChange` field exists on the landlord dashboard but not on the financials endpoint.
 
 ---
 

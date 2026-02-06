@@ -8,7 +8,7 @@ import StatsCard from '../../../components/common/StatsCard';
 import SearchInput from '../../../components/common/SearchInput';
 import { AnimatedGroup } from '../../../components/animation';
 import { landlordService } from '../../../lib/api/services/landlordService';
-import type { LandlordFinancials as LandlordFinancialsType, LandlordFinancialSummary, LandlordTransaction } from '../../../types/dashboard';
+import type { LandlordFinancials as LandlordFinancialsType, LandlordTransaction } from '../../../types/dashboard';
 
 // UI transaction type
 interface UITransaction {
@@ -80,7 +80,6 @@ export default function LandlordFinancials() {
 
     // API state
     const [financials, setFinancials] = useState<LandlordFinancialsType | null>(null);
-    const [summary, setSummary] = useState<LandlordFinancialSummary | null>(null);
     const [transactions, setTransactions] = useState<UITransaction[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -92,17 +91,16 @@ export default function LandlordFinancials() {
                 setIsLoading(true);
                 setError(null);
 
-                const [financialsRes, summaryRes, transactionsRes] = await Promise.all([
+                const [financialsRes, transactionsRes] = await Promise.all([
                     landlordService.getFinancials(),
-                    landlordService.getFinancialSummary(),
                     landlordService.getTransactions({ limit: 10 }),
                 ]);
 
-                setFinancials(financialsRes.data);
-                setSummary(summaryRes.data);
-
-                // Transform transactions
-                const txData = transactionsRes.data?.data || [];
+                const finData = financialsRes.data;
+                setFinancials(finData);
+                // Transform transactions — endpoint returns array directly or paginated { data, meta }
+                const txRaw = transactionsRes.data;
+                const txData = Array.isArray(txRaw) ? txRaw : (txRaw as unknown as { data: LandlordTransaction[] })?.data || [];
                 setTransactions(txData.map(transformTransaction));
             } catch (err) {
                 console.error('Failed to fetch financials:', err);
@@ -116,10 +114,27 @@ export default function LandlordFinancials() {
     }, [timePeriod]);
 
     // Calculate derived values from API data
-    const totalRevenue = summary?.totalRevenue || 0;
-    const totalExpenses = summary?.expenseBreakdown?.reduce((sum, e) => sum + e.amount, 0) || 0;
+    const totalRevenue = financials?.totalRevenue || 0;
+    const totalExpenses = 0; // No expense data from API yet (see APIInadequacies.md)
     const netOperatingIncome = totalRevenue - totalExpenses;
     const cashFlow = financials?.availableBalance || 0;
+
+    // Revenue by property (sorted by revenue descending, excluding zero-revenue)
+    const revenueByProperty = (financials?.revenueByProperty || [])
+        .filter(p => p.revenue > 0)
+        .sort((a, b) => b.revenue - a.revenue);
+    const allProperties = financials?.revenueByProperty || [];
+
+    // Revenue breakdown by transaction type from recent transactions
+    const revenueByType: Record<string, number> = {};
+    for (const tx of financials?.recentTransactions || []) {
+        const type = tx.type || 'OTHER';
+        revenueByType[type] = (revenueByType[type] || 0) + tx.amount;
+    }
+    const revenueTypeEntries = Object.entries(revenueByType).sort((a, b) => b[1] - a[1]);
+    const rentRevenue = revenueByType['RENT_PAYMENT'] || 0;
+    const otherRevenue = totalRevenue - rentRevenue;
+    const rentPercent = totalRevenue > 0 ? Math.round((rentRevenue / totalRevenue) * 100) : 0;
 
     // Filter transactions based on search and filters
     const filteredTransactions = transactions.filter(tx => {
@@ -197,7 +212,6 @@ export default function LandlordFinancials() {
                     animateValue={!isLoading}
                     numericValue={totalRevenue}
                     valuePrefix="₦"
-                    change={{ value: "+8.2%", isPositive: true }}
                 />
 
                 {/* Total Expenses */}
@@ -209,7 +223,6 @@ export default function LandlordFinancials() {
                     animateValue={!isLoading}
                     numericValue={totalExpenses}
                     valuePrefix="₦"
-                    change={{ value: "+2.4%", isPositive: false }}
                 />
 
                 {/* Net Operating Income */}
@@ -221,7 +234,6 @@ export default function LandlordFinancials() {
                     animateValue={!isLoading}
                     numericValue={netOperatingIncome}
                     valuePrefix="₦"
-                    change={{ value: "+12.5%", isPositive: true }}
                 />
 
                 {/* Cash Flow */}
@@ -250,10 +262,10 @@ export default function LandlordFinancials() {
                     <div className="flex flex-col md:flex-row items-center gap-8">
                         {/* Donut Chart */}
                         <div className="relative size-40 shrink-0">
-                            <div className="size-full rounded-full" style={{ background: 'conic-gradient(#137fec 0% 90%, #e2e8f0 90% 100%)' }}></div>
+                            <div className="size-full rounded-full" style={{ background: `conic-gradient(#137fec 0% ${rentPercent}%, #e2e8f0 ${rentPercent}% 100%)` }}></div>
                             <div className="absolute inset-4 bg-white dark:bg-[#101922] rounded-full flex flex-col items-center justify-center">
                                 <span className="text-xs text-slate-500">Total</span>
-                                <span className="text-xl font-bold text-slate-900 dark:text-white">$42.5k</span>
+                                <span className="text-xl font-bold text-slate-900 dark:text-white">{isLoading ? '...' : formatCurrency(totalRevenue)}</span>
                             </div>
                         </div>
                         {/* Legend */}
@@ -263,10 +275,10 @@ export default function LandlordFinancials() {
                                     <span className="flex items-center gap-2 font-medium text-slate-700 dark:text-slate-300">
                                         <span className="size-3 rounded-full bg-[#137fec]"></span> Rent Collected
                                     </span>
-                                    <span className="font-bold text-slate-900 dark:text-white">$38,250</span>
+                                    <span className="font-bold text-slate-900 dark:text-white">{formatCurrency(rentRevenue)}</span>
                                 </div>
                                 <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
-                                    <div className="bg-[#137fec] h-2 rounded-full" style={{ width: '90%' }}></div>
+                                    <div className="bg-[#137fec] h-2 rounded-full" style={{ width: `${rentPercent}%` }}></div>
                                 </div>
                             </div>
                             <div className="space-y-2">
@@ -274,12 +286,14 @@ export default function LandlordFinancials() {
                                     <span className="flex items-center gap-2 font-medium text-slate-700 dark:text-slate-300">
                                         <span className="size-3 rounded-full bg-slate-200 dark:bg-slate-600"></span> Other Income
                                     </span>
-                                    <span className="font-bold text-slate-900 dark:text-white">$4,250</span>
+                                    <span className="font-bold text-slate-900 dark:text-white">{formatCurrency(otherRevenue)}</span>
                                 </div>
                                 <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
-                                    <div className="bg-slate-300 dark:bg-slate-600 h-2 rounded-full" style={{ width: '10%' }}></div>
+                                    <div className="bg-slate-300 dark:bg-slate-600 h-2 rounded-full" style={{ width: `${100 - rentPercent}%` }}></div>
                                 </div>
-                                <p className="text-xs text-slate-400 pl-5">Includes late fees, pet fees, utility reimbursements</p>
+                                <p className="text-xs text-slate-400 pl-5">
+                                    {revenueTypeEntries.filter(([t]) => t !== 'RENT_PAYMENT').map(([t]) => t.replace(/_/g, ' ').toLowerCase()).join(', ') || 'Deposits, fees, and other income'}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -287,18 +301,14 @@ export default function LandlordFinancials() {
                     <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
                         <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-4">Top Performing Properties</h4>
                         <div className="space-y-4">
-                            <div className="flex items-center justify-between text-sm">
-                                <span className="text-slate-700 dark:text-slate-300">778 Sunnyvale Drive</span>
-                                <span className="font-bold text-slate-900 dark:text-white">$8,500</span>
-                            </div>
-                            <div className="flex items-center justify-between text-sm">
-                                <span className="text-slate-700 dark:text-slate-300">Downtown Loft</span>
-                                <span className="font-bold text-slate-900 dark:text-white">$5,500</span>
-                            </div>
-                            <div className="flex items-center justify-between text-sm">
-                                <span className="text-slate-700 dark:text-slate-300">5500 Highland Park</span>
-                                <span className="font-bold text-slate-900 dark:text-white">$3,200</span>
-                            </div>
+                            {revenueByProperty.length > 0 ? revenueByProperty.slice(0, 3).map((p) => (
+                                <div key={p.propertyId} className="flex items-center justify-between text-sm">
+                                    <span className="text-slate-700 dark:text-slate-300">{p.propertyName}</span>
+                                    <span className="font-bold text-slate-900 dark:text-white">{formatCurrency(p.revenue)}</span>
+                                </div>
+                            )) : (
+                                <p className="text-sm text-slate-400">No revenue data yet</p>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -311,69 +321,10 @@ export default function LandlordFinancials() {
                             <span className="material-symbols-outlined">more_horiz</span>
                         </button>
                     </div>
-                    <div className="flex flex-col md:flex-row items-center gap-8">
-                        {/* Donut Chart */}
-                        <div className="relative size-40 shrink-0">
-                            <div className="size-full rounded-full" style={{ background: 'conic-gradient(#ef4444 0% 40%, #f97316 40% 65%, #eab308 65% 80%, #e2e8f0 80% 100%)' }}></div>
-                            <div className="absolute inset-4 bg-white dark:bg-[#101922] rounded-full flex flex-col items-center justify-center">
-                                <span className="text-xs text-slate-500">Total</span>
-                                <span className="text-xl font-bold text-slate-900 dark:text-white">$12.8k</span>
-                            </div>
-                        </div>
-                        {/* Legend */}
-                        <div className="w-full space-y-3">
-                            <div className="flex justify-between items-center text-sm group">
-                                <span className="flex items-center gap-2 text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
-                                    <span className="size-2.5 rounded-full bg-red-500"></span> Maintenance
-                                </span>
-                                <span className="font-bold text-slate-900 dark:text-white">$5,136 (40%)</span>
-                            </div>
-                            <div className="flex justify-between items-center text-sm group">
-                                <span className="flex items-center gap-2 text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
-                                    <span className="size-2.5 rounded-full bg-orange-500"></span> Prop. Taxes
-                                </span>
-                                <span className="font-bold text-slate-900 dark:text-white">$3,210 (25%)</span>
-                            </div>
-                            <div className="flex justify-between items-center text-sm group">
-                                <span className="flex items-center gap-2 text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
-                                    <span className="size-2.5 rounded-full bg-yellow-500"></span> Management
-                                </span>
-                                <span className="font-bold text-slate-900 dark:text-white">$1,926 (15%)</span>
-                            </div>
-                            <div className="flex justify-between items-center text-sm group">
-                                <span className="flex items-center gap-2 text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
-                                    <span className="size-2.5 rounded-full bg-slate-300 dark:bg-slate-600"></span> Others
-                                </span>
-                                <span className="font-bold text-slate-900 dark:text-white">$2,568 (20%)</span>
-                            </div>
-                        </div>
-                    </div>
-                    {/* Breakdown by Property */}
-                    <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
-                        <div className="flex justify-between items-center mb-4">
-                            <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wide">Breakdown by Property</h4>
-                            <Link to="/landlord/transactions" className="text-xs text-[#137fec] font-bold hover:underline">View All</Link>
-                        </div>
-                        <div className="space-y-4">
-                            <div>
-                                <div className="flex justify-between text-xs mb-1">
-                                    <span className="text-slate-700 dark:text-slate-300 font-medium">Downtown Loft</span>
-                                    <span className="text-slate-900 dark:text-white font-bold">$3,200</span>
-                                </div>
-                                <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5">
-                                    <div className="bg-red-400 h-1.5 rounded-full" style={{ width: '65%' }}></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div className="flex justify-between text-xs mb-1">
-                                    <span className="text-slate-700 dark:text-slate-300 font-medium">1243 Oakwood</span>
-                                    <span className="text-slate-900 dark:text-white font-bold">$1,450</span>
-                                </div>
-                                <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5">
-                                    <div className="bg-red-400 h-1.5 rounded-full" style={{ width: '35%' }}></div>
-                                </div>
-                            </div>
-                        </div>
+                    <div className="flex flex-col items-center justify-center py-12 text-center">
+                        <span className="material-symbols-outlined text-[48px] text-slate-300 dark:text-slate-600 mb-4">receipt_long</span>
+                        <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">No expense data available</p>
+                        <p className="text-xs text-slate-400 dark:text-slate-500">Expense tracking will appear here once the backend supports expense categorization.</p>
                     </div>
                 </div>
             </div>
@@ -400,8 +351,9 @@ export default function LandlordFinancials() {
                             onChange={(e) => setPropertyFilter(e.target.value)}
                         >
                             <option value="all">All Properties</option>
-                            <option value="highland">5500 Highland Park</option>
-                            <option value="oakwood">1243 Oakwood Avenue</option>
+                            {allProperties.map(p => (
+                                <option key={p.propertyId} value={p.propertyName}>{p.propertyName}</option>
+                            ))}
                         </select>
                         {/* Category Filter */}
                         <select
@@ -410,9 +362,9 @@ export default function LandlordFinancials() {
                             onChange={(e) => setCategoryFilter(e.target.value)}
                         >
                             <option value="all">All Categories</option>
-                            <option value="rent">Rent</option>
-                            <option value="maintenance">Maintenance</option>
-                            <option value="utilities">Utilities</option>
+                            {revenueTypeEntries.map(([type]) => (
+                                <option key={type} value={type.toLowerCase()}>{type.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase())}</option>
+                            ))}
                         </select>
                         {/* Date Button */}
                         <button className="px-3 py-1.5 bg-white dark:bg-[#101922] border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-300 hover:border-[#137fec] hover:text-[#137fec] transition-colors flex items-center gap-1 text-sm font-medium">

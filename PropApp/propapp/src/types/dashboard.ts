@@ -37,26 +37,30 @@ export interface LandlordPropertySummary {
 }
 
 export interface LandlordFinancials {
+    totalRevenue: number;
+    pendingPayouts: number;
     availableBalance: number;
-    pendingBalance: number;
-    totalReceived: number;
-    totalWithdrawn: number;
     recentTransactions: LandlordTransaction[];
+    revenueByProperty: Array<{ propertyId: string; propertyName: string; revenue: number }>;
 }
 
 export interface LandlordFinancialSummary {
     totalRevenue: number;
-    revenueByMonth: Array<{ month: string; amount: number }>;
-    revenueByProperty: Array<{ propertyId: string; propertyName: string; amount: number }>;
-    expenseBreakdown: Array<{ category: string; amount: number }>;
+    pendingPayouts: number;
+    availableBalance: number;
+    recentTransactions: LandlordTransaction[];
+    revenueByProperty: Array<{ propertyId: string; propertyName: string; revenue: number }>;
+    revenueByMonth?: Array<{ month: string; amount: number }>;
+    expenseBreakdown?: Array<{ category: string; amount: number }>;
 }
 
 export interface LandlordTransaction {
     id: string;
     type: string;
     amount: number;
-    currency: string;
+    currency?: string;
     status: string;
+    propertyId?: string;
     propertyName?: string;
     tenantName?: string;
     createdAt: string;
