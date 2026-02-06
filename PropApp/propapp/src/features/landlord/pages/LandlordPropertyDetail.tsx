@@ -127,7 +127,7 @@ function transformToUIProperty(
         name: property.name,
         address: formatAddress(property.address),
         targetRent: formatCurrency(property.price, property.currency),
-        marketComparison: marketComparison ? `${marketComparison.pricePercentile > 50 ? '+' : ''}${(marketComparison.pricePercentile - 50).toFixed(0)}%` : 'N/A',
+        marketComparison: marketComparison?.marketAnalysis ? `${marketComparison.marketAnalysis.percentile > 50 ? '+' : ''}${(marketComparison.marketAnalysis.percentile - 50).toFixed(0)}%` : 'N/A',
         status: getStatusLabel(property.status),
         onlineDays: getDaysOnline(property.createdAt),
         verified: getVerificationLabel(property.verificationTier),
@@ -161,11 +161,8 @@ function transformToUIProperty(
                 icon: 'trending_up',
                 iconColor: 'text-green-500',
                 title: 'Market Analysis:',
-                text: typeof marketComparison?.recommendation === 'string'
-                    ? marketComparison.recommendation
-                    : marketComparison?.recommendation
-                        ? (marketComparison.recommendation as unknown as { action?: string }).action || 'Market data available.'
-                        : 'Market data will be available soon.',
+                text: marketComparison?.recommendation?.potentialImpact
+                    || 'Market data will be available soon.',
             },
             {
                 icon: 'calendar_clock',
@@ -244,7 +241,7 @@ export default function LandlordPropertyDetail() {
                 const propertyData = propertyResponse.status === 'fulfilled' ? propertyResponse.value.data : null;
                 const analytics = analyticsResponse.status === 'fulfilled' ? analyticsResponse.value.data : undefined;
                 const applicantsCount = applicantsResponse.status === 'fulfilled'
-                    ? (applicantsResponse.value.data?.pagination?.total || 0)
+                    ? (applicantsResponse.value.data?.length || 0)
                     : 0;
 
                 if (propertyData) {

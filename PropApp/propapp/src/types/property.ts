@@ -232,11 +232,27 @@ export interface PropertyViewAnalytics {
 }
 
 export interface PropertyMarketComparison {
-    averagePrice: number;
-    pricePerSqm: number;
-    similarProperties: number;
-    pricePercentile: number;
-    recommendation: string;
+    propertyId: string;
+    propertyPrice: number;
+    priceUnit: string;
+    marketAnalysis: {
+        areaName: string;
+        propertyType: string;
+        bedrooms: number;
+        sampleSize: number;
+        averagePrice: number;
+        medianPrice: number;
+        minPrice: number;
+        maxPrice: number;
+        percentile: number;
+        competitiveness: string;
+    };
+    recommendation: {
+        action: string;
+        suggestedPrice: number;
+        potentialImpact: string;
+        confidence: number;
+    };
 }
 
 export interface PropertyPriceOptimization {
