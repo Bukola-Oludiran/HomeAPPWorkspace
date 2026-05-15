@@ -16,6 +16,7 @@ export const PropertyTypeEnum = z.enum([
     'BUNGALOW',
     'STUDIO',
     'PENTHOUSE',
+    'TOWNHOUSE',
     'LAND',
     'COMMERCIAL',
     'OFFICE',
@@ -31,6 +32,7 @@ export const PropertyStatusEnum = z.enum([
     'ACTIVE',
     'RENTED',
     'SOLD',
+    'INACTIVE',
     'DELISTED',
 ]);
 

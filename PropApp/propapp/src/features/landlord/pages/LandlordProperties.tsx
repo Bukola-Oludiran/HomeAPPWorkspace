@@ -48,8 +48,12 @@ function getStatusInfo(status: string, listingType: string): { label: string; co
             return { label: 'Vacant', color: 'bg-amber-500' };
         case 'DRAFT':
             return { label: 'Onboarding', color: 'bg-orange-500' };
+        case 'PENDING_REVIEW':
+            return { label: 'Under Review', color: 'bg-yellow-500' };
         case 'INACTIVE':
             return { label: 'Inactive', color: 'bg-slate-500' };
+        case 'DELISTED':
+            return { label: 'Delisted', color: 'bg-rose-500' };
         default:
             return { label: status, color: 'bg-slate-500' };
     }

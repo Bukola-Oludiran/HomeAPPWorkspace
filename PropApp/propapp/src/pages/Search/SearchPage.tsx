@@ -9,7 +9,7 @@ const propertyTypeMap: Record<string, PropertyType> = {
     'House': 'HOUSE',
     'Apartment': 'APARTMENT',
     'Condo': 'DUPLEX', // Using DUPLEX as condo equivalent
-    'Townhouse': 'TERRACE',
+    'Townhouse': 'TOWNHOUSE',
     'Land': 'LAND',
     'Commercial': 'COMMERCIAL',
 };

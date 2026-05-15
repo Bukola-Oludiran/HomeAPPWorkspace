@@ -636,11 +636,11 @@ export default function PropertyWizard() {
     });
 
     function buildPropertyPayload() {
-        const propertyTypeMap: Record<string, 'APARTMENT' | 'HOUSE' | 'DUPLEX' | 'STUDIO' | 'TERRACE'> = {
+        const propertyTypeMap: Record<string, 'APARTMENT' | 'HOUSE' | 'DUPLEX' | 'STUDIO' | 'TOWNHOUSE'> = {
             'Apartment': 'APARTMENT',
             'House': 'HOUSE',
             'Condo': 'APARTMENT',
-            'Townhouse': 'TERRACE',
+            'Townhouse': 'TOWNHOUSE',
         };
         const priceUnitMap: Record<string, 'PER_YEAR' | 'PER_MONTH' | 'TOTAL'> = {
             'Per Year': 'PER_YEAR',

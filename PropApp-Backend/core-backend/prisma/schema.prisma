@@ -503,6 +503,7 @@ enum PropertyType {
   BUNGALOW
   STUDIO
   PENTHOUSE
+  TOWNHOUSE
   LAND
   COMMERCIAL
   OFFICE
@@ -535,6 +536,7 @@ enum PropertyStatus {
   ACTIVE
   RENTED
   SOLD
+  INACTIVE
   DELISTED
 }
 

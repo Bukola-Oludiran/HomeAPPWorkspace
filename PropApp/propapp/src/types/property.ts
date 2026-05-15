@@ -13,22 +13,29 @@ export type PropertyType =
     | 'BUNGALOW'
     | 'PENTHOUSE'
     | 'STUDIO'
-    | 'MAISONETTE'
-    | 'TERRACE'
+    | 'TOWNHOUSE'
     | 'COMMERCIAL'
+    | 'OFFICE'
     | 'LAND';
 
 // Listing types
 export type ListingType = 'RENT' | 'SALE' | 'SHORT_LET';
 
 // Property status
-export type PropertyStatus = 'DRAFT' | 'ACTIVE' | 'RENTED' | 'SOLD' | 'INACTIVE';
+export type PropertyStatus =
+    | 'DRAFT'
+    | 'PENDING_REVIEW'
+    | 'ACTIVE'
+    | 'RENTED'
+    | 'SOLD'
+    | 'INACTIVE'
+    | 'DELISTED';
 
 // Price units
-export type PriceUnit = 'PER_MONTH' | 'PER_YEAR' | 'TOTAL';
+export type PriceUnit = 'PER_MONTH' | 'PER_YEAR' | 'TOTAL' | 'PER_NIGHT';
 
 // Verification tiers
-export type VerificationTier = 'BRONZE' | 'SILVER' | 'GOLD' | 'PLATINUM';
+export type VerificationTier = 'UNVERIFIED' | 'BRONZE' | 'SILVER' | 'GOLD' | 'PLATINUM';
 
 // Media types
 export type PropertyMediaType = 'IMAGE' | 'VIDEO' | 'TOUR_3D' | 'FLOOR_PLAN' | 'DOCUMENT';
