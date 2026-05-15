@@ -41,7 +41,7 @@ function getCategoryStyle(category: MaintenanceCategory): { icon: string; bg: st
         PLUMBING: { icon: 'plumbing', bg: 'bg-amber-100 dark:bg-amber-900/30', color: 'text-amber-600 dark:text-amber-500', label: 'Plumbing' },
         ELECTRICAL: { icon: 'lightbulb', bg: 'bg-green-100 dark:bg-green-900/30', color: 'text-green-600 dark:text-green-400', label: 'Electrical' },
         HVAC: { icon: 'hvac', bg: 'bg-purple-100 dark:bg-purple-900/30', color: 'text-purple-600 dark:text-purple-400', label: 'HVAC' },
-        APPLIANCES: { icon: 'kitchen', bg: 'bg-blue-100 dark:bg-blue-900/30', color: 'text-blue-600 dark:text-blue-400', label: 'Appliance' },
+        APPLIANCE: { icon: 'kitchen', bg: 'bg-blue-100 dark:bg-blue-900/30', color: 'text-blue-600 dark:text-blue-400', label: 'Appliance' },
         STRUCTURAL: { icon: 'foundation', bg: 'bg-slate-100 dark:bg-slate-900/30', color: 'text-slate-600 dark:text-slate-400', label: 'Structural' },
         PEST_CONTROL: { icon: 'pest_control', bg: 'bg-orange-100 dark:bg-orange-900/30', color: 'text-orange-600 dark:text-orange-400', label: 'Pest Control' },
         CLEANING: { icon: 'cleaning_services', bg: 'bg-cyan-100 dark:bg-cyan-900/30', color: 'text-cyan-600 dark:text-cyan-400', label: 'Cleaning' },

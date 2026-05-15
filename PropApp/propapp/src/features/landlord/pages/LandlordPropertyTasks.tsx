@@ -6,7 +6,7 @@ import type { MaintenanceRequest } from '../../../types/lease';
 function getCategoryIcon(category: string): string {
     const map: Record<string, string> = {
         PLUMBING: 'plumbing', ELECTRICAL: 'electrical_services', HVAC: 'ac_unit',
-        APPLIANCES: 'kitchen', STRUCTURAL: 'foundation', PEST_CONTROL: 'pest_control',
+        APPLIANCE: 'kitchen', STRUCTURAL: 'foundation', PEST_CONTROL: 'pest_control',
         CLEANING: 'cleaning_services', SECURITY: 'security', OTHER: 'build',
     };
     return map[category] || 'build';

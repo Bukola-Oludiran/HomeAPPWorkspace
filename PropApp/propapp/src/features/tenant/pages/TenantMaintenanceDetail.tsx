@@ -55,7 +55,7 @@ function getCategoryInfo(category: MaintenanceCategory): { label: string; icon: 
         PLUMBING: { label: 'Plumbing', icon: 'plumbing' },
         ELECTRICAL: { label: 'Electrical', icon: 'lightbulb' },
         HVAC: { label: 'HVAC', icon: 'hvac' },
-        APPLIANCES: { label: 'Appliance', icon: 'kitchen' },
+        APPLIANCE: { label: 'Appliance', icon: 'kitchen' },
         STRUCTURAL: { label: 'Structural', icon: 'foundation' },
         PEST_CONTROL: { label: 'Pest Control', icon: 'pest_control' },
         CLEANING: { label: 'Cleaning', icon: 'cleaning_services' },

@@ -59,7 +59,7 @@ function getCategoryIcon(category: MaintenanceCategory): string {
         PLUMBING: 'plumbing',
         ELECTRICAL: 'lightbulb',
         HVAC: 'hvac',
-        APPLIANCES: 'kitchen',
+        APPLIANCE: 'kitchen',
         STRUCTURAL: 'foundation',
         PEST_CONTROL: 'pest_control',
         CLEANING: 'cleaning_services',
