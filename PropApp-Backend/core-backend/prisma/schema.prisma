@@ -6,8 +6,16 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  // Runtime: pooled connection (Neon pgbouncer endpoint, hostname
+  // ends with `-pooler.<region>.aws.neon.tech`). Safe for serverless
+  // / many short-lived queries.
+  url       = env("DATABASE_URL")
+  // Migrations + introspection: direct (non-pooled) connection.
+  // Required for `prisma migrate` / `prisma db pull`, which need
+  // session-level features that the pooler in transaction mode
+  // does not support.
+  directUrl = env("DIRECT_URL")
 }
 
 // ============================================
