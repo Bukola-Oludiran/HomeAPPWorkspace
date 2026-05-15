@@ -245,27 +245,15 @@ export interface MaintenanceRequest {
     updatedAt: string;
 }
 
-// Create maintenance request
-export interface CreateMaintenanceRequest {
-    leaseId: string;
-    title: string;
-    description: string;
-    category: MaintenanceCategory;
-    priority: MaintenancePriority;
-    images?: string[];
-}
-
-// Update maintenance request
-export interface UpdateMaintenanceRequest {
-    status?: MaintenanceStatus;
-    priority?: MaintenancePriority;
-    notes?: string;
-}
-
-// Assign agent request
-export interface AssignMaintenanceAgentRequest {
-    agentId: string;
-}
+// Maintenance request shapes are re-exported from @homeai/contracts.
+// Wire-shape uses `urgency` + `propertyId`; see contracts/maintenance.contract.ts
+// for the in-flight drift notes around `urgency` vs `priority` and casing.
+export type {
+    CreateMaintenanceRequest,
+    UpdateMaintenanceRequest,
+    AssignMaintenanceAgentRequest,
+    MaintenanceQueryRequest,
+} from '@homeai/contracts/maintenance.contract';
 
 // Maintenance filters
 export interface MaintenanceFilters extends PaginationParams {
@@ -357,20 +345,13 @@ export interface BankAccount {
     createdAt: string;
 }
 
-// Add bank account request
-export interface AddBankAccountRequest {
-    bankCode: string;
-    accountNumber: string;
-    accountName: string;
-    accountType: 'savings' | 'current';
-    setAsDefault?: boolean;
-}
-
-// Resolve bank account request
-export interface ResolveBankAccountRequest {
-    bankCode: string;
-    accountNumber: string;
-}
+// Banking request shapes are re-exported from @homeai/contracts.
+export type {
+    AddBankAccountRequest,
+    ResolveBankAccountRequest,
+    UpdatePayoutSettingsRequest,
+    RequestPayoutRequest,
+} from '@homeai/contracts/banking.contract';
 
 // Resolve bank account response
 export interface ResolveBankAccountResponse {
@@ -393,12 +374,7 @@ export interface Payout {
     completedAt?: string;
 }
 
-// Request payout
-export interface RequestPayoutRequest {
-    amount: number;
-    bankAccountId: string;
-    description?: string;
-}
+// `RequestPayoutRequest` is re-exported above from @homeai/contracts.
 
 // Payout settings
 export interface PayoutSettings {

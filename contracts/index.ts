@@ -6,10 +6,10 @@
  *   [x] auth.contract.ts          — request schemas + inferred types
  *   [x] property.contract.ts      — request schemas + inferred types
  *   [x] lease.contract.ts         — request schemas + inferred types
- *   [ ] maintenance.contract.ts
- *   [ ] transactions.contract.ts
- *   [ ] verification.contract.ts
- *   [ ] banking.contract.ts
+ *   [x] maintenance.contract.ts   — request schemas + inferred types
+ *   [x] transactions.contract.ts  — request schemas + inferred types
+ *   [x] verification.contract.ts  — request schemas + inferred types
+ *   [x] banking.contract.ts       — request schemas + inferred types
  *
  * Prefer importing the specific module for IDE auto-import clarity:
  *   import type { ApiResponse } from '@homeai/contracts/envelope';
