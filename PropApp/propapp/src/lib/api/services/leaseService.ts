@@ -11,6 +11,7 @@ import type {
     UpdateLeaseRequest,
     SendRenewalOfferRequest,
     SignLeaseRequest,
+    RespondToRenewalRequest,
     GenerateLeaseDocumentRequest,
 } from '../../../types/lease';
 
@@ -50,10 +51,11 @@ export async function sendRenewalOffer(id: string, data: SendRenewalOfferRequest
 }
 
 /**
- * Respond to a renewal offer (Tenant)
+ * Respond to a renewal offer (Tenant). Backend field name is `accept`,
+ * not `accepted`; see contracts/lease.contract.ts:respondToRenewalSchema.
  */
-export async function respondToRenewal(id: string, accepted: boolean) {
-    return api.post<{ message: string }>(API_ENDPOINTS.LEASES.RESPOND(id), { accepted });
+export async function respondToRenewal(id: string, data: RespondToRenewalRequest) {
+    return api.post<{ message: string }>(API_ENDPOINTS.LEASES.RESPOND(id), data);
 }
 
 /**

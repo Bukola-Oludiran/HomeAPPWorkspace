@@ -7,13 +7,11 @@ import type { PropertySummary } from './property';
 import type { User } from './auth';
 import type { PaginationParams } from './api';
 
-// Lease status
-export type LeaseStatus =
-    | 'PENDING'
-    | 'ACTIVE'
-    | 'EXPIRED'
-    | 'TERMINATED'
-    | 'RENEWED';
+// Lease status — sourced from @homeai/contracts/enums (the canonical
+// value list also drives backend zod). Was previously missing DRAFT +
+// PENDING_SIGNATURES and had a wrongly-named `PENDING`.
+import type { LeaseStatus } from '@homeai/contracts/enums';
+export type { LeaseStatus };
 
 // Renewal status
 export type RenewalStatus =
@@ -61,37 +59,19 @@ export interface RenewalOffer {
     respondedAt?: string;
 }
 
-// Create lease request
-export interface CreateLeaseRequest {
-    propertyId: string;
-    tenantId: string;
-    startDate: string;
-    endDate: string;
-    monthlyRent: number;
-    securityDeposit: number;
-    paymentDueDay: number;
-    terms?: string;
-}
-
-// Update lease request
-export interface UpdateLeaseRequest {
-    monthlyRent?: number;
-    endDate?: string;
-    terms?: string;
-}
-
-// Renewal offer request
-export interface SendRenewalOfferRequest {
-    newEndDate: string;
-    newMonthlyRent: number;
-    message?: string;
-}
-
-// Sign lease request
-export interface SignLeaseRequest {
-    signature: string;
-    signedAt: string;
-}
+// ============================================
+// REQUEST TYPES — re-exported from @homeai/contracts
+// ============================================
+export type {
+    CreateLeaseRequest,
+    UpdateLeaseRequest,
+    UpdateLeaseStatusRequest,
+    SendRenewalOfferRequest,
+    RespondToRenewalRequest,
+    SignLeaseRequest,
+    CreateLeaseTermsInput,
+    UpdateLeaseTermsInput,
+} from '@homeai/contracts/lease.contract';
 
 // Generate lease document request
 export interface GenerateLeaseDocumentRequest {

@@ -55,7 +55,7 @@ export default function LandlordEditLeaseTerms() {
             await leaseService.updateLease(id, {
                 monthlyRent: parseFloat(monthlyRent) || undefined,
                 endDate: leaseEnd || undefined,
-                terms: additionalTerms || undefined,
+                terms: additionalTerms ? { additionalTerms } : undefined,
             });
             navigate(`/landlord/leases/${id}`);
         } catch (err) {

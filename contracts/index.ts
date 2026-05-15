@@ -5,7 +5,7 @@
  * Migration progress (Stage 2.2):
  *   [x] auth.contract.ts          — request schemas + inferred types
  *   [x] property.contract.ts      — request schemas + inferred types
- *   [ ] lease.contract.ts
+ *   [x] lease.contract.ts         — request schemas + inferred types
  *   [ ] maintenance.contract.ts
  *   [ ] transactions.contract.ts
  *   [ ] verification.contract.ts
