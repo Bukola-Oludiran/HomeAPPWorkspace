@@ -122,7 +122,7 @@ export interface Property {
     bathrooms: number;
     toilets?: number;
     parkingSpaces?: number;
-    squareMeters?: number;
+    squareFeet?: number;
     yearBuilt?: number;
     address: PropertyAddress;
     amenities: Amenity[];
@@ -151,7 +151,7 @@ export interface PropertySummary {
     currency: string;
     bedrooms: number;
     bathrooms: number;
-    squareMeters?: number;
+    squareFeet?: number;
     address: Pick<PropertyAddress, 'street' | 'city' | 'state' | 'neighborhood'>;
     primaryImage?: string;
     verificationTier?: VerificationTier;
@@ -197,7 +197,7 @@ export interface CreatePropertyRequest {
     bathrooms: number;
     toilets?: number;
     parkingSpaces?: number;
-    squareMeters?: number;
+    squareFeet?: number;
     yearBuilt?: number;
     addressStreet: string;
     addressCity: string;

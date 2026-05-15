@@ -145,7 +145,7 @@ function transformApplication(app: RentalApplication): UIApplication {
         image: property?.primaryImage || PLACEHOLDER_IMAGE,
         beds: property?.bedrooms === 0 ? 'Studio' : (property?.bedrooms || 0),
         baths: property?.bathrooms || 0,
-        sqft: property?.squareMeters?.toLocaleString() || 'N/A',
+        sqft: property?.squareFeet?.toLocaleString() || 'N/A',
         price: property ? `${formatCurrency(property.price, property.currency)}/mo` : 'N/A',
         status: statusStyles.label,
         statusColor: statusStyles.color,

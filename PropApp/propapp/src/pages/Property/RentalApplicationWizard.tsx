@@ -61,7 +61,7 @@ export default function RentalApplicationWizard() {
                 if (propRes?.data) {
                     const p = propRes.data;
                     const addr = p.address || {};
-                    const sqm = p.squareMeters || 0;
+                    const sqm = p.squareFeet || 0;
                     setPropertyData({
                         id: p.id || id || '',
                         name: p.name || '',

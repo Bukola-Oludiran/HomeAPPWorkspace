@@ -28,10 +28,9 @@ const formatPriceFull = (price: number, currency = 'USD'): string => {
     return `${currency === 'NGN' ? '₦' : '$'}${price.toLocaleString()}`;
 };
 
-// Helper to format square meters to sqft display
-const formatSqft = (sqm?: number): string => {
-    if (!sqm) return 'N/A';
-    const sqft = Math.round(sqm * 10.764); // Convert sqm to sqft
+// Helper to format square feet for display (compact for >= 1000)
+const formatSqft = (sqft?: number): string => {
+    if (!sqft) return 'N/A';
     if (sqft >= 1000) {
         return `${(sqft / 1000).toFixed(1)}k`;
     }
@@ -908,10 +907,10 @@ export default function SearchPage() {
                                                         <span className="material-symbols-outlined text-[18px]">bathtub</span>
                                                         {property.bathrooms}
                                                     </span>
-                                                    {property.squareMeters && (
+                                                    {property.squareFeet && (
                                                         <span className="flex items-center gap-1.5">
                                                             <span className="material-symbols-outlined text-[18px]">square_foot</span>
-                                                            {formatSqft(property.squareMeters)}
+                                                            {formatSqft(property.squareFeet)}
                                                         </span>
                                                     )}
                                                 </div>

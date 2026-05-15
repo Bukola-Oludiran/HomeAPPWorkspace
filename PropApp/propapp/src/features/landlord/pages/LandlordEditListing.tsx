@@ -20,7 +20,7 @@ export default function LandlordEditListing() {
     const [address, setAddress] = useState('');
     const [bedrooms, setBedrooms] = useState(0);
     const [bathrooms, setBathrooms] = useState(0);
-    const [squareMeters, setSquareMeters] = useState(0);
+    const [squareFeet, setSquareMeters] = useState(0);
     const [price, setPrice] = useState('');
 
     useEffect(() => {
@@ -36,7 +36,7 @@ export default function LandlordEditListing() {
                 setAddress(data.address ? `${data.address.street || ''}, ${data.address.city || ''}, ${data.address.state || ''}` : '');
                 setBedrooms(data.bedrooms || 0);
                 setBathrooms(data.bathrooms || 0);
-                setSquareMeters(data.squareMeters || 0);
+                setSquareMeters(data.squareFeet || 0);
                 setPrice(data.price?.toString() || '');
                 setIsPublished(data.status === 'ACTIVE');
             } catch (err) {
@@ -57,7 +57,7 @@ export default function LandlordEditListing() {
                 description,
                 bedrooms,
                 bathrooms,
-                squareMeters: squareMeters || undefined,
+                squareFeet: squareFeet || undefined,
                 price: parseFloat(price) || undefined,
                 status: isPublished ? 'ACTIVE' : 'DRAFT',
             });
@@ -206,7 +206,7 @@ export default function LandlordEditListing() {
                             </div>
                             <div>
                                 <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Square Footage</label>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] px-4 py-3" type="number" value={squareMeters} onChange={(e) => setSquareMeters(parseInt(e.target.value) || 0)} />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] px-4 py-3" type="number" value={squareFeet} onChange={(e) => setSquareMeters(parseInt(e.target.value) || 0)} />
                             </div>
                         </div>
                     </div>

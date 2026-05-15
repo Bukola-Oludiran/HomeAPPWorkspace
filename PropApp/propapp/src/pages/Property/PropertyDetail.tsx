@@ -159,7 +159,7 @@ export default function PropertyDetail() {
     const priceDisplay = formatPrice(property.price, property.currency);
     const typeLabel = getTypeLabel(property.listingType);
     const fullAddress = `${property.address.street}, ${property.address.city}, ${property.address.state}`;
-    const sqft = property.squareMeters ? Math.round(property.squareMeters * 10.764).toLocaleString() : 'N/A';
+    const sqft = property.squareFeet ? property.squareFeet.toLocaleString() : 'N/A';
 
     return (
         <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex flex-col font-[Manrope,Noto_Sans,sans-serif] text-slate-900 dark:text-white overflow-x-hidden pb-[140px]">

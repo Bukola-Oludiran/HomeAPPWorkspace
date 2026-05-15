@@ -22,10 +22,10 @@ function formatCurrency(amount: number, currency: string = 'NGN'): string {
     }).format(amount);
 }
 
-// Helper to format square meters
-function formatSquareMeters(sqm?: number): string {
-    if (!sqm) return 'N/A';
-    return sqm.toLocaleString();
+// Helper to format square feet for display
+function formatSquareFeet(sqft?: number): string {
+    if (!sqft) return 'N/A';
+    return sqft.toLocaleString();
 }
 
 // Helper to get price type suffix based on listing type
@@ -77,7 +77,7 @@ function transformProperty(property: PropertySummary): RegularProperty {
         unit: (property.propertyType || '').replace('_', ' '),
         beds: property.bedrooms,
         baths: property.bathrooms,
-        sqft: formatSquareMeters(property.squareMeters),
+        sqft: formatSquareFeet(property.squareFeet),
         price: formatCurrency(property.price, property.currency),
         priceType: getPriceType(property.listingType, property.priceUnit),
         status: statusInfo.label,

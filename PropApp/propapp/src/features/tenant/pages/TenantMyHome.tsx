@@ -151,7 +151,7 @@ export default function TenantMyHome() {
                             location: `${data.property.address?.city || ''}, ${data.property.address?.state || ''} • Unit`,
                             beds: data.property.bedrooms,
                             baths: data.property.bathrooms,
-                            sqft: data.property.squareMeters ? `${data.property.squareMeters}` : 'N/A',
+                            sqft: data.property.squareFeet ? `${data.property.squareFeet}` : 'N/A',
                             rent: formatCurrency(data.lease.monthlyRent),
                             image: data.property.primaryImage || defaultHomeData.property.image,
                             verified: data.property.isVerified || false,

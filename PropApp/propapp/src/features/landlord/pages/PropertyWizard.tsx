@@ -450,7 +450,7 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div>
-                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Property Size (sqm)</label>
+                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Property Size (sqft)</label>
                             <input
                                 className="w-full bg-slate-50 dark:bg-[#101922] border border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] text-slate-900 dark:text-white outline-none font-medium"
                                 placeholder="e.g. 1500"
@@ -656,7 +656,7 @@ export default function PropertyWizard() {
             priceUnit: priceUnitMap[formData.leaseDuration] || 'PER_YEAR' as const,
             bedrooms: parseInt(formData.beds) || 0,
             bathrooms: parseInt(formData.baths) || 0,
-            squareMeters: parseFloat(formData.sqft) || undefined,
+            squareFeet: parseFloat(formData.sqft) || undefined,
             addressStreet: formData.address,
             addressCity: '',
             addressState: '',

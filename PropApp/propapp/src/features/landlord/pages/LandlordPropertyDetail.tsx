@@ -137,7 +137,7 @@ function transformToUIProperty(
         photoCount: property.media?.length || 0,
         beds: property.bedrooms,
         baths: property.bathrooms,
-        sqft: property.squareMeters?.toLocaleString() || 'N/A',
+        sqft: property.squareFeet?.toLocaleString() || 'N/A',
         yearBuilt: property.yearBuilt || new Date().getFullYear(),
         metrics: {
             views: analytics?.totalViews || property.viewCount || 0,

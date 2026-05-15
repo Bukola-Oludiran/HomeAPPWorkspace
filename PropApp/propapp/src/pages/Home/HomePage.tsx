@@ -335,10 +335,10 @@ export default function HomePage() {
                                                             <span className="material-symbols-outlined text-[18px]">bathtub</span>
                                                             {property.bathrooms} Baths
                                                         </span>
-                                                        {property.squareMeters && (
+                                                        {property.squareFeet && (
                                                             <span className="flex items-center gap-1.5">
                                                                 <span className="material-symbols-outlined text-[18px]">square_foot</span>
-                                                                {property.squareMeters} m²
+                                                                {property.squareFeet.toLocaleString()} sqft
                                                             </span>
                                                         )}
                                                     </div>

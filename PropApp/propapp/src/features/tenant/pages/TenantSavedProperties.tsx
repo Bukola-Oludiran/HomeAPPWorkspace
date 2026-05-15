@@ -63,7 +63,7 @@ function transformSavedProperty(property: PropertySummary): UISavedProperty {
         type: getListingTypeLabel(property.listingType),
         beds: property.bedrooms === 0 ? 'Studio' : `${property.bedrooms} Bed${property.bedrooms > 1 ? 's' : ''}`,
         baths: `${property.bathrooms} Bath${property.bathrooms > 1 ? 's' : ''}`,
-        sqft: property.squareMeters ? `${property.squareMeters.toLocaleString()} sqm` : 'N/A',
+        sqft: property.squareFeet ? `${property.squareFeet.toLocaleString()} sqft` : 'N/A',
         isVerified: property.isVerified,
         availability: property.status === 'ACTIVE' ? 'Available Now' : 'Not Available',
     };
