@@ -15,6 +15,7 @@
  */
 
 import { z } from 'zod';
+import type { UserRole, VerificationLevel } from './enums';
 
 // ============================================
 // SUB-ENUMS (auth-local subset of UserRole that
@@ -150,3 +151,54 @@ export type ForgotPasswordDto = z.infer<typeof forgotPasswordSchema>;
 export type ResetPasswordDto = z.infer<typeof resetPasswordSchema>;
 export type Verify2FADto = z.infer<typeof verify2FASchema>;
 export type Disable2FADto = z.infer<typeof disable2FASchema>;
+
+// ============================================
+// RESPONSE / WIRE TYPES
+//
+// What every auth-returning endpoint actually carries on the wire after
+// the backend runs `serializeAuthUser()`. The frontend `User` interface
+// re-exports `WireAuthUser` so a single shape drives both sides — the
+// plan section (D) gap is closed.
+// ============================================
+
+export interface AuthTokens {
+    accessToken: string;
+    refreshToken: string;
+    /** Seconds-until-expiry for the access token. */
+    expiresIn: number;
+}
+
+/**
+ * Full user wire shape — sent back on `login`, `register/complete`,
+ * `login/oauth/:provider`, and `users/me`. Nullables mirror the Prisma
+ * row; the frontend handles them with `|| ''` fallbacks at render time.
+ */
+export interface WireAuthUser {
+    id: string;
+    email: string;
+    role: UserRole;
+    firstName: string | null;
+    lastName: string | null;
+    phone: string | null;
+    avatarUrl: string | null;
+    verificationLevel: VerificationLevel;
+    isEmailVerified: boolean;
+    is2FAEnabled: boolean;
+    regionCode: string;
+    walletAddress: string | null;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface LoginResponse {
+    user: WireAuthUser;
+    tokens: AuthTokens;
+    /**
+     * Set on the first leg of a 2FA-protected login. When true, the
+     * `tokens` field still carries an access token, but the frontend
+     * should treat the session as pending — only after the user submits
+     * their 2FA code (via a second `/auth/login` with `twoFactorCode`)
+     * does the session become fully authenticated.
+     */
+    requires2FA?: boolean;
+}

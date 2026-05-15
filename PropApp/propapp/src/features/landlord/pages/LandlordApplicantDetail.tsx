@@ -87,7 +87,7 @@ function formatTimelineDate(dateStr: string): string {
 }
 
 // Get initials from name
-function getInitials(firstName?: string, lastName?: string): string {
+function getInitials(firstName?: string | null, lastName?: string | null): string {
     return `${firstName?.[0] || ''}${lastName?.[0] || ''}`.toUpperCase();
 }
 

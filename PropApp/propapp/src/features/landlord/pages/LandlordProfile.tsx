@@ -76,8 +76,8 @@ function transformProfileData(
     properties: PropertySummary[]
 ): UIProfileData {
     return {
-        firstName: user.firstName,
-        lastName: user.lastName,
+        firstName: user.firstName ?? '',
+        lastName: user.lastName ?? '',
         email: user.email,
         phone: user.phone || '',
         bio: user.bio || '',

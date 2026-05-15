@@ -20,6 +20,63 @@ import {
     ValidationError,
 } from '../../common/utils/errors';
 import { logger } from '../../common/utils/logger';
+import type { WireAuthUser } from '@homeai/contracts/auth.contract';
+
+// Prisma row shape required by `serializeAuthUser`. Any auth endpoint
+// that emits a user must `select` (or `findUnique` without select to
+// get the full row) these fields.
+type PrismaAuthUser = {
+    id: string;
+    email: string;
+    role: UserRole;
+    firstName: string | null;
+    lastName: string | null;
+    phone: string | null;
+    avatarUrl: string | null;
+    verificationLevel: VerificationLevel;
+    isEmailVerified: boolean;
+    twoFactorEnabled: boolean;
+    regionCode: string;
+    walletAddress: string | null;
+    createdAt: Date;
+    updatedAt: Date;
+};
+
+const serializeAuthUser = (user: PrismaAuthUser): WireAuthUser => ({
+    id: user.id,
+    email: user.email,
+    role: user.role,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    phone: user.phone,
+    avatarUrl: user.avatarUrl,
+    verificationLevel: user.verificationLevel,
+    isEmailVerified: user.isEmailVerified,
+    is2FAEnabled: user.twoFactorEnabled,
+    regionCode: user.regionCode,
+    walletAddress: user.walletAddress,
+    createdAt: user.createdAt.toISOString(),
+    updatedAt: user.updatedAt.toISOString(),
+});
+
+// Selection passed to every Prisma findUnique / create for auth flows
+// so the row shape matches `serializeAuthUser`.
+const authUserSelect = {
+    id: true,
+    email: true,
+    role: true,
+    firstName: true,
+    lastName: true,
+    phone: true,
+    avatarUrl: true,
+    verificationLevel: true,
+    isEmailVerified: true,
+    twoFactorEnabled: true,
+    regionCode: true,
+    walletAddress: true,
+    createdAt: true,
+    updatedAt: true,
+} as const;
 
 // ============================================
 // TYPES
@@ -152,7 +209,7 @@ class AuthService {
         firstName: string,
         lastName: string,
         phone?: string
-    ): Promise<{ user: { id: string; email: string; role: UserRole }; tokens: TokenPair }> {
+    ): Promise<{ user: WireAuthUser; tokens: TokenPair }> {
         const stored = verificationCodes.get(email.toLowerCase());
 
         if (!stored) {
@@ -176,13 +233,7 @@ class AuthService {
                 regionCode: stored.regionCode,
                 isEmailVerified: true,
             },
-            select: {
-                id: true,
-                email: true,
-                role: true,
-                verificationLevel: true,
-                regionCode: true,
-            },
+            select: authUserSelect,
         });
 
         // Clean up verification code
@@ -194,11 +245,7 @@ class AuthService {
         logger.info(`User registered: ${user.email}`);
 
         return {
-            user: {
-                id: user.id,
-                email: user.email,
-                role: user.role,
-            },
+            user: serializeAuthUser(user),
             tokens,
         };
     }
@@ -214,8 +261,8 @@ class AuthService {
         email: string,
         password: string,
         twoFactorCode?: string
-    ): Promise<{ user: { id: string; email: string; role: UserRole }; tokens: TokenPair; requires2FA?: boolean }> {
-        // Find user
+    ): Promise<{ user: WireAuthUser; tokens: TokenPair; requires2FA?: boolean }> {
+        // Find user (raw row needed for passwordHash + twoFactorSecret).
         const user = await prisma.user.findUnique({
             where: { email: email.toLowerCase() },
         });
@@ -263,11 +310,7 @@ class AuthService {
         logger.info(`User logged in: ${user.email}`);
 
         return {
-            user: {
-                id: user.id,
-                email: user.email,
-                role: user.role,
-            },
+            user: serializeAuthUser(user),
             tokens,
         };
     }

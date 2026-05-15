@@ -6,10 +6,45 @@
 import { v4 as uuidv4 } from 'uuid';
 import jwt from 'jsonwebtoken';
 import { prisma } from '../../config/database';
-import { UserRole } from '@prisma/client';
+import { UserRole, VerificationLevel } from '@prisma/client';
 import { env } from '../../config/env';
 import { logger } from '../../common/utils/logger';
 import { ValidationError, InvalidCredentialsError } from '../../common/utils/errors';
+import type { WireAuthUser } from '@homeai/contracts/auth.contract';
+
+type PrismaOAuthUser = {
+    id: string;
+    email: string;
+    role: UserRole;
+    firstName: string | null;
+    lastName: string | null;
+    phone: string | null;
+    avatarUrl: string | null;
+    verificationLevel: VerificationLevel;
+    isEmailVerified: boolean;
+    twoFactorEnabled: boolean;
+    regionCode: string;
+    walletAddress: string | null;
+    createdAt: Date;
+    updatedAt: Date;
+};
+
+const serializeAuthUser = (user: PrismaOAuthUser): WireAuthUser => ({
+    id: user.id,
+    email: user.email,
+    role: user.role,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    phone: user.phone,
+    avatarUrl: user.avatarUrl,
+    verificationLevel: user.verificationLevel,
+    isEmailVerified: user.isEmailVerified,
+    is2FAEnabled: user.twoFactorEnabled,
+    regionCode: user.regionCode,
+    walletAddress: user.walletAddress,
+    createdAt: user.createdAt.toISOString(),
+    updatedAt: user.updatedAt.toISOString(),
+});
 
 // ============================================
 // TYPES
@@ -34,12 +69,7 @@ interface OAuthTokens {
 }
 
 interface OAuthResult {
-    user: {
-        id: string;
-        email: string;
-        role: UserRole;
-        isNewUser: boolean;
-    };
+    user: WireAuthUser & { isNewUser: boolean };
     tokens: OAuthTokens;
 }
 
@@ -144,9 +174,7 @@ class OAuthService {
 
         return {
             user: {
-                id: user.id,
-                email: user.email,
-                role: user.role,
+                ...serializeAuthUser(user),
                 isNewUser,
             },
             tokens,

@@ -3,30 +3,21 @@
  * Types for authentication, users, and sessions
  */
 
-// User roles
-export type UserRole = 'TENANT' | 'LANDLORD' | 'AGENT' | 'ADMIN';
+// Cross-cutting enums sourced from @homeai/contracts/enums (same value
+// list backend zod + Prisma use).
+import type { UserRole, VerificationLevel } from '@homeai/contracts/enums';
+export type { UserRole, VerificationLevel };
 
-// Verification levels
-export type VerificationLevel = 'BRONZE' | 'SILVER' | 'GOLD' | 'PLATINUM';
+// Base user type — the exact wire shape that login / register /
+// oauth-login / users/me emit. Plan section (D) gap closed: the
+// frontend no longer types `LoginResponse.user` more permissively than
+// the wire actually carries.
+export type { WireAuthUser as User } from '@homeai/contracts/auth.contract';
 
-// Base user type
-export interface User {
-    id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    phone?: string;
-    avatarUrl?: string;
-    role: UserRole;
-    verificationLevel: VerificationLevel;
-    isEmailVerified: boolean;
-    is2FAEnabled: boolean;
-    createdAt: string;
-    updatedAt: string;
-}
-
-// Extended user with profile data
-export interface UserWithProfile extends User {
+// Extended user with profile data — preserves the `User` wire shape and
+// adds optional frontend-only profile sections.
+import type { WireAuthUser } from '@homeai/contracts/auth.contract';
+export interface UserWithProfile extends WireAuthUser {
     bio?: string;
     preferences?: UserPreferences;
     notificationSettings?: NotificationSettings;
@@ -72,19 +63,14 @@ export interface TokenPayload {
     iat: number;
 }
 
-// Auth tokens
-export interface AuthTokens {
-    accessToken: string;
-    refreshToken: string;
-    expiresIn: number;
-}
-
-// Login response - matches backend V4 structure where tokens are nested
-export interface LoginResponse {
-    user: User;
-    tokens: AuthTokens;
-    requires2FA?: boolean;
-}
+// Auth tokens + login response — sourced from @homeai/contracts. The
+// backend now ships the full `User` wire shape on every auth response,
+// so the frontend no longer needs to refetch /users/me to hydrate the
+// profile after login (plan section (D) gap closed).
+export type {
+    AuthTokens,
+    LoginResponse,
+} from '@homeai/contracts/auth.contract';
 
 // ============================================
 // REQUEST TYPES — re-exported from @homeai/contracts
