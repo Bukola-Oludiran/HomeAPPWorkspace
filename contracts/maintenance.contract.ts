@@ -2,26 +2,22 @@
  * Maintenance contract — Zod request schemas + inferred request types
  * for the maintenance module.
  *
- * NOTE on drift: The wire-shape here mirrors the prior backend zod
- * faithfully. Several name/case drifts noted in the plan (section A9)
- * remain unresolved and are tagged below; resolving them is a separate
- * follow-up because they require coordinated backend + Prisma + frontend
- * changes:
- *   - Request uses lowercase `urgency` while Prisma column + frontend
- *     enums use UPPERCASE `priority` (LOW / MEDIUM / HIGH / EMERGENCY).
- *     The service `mapUrgency()` already accepts UPPERCASE input so a
- *     future tightening can rename without runtime breakage.
- *   - Request takes `propertyId`; the frontend has historically used
- *     `leaseId` on its `CreateMaintenanceRequest` type, which the
- *     contract now corrects (no UI form was building the request, so no
- *     callsite breaks).
- *   - Query schema uses lowercase status strings while update/body uses
- *     UPPERCASE; service `toUpperCase()`s the query value. Preserved for
- *     now.
+ * Plan section A9 drift resolved here: requests use UPPERCASE
+ * `priority` (LOW / MEDIUM / HIGH / EMERGENCY) sourced from
+ * `MaintenancePriorityValues` in `./enums`, matching both Prisma's
+ * `MaintenancePriority` column type and the frontend
+ * `MaintenancePriority` union. The prior `urgency` field on the wire
+ * was an unrelated lowercase spelling that required a `mapUrgency()`
+ * adapter in the service. That adapter is gone alongside the rename.
+ *
+ * Remaining drift (status casing): `maintenanceQuerySchema.status`
+ * still uses lowercase tokens while update/body uses UPPERCASE; the
+ * service `toUpperCase()`s the query value. Preserved as-is — a future
+ * cleanup can unify both sides.
  */
 
 import { z } from 'zod';
-import { MaintenanceCategoryValues } from './enums';
+import { MaintenanceCategoryValues, MaintenancePriorityValues } from './enums';
 
 // ============================================
 // CREATE
@@ -31,7 +27,7 @@ export const createMaintenanceRequestSchema = z.object({
     propertyId: z.string().uuid(),
     category: z.enum(MaintenanceCategoryValues),
     description: z.string().min(10).max(2000),
-    urgency: z.enum(['low', 'medium', 'high', 'emergency']).default('medium'),
+    priority: z.enum(MaintenancePriorityValues).default('MEDIUM'),
     preferredDate: z.string().optional(),
     preferredTimeSlot: z.enum(['morning', 'afternoon', 'evening', 'any']).optional(),
 });
@@ -52,7 +48,7 @@ export const updateMaintenanceRequestSchema = z.object({
         ])
         .optional(),
     description: z.string().min(10).max(2000).optional(),
-    urgency: z.enum(['low', 'medium', 'high', 'emergency']).optional(),
+    priority: z.enum(MaintenancePriorityValues).optional(),
     notes: z.string().max(2000).optional(),
     resolution: z.string().max(2000).optional(),
     cost: z.number().min(0).optional(),
@@ -78,7 +74,7 @@ export const maintenanceQuerySchema = z.object({
         .enum(['pending', 'assigned', 'in_progress', 'completed', 'all'])
         .default('all'),
     propertyId: z.string().uuid().optional(),
-    urgency: z.enum(['low', 'medium', 'high', 'emergency', 'all']).optional(),
+    priority: z.enum([...MaintenancePriorityValues, 'all'] as const).optional(),
     page: z.coerce.number().int().positive().default(1),
     limit: z.coerce.number().int().min(1).max(100).default(20),
 });

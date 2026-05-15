@@ -27,7 +27,7 @@ interface MaintenanceRequestDetail {
     tenantId: string;
     category: string | null;
     description: string | null;
-    urgency: string;
+    priority: string;
     status: string;
     preferredDate: Date | null;
     preferredTimeSlot: string | null;
@@ -95,8 +95,8 @@ class MaintenanceService {
             where.propertyId = query.propertyId;
         }
 
-        if (query.urgency && query.urgency !== 'all') {
-            where.urgency = query.urgency.toUpperCase();
+        if (query.priority && query.priority !== 'all') {
+            where.priority = query.priority;
         }
 
         const [requests, total] = await Promise.all([
@@ -132,7 +132,7 @@ class MaintenanceService {
                 tenantId: r.tenantId,
                 category: r.category,
                 description: r.description,
-                urgency: r.urgency,
+                priority: r.priority,
                 status: r.status,
                 preferredDate: r.preferredDate,
                 preferredTimeSlot: r.preferredTimeSlot,
@@ -212,7 +212,7 @@ class MaintenanceService {
             tenantId: request.tenantId,
             category: request.category,
             description: request.description,
-            urgency: request.urgency,
+            priority: request.priority,
             status: request.status,
             preferredDate: request.preferredDate,
             preferredTimeSlot: request.preferredTimeSlot,
@@ -257,15 +257,13 @@ class MaintenanceService {
             ]);
         }
 
-        const urgencyValue = this.mapUrgency(data.urgency);
-
         const request = await prisma.maintenanceRequest.create({
             data: {
                 propertyId: data.propertyId,
                 tenantId,
                 category: data.category,
                 description: data.description,
-                urgency: urgencyValue,
+                priority: data.priority,
                 preferredDate: data.preferredDate ? new Date(data.preferredDate) : null,
                 preferredTimeSlot: data.preferredTimeSlot,
                 status: 'PENDING',
@@ -297,7 +295,7 @@ class MaintenanceService {
             tenantId: request.tenantId,
             category: request.category,
             description: request.description,
-            urgency: request.urgency,
+            priority: request.priority,
             status: request.status,
             preferredDate: request.preferredDate,
             preferredTimeSlot: request.preferredTimeSlot,
@@ -360,7 +358,7 @@ class MaintenanceService {
 
         if (data.status) updateData.status = this.mapStatus(data.status);
         if (data.description) updateData.description = data.description;
-        if (data.urgency) updateData.urgency = this.mapUrgency(data.urgency);
+        if (data.priority) updateData.priority = data.priority;
         if (data.notes) updateData.notes = data.notes;
         if (data.resolution) {
             updateData.resolution = data.resolution;
@@ -397,7 +395,7 @@ class MaintenanceService {
             tenantId: updated.tenantId,
             category: updated.category,
             description: updated.description,
-            urgency: updated.urgency,
+            priority: updated.priority,
             status: updated.status,
             preferredDate: updated.preferredDate,
             preferredTimeSlot: updated.preferredTimeSlot,
@@ -466,18 +464,6 @@ class MaintenanceService {
         logger.info(`Agent ${data.agentId} assigned to maintenance request ${requestId}`);
 
         return { message: 'Agent assigned successfully' };
-    }
-
-    // Helper methods to map strings to valid enum values
-    private mapUrgency(urgency: string): 'LOW' | 'MEDIUM' | 'HIGH' | 'EMERGENCY' {
-        const map: Record<string, 'LOW' | 'MEDIUM' | 'HIGH' | 'EMERGENCY'> = {
-            'LOW': 'LOW',
-            'MEDIUM': 'MEDIUM',
-            'HIGH': 'HIGH',
-            'EMERGENCY': 'EMERGENCY',
-            'URGENT': 'EMERGENCY',
-        };
-        return map[urgency.toUpperCase()] || 'MEDIUM';
     }
 
     private mapStatus(status: string): 'PENDING' | 'SUBMITTED' | 'ACKNOWLEDGED' | 'ASSIGNED' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED' {
