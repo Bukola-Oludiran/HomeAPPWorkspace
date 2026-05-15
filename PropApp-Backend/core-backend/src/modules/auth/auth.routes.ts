@@ -14,6 +14,7 @@ import {
     completeRegistrationSchema,
     loginSchema,
     refreshTokenSchema,
+    oauthLoginSchema,
     forgotPasswordSchema,
     resetPasswordSchema,
     verify2FASchema,
@@ -347,6 +348,7 @@ router.get(
  */
 router.post(
     '/login/oauth/:provider',
+    validate(oauthLoginSchema),
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             // Lazy import to avoid circular dependencies
@@ -354,10 +356,6 @@ router.post(
 
             const provider = oauthService.validateProvider(req.params.provider);
             const { token, role, regionCode } = req.body;
-
-            if (!token) {
-                throw new Error('OAuth token is required');
-            }
 
             const result = await oauthService.loginWithOAuth(
                 provider,

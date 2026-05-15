@@ -1,12 +1,14 @@
 import { useState, useEffect, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import type { UserRole } from '../../types/auth';
 
 type RoleType = 'tenant' | 'landlord' | 'agent' | 'other' | null;
 
-// Map frontend role values to backend UserRole enum
-const roleMap: Record<Exclude<RoleType, null | 'other'>, UserRole> = {
+// Self-registration is restricted to non-admin roles per the auth contract
+// (`completeRegistrationSchema.role` is `'TENANT' | 'LANDLORD' | 'AGENT'`).
+type RegistrationRole = 'TENANT' | 'LANDLORD' | 'AGENT';
+
+const roleMap: Record<Exclude<RoleType, null | 'other'>, RegistrationRole> = {
     tenant: 'TENANT',
     landlord: 'LANDLORD',
     agent: 'AGENT',
@@ -59,7 +61,7 @@ export default function SignUpStep3() {
         }
 
         // Determine backend role - 'other' defaults to TENANT
-        const backendRole: UserRole = selectedRole === 'other' ? 'TENANT' : roleMap[selectedRole];
+        const backendRole: RegistrationRole = selectedRole === 'other' ? 'TENANT' : roleMap[selectedRole];
 
         try {
             await completeRegistration({

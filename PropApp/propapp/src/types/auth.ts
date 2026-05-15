@@ -86,59 +86,30 @@ export interface LoginResponse {
     requires2FA?: boolean;
 }
 
-// Registration types
-export interface InitiateRegistrationRequest {
-    email: string;
-    role?: UserRole; // Optional - can be provided at completion instead
-}
+// ============================================
+// REQUEST TYPES — re-exported from @homeai/contracts
+// (Zod-inferred source-of-truth lives in
+// `HomeAPPWorkspace/contracts/auth.contract.ts`.)
+// ============================================
+export type {
+    InitiateRegistrationRequest,
+    VerifyEmailRequest,
+    CompleteRegistrationRequest,
+    LoginRequest,
+    RefreshTokenRequest,
+    OAuthLoginRequest,
+    ForgotPasswordRequest,
+    ResetPasswordRequest,
+    Verify2FARequest,
+    Disable2FARequest,
+} from '@homeai/contracts/auth.contract';
 
-export interface VerifyEmailRequest {
-    email: string;
-    code: string;
-}
-
-export interface CompleteRegistrationRequest {
-    email: string;
-    password: string;
-    firstName: string;
-    lastName: string;
-    role?: UserRole; // Can be provided here if not at initiation
-    phone?: string; // Optional per BACKEND_READMEV3.md
-}
-
-// Login types
-export interface LoginRequest {
-    email: string;
-    password: string;
-}
-
-export interface OAuthLoginRequest {
-    idToken: string;
-    role?: UserRole;
-}
-
-// Password reset types
-export interface ForgotPasswordRequest {
-    email: string;
-}
-
-export interface ResetPasswordRequest {
-    token: string;
-    password: string;
-}
-
-// 2FA types
+// 2FA setup response — wire shape is `{ secret, qrCodeUrl, recoveryCodes }`
+// per backend service; frontend currently consumes only secret + qrCodeUrl.
+// Response shapes will move to the contract in a follow-up alongside gap-(D).
 export interface Setup2FAResponse {
     secret: string;
     qrCodeUrl: string;
-}
-
-export interface Verify2FARequest {
-    code: string;
-}
-
-export interface Disable2FARequest {
-    password: string;
 }
 
 // Session types

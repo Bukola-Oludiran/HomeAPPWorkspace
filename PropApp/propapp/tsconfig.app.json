@@ -43,7 +43,6 @@
     "noUncheckedSideEffectImports": true
   },
   "include": [
-    "src",
-    "../../contracts"
+    "src"
   ]
 }
