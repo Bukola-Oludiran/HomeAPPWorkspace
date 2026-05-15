@@ -2,7 +2,17 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "rootDir": "./src",
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@modules/*": ["./src/modules/*"],
+      "@common/*": ["./src/common/*"],
+      "@config/*": ["./src/config/*"],
+      "@integrations/*": ["./src/integrations/*"],
+      "@homeai/contracts": ["./dist/contracts/index"],
+      "@homeai/contracts/*": ["./dist/contracts/*"]
+    }
   },
   "include": [
     "src/**/*"
