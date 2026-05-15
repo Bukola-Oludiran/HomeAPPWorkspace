@@ -5,6 +5,13 @@
  */
 
 import { z } from 'zod';
+import {
+    OpenAPIRegistry,
+    paginatedResponse,
+    requireBearerAuth,
+    STANDARD_ERROR_RESPONSES,
+    successResponse,
+} from './openapi';
 
 // ============================================
 // VERIFICATION TIERS
@@ -89,6 +96,152 @@ export type VerificationQueryRequest = z.input<typeof verificationQuerySchema>;
 // ============================================
 // LEGACY BACKEND DTO ALIASES
 // ============================================
+
+// ============================================
+// OPENAPI PATH REGISTRATION
+// ============================================
+
+const TAG = 'Verification';
+const JSON_BODY = (schema: z.ZodTypeAny) => ({
+    body: { content: { 'application/json': { schema } } },
+});
+
+export const registerVerificationPaths = (registry: OpenAPIRegistry): void => {
+    const idParam = z.object({ id: z.string().uuid() });
+    const propertyIdParam = z.object({ propertyId: z.string().uuid() });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/verification/status',
+        tags: [TAG],
+        summary: 'Aggregate verification status for the current user.',
+        security: requireBearerAuth,
+        responses: {
+            200: successResponse('Status snapshot', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/verification/identity',
+        tags: [TAG],
+        summary: 'Submit a KYC identity document for review.',
+        security: requireBearerAuth,
+        request: JSON_BODY(submitIdentityVerificationSchema),
+        responses: {
+            201: successResponse('Submission accepted', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/verification/address',
+        tags: [TAG],
+        summary: 'Submit address-proof document.',
+        security: requireBearerAuth,
+        request: JSON_BODY(submitDocumentSchema),
+        responses: {
+            201: successResponse('Submission accepted', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/verification/properties',
+        tags: [TAG],
+        summary: 'Landlord lists their properties\' verification states.',
+        security: requireBearerAuth,
+        request: { query: verificationQuerySchema },
+        responses: {
+            200: paginatedResponse('Verification records', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/verification/properties/{propertyId}',
+        tags: [TAG],
+        summary: 'Property-level verification snapshot.',
+        security: requireBearerAuth,
+        request: { params: propertyIdParam },
+        responses: {
+            200: successResponse('Property verification snapshot', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/verification/properties/{propertyId}/cofo',
+        tags: [TAG],
+        summary: 'Landlord submits a Certificate-of-Occupancy document.',
+        security: requireBearerAuth,
+        request: { params: propertyIdParam, ...JSON_BODY(submitDocumentSchema) },
+        responses: {
+            201: successResponse('Document submitted', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/verification/properties/{propertyId}/audit/request',
+        tags: [TAG],
+        summary: 'Landlord requests an on-site audit at a given tier.',
+        security: requireBearerAuth,
+        request: { params: propertyIdParam, ...JSON_BODY(requestPropertyVerificationSchema) },
+        responses: {
+            201: successResponse('Audit requested', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/verification/admin/pending',
+        tags: [TAG],
+        summary: 'Admin list of pending verifications.',
+        security: requireBearerAuth,
+        request: { query: verificationQuerySchema },
+        responses: {
+            200: paginatedResponse('Pending verifications', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/verification/admin/{id}/approve',
+        tags: [TAG],
+        summary: 'Admin approves a property verification audit.',
+        security: requireBearerAuth,
+        request: { params: idParam, ...JSON_BODY(submitPropertyVerificationResultSchema) },
+        responses: {
+            200: successResponse('Approved', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/verification/admin/{id}/reject',
+        tags: [TAG],
+        summary: 'Admin rejects a property verification audit.',
+        security: requireBearerAuth,
+        request: {
+            params: idParam,
+            ...JSON_BODY(z.object({ reason: z.string().max(500) })),
+        },
+        responses: {
+            200: successResponse('Rejected', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+};
 
 export type SubmitIdentityVerificationDto = z.infer<typeof submitIdentityVerificationSchema>;
 export type SubmitDocumentDto = z.infer<typeof submitDocumentSchema>;

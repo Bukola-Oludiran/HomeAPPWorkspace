@@ -5,6 +5,13 @@
  */
 
 import { z } from 'zod';
+import {
+    OpenAPIRegistry,
+    paginatedResponse,
+    requireBearerAuth,
+    STANDARD_ERROR_RESPONSES,
+    successResponse,
+} from './openapi';
 
 // ============================================
 // DASHBOARD
@@ -102,6 +109,197 @@ export type CreateJobRequest = z.input<typeof createJobSchema>;
 // ============================================
 // LEGACY BACKEND DTO ALIASES
 // ============================================
+
+// ============================================
+// OPENAPI PATH REGISTRATION
+// ============================================
+
+const TAG = 'Landlord Dashboard';
+const JSON_BODY = (schema: z.ZodTypeAny) => ({
+    body: { content: { 'application/json': { schema } } },
+});
+
+export const registerLandlordPaths = (registry: OpenAPIRegistry): void => {
+    const idParam = z.object({ id: z.string().uuid() });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/landlord/dashboard',
+        tags: [TAG],
+        summary: 'Aggregate dashboard for landlord (revenue, vacancies, alerts).',
+        security: requireBearerAuth,
+        request: { query: dashboardQuerySchema },
+        responses: {
+            200: successResponse('Dashboard snapshot', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/landlord/properties',
+        tags: [TAG],
+        summary: "List landlord's properties with dashboard metrics.",
+        security: requireBearerAuth,
+        responses: {
+            200: successResponse('Property summary list', z.array(z.unknown())),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/landlord/applicants',
+        tags: [TAG],
+        summary: 'Applicants across landlord\'s properties (filter by status).',
+        security: requireBearerAuth,
+        request: { query: applicantQuerySchema },
+        responses: {
+            200: paginatedResponse('Applicants', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/landlord/applicants/{id}',
+        tags: [TAG],
+        summary: 'Applicant detail.',
+        security: requireBearerAuth,
+        request: { params: idParam },
+        responses: {
+            200: successResponse('Applicant record', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'put',
+        path: '/landlord/applicants/{id}/approve',
+        tags: [TAG],
+        summary: 'Approve an applicant — moves toward lease creation.',
+        security: requireBearerAuth,
+        request: { params: idParam },
+        responses: {
+            200: successResponse('Applicant approved', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'put',
+        path: '/landlord/applicants/{id}/reject',
+        tags: [TAG],
+        summary: 'Reject an applicant (provide reason via applicantStatusSchema).',
+        security: requireBearerAuth,
+        request: { params: idParam, ...JSON_BODY(applicantStatusSchema) },
+        responses: {
+            200: successResponse('Applicant rejected', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/landlord/financials/overview',
+        tags: [TAG],
+        summary: 'Aggregate financial overview (period-scoped).',
+        security: requireBearerAuth,
+        request: { query: financialQuerySchema },
+        responses: {
+            200: successResponse('Financial summary', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/landlord/financials/transactions',
+        tags: [TAG],
+        summary: 'Paginated landlord-side transaction history.',
+        security: requireBearerAuth,
+        request: { query: transactionQuerySchema },
+        responses: {
+            200: paginatedResponse('Transactions', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/landlord/financials/payouts',
+        tags: [TAG],
+        summary: 'Landlord payout history.',
+        security: requireBearerAuth,
+        responses: {
+            200: paginatedResponse('Payouts', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/landlord/financials/payouts',
+        tags: [TAG],
+        summary: 'Request a landlord payout.',
+        security: requireBearerAuth,
+        request: JSON_BODY(payoutRequestSchema),
+        responses: {
+            201: successResponse('Payout queued', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/landlord/alerts',
+        tags: [TAG],
+        summary: 'Pending alerts (verification expirations, maintenance, etc.).',
+        security: requireBearerAuth,
+        responses: {
+            200: successResponse('Alert list', z.array(z.unknown())),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/landlord/verification/start',
+        tags: [TAG],
+        summary: 'Kick off a property-verification audit on the landlord side.',
+        security: requireBearerAuth,
+        request: JSON_BODY(startVerificationSchema),
+        responses: {
+            201: successResponse('Audit queued', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/landlord/jobs',
+        tags: [TAG],
+        summary: 'Post a job for an agent (inspection, key handover, etc.).',
+        security: requireBearerAuth,
+        request: JSON_BODY(createJobSchema),
+        responses: {
+            201: successResponse('Job created', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/landlord/jobs',
+        tags: [TAG],
+        summary: "Landlord's posted agent jobs.",
+        security: requireBearerAuth,
+        responses: {
+            200: successResponse('Jobs', z.array(z.unknown())),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+};
 
 export type DashboardQueryDto = z.infer<typeof dashboardQuerySchema>;
 export type ApplicantStatusDto = z.infer<typeof applicantStatusSchema>;

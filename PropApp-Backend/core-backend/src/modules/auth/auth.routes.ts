@@ -27,57 +27,6 @@ const router = Router();
 // REGISTRATION ENDPOINTS
 // ============================================
 
-/**
- * @swagger
- * /auth/register/initiate:
- *   post:
- *     summary: Start registration process
- *     description: Initiates user registration by sending a verification email
- *     tags: [Auth]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required: [email, role]
- *             properties:
- *               email:
- *                 type: string
- *                 format: email
- *                 example: user@example.com
- *               role:
- *                 type: string
- *                 enum: [TENANT, LANDLORD, AGENT]
- *                 example: TENANT
- *               regionCode:
- *                 type: string
- *                 example: NG
- *     responses:
- *       200:
- *         description: Verification email sent
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: true
- *                 data:
- *                   type: object
- *                   properties:
- *                     message:
- *                       type: string
- *                       example: Verification email sent
- *                     expiresIn:
- *                       type: number
- *                       example: 600
- *       400:
- *         $ref: '#/components/responses/ValidationError'
- *       409:
- *         description: Email already registered
- */
 router.post(
     '/register/initiate',
     validate(initiateRegistrationSchema),
@@ -140,31 +89,6 @@ router.post(
 // LOGIN / LOGOUT ENDPOINTS
 // ============================================
 
-/**
- * @swagger
- * /auth/login:
- *   post:
- *     summary: User login
- *     description: Authenticate user with email and password
- *     tags: [Auth]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/LoginRequest'
- *     responses:
- *       200:
- *         description: Login successful
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/LoginResponse'
- *       401:
- *         description: Invalid credentials
- *       403:
- *         description: Account inactive or requires 2FA
- */
 router.post(
     '/login',
     validate(loginSchema),

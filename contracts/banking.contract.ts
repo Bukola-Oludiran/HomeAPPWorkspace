@@ -7,6 +7,13 @@
  */
 
 import { z } from 'zod';
+import {
+    OpenAPIRegistry,
+    paginatedResponse,
+    requireBearerAuth,
+    STANDARD_ERROR_RESPONSES,
+    successResponse,
+} from './openapi';
 
 // ============================================
 // BANK ACCOUNTS
@@ -69,6 +76,147 @@ export type PayoutQueryRequest = z.input<typeof payoutQuerySchema>;
 // ============================================
 // LEGACY BACKEND DTO ALIASES — z.infer (= output)
 // ============================================
+
+// ============================================
+// OPENAPI PATH REGISTRATION
+// ============================================
+
+const TAG = 'Banking';
+const JSON_BODY = (schema: z.ZodTypeAny) => ({
+    body: { content: { 'application/json': { schema } } },
+});
+
+export const registerBankingPaths = (registry: OpenAPIRegistry): void => {
+    const idParam = z.object({ id: z.string().uuid() });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/banking/banks',
+        tags: [TAG],
+        summary: 'List supported banks (filterable by country + search).',
+        security: requireBearerAuth,
+        request: { query: bankQuerySchema },
+        responses: {
+            200: successResponse('Bank list', z.array(z.unknown())),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/banking/resolve',
+        tags: [TAG],
+        summary: 'Resolve account name from bankCode + accountNumber.',
+        security: requireBearerAuth,
+        request: JSON_BODY(resolveBankAccountSchema),
+        responses: {
+            200: successResponse('Resolved account', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/users/me/bank-accounts',
+        tags: [TAG],
+        summary: "Current user's saved bank accounts.",
+        security: requireBearerAuth,
+        responses: {
+            200: successResponse('Bank account list', z.array(z.unknown())),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/users/me/bank-accounts',
+        tags: [TAG],
+        summary: 'Add a bank account.',
+        security: requireBearerAuth,
+        request: JSON_BODY(addBankAccountSchema),
+        responses: {
+            201: successResponse('Account added', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'put',
+        path: '/users/me/bank-accounts/{id}/default',
+        tags: [TAG],
+        summary: 'Mark a saved bank account as the default payout destination.',
+        security: requireBearerAuth,
+        request: { params: idParam },
+        responses: {
+            200: successResponse('Default updated', z.object({ message: z.string() })),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'delete',
+        path: '/users/me/bank-accounts/{id}',
+        tags: [TAG],
+        summary: 'Remove a saved bank account.',
+        security: requireBearerAuth,
+        request: { params: idParam },
+        responses: {
+            200: successResponse('Account removed', z.object({ message: z.string() })),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/users/me/payouts',
+        tags: [TAG],
+        summary: 'Request a payout to the chosen account.',
+        security: requireBearerAuth,
+        request: JSON_BODY(requestPayoutSchema),
+        responses: {
+            201: successResponse('Payout queued', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/users/me/payouts',
+        tags: [TAG],
+        summary: 'Payout history (filterable by status + date range).',
+        security: requireBearerAuth,
+        request: { query: payoutQuerySchema },
+        responses: {
+            200: paginatedResponse('Payouts', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/users/me/payout-settings',
+        tags: [TAG],
+        summary: 'Payout-schedule + threshold settings.',
+        security: requireBearerAuth,
+        responses: {
+            200: successResponse('Settings', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'put',
+        path: '/users/me/payout-settings',
+        tags: [TAG],
+        summary: 'Update payout-schedule + threshold settings.',
+        security: requireBearerAuth,
+        request: JSON_BODY(updatePayoutSettingsSchema),
+        responses: {
+            200: successResponse('Settings updated', z.object({ message: z.string() })),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+};
 
 export type AddBankAccountDto = z.infer<typeof addBankAccountSchema>;
 export type ResolveBankAccountDto = z.infer<typeof resolveBankAccountSchema>;

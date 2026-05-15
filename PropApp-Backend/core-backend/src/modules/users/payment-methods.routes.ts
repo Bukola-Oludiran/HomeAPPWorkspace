@@ -17,15 +17,6 @@ const router = Router();
 // LIST PAYMENT METHODS
 // ============================================
 
-/**
- * @swagger
- * /users/me/payment-methods:
- *   get:
- *     summary: List user's payment methods
- *     tags: [Payment Methods]
- *     security:
- *       - bearerAuth: []
- */
 router.get(
     '/me/payment-methods',
     authenticate,
@@ -43,15 +34,6 @@ router.get(
 // ADD PAYMENT METHOD
 // ============================================
 
-/**
- * @swagger
- * /users/me/payment-methods:
- *   post:
- *     summary: Add a new payment method
- *     tags: [Payment Methods]
- *     security:
- *       - bearerAuth: []
- */
 router.post(
     '/me/payment-methods',
     authenticate,
@@ -73,15 +55,6 @@ router.post(
 // SET DEFAULT PAYMENT METHOD
 // ============================================
 
-/**
- * @swagger
- * /users/me/payment-methods/{id}/default:
- *   put:
- *     summary: Set a payment method as default
- *     tags: [Payment Methods]
- *     security:
- *       - bearerAuth: []
- */
 router.put(
     '/me/payment-methods/:id/default',
     authenticate,
@@ -99,15 +72,6 @@ router.put(
 // DELETE PAYMENT METHOD
 // ============================================
 
-/**
- * @swagger
- * /users/me/payment-methods/{id}:
- *   delete:
- *     summary: Remove a payment method
- *     tags: [Payment Methods]
- *     security:
- *       - bearerAuth: []
- */
 router.delete(
     '/me/payment-methods/:id',
     authenticate,

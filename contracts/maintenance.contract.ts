@@ -18,6 +18,13 @@
 
 import { z } from 'zod';
 import { MaintenanceCategoryValues, MaintenancePriorityValues } from './enums';
+import {
+    OpenAPIRegistry,
+    paginatedResponse,
+    requireBearerAuth,
+    STANDARD_ERROR_RESPONSES,
+    successResponse,
+} from './openapi';
 
 // ============================================
 // CREATE
@@ -91,6 +98,84 @@ export type MaintenanceQueryRequest = z.input<typeof maintenanceQuerySchema>;
 // ============================================
 // LEGACY BACKEND DTO ALIASES
 // ============================================
+
+// ============================================
+// OPENAPI PATH REGISTRATION
+// ============================================
+
+const TAG = 'Maintenance';
+const JSON_BODY = (schema: z.ZodTypeAny) => ({
+    body: { content: { 'application/json': { schema } } },
+});
+
+export const registerMaintenancePaths = (registry: OpenAPIRegistry): void => {
+    const idParam = z.object({ id: z.string().uuid() });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/maintenance',
+        tags: [TAG],
+        summary: 'List maintenance requests scoped by user role.',
+        security: requireBearerAuth,
+        request: { query: maintenanceQuerySchema },
+        responses: {
+            200: paginatedResponse('Maintenance requests', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/maintenance/{id}',
+        tags: [TAG],
+        summary: 'Maintenance request detail.',
+        security: requireBearerAuth,
+        request: { params: idParam },
+        responses: {
+            200: successResponse('Maintenance record', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/maintenance',
+        tags: [TAG],
+        summary: 'Tenant submits a new maintenance request.',
+        security: requireBearerAuth,
+        request: JSON_BODY(createMaintenanceRequestSchema),
+        responses: {
+            201: successResponse('Request created', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'put',
+        path: '/maintenance/{id}',
+        tags: [TAG],
+        summary: 'Landlord or assigned agent updates a maintenance request.',
+        security: requireBearerAuth,
+        request: { params: idParam, ...JSON_BODY(updateMaintenanceRequestSchema) },
+        responses: {
+            200: successResponse('Request updated', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/maintenance/{id}/assign',
+        tags: [TAG],
+        summary: 'Landlord assigns an agent to a maintenance request.',
+        security: requireBearerAuth,
+        request: { params: idParam, ...JSON_BODY(assignAgentSchema) },
+        responses: {
+            200: successResponse('Agent assigned', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+};
 
 export type CreateMaintenanceRequestDto = z.infer<typeof createMaintenanceRequestSchema>;
 export type UpdateMaintenanceRequestDto = z.infer<typeof updateMaintenanceRequestSchema>;

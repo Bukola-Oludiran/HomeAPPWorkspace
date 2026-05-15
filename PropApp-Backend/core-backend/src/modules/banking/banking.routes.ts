@@ -24,15 +24,6 @@ const router = Router();
 // SUPPORTED BANKS
 // ============================================
 
-/**
- * @swagger
- * /banking/banks:
- *   get:
- *     summary: Get list of supported banks
- *     tags: [Banking]
- *     security:
- *       - bearerAuth: []
- */
 router.get(
     '/banks',
     authenticate,
@@ -52,15 +43,6 @@ router.get(
 // RESOLVE ACCOUNT
 // ============================================
 
-/**
- * @swagger
- * /banking/resolve:
- *   post:
- *     summary: Verify bank account name
- *     tags: [Banking]
- *     security:
- *       - bearerAuth: []
- */
 router.post(
     '/resolve',
     authenticate,
@@ -80,15 +62,6 @@ router.post(
 // BANK ACCOUNTS
 // ============================================
 
-/**
- * @swagger
- * /users/me/bank-accounts:
- *   get:
- *     summary: List user's bank accounts
- *     tags: [Banking]
- *     security:
- *       - bearerAuth: []
- */
 router.get(
     '/users/me/bank-accounts',
     authenticate,
@@ -102,15 +75,6 @@ router.get(
     }
 );
 
-/**
- * @swagger
- * /users/me/bank-accounts:
- *   post:
- *     summary: Add a bank account
- *     tags: [Banking]
- *     security:
- *       - bearerAuth: []
- */
 router.post(
     '/users/me/bank-accounts',
     authenticate,
@@ -125,15 +89,6 @@ router.post(
     }
 );
 
-/**
- * @swagger
- * /users/me/bank-accounts/{id}/default:
- *   put:
- *     summary: Set default bank account
- *     tags: [Banking]
- *     security:
- *       - bearerAuth: []
- */
 router.put(
     '/users/me/bank-accounts/:id/default',
     authenticate,
@@ -147,15 +102,6 @@ router.put(
     }
 );
 
-/**
- * @swagger
- * /users/me/bank-accounts/{id}:
- *   delete:
- *     summary: Remove a bank account
- *     tags: [Banking]
- *     security:
- *       - bearerAuth: []
- */
 router.delete(
     '/users/me/bank-accounts/:id',
     authenticate,
@@ -173,15 +119,6 @@ router.delete(
 // PAYOUTS
 // ============================================
 
-/**
- * @swagger
- * /users/me/payouts:
- *   post:
- *     summary: Request a payout
- *     tags: [Payouts]
- *     security:
- *       - bearerAuth: []
- */
 router.post(
     '/users/me/payouts',
     authenticate,
@@ -196,15 +133,6 @@ router.post(
     }
 );
 
-/**
- * @swagger
- * /users/me/payouts:
- *   get:
- *     summary: Get payout history
- *     tags: [Payouts]
- *     security:
- *       - bearerAuth: []
- */
 router.get(
     '/users/me/payouts',
     authenticate,
@@ -223,15 +151,6 @@ router.get(
 // PAYOUT SETTINGS
 // ============================================
 
-/**
- * @swagger
- * /users/me/payout-settings:
- *   get:
- *     summary: Get payout settings
- *     tags: [Payouts]
- *     security:
- *       - bearerAuth: []
- */
 router.get(
     '/users/me/payout-settings',
     authenticate,
@@ -245,15 +164,6 @@ router.get(
     }
 );
 
-/**
- * @swagger
- * /users/me/payout-settings:
- *   put:
- *     summary: Update payout settings
- *     tags: [Payouts]
- *     security:
- *       - bearerAuth: []
- */
 router.put(
     '/users/me/payout-settings',
     authenticate,

@@ -56,3 +56,7 @@ __pycache__/
 
 # Archived / deprecated frontend (user-flagged: archive, not for repo)
 propapp(Deprecated)/
+
+# Generated OpenAPI spec (regenerate via 'npm run generate:openapi')
+PropApp-Backend/core-backend/openapi.json
+

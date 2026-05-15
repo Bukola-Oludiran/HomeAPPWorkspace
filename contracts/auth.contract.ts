@@ -1,21 +1,20 @@
 /**
  * Auth contract — Zod request schemas + inferred request types shared
  * between PropApp-Backend (Express validation) and PropApp (Axios request
- * payload typing).
- *
- * Backend re-exports from `src/modules/auth/auth.dto.ts`; frontend
- * re-exports from `src/types/auth.ts`. Change a field here once; both
- * sides type-fail until they update.
- *
- * Response shapes (LoginResponse, AuthTokens, Setup2FAResponse, etc.)
- * are NOT yet contract-owned — they remain in `PropApp/propapp/src/types/auth.ts`
- * pending a follow-up that addresses wire-shape gap (D): the backend
- * returns minimal `{id, email, role}` on login/register/verify-2FA/oauth,
- * while the frontend types the field as the full User profile.
+ * payload typing). Also registers paths with the OpenAPI registry so the
+ * Swagger UI at `/api-docs` renders every endpoint from this single
+ * source of truth.
  */
 
 import { z } from 'zod';
-import type { UserRole, VerificationLevel } from './enums';
+import { UserRoleValues, VerificationLevelValues } from './enums';
+import {
+    OpenAPIRegistry,
+    paginatedResponse,
+    requireBearerAuth,
+    STANDARD_ERROR_RESPONSES,
+    successResponse,
+} from './openapi';
 
 // ============================================
 // SUB-ENUMS (auth-local subset of UserRole that
@@ -153,7 +152,7 @@ export type Verify2FADto = z.infer<typeof verify2FASchema>;
 export type Disable2FADto = z.infer<typeof disable2FASchema>;
 
 // ============================================
-// RESPONSE / WIRE TYPES
+// RESPONSE / WIRE SCHEMAS
 //
 // What every auth-returning endpoint actually carries on the wire after
 // the backend runs `serializeAuthUser()`. The frontend `User` interface
@@ -161,44 +160,297 @@ export type Disable2FADto = z.infer<typeof disable2FASchema>;
 // plan section (D) gap is closed.
 // ============================================
 
-export interface AuthTokens {
-    accessToken: string;
-    refreshToken: string;
-    /** Seconds-until-expiry for the access token. */
-    expiresIn: number;
-}
+export const authTokensSchema = z
+    .object({
+        accessToken: z.string(),
+        refreshToken: z.string(),
+        expiresIn: z.number().int().positive(),
+    })
+    .openapi('AuthTokens');
 
 /**
  * Full user wire shape — sent back on `login`, `register/complete`,
  * `login/oauth/:provider`, and `users/me`. Nullables mirror the Prisma
  * row; the frontend handles them with `|| ''` fallbacks at render time.
  */
-export interface WireAuthUser {
-    id: string;
-    email: string;
-    role: UserRole;
-    firstName: string | null;
-    lastName: string | null;
-    phone: string | null;
-    avatarUrl: string | null;
-    verificationLevel: VerificationLevel;
-    isEmailVerified: boolean;
-    is2FAEnabled: boolean;
-    regionCode: string;
-    walletAddress: string | null;
-    createdAt: string;
-    updatedAt: string;
-}
+export const wireAuthUserSchema = z
+    .object({
+        id: z.string().uuid(),
+        email: z.string().email(),
+        role: z.enum(UserRoleValues),
+        firstName: z.string().nullable(),
+        lastName: z.string().nullable(),
+        phone: z.string().nullable(),
+        avatarUrl: z.string().nullable(),
+        verificationLevel: z.enum(VerificationLevelValues),
+        isEmailVerified: z.boolean(),
+        is2FAEnabled: z.boolean(),
+        regionCode: z.string().length(2),
+        walletAddress: z.string().nullable(),
+        createdAt: z.string(),
+        updatedAt: z.string(),
+    })
+    .openapi('WireAuthUser');
 
-export interface LoginResponse {
-    user: WireAuthUser;
-    tokens: AuthTokens;
-    /**
-     * Set on the first leg of a 2FA-protected login. When true, the
-     * `tokens` field still carries an access token, but the frontend
-     * should treat the session as pending — only after the user submits
-     * their 2FA code (via a second `/auth/login` with `twoFactorCode`)
-     * does the session become fully authenticated.
-     */
-    requires2FA?: boolean;
-}
+export const loginResponseSchema = z
+    .object({
+        user: wireAuthUserSchema,
+        tokens: authTokensSchema,
+        requires2FA: z.boolean().optional(),
+    })
+    .openapi('LoginResponse');
+
+export type AuthTokens = z.infer<typeof authTokensSchema>;
+export type WireAuthUser = z.infer<typeof wireAuthUserSchema>;
+export type LoginResponse = z.infer<typeof loginResponseSchema>;
+
+// ============================================
+// SECONDARY RESPONSE SCHEMAS
+// ============================================
+
+const messageOnlyResponseSchema = z.object({ message: z.string() });
+const messageWithVerificationSchema = z.object({
+    message: z.string(),
+    verificationToken: z.string(),
+    expiresAt: z.string(),
+});
+const verifyEmailResponseSchema = z.object({
+    verified: z.boolean(),
+    message: z.string(),
+});
+const setup2faResponseSchema = z.object({
+    secret: z.string(),
+    qrCodeUrl: z.string(),
+    recoveryCodes: z.array(z.string()),
+});
+const verify2faResponseSchema = z.object({ enabled: z.boolean() });
+const disable2faResponseSchema = z.object({ disabled: z.boolean() });
+const recoveryCodesResponseSchema = z.object({
+    recoveryCodes: z.array(z.string()),
+});
+
+// ============================================
+// OPENAPI PATH REGISTRATION
+// ============================================
+
+const TAG = 'Auth';
+const JSON_BODY = (schema: z.ZodTypeAny) => ({
+    body: { content: { 'application/json': { schema } } },
+});
+
+export const registerAuthPaths = (registry: OpenAPIRegistry): void => {
+    registry.registerPath({
+        method: 'post',
+        path: '/auth/register/initiate',
+        tags: [TAG],
+        summary: 'Start registration — sends a verification email.',
+        request: JSON_BODY(initiateRegistrationSchema),
+        responses: {
+            200: successResponse('Verification code dispatched', messageWithVerificationSchema),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/auth/register/verify-email',
+        tags: [TAG],
+        summary: 'Confirm the 6-digit code emailed to the user.',
+        request: JSON_BODY(verifyEmailSchema),
+        responses: {
+            200: successResponse('Email verified', verifyEmailResponseSchema),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/auth/register/complete',
+        tags: [TAG],
+        summary: 'Finalize registration and receive a token pair.',
+        request: JSON_BODY(completeRegistrationSchema),
+        responses: {
+            201: successResponse('Account created', loginResponseSchema),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/auth/login',
+        tags: [TAG],
+        summary: 'Email + password login. Optionally accepts twoFactorCode.',
+        request: JSON_BODY(loginSchema),
+        responses: {
+            200: successResponse('Login successful', loginResponseSchema),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/auth/logout',
+        tags: [TAG],
+        summary: 'Invalidate the refresh token tied to this session.',
+        request: JSON_BODY(z.object({ refreshToken: z.string().optional() })),
+        responses: {
+            200: successResponse('Logged out', messageOnlyResponseSchema),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/auth/refresh-token',
+        tags: [TAG],
+        summary: 'Rotate the access + refresh token pair.',
+        request: JSON_BODY(refreshTokenSchema),
+        responses: {
+            200: successResponse('Tokens rotated', authTokensSchema),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/auth/forgot-password',
+        tags: [TAG],
+        summary: 'Mail a password-reset link.',
+        request: JSON_BODY(forgotPasswordSchema),
+        responses: {
+            200: successResponse('Reset link issued (or silently dropped if email is unknown)', messageOnlyResponseSchema),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/auth/reset-password',
+        tags: [TAG],
+        summary: 'Consume a reset token and set a new password.',
+        request: JSON_BODY(resetPasswordSchema),
+        responses: {
+            200: successResponse('Password reset', messageOnlyResponseSchema),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/auth/2fa/setup',
+        tags: [TAG],
+        summary: 'Begin 2FA enrollment — returns TOTP secret + recovery codes.',
+        security: requireBearerAuth,
+        responses: {
+            200: successResponse('Setup token generated', setup2faResponseSchema),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/auth/2fa/verify',
+        tags: [TAG],
+        summary: 'Confirm the first TOTP code and enable 2FA on the account.',
+        security: requireBearerAuth,
+        request: JSON_BODY(verify2FASchema),
+        responses: {
+            200: successResponse('2FA enabled', verify2faResponseSchema),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/auth/2fa/disable',
+        tags: [TAG],
+        summary: 'Turn 2FA off after confirming TOTP + password.',
+        security: requireBearerAuth,
+        request: JSON_BODY(disable2FASchema),
+        responses: {
+            200: successResponse('2FA disabled', disable2faResponseSchema),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/auth/2fa/recovery-codes',
+        tags: [TAG],
+        summary: 'Regenerate and return 10 single-use recovery codes.',
+        security: requireBearerAuth,
+        responses: {
+            200: successResponse('Recovery codes regenerated', recoveryCodesResponseSchema),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/auth/login/oauth/{provider}',
+        tags: [TAG],
+        summary: 'OAuth login/register for google | apple | facebook.',
+        request: {
+            params: z.object({
+                provider: z.enum(['google', 'apple', 'facebook']),
+            }),
+            ...JSON_BODY(oauthLoginSchema),
+        },
+        responses: {
+            200: successResponse('OAuth login successful', loginResponseSchema),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    // Sessions — defined in session.routes.ts but logically part of auth.
+    registry.registerPath({
+        method: 'get',
+        path: '/auth/sessions',
+        tags: [TAG],
+        summary: 'List active login sessions for the current user.',
+        security: requireBearerAuth,
+        responses: {
+            200: paginatedResponse(
+                'List of sessions',
+                z.object({
+                    id: z.string(),
+                    userAgent: z.string(),
+                    ipAddress: z.string(),
+                    lastActive: z.string(),
+                    createdAt: z.string(),
+                    isCurrent: z.boolean(),
+                })
+            ),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'delete',
+        path: '/auth/sessions/{id}',
+        tags: [TAG],
+        summary: 'Revoke a specific session by id.',
+        security: requireBearerAuth,
+        request: { params: z.object({ id: z.string() }) },
+        responses: {
+            200: successResponse('Session revoked', messageOnlyResponseSchema),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'delete',
+        path: '/auth/sessions/all',
+        tags: [TAG],
+        summary: 'Revoke every other session after password confirmation.',
+        security: requireBearerAuth,
+        request: JSON_BODY(z.object({ password: z.string().min(1) })),
+        responses: {
+            200: successResponse(
+                'Other sessions revoked',
+                z.object({ message: z.string(), revokedCount: z.number().int() })
+            ),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+};

@@ -32,15 +32,6 @@ const upload = multer({
 // LIST DOCUMENTS
 // ============================================
 
-/**
- * @swagger
- * /users/me/documents:
- *   get:
- *     summary: List user documents
- *     tags: [Documents]
- *     security:
- *       - bearerAuth: []
- */
 router.get(
     '/',
     authenticate,
@@ -59,15 +50,6 @@ router.get(
 // UPLOAD DOCUMENT
 // ============================================
 
-/**
- * @swagger
- * /users/me/documents:
- *   post:
- *     summary: Upload a document
- *     tags: [Documents]
- *     security:
- *       - bearerAuth: []
- */
 router.post(
     '/',
     authenticate,
@@ -103,15 +85,6 @@ router.post(
 // GET DOWNLOAD URL
 // ============================================
 
-/**
- * @swagger
- * /users/me/documents/{id}/download:
- *   get:
- *     summary: Get document download URL
- *     tags: [Documents]
- *     security:
- *       - bearerAuth: []
- */
 router.get(
     '/:id/download',
     authenticate,
@@ -129,15 +102,6 @@ router.get(
 // DELETE DOCUMENT
 // ============================================
 
-/**
- * @swagger
- * /users/me/documents/{id}:
- *   delete:
- *     summary: Delete a document
- *     tags: [Documents]
- *     security:
- *       - bearerAuth: []
- */
 router.delete(
     '/:id',
     authenticate,

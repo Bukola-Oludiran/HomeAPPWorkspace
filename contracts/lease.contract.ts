@@ -12,6 +12,13 @@
 
 import { z } from 'zod';
 import { LeaseStatusValues } from './enums';
+import {
+    OpenAPIRegistry,
+    paginatedResponse,
+    requireBearerAuth,
+    STANDARD_ERROR_RESPONSES,
+    successResponse,
+} from './openapi';
 
 // ============================================
 // SHARED SUB-SCHEMAS
@@ -128,6 +135,109 @@ export type UpdateLeaseTermsInput = z.input<typeof updateLeaseTermsSchema>;
 // ============================================
 // LEGACY BACKEND DTO ALIASES — z.infer (= output)
 // ============================================
+
+// ============================================
+// OPENAPI PATH REGISTRATION
+// ============================================
+
+const TAG = 'Leases';
+const JSON_BODY = (schema: z.ZodTypeAny) => ({
+    body: { content: { 'application/json': { schema } } },
+});
+
+export const registerLeasePaths = (registry: OpenAPIRegistry): void => {
+    const idParam = z.object({ id: z.string().uuid() });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/leases',
+        tags: [TAG],
+        summary: "List the authenticated user's leases.",
+        security: requireBearerAuth,
+        responses: {
+            200: paginatedResponse('Lease list', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/leases/{id}',
+        tags: [TAG],
+        summary: 'Lease detail.',
+        security: requireBearerAuth,
+        request: { params: idParam },
+        responses: {
+            200: successResponse('Lease record', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/leases',
+        tags: [TAG],
+        summary: 'Create a new lease (LANDLORD/ADMIN).',
+        security: requireBearerAuth,
+        request: JSON_BODY(createLeaseSchema),
+        responses: {
+            201: successResponse('Lease created', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'put',
+        path: '/leases/{id}',
+        tags: [TAG],
+        summary: 'Update lease rent / end date / terms (LANDLORD/ADMIN).',
+        security: requireBearerAuth,
+        request: { params: idParam, ...JSON_BODY(updateLeaseSchema) },
+        responses: {
+            200: successResponse('Lease updated', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/leases/{id}/renew',
+        tags: [TAG],
+        summary: 'Landlord sends a renewal offer.',
+        security: requireBearerAuth,
+        request: { params: idParam, ...JSON_BODY(sendRenewalOfferSchema) },
+        responses: {
+            200: successResponse('Renewal offered', z.object({ message: z.string() })),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/leases/{id}/respond',
+        tags: [TAG],
+        summary: 'Tenant responds to a renewal offer.',
+        security: requireBearerAuth,
+        request: { params: idParam, ...JSON_BODY(respondToRenewalSchema) },
+        responses: {
+            200: successResponse('Response recorded', z.object({ message: z.string() })),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/leases/{id}/sign',
+        tags: [TAG],
+        summary: 'Tenant or landlord signs the lease.',
+        security: requireBearerAuth,
+        request: { params: idParam, ...JSON_BODY(signLeaseSchema) },
+        responses: {
+            200: successResponse('Signature accepted', z.object({ message: z.string() })),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+};
 
 export type CreateLeaseDto = z.infer<typeof createLeaseSchema>;
 export type UpdateLeaseDto = z.infer<typeof updateLeaseSchema>;

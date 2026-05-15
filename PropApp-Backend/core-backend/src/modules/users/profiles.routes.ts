@@ -21,15 +21,6 @@ const router = Router();
 // TENANT PROFILE
 // ============================================
 
-/**
- * @swagger
- * /users/me/profile/tenant:
- *   get:
- *     summary: Get tenant profile
- *     tags: [Profiles]
- *     security:
- *       - bearerAuth: []
- */
 router.get(
     '/me/profile/tenant',
     authenticate,
@@ -43,15 +34,6 @@ router.get(
     }
 );
 
-/**
- * @swagger
- * /users/me/profile/tenant:
- *   put:
- *     summary: Update tenant profile
- *     tags: [Profiles]
- *     security:
- *       - bearerAuth: []
- */
 router.put(
     '/me/profile/tenant',
     authenticate,
@@ -70,15 +52,6 @@ router.put(
 // LANDLORD PROFILE
 // ============================================
 
-/**
- * @swagger
- * /users/me/profile/landlord:
- *   get:
- *     summary: Get landlord profile
- *     tags: [Profiles]
- *     security:
- *       - bearerAuth: []
- */
 router.get(
     '/me/profile/landlord',
     authenticate,
@@ -92,15 +65,6 @@ router.get(
     }
 );
 
-/**
- * @swagger
- * /users/me/profile/landlord:
- *   put:
- *     summary: Update landlord profile
- *     tags: [Profiles]
- *     security:
- *       - bearerAuth: []
- */
 router.put(
     '/me/profile/landlord',
     authenticate,
@@ -119,15 +83,6 @@ router.put(
 // AGENT PROFILE
 // ============================================
 
-/**
- * @swagger
- * /users/me/profile/agent:
- *   get:
- *     summary: Get agent profile
- *     tags: [Profiles]
- *     security:
- *       - bearerAuth: []
- */
 router.get(
     '/me/profile/agent',
     authenticate,
@@ -141,15 +96,6 @@ router.get(
     }
 );
 
-/**
- * @swagger
- * /users/me/profile/agent:
- *   put:
- *     summary: Update agent profile
- *     tags: [Profiles]
- *     security:
- *       - bearerAuth: []
- */
 router.put(
     '/me/profile/agent',
     authenticate,
@@ -168,15 +114,6 @@ router.put(
 // AGENT CERTIFICATIONS
 // ============================================
 
-/**
- * @swagger
- * /users/me/profile/agent/certifications:
- *   post:
- *     summary: Add agent certification
- *     tags: [Profiles]
- *     security:
- *       - bearerAuth: []
- */
 router.post(
     '/me/profile/agent/certifications',
     authenticate,
@@ -191,15 +128,6 @@ router.post(
     }
 );
 
-/**
- * @swagger
- * /users/me/profile/agent/certifications/{id}:
- *   delete:
- *     summary: Delete agent certification
- *     tags: [Profiles]
- *     security:
- *       - bearerAuth: []
- */
 router.delete(
     '/me/profile/agent/certifications/:id',
     authenticate,

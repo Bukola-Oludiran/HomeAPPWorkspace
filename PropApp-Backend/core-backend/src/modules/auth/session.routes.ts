@@ -17,15 +17,6 @@ const router = Router();
 // GET ACTIVE SESSIONS
 // ============================================
 
-/**
- * @swagger
- * /auth/sessions:
- *   get:
- *     summary: List active login sessions
- *     tags: [Sessions]
- *     security:
- *       - bearerAuth: []
- */
 router.get(
     '/sessions',
     authenticate,
@@ -44,15 +35,6 @@ router.get(
 // REVOKE SESSION
 // ============================================
 
-/**
- * @swagger
- * /auth/sessions/{id}:
- *   delete:
- *     summary: Revoke a specific session
- *     tags: [Sessions]
- *     security:
- *       - bearerAuth: []
- */
 router.delete(
     '/sessions/:id',
     authenticate,
@@ -74,15 +56,6 @@ const revokeAllSchema = z.object({
     password: z.string().min(1, 'Password is required'),
 });
 
-/**
- * @swagger
- * /auth/sessions/all:
- *   delete:
- *     summary: Revoke all other sessions
- *     tags: [Sessions]
- *     security:
- *       - bearerAuth: []
- */
 router.delete(
     '/sessions/all',
     authenticate,

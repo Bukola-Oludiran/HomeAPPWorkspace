@@ -12,15 +12,6 @@ import { privacySettingsSchema } from './privacy.dto';
 
 const router = Router();
 
-/**
- * @swagger
- * /users/me/privacy:
- *   get:
- *     summary: Get privacy settings
- *     tags: [Settings]
- *     security:
- *       - bearerAuth: []
- */
 router.get(
     '/me/privacy',
     authenticate,
@@ -34,15 +25,6 @@ router.get(
     }
 );
 
-/**
- * @swagger
- * /users/me/privacy:
- *   put:
- *     summary: Update privacy settings
- *     tags: [Settings]
- *     security:
- *       - bearerAuth: []
- */
 router.put(
     '/me/privacy',
     authenticate,

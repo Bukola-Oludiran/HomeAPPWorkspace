@@ -6,6 +6,12 @@
  */
 
 import { z } from 'zod';
+import {
+    OpenAPIRegistry,
+    requireBearerAuth,
+    STANDARD_ERROR_RESPONSES,
+    successResponse,
+} from './openapi';
 
 // ============================================
 // CORE PROFILE
@@ -241,4 +247,335 @@ export const DEFAULT_PRIVACY_SETTINGS: PrivacySettingsDto = {
     showActivityStatus: false,
     allowMarketingEmails: false,
     allowDataSharing: false,
+};
+
+// ============================================
+// OPENAPI PATH REGISTRATION
+// ============================================
+
+const TAG = 'Users';
+const JSON_BODY = (schema: z.ZodTypeAny) => ({
+    body: { content: { 'application/json': { schema } } },
+});
+
+export const registerUsersPaths = (registry: OpenAPIRegistry): void => {
+    const idParam = z.object({ id: z.string().uuid() });
+    const providerParam = z.object({
+        provider: z.enum(['google', 'apple', 'facebook']),
+    });
+
+    // Core profile
+    registry.registerPath({
+        method: 'get',
+        path: '/users/me',
+        tags: [TAG],
+        summary: 'Authenticated user\'s full profile.',
+        security: requireBearerAuth,
+        responses: {
+            200: successResponse('User profile', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'put',
+        path: '/users/me',
+        tags: [TAG],
+        summary: 'Update first/last name, phone, and role-specific profileData.',
+        security: requireBearerAuth,
+        request: JSON_BODY(updateProfileSchema),
+        responses: {
+            200: successResponse('Profile updated', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'put',
+        path: '/users/me/password',
+        tags: [TAG],
+        summary: 'Change password (requires current password).',
+        security: requireBearerAuth,
+        request: JSON_BODY(updatePasswordSchema),
+        responses: {
+            200: successResponse('Password updated', z.object({ message: z.string() })),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'put',
+        path: '/users/me/preferences',
+        tags: [TAG],
+        summary: 'Update language / currency / timezone / search preferences.',
+        security: requireBearerAuth,
+        request: JSON_BODY(updatePreferencesSchema),
+        responses: {
+            200: successResponse('Preferences updated', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'put',
+        path: '/users/me/notification-settings',
+        tags: [TAG],
+        summary: 'Update email / sms / push notification preferences.',
+        security: requireBearerAuth,
+        request: JSON_BODY(updateNotificationSettingsSchema),
+        responses: {
+            200: successResponse('Notification settings updated', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'delete',
+        path: '/users/me',
+        tags: [TAG],
+        summary: 'Delete the authenticated user\'s account.',
+        security: requireBearerAuth,
+        responses: {
+            200: successResponse('Account deleted', z.object({ message: z.string() })),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/users/me/avatar',
+        tags: [TAG],
+        summary: 'Upload a new avatar image (multipart/form-data, field name `avatar`).',
+        security: requireBearerAuth,
+        request: {
+            body: {
+                content: {
+                    'multipart/form-data': {
+                        schema: z.object({
+                            avatar: z.string().describe('Avatar image binary'),
+                        }),
+                    },
+                },
+            },
+        },
+        responses: {
+            200: successResponse('Avatar updated', z.object({ avatarUrl: z.string().url() })),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/users/me/wallet',
+        tags: [TAG],
+        summary: 'Get the authenticated user\'s connected wallet address.',
+        security: requireBearerAuth,
+        responses: {
+            200: successResponse('Wallet', z.object({ walletAddress: z.string().nullable() })),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/users/me/wallet',
+        tags: [TAG],
+        summary: 'Connect a wallet via signed message.',
+        security: requireBearerAuth,
+        request: JSON_BODY(connectWalletSchema),
+        responses: {
+            200: successResponse('Wallet connected', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/users/public/landlord/{id}',
+        tags: [TAG],
+        summary: 'Public landlord profile (subject to landlord privacy settings).',
+        request: { params: idParam },
+        responses: {
+            200: successResponse('Public landlord profile', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    // Role-specific profiles
+    for (const [role, schema] of [
+        ['tenant', tenantProfileSchema],
+        ['landlord', landlordProfileSchema],
+        ['agent', agentProfileSchema],
+    ] as const) {
+        registry.registerPath({
+            method: 'get',
+            path: `/users/me/profile/${role}`,
+            tags: [TAG],
+            summary: `Get ${role} profile.`,
+            security: requireBearerAuth,
+            responses: {
+                200: successResponse(`${role} profile`, z.unknown()),
+                ...STANDARD_ERROR_RESPONSES,
+            },
+        });
+
+        registry.registerPath({
+            method: 'put',
+            path: `/users/me/profile/${role}`,
+            tags: [TAG],
+            summary: `Update ${role} profile.`,
+            security: requireBearerAuth,
+            request: JSON_BODY(schema),
+            responses: {
+                200: successResponse('Updated', z.object({ message: z.string() })),
+                ...STANDARD_ERROR_RESPONSES,
+            },
+        });
+    }
+
+    registry.registerPath({
+        method: 'post',
+        path: '/users/me/profile/agent/certifications',
+        tags: [TAG],
+        summary: 'Add an agent certification.',
+        security: requireBearerAuth,
+        request: JSON_BODY(addCertificationSchema),
+        responses: {
+            201: successResponse('Certification added', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'delete',
+        path: '/users/me/profile/agent/certifications/{id}',
+        tags: [TAG],
+        summary: 'Delete an agent certification.',
+        security: requireBearerAuth,
+        request: { params: idParam },
+        responses: {
+            200: successResponse('Certification deleted', z.object({ message: z.string() })),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    // Payment methods
+    registry.registerPath({
+        method: 'get',
+        path: '/users/me/payment-methods',
+        tags: [TAG],
+        summary: "List the user's saved payment methods.",
+        security: requireBearerAuth,
+        responses: {
+            200: successResponse('Payment methods', z.array(z.unknown())),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/users/me/payment-methods',
+        tags: [TAG],
+        summary: 'Add a payment method (tokenized).',
+        security: requireBearerAuth,
+        request: JSON_BODY(addPaymentMethodSchema),
+        responses: {
+            201: successResponse('Payment method added', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'put',
+        path: '/users/me/payment-methods/{id}/default',
+        tags: [TAG],
+        summary: 'Set a payment method as the default.',
+        security: requireBearerAuth,
+        request: { params: idParam },
+        responses: {
+            200: successResponse('Default updated', z.object({ message: z.string() })),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'delete',
+        path: '/users/me/payment-methods/{id}',
+        tags: [TAG],
+        summary: 'Remove a saved payment method.',
+        security: requireBearerAuth,
+        request: { params: idParam },
+        responses: {
+            200: successResponse('Payment method removed', z.object({ message: z.string() })),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    // Privacy
+    registry.registerPath({
+        method: 'get',
+        path: '/users/me/privacy',
+        tags: [TAG],
+        summary: 'Get privacy settings.',
+        security: requireBearerAuth,
+        responses: {
+            200: successResponse('Privacy settings', privacySettingsSchema),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'put',
+        path: '/users/me/privacy',
+        tags: [TAG],
+        summary: 'Update privacy settings.',
+        security: requireBearerAuth,
+        request: JSON_BODY(privacySettingsSchema),
+        responses: {
+            200: successResponse(
+                'Privacy settings updated',
+                z.object({ message: z.string(), settings: privacySettingsSchema })
+            ),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    // Connected (OAuth) accounts
+    registry.registerPath({
+        method: 'get',
+        path: '/users/me/connected-accounts',
+        tags: [TAG],
+        summary: 'List connected social accounts.',
+        security: requireBearerAuth,
+        responses: {
+            200: successResponse('Connected accounts', z.array(z.unknown())),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/users/me/connected-accounts/{provider}',
+        tags: [TAG],
+        summary: 'Link an OAuth account (google / apple / facebook).',
+        security: requireBearerAuth,
+        request: { params: providerParam, ...JSON_BODY(linkAccountSchema) },
+        responses: {
+            201: successResponse('Account linked', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'delete',
+        path: '/users/me/connected-accounts/{provider}',
+        tags: [TAG],
+        summary: 'Unlink an OAuth account.',
+        security: requireBearerAuth,
+        request: { params: providerParam },
+        responses: {
+            200: successResponse('Account unlinked', z.object({ message: z.string() })),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
 };

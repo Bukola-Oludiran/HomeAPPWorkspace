@@ -5,6 +5,13 @@
  */
 
 import { z } from 'zod';
+import {
+    OpenAPIRegistry,
+    paginatedResponse,
+    requireBearerAuth,
+    STANDARD_ERROR_RESPONSES,
+    successResponse,
+} from './openapi';
 
 // ============================================
 // DASHBOARD
@@ -88,6 +95,148 @@ export type TenantPaymentQueryRequest = z.input<typeof paymentQuerySchema>;
 // ============================================
 // LEGACY BACKEND DTO ALIASES
 // ============================================
+
+// ============================================
+// OPENAPI PATH REGISTRATION
+// ============================================
+
+const TAG = 'Tenant Dashboard';
+const JSON_BODY = (schema: z.ZodTypeAny) => ({
+    body: { content: { 'application/json': { schema } } },
+});
+
+export const registerTenantPaths = (registry: OpenAPIRegistry): void => {
+    const propertyIdParam = z.object({ propertyId: z.string().uuid() });
+    const idParam = z.object({ id: z.string().uuid() });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/tenant/dashboard',
+        tags: [TAG],
+        summary: 'Aggregate dashboard for the authenticated tenant.',
+        security: requireBearerAuth,
+        request: { query: dashboardQuerySchema },
+        responses: {
+            200: successResponse('Dashboard snapshot', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/tenant/rental',
+        tags: [TAG],
+        summary: "Tenant's active rental + lease summary.",
+        security: requireBearerAuth,
+        responses: {
+            200: successResponse('Current rental', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/tenant/applications',
+        tags: [TAG],
+        summary: 'List the tenant\'s rental applications.',
+        security: requireBearerAuth,
+        request: { query: applicationQuerySchema },
+        responses: {
+            200: paginatedResponse('Applications', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/tenant/applications',
+        tags: [TAG],
+        summary: 'Submit a new rental application.',
+        security: requireBearerAuth,
+        request: JSON_BODY(submitApplicationSchema),
+        responses: {
+            201: successResponse('Application submitted', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'delete',
+        path: '/tenant/applications/{id}',
+        tags: [TAG],
+        summary: 'Withdraw a pending application.',
+        security: requireBearerAuth,
+        request: { params: idParam },
+        responses: {
+            200: successResponse('Withdrawn', z.object({ message: z.string() })),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/tenant/saved',
+        tags: [TAG],
+        summary: 'List saved (favorited) properties.',
+        security: requireBearerAuth,
+        responses: {
+            200: successResponse('Saved properties', z.array(z.unknown())),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/tenant/saved/{propertyId}',
+        tags: [TAG],
+        summary: 'Save a property to favorites.',
+        security: requireBearerAuth,
+        request: { params: propertyIdParam },
+        responses: {
+            200: successResponse('Saved', z.object({ message: z.string() })),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'delete',
+        path: '/tenant/saved/{propertyId}',
+        tags: [TAG],
+        summary: 'Remove a property from favorites.',
+        security: requireBearerAuth,
+        request: { params: propertyIdParam },
+        responses: {
+            200: successResponse('Removed', z.object({ message: z.string() })),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/tenant/payments',
+        tags: [TAG],
+        summary: "Tenant's rent / deposit payment history.",
+        security: requireBearerAuth,
+        request: { query: paymentQuerySchema },
+        responses: {
+            200: paginatedResponse('Payments', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/tenant/payments',
+        tags: [TAG],
+        summary: 'Make a tenant-side payment (rent / deposit / other).',
+        security: requireBearerAuth,
+        request: JSON_BODY(makePaymentSchema),
+        responses: {
+            201: successResponse('Payment submitted', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+};
 
 export type DashboardQueryDto = z.infer<typeof dashboardQuerySchema>;
 export type SubmitApplicationDto = z.infer<typeof submitApplicationSchema>;

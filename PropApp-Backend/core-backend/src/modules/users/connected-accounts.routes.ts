@@ -12,15 +12,6 @@ import { linkAccountSchema } from './connected-accounts.dto';
 
 const router = Router();
 
-/**
- * @swagger
- * /users/me/connected-accounts:
- *   get:
- *     summary: Get connected social accounts
- *     tags: [Social Accounts]
- *     security:
- *       - bearerAuth: []
- */
 router.get(
     '/me/connected-accounts',
     authenticate,
@@ -34,15 +25,6 @@ router.get(
     }
 );
 
-/**
- * @swagger
- * /users/me/connected-accounts/{provider}:
- *   post:
- *     summary: Link a social account
- *     tags: [Social Accounts]
- *     security:
- *       - bearerAuth: []
- */
 router.post(
     '/me/connected-accounts/:provider',
     authenticate,
@@ -61,15 +43,6 @@ router.post(
     }
 );
 
-/**
- * @swagger
- * /users/me/connected-accounts/{provider}:
- *   delete:
- *     summary: Unlink a social account
- *     tags: [Social Accounts]
- *     security:
- *       - bearerAuth: []
- */
 router.delete(
     '/me/connected-accounts/:provider',
     authenticate,

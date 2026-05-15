@@ -20,15 +20,6 @@ const router = Router();
 // PROPERTY ANALYTICS
 // ============================================
 
-/**
- * @swagger
- * /properties/{id}/analytics/views:
- *   get:
- *     summary: Get property view analytics
- *     tags: [Analytics]
- *     security:
- *       - bearerAuth: []
- */
 router.get(
     '/properties/:id/analytics/views',
     authenticate,
@@ -47,15 +38,6 @@ router.get(
     }
 );
 
-/**
- * @swagger
- * /properties/{id}/analytics/market-comparison:
- *   get:
- *     summary: Get market comparison for property
- *     tags: [Analytics]
- *     security:
- *       - bearerAuth: []
- */
 router.get(
     '/properties/:id/analytics/market-comparison',
     authenticate,
@@ -72,15 +54,6 @@ router.get(
     }
 );
 
-/**
- * @swagger
- * /properties/{id}/analytics/price-optimization:
- *   post:
- *     summary: Get AI price optimization recommendations
- *     tags: [Analytics]
- *     security:
- *       - bearerAuth: []
- */
 router.post(
     '/properties/:id/analytics/price-optimization',
     authenticate,
@@ -106,15 +79,6 @@ router.post(
 // MARKET TRENDS
 // ============================================
 
-/**
- * @swagger
- * /analytics/market-trends:
- *   get:
- *     summary: Get market trends for an area
- *     tags: [Analytics]
- *     security:
- *       - bearerAuth: []
- */
 router.get(
     '/market-trends',
     authenticate,
@@ -136,15 +100,6 @@ router.get(
 // LANDLORD DASHBOARD
 // ============================================
 
-/**
- * @swagger
- * /landlord/dashboard/analytics:
- *   get:
- *     summary: Get landlord dashboard analytics
- *     tags: [Analytics]
- *     security:
- *       - bearerAuth: []
- */
 router.get(
     '/landlord/dashboard/analytics',
     authenticate,

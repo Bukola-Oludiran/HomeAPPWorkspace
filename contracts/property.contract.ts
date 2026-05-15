@@ -24,6 +24,13 @@ import {
     PropertyStatusValues,
 } from './enums';
 import type { PropertyType, ListingType, PriceUnit, PropertyStatus, PropertyMediaType } from './enums';
+import {
+    OpenAPIRegistry,
+    paginatedResponse,
+    requireBearerAuth,
+    STANDARD_ERROR_RESPONSES,
+    successResponse,
+} from './openapi';
 
 // ============================================
 // ZOD ENUMS (built from contracts/enums.ts so the
@@ -309,3 +316,316 @@ export interface WirePropertySummary {
     isVerified: boolean;
     createdAt: string;
 }
+
+// ============================================
+// OPENAPI WIRE SCHEMAS
+//
+// Minimal zod mirrors of the WireProperty* response types so the
+// OpenAPI generator can describe them. Refs match the TS interface
+// names so a hand-rolled TS interface in the frontend pairs 1:1 with
+// the generated schema component.
+// ============================================
+
+const wirePropertyAddressSchema = z
+    .object({
+        street: z.string().nullable(),
+        city: z.string().nullable(),
+        state: z.string().nullable(),
+        lga: z.string().nullable(),
+        neighborhood: z.string().nullable(),
+        postalCode: z.string().nullable(),
+        country: z.string(),
+        latitude: z.number().nullable(),
+        longitude: z.number().nullable(),
+    })
+    .openapi('WirePropertyAddress');
+
+const wirePropertyMediaSchema = z
+    .object({
+        id: z.string().uuid(),
+        url: z.string().url(),
+        type: z.string(),
+        isPrimary: z.boolean(),
+        caption: z.string().nullable(),
+        orderIndex: z.number().int(),
+        metadata: z.unknown(),
+    })
+    .openapi('WirePropertyMedia');
+
+const wirePropertyOwnerSchema = z
+    .object({
+        id: z.string().uuid(),
+        firstName: z.string().nullable(),
+        lastName: z.string().nullable(),
+        avatarUrl: z.string().nullable(),
+        verificationLevel: z.string(),
+    })
+    .openapi('WirePropertyOwner');
+
+const wirePropertySchema = z
+    .object({
+        id: z.string().uuid(),
+        name: z.string(),
+        description: z.string().nullable(),
+        propertyType: PropertyTypeEnum,
+        listingType: ListingTypeEnum,
+        status: PropertyStatusEnum,
+        price: z.number(),
+        priceUnit: PriceUnitEnum,
+        bedrooms: z.number().int().nullable(),
+        bathrooms: z.number().int().nullable(),
+        squareFeet: z.number().int().nullable(),
+        yearBuilt: z.number().int().nullable(),
+        amenities: z.array(z.string()),
+        verificationTier: z.string(),
+        isVerified: z.boolean(),
+        address: wirePropertyAddressSchema,
+        media: z.array(wirePropertyMediaSchema),
+        owner: wirePropertyOwnerSchema,
+        createdAt: z.string(),
+        updatedAt: z.string(),
+    })
+    .openapi('WireProperty');
+
+const wirePropertySummarySchema = z
+    .object({
+        id: z.string().uuid(),
+        name: z.string(),
+        propertyType: PropertyTypeEnum,
+        listingType: ListingTypeEnum,
+        status: PropertyStatusEnum,
+        price: z.number(),
+        priceUnit: PriceUnitEnum,
+        bedrooms: z.number().int().nullable(),
+        bathrooms: z.number().int().nullable(),
+        squareFeet: z.number().int().nullable(),
+        address: wirePropertyAddressSchema.pick({
+            street: true,
+            city: true,
+            state: true,
+            neighborhood: true,
+            country: true,
+        }),
+        primaryImage: z.string().nullable(),
+        verificationTier: z.string(),
+        isVerified: z.boolean(),
+        createdAt: z.string(),
+    })
+    .openapi('WirePropertySummary');
+
+// ============================================
+// OPENAPI PATH REGISTRATION
+// ============================================
+
+const TAG = 'Properties';
+const JSON_BODY = (schema: z.ZodTypeAny) => ({
+    body: { content: { 'application/json': { schema } } },
+});
+
+export const registerPropertyPaths = (registry: OpenAPIRegistry): void => {
+    registry.registerPath({
+        method: 'get',
+        path: '/properties',
+        tags: [TAG],
+        summary: 'List properties with filters + pagination.',
+        request: { query: searchPropertiesSchema },
+        responses: {
+            200: paginatedResponse('Property list', wirePropertySummarySchema),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/properties/search',
+        tags: [TAG],
+        summary: 'Full-text search across the active property listings.',
+        request: { query: searchPropertiesSchema },
+        responses: {
+            200: paginatedResponse('Search results', wirePropertySummarySchema),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/properties/featured',
+        tags: [TAG],
+        summary: 'Gold + Platinum verified properties (no filters).',
+        request: { query: z.object({ limit: z.coerce.number().int().min(1).max(50).optional() }) },
+        responses: {
+            200: successResponse('Featured set', z.array(wirePropertySummarySchema)),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/properties/nearby',
+        tags: [TAG],
+        summary: 'Properties within a radius of the given lat/lng.',
+        request: { query: nearbyPropertiesSchema },
+        responses: {
+            200: successResponse('Nearby results', z.array(wirePropertySummarySchema)),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/properties/{id}',
+        tags: [TAG],
+        summary: 'Full property detail.',
+        request: { params: z.object({ id: z.string().uuid() }) },
+        responses: {
+            200: successResponse('Property record', wirePropertySchema),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/properties/my/list',
+        tags: [TAG],
+        summary: "Landlord's own properties.",
+        security: requireBearerAuth,
+        request: { query: z.object({ status: PropertyStatusEnum.optional() }) },
+        responses: {
+            200: successResponse('Owner property list', z.array(wirePropertySummarySchema)),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/properties',
+        tags: [TAG],
+        summary: 'Create a published property.',
+        security: requireBearerAuth,
+        request: JSON_BODY(createPropertySchema),
+        responses: {
+            201: successResponse('Property created', wirePropertySchema),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'put',
+        path: '/properties/{id}',
+        tags: [TAG],
+        summary: 'Update a property (partial allowed).',
+        security: requireBearerAuth,
+        request: { params: z.object({ id: z.string().uuid() }), ...JSON_BODY(updatePropertySchema) },
+        responses: {
+            200: successResponse('Property updated', wirePropertySchema),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'delete',
+        path: '/properties/{id}',
+        tags: [TAG],
+        summary: 'Soft-delete a property (sets status to DELISTED).',
+        security: requireBearerAuth,
+        request: { params: z.object({ id: z.string().uuid() }) },
+        responses: {
+            200: successResponse('Deleted', z.object({ message: z.string() })),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'patch',
+        path: '/properties/{id}/status',
+        tags: [TAG],
+        summary: 'Update a property\'s status.',
+        security: requireBearerAuth,
+        request: { params: z.object({ id: z.string().uuid() }), ...JSON_BODY(updatePropertyStatusSchema) },
+        responses: {
+            200: successResponse('Status updated', z.object({ status: z.string() })),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/properties/{id}/images',
+        tags: [TAG],
+        summary: 'Upload up to 10 images (multipart/form-data, field name `images`).',
+        security: requireBearerAuth,
+        request: {
+            params: z.object({ id: z.string().uuid() }),
+            body: {
+                content: {
+                    'multipart/form-data': {
+                        schema: z.object({
+                            images: z.array(z.string()).describe('Image binaries (binary format)'),
+                        }),
+                    },
+                },
+            },
+        },
+        responses: {
+            200: successResponse(
+                'Images attached',
+                z.object({
+                    media: z.array(z.object({ id: z.string().uuid(), url: z.string().url() })),
+                })
+            ),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'delete',
+        path: '/properties/{id}/images/{imageId}',
+        tags: [TAG],
+        summary: 'Remove a single image from a property.',
+        security: requireBearerAuth,
+        request: { params: z.object({ id: z.string().uuid(), imageId: z.string().uuid() }) },
+        responses: {
+            200: successResponse('Image removed', z.object({ message: z.string() })),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/properties/draft',
+        tags: [TAG],
+        summary: 'Create a draft property (wizard).',
+        security: requireBearerAuth,
+        request: JSON_BODY(createDraftSchema),
+        responses: {
+            201: successResponse('Draft created', wirePropertySchema),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'put',
+        path: '/properties/draft/{id}',
+        tags: [TAG],
+        summary: 'Update an existing draft.',
+        security: requireBearerAuth,
+        request: { params: z.object({ id: z.string().uuid() }), ...JSON_BODY(updateDraftSchema) },
+        responses: {
+            200: successResponse('Draft updated', wirePropertySchema),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/properties/draft/{id}/publish',
+        tags: [TAG],
+        summary: 'Publish a draft — moves status to PENDING_REVIEW.',
+        security: requireBearerAuth,
+        request: { params: z.object({ id: z.string().uuid() }) },
+        responses: {
+            200: successResponse('Draft published', wirePropertySchema),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+};

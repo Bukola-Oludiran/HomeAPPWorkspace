@@ -11,6 +11,13 @@
  */
 
 import { z } from 'zod';
+import {
+    OpenAPIRegistry,
+    paginatedResponse,
+    requireBearerAuth,
+    STANDARD_ERROR_RESPONSES,
+    successResponse,
+} from './openapi';
 
 // ============================================
 // QUERY
@@ -102,6 +109,130 @@ export type RefundRequest = z.input<typeof refundSchema>;
 // ============================================
 // LEGACY BACKEND DTO ALIASES
 // ============================================
+
+// ============================================
+// OPENAPI PATH REGISTRATION
+// ============================================
+
+const TAG = 'Transactions';
+const JSON_BODY = (schema: z.ZodTypeAny) => ({
+    body: { content: { 'application/json': { schema } } },
+});
+
+export const registerTransactionsPaths = (registry: OpenAPIRegistry): void => {
+    const idParam = z.object({ id: z.string().uuid() });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/transactions/webhook/paystack',
+        tags: [TAG],
+        summary: 'Paystack signed webhook (signature-verified, no Bearer).',
+        request: { body: { content: { 'application/json': { schema: z.unknown() } } } },
+        responses: {
+            200: { description: 'Webhook accepted' },
+            400: STANDARD_ERROR_RESPONSES[400],
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/transactions',
+        tags: [TAG],
+        summary: 'Paginated transaction history for the authenticated user.',
+        security: requireBearerAuth,
+        request: { query: transactionQuerySchema },
+        responses: {
+            200: paginatedResponse('Transactions', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'get',
+        path: '/transactions/{id}',
+        tags: [TAG],
+        summary: 'Transaction detail.',
+        security: requireBearerAuth,
+        request: { params: idParam },
+        responses: {
+            200: successResponse('Transaction record', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/transactions/pay',
+        tags: [TAG],
+        summary: 'Initiate a payment (returns paymentUrl + provider reference).',
+        security: requireBearerAuth,
+        request: JSON_BODY(initiatePaymentSchema),
+        responses: {
+            201: successResponse(
+                'Payment initiated',
+                z.object({
+                    transactionId: z.string().uuid(),
+                    paymentUrl: z.string().url(),
+                    reference: z.string(),
+                    provider: z.string(),
+                })
+            ),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/transactions/verify',
+        tags: [TAG],
+        summary: 'Verify a previously-initiated payment by reference.',
+        security: requireBearerAuth,
+        request: JSON_BODY(verifyPaymentSchema),
+        responses: {
+            200: successResponse('Verification result', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/transactions/escrow',
+        tags: [TAG],
+        summary: 'Landlord opens an escrow against a property + tenant.',
+        security: requireBearerAuth,
+        request: JSON_BODY(createEscrowSchema),
+        responses: {
+            201: successResponse('Escrow created', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/transactions/escrow/{id}/release',
+        tags: [TAG],
+        summary: 'Tenant or landlord confirms release of escrow funds.',
+        security: requireBearerAuth,
+        request: { params: idParam, ...JSON_BODY(releaseEscrowSchema) },
+        responses: {
+            200: successResponse('Release recorded', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
+    registry.registerPath({
+        method: 'post',
+        path: '/transactions/{id}/refund',
+        tags: [TAG],
+        summary: 'Request a refund against a transaction.',
+        security: requireBearerAuth,
+        request: { params: idParam, ...JSON_BODY(refundSchema) },
+        responses: {
+            200: successResponse('Refund queued', z.unknown()),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+};
 
 export type TransactionQueryDto = z.infer<typeof transactionQuerySchema>;
 export type InitiatePaymentDto = z.infer<typeof initiatePaymentSchema>;

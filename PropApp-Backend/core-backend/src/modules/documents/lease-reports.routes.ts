@@ -21,15 +21,6 @@ const router = Router();
 // LEASE DOCUMENTS
 // ============================================
 
-/**
- * @swagger
- * /leases:
- *   get:
- *     summary: List lease documents
- *     tags: [Lease Documents]
- *     security:
- *       - bearerAuth: []
- */
 router.get(
     '/',
     authenticate,
@@ -44,15 +35,6 @@ router.get(
     }
 );
 
-/**
- * @swagger
- * /leases/{id}/document:
- *   get:
- *     summary: Get lease document
- *     tags: [Lease Documents]
- *     security:
- *       - bearerAuth: []
- */
 router.get(
     '/:id/document',
     authenticate,
@@ -66,15 +48,6 @@ router.get(
     }
 );
 
-/**
- * @swagger
- * /leases/{id}/document/generate:
- *   post:
- *     summary: Generate lease document
- *     tags: [Lease Documents]
- *     security:
- *       - bearerAuth: []
- */
 router.post(
     '/:id/document/generate',
     authenticate,
@@ -96,15 +69,6 @@ router.post(
 // FINANCIAL REPORTS
 // ============================================
 
-/**
- * @swagger
- * /reports:
- *   get:
- *     summary: List financial reports
- *     tags: [Financial Reports]
- *     security:
- *       - bearerAuth: []
- */
 router.get(
     '/reports',
     authenticate,
@@ -119,15 +83,6 @@ router.get(
     }
 );
 
-/**
- * @swagger
- * /reports/{id}:
- *   get:
- *     summary: Get financial report
- *     tags: [Financial Reports]
- *     security:
- *       - bearerAuth: []
- */
 router.get(
     '/reports/:id',
     authenticate,
@@ -141,15 +96,6 @@ router.get(
     }
 );
 
-/**
- * @swagger
- * /reports/generate:
- *   post:
- *     summary: Generate financial report
- *     tags: [Financial Reports]
- *     security:
- *       - bearerAuth: []
- */
 router.post(
     '/reports/generate',
     authenticate,
