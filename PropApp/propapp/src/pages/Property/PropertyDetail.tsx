@@ -156,7 +156,7 @@ export default function PropertyDetail() {
     // Derived values for UI
     const primaryImage = property.media.find(m => m.isPrimary)?.url || property.media[0]?.url || 'https://placehold.co/800x600?text=No+Image';
     const galleryImages = property.media.filter(m => m.type === 'IMAGE').map(m => m.url);
-    const priceDisplay = formatPrice(property.price, property.currency);
+    const priceDisplay = formatPrice(property.price, 'NGN');
     const typeLabel = getTypeLabel(property.listingType);
     const fullAddress = `${property.address.street}, ${property.address.city}, ${property.address.state}`;
     const sqft = property.squareFeet ? property.squareFeet.toLocaleString() : 'N/A';
@@ -368,23 +368,10 @@ export default function PropertyDetail() {
                                     AI Property Analysis
                                 </h3>
                             </div>
-                            <ul className="space-y-3">
-                                {(property.highlights || []).map((highlight, index: number) => (
-                                    <li
-                                        key={index}
-                                        className="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300"
-                                    >
-                                        <span
-                                            className={`material-symbols-outlined ${highlight.iconColor} text-[20px] mt-0.5`}
-                                        >
-                                            {highlight.icon}
-                                        </span>
-                                        <span>
-                                            <strong>{highlight.title}</strong> {highlight.text}
-                                        </span>
-                                    </li>
-                                ))}
-                            </ul>
+                            {/* AI highlights are computed elsewhere (out of scope for the
+                                property wire shape). UI shell retained as a no-op until a
+                                future analytics-derived highlights feed lands. */}
+                            <ul className="space-y-3"></ul>
                         </div>
 
                         {/* Location Section */}
@@ -417,23 +404,23 @@ export default function PropertyDetail() {
                                 <div className="flex items-center gap-4 mb-6">
                                     <div className="relative">
                                         <img
-                                            alt="Agent Profile"
+                                            alt="Owner Profile"
                                             className="size-16 rounded-full object-cover border-2 border-slate-100 dark:border-slate-600"
-                                            src={property.agent?.avatarUrl || 'https://placehold.co/64x64?text=Agent'}
+                                            src={property.owner?.avatarUrl || 'https://placehold.co/64x64?text=Agent'}
                                         />
                                         <span className="absolute bottom-0 right-0 size-4 bg-green-500 border-2 border-white dark:border-slate-800 rounded-full"></span>
                                     </div>
                                     <div>
                                         <h4 className="font-bold text-lg text-slate-900 dark:text-white">
-                                            {property.agent?.name || 'Property Agent'}
+                                            {[property.owner?.firstName, property.owner?.lastName].filter(Boolean).join(' ') || 'Property Owner'}
                                         </h4>
-                                        <p className="text-slate-500 text-sm">{property.agent?.title || 'Real Estate Agent'}</p>
-                                        {property.agent && (
+                                        <p className="text-slate-500 text-sm">Property Owner</p>
+                                        {property.owner?.verificationLevel && property.owner.verificationLevel !== 'UNVERIFIED' && (
                                             <div className="flex items-center gap-1 text-xs font-semibold text-[#137fec] mt-1">
                                                 <span className="material-symbols-outlined text-[14px] icon-filled">
                                                     verified
                                                 </span>
-                                                Verified Agent
+                                                Verified ({property.owner.verificationLevel})
                                             </div>
                                         )}
                                     </div>
@@ -442,7 +429,7 @@ export default function PropertyDetail() {
                                     Message Host
                                 </button>
                                 <div className="text-center text-xs text-slate-400">
-                                    {property.agent?.rating ? `Rating: ${property.agent.rating}/5` : 'Contact for more info'}
+                                    Contact for more info
                                 </div>
                             </div>
                         </div>
@@ -535,8 +522,8 @@ export default function PropertyDetail() {
                     image: primaryImage,
                 }}
                 agent={{
-                    name: property.agent?.name || 'Agent',
-                    image: property.agent?.avatarUrl || 'https://placehold.co/64x64?text=Agent',
+                    name: [property.owner?.firstName, property.owner?.lastName].filter(Boolean).join(' ') || 'Agent',
+                    image: property.owner?.avatarUrl || 'https://placehold.co/64x64?text=Agent',
                 }}
             />
 
@@ -555,7 +542,7 @@ export default function PropertyDetail() {
             <ShareModal
                 isOpen={showShareModal}
                 onClose={() => setShowShareModal(false)}
-                title={`${property.name} - ${property.bedrooms} bed, ${property.bathrooms} bath • ${sqft} sqft • ${priceDisplay}`}
+                title={`${property.name} - ${property.bedrooms ?? 0} bed, ${property.bathrooms ?? 0} bath • ${sqft} sqft • ${priceDisplay}`}
                 url={window.location.href}
             />
 
@@ -564,9 +551,9 @@ export default function PropertyDetail() {
                 isOpen={showContactModal}
                 onClose={() => setShowContactModal(false)}
                 agent={{
-                    name: property.agent?.name || 'Property Agent',
-                    title: property.agent?.title || 'Real Estate Agent',
-                    image: property.agent?.avatarUrl || 'https://placehold.co/64x64?text=Agent',
+                    name: [property.owner?.firstName, property.owner?.lastName].filter(Boolean).join(' ') || 'Property Agent',
+                    title: 'Property Owner',
+                    image: property.owner?.avatarUrl || 'https://placehold.co/64x64?text=Agent',
                 }}
                 property={{
                     name: property.name,

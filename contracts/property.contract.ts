@@ -16,12 +16,14 @@
  */
 
 import { z } from 'zod';
+import type { VerificationLevel, VerificationTier } from './enums';
 import {
     PropertyTypeValues,
     ListingTypeValues,
     PriceUnitValues,
     PropertyStatusValues,
 } from './enums';
+import type { PropertyType, ListingType, PriceUnit, PropertyStatus, PropertyMediaType } from './enums';
 
 // ============================================
 // ZOD ENUMS (built from contracts/enums.ts so the
@@ -206,3 +208,104 @@ export type UpdateDraftDto = z.infer<typeof updateDraftSchema>;
 export type SearchPropertiesDto = z.infer<typeof searchPropertiesSchema>;
 export type NearbyPropertiesDto = z.infer<typeof nearbyPropertiesSchema>;
 export type ReorderImagesDto = z.infer<typeof reorderImagesSchema>;
+
+// ============================================
+// RESPONSE / WIRE TYPES (S2.3)
+//
+// What every property-returning endpoint actually carries on the wire
+// after the backend runs `serializeProperty()` / `serializePropertySummary()`.
+// These replace the older flat-address shape that lived in the frontend
+// `types/property.ts` `Property` / `PropertySummary` interfaces and
+// were bridged by the now-deleted `transforms.ts`.
+// ============================================
+
+export interface WirePropertyAddress {
+    street: string | null;
+    city: string | null;
+    state: string | null;
+    /** Nigeria-specific local government area. Nullable. */
+    lga: string | null;
+    neighborhood: string | null;
+    /** Postal / ZIP code. Property-record column is `addressZip`. */
+    postalCode: string | null;
+    /** ISO 3166-1 alpha-2 country code (e.g. `NG`). */
+    country: string;
+    latitude: number | null;
+    longitude: number | null;
+}
+
+export interface WirePropertyMedia {
+    id: string;
+    url: string;
+    type: PropertyMediaType;
+    isPrimary: boolean;
+    caption: string | null;
+    orderIndex: number;
+    metadata: unknown;
+}
+
+export interface WirePropertyOwner {
+    id: string;
+    firstName: string | null;
+    lastName: string | null;
+    avatarUrl: string | null;
+    verificationLevel: VerificationLevel;
+}
+
+/**
+ * Full property wire shape — used by detail / create / update / draft
+ * / publish endpoints.
+ *
+ * Phantom fields previously declared on the frontend `Property` type
+ * (`toilets`, `parkingSpaces`, `currency`, `viewCount`, `favoriteCount`,
+ * `isFeatured`) are intentionally NOT included; none exist in Prisma
+ * and none were ever populated by the backend. `isVerified` IS included
+ * — it's derived in the serializer from `verificationTier !== 'UNVERIFIED'`
+ * so the frontend doesn't have to compute it.
+ */
+export interface WireProperty {
+    id: string;
+    name: string;
+    description: string | null;
+    propertyType: PropertyType;
+    listingType: ListingType;
+    status: PropertyStatus;
+    price: number;
+    priceUnit: PriceUnit;
+    bedrooms: number | null;
+    bathrooms: number | null;
+    squareFeet: number | null;
+    yearBuilt: number | null;
+    amenities: string[];
+    verificationTier: VerificationTier;
+    /** Derived: `verificationTier !== 'UNVERIFIED'`. */
+    isVerified: boolean;
+    address: WirePropertyAddress;
+    media: WirePropertyMedia[];
+    owner: WirePropertyOwner;
+    createdAt: string;
+    updatedAt: string;
+}
+
+/**
+ * Compact list-shape used by list / search / featured / nearby /
+ * my-properties endpoints. Address is nested but only the subset
+ * needed for card display is populated.
+ */
+export interface WirePropertySummary {
+    id: string;
+    name: string;
+    propertyType: PropertyType;
+    listingType: ListingType;
+    status: PropertyStatus;
+    price: number;
+    priceUnit: PriceUnit;
+    bedrooms: number | null;
+    bathrooms: number | null;
+    squareFeet: number | null;
+    address: Pick<WirePropertyAddress, 'street' | 'city' | 'state' | 'neighborhood' | 'country'>;
+    primaryImage: string | null;
+    verificationTier: VerificationTier;
+    isVerified: boolean;
+    createdAt: string;
+}

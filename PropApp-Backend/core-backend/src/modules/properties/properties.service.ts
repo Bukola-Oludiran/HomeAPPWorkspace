@@ -21,79 +21,70 @@ import {
     SearchPropertiesDto,
     NearbyPropertiesDto,
 } from './properties.dto';
+import { serializeProperty, serializePropertySummary } from './properties.serializer';
+import type {
+    WireProperty,
+    WirePropertySummary,
+} from '@homeai/contracts/property.contract';
 
 // ============================================
 // TYPES
 // ============================================
 
 interface PropertyListResult {
-    properties: PropertySummary[];
+    properties: WirePropertySummary[];
     total: number;
     page: number;
     limit: number;
     totalPages: number;
 }
 
-interface PropertySummary {
-    id: string;
-    name: string;
-    propertyType: string;
-    listingType: string;
-    price: number;
-    priceUnit: string;
-    bedrooms: number | null;
-    bathrooms: number | null;
-    addressCity: string | null;
-    addressState: string | null;
-    addressNeighborhood: string | null;
-    verificationTier: string;
-    status: string;
-    primaryImage: string | null;
-    createdAt: Date;
-}
-
-interface PropertyDetail {
-    id: string;
-    name: string;
-    description: string | null;
-    propertyType: string;
-    listingType: string;
-    price: number;
-    priceUnit: string;
-    bedrooms: number | null;
-    bathrooms: number | null;
-    squareFeet: number | null;
-    yearBuilt: number | null;
-    addressStreet: string | null;
-    addressCity: string | null;
-    addressState: string | null;
-    addressZip: string | null;
-    addressLga: string | null;
-    addressNeighborhood: string | null;
-    latitude: number | null;
-    longitude: number | null;
-    amenities: string[];
-    status: string;
-    verificationTier: string;
-    media: {
-        id: string;
-        url: string;
-        type: string;
-        isPrimary: boolean;
-        caption: string | null;
-        orderIndex: number;
-        metadata: Prisma.JsonValue;
-    }[];
+/**
+ * Selection passed to every Prisma `findFirst` / `findMany` / `create`
+ * that hands its row to `serializeProperty()`. Keep in sync with the
+ * `PrismaPropertyForSerialize` type in `properties.serializer.ts`.
+ */
+const propertyDetailInclude = {
+    media: { orderBy: { orderIndex: 'asc' as const } },
     owner: {
-        id: string;
-        firstName: string | null;
-        lastName: string | null;
-        avatarUrl: string | null;
-        verificationLevel: string;
-    };
-    createdAt: Date;
-    updatedAt: Date;
-}
+        select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            avatarUrl: true,
+            verificationLevel: true,
+        },
+    },
+} satisfies Prisma.PropertyInclude;
+
+/**
+ * Selection passed to every Prisma `findMany` whose rows are mapped
+ * through `serializePropertySummary()`.
+ */
+const propertySummarySelect = {
+    id: true,
+    name: true,
+    propertyType: true,
+    listingType: true,
+    price: true,
+    priceUnit: true,
+    bedrooms: true,
+    bathrooms: true,
+    squareFeet: true,
+    addressStreet: true,
+    addressCity: true,
+    addressState: true,
+    addressNeighborhood: true,
+    regionCode: true,
+    verificationTier: true,
+    status: true,
+    createdAt: true,
+    media: {
+        where: { isPrimary: true },
+        take: 1,
+        select: { url: true },
+    },
+} satisfies Prisma.PropertySelect;
 
 // ============================================
 // PROPERTY SERVICE CLASS
@@ -167,37 +158,13 @@ class PropertyService {
                 orderBy,
                 skip: (page - 1) * limit,
                 take: limit,
-                select: {
-                    id: true,
-                    name: true,
-                    propertyType: true,
-                    listingType: true,
-                    price: true,
-                    priceUnit: true,
-                    bedrooms: true,
-                    bathrooms: true,
-                    addressCity: true,
-                    addressState: true,
-                    addressNeighborhood: true,
-                    verificationTier: true,
-                    status: true,
-                    createdAt: true,
-                    media: {
-                        where: { isPrimary: true, type: 'IMAGE' },
-                        take: 1,
-                        select: { url: true },
-                    },
-                },
+                select: propertySummarySelect,
             }),
             prisma.property.count({ where }),
         ]);
 
         return {
-            properties: properties.map(p => ({
-                ...p,
-                price: Number(p.price),
-                primaryImage: (p as any).media?.[0]?.url || null,
-            })),
+            properties: properties.map(serializePropertySummary),
             total,
             page,
             limit,
@@ -209,7 +176,7 @@ class PropertyService {
      * Get property by ID
      * GET /api/v1/properties/:id
      */
-    async getPropertyById(propertyId: string, includeInactive = false): Promise<PropertyDetail> {
+    async getPropertyById(propertyId: string, includeInactive = false): Promise<WireProperty> {
         const where: Prisma.PropertyWhereInput = { id: propertyId };
         if (!includeInactive) {
             where.status = { not: 'DELISTED' };
@@ -217,32 +184,14 @@ class PropertyService {
 
         const property = await prisma.property.findFirst({
             where,
-            include: {
-                media: {
-                    orderBy: { orderIndex: 'asc' },
-                },
-                owner: {
-                    select: {
-                        id: true,
-                        firstName: true,
-                        lastName: true,
-                        avatarUrl: true,
-                        verificationLevel: true,
-                    },
-                },
-            },
+            include: propertyDetailInclude,
         });
 
         if (!property) {
             throw new PropertyNotFoundError();
         }
 
-        return {
-            ...property,
-            price: Number(property.price),
-            latitude: property.latitude ? Number(property.latitude) : null,
-            longitude: property.longitude ? Number(property.longitude) : null,
-        };
+        return serializeProperty(property);
     }
 
     /**
@@ -265,8 +214,8 @@ class PropertyService {
             const needle = query.toLowerCase();
             result.properties = result.properties.filter(p =>
                 p.name.toLowerCase().includes(needle) ||
-                p.addressCity?.toLowerCase().includes(needle) ||
-                p.addressNeighborhood?.toLowerCase().includes(needle)
+                p.address.city?.toLowerCase().includes(needle) ||
+                p.address.neighborhood?.toLowerCase().includes(needle)
             );
             result.total = result.properties.length;
             result.totalPages = Math.ceil(result.total / filters.limit);
@@ -281,7 +230,7 @@ class PropertyService {
      * Get featured properties
      * GET /api/v1/properties/featured
      */
-    async getFeaturedProperties(limit = 10): Promise<PropertySummary[]> {
+    async getFeaturedProperties(limit = 10): Promise<WirePropertySummary[]> {
         const properties = await prisma.property.findMany({
             where: {
                 status: 'ACTIVE',
@@ -292,41 +241,17 @@ class PropertyService {
                 { createdAt: 'desc' },
             ],
             take: limit,
-            select: {
-                id: true,
-                name: true,
-                propertyType: true,
-                listingType: true,
-                price: true,
-                priceUnit: true,
-                bedrooms: true,
-                bathrooms: true,
-                addressCity: true,
-                addressState: true,
-                addressNeighborhood: true,
-                verificationTier: true,
-                status: true,
-                createdAt: true,
-                media: {
-                    where: { isPrimary: true },
-                    take: 1,
-                    select: { url: true },
-                },
-            },
+            select: propertySummarySelect,
         });
 
-        return properties.map(p => ({
-            ...p,
-            price: Number(p.price),
-            primaryImage: p.media[0]?.url || null,
-        }));
+        return properties.map(serializePropertySummary);
     }
 
     /**
      * Get nearby properties
      * GET /api/v1/properties/nearby
      */
-    async getNearbyProperties(params: NearbyPropertiesDto): Promise<PropertySummary[]> {
+    async getNearbyProperties(params: NearbyPropertiesDto): Promise<WirePropertySummary[]> {
         const { latitude, longitude, radius, limit } = params;
 
         // Simple distance calculation using Haversine formula
@@ -338,34 +263,15 @@ class PropertyService {
                 longitude: { not: null },
             },
             select: {
-                id: true,
-                name: true,
-                propertyType: true,
-                listingType: true,
-                price: true,
-                priceUnit: true,
-                bedrooms: true,
-                bathrooms: true,
-                addressCity: true,
-                addressState: true,
-                addressNeighborhood: true,
-                verificationTier: true,
-                status: true,
+                ...propertySummarySelect,
                 latitude: true,
                 longitude: true,
-                createdAt: true,
-                media: {
-                    where: { isPrimary: true },
-                    take: 1,
-                    select: { url: true },
-                },
             },
         });
 
-        // Calculate distances and filter
         const propertiesWithDistance = properties
             .map(p => ({
-                ...p,
+                row: p,
                 distance: this.calculateDistance(
                     latitude,
                     longitude,
@@ -377,11 +283,7 @@ class PropertyService {
             .sort((a, b) => a.distance - b.distance)
             .slice(0, limit);
 
-        return propertiesWithDistance.map(p => ({
-            ...p,
-            price: Number(p.price),
-            primaryImage: p.media[0]?.url || null,
-        }));
+        return propertiesWithDistance.map(p => serializePropertySummary(p.row));
     }
 
     // ----------------------------------------
@@ -392,7 +294,7 @@ class PropertyService {
      * Create property
      * POST /api/v1/properties
      */
-    async createProperty(ownerId: string, data: CreatePropertyDto): Promise<PropertyDetail> {
+    async createProperty(ownerId: string, data: CreatePropertyDto): Promise<WireProperty> {
         const property = await prisma.property.create({
             data: {
                 ...data,
@@ -400,28 +302,12 @@ class PropertyService {
                 status: 'PENDING_REVIEW',
                 amenities: data.amenities || [],
             },
-            include: {
-                media: true,
-                owner: {
-                    select: {
-                        id: true,
-                        firstName: true,
-                        lastName: true,
-                        avatarUrl: true,
-                        verificationLevel: true,
-                    },
-                },
-            },
+            include: propertyDetailInclude,
         });
 
         logger.info(`Property created: ${property.id} by ${ownerId}`);
 
-        return {
-            ...property,
-            price: Number(property.price),
-            latitude: property.latitude ? Number(property.latitude) : null,
-            longitude: property.longitude ? Number(property.longitude) : null,
-        };
+        return serializeProperty(property);
     }
 
     /**
@@ -432,7 +318,7 @@ class PropertyService {
         propertyId: string,
         ownerId: string,
         data: UpdatePropertyDto
-    ): Promise<PropertyDetail> {
+    ): Promise<WireProperty> {
         await this.verifyOwnership(propertyId, ownerId);
 
         const property = await prisma.property.update({
@@ -441,30 +327,12 @@ class PropertyService {
                 ...data,
                 amenities: data.amenities,
             },
-            include: {
-                media: {
-                    orderBy: { orderIndex: 'asc' },
-                },
-                owner: {
-                    select: {
-                        id: true,
-                        firstName: true,
-                        lastName: true,
-                        avatarUrl: true,
-                        verificationLevel: true,
-                    },
-                },
-            },
+            include: propertyDetailInclude,
         });
 
         logger.info(`Property updated: ${propertyId}`);
 
-        return {
-            ...property,
-            price: Number(property.price),
-            latitude: property.latitude ? Number(property.latitude) : null,
-            longitude: property.longitude ? Number(property.longitude) : null,
-        };
+        return serializeProperty(property);
     }
 
     /**
@@ -513,7 +381,7 @@ class PropertyService {
      * Create draft property
      * POST /api/v1/properties/draft
      */
-    async createDraft(ownerId: string, data: CreateDraftDto): Promise<PropertyDetail> {
+    async createDraft(ownerId: string, data: CreateDraftDto): Promise<WireProperty> {
         const property = await prisma.property.create({
             data: {
                 ownerId,
@@ -538,28 +406,12 @@ class PropertyService {
                 amenities: data.amenities || [],
                 status: 'DRAFT',
             },
-            include: {
-                media: true,
-                owner: {
-                    select: {
-                        id: true,
-                        firstName: true,
-                        lastName: true,
-                        avatarUrl: true,
-                        verificationLevel: true,
-                    },
-                },
-            },
+            include: propertyDetailInclude,
         });
 
         logger.info(`Draft created: ${property.id}`);
 
-        return {
-            ...property,
-            price: Number(property.price),
-            latitude: property.latitude ? Number(property.latitude) : null,
-            longitude: property.longitude ? Number(property.longitude) : null,
-        };
+        return serializeProperty(property);
     }
 
     /**
@@ -570,7 +422,7 @@ class PropertyService {
         propertyId: string,
         ownerId: string,
         data: UpdateDraftDto
-    ): Promise<PropertyDetail> {
+    ): Promise<WireProperty> {
         const property = await this.verifyOwnership(propertyId, ownerId);
 
         if (property.status !== 'DRAFT') {
@@ -586,7 +438,7 @@ class PropertyService {
      * Publish draft
      * POST /api/v1/properties/draft/:id/publish
      */
-    async publishDraft(propertyId: string, ownerId: string): Promise<PropertyDetail> {
+    async publishDraft(propertyId: string, ownerId: string): Promise<WireProperty> {
         const property = await this.verifyOwnership(propertyId, ownerId);
 
         if (property.status !== 'DRAFT') {
@@ -595,7 +447,6 @@ class PropertyService {
             ]);
         }
 
-        // Validate required fields for publishing
         if (!property.name || property.price.equals(0)) {
             throw new ValidationError('Property is missing required fields', [
                 { field: 'name', message: 'Name is required' },
@@ -606,30 +457,12 @@ class PropertyService {
         const updated = await prisma.property.update({
             where: { id: propertyId },
             data: { status: 'PENDING_REVIEW' },
-            include: {
-                media: {
-                    orderBy: { orderIndex: 'asc' },
-                },
-                owner: {
-                    select: {
-                        id: true,
-                        firstName: true,
-                        lastName: true,
-                        avatarUrl: true,
-                        verificationLevel: true,
-                    },
-                },
-            },
+            include: propertyDetailInclude,
         });
 
         logger.info(`Draft published: ${propertyId}`);
 
-        return {
-            ...updated,
-            price: Number(updated.price),
-            latitude: updated.latitude ? Number(updated.latitude) : null,
-            longitude: updated.longitude ? Number(updated.longitude) : null,
-        };
+        return serializeProperty(updated);
     }
 
     // ----------------------------------------
@@ -727,7 +560,7 @@ class PropertyService {
     /**
      * Get properties owned by user
      */
-    async getMyProperties(ownerId: string, status?: string): Promise<PropertySummary[]> {
+    async getMyProperties(ownerId: string, status?: string): Promise<WirePropertySummary[]> {
         const where: Prisma.PropertyWhereInput = { ownerId };
         if (status) {
             where.status = status as Prisma.EnumPropertyStatusFilter;
@@ -736,34 +569,10 @@ class PropertyService {
         const properties = await prisma.property.findMany({
             where,
             orderBy: { createdAt: 'desc' },
-            select: {
-                id: true,
-                name: true,
-                propertyType: true,
-                listingType: true,
-                price: true,
-                priceUnit: true,
-                bedrooms: true,
-                bathrooms: true,
-                addressCity: true,
-                addressState: true,
-                addressNeighborhood: true,
-                verificationTier: true,
-                status: true,
-                createdAt: true,
-                media: {
-                    where: { isPrimary: true },
-                    take: 1,
-                    select: { url: true },
-                },
-            },
+            select: propertySummarySelect,
         });
 
-        return properties.map(p => ({
-            ...p,
-            price: Number(p.price),
-            primaryImage: p.media[0]?.url || null,
-        }));
+        return properties.map(serializePropertySummary);
     }
 
     // ----------------------------------------

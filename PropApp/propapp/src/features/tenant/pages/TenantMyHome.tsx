@@ -149,8 +149,8 @@ export default function TenantMyHome() {
                         property: {
                             name: data.property.name,
                             location: `${data.property.address?.city || ''}, ${data.property.address?.state || ''} • Unit`,
-                            beds: data.property.bedrooms,
-                            baths: data.property.bathrooms,
+                            beds: data.property.bedrooms ?? 0,
+                            baths: data.property.bathrooms ?? 0,
                             sqft: data.property.squareFeet ? `${data.property.squareFeet}` : 'N/A',
                             rent: formatCurrency(data.lease.monthlyRent),
                             image: data.property.primaryImage || defaultHomeData.property.image,

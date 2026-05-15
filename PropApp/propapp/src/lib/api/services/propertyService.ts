@@ -4,9 +4,8 @@
  */
 
 import axios from 'axios';
-import { api } from '../client';
+import { api, tokenManager } from '../client';
 import { API_BASE_URL, API_ENDPOINTS } from '../config';
-import { transformProperty, transformProperties, type ApiPropertyResponse } from '../transforms';
 import type { PaginatedResponse } from '../../../types/api';
 import type {
     Property,
@@ -22,71 +21,49 @@ import type {
     PropertyPriceOptimization,
     FavoriteProperty,
 } from '../../../types/property';
-import { tokenManager } from '../client';
 
 /**
- * Search properties with filters
- * Returns paginated response directly
+ * Search properties with filters. Backend `serializeProperty()` already
+ * nests the address, so no client-side bridging is needed.
  */
 export async function searchProperties(filters?: PropertySearchFilters): Promise<PaginatedResponse<PropertySummary>> {
     const token = tokenManager.getAccessToken();
-    const response = await axios.get<PaginatedResponse<ApiPropertyResponse>>(
+    const response = await axios.get<PaginatedResponse<PropertySummary>>(
         `${API_BASE_URL}${API_ENDPOINTS.PROPERTIES.SEARCH}`,
         {
             params: filters as Record<string, unknown>,
             headers: token ? { Authorization: `Bearer ${token}` } : {},
         }
     );
-
-    // Transform flat address fields to nested structure
-    return {
-        ...response.data,
-        data: transformProperties(response.data.data || []) as unknown as PropertySummary[],
-    };
+    return response.data;
 }
 
 /**
  * List all properties (for landlord)
  */
 export async function listProperties(filters?: PropertySearchFilters) {
-    const response = await api.get<ApiPropertyResponse[]>(API_ENDPOINTS.PROPERTIES.LIST, filters as Record<string, unknown>);
-    return {
-        ...response,
-        data: transformProperties(response.data || []) as unknown as PropertySummary[],
-    };
+    return api.get<PropertySummary[]>(API_ENDPOINTS.PROPERTIES.LIST, filters as Record<string, unknown>);
 }
 
 /**
  * Get featured properties
  */
 export async function getFeaturedProperties(limit?: number) {
-    const response = await api.get<ApiPropertyResponse[]>(API_ENDPOINTS.PROPERTIES.FEATURED, { limit });
-    return {
-        ...response,
-        data: transformProperties(response.data || []) as unknown as PropertySummary[],
-    };
+    return api.get<PropertySummary[]>(API_ENDPOINTS.PROPERTIES.FEATURED, { limit });
 }
 
 /**
  * Get nearby properties
  */
 export async function getNearbyProperties(latitude: number, longitude: number, radius?: number) {
-    const response = await api.get<ApiPropertyResponse[]>(API_ENDPOINTS.PROPERTIES.NEARBY, { latitude, longitude, radius });
-    return {
-        ...response,
-        data: transformProperties(response.data || []) as unknown as PropertySummary[],
-    };
+    return api.get<PropertySummary[]>(API_ENDPOINTS.PROPERTIES.NEARBY, { latitude, longitude, radius });
 }
 
 /**
  * Get property details by ID
  */
 export async function getPropertyById(id: string) {
-    const response = await api.get<ApiPropertyResponse>(API_ENDPOINTS.PROPERTIES.DETAIL(id));
-    return {
-        ...response,
-        data: transformProperty(response.data) as unknown as Property,
-    };
+    return api.get<Property>(API_ENDPOINTS.PROPERTIES.DETAIL(id));
 }
 
 /**

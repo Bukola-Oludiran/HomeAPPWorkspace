@@ -38,23 +38,9 @@ export type VerificationTier = 'UNVERIFIED' | 'BRONZE' | 'SILVER' | 'GOLD' | 'PL
 // Media types
 export type PropertyMediaType = 'IMAGE' | 'VIDEO' | 'TOUR_3D' | 'FLOOR_PLAN' | 'DOCUMENT';
 
-// Property media
-export interface PropertyMedia {
-    id: string;
-    url: string;
-    type: PropertyMediaType;
-    isPrimary: boolean;
-    caption?: string;
-    orderIndex: number;
-    metadata?: {
-        provider?: string;
-        embedCode?: string;
-        width?: number;
-        height?: number;
-    };
-}
-
-// Amenities
+// Amenities — UI-facing enumeration used by amenity-chip components.
+// The wire shape accepts `string[]` so unknown values won't crash; this
+// union just drives the icon-and-label map for the well-known set.
 export type Amenity =
     | 'SWIMMING_POOL'
     | 'GYM'
@@ -72,32 +58,8 @@ export type Amenity =
     | 'INTERNET'
     | 'CABLE_TV';
 
-// Property address
-export interface PropertyAddress {
-    street: string;
-    city: string;
-    state: string;
-    lga?: string;
-    neighborhood?: string;
-    postalCode?: string;
-    country: string;
-    latitude?: number;
-    longitude?: number;
-}
-
-// Property owner/agent info
-export interface PropertyAgent {
-    id: string;
-    name: string;
-    title?: string;
-    avatarUrl?: string;
-    phone?: string;
-    email?: string;
-    rating?: number;
-    reviewCount?: number;
-}
-
-// Property highlights
+// UI-only helper used by property-detail page hero blocks; not part of
+// the wire shape.
 export interface PropertyHighlight {
     icon: string;
     iconColor: string;
@@ -105,59 +67,21 @@ export interface PropertyHighlight {
     text: string;
 }
 
-// Full property type
-export interface Property {
-    id: string;
-    name: string;
-    description?: string;
-    propertyType: PropertyType;
-    listingType: ListingType;
-    status: PropertyStatus;
-    price: number;
-    priceUnit: PriceUnit;
-    currency: string;
-    bedrooms: number;
-    bathrooms: number;
-    toilets?: number;
-    parkingSpaces?: number;
-    squareFeet?: number;
-    yearBuilt?: number;
-    address: PropertyAddress;
-    amenities: Amenity[];
-    media: PropertyMedia[];
-    verificationTier?: VerificationTier;
-    isVerified: boolean;
-    isFeatured: boolean;
-    viewCount: number;
-    favoriteCount: number;
-    agent?: PropertyAgent;
-    landlordId: string;
-    highlights?: PropertyHighlight[];
-    createdAt: string;
-    updatedAt: string;
-}
-
-// Property summary (for lists)
-export interface PropertySummary {
-    id: string;
-    name: string;
-    propertyType: PropertyType;
-    listingType: ListingType;
-    status: PropertyStatus;
-    price: number;
-    priceUnit: PriceUnit;
-    currency: string;
-    bedrooms: number;
-    bathrooms: number;
-    squareFeet?: number;
-    address: Pick<PropertyAddress, 'street' | 'city' | 'state' | 'neighborhood'>;
-    primaryImage?: string;
-    verificationTier?: VerificationTier;
-    isVerified: boolean;
-    isFeatured: boolean;
-    viewCount?: number;
-    createdAt: string;
-}
+// ============================================
+// RESPONSE / WIRE TYPES — re-exported from @homeai/contracts
+//
+// `Property`, `PropertySummary`, `PropertyAddress`, `PropertyMedia` are
+// the exact shape backend `serializeProperty()` / `serializePropertySummary()`
+// emit. Renamed locally from `WireProperty` / `WirePropertySummary` /
+// `WirePropertyAddress` / `WirePropertyMedia` for ergonomics.
+// ============================================
+export type {
+    WireProperty as Property,
+    WirePropertySummary as PropertySummary,
+    WirePropertyAddress as PropertyAddress,
+    WirePropertyMedia as PropertyMedia,
+    WirePropertyOwner as PropertyAgent,
+} from '@homeai/contracts/property.contract';
 
 // ============================================
 // REQUEST TYPES — re-exported from @homeai/contracts
@@ -239,8 +163,10 @@ export interface PropertyPriceOptimization {
 }
 
 // Favorites
+import type { WirePropertySummary } from '@homeai/contracts/property.contract';
+
 export interface FavoriteProperty {
     id: string;
-    property: PropertySummary;
+    property: WirePropertySummary;
     createdAt: string;
 }

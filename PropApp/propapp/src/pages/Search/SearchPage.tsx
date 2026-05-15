@@ -867,8 +867,9 @@ export default function SearchPage() {
                                                         variant="overlay"
                                                     />
                                                 </div>
-                                                {/* Featured Badge */}
-                                                {property.isFeatured && (
+                                                {/* Featured Badge — derived from verificationTier until backend
+                                                    exposes a real isFeatured column. */}
+                                                {(property.verificationTier === 'GOLD' || property.verificationTier === 'PLATINUM') && (
                                                     <div className="absolute bottom-4 left-4 bg-[#137fec] text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm">
                                                         FEATURED
                                                     </div>
@@ -877,7 +878,7 @@ export default function SearchPage() {
                                             <div>
                                                 <div className="flex justify-between items-baseline mb-1">
                                                     <p className="text-xl font-bold text-slate-900 dark:text-white">
-                                                        {formatPriceFull(property.price, property.currency)}
+                                                        {formatPriceFull(property.price, 'NGN')}
                                                         {property.listingType === 'RENT' && (
                                                             <span className="text-sm font-normal text-slate-500 ml-1">/mo</span>
                                                         )}
