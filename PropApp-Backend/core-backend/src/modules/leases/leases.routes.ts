@@ -6,6 +6,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { leaseService } from './leases.service';
 import { authenticate, requireRoles } from '../../common/middleware/auth.middleware';
+import { validate } from '../../common/middleware/validate.middleware';
 import { sendSuccess, sendCreated } from '../../common/utils/response.util';
 import {
     createLeaseSchema,
@@ -19,21 +20,6 @@ const router = Router();
 
 // All lease routes require authentication
 router.use(authenticate);
-
-// ============================================
-// HELPER: Validate request body
-// ============================================
-
-const validate = <T>(schema: { parse: (data: unknown) => T }) => {
-    return (req: Request, res: Response, next: NextFunction) => {
-        try {
-            req.body = schema.parse(req.body);
-            next();
-        } catch (error) {
-            next(error);
-        }
-    };
-};
 
 // ============================================
 // GET LEASES

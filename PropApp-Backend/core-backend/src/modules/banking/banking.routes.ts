@@ -6,7 +6,8 @@
 
 import { Router, Request, Response, NextFunction } from 'express';
 import { authenticate } from '../../common/middleware/auth.middleware';
-import { sendSuccess, sendError } from '../../common/utils/response.util';
+import { validate, validateQuery } from '../../common/middleware/validate.middleware';
+import { sendSuccess } from '../../common/utils/response.util';
 import { bankingService } from './banking.service';
 import {
     addBankAccountSchema,
@@ -16,7 +17,6 @@ import {
     payoutQuerySchema,
     updatePayoutSettingsSchema,
 } from './banking.dto';
-import { ZodError } from 'zod';
 
 const router = Router();
 
@@ -36,10 +36,11 @@ const router = Router();
 router.get(
     '/banks',
     authenticate,
+    validateQuery(bankQuerySchema),
     async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const query = bankQuerySchema.parse(req.query);
-            const banks = await bankingService.getSupportedBanks(query.country, query.search);
+            const { country, search } = req.query as { country?: string; search?: string };
+            const banks = await bankingService.getSupportedBanks(country, search);
             sendSuccess(res, banks);
         } catch (error) {
             next(error);
@@ -63,15 +64,13 @@ router.get(
 router.post(
     '/resolve',
     authenticate,
+    validate(resolveBankAccountSchema),
     async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const dto = resolveBankAccountSchema.parse(req.body);
-            const result = await bankingService.resolveBankAccount(dto.bankCode, dto.accountNumber);
+            const { bankCode, accountNumber } = req.body;
+            const result = await bankingService.resolveBankAccount(bankCode, accountNumber);
             sendSuccess(res, result);
         } catch (error) {
-            if (error instanceof ZodError) {
-                return sendError(res, 'VAL_001', 'Validation failed', 400, error.errors as never);
-            }
             next(error);
         }
     }
@@ -115,15 +114,12 @@ router.get(
 router.post(
     '/users/me/bank-accounts',
     authenticate,
+    validate(addBankAccountSchema),
     async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const dto = addBankAccountSchema.parse(req.body);
-            const account = await bankingService.addBankAccount(req.user!.id, dto);
+            const account = await bankingService.addBankAccount(req.user!.id, req.body);
             sendSuccess(res, account, 201);
         } catch (error) {
-            if (error instanceof ZodError) {
-                return sendError(res, 'VAL_001', 'Validation failed', 400, error.errors as never);
-            }
             next(error);
         }
     }
@@ -189,15 +185,12 @@ router.delete(
 router.post(
     '/users/me/payouts',
     authenticate,
+    validate(requestPayoutSchema),
     async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const dto = requestPayoutSchema.parse(req.body);
-            const result = await bankingService.requestPayout(req.user!.id, dto);
+            const result = await bankingService.requestPayout(req.user!.id, req.body);
             sendSuccess(res, result, 201);
         } catch (error) {
-            if (error instanceof ZodError) {
-                return sendError(res, 'VAL_001', 'Validation failed', 400, error.errors as never);
-            }
             next(error);
         }
     }
@@ -215,10 +208,10 @@ router.post(
 router.get(
     '/users/me/payouts',
     authenticate,
+    validateQuery(payoutQuerySchema),
     async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const query = payoutQuerySchema.parse(req.query);
-            const result = await bankingService.getPayoutHistory(req.user!.id, query);
+            const result = await bankingService.getPayoutHistory(req.user!.id, req.query as never);
             sendSuccess(res, result);
         } catch (error) {
             next(error);
@@ -264,19 +257,15 @@ router.get(
 router.put(
     '/users/me/payout-settings',
     authenticate,
+    validate(updatePayoutSettingsSchema),
     async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const dto = updatePayoutSettingsSchema.parse(req.body);
-            await bankingService.updatePayoutSettings(req.user!.id, dto);
+            await bankingService.updatePayoutSettings(req.user!.id, req.body);
             sendSuccess(res, { message: 'Payout settings updated successfully' });
         } catch (error) {
-            if (error instanceof ZodError) {
-                return sendError(res, 'VAL_001', 'Validation failed', 400, error.errors as never);
-            }
             next(error);
         }
     }
 );
 
 export default router;
-

@@ -6,6 +6,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { tenantService } from './tenant.service';
 import { authenticate, requireRoles } from '../../common/middleware/auth.middleware';
+import { validate, validateQuery } from '../../common/middleware/validate.middleware';
 import { sendSuccess, sendCreated } from '../../common/utils/response.util';
 import {
     dashboardQuerySchema,
@@ -20,33 +21,6 @@ const router = Router();
 // All tenant routes require authentication and TENANT role
 router.use(authenticate);
 router.use(requireRoles('TENANT', 'ADMIN'));
-
-// ============================================
-// HELPER: Validate request body/query
-// ============================================
-
-const validate = <T>(schema: { parse: (data: unknown) => T }) => {
-    return (req: Request, res: Response, next: NextFunction) => {
-        try {
-            req.body = schema.parse(req.body);
-            next();
-        } catch (error) {
-            next(error);
-        }
-    };
-};
-
-const validateQuery = <T>(schema: { parse: (data: unknown) => T }) => {
-    return (req: Request, res: Response, next: NextFunction) => {
-        try {
-            req.query = schema.parse(req.query) as Record<string, string>;
-            next();
-        } catch (error) {
-            next(error);
-        }
-    };
-};
-
 // ============================================
 // DASHBOARD
 // ============================================

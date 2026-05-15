@@ -6,6 +6,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { messagingService } from './messaging.service';
 import { authenticate } from '../../common/middleware/auth.middleware';
+import { validate, validateQuery } from '../../common/middleware/validate.middleware';
 import { sendSuccess, sendCreated } from '../../common/utils/response.util';
 import {
     createConversationSchema,
@@ -18,33 +19,6 @@ const router = Router();
 
 // All messaging routes require authentication
 router.use(authenticate);
-
-// ============================================
-// HELPER: Validate request body/query
-// ============================================
-
-const validate = <T>(schema: { parse: (data: unknown) => T }) => {
-    return (req: Request, res: Response, next: NextFunction) => {
-        try {
-            req.body = schema.parse(req.body);
-            next();
-        } catch (error) {
-            next(error);
-        }
-    };
-};
-
-const validateQuery = <T>(schema: { parse: (data: unknown) => T }) => {
-    return (req: Request, res: Response, next: NextFunction) => {
-        try {
-            req.query = schema.parse(req.query) as Record<string, string>;
-            next();
-        } catch (error) {
-            next(error);
-        }
-    };
-};
-
 // ============================================
 // CONVERSATIONS
 // ============================================

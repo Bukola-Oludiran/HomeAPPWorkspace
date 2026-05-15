@@ -6,6 +6,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { authService } from './auth.service';
 import { authenticate } from '../../common/middleware/auth.middleware';
+import { validate } from '../../common/middleware/validate.middleware';
 import { sendSuccess, sendCreated } from '../../common/utils/response.util';
 import {
     initiateRegistrationSchema,
@@ -20,21 +21,6 @@ import {
 } from './auth.dto';
 
 const router = Router();
-
-// ============================================
-// HELPER: Validate request body
-// ============================================
-
-const validate = <T>(schema: { parse: (data: unknown) => T }) => {
-    return (req: Request, res: Response, next: NextFunction) => {
-        try {
-            req.body = schema.parse(req.body);
-            next();
-        } catch (error) {
-            next(error);
-        }
-    };
-};
 
 // ============================================
 // REGISTRATION ENDPOINTS

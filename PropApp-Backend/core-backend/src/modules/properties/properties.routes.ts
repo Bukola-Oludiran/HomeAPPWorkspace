@@ -7,6 +7,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 import multer from 'multer';
 import { propertyService } from './properties.service';
 import { authenticate, optionalAuth, requirePermission } from '../../common/middleware/auth.middleware';
+import { validate, validateQuery } from '../../common/middleware/validate.middleware';
 import { sendSuccess, sendCreated } from '../../common/utils/response.util';
 import { storageProviderFactory } from '../../integrations/storage';
 import { logger } from '../../common/utils/logger';
@@ -34,32 +35,6 @@ const upload = multer({
         }
     },
 });
-
-// ============================================
-// HELPER: Validate request body/query
-// ============================================
-
-const validate = <T>(schema: { parse: (data: unknown) => T }) => {
-    return (req: Request, res: Response, next: NextFunction) => {
-        try {
-            req.body = schema.parse(req.body);
-            next();
-        } catch (error) {
-            next(error);
-        }
-    };
-};
-
-const validateQuery = <T>(schema: { parse: (data: unknown) => T }) => {
-    return (req: Request, res: Response, next: NextFunction) => {
-        try {
-            req.query = schema.parse(req.query) as Record<string, string>;
-            next();
-        } catch (error) {
-            next(error);
-        }
-    };
-};
 
 // ============================================
 // PUBLIC ENDPOINTS

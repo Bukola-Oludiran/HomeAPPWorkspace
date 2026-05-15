@@ -6,6 +6,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { landlordService } from './landlord.service';
 import { authenticate, requireRoles, requirePermission } from '../../common/middleware/auth.middleware';
+import { validate, validateQuery } from '../../common/middleware/validate.middleware';
 import { sendSuccess, sendCreated } from '../../common/utils/response.util';
 import {
     dashboardQuerySchema,
@@ -23,33 +24,6 @@ const router = Router();
 // All landlord routes require authentication and LANDLORD role
 router.use(authenticate);
 router.use(requireRoles('LANDLORD', 'ADMIN'));
-
-// ============================================
-// HELPER: Validate request body/query
-// ============================================
-
-const validate = <T>(schema: { parse: (data: unknown) => T }) => {
-    return (req: Request, res: Response, next: NextFunction) => {
-        try {
-            req.body = schema.parse(req.body);
-            next();
-        } catch (error) {
-            next(error);
-        }
-    };
-};
-
-const validateQuery = <T>(schema: { parse: (data: unknown) => T }) => {
-    return (req: Request, res: Response, next: NextFunction) => {
-        try {
-            req.query = schema.parse(req.query) as Record<string, string>;
-            next();
-        } catch (error) {
-            next(error);
-        }
-    };
-};
-
 // ============================================
 // DASHBOARD
 // ============================================
