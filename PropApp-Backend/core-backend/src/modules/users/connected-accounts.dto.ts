@@ -1,12 +1,10 @@
 /**
- * Social Account Linking DTO
- * Per APIRevised.md Section 6
+ * Connected (Social) Accounts - DTO Re-exports
+ *
+ * Source-of-truth lives in `@homeai/contracts/users.contract`.
  */
 
-import { z } from 'zod';
-
-export const linkAccountSchema = z.object({
-    idToken: z.string().min(10),
-});
-
-export type LinkAccountDto = z.infer<typeof linkAccountSchema>;
+export {
+    linkAccountSchema,
+    type LinkAccountDto,
+} from '@homeai/contracts/users.contract';

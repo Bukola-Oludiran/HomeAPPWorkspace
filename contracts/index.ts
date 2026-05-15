@@ -10,6 +10,10 @@
  *   [x] transactions.contract.ts  — request schemas + inferred types
  *   [x] verification.contract.ts  — request schemas + inferred types
  *   [x] banking.contract.ts       — request schemas + inferred types
+ *   [x] tenant.contract.ts        — tenant dashboard aggregators
+ *   [x] landlord.contract.ts      — landlord dashboard aggregators
+ *   [x] agent.contract.ts         — agent dashboard aggregators
+ *   [x] users.contract.ts         — profile / preferences / payment-methods / privacy / oauth-link
  *
  * Prefer importing the specific module for IDE auto-import clarity:
  *   import type { ApiResponse } from '@homeai/contracts/envelope';
