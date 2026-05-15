@@ -66,6 +66,7 @@ class MessagingService {
         conversations: ConversationSummary[];
         total: number;
         page: number;
+        limit: number;
         totalPages: number;
     }> {
         const where: Prisma.ConversationWhereInput = {
@@ -133,6 +134,7 @@ class MessagingService {
             conversations: conversationsWithUnread,
             total,
             page: query.page,
+            limit: query.limit,
             totalPages: Math.ceil(total / query.limit),
         };
     }

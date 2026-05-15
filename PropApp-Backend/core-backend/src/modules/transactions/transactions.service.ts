@@ -68,6 +68,7 @@ class TransactionService {
         transactions: TransactionDetail[];
         total: number;
         page: number;
+        limit: number;
         totalPages: number;
     }> {
         const where: Record<string, unknown> = {
@@ -112,6 +113,7 @@ class TransactionService {
             transactions: transactions.map((t: any) => this.formatTransaction(t)),
             total,
             page: query.page,
+            limit: query.limit,
             totalPages: Math.ceil(total / query.limit),
         };
     }

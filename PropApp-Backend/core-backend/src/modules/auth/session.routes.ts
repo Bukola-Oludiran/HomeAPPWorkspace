@@ -6,10 +6,10 @@
 
 import { Router, Request, Response, NextFunction } from 'express';
 import { authenticate } from '../../common/middleware/auth.middleware';
-import { sendSuccess, sendError } from '../../common/utils/response.util';
+import { validate } from '../../common/middleware/validate.middleware';
+import { sendSuccess } from '../../common/utils/response.util';
 import { sessionService } from './session.service';
 import { z } from 'zod';
-import { ZodError } from 'zod';
 
 const router = Router();
 
@@ -86,9 +86,10 @@ const revokeAllSchema = z.object({
 router.delete(
     '/sessions/all',
     authenticate,
+    validate(revokeAllSchema),
     async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const { password } = revokeAllSchema.parse(req.body);
+            const { password } = req.body;
             // TODO: Get current session ID from token
             const currentSessionId = ''; // Placeholder
             const result = await sessionService.revokeAllOtherSessions(
@@ -101,9 +102,6 @@ router.delete(
                 revokedCount: result.revokedCount,
             });
         } catch (error) {
-            if (error instanceof ZodError) {
-                return sendError(res, 'VAL_001', 'Validation failed', 400, error.errors as never);
-            }
             next(error);
         }
     }

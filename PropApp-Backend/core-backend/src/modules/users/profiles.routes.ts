@@ -5,7 +5,8 @@
 
 import { Router, Request, Response, NextFunction } from 'express';
 import { authenticate } from '../../common/middleware/auth.middleware';
-import { sendSuccess, sendError } from '../../common/utils/response.util';
+import { validate } from '../../common/middleware/validate.middleware';
+import { sendSuccess } from '../../common/utils/response.util';
 import { profilesService } from './profiles.service';
 import {
     tenantProfileSchema,
@@ -13,7 +14,6 @@ import {
     agentProfileSchema,
     addCertificationSchema,
 } from './profiles.dto';
-import { ZodError } from 'zod';
 
 const router = Router();
 
@@ -55,15 +55,12 @@ router.get(
 router.put(
     '/me/profile/tenant',
     authenticate,
+    validate(tenantProfileSchema),
     async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const dto = tenantProfileSchema.parse(req.body);
-            await profilesService.updateTenantProfile(req.user!.id, dto);
+            await profilesService.updateTenantProfile(req.user!.id, req.body);
             sendSuccess(res, { message: 'Tenant profile updated successfully' });
         } catch (error) {
-            if (error instanceof ZodError) {
-                return sendError(res, 'VAL_001', 'Validation failed', 400, error.errors as never);
-            }
             next(error);
         }
     }
@@ -107,15 +104,12 @@ router.get(
 router.put(
     '/me/profile/landlord',
     authenticate,
+    validate(landlordProfileSchema),
     async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const dto = landlordProfileSchema.parse(req.body);
-            await profilesService.updateLandlordProfile(req.user!.id, dto);
+            await profilesService.updateLandlordProfile(req.user!.id, req.body);
             sendSuccess(res, { message: 'Landlord profile updated successfully' });
         } catch (error) {
-            if (error instanceof ZodError) {
-                return sendError(res, 'VAL_001', 'Validation failed', 400, error.errors as never);
-            }
             next(error);
         }
     }
@@ -159,15 +153,12 @@ router.get(
 router.put(
     '/me/profile/agent',
     authenticate,
+    validate(agentProfileSchema),
     async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const dto = agentProfileSchema.parse(req.body);
-            await profilesService.updateAgentProfile(req.user!.id, dto);
+            await profilesService.updateAgentProfile(req.user!.id, req.body);
             sendSuccess(res, { message: 'Agent profile updated successfully' });
         } catch (error) {
-            if (error instanceof ZodError) {
-                return sendError(res, 'VAL_001', 'Validation failed', 400, error.errors as never);
-            }
             next(error);
         }
     }
@@ -189,15 +180,12 @@ router.put(
 router.post(
     '/me/profile/agent/certifications',
     authenticate,
+    validate(addCertificationSchema),
     async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const dto = addCertificationSchema.parse(req.body);
-            const result = await profilesService.addAgentCertification(req.user!.id, dto);
+            const result = await profilesService.addAgentCertification(req.user!.id, req.body);
             sendSuccess(res, { message: 'Certification added', ...result }, 201);
         } catch (error) {
-            if (error instanceof ZodError) {
-                return sendError(res, 'VAL_001', 'Validation failed', 400, error.errors as never);
-            }
             next(error);
         }
     }

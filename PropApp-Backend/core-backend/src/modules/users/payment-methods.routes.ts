@@ -6,10 +6,10 @@
 
 import { Router, Request, Response, NextFunction } from 'express';
 import { authenticate } from '../../common/middleware/auth.middleware';
-import { sendSuccess, sendError } from '../../common/utils/response.util';
+import { validate } from '../../common/middleware/validate.middleware';
+import { sendSuccess } from '../../common/utils/response.util';
 import { paymentMethodsService } from './payment-methods.service';
 import { addPaymentMethodSchema } from './payment-methods.dto';
-import { ZodError } from 'zod';
 
 const router = Router();
 
@@ -55,18 +55,15 @@ router.get(
 router.post(
     '/me/payment-methods',
     authenticate,
+    validate(addPaymentMethodSchema),
     async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const validatedData = addPaymentMethodSchema.parse(req.body);
             const paymentMethod = await paymentMethodsService.addPaymentMethod(
                 req.user!.id,
-                validatedData
+                req.body
             );
             sendSuccess(res, paymentMethod, 201);
         } catch (error) {
-            if (error instanceof ZodError) {
-                return sendError(res, 'VAL_001', 'Validation failed', 400, error.errors as never);
-            }
             next(error);
         }
     }

@@ -73,6 +73,7 @@ class MaintenanceService {
         requests: MaintenanceRequestDetail[];
         total: number;
         page: number;
+        limit: number;
         totalPages: number;
     }> {
         const where: Record<string, unknown> = {};
@@ -153,6 +154,7 @@ class MaintenanceService {
             })),
             total,
             page: query.page,
+            limit: query.limit,
             totalPages: Math.ceil(total / query.limit),
         };
     }

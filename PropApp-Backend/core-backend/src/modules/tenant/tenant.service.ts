@@ -253,6 +253,7 @@ class TenantService {
         applications: ApplicationSummary[];
         total: number;
         page: number;
+        limit: number;
         totalPages: number;
     }> {
         const where: Record<string, unknown> = { tenantId };
@@ -295,6 +296,7 @@ class TenantService {
             })),
             total,
             page: query.page,
+            limit: query.limit,
             totalPages: Math.ceil(total / query.limit),
         };
     }
@@ -391,6 +393,7 @@ class TenantService {
         payments: PaymentSummary[];
         total: number;
         page: number;
+        limit: number;
         totalPages: number;
     }> {
         const where: Record<string, unknown> = { payerId: tenantId };
@@ -434,6 +437,7 @@ class TenantService {
             })),
             total,
             page: query.page,
+            limit: query.limit,
             totalPages: Math.ceil(total / query.limit),
         };
     }

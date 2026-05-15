@@ -5,10 +5,10 @@
 
 import { Router, Request, Response, NextFunction } from 'express';
 import { authenticate } from '../../common/middleware/auth.middleware';
-import { sendSuccess, sendError } from '../../common/utils/response.util';
+import { validate } from '../../common/middleware/validate.middleware';
+import { sendSuccess } from '../../common/utils/response.util';
 import { connectedAccountsService } from './connected-accounts.service';
 import { linkAccountSchema } from './connected-accounts.dto';
-import { ZodError } from 'zod';
 
 const router = Router();
 
@@ -46,19 +46,16 @@ router.get(
 router.post(
     '/me/connected-accounts/:provider',
     authenticate,
+    validate(linkAccountSchema),
     async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const dto = linkAccountSchema.parse(req.body);
             const result = await connectedAccountsService.linkAccount(
                 req.user!.id,
                 req.params.provider,
-                dto.idToken
+                req.body.idToken
             );
             sendSuccess(res, result, 201);
         } catch (error) {
-            if (error instanceof ZodError) {
-                return sendError(res, 'VAL_001', 'Validation failed', 400, error.errors as never);
-            }
             next(error);
         }
     }

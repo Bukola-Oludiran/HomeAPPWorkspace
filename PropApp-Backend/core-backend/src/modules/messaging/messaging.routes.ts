@@ -36,7 +36,7 @@ router.get(
             const result = await messagingService.getConversations(req.user!.id, req.query as any);
             sendSuccess(res, result.conversations, {
                 page: result.page,
-                limit: result.limit ?? 20,
+                limit: result.limit,
                 total: result.total,
                 totalPages: result.totalPages,
             });

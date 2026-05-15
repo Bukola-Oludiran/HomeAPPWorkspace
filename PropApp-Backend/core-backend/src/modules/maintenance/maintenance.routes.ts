@@ -40,7 +40,7 @@ router.get(
             );
             sendSuccess(res, result.requests, {
                 page: result.page,
-                limit: result.limit ?? 20,
+                limit: result.limit,
                 total: result.total,
                 totalPages: result.totalPages,
             });

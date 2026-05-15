@@ -60,6 +60,7 @@ class NotificationService {
         unreadCount: number;
         total: number;
         page: number;
+        limit: number;
         totalPages: number;
     }> {
         const where: Record<string, unknown> = { userId };
@@ -99,6 +100,7 @@ class NotificationService {
             unreadCount,
             total,
             page: query.page,
+            limit: query.limit,
             totalPages: Math.ceil(total / query.limit),
         };
     }

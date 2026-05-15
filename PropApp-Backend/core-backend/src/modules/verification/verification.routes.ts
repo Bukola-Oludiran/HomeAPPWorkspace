@@ -102,7 +102,7 @@ router.get(
             );
             sendSuccess(res, result.verifications, {
                 page: result.page,
-                limit: result.limit ?? 20,
+                limit: result.limit,
                 total: result.total,
                 totalPages: result.totalPages,
             });
@@ -200,7 +200,7 @@ router.get(
             );
             sendSuccess(res, result.verifications, {
                 page: result.page,
-                limit: result.limit ?? 20,
+                limit: result.limit,
                 total: result.total,
                 totalPages: result.totalPages,
             });

@@ -78,7 +78,7 @@ router.get(
             );
             sendSuccess(res, result.transactions, {
                 page: result.page,
-                limit: result.limit ?? 20,
+                limit: result.limit,
                 total: result.total,
                 totalPages: result.totalPages,
             });

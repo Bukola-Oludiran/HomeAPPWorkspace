@@ -201,6 +201,7 @@ class VerificationService {
         verifications: VerificationRecord[];
         total: number;
         page: number;
+        limit: number;
         totalPages: number;
     }> {
         // Get landlord's properties
@@ -233,6 +234,7 @@ class VerificationService {
             verifications: verifications.map(v => this.formatVerification(v)),
             total,
             page: query.page,
+            limit: query.limit,
             totalPages: Math.ceil(total / query.limit),
         };
     }

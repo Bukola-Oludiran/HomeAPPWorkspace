@@ -39,7 +39,7 @@ router.get(
             const result = await agentService.getAvailableJobs(req.user!.id, req.query as any);
             sendSuccess(res, result.jobs, {
                 page: result.page,
-                limit: result.limit ?? 20,
+                limit: result.limit,
                 total: result.total,
                 totalPages: result.totalPages,
             });
@@ -62,7 +62,7 @@ router.get(
             const result = await agentService.getAcceptedJobs(req.user!.id, req.query as any);
             sendSuccess(res, result.jobs, {
                 page: result.page,
-                limit: result.limit ?? 20,
+                limit: result.limit,
                 total: result.total,
                 totalPages: result.totalPages,
             });

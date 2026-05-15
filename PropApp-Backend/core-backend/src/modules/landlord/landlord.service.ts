@@ -244,6 +244,7 @@ class LandlordService {
         applicants: Applicant[];
         total: number;
         page: number;
+        limit: number;
         totalPages: number;
     }> {
         const where: Record<string, unknown> = {
@@ -294,6 +295,7 @@ class LandlordService {
             })),
             total,
             page: query.page,
+            limit: query.limit,
             totalPages: Math.ceil(total / query.limit),
         };
     }
@@ -520,6 +522,7 @@ class LandlordService {
         transactions: TransactionSummary[];
         total: number;
         page: number;
+        limit: number;
         totalPages: number;
     }> {
         const where: Record<string, unknown> = {
@@ -568,6 +571,7 @@ class LandlordService {
             })),
             total,
             page: query.page,
+            limit: query.limit,
             totalPages: Math.ceil(total / query.limit),
         };
     }

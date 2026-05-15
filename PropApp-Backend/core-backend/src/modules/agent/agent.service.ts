@@ -64,6 +64,7 @@ class AgentService {
         jobs: JobSummary[];
         total: number;
         page: number;
+        limit: number;
         totalPages: number;
     }> {
         const where: Record<string, unknown> = {
@@ -109,6 +110,7 @@ class AgentService {
             })),
             total,
             page: query.page,
+            limit: query.limit,
             totalPages: Math.ceil(total / query.limit),
         };
     }
@@ -121,6 +123,7 @@ class AgentService {
         jobs: JobSummary[];
         total: number;
         page: number;
+        limit: number;
         totalPages: number;
     }> {
         const where: Record<string, unknown> = {
@@ -165,6 +168,7 @@ class AgentService {
             })),
             total,
             page: query.page,
+            limit: query.limit,
             totalPages: Math.ceil(total / query.limit),
         };
     }
