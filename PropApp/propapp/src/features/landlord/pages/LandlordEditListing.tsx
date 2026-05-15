@@ -59,8 +59,10 @@ export default function LandlordEditListing() {
                 bathrooms,
                 squareFeet: squareFeet || undefined,
                 price: parseFloat(price) || undefined,
-                status: isPublished ? 'ACTIVE' : 'DRAFT',
             });
+            // Status is exposed via /properties/:id/status, not the generic
+            // PUT — see contracts/property.contract.ts: updatePropertyStatusSchema.
+            await propertyService.updatePropertyStatus(id, isPublished ? 'ACTIVE' : 'DRAFT');
             navigate(`/landlord/properties/${id}`);
         } catch (err) {
             console.error('Failed to save changes:', err);

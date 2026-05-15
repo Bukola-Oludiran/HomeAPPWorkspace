@@ -132,7 +132,11 @@ class PropertyService {
             status: 'ACTIVE',
         };
 
-        if (propertyType) where.propertyType = propertyType;
+        if (propertyType) {
+            where.propertyType = Array.isArray(propertyType)
+                ? { in: propertyType }
+                : propertyType;
+        }
         if (listingType) where.listingType = listingType;
         if (bedrooms !== undefined) where.bedrooms = { gte: bedrooms };
         if (bathrooms !== undefined) where.bathrooms = { gte: bathrooms };
@@ -249,22 +253,20 @@ class PropertyService {
         // For now, use database search
         // TODO: Integrate Elasticsearch per PRD 8.2
 
-        const { q, ...otherFilters } = filters;
+        const { query, ...otherFilters } = filters;
 
-        if (q) {
-            // Add text search to filters
+        if (query) {
             const result = await this.listProperties({
                 ...otherFilters,
                 page: filters.page,
                 limit: filters.limit,
             });
 
-            // Filter by query (simple implementation)
-            const query = q.toLowerCase();
+            const needle = query.toLowerCase();
             result.properties = result.properties.filter(p =>
-                p.name.toLowerCase().includes(query) ||
-                p.addressCity?.toLowerCase().includes(query) ||
-                p.addressNeighborhood?.toLowerCase().includes(query)
+                p.name.toLowerCase().includes(needle) ||
+                p.addressCity?.toLowerCase().includes(needle) ||
+                p.addressNeighborhood?.toLowerCase().includes(needle)
             );
             result.total = result.properties.length;
             result.totalPages = Math.ceil(result.total / filters.limit);

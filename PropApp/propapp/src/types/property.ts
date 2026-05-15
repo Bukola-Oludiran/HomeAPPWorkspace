@@ -3,8 +3,6 @@
  * Types for properties, media, search, and favorites
  */
 
-import type { PaginationParams } from './api';
-
 // Property types
 export type PropertyType =
     | 'APARTMENT'
@@ -161,63 +159,32 @@ export interface PropertySummary {
     createdAt: string;
 }
 
-// Property search filters
-export interface PropertySearchFilters extends PaginationParams {
-    propertyType?: PropertyType | PropertyType[];
-    listingType?: ListingType;
-    minPrice?: number;
-    maxPrice?: number;
-    bedrooms?: number;
-    bathrooms?: number;
-    minSquareMeters?: number;
-    maxSquareMeters?: number;
-    city?: string;
-    state?: string;
-    lga?: string;
-    neighborhood?: string;
-    amenities?: Amenity[];
-    verificationTier?: VerificationTier;
-    isFeatured?: boolean;
-    isVerified?: boolean;
-    query?: string;
-    latitude?: number;
-    longitude?: number;
-    radius?: number;
-}
+// ============================================
+// REQUEST TYPES — re-exported from @homeai/contracts
+// (Zod-inferred source-of-truth lives in
+// `HomeAPPWorkspace/contracts/property.contract.ts`.)
+// ============================================
+export type {
+    CreatePropertyRequest,
+    UpdatePropertyRequest,
+    UpdatePropertyStatusRequest,
+    CreateDraftRequest,
+    UpdateDraftRequest,
+    SearchPropertiesRequest,
+    NearbyPropertiesRequest,
+    ReorderImagesRequest,
+} from '@homeai/contracts/property.contract';
 
-// Property creation/update
-export interface CreatePropertyRequest {
-    name: string;
-    description?: string;
-    propertyType: PropertyType;
-    listingType: ListingType;
-    price: number;
-    priceUnit: PriceUnit;
-    bedrooms: number;
-    bathrooms: number;
-    toilets?: number;
-    parkingSpaces?: number;
-    squareFeet?: number;
-    yearBuilt?: number;
-    addressStreet: string;
-    addressCity: string;
-    addressState: string;
-    addressLga?: string;
-    addressNeighborhood?: string;
-    addressZip?: string;
-    latitude?: number;
-    longitude?: number;
-    amenities?: Amenity[];
-}
+// `PropertySearchFilters` is retained as an alias for `SearchPropertiesRequest`
+// until callers migrate to the new name.
+export type { SearchPropertiesRequest as PropertySearchFilters } from '@homeai/contracts/property.contract';
 
-export interface UpdatePropertyRequest extends Partial<CreatePropertyRequest> {
-    status?: PropertyStatus;
-}
+import type { CreatePropertyRequest as _CreatePropertyRequest } from '@homeai/contracts/property.contract';
 
 // Property draft
 export interface PropertyDraft {
     id: string;
-    data: Partial<CreatePropertyRequest>;
+    data: Partial<_CreatePropertyRequest>;
     step: number;
     createdAt: string;
     updatedAt: string;
