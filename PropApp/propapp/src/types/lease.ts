@@ -223,20 +223,23 @@ export interface TransactionFilters extends PaginationParams {
 // Maintenance priority
 export type MaintenancePriority = 'LOW' | 'MEDIUM' | 'HIGH' | 'EMERGENCY';
 
-// Maintenance status
+// Maintenance status (full lifecycle, matches Prisma enum)
 export type MaintenanceStatus =
     | 'PENDING'
+    | 'SUBMITTED'
     | 'ACKNOWLEDGED'
+    | 'ASSIGNED'
     | 'IN_PROGRESS'
+    | 'ON_HOLD'
     | 'COMPLETED'
     | 'CANCELLED';
 
-// Maintenance category
+// Maintenance category (matches backend zod enum — singular APPLIANCE)
 export type MaintenanceCategory =
     | 'PLUMBING'
     | 'ELECTRICAL'
     | 'HVAC'
-    | 'APPLIANCES'
+    | 'APPLIANCE'
     | 'STRUCTURAL'
     | 'PEST_CONTROL'
     | 'CLEANING'
