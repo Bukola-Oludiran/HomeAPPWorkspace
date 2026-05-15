@@ -197,7 +197,7 @@ export interface CreatePropertyRequest {
     addressState: string;
     addressLga?: string;
     addressNeighborhood?: string;
-    addressPostalCode?: string;
+    addressZip?: string;
     latitude?: number;
     longitude?: number;
     amenities?: Amenity[];
