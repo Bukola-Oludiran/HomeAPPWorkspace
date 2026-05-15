@@ -81,6 +81,7 @@ router.get(
             const result = await landlordService.getApplicants(req.user!.id, req.query as any);
             sendSuccess(res, result.applicants, {
                 page: result.page,
+                limit: result.limit ?? 20,
                 total: result.total,
                 totalPages: result.totalPages,
             });
@@ -189,6 +190,7 @@ router.get(
             const result = await landlordService.getTransactions(req.user!.id, req.query as any);
             sendSuccess(res, result.transactions, {
                 page: result.page,
+                limit: result.limit ?? 20,
                 total: result.total,
                 totalPages: result.totalPages,
             });

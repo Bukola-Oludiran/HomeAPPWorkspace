@@ -41,6 +41,7 @@ router.get(
             );
             sendSuccess(res, result.notifications, {
                 page: result.page,
+                limit: result.limit ?? 20,
                 total: result.total,
                 totalPages: result.totalPages,
                 unreadCount: result.unreadCount,

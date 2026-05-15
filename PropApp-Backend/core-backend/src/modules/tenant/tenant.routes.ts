@@ -74,6 +74,7 @@ router.get(
             const result = await tenantService.getApplications(req.user!.id, req.query as any);
             sendSuccess(res, result.applications, {
                 page: result.page,
+                limit: result.limit ?? 20,
                 total: result.total,
                 totalPages: result.totalPages,
             });
@@ -181,6 +182,7 @@ router.get(
             const result = await tenantService.getPayments(req.user!.id, req.query as any);
             sendSuccess(res, result.payments, {
                 page: result.page,
+                limit: result.limit ?? 20,
                 total: result.total,
                 totalPages: result.totalPages,
             });
