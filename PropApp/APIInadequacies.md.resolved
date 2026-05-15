@@ -1,0 +1,594 @@
+# API Inadequacies
+
+This document tracks areas where the backend API is inadequate for frontend requirements.
+
+---
+
+## Status Legend
+- 🔴 **Blocking** - Cannot implement feature without backend change
+- 🟠 **Workaround Possible** - Can implement with limitations
+- 🟢 **Resolved** - Backend has been updated or workaround implemented
+
+---
+
+## Current Status: 🟠 Response Structure Mismatches Found
+
+While endpoints exist, the actual API responses don't match the frontend TypeScript types defined in `src/types/dashboard.ts`. These need to be reconciled.
+
+---
+
+## Response Structure Mismatches (2026-01-30)
+
+### 🟠 Property Search & Featured (`/properties`, `/properties/featured`)
+
+**API Returns:**
+```json
+{
+  "id": "...",
+  "name": "Golden Gate Residences - Ibadan",
+  "propertyType": "STUDIO",
+  "listingType": "SHORT_LET",
+  "price": 150000,
+  "priceUnit": "PER_NIGHT",
+  "bedrooms": 2,
+  "bathrooms": 4,
+  "addressCity": "Ibadan",
+  "addressState": "Oyo",
+  "addressNeighborhood": "Bodija",
+  "verificationTier": "UNVERIFIED",
+  "status": "ACTIVE",
+  "createdAt": "...",
+  "media": [{"url": "..."}],
+  "primaryImage": "..."
+}
+```
+
+**Frontend Type Expects (`PropertySummary`):**
+```typescript
+{
+  id: string,
+  name: string,
+  propertyType: PropertyType,
+  listingType: ListingType,
+  status: PropertyStatus,
+  price: number,
+  priceUnit: PriceUnit,
+  currency: string,  // MISSING from API
+  bedrooms: number,
+  bathrooms: number,
+  squareMeters?: number,  // MISSING from API
+  address: {  // API uses flat fields instead
+    street: string,
+    city: string,
+    state: string,
+    neighborhood: string
+  },
+  primaryImage?: string,
+  verificationTier?: VerificationTier,
+  isVerified: boolean,  // MISSING from API
+  isFeatured: boolean,  // MISSING from API
+  viewCount?: number,  // MISSING from API
+  createdAt: string
+}
+```
+
+**Key Mismatches:**
+- **Address structure**: API uses `addressCity`, `addressState`, `addressNeighborhood` as flat fields. Frontend expects nested `address: { street, city, state, neighborhood }` object
+- Missing fields: `currency`, `squareMeters`, `isVerified`, `isFeatured`, `viewCount`
+- No `addressStreet` in list responses (only in detail)
+
+**Required changes - either:**
+
+Option A - Backend returns nested address:
+```json
+{
+  "address": {
+    "street": "string (optional for lists)",
+    "city": "string",
+    "state": "string",
+    "neighborhood": "string (optional)"
+  }
+}
+```
+
+Option B - Frontend adapts to flat fields (current workaround in HomePage.tsx handles undefined address)
+
+---
+
+### 🟠 Property Detail (`/properties/:id`)
+
+**API Returns:**
+```json
+{
+  "addressStreet": "25 Crescent Street",
+  "addressCity": "Kano",
+  "addressState": "Kano",
+  "addressNeighborhood": "Tarauni",
+  "addressZip": "200001",
+  "addressLga": null,
+  "squareFeet": 120,
+  "amenities": ["Swimming Pool", "Gym", "Garden"],
+  "owner": {
+    "id": "...",
+    "firstName": "Amaka",
+    "lastName": "Nwosu",
+    "avatarUrl": null,
+    "verificationLevel": "SILVER"
+  }
+}
+```
+
+**Frontend Type Expects (`Property`):**
+```typescript
+{
+  address: {
+    street: string,
+    city: string,
+    state: string,
+    lga?: string,
+    neighborhood?: string,
+    postalCode?: string,
+    country: string,
+    latitude?: number,
+    longitude?: number
+  },
+  squareMeters?: number,  // API has squareFeet
+  amenities: Amenity[],  // Typed enum, not string[]
+  agent?: {
+    id: string,
+    name: string,  // API has firstName + lastName
+    title?: string,
+    avatarUrl?: string,
+    phone?: string,
+    email?: string,
+    rating?: number,
+    reviewCount?: number
+  }
+}
+```
+
+**Key Mismatches:**
+- Address: flat fields vs nested object
+- `squareFeet` vs `squareMeters` (different unit naming)
+- `amenities` are plain strings, not typed enum values
+- `owner` vs `agent` - different field structure (firstName/lastName vs name)
+- Missing in owner: `title`, `phone`, `email`, `rating`, `reviewCount`
+
+---
+
+### 🟠 Tenant Dashboard (`/tenant/dashboard`)
+
+**API Returns:**
+```json
+{
+  "nextPayment": { "dueDate": null, "amount": 66666.67, "status": "PAID" },
+  "leaseStatus": "ACTIVE",
+  "currentProperty": { "id": "...", "name": "...", "address": "..." },
+  "openMaintenanceRequests": 0,
+  "pendingApplications": 0,
+  "savedProperties": 3
+}
+```
+
+**Frontend Type Expects (`TenantDashboard`):**
+```typescript
+{
+  nextPayment: { amount, dueDate, status: 'Paid'|'Due Soon'|'Overdue' },
+  lease: { remaining, endDate, status: 'Active'|'Expiring Soon'|'Expired' },
+  maintenanceRequests: number,
+  property?: TenantProperty,  // Different structure
+  recentPayments: TenantPayment[],  // MISSING from API
+  maintenanceLog: MaintenanceLogItem[],  // MISSING from API
+  applicationsList: TenantApplicationSummary[],  // MISSING from API
+  savedProperties: SavedPropertySummary[]  // API returns count, not array
+}
+```
+
+**Key Mismatches:**
+- `leaseStatus` (string) vs `lease` (object) - see required structure below
+- `currentProperty` vs `property` - different field names/structure
+- `openMaintenanceRequests` vs `maintenanceRequests`
+- `savedProperties` is a number in API but should be an array
+- Missing arrays: `recentPayments`, `maintenanceLog`, `applicationsList`
+
+**Required `lease` object (not just status string):**
+```json
+{
+  "remaining": "string - e.g., '8 months', '2 weeks'",
+  "endDate": "string - ISO date when lease expires",
+  "status": "string - one of: 'Active' | 'Expiring Soon' | 'Expired'"
+}
+```
+
+**Required `property` object (tenant's current rental):**
+```json
+{
+  "name": "string - property title",
+  "address": "string - full address",
+  "image": "string - URL to property image",
+  "landlordName": "string - landlord's display name",
+  "landlordAvatar": "string (optional) - URL to landlord's avatar",
+  "landlordPhone": "string (optional) - landlord's contact phone",
+  "leaseStart": "string - ISO date when lease started",
+  "leaseEnd": "string - ISO date when lease ends",
+  "monthlyRent": "number - monthly rent amount"
+}
+```
+
+**Required `recentPayments` array - each item needs:**
+```json
+{
+  "id": "string (UUID)",
+  "amount": "number - payment amount",
+  "status": "string - one of: 'paid' | 'pending' | 'failed'",
+  "dueDate": "string - ISO date when payment was due",
+  "paidDate": "string (optional) - ISO date when actually paid"
+}
+```
+
+**Required `maintenanceLog` array - each item needs:**
+```json
+{
+  "id": "string (UUID)",
+  "title": "string - request title e.g., 'AC Repair'",
+  "status": "string - e.g., 'In Progress', 'Completed', 'Pending'",
+  "statusColor": "string - CSS color class e.g., 'bg-amber-100 text-amber-700'",
+  "icon": "string - Material icon name e.g., 'build', 'plumbing'",
+  "iconBg": "string - CSS background class for icon",
+  "description": "string - request details",
+  "completed": "boolean (optional) - whether request is resolved"
+}
+```
+
+**Required `applicationsList` array - each item needs:**
+```json
+{
+  "id": "string (UUID)",
+  "address": "string - property address applied to",
+  "city": "string - city name",
+  "status": "string - e.g., 'Pending', 'Approved', 'Rejected'",
+  "statusColor": "string - CSS color class",
+  "date": "string - ISO date of application",
+  "image": "string - URL to property image"
+}
+```
+
+**Required `savedProperties` array (not count) - each item needs:**
+```json
+{
+  "id": "string (UUID)",
+  "address": "string - property address",
+  "city": "string - city name",
+  "price": "string - formatted price e.g., '₦500,000/mo'",
+  "image": "string - URL to property image"
+}
+```
+
+---
+
+### 🟠 Landlord Dashboard (`/landlord/dashboard`)
+
+**API Returns:**
+```json
+{
+  "totalRevenue": 2083333.33,
+  "monthlyRevenue": 2083333.33,
+  "occupancyRate": 0,
+  "activeListings": 6,
+  "totalProperties": 8,
+  "pendingApplications": 1,
+  "alertCount": 0,
+  "properties": [{
+    "id": "...", "name": "...", "status": "ACTIVE",
+    "occupancyStatus": "VACANT", "monthlyRent": null, "verificationTier": "..."
+  }]
+}
+```
+
+**Frontend Type Expects (`LandlordDashboard`):**
+```typescript
+{
+  totalRevenue: number,
+  revenueChange: number,  // MISSING from API
+  occupancyRate: number,
+  vacantUnits: number,  // MISSING from API
+  activeListings: number,
+  pendingListings: number,  // API has pendingApplications
+  actionRequired: number,  // API has alertCount
+  properties: LandlordPropertySummary[],  // Different structure
+  alerts: Alert[]  // MISSING from API
+}
+```
+
+**Key Mismatches:**
+- Missing: `revenueChange`, `vacantUnits`, `alerts`
+- `pendingApplications` vs `pendingListings`
+- `alertCount` vs `actionRequired`
+- Properties structure mismatch (see below)
+
+**Required `properties` array - each item needs:**
+```json
+{
+  "id": "string (UUID)",
+  "name": "string - property title",
+  "location": "string - full address or area name",
+  "image": "string - URL to property image",
+  "status": "string - one of: 'Rented' | 'Active' | 'Maintenance' | 'Vacant'",
+  "bedrooms": "number - bedroom count",
+  "leaseEnd": "string (optional) - ISO date when current lease ends",
+  "views": "number (optional) - view count for listing",
+  "maintenance": "string (optional) - maintenance status note",
+  "price": "number - monthly rent or sale price",
+  "priceUnit": "string - e.g., '/month', '/year', 'total'",
+  "paymentStatus": "string - e.g., 'Paid', 'Overdue', 'Pending', 'N/A'"
+}
+```
+
+**Required `alerts` array - each item needs:**
+```json
+{
+  "id": "string (UUID)",
+  "type": "string - one of: 'MAINTENANCE_EMERGENCY' | 'PAYMENT_OVERDUE' | 'LEASE_EXPIRING' | 'VERIFICATION_PENDING' | 'APPLICATION_NEW' | 'MESSAGE_NEW'",
+  "title": "string - alert headline",
+  "description": "string - detailed message",
+  "priority": "string - one of: 'low' | 'medium' | 'high' | 'critical'",
+  "actionUrl": "string (optional) - deep link path e.g., '/landlord/maintenance/123'",
+  "actionLabel": "string (optional) - button text e.g., 'View Request'",
+  "relatedId": "string (optional) - ID of related entity",
+  "createdAt": "string - ISO timestamp",
+  "isRead": "boolean - whether user has seen this alert"
+}
+```
+
+---
+
+### 🟠 Agent Endpoints
+
+**API Returns (tested `/agent/earnings`):**
+```json
+{
+  "todayTotal": 0,
+  "weekTotal": 0,
+  "monthTotal": 0,
+  "pendingPayout": 0,
+  "availableBalance": 0,
+  "completedJobs": 0
+}
+```
+
+**Required response structure for `/agent/earnings`:**
+```json
+{
+  "availableBalance": "number - amount available for withdrawal",
+  "pendingBalance": "number - amount pending clearance (API calls this pendingPayout)",
+  "totalEarned": "number - lifetime total earnings",
+  "totalWithdrawn": "number - lifetime total withdrawals",
+  "earningsByMonth": [
+    { "month": "string - e.g., 'Jan 2024'", "amount": "number - earnings that month" }
+  ]
+}
+```
+
+**API Returns (tested `/agent/jobs`):**
+Returns empty `[]` - needs to return available jobs matching:
+```json
+{
+  "id": "string (UUID)",
+  "type": "string - e.g., 'Property Viewing', 'Property Inspection', 'Verification Visit', 'Document Pickup'",
+  "property": "string - property name/address",
+  "city": "string - city name",
+  "clientName": "string - name of person to meet",
+  "date": "string - ISO date or formatted date string",
+  "earnings": "number - payment amount for this job",
+  "status": "string - one of: 'Open' | 'Accepted' | 'Completed' | 'Cancelled'",
+  "priority": "string - one of: 'low' | 'medium' | 'high'",
+  "description": "string (optional) - job details",
+  "contactPhone": "string (optional) - client phone number"
+}
+```
+
+**API Returns (tested `/agent/schedule`):**
+```json
+{ "jobs": [], "events": [] }
+```
+
+**Required response structure for `/agent/schedule`:**
+```json
+{
+  "items": [
+    {
+      "id": "string (UUID)",
+      "type": "string - job type",
+      "property": "string - property name",
+      "address": "string - full address",
+      "date": "string - ISO date",
+      "time": "string - time slot e.g., '10:00 AM'",
+      "clientName": "string - client to meet",
+      "clientPhone": "string (optional) - client phone",
+      "status": "string - e.g., 'Scheduled', 'In Progress', 'Completed'"
+    }
+  ]
+}
+```
+
+---
+
+### 🟠 Property Search Filters (`/properties`)
+
+**Frontend Filter Interface (`PropertySearchFilters`):**
+```typescript
+{
+  propertyType?: PropertyType | PropertyType[],
+  listingType?: ListingType,
+  minPrice?: number,
+  maxPrice?: number,
+  bedrooms?: number,
+  bathrooms?: number,
+  minSquareMeters?: number,
+  maxSquareMeters?: number,
+  city?: string,
+  state?: string,
+  lga?: string,
+  neighborhood?: string,
+  amenities?: Amenity[],
+  verificationTier?: VerificationTier,
+  isFeatured?: boolean,
+  isVerified?: boolean,
+  query?: string,  // Text search
+  latitude?: number,
+  longitude?: number,
+  radius?: number,  // Geo-search
+  page?: number,
+  limit?: number,
+  sortBy?: string,
+  sortOrder?: 'asc' | 'desc'
+}
+```
+
+**Working Filters (Tested):**
+| Filter | Status | Example |
+|--------|--------|---------|
+| `propertyType` | ✅ Working | `?propertyType=APARTMENT` returns only apartments |
+| `listingType` | ✅ Working | `?listingType=FOR_RENT` filters by listing type |
+| `minPrice` / `maxPrice` | ✅ Working | `?minPrice=100000&maxPrice=500000` filters price range |
+| `bedrooms` | ✅ Working | `?bedrooms=3` returns properties with 3 bedrooms |
+| `bathrooms` | ✅ Working | `?bathrooms=2` returns properties with 2 bathrooms |
+| `city` | ✅ Working | `?city=Ibadan` filters by city |
+| `status` | ✅ Working | `?status=ACTIVE` filters by status |
+| `verificationTier` | ✅ Working | `?verificationTier=GOLD` (uses BRONZE/SILVER/GOLD/PLATINUM) |
+| `sortBy` / `sortOrder` | ✅ Working | `?sortBy=price&sortOrder=asc` sorts results |
+| `page` / `limit` | ✅ Working | `?page=1&limit=2` paginates results |
+
+**Non-Working Filters (Tested):**
+| Filter | Status | Issue |
+|--------|--------|-------|
+| `state` | ❌ Not Working | Returns empty results even with valid state names |
+| `isFeatured` | ❌ Not Working | `?isFeatured=true` and `?isFeatured=false` both return all results |
+| `isVerified` | ❌ Not Working | Does not filter results |
+| `query` / `search` | ❌ Not Working | Text search `?query=Golden` returns all results instead of filtering |
+| `latitude` / `longitude` / `radius` | ❌ Not Working | Geo-search returns all results, doesn't filter by proximity |
+| `minSquareMeters` / `maxSquareMeters` | ❌ Not Working | Returns all results regardless of values |
+| `amenities` | ❌ Not Working | `?amenities=Pool` returns empty (may need array format or enum values) |
+| `lga` / `neighborhood` | ⚠️ Untested | May or may not work |
+
+**Pagination Response Structure Issue:**
+
+API returns:
+```json
+{
+  "success": true,
+  "data": [...],
+  "total": null,  // Always null - should be total count
+  "page": null,   // Always null - should echo requested page
+  "limit": null   // Always null - should echo requested limit
+}
+```
+
+**Required pagination response:**
+```json
+{
+  "success": true,
+  "data": [...],
+  "total": "number - total count of matching properties",
+  "page": "number - current page number",
+  "limit": "number - items per page",
+  "totalPages": "number - total number of pages (optional but helpful)"
+}
+```
+
+**Impact:** Medium-High
+- Search page cannot implement: text search, geo-location search, square meters filter, featured/verified filters
+- Pagination UI cannot show "Page X of Y" or total results count
+- State filter broken (city works as alternative)
+
+**Required Backend Fixes:**
+1. Implement `state` filter (currently broken)
+2. Implement `isFeatured` boolean filter
+3. Implement `isVerified` boolean filter
+4. Implement `query` text search (search property name, description, address)
+5. Implement geo-search with `latitude`, `longitude`, `radius` parameters
+6. Implement `minSquareMeters` / `maxSquareMeters` filters
+7. Fix `amenities` filter (clarify expected format: array? enum values? strings?)
+8. Return proper pagination metadata (`total`, `page`, `limit`, `totalPages`)
+
+---
+
+## Recommended Actions
+
+1. **Option A (Frontend Adaptation):** Update frontend types in `dashboard.ts` to match actual API responses
+2. **Option B (Backend Enhancement):** Enhance backend to return all fields expected by frontend
+3. **Option C (Hybrid):** Use what API provides, show "N/A" for missing fields
+
+**Impact:** High - Dashboard pages will show incorrect/empty data without reconciliation
+
+---
+
+## Complete API Coverage Verified
+
+### Core Features ✅
+| Feature | Endpoints Available |
+|---------|---------------------|
+| Authentication | Register, login, OAuth, 2FA, password reset, sessions |
+| User Management | Profile CRUD, avatar, preferences, privacy, role-specific profiles |
+| Properties | Search, CRUD, media, drafts, verification |
+
+### Role Dashboards ✅
+| Role | Endpoints Available |
+|------|---------------------|
+| Landlord | Dashboard, properties, applicants, financials, alerts, jobs |
+| Tenant | Dashboard, rental, applications, saved, payments |
+| Agent | Jobs, schedule, earnings, withdrawals |
+
+### Financial Features ✅
+| Feature | Endpoints Available |
+|---------|---------------------|
+| Banking | List banks, resolve accounts, CRUD bank accounts |
+| Payouts | Request payout, payout history, payout settings |
+| Payment Methods | CRUD payment methods |
+| Transactions | Pay, verify, escrow, refunds |
+
+### Documents & Reports ✅
+| Feature | Endpoints Available |
+|---------|---------------------|
+| User Documents | Upload, list, download, delete |
+| Lease Documents | Get/generate lease PDFs |
+| Financial Reports | Generate income statements, etc |
+
+### Analytics ✅
+| Feature | Endpoints Available |
+|---------|---------------------|
+| Property Analytics | Views, market comparison |
+| AI Insights | Price optimization suggestions |
+| Market Trends | Area trends data |
+| Dashboard Analytics | Landlord dashboard analytics |
+
+### Real-time Features ✅
+| Feature | Available |
+|---------|-----------|
+| WebSocket | Full messaging, typing, notifications |
+
+---
+
+## Resolution Log
+
+| Date | Issue | Resolution |
+|------|-------|------------|
+| 2026-01-21 | Bank Account CRUD | Resolved in BACKEND_READMEV2.md - `/users/me/bank-accounts` |
+| 2026-01-21 | Property Analytics | Resolved in BACKEND_READMEV2.md - `/properties/:id/analytics/*` |
+| 2026-01-21 | Document Storage | Resolved in BACKEND_READMEV2.md - `/users/me/documents` |
+| 2026-01-21 | Signup Flow Mismatch | ✅ **Resolved in BACKEND_READMEV3.md** - `role` now optional at initiation, can be provided at completion. `phone` is optional. |
+
+---
+
+## How to Update This Document
+
+If any API gaps are discovered during implementation:
+
+1. Add a new section with descriptive title
+2. Include:
+   - **Status**: 🔴/🟠/🟢
+   - **Frontend Feature**: What page/component is affected
+   - **Backend Gap**: What endpoint is missing
+   - **Impact**: High/Medium/Low, what's blocked
+   - **Suggested Solution**: Backend change or workaround
+3. Notify the backend development team
