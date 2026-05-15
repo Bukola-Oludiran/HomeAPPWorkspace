@@ -21,11 +21,17 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
-    /* Path aliases for shadcn/ui */
+    /* Path aliases for shadcn/ui + shared contracts */
     "baseUrl": ".",
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@homeai/contracts": [
+        "../../contracts/index.ts"
+      ],
+      "@homeai/contracts/*": [
+        "../../contracts/*"
       ]
     },
     /* Linting */
@@ -37,6 +43,7 @@
     "noUncheckedSideEffectImports": true
   },
   "include": [
-    "src"
+    "src",
+    "../../contracts"
   ]
 }

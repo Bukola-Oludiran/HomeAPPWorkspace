@@ -13,6 +13,12 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@homeai/contracts": [
+        "../../contracts/index.ts"
+      ],
+      "@homeai/contracts/*": [
+        "../../contracts/*"
       ]
     }
   }

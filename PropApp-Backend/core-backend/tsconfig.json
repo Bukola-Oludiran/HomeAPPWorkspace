@@ -36,12 +36,19 @@
             ],
             "@integrations/*": [
                 "./integrations/*"
+            ],
+            "@homeai/contracts": [
+                "../../../contracts/index.ts"
+            ],
+            "@homeai/contracts/*": [
+                "../../../contracts/*"
             ]
         }
     },
     "include": [
         "src/**/*",
-        "tests/**/*"
+        "tests/**/*",
+        "../../contracts/**/*"
     ],
     "exclude": [
         "node_modules",
