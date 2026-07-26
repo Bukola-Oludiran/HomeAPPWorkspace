@@ -11,6 +11,7 @@ import { paymentProviderFactory } from '../../integrations/payment';
 import { blockchainProviderFactory } from '../../integrations/blockchain';
 import { complianceService } from '../../integrations/compliance';
 import { env } from '../../config/env';
+import { regionConfigService } from '../../config/regions';
 import {
     TransactionQueryDto,
     InitiatePaymentDto,
@@ -210,6 +211,15 @@ class TransactionService {
             );
         }
 
+        // Region-aware currency: default to the user's region currency when
+        // the request omits it, and reject any currency the region doesn't allow.
+        const currency = (data.currency ?? regionConfigService.getCurrencyCode(regionCode)).toUpperCase();
+        if (!regionConfigService.isCurrencyAllowed(regionCode, currency)) {
+            throw new ValidationError('Currency not allowed for this region', [
+                { field: 'currency', message: `${currency} is not in the allowed list for region ${regionCode}` },
+            ]);
+        }
+
         // Create transaction record
         const transaction = await prisma.transaction.create({
             data: {
@@ -218,7 +228,7 @@ class TransactionService {
                 payeeId,
                 propertyId: data.propertyId,
                 amount: data.amount,
-                currency: data.currency,
+                currency,
                 status: 'PENDING',
                 paymentMethod: data.paymentMethod.toUpperCase(),
                 paymentReference: `PAY_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -238,7 +248,7 @@ class TransactionService {
         const paymentResult = await paymentProvider.initializePayment({
             email: user?.email || '',
             amount: data.amount,
-            currency: data.currency,
+            currency,
             reference: transaction.paymentReference!,
             callbackUrl: `${env.FRONTEND_URL}/payment/callback`,
             paymentMethod: data.paymentMethod as any,
@@ -260,7 +270,7 @@ class TransactionService {
             ]);
         }
 
-        logger.info(`Payment initiated: ${transaction.id} for ${data.amount} ${data.currency}`);
+        logger.info(`Payment initiated: ${transaction.id} for ${data.amount} ${currency}`);
 
         return {
             transactionId: transaction.id,
@@ -350,9 +360,10 @@ class TransactionService {
         transactionId: string;
         message: string;
     }> {
-        // Verify property ownership
+        // Verify property ownership + load region for currency derivation.
         const property = await prisma.property.findFirst({
             where: { id: data.propertyId, ownerId: landlordId },
+            select: { id: true, regionCode: true },
         });
 
         if (!property) {
@@ -360,6 +371,10 @@ class TransactionService {
                 { field: 'propertyId', message: 'Property not found or not owned by you' },
             ]);
         }
+
+        // Currency derived from the property's region (escrows follow the
+        // property's market, not the landlord's profile region).
+        const escrowCurrency = regionConfigService.getCurrencyCode(property.regionCode);
 
         // Create escrow transaction
         const transaction = await prisma.transaction.create({
@@ -369,7 +384,7 @@ class TransactionService {
                 payeeId: landlordId,
                 propertyId: data.propertyId,
                 amount: data.amount,
-                currency: 'NGN',
+                currency: escrowCurrency,
                 status: 'PENDING',
                 escrowId: `ESC_${Date.now()}`,
                 metadata: JSON.parse(JSON.stringify({

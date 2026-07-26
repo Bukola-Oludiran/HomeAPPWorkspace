@@ -759,7 +759,7 @@ function GeneralPreferencesContent() {
                             <option>USD ($)</option>
                             <option>EUR (€)</option>
                             <option>GBP (£)</option>
-                            <option>NGN (₦)</option>
+                            <option>NGN ($)</option>
                         </select>
                     </div>
                     <div>

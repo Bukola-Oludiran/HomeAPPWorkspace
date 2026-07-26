@@ -13,7 +13,7 @@ import type { PropertySummary } from '../../../types/property';
 const PLACEHOLDER_IMAGE = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=300&fit=crop';
 
 // Helper to format currency
-function formatCurrency(amount: number, currency: string = 'NGN'): string {
+function formatCurrency(amount: number, currency: string = 'CAD'): string {
     return new Intl.NumberFormat('en-NG', {
         style: 'currency',
         currency: currency,
@@ -78,7 +78,7 @@ function transformProperty(property: PropertySummary): RegularProperty {
         beds: property.bedrooms ?? 0,
         baths: property.bathrooms ?? 0,
         sqft: formatSquareFeet(property.squareFeet ?? undefined),
-        price: formatCurrency(property.price, 'NGN'),
+        price: formatCurrency(property.price, 'CAD'),
         priceType: getPriceType(property.listingType, property.priceUnit),
         status: statusInfo.label,
         statusColor: statusInfo.color,
@@ -379,8 +379,8 @@ export default function LandlordProperties() {
         if (!searchQuery) return properties;
         const query = searchQuery.toLowerCase();
         return properties.filter(p =>
-            p.name.toLowerCase().includes(query) ||
-            p.location.toLowerCase().includes(query)
+            (p.name ?? "").toLowerCase().includes(query) ||
+            (p.location ?? "").toLowerCase().includes(query)
         );
     };
 

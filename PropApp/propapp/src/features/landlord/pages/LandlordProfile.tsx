@@ -171,7 +171,7 @@ export default function LandlordProfile() {
                 ]);
 
                 const user = userResponse.data;
-                const properties = propertiesResponse.data?.data || [];
+                const properties = propertiesResponse.data || [];
 
                 if (user) {
                     const transformed = transformProfileData(user, properties);

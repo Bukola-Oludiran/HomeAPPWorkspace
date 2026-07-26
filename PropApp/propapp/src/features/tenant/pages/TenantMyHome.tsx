@@ -12,7 +12,7 @@ import { tenantService } from '../../../lib/api/services/tenantService';
 function formatCurrency(amount: number): string {
     return new Intl.NumberFormat('en-NG', {
         style: 'currency',
-        currency: 'NGN',
+        currency: 'CAD',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
     }).format(amount);
@@ -87,12 +87,12 @@ const defaultHomeData: HomeData = {
         beds: 0,
         baths: 0,
         sqft: '0',
-        rent: '₦0',
+        rent: '$0',
         image: 'https://via.placeholder.com/800x600?text=No+Property',
         verified: false,
     },
     payment: {
-        nextAmount: '₦0',
+        nextAmount: '$0',
         dueDate: 'N/A',
         autoPayEnabled: false,
     },

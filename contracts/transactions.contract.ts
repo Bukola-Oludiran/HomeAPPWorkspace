@@ -46,10 +46,15 @@ export const initiatePaymentSchema = z.object({
     amount: z.number().positive(),
     propertyId: z.string().uuid().optional(),
     leaseId: z.string().uuid().optional(),
-    paymentMethod: z
-        .enum(['card', 'bank_transfer', 'ussd', 'wallet', 'crypto'])
-        .default('card'),
-    currency: z.enum(['NGN', 'USD']).default('NGN'),
+    // Loosened from a static enum so the handler can accept any payment method
+    // the user's region permits (e.g. NG keeps `ussd`/`wallet`; CA accepts only
+    // `card`/`bank_transfer`). Region-aware validation happens at handler entry
+    // via regionConfigService.
+    paymentMethod: z.string().min(2).max(30).default('card'),
+    // Loosened from z.enum(['NGN','USD']) for the same reason. ISO-4217 3-char
+    // code; validated against regionConfigService.isCurrencyAllowed at the
+    // handler. Default is filled from the user's region if omitted.
+    currency: z.string().length(3).optional(),
     metadata: z.record(z.unknown()).optional(),
 });
 

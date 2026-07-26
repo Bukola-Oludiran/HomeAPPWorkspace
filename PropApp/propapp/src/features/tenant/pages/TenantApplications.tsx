@@ -33,7 +33,7 @@ interface UIApplication {
 }
 
 // Helper to format currency
-function formatCurrency(amount: number, currency: string = 'NGN'): string {
+function formatCurrency(amount: number, currency: string = 'CAD'): string {
     return new Intl.NumberFormat('en-NG', {
         style: 'currency',
         currency: currency,
@@ -146,7 +146,7 @@ function transformApplication(app: RentalApplication): UIApplication {
         beds: property?.bedrooms === 0 ? 'Studio' : (property?.bedrooms || 0),
         baths: property?.bathrooms || 0,
         sqft: property?.squareFeet?.toLocaleString() || 'N/A',
-        price: property ? `${formatCurrency(property.price, 'NGN')}/mo` : 'N/A',
+        price: property ? `${formatCurrency(property.price, 'CAD')}/mo` : 'N/A',
         status: statusStyles.label,
         statusColor: statusStyles.color,
         statusDotColor: statusStyles.dotColor,

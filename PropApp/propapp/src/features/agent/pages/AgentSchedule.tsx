@@ -108,13 +108,13 @@ function transformToSelectedJob(item: AgentScheduleItem): UISelectedJob {
         title: `${item.type} - ${item.property}`,
         location: item.address,
         type: item.type,
-        priority: item.status.toLowerCase() === 'urgent' ? 'Urgent' : 'Normal',
+        priority: (item.status ?? "").toLowerCase() === 'urgent' ? 'Urgent' : 'Normal',
         date: formatDateDisplay(item.date),
         time: formatTime(item.time),
         client: item.clientName || 'N/A',
         clientPhone: item.clientPhone,
         instructions: 'Please arrive 10 minutes early and contact the client upon arrival.',
-        payout: '₦0', // Would come from job details API
+        payout: '$0', // Would come from job details API
     };
 }
 
@@ -140,7 +140,7 @@ const defaultSelectedJob: UISelectedJob = {
     time: 'N/A',
     client: 'N/A',
     instructions: 'Select a job from the calendar to view details.',
-    payout: '₦0',
+    payout: '$0',
 };
 
 type ViewMode = 'month' | 'week' | 'day';

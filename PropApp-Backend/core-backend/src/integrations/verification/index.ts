@@ -10,6 +10,7 @@ import { OnfidoProvider } from './onfido.provider';
 import { regionConfigService } from '../../config/regions';
 import { env } from '../../config/env';
 import { logger } from '../../common/utils/logger';
+import { instrumentProvider } from '../../common/observability/instrument-provider';
 
 class VerificationProviderFactory {
     private providers: Map<string, IdentityVerificationProvider> = new Map();
@@ -41,7 +42,12 @@ class VerificationProviderFactory {
     }
 
     registerProvider(provider: IdentityVerificationProvider): void {
-        this.providers.set(provider.providerId, provider);
+        const instrumented = instrumentProvider(provider, {
+            to: provider.providerId,
+            dataClassification: 'PII',
+            encrypted: true,
+        });
+        this.providers.set(provider.providerId, instrumented);
         logger.info(`Verification provider registered: ${provider.providerId}`);
     }
 

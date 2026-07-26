@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package homeai.landlord.v1;
+
+// Landlord-shaped mutations. NOTE: landlord/properties.create lives in the
+// (forthcoming) properties.proto's CreateProperty; this service handles
+// applicant approval/rejection, the landlord-side payout request, and
+// agent job creation.
+
+service LandlordService {
+  rpc ApproveApplicant(ApplicantRequest) returns (BatchResult);
+  rpc RejectApplicant(RejectApplicantRequest) returns (BatchResult);
+  rpc RequestLandlordPayout(RequestPayoutRequest) returns (PayoutRef);
+  rpc CreateLandlordJob(CreateJobRequest) returns (JobRef);
+}
+
+message ApplicantRequest {
+  string application_id = 1;
+  optional string request_id = 2;
+}
+
+message RejectApplicantRequest {
+  string application_id = 1;
+  optional string reason = 2;
+  optional string request_id = 3;
+}
+
+message RequestPayoutRequest {
+  double amount = 1;
+  optional string bank_account_id = 2;
+  optional string request_id = 3;
+}
+
+message PayoutRef {
+  string payout_id = 1;
+  string status = 2;
+}
+
+message CreateJobRequest {
+  string job_type = 1;                // PROPERTY_VIEWING | PROPERTY_AUDIT | MAINTENANCE
+  string property_id = 2;
+  optional string scheduled_date = 3;
+  optional double payout_amount = 4;
+  optional string notes = 5;
+  optional string request_id = 6;
+}
+
+message JobRef {
+  string job_id = 1;
+}
+
+message BatchResult {
+  string message = 1;
+}

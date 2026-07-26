@@ -20,6 +20,14 @@ import { FCMProvider } from './fcm.provider';
 import { regionConfigService } from '../../config/regions';
 import { env } from '../../config/env';
 import { logger } from '../../common/utils/logger';
+import { instrumentProvider } from '../../common/observability/instrument-provider';
+
+const wrapEmail = (id: string, provider: EmailProvider): EmailProvider =>
+    instrumentProvider(provider, { to: id, dataClassification: 'PII', encrypted: true });
+const wrapSms = (id: string, provider: SMSProvider): SMSProvider =>
+    instrumentProvider(provider, { to: id, dataClassification: 'PII', encrypted: true });
+const wrapPush = (id: string, provider: PushProvider): PushProvider =>
+    instrumentProvider(provider, { to: id, dataClassification: 'PII', encrypted: true });
 
 class CommunicationProviderFactory {
     private emailProviders: Map<string, EmailProvider> = new Map();
@@ -28,23 +36,23 @@ class CommunicationProviderFactory {
 
     constructor() {
         // Register mock providers
-        this.emailProviders.set('mock_email', new MockEmailProvider());
-        this.smsProviders.set('mock_sms', new MockSMSProvider());
-        this.pushProviders.set('mock_push', new MockPushProvider());
+        this.emailProviders.set('mock_email', wrapEmail('mock_email', new MockEmailProvider()));
+        this.smsProviders.set('mock_sms', wrapSms('mock_sms', new MockSMSProvider()));
+        this.pushProviders.set('mock_push', wrapPush('mock_push', new MockPushProvider()));
 
         // Register SendGrid if configured
         if (env.SENDGRID_API_KEY && env.SENDGRID_FROM_EMAIL) {
-            this.emailProviders.set('sendgrid', new SendGridProvider(env.SENDGRID_API_KEY, env.SENDGRID_FROM_EMAIL));
+            this.emailProviders.set('sendgrid', wrapEmail('sendgrid', new SendGridProvider(env.SENDGRID_API_KEY, env.SENDGRID_FROM_EMAIL)));
         }
 
         // Register Africa's Talking if configured (Nigeria)
         if (env.AT_API_KEY && env.AT_USERNAME) {
-            this.smsProviders.set('africastalking', new AfricasTalkingProvider(env.AT_API_KEY, env.AT_USERNAME, env.AT_SENDER_ID));
+            this.smsProviders.set('africastalking', wrapSms('africastalking', new AfricasTalkingProvider(env.AT_API_KEY, env.AT_USERNAME, env.AT_SENDER_ID)));
         }
 
         // Register Twilio if configured (Canada)
         if (env.TWILIO_ACCOUNT_SID && env.TWILIO_AUTH_TOKEN && env.TWILIO_FROM_NUMBER) {
-            this.smsProviders.set('twilio', new TwilioProvider(env.TWILIO_ACCOUNT_SID, env.TWILIO_AUTH_TOKEN, env.TWILIO_FROM_NUMBER));
+            this.smsProviders.set('twilio', wrapSms('twilio', new TwilioProvider(env.TWILIO_ACCOUNT_SID, env.TWILIO_AUTH_TOKEN, env.TWILIO_FROM_NUMBER)));
         }
 
         // Register FCM if configured
@@ -56,7 +64,7 @@ class CommunicationProviderFactory {
                     clientEmail: env.FCM_CLIENT_EMAIL,
                 }
                 : undefined;
-            this.pushProviders.set('fcm', new FCMProvider(undefined, fcmCredentials));
+            this.pushProviders.set('fcm', wrapPush('fcm', new FCMProvider(undefined, fcmCredentials)));
         }
 
         logger.info('Communication providers initialized');

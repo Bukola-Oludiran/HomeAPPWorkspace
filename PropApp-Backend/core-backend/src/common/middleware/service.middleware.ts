@@ -8,6 +8,13 @@ import { env } from '../../config/env';
 import { sendUnauthorized, sendForbidden } from '../utils/response.util';
 import { prisma } from '../../config/database';
 import { logger } from '../utils/logger';
+import { safeEmit } from '../observability/comply';
+import type { ComplianceActor } from '@complyflow/shared';
+
+const serviceActor = (req: Request, fallbackName?: string): ComplianceActor => {
+    const name = req.service?.serviceName ?? fallbackName ?? 'unknown-service';
+    return { service: name, userId: req.service?.userId };
+};
 
 // ============================================
 // TYPES
@@ -64,11 +71,25 @@ export const authenticateService = async (
 
         // Validate required headers
         if (!serviceName) {
+            safeEmit.accessControl({
+                resource: 'homeai:service-auth',
+                actor: { service: 'unknown-service' },
+                granted: false,
+                method: 'custom',
+                dataClassification: 'internal',
+            });
             sendUnauthorized(res, 'Missing X-Service-Name header', 'SERVICE_AUTH_001');
             return;
         }
 
         if (!serviceKey) {
+            safeEmit.accessControl({
+                resource: 'homeai:service-auth',
+                actor: { service: serviceName },
+                granted: false,
+                method: 'custom',
+                dataClassification: 'internal',
+            });
             sendUnauthorized(res, 'Missing X-Service-Key header', 'SERVICE_AUTH_002');
             return;
         }
@@ -77,6 +98,13 @@ export const authenticateService = async (
         const expectedKey = SERVICE_API_KEYS[serviceName];
         if (!expectedKey || serviceKey !== expectedKey) {
             logger.warn(`Invalid service key for ${serviceName}`, { requestId });
+            safeEmit.accessControl({
+                resource: 'homeai:service-auth',
+                actor: { service: serviceName },
+                granted: false,
+                method: 'custom',
+                dataClassification: 'internal',
+            });
             sendForbidden(res, 'Invalid service credentials', 'SERVICE_AUTH_003');
             return;
         }
@@ -128,6 +156,14 @@ export const authenticateService = async (
             hasUserContext: !!req.user,
         });
 
+        safeEmit.accessControl({
+            resource: 'homeai:service-auth',
+            actor: serviceActor(req, serviceName),
+            granted: true,
+            method: 'custom',
+            dataClassification: 'internal',
+        });
+
         next();
     } catch (error) {
         next(error);
@@ -138,13 +174,28 @@ export const authenticateService = async (
  * Require specific service for an endpoint
  */
 export const requireService = (...allowedServices: string[]) => {
+    const resource = `homeai:service-allowlist[${allowedServices.join(',')}]`;
     return (req: Request, res: Response, next: NextFunction): void => {
         if (!req.service) {
+            safeEmit.accessControl({
+                resource,
+                actor: { service: 'unauthenticated' },
+                granted: false,
+                method: 'custom',
+                dataClassification: 'internal',
+            });
             sendUnauthorized(res, 'Service authentication required', 'SERVICE_AUTH_001');
             return;
         }
 
         if (!allowedServices.includes(req.service.serviceName)) {
+            safeEmit.accessControl({
+                resource,
+                actor: serviceActor(req),
+                granted: false,
+                method: 'custom',
+                dataClassification: 'internal',
+            });
             sendForbidden(
                 res,
                 `Service ${req.service.serviceName} not allowed for this endpoint`,
@@ -153,6 +204,13 @@ export const requireService = (...allowedServices: string[]) => {
             return;
         }
 
+        safeEmit.accessControl({
+            resource,
+            actor: serviceActor(req),
+            granted: true,
+            method: 'custom',
+            dataClassification: 'internal',
+        });
         next();
     };
 };

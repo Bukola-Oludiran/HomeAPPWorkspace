@@ -37,6 +37,7 @@ export const CanadaConfig: RegionConfig = {
         decimalPlaces: 2,
         thousandsSeparator: ',',
         decimalSeparator: '.',
+        allowed: ['CAD', 'USD'],
     },
 
     locale: {

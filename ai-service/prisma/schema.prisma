@@ -1,0 +1,761 @@
+// Prisma Schema for HomeAI Nigeria Core Backend
+// Based on PRD Section 13 - Database Schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  // Runtime: pooled connection (Neon pgbouncer endpoint, hostname
+  // ends with `-pooler.<region>.aws.neon.tech`). Safe for serverless
+  // / many short-lived queries.
+  url       = env("DATABASE_URL")
+  // Migrations + introspection: direct (non-pooled) connection.
+  // Required for `prisma migrate` / `prisma db pull`, which need
+  // session-level features that the pooler in transaction mode
+  // does not support.
+  directUrl = env("DIRECT_URL")
+}
+
+// ============================================
+// USER MANAGEMENT
+// ============================================
+
+model User {
+  id                 String    @id @default(uuid()) @db.Uuid
+  email              String    @unique @db.VarChar(255)
+  passwordHash       String    @map("password_hash") @db.VarChar(255)
+  role               UserRole
+  firstName          String?   @map("first_name") @db.VarChar(100)
+  lastName           String?   @map("last_name") @db.VarChar(100)
+  phone              String?   @db.VarChar(20)
+  avatarUrl          String?   @map("avatar_url")
+  walletAddress      String?   @map("wallet_address") @db.VarChar(42)
+  verificationLevel  VerificationLevel @default(UNVERIFIED) @map("verification_level")
+  isActive           Boolean   @default(true) @map("is_active")
+  isEmailVerified    Boolean   @default(false) @map("is_email_verified")
+  twoFactorEnabled   Boolean   @default(false) @map("two_factor_enabled")
+  twoFactorSecret    String?   @map("two_factor_secret") @db.VarChar(255)
+  regionCode         String    @default("NG") @map("region_code") @db.VarChar(2)
+  notificationPreferences Json? @map("notification_preferences")
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  profile            UserProfile?
+  ownedProperties    Property[]        @relation("PropertyOwner")
+  applications       Application[]     @relation("ApplicationTenant")
+  tenantLeases       Lease[]           @relation("LeaseTenant")
+  landlordLeases     Lease[]           @relation("LeaseLandlord")
+  payerTransactions  Transaction[]     @relation("TransactionPayer")
+  payeeTransactions  Transaction[]     @relation("TransactionPayee")
+  payerEscrows       Escrow[]          @relation("EscrowPayer")
+  payeeEscrows       Escrow[]          @relation("EscrowPayee")
+  userVerifications  Verification[]    @relation("VerificationUser")
+  reviewedVerifications Verification[] @relation("VerificationReviewer")
+  maintenanceRequests MaintenanceRequest[] @relation("MaintenanceTenant")
+  assignedMaintenance MaintenanceRequest[] @relation("MaintenanceAgent")
+  requestedJobs      AgentJob[]        @relation("JobRequester")
+  assignedJobs       AgentJob[]        @relation("JobAgent")
+  conversations      ConversationParticipant[]
+  sentMessages       Message[]
+  notifications      Notification[]
+  deviceTokens       DeviceToken[]
+  favorites          Favorite[]
+  refreshTokens      RefreshToken[]
+  aiSessions         AiSession[]
+
+  @@map("users")
+}
+
+model UserProfile {
+  id          String   @id @default(uuid()) @db.Uuid
+  userId      String   @unique @map("user_id") @db.Uuid
+  profileData Json     @map("profile_data")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_profiles")
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  token     String   @unique @db.VarChar(500)
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("refresh_tokens")
+}
+
+// ============================================
+// PROPERTY MANAGEMENT
+// ============================================
+
+model Property {
+  id                       String           @id @default(uuid()) @db.Uuid
+  ownerId                  String           @map("owner_id") @db.Uuid
+  name                     String           @db.VarChar(255)
+  description              String?
+  propertyType             PropertyType     @map("property_type")
+  listingType              ListingType      @map("listing_type")
+  price                    Decimal          @db.Decimal(15, 2)
+  priceUnit                PriceUnit        @map("price_unit")
+  bedrooms                 Int?
+  bathrooms                Int?
+  squareFeet               Int?             @map("square_feet")
+  yearBuilt                Int?             @map("year_built")
+  addressStreet            String?          @map("address_street") @db.VarChar(255)
+  addressCity              String?          @map("address_city") @db.VarChar(100)
+  addressState             String?          @map("address_state") @db.VarChar(100)
+  addressZip               String?          @map("address_zip") @db.VarChar(20)
+  addressLga               String?          @map("address_lga") @db.VarChar(100)
+  addressNeighborhood      String?          @map("address_neighborhood") @db.VarChar(100)
+  latitude                 Decimal?         @db.Decimal(10, 8)
+  longitude                Decimal?         @db.Decimal(11, 8)
+  amenities                String[]
+  status                   PropertyStatus   @default(DRAFT)
+  verificationTier         VerificationTier @default(UNVERIFIED) @map("verification_tier")
+  blockchainVerificationId String?          @map("blockchain_verification_id") @db.VarChar(100)
+  regionCode               String           @default("NG") @map("region_code") @db.VarChar(2)
+  createdAt                DateTime         @default(now()) @map("created_at")
+  updatedAt                DateTime         @updatedAt @map("updated_at")
+
+  // Relations
+  owner                 User                 @relation("PropertyOwner", fields: [ownerId], references: [id])
+  media                 PropertyMedia[]
+  applications          Application[]
+  leases                Lease[]
+  transactions          Transaction[]
+  verifications         Verification[]
+  maintenanceRequests   MaintenanceRequest[]
+  agentJobs             AgentJob[]
+  conversations         Conversation[]
+  favorites             Favorite[]
+
+  @@index([ownerId])
+  @@index([status])
+  @@index([listingType])
+  @@index([addressCity, addressLga])
+  @@map("properties")
+}
+
+model PropertyMedia {
+  id         String    @id @default(uuid()) @db.Uuid
+  propertyId String    @map("property_id") @db.Uuid
+  url        String
+  type       MediaType @default(IMAGE)
+  isPrimary  Boolean   @default(false) @map("is_primary")
+  caption    String?   @db.VarChar(255)
+  orderIndex Int       @default(0) @map("order_index")
+  metadata   Json?     // For 3D tour config, video duration, provider info, etc.
+  createdAt  DateTime  @default(now()) @map("created_at")
+
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@index([propertyId, type])
+  @@map("property_media")
+}
+
+// ============================================
+// APPLICATIONS & LEASES
+// ============================================
+
+model Application {
+  id              String            @id @default(uuid()) @db.Uuid
+  propertyId      String            @map("property_id") @db.Uuid
+  tenantId        String            @map("tenant_id") @db.Uuid
+  status          ApplicationStatus @default(PENDING)
+  personalInfo    Json?             @map("personal_info")
+  employmentInfo  Json?             @map("employment_info")
+  documents       Json?
+  moveInDate      DateTime?         @map("move_in_date") @db.Date
+  leaseTerm       Int?              @map("lease_term")
+  additionalNotes String?           @map("additional_notes")
+  submittedAt     DateTime          @default(now()) @map("submitted_at")
+  updatedAt       DateTime          @updatedAt @map("updated_at")
+
+  property Property @relation(fields: [propertyId], references: [id])
+  tenant   User     @relation("ApplicationTenant", fields: [tenantId], references: [id])
+
+  @@index([propertyId])
+  @@index([tenantId])
+  @@map("applications")
+}
+
+model Lease {
+  id               String      @id @default(uuid()) @db.Uuid
+  propertyId       String      @map("property_id") @db.Uuid
+  tenantId         String      @map("tenant_id") @db.Uuid
+  landlordId       String      @map("landlord_id") @db.Uuid
+  startDate        DateTime    @map("start_date") @db.Date
+  endDate          DateTime    @map("end_date") @db.Date
+  monthlyRent      Decimal     @map("monthly_rent") @db.Decimal(15, 2)
+  securityDeposit  Decimal?    @map("security_deposit") @db.Decimal(15, 2)
+  terms            Json?
+  status           LeaseStatus @default(DRAFT)
+  documentUrl      String?     @map("document_url")
+  signedByTenant   Boolean     @default(false) @map("signed_by_tenant")
+  signedByLandlord Boolean     @default(false) @map("signed_by_landlord")
+  blockchainTokenId Int?       @map("blockchain_token_id")
+  blockchainTxHash String?     @map("blockchain_tx_hash") @db.VarChar(100)
+  createdAt        DateTime    @default(now()) @map("created_at")
+  updatedAt        DateTime    @updatedAt @map("updated_at")
+
+  property Property @relation(fields: [propertyId], references: [id])
+  tenant   User     @relation("LeaseTenant", fields: [tenantId], references: [id])
+  landlord User     @relation("LeaseLandlord", fields: [landlordId], references: [id])
+
+  @@map("leases")
+}
+
+// ============================================
+// TRANSACTIONS & ESCROW
+// ============================================
+
+model Transaction {
+  id               String            @id @default(uuid()) @db.Uuid
+  type             TransactionType
+  payerId          String            @map("payer_id") @db.Uuid
+  payeeId          String            @map("payee_id") @db.Uuid
+  propertyId       String?           @map("property_id") @db.Uuid
+  amount           Decimal           @db.Decimal(15, 2)
+  currency         String            @default("NGN") @db.VarChar(3)
+  status           TransactionStatus @default(PENDING)
+  paymentMethod    String?           @map("payment_method") @db.VarChar(30)
+  paymentReference String?           @map("payment_reference") @db.VarChar(100)
+  escrowId         String?           @map("escrow_id") @db.VarChar(100)
+  blockchainTxHash String?           @map("blockchain_tx_hash") @db.VarChar(100)
+  metadata         Json?
+  createdAt        DateTime          @default(now()) @map("created_at")
+  updatedAt        DateTime          @updatedAt @map("updated_at")
+
+  payer    User      @relation("TransactionPayer", fields: [payerId], references: [id])
+  payee    User      @relation("TransactionPayee", fields: [payeeId], references: [id])
+  property Property? @relation(fields: [propertyId], references: [id])
+  escrow   Escrow?
+
+  @@index([payerId])
+  @@index([payeeId])
+  @@map("transactions")
+}
+
+model Escrow {
+  id                   String       @id @default(uuid()) @db.Uuid
+  transactionId        String       @unique @map("transaction_id") @db.Uuid
+  payerId              String       @map("payer_id") @db.Uuid
+  payeeId              String       @map("payee_id") @db.Uuid
+  amount               Decimal      @db.Decimal(15, 2)
+  platformFee          Decimal?     @map("platform_fee") @db.Decimal(15, 2)
+  status               EscrowStatus @default(CREATED)
+  releaseAfter         DateTime?    @map("release_after")
+  blockchainEscrowId   String?      @map("blockchain_escrow_id") @db.VarChar(100)
+  blockchainTxHash     String?      @map("blockchain_tx_hash") @db.VarChar(100)
+  confirmedAt          DateTime?    @map("confirmed_at")
+  releasedAt           DateTime?    @map("released_at")
+  disputedAt           DateTime?    @map("disputed_at")
+  disputeReason        String?      @map("dispute_reason")
+  createdAt            DateTime     @default(now()) @map("created_at")
+  updatedAt            DateTime     @updatedAt @map("updated_at")
+
+  transaction Transaction @relation(fields: [transactionId], references: [id])
+  payer       User        @relation("EscrowPayer", fields: [payerId], references: [id])
+  payee       User        @relation("EscrowPayee", fields: [payeeId], references: [id])
+
+  @@map("escrows")
+}
+
+// ============================================
+// VERIFICATION
+// ============================================
+
+model Verification {
+  id                       String             @id @default(uuid()) @db.Uuid
+  userId                   String?            @map("user_id") @db.Uuid
+  propertyId               String?            @map("property_id") @db.Uuid
+  requestedBy              String?            @map("requested_by") @db.Uuid
+  type                     VerificationType
+  level                    VerificationLevel
+  status                   VerificationStatus @default(PENDING)
+  documentUrl              String?            @map("document_url")
+  documentType             String?            @map("document_type") @db.VarChar(50)
+  documentNumber           String?            @map("document_number") @db.VarChar(100)
+  issueDate                DateTime?          @map("issue_date") @db.Date
+  expiryDate               DateTime?          @map("expiry_date") @db.Date
+  submittedAt              DateTime?          @map("submitted_at")
+  reviewedAt               DateTime?          @map("reviewed_at")
+  reviewedById             String?            @map("reviewed_by") @db.Uuid
+  rejectionReason          String?            @map("rejection_reason")
+  blockchainVerificationId String?            @map("blockchain_verification_id") @db.VarChar(100)
+  blockchainTxHash         String?            @map("blockchain_tx_hash") @db.VarChar(100)
+  metadata                 Json?
+  data                     Json?
+  createdAt                DateTime           @default(now()) @map("created_at")
+  updatedAt                DateTime           @updatedAt @map("updated_at")
+
+  user       User?     @relation("VerificationUser", fields: [userId], references: [id])
+  property   Property? @relation(fields: [propertyId], references: [id])
+  reviewedBy User?     @relation("VerificationReviewer", fields: [reviewedById], references: [id])
+
+  @@index([userId])
+  @@index([propertyId])
+  @@map("verifications")
+}
+
+// ============================================
+// MAINTENANCE
+// ============================================
+
+model MaintenanceRequest {
+  id                String              @id @default(uuid()) @db.Uuid
+  propertyId        String              @map("property_id") @db.Uuid
+  tenantId          String              @map("tenant_id") @db.Uuid
+  assignedAgentId   String?             @map("assigned_agent_id") @db.Uuid
+  title             String?             @db.VarChar(255)
+  description       String?
+  category          String              @db.VarChar(100)
+  urgency           MaintenancePriority @default(MEDIUM)
+  priority          MaintenancePriority @default(MEDIUM)
+  status            MaintenanceStatus   @default(SUBMITTED)
+  preferredDate     DateTime?           @map("preferred_date")
+  preferredTimeSlot String?             @map("preferred_time_slot") @db.VarChar(50)
+  photos            String[]            @default([])
+  images            String[]            @default([])
+  notes             String?
+  resolution        String?
+  cost              Decimal?            @db.Decimal(10, 2)
+  scheduledDate     DateTime?           @map("scheduled_date")
+  resolvedAt        DateTime?           @map("resolved_at")
+  completedAt       DateTime?           @map("completed_at")
+  createdAt         DateTime            @default(now()) @map("created_at")
+  updatedAt         DateTime            @updatedAt @map("updated_at")
+
+  property      Property @relation(fields: [propertyId], references: [id])
+  tenant        User     @relation("MaintenanceTenant", fields: [tenantId], references: [id])
+  assignedAgent User?    @relation("MaintenanceAgent", fields: [assignedAgentId], references: [id])
+
+  @@map("maintenance_requests")
+}
+
+// ============================================
+// AGENT JOBS
+// ============================================
+
+model AgentJob {
+  id                 String        @id @default(uuid()) @db.Uuid
+  type               AgentJobType
+  title              String?       @db.VarChar(255)
+  description        String?
+  category           String?       @db.VarChar(100)
+  propertyId         String?       @map("property_id") @db.Uuid
+  requesterId        String        @map("requester_id") @db.Uuid
+  createdById        String?       @map("created_by_id") @db.Uuid
+  assignedAgentId    String?       @map("assigned_agent_id") @db.Uuid
+  status             AgentJobStatus @default(OPEN)
+  priority           JobPriority   @default(MEDIUM)
+  urgency            String?       @db.VarChar(50)
+  earnings           Decimal?      @db.Decimal(10, 2)
+  payout             Decimal?      @db.Decimal(10, 2)
+  scheduledDate      DateTime?     @map("scheduled_date")
+  scheduledTime      String?       @map("scheduled_time") @db.VarChar(50)
+  notes              String?
+  instructions       String?
+  completionNotes    String?       @map("completion_notes")
+  completionEvidence Json?         @map("completion_evidence")
+  completedAt        DateTime?     @map("completed_at")
+  createdAt          DateTime      @default(now()) @map("created_at")
+  updatedAt          DateTime      @updatedAt @map("updated_at")
+
+  property      Property? @relation(fields: [propertyId], references: [id])
+  requester     User      @relation("JobRequester", fields: [requesterId], references: [id])
+  assignedAgent User?     @relation("JobAgent", fields: [assignedAgentId], references: [id])
+
+  @@map("agent_jobs")
+}
+
+// ============================================
+// MESSAGING
+// ============================================
+
+model Conversation {
+  id         String           @id @default(uuid()) @db.Uuid
+  type       ConversationType @default(DIRECT)
+  propertyId String?          @map("property_id") @db.Uuid
+  createdAt  DateTime         @default(now()) @map("created_at")
+  updatedAt  DateTime         @updatedAt @map("updated_at")
+
+  property     Property?                 @relation(fields: [propertyId], references: [id])
+  participants ConversationParticipant[]
+  messages     Message[]
+
+  @@map("conversations")
+}
+
+model ConversationParticipant {
+  conversationId String    @map("conversation_id") @db.Uuid
+  userId         String    @map("user_id") @db.Uuid
+  lastReadAt     DateTime? @map("last_read_at")
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([conversationId, userId])
+  @@map("conversation_participants")
+}
+
+model Message {
+  id             String      @id @default(uuid()) @db.Uuid
+  conversationId String      @map("conversation_id") @db.Uuid
+  senderId       String      @map("sender_id") @db.Uuid
+  content        String
+  messageType    MessageType @default(TEXT) @map("message_type")
+  attachments    Json?
+  isRead         Boolean     @default(false) @map("is_read")
+  read           Boolean     @default(false)
+  createdAt      DateTime    @default(now()) @map("created_at")
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender       User         @relation(fields: [senderId], references: [id])
+
+  @@index([conversationId])
+  @@map("messages")
+}
+
+// ============================================
+// NOTIFICATIONS
+// ============================================
+
+model Notification {
+  id        String           @id @default(uuid()) @db.Uuid
+  userId    String           @map("user_id") @db.Uuid
+  type      NotificationType
+  title     String?          @db.VarChar(255)
+  body      String?
+  message   String?
+  data      Json?
+  channels  String[]         @default([])
+  isRead    Boolean          @default(false) @map("is_read")
+  read      Boolean          @default(false)
+  createdAt DateTime         @default(now()) @map("created_at")
+  updatedAt DateTime         @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead])
+  @@map("notifications")
+}
+
+// ============================================
+// DEVICE TOKENS (for push notifications)
+// ============================================
+
+model DeviceToken {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  token     String   @db.VarChar(500)
+  deviceId  String?  @map("device_id") @db.VarChar(100)
+  platform  String   @db.VarChar(20)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, token])
+  @@map("device_tokens")
+}
+
+// ============================================
+// FAVORITES
+// ============================================
+
+model Favorite {
+  userId     String   @map("user_id") @db.Uuid
+  propertyId String   @map("property_id") @db.Uuid
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@id([userId, propertyId])
+  @@map("favorites")
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum UserRole {
+  TENANT
+  LANDLORD
+  AGENT
+  ADMIN
+}
+
+enum VerificationLevel {
+  UNVERIFIED
+  BRONZE
+  SILVER
+  GOLD
+  PLATINUM
+}
+
+enum PropertyType {
+  APARTMENT
+  HOUSE
+  DUPLEX
+  BUNGALOW
+  STUDIO
+  PENTHOUSE
+  TOWNHOUSE
+  LAND
+  COMMERCIAL
+  OFFICE
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  TOUR_3D
+  FLOOR_PLAN
+  DOCUMENT
+}
+
+enum ListingType {
+  RENT
+  SALE
+  SHORT_LET
+}
+
+enum PriceUnit {
+  PER_MONTH
+  PER_YEAR
+  TOTAL
+  PER_NIGHT
+}
+
+enum PropertyStatus {
+  DRAFT
+  PENDING_REVIEW
+  ACTIVE
+  RENTED
+  SOLD
+  INACTIVE
+  DELISTED
+}
+
+enum VerificationTier {
+  UNVERIFIED
+  BRONZE
+  SILVER
+  GOLD
+  PLATINUM
+}
+
+enum ApplicationStatus {
+  PENDING
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  WITHDRAWN
+  LEASE_OFFERED
+}
+
+enum LeaseStatus {
+  DRAFT
+  PENDING_SIGNATURES
+  ACTIVE
+  RENEWED
+  EXPIRED
+  TERMINATED
+}
+
+enum TransactionType {
+  RENT_PAYMENT
+  SECURITY_DEPOSIT
+  SERVICE_FEE
+  AGENT_COMMISSION
+  AGENT_EARNING
+  AGENT_WITHDRAWAL
+  PAYOUT
+  PURCHASE_PAYMENT
+  REFUND
+}
+
+enum TransactionStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum EscrowStatus {
+  CREATED
+  FUNDED
+  RELEASED
+  REFUNDED
+  DISPUTED
+}
+
+enum VerificationType {
+  IDENTITY
+  ADDRESS
+  PHONE
+  PROPERTY_OWNERSHIP
+  COFO
+  SURVEY_PLAN
+  PHYSICAL_AUDIT
+}
+
+enum VerificationStatus {
+  PENDING
+  IN_REVIEW
+  APPROVED
+  REJECTED
+  EXPIRED
+}
+
+enum MaintenancePriority {
+  LOW
+  MEDIUM
+  HIGH
+  EMERGENCY
+}
+
+enum MaintenanceStatus {
+  PENDING
+  SUBMITTED
+  ACKNOWLEDGED
+  ASSIGNED
+  IN_PROGRESS
+  ON_HOLD
+  COMPLETED
+  CANCELLED
+}
+
+enum AgentJobType {
+  PROPERTY_VIEWING
+  PROPERTY_AUDIT
+  MAINTENANCE
+  KEY_HANDOVER
+  INSPECTION
+  PHOTOGRAPHY
+}
+
+enum AgentJobStatus {
+  OPEN
+  PENDING
+  ASSIGNED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum JobPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum ConversationType {
+  DIRECT
+  PROPERTY_INQUIRY
+  APPLICATION
+  SUPPORT
+}
+
+enum MessageType {
+  TEXT
+  IMAGE
+  FILE
+  SYSTEM
+}
+
+enum NotificationType {
+  APPLICATION_UPDATE
+  APPLICATION_RECEIVED
+  APPLICATION_APPROVED
+  APPLICATION_REJECTED
+  PROPERTY_UPDATE
+  PROPERTY_NEW
+  PROPERTY_PRICE_CHANGE
+  PAYMENT_UPDATE
+  PAYMENT_RECEIVED
+  PAYMENT_DUE
+  PAYMENT_OVERDUE
+  MESSAGE_NEW
+  VERIFICATION_UPDATE
+  VERIFICATION_APPROVED
+  VERIFICATION_REJECTED
+  MAINTENANCE_UPDATE
+  MAINTENANCE_ASSIGNED
+  MAINTENANCE_COMPLETED
+  LEASE_EXPIRING
+  LEASE_RENEWED
+  JOB_ASSIGNED
+  JOB_COMPLETED
+  AGENT_MATCHED
+  GENERAL
+  SYSTEM
+}
+
+// ============================================
+// AI SESSIONS (owned by the AI service)
+// ============================================
+//
+// One row per user-facing conversation. Sidebar history is sourced from
+// this table. The ai-service holds full read/write on these two tables
+// (separate from the `homeai_readonly` role that backs the rest of the
+// read-tools). Schema authority stays with the backend; the ai-service
+// syncs schema.prisma + prisma generate but only mutates these models.
+
+model AiSession {
+  id            String   @id @default(uuid()) @db.Uuid
+  userId        String   @map("user_id") @db.Uuid
+  /// Auto-derived from the first user message, editable by the user.
+  title         String?  @db.VarChar(255)
+  /// Optional context bag (e.g. {propertyId, leaseId}) for deep-linked
+  /// chats so the LLM can be primed across reloads.
+  contextSeed   Json?    @map("context_seed")
+  lastMessageAt DateTime @default(now()) @map("last_message_at")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  user     User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages AiSessionMessage[]
+
+  @@index([userId, lastMessageAt])
+  @@map("ai_sessions")
+}
+
+model AiSessionMessage {
+  id        String       @id @default(uuid()) @db.Uuid
+  sessionId String       @map("session_id") @db.Uuid
+  role      AiMessageRole
+  /// Plain-text body (user message OR assistant text deltas concatenated).
+  content   String       @default("")
+  /// Optional structured payload — UI fragments emitted with this turn,
+  /// tool-call records, etc. Schema-shape mirrors the contract's UiFragment
+  /// union plus a tool-call envelope, but stored as Json so the column is
+  /// migration-safe across fragment additions.
+  payload   Json?
+  createdAt DateTime     @default(now()) @map("created_at")
+
+  session AiSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId, createdAt])
+  @@map("ai_session_messages")
+}
+
+enum AiMessageRole {
+  USER
+  ASSISTANT
+  SYSTEM
+}

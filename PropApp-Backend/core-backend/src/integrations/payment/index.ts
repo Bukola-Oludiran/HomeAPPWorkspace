@@ -10,6 +10,7 @@ import { StripeProvider } from './stripe.provider';
 import { regionConfigService } from '../../config/regions';
 import { env } from '../../config/env';
 import { logger } from '../../common/utils/logger';
+import { instrumentProvider } from '../../common/observability/instrument-provider';
 
 class PaymentProviderFactory {
     private providers: Map<string, PaymentProvider> = new Map();
@@ -33,7 +34,13 @@ class PaymentProviderFactory {
      * Register a payment provider
      */
     registerProvider(provider: PaymentProvider): void {
-        this.providers.set(provider.providerId, provider);
+        const instrumented = instrumentProvider(provider, {
+            to: provider.providerId,
+            dataClassification: 'PCI',
+            encrypted: true,
+            skipMethods: ['validateWebhook', 'parseWebhookEvent'],
+        });
+        this.providers.set(provider.providerId, instrumented);
         logger.info(`Payment provider registered: ${provider.providerId}`);
     }
 

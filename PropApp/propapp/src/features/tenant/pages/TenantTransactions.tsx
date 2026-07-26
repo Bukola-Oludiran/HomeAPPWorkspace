@@ -28,7 +28,7 @@ interface UITransaction {
 function formatCurrency(amount: number): string {
     return new Intl.NumberFormat('en-NG', {
         style: 'currency',
-        currency: 'NGN',
+        currency: 'CAD',
         minimumFractionDigits: 2,
     }).format(amount);
 }
@@ -112,15 +112,15 @@ export default function TenantTransactions() {
                     if (searchQuery) {
                         const query = searchQuery.toLowerCase();
                         transformed = transformed.filter(tx =>
-                            tx.description.toLowerCase().includes(query) ||
+                            (tx.description ?? "").toLowerCase().includes(query) ||
                             tx.id.toLowerCase().includes(query) ||
-                            tx.property.toLowerCase().includes(query)
+                            (tx.property ?? "").toLowerCase().includes(query)
                         );
                     }
 
                     setTransactions(transformed);
-                    setTotalTransactions(response.data.pagination?.total || transformed.length);
-                    setTotalPages(response.data.pagination?.totalPages || 1);
+                    setTotalTransactions(response.meta?.total || transformed.length);
+                    setTotalPages(response.meta?.totalPages || 1);
                 }
             } catch (err) {
                 console.error('Error fetching payments:', err);

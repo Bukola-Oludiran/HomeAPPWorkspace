@@ -86,8 +86,8 @@ export default function AgentProfile() {
 
     // Format wallet balance
     const walletBalance = earnings?.availableBalance
-        ? `₦${earnings.availableBalance.toLocaleString()}`
-        : '₦0';
+        ? `$${earnings.availableBalance.toLocaleString()}`
+        : '$0';
 
     // Check verification status
     const isVerified = user?.verificationLevel && user.verificationLevel !== 'BRONZE';

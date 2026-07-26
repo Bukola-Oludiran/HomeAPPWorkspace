@@ -14,7 +14,8 @@ export const NigeriaConfig: RegionConfig = {
         symbol: '₦',
         decimalPlaces: 2,
         thousandsSeparator: ',',
-        decimalSeparator: '.'
+        decimalSeparator: '.',
+        allowed: ['NGN', 'USD']
     },
 
     locale: {

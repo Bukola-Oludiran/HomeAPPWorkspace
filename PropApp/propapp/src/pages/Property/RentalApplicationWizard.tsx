@@ -44,7 +44,7 @@ export default function RentalApplicationWizard() {
     const totalSteps = 4;
 
     const [propertyData, setPropertyData] = useState<PropertyInfo>({
-        id: id || '', name: '', address: '', neighborhood: '', image: '', beds: 0, baths: 0, sqft: '0', rent: '₦0', status: '',
+        id: id || '', name: '', address: '', neighborhood: '', image: '', beds: 0, baths: 0, sqft: '0', rent: '$0', status: '',
     });
     const [applicantData, setApplicantData] = useState<ApplicantInfo>({ name: '', email: '', phone: '' });
     const [loading, setLoading] = useState(true);
@@ -71,7 +71,7 @@ export default function RentalApplicationWizard() {
                         beds: p.bedrooms || 0,
                         baths: p.bathrooms || 0,
                         sqft: sqm > 1000 ? `${(sqm / 1000).toFixed(1)}k` : `${sqm}`,
-                        rent: `₦${Number(p.price || 0).toLocaleString()}`,
+                        rent: `$${Number(p.price || 0).toLocaleString()}`,
                         status: p.status || 'AVAILABLE',
                     });
                 }

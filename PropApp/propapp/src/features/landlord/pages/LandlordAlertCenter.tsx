@@ -241,9 +241,9 @@ export default function LandlordAlertCenter() {
         if (searchQuery) {
             const query = searchQuery.toLowerCase();
             return (
-                alert.title.toLowerCase().includes(query) ||
-                alert.description.toLowerCase().includes(query) ||
-                alert.property.toLowerCase().includes(query)
+                (alert.title ?? "").toLowerCase().includes(query) ||
+                (alert.description ?? "").toLowerCase().includes(query) ||
+                (alert.property ?? "").toLowerCase().includes(query)
             );
         }
         return true;

@@ -12,25 +12,27 @@ import { landlordService } from '../../../lib/api/services/landlordService';
 import type { LandlordDashboard as DashboardData } from '../../../types/dashboard';
 
 // Helper to format currency
-function formatCurrency(amount: number): string {
+function formatCurrency(amount?: number | null): string {
     return new Intl.NumberFormat('en-NG', {
         style: 'currency',
-        currency: 'NGN',
+        currency: 'CAD',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
-    }).format(amount);
+    }).format(amount ?? 0);
 }
 
-// Helper to get status color
-function getStatusColor(status: string): string {
-    switch (status) {
-        case 'Rented':
+// Helper to get status color (handles backend uppercase enums + legacy capitalized values)
+function getStatusColor(status?: string): string {
+    switch ((status ?? '').toUpperCase()) {
+        case 'RENTED':
+        case 'OCCUPIED':
             return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300';
-        case 'Active':
+        case 'ACTIVE':
             return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
-        case 'Maintenance':
+        case 'MAINTENANCE':
             return 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-300';
-        case 'Vacant':
+        case 'VACANT':
+        case 'DRAFT':
             return 'bg-slate-100 text-slate-800 dark:bg-slate-900 dark:text-slate-300';
         default:
             return 'bg-slate-100 text-slate-800 dark:bg-slate-900 dark:text-slate-300';
@@ -38,11 +40,11 @@ function getStatusColor(status: string): string {
 }
 
 // Helper to get payment status color
-function getPaymentStatusColor(status: string): string {
-    const lower = status.toLowerCase();
-    if (lower.includes('paid') || lower.includes('on time')) return 'text-green-600';
+function getPaymentStatusColor(status?: string): string {
+    const lower = (status ?? '').toLowerCase();
+    if (lower.includes('paid') || lower.includes('on time') || lower.includes('occupied')) return 'text-green-600';
     if (lower.includes('overdue') || lower.includes('late')) return 'text-red-600';
-    if (lower.includes('pending')) return 'text-amber-600';
+    if (lower.includes('pending') || lower.includes('vacant')) return 'text-amber-600';
     return 'text-slate-500';
 }
 
@@ -98,11 +100,11 @@ export default function LandlordDashboardPage() {
 
     const filteredProperties = properties.filter(property => {
         if (propertyFilter === 'all') return true;
-        return property.status === propertyFilter;
+        return (property.status ?? '').toUpperCase() === propertyFilter.toUpperCase();
     }).filter(property => {
         if (!searchQuery) return true;
-        return property.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            property.location.toLowerCase().includes(searchQuery.toLowerCase());
+        return (property.name ?? "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+            (property.location ?? "").toLowerCase().includes(searchQuery.toLowerCase());
     });
     return (
         <PageContainer>
@@ -152,7 +154,7 @@ export default function LandlordDashboardPage() {
                     value={formatCurrency(dashboardData?.totalRevenue || 0)}
                     animateValue
                     numericValue={dashboardData?.totalRevenue || 0}
-                    valuePrefix="₦"
+                    valuePrefix="$"
                     change={{ value: `${dashboardData?.revenueChange && dashboardData.revenueChange > 0 ? '+' : ''}${dashboardData?.revenueChange || 0}%`, isPositive: (dashboardData?.revenueChange || 0) >= 0 }}
                 />
 
@@ -165,7 +167,7 @@ export default function LandlordDashboardPage() {
                     animateValue
                     numericValue={dashboardData?.occupancyRate || 0}
                     valueSuffix="%"
-                    badge={{ text: `${dashboardData?.vacantUnits || 0} Units Vacant`, variant: "default" }}
+                    badge={{ text: `${dashboardData?.vacantUnits ?? Math.max(0, (dashboardData?.totalProperties ?? 0) - Math.round((dashboardData?.totalProperties ?? 0) * (dashboardData?.occupancyRate ?? 0) / 100))} Units Vacant`, variant: "default" }}
                 />
 
                 {/* Active Listings */}
@@ -176,7 +178,7 @@ export default function LandlordDashboardPage() {
                     value={String(dashboardData?.activeListings || 0)}
                     animateValue
                     numericValue={dashboardData?.activeListings || 0}
-                    badge={{ text: `${dashboardData?.pendingListings || 0} Pending`, variant: "success" }}
+                    badge={{ text: `${dashboardData?.pendingListings ?? dashboardData?.pendingApplications ?? 0} Pending`, variant: "success" }}
                 />
 
                 {/* Action Required */}
@@ -189,7 +191,7 @@ export default function LandlordDashboardPage() {
                     </div>
                     <div>
                         <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">Action Required</p>
-                        <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">{dashboardData?.actionRequired || 0} Alerts</h3>
+                        <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">{dashboardData?.actionRequired ?? dashboardData?.alertCount ?? 0} Alerts</h3>
                     </div>
                 </div>
             </AnimatedGroup>
@@ -212,10 +214,9 @@ export default function LandlordDashboardPage() {
                                 label="Filter"
                                 options={[
                                     { id: 'all', label: 'All Properties' },
-                                    { id: 'Rented', label: 'Rented' },
-                                    { id: 'Active', label: 'Active' },
-                                    { id: 'Maintenance', label: 'Maintenance' },
-                                    { id: 'Vacant', label: 'Vacant' },
+                                    { id: 'ACTIVE', label: 'Active' },
+                                    { id: 'RENTED', label: 'Rented' },
+                                    { id: 'DRAFT', label: 'Draft' },
                                 ]}
                                 selected={propertyFilter === 'all' ? [] : [propertyFilter]}
                                 onChange={(selected) => setPropertyFilter(selected.length > 0 ? selected[0] : 'all')}
@@ -254,9 +255,16 @@ export default function LandlordDashboardPage() {
                                     </div>
                                     <p className="text-sm text-slate-500 dark:text-slate-400 truncate">{property.location}</p>
                                     <div className="flex items-center gap-4 mt-2 text-xs text-slate-500 dark:text-slate-400 flex-wrap">
+                                        {property.bedrooms ? (
                                         <span className="flex items-center gap-1">
                                             <span className="material-symbols-outlined text-[14px]">bed</span> {property.bedrooms} Bed{property.bedrooms > 1 && 's'}
                                         </span>
+                                        ) : null}
+                                        {property.verificationTier && (
+                                            <span className="flex items-center gap-1">
+                                                <span className="material-symbols-outlined text-[14px]">workspace_premium</span> {property.verificationTier}
+                                            </span>
+                                        )}
                                         {property.leaseEnd && (
                                             <span className="flex items-center gap-1">
                                                 <span className="material-symbols-outlined text-[14px]">calendar_month</span> Lease ends: {property.leaseEnd}
@@ -279,8 +287,8 @@ export default function LandlordDashboardPage() {
                                 </div>
                                 <div className="text-right shrink-0 w-full sm:w-auto mt-2 sm:mt-0 flex flex-row sm:flex-col justify-between items-center sm:items-end">
                                     <div>
-                                        <p className="text-lg font-bold text-slate-900 dark:text-white">{formatCurrency(property.price)}<span className="text-xs font-normal text-slate-400">{property.priceUnit}</span></p>
-                                        <p className={`text-xs ${getPaymentStatusColor(property.paymentStatus)} font-medium`}>{property.paymentStatus}</p>
+                                        <p className="text-lg font-bold text-slate-900 dark:text-white">{formatCurrency(property.monthlyRent ?? property.price)}<span className="text-xs font-normal text-slate-400">{property.monthlyRent != null ? '/mo' : (property.priceUnit ?? '')}</span></p>
+                                        <p className={`text-xs ${getPaymentStatusColor(property.occupancyStatus ?? property.paymentStatus)} font-medium`}>{property.occupancyStatus ?? property.paymentStatus ?? ''}</p>
                                     </div>
                                     <button className="sm:hidden p-2 bg-slate-50 dark:bg-slate-800 text-slate-400" onClick={(e) => e.preventDefault()}>
                                         <span className="material-symbols-outlined">more_vert</span>

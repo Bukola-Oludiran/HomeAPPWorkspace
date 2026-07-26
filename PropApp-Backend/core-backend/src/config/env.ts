@@ -13,6 +13,7 @@ const envSchema = z.object({
     // Server
     NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
     PORT: z.string().default('3000').transform(Number),
+    GRPC_PORT: z.string().default('50051').transform(Number),
     API_VERSION: z.string().default('v1'),
 
     // Database
@@ -87,6 +88,12 @@ const envSchema = z.object({
 
     // Frontend
     FRONTEND_URL: z.string().url().default('http://localhost:5173'),
+
+    // ComplyFlow telemetry (instrumentation-only; missing key → SDK no-ops)
+    COMPLY_FLOW_API_KEY: z.string().optional(),
+    COMPLY_FLOW_TENANT_ID: z.string().optional(),
+    COMPLY_FLOW_ENDPOINT: z.string().url().optional(),
+    COMPLY_FLOW_SERVICE_NAME: z.string().default('homeai-core-backend'),
 });
 
 // Parse and validate environment variables

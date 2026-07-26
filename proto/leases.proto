@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package homeai.leases.v1;
+
+service LeasesService {
+  rpc CreateLease(CreateLeaseRequest) returns (LeaseRef);
+  rpc UpdateLease(UpdateLeaseRequest) returns (LeaseRef);
+  rpc SendRenewalOffer(SendRenewalOfferRequest) returns (BatchResult);
+  rpc RespondToRenewal(RespondToRenewalRequest) returns (BatchResult);
+  rpc SignLease(SignLeaseRequest) returns (BatchResult);
+}
+
+message CreateLeaseRequest {
+  string property_id = 1;
+  string tenant_id = 2;
+  string start_date = 3;             // ISO date
+  string end_date = 4;
+  double monthly_rent = 5;
+  optional double security_deposit = 6;
+  optional string request_id = 7;
+}
+
+message UpdateLeaseRequest {
+  string id = 1;
+  optional double monthly_rent = 2;
+  optional string end_date = 3;
+  optional string request_id = 4;
+}
+
+message SendRenewalOfferRequest {
+  string id = 1;
+  string new_end_date = 2;
+  optional double new_monthly_rent = 3;
+  optional string request_id = 4;
+}
+
+message RespondToRenewalRequest {
+  string id = 1;
+  string response = 2;                // 'ACCEPT' | 'DECLINE'
+  optional string request_id = 3;
+}
+
+message SignLeaseRequest {
+  string id = 1;
+  string signature = 2;
+  optional string request_id = 3;
+}
+
+message LeaseRef {
+  string id = 1;
+  string status = 2;
+}
+
+message BatchResult {
+  string message = 1;
+}

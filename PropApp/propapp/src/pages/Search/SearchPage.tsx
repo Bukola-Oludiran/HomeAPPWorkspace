@@ -25,7 +25,7 @@ const listingTypeDisplay: Record<ListingType, { label: string; color: string }> 
 
 // Helper to format price with full amount
 const formatPriceFull = (price: number, currency = 'USD'): string => {
-    return `${currency === 'NGN' ? '₦' : '$'}${price.toLocaleString()}`;
+    return `${currency === 'CAD' ? '$' : '$'}${price.toLocaleString()}`;
 };
 
 // Helper to format square feet for display (compact for >= 1000)
@@ -105,7 +105,7 @@ const amenitiesList = [
 ];
 
 export default function SearchPage() {
-    const [searchQuery, setSearchQuery] = useState('Austin, TX');
+    const [searchQuery, setSearchQuery] = useState('');
     const [viewMode, setViewMode] = useState<'grid' | 'map'>('grid');
     const [verifiedOnly, setVerifiedOnly] = useState(true);
 
@@ -878,7 +878,7 @@ export default function SearchPage() {
                                             <div>
                                                 <div className="flex justify-between items-baseline mb-1">
                                                     <p className="text-xl font-bold text-slate-900 dark:text-white">
-                                                        {formatPriceFull(property.price, 'NGN')}
+                                                        {formatPriceFull(property.price, 'CAD')}
                                                         {property.listingType === 'RENT' && (
                                                             <span className="text-sm font-normal text-slate-500 ml-1">/mo</span>
                                                         )}

@@ -8,6 +8,7 @@ import { MockStorageProvider } from './mock.provider';
 import { S3Provider } from './s3.provider';
 import { env } from '../../config/env';
 import { logger } from '../../common/utils/logger';
+import { instrumentProvider } from '../../common/observability/instrument-provider';
 
 class StorageProviderFactory {
     private providers: Map<string, StorageProvider> = new Map();
@@ -31,7 +32,12 @@ class StorageProviderFactory {
     }
 
     registerProvider(provider: StorageProvider): void {
-        this.providers.set(provider.providerId, provider);
+        const instrumented = instrumentProvider(provider, {
+            to: provider.providerId,
+            dataClassification: 'PII',
+            encrypted: true,
+        });
+        this.providers.set(provider.providerId, instrumented);
         logger.info(`Storage provider registered: ${provider.providerId}`);
     }
 

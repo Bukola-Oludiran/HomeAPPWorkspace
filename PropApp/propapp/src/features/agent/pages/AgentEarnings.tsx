@@ -14,7 +14,7 @@ import type { Payout, BankAccount } from '../../../types/lease';
 function formatCurrency(amount: number): string {
     return new Intl.NumberFormat('en-NG', {
         style: 'currency',
-        currency: 'NGN',
+        currency: 'CAD',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
     }).format(amount);
@@ -66,7 +66,7 @@ export default function AgentEarnings() {
                     userService.getBankAccounts(),
                 ]);
                 setEarnings(earningsResponse.data);
-                setPayouts(payoutsResponse.data.data || []);
+                setPayouts(payoutsResponse.data || []);
                 setBankAccounts(bankAccountsResponse.data || []);
             } catch (err) {
                 console.error('Failed to fetch earnings data:', err);

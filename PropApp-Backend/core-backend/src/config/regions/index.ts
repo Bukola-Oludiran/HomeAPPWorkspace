@@ -121,6 +121,24 @@ class RegionConfigService {
     }
 
     /**
+     * Get the list of currencies a region will accept on inbound writes.
+     * Always includes the primary currency; may also list secondary/cross-border ones.
+     */
+    getAllowedCurrencies(regionCode: string): string[] {
+        const config = this.getConfig(regionCode);
+        return config.currency.allowed;
+    }
+
+    /**
+     * Region-aware currency validation. Use at handler entry to reject writes
+     * with a currency the user's region doesn't permit. Case-insensitive.
+     */
+    isCurrencyAllowed(regionCode: string, currency: string): boolean {
+        const allowed = this.getAllowedCurrencies(regionCode).map(c => c.toUpperCase());
+        return allowed.includes(currency.toUpperCase());
+    }
+
+    /**
      * Check if transaction amount requires enhanced KYC
      */
     requiresEnhancedKyc(regionCode: string, amount: number): boolean {

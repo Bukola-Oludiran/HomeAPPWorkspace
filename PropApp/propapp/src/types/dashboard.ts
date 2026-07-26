@@ -11,29 +11,40 @@ import type { PropertySummary } from './property';
 
 export interface LandlordDashboard {
     totalRevenue: number;
-    revenueChange: number;
+    revenueChange?: number;
     occupancyRate: number;
-    vacantUnits: number;
+    vacantUnits?: number;
     activeListings: number;
-    pendingListings: number;
-    actionRequired: number;
+    pendingListings?: number;
+    actionRequired?: number;
     properties: LandlordPropertySummary[];
-    alerts: Alert[];
+    alerts?: Alert[];
+    // Fields the live backend actually returns (kept alongside the legacy mock-shaped ones above):
+    monthlyRevenue?: number;
+    totalProperties?: number;
+    pendingApplications?: number;
+    alertCount?: number;
 }
 
 export interface LandlordPropertySummary {
     id: string;
     name: string;
-    location: string;
-    image: string;
-    status: 'Rented' | 'Active' | 'Maintenance' | 'Vacant';
-    bedrooms: number;
+    // Backend returns uppercase enums ('ACTIVE' | 'DRAFT' | 'RENTED' ...); keep it a plain string.
+    status: string;
+    // Real backend fields:
+    occupancyStatus?: string;
+    monthlyRent?: number | null;
+    verificationTier?: string;
+    // Legacy mock-shaped fields (optional; absent from the live API response):
+    location?: string;
+    image?: string;
+    bedrooms?: number;
     leaseEnd?: string;
     views?: number;
     maintenance?: string;
-    price: number;
-    priceUnit: string;
-    paymentStatus: string;
+    price?: number;
+    priceUnit?: string;
+    paymentStatus?: string;
 }
 
 export interface LandlordFinancials {

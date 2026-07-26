@@ -16,6 +16,8 @@ import { swaggerSpec } from './config/swagger';
 import { requestIdMiddleware } from './common/middleware/requestId.middleware';
 import { errorHandler, notFoundHandler } from './common/middleware/error.middleware';
 import { sendSuccess } from './common/utils/response.util';
+import { initComply, shutdownComply } from './common/observability/comply.bootstrap';
+import { complianceHttpMiddleware } from './common/observability/http.middleware';
 
 // Import routes
 import authRoutes from './modules/auth/auth.routes';
@@ -44,9 +46,24 @@ const app: Application = express();
 // Security headers
 app.use(helmet());
 
-// CORS
+// CORS — allow the configured frontend origin plus every Cloudflare Pages
+// deployment URL for this project: the production apex (homeai-app.pages.dev)
+// and per-deploy / per-branch preview subdomains (<hash>.homeai-app.pages.dev).
+// Exact-string match alone breaks on preview URLs, which is why those origins
+// were being rejected by the browser.
+const corsAllowList: Array<string | RegExp> = [
+    env.FRONTEND_URL,
+    /^https:\/\/([a-z0-9-]+\.)?homeai-app\.pages\.dev$/,
+];
 app.use(cors({
-    origin: env.FRONTEND_URL,
+    origin(origin, callback) {
+        // Non-browser clients (curl, server-to-server, same-origin) send no Origin.
+        if (!origin) return callback(null, true);
+        const allowed = corsAllowList.some((rule) =>
+            rule instanceof RegExp ? rule.test(origin) : rule === origin,
+        );
+        callback(allowed ? null : new Error(`CORS: origin ${origin} not allowed`), allowed);
+    },
     credentials: true,
 }));
 
@@ -81,6 +98,9 @@ app.use((req, res, next) => {
     logger.info(`${req.method} ${req.path}`, { requestId: req.requestId });
     next();
 });
+
+// ComplyFlow telemetry (emits dataAccess on res.finish; no-op if SDK disabled)
+app.use(complianceHttpMiddleware);
 
 // ============================================
 // HEALTH CHECK
@@ -178,9 +198,13 @@ app.use(errorHandler);
 
 import { createServer } from 'http';
 import { webSocketService } from './services/websocket.service';
+import { startGrpcServer } from './grpc/server';
 
 const startServer = async () => {
     try {
+        // Initialize ComplyFlow telemetry (no-op if not configured)
+        initComply();
+
         // Test database connection
         await prisma.$connect();
         logger.info('✅ Database connected');
@@ -192,6 +216,10 @@ const startServer = async () => {
         webSocketService.initialize(httpServer);
         logger.info('✅ WebSocket initialized');
 
+        // Start gRPC server (AI service mutation surface)
+        await startGrpcServer(env.GRPC_PORT);
+        logger.info(`✅ gRPC server initialized on port ${env.GRPC_PORT}`);
+
         // Start server
         httpServer.listen(env.PORT, () => {
             logger.info(`🚀 HomeAI Core Backend running on port ${env.PORT}`);
@@ -199,6 +227,7 @@ const startServer = async () => {
             logger.info(`🌍 Default Region: ${env.DEFAULT_REGION}`);
             logger.info(`📚 API Docs: http://localhost:${env.PORT}/api-docs`);
             logger.info(`🔌 WebSocket: ws://localhost:${env.PORT}`);
+            logger.info(`🛰️  gRPC: 0.0.0.0:${env.GRPC_PORT}`);
         });
     } catch (error) {
         logger.error('❌ Failed to start server:', error);
@@ -209,6 +238,7 @@ const startServer = async () => {
 // Graceful shutdown
 const shutdown = async () => {
     logger.info('Shutting down gracefully...');
+    await shutdownComply();
     await prisma.$disconnect();
     process.exit(0);
 };

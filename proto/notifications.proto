@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package homeai.notifications.v1;
+
+// Mutating surface for the notifications module. The four methods cover
+// every non-Settings notification write the user can perform in the UI.
+
+service NotificationsService {
+  rpc MarkNotificationsRead(MarkNotificationsReadRequest)
+      returns (NotificationsBatchResult);
+
+  rpc MarkAllNotificationsRead(MarkAllNotificationsReadRequest)
+      returns (NotificationsBatchResult);
+
+  rpc DeleteNotifications(DeleteNotificationsRequest)
+      returns (NotificationsBatchResult);
+
+  rpc ClearAllNotifications(ClearAllNotificationsRequest)
+      returns (NotificationsBatchResult);
+}
+
+message MarkNotificationsReadRequest {
+  repeated string notification_ids = 1;
+  optional string request_id = 2;
+}
+
+message MarkAllNotificationsReadRequest {
+  optional string request_id = 1;
+}
+
+message DeleteNotificationsRequest {
+  repeated string notification_ids = 1;
+  optional string request_id = 2;
+}
+
+message ClearAllNotificationsRequest {
+  optional string request_id = 1;
+}
+
+message NotificationsBatchResult {
+  uint32 affected = 1;
+}

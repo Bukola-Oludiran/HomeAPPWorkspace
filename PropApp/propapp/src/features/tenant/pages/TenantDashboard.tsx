@@ -17,7 +17,7 @@ import type { TenantDashboard as DashboardData } from '../../../types/dashboard'
 function formatCurrency(amount: number): string {
     return new Intl.NumberFormat('en-NG', {
         style: 'currency',
-        currency: 'NGN',
+        currency: 'CAD',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
     }).format(amount);
@@ -119,7 +119,7 @@ export default function TenantDashboardPage() {
                     value={formatCurrency(dashboardData.nextPayment.amount)}
                     animateValue
                     numericValue={dashboardData.nextPayment.amount}
-                    valuePrefix="₦"
+                    valuePrefix="$"
                     badge={{ text: dashboardData.nextPayment.status, variant: dashboardData.nextPayment.status === 'Paid' ? 'success' : 'warning' }}
                     subtext={`Due: ${formatDate(dashboardData.nextPayment.dueDate)}`}
                 />

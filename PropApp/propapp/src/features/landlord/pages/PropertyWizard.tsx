@@ -322,7 +322,7 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
                                 value={formData.currency}
                                 onChange={(e) => setFormData({ ...formData, currency: e.target.value })}
                             >
-                                <option value="NGN">NGN (₦) - Nigerian Naira</option>
+                                <option value="NGN">NGN ($) - Nigerian Naira</option>
                                 <option value="USD">USD ($) - US Dollar</option>
                                 <option value="GBP">GBP (£) - British Pound</option>
                             </select>
@@ -330,7 +330,7 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
                         <div>
                             <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Rental Price</label>
                             <div className="relative">
-                                <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-500 font-bold">₦</span>
+                                <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-500 font-bold">$</span>
                                 <input
                                     className="w-full bg-slate-50 dark:bg-[#101922] border border-slate-200 dark:border-slate-700 rounded-lg py-3 pl-8 pr-4 focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] text-slate-900 dark:text-white outline-none font-medium"
                                     placeholder="0.00"
@@ -628,7 +628,7 @@ export default function PropertyWizard() {
         sqft: '',
         rent: '',
         amenities: ['washer'],
-        currency: 'NGN',
+        currency: 'CAD',
         leaseDuration: 'Per Year',
         negotiable: false,
         furnishing: '',

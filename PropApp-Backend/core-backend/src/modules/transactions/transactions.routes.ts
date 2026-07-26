@@ -10,6 +10,7 @@ import { validate, validateQuery } from '../../common/middleware/validate.middle
 import { sendSuccess, sendCreated } from '../../common/utils/response.util';
 import { paymentProviderFactory } from '../../integrations/payment';
 import { logger } from '../../common/utils/logger';
+import { safeEmit } from '../../common/observability/comply';
 import {
     transactionQuerySchema,
     initiatePaymentSchema,
@@ -31,6 +32,15 @@ const router = Router();
  */
 router.post('/webhook/paystack', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        // Compliance: data crossed the trust boundary, regardless of signature validity.
+        safeEmit.dataFlow({
+            from: 'paystack',
+            to: 'homeai-core',
+            dataClassification: 'PCI',
+            encrypted: true,
+            transformed: false,
+        });
+
         // Verify Paystack signature
         const signature = req.headers['x-paystack-signature'] as string;
         const paystackProvider = paymentProviderFactory.getProviderById('paystack');
@@ -39,6 +49,13 @@ router.post('/webhook/paystack', async (req: Request, res: Response, next: NextF
             const isValid = paystackProvider.validateWebhook(req.body, signature);
             if (!isValid) {
                 logger.warn('Invalid Paystack webhook signature');
+                safeEmit.accessControl({
+                    resource: 'homeai:transactions.webhook',
+                    actor: { service: 'paystack' },
+                    granted: false,
+                    method: 'custom',
+                    dataClassification: 'PCI',
+                });
                 return res.status(400).send('Invalid signature');
             }
         }

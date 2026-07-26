@@ -39,7 +39,7 @@ interface UIApplicant {
 function formatCurrency(amount: number): string {
     return new Intl.NumberFormat('en-NG', {
         style: 'currency',
-        currency: 'NGN',
+        currency: 'CAD',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
     }).format(amount);
@@ -163,7 +163,7 @@ export default function ApplicantManager() {
                 setError(null);
 
                 const response = await landlordService.getApplicants();
-                const data = response.data?.data || [];
+                const data = response.data || [];
                 setApplicants(data.map(transformApplicant));
             } catch (err) {
                 console.error('Failed to fetch applicants:', err);
@@ -218,8 +218,8 @@ export default function ApplicantManager() {
         // Search filter
         if (searchQuery) {
             const query = searchQuery.toLowerCase();
-            return applicant.name.toLowerCase().includes(query) ||
-                applicant.property.toLowerCase().includes(query);
+            return (applicant.name ?? "").toLowerCase().includes(query) ||
+                (applicant.property ?? "").toLowerCase().includes(query);
         }
         return true;
     });

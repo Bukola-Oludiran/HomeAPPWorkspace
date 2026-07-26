@@ -26,7 +26,7 @@ interface UITransaction {
 }
 
 // Format currency
-function formatCurrency(amount: number, currency = 'NGN'): string {
+function formatCurrency(amount: number, currency = 'CAD'): string {
     return new Intl.NumberFormat('en-NG', {
         style: 'currency',
         currency,
@@ -143,14 +143,14 @@ export default function AgentTransactions() {
                     if (searchQuery) {
                         const query = searchQuery.toLowerCase();
                         transformed = transformed.filter(tx =>
-                            tx.description.toLowerCase().includes(query) ||
+                            (tx.description ?? "").toLowerCase().includes(query) ||
                             tx.id.toLowerCase().includes(query)
                         );
                     }
 
                     setTransactions(transformed);
-                    setTotalCount(response.data.pagination?.total || transformed.length);
-                    setTotalPages(response.data.pagination?.totalPages || 1);
+                    setTotalCount(response.meta?.total || transformed.length);
+                    setTotalPages(response.meta?.totalPages || 1);
                 }
             } catch (err) {
                 console.error('Error fetching payout history:', err);

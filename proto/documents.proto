@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package homeai.documents.v1;
+
+// Documents — only `DeleteDocument` for v1; uploads are multipart and
+// excluded from gRPC scope (file binaries don't fit a tool call). Users
+// continue uploading via the HTTP route.
+
+service DocumentsService {
+  rpc DeleteDocument(DeleteDocumentRequest) returns (BatchResult);
+}
+
+message DeleteDocumentRequest {
+  string id = 1;
+  optional string request_id = 2;
+}
+
+message BatchResult {
+  string message = 1;
+}

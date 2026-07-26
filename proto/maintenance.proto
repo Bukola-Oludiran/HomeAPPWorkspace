@@ -1,0 +1,140 @@
+syntax = "proto3";
+
+package homeai.maintenance.v1;
+
+// Maintenance — gRPC mutation surface for the AI service.
+//
+// Trust model: every RPC requires an `authorization` metadata entry of the
+// form "Bearer <jwt>". The backend gRPC auth interceptor validates the JWT
+// the same way the HTTP authenticate() middleware does. The resolved user's
+// id/role/etc are NOT carried in request messages — they come from the
+// interceptor's call context.
+//
+// Read surfaces are intentionally not in this file. The AI service queries
+// the database directly via its read-only Prisma role for reads.
+
+service MaintenanceService {
+  // POST /maintenance equivalent. TENANT or ADMIN.
+  rpc SubmitMaintenanceRequest(SubmitMaintenanceRequestRequest)
+      returns (MaintenanceRequest);
+
+  // PUT /maintenance/:id equivalent. Landlord/agent/admin enforced in service.
+  rpc UpdateMaintenanceRequest(UpdateMaintenanceRequestRequest)
+      returns (MaintenanceRequest);
+
+  // POST /maintenance/:id/assign equivalent. LANDLORD or ADMIN.
+  rpc AssignMaintenanceAgent(AssignMaintenanceAgentRequest)
+      returns (AssignMaintenanceAgentResponse);
+}
+
+// ============================================================
+// Enums — mirror Prisma's MaintenanceStatus / MaintenancePriority
+// ============================================================
+
+enum MaintenancePriority {
+  MAINTENANCE_PRIORITY_UNSPECIFIED = 0;
+  LOW = 1;
+  MEDIUM = 2;
+  HIGH = 3;
+  EMERGENCY = 4;
+}
+
+enum MaintenanceStatus {
+  MAINTENANCE_STATUS_UNSPECIFIED = 0;
+  PENDING = 1;
+  SUBMITTED = 2;
+  ACKNOWLEDGED = 3;
+  ASSIGNED = 4;
+  IN_PROGRESS = 5;
+  ON_HOLD = 6;
+  COMPLETED = 7;
+  CANCELLED = 8;
+}
+
+enum PreferredTimeSlot {
+  PREFERRED_TIME_SLOT_UNSPECIFIED = 0;
+  MORNING = 1;
+  AFTERNOON = 2;
+  EVENING = 3;
+  ANY = 4;
+}
+
+// ============================================================
+// Request / response messages
+// ============================================================
+
+message SubmitMaintenanceRequestRequest {
+  string property_id = 1;
+  string category = 2;
+  string description = 3;
+  MaintenancePriority priority = 4;
+  // ISO-8601 date string; optional.
+  optional string preferred_date = 5;
+  PreferredTimeSlot preferred_time_slot = 6;
+  // Idempotency hint; backend service may ignore until supported per-handler.
+  optional string request_id = 7;
+}
+
+message UpdateMaintenanceRequestRequest {
+  string id = 1;
+  optional MaintenanceStatus status = 2;
+  optional string description = 3;
+  optional MaintenancePriority priority = 4;
+  optional string notes = 5;
+  optional string resolution = 6;
+  optional double cost = 7;
+  optional string request_id = 8;
+}
+
+message AssignMaintenanceAgentRequest {
+  string id = 1;
+  string agent_id = 2;
+  // ISO-8601 date string.
+  string scheduled_date = 3;
+  optional string scheduled_time = 4;
+  optional string notes = 5;
+  optional string request_id = 6;
+}
+
+message AssignMaintenanceAgentResponse {
+  string message = 1;
+}
+
+// ============================================================
+// Domain object — the canonical MaintenanceRequest projection
+// ============================================================
+
+message PropertyRef {
+  string id = 1;
+  string name = 2;
+  string address = 3;
+}
+
+message UserRef {
+  string id = 1;
+  optional string first_name = 2;
+  optional string last_name = 3;
+}
+
+message MaintenanceRequest {
+  string id = 1;
+  string property_id = 2;
+  string tenant_id = 3;
+  optional string category = 4;
+  optional string description = 5;
+  MaintenancePriority priority = 6;
+  MaintenanceStatus status = 7;
+  optional string preferred_date = 8;
+  optional string preferred_time_slot = 9;
+  repeated string photos = 10;
+  optional string notes = 11;
+  optional string resolution = 12;
+  optional double cost = 13;
+  PropertyRef property = 14;
+  UserRef tenant = 15;
+  optional UserRef assigned_agent = 16;
+  optional string scheduled_date = 17;
+  optional string resolved_at = 18;
+  string created_at = 19;
+  string updated_at = 20;
+}

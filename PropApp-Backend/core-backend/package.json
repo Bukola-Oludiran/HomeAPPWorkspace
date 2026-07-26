@@ -26,7 +26,11 @@
   "dependencies": {
     "@asteasolutions/zod-to-openapi": "^7.3.4",
     "@aws-sdk/client-s3": "^3.965.0",
+    "@complyflow/sdk": "file:../../../ComplyFlow/packages/sdk",
+    "@complyflow/shared": "file:../../../ComplyFlow/packages/shared",
     "@aws-sdk/s3-request-presigner": "^3.965.0",
+    "@grpc/grpc-js": "^1.14.3",
+    "@grpc/proto-loader": "^0.8.1",
     "@types/socket.io": "^3.0.1",
     "axios": "^1.13.2",
     "bcrypt": "^5.1.1",

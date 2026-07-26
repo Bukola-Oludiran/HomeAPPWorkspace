@@ -12,8 +12,8 @@ import type { Property } from '@/types/property';
 import type { ApiError } from '@/types/api';
 
 // Helper to format price
-const formatPrice = (price: number, currency = 'NGN'): string => {
-    const symbol = currency === 'NGN' ? '₦' : '$';
+const formatPrice = (price: number, currency = 'CAD'): string => {
+    const symbol = currency === 'CAD' ? '$' : '$';
     return `${symbol}${price.toLocaleString()}`;
 };
 
@@ -156,7 +156,7 @@ export default function PropertyDetail() {
     // Derived values for UI
     const primaryImage = property.media.find(m => m.isPrimary)?.url || property.media[0]?.url || 'https://placehold.co/800x600?text=No+Image';
     const galleryImages = property.media.filter(m => m.type === 'IMAGE').map(m => m.url);
-    const priceDisplay = formatPrice(property.price, 'NGN');
+    const priceDisplay = formatPrice(property.price, 'CAD');
     const typeLabel = getTypeLabel(property.listingType);
     const fullAddress = `${property.address.street}, ${property.address.city}, ${property.address.state}`;
     const sqft = property.squareFeet ? property.squareFeet.toLocaleString() : 'N/A';

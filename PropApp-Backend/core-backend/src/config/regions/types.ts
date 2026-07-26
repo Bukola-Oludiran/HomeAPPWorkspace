@@ -25,6 +25,12 @@ export interface CurrencyConfig {
     decimalPlaces: number;
     thousandsSeparator: string;
     decimalSeparator: string;
+    /**
+     * Currencies the region will accept on inbound writes (POST /transactions, etc.).
+     * Always include the primary `code`. List additional codes (e.g. USD for cross-border)
+     * to relax the region-aware validation in the transactions handler.
+     */
+    allowed: string[];
 }
 
 export interface LocaleConfig {

@@ -1,26 +1,51 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 
 interface AIAssistantWidgetProps {
     /** Custom placeholder text */
     placeholder?: string;
-    /** Callback when message is submitted */
+    /**
+     * Callback when message is submitted. If omitted, the widget navigates
+     * to `/ai-chat?msg=<encoded>` and the chat page auto-submits — this is
+     * the default "submit-and-navigate" behavior used everywhere unless a
+     * caller wants to keep the user on-page (e.g. an inline panel).
+     *
+     * The optional `contextSeed` carries propertyId / leaseId / etc. so
+     * the chat page opens with the right context — pass it on the
+     * caller's `contextSeed` prop and the widget forwards it as URL params.
+     */
     onSubmit?: (message: string) => void;
     /** Quick suggestion buttons (optional) */
     suggestions?: string[];
+    /** Context seed forwarded to `/ai-chat` when navigating. */
+    contextSeed?: {
+        propertyId?: string;
+        leaseId?: string;
+        applicationId?: string;
+        conversationId?: string;
+        maintenanceRequestId?: string;
+    };
 }
 
 /**
  * AIAssistantWidget - Floating AI prompt bar with liquid morph animation
- * 
+ *
  * Single container that morphs and translates:
  * - Collapsed: positioned bottom-right
  * - Expanded: grows and slides to center
+ *
+ * Default behavior on submit: navigate to /ai-chat?msg=<encoded> (the
+ * dedicated chat page auto-submits the message). Callers can override
+ * with a custom `onSubmit` handler for inline-mini-chat behavior
+ * (planned but not implemented in v1).
  */
 const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
     placeholder = 'Ask HomeAI anything...',
     onSubmit,
+    contextSeed,
 }) => {
+    const navigate = useNavigate();
     const [isExpanded, setIsExpanded] = useState(false);
     const [inputValue, setInputValue] = useState('');
     const [showInput, setShowInput] = useState(false);
@@ -139,10 +164,24 @@ const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
     }, [isExpanded, getPositions]);
 
     const handleSubmit = () => {
-        if (inputValue.trim()) {
-            onSubmit?.(inputValue.trim());
-            setInputValue('');
+        const trimmed = inputValue.trim();
+        if (!trimmed) return;
+        if (onSubmit) {
+            onSubmit(trimmed);
+        } else {
+            // Default: hand off to the dedicated /ai-chat page which
+            // auto-submits the message via the `?msg=` URL param.
+            const params = new URLSearchParams({ msg: trimmed });
+            if (contextSeed?.propertyId) params.set('propertyId', contextSeed.propertyId);
+            if (contextSeed?.leaseId) params.set('leaseId', contextSeed.leaseId);
+            if (contextSeed?.applicationId) params.set('applicationId', contextSeed.applicationId);
+            if (contextSeed?.conversationId) params.set('conversationId', contextSeed.conversationId);
+            if (contextSeed?.maintenanceRequestId)
+                params.set('maintenanceRequestId', contextSeed.maintenanceRequestId);
+            navigate(`/ai-chat?${params.toString()}`);
         }
+        setInputValue('');
+        setIsExpanded(false);
     };
 
     const handleKeyDown = (e: React.KeyboardEvent) => {

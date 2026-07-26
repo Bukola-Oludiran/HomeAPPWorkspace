@@ -65,9 +65,12 @@ function getUrgencyStyle(priority: MaintenancePriority): { label: string; color:
 // Status mapping
 function getStatusStyle(status: MaintenanceStatus): { label: string; bg: string; color: string; border: string; isCompleted: boolean } {
     const styles: Record<MaintenanceStatus, { label: string; bg: string; color: string; border: string; isCompleted: boolean }> = {
-        PENDING: { label: 'Submitted', bg: 'bg-blue-100 dark:bg-blue-900/30', color: 'text-blue-700 dark:text-blue-400', border: 'border-blue-200 dark:border-blue-800/50', isCompleted: false },
+        SUBMITTED: { label: 'Submitted', bg: 'bg-blue-100 dark:bg-blue-900/30', color: 'text-blue-700 dark:text-blue-400', border: 'border-blue-200 dark:border-blue-800/50', isCompleted: false },
+        PENDING: { label: 'Pending', bg: 'bg-blue-100 dark:bg-blue-900/30', color: 'text-blue-700 dark:text-blue-400', border: 'border-blue-200 dark:border-blue-800/50', isCompleted: false },
         ACKNOWLEDGED: { label: 'Scheduled', bg: 'bg-purple-100 dark:bg-purple-900/30', color: 'text-purple-700 dark:text-purple-400', border: 'border-purple-200 dark:border-purple-800/50', isCompleted: false },
+        ASSIGNED: { label: 'Assigned', bg: 'bg-purple-100 dark:bg-purple-900/30', color: 'text-purple-700 dark:text-purple-400', border: 'border-purple-200 dark:border-purple-800/50', isCompleted: false },
         IN_PROGRESS: { label: 'In Progress', bg: 'bg-amber-100 dark:bg-amber-900/30', color: 'text-amber-700 dark:text-amber-400', border: 'border-amber-200 dark:border-amber-800/50', isCompleted: false },
+        ON_HOLD: { label: 'On Hold', bg: 'bg-yellow-100 dark:bg-yellow-900/30', color: 'text-yellow-700 dark:text-yellow-400', border: 'border-yellow-200 dark:border-yellow-800/50', isCompleted: false },
         COMPLETED: { label: 'Completed', bg: 'bg-green-100 dark:bg-green-900/30', color: 'text-green-700 dark:text-green-400', border: 'border-green-200 dark:border-green-800/50', isCompleted: true },
         CANCELLED: { label: 'Cancelled', bg: 'bg-gray-100 dark:bg-gray-900/30', color: 'text-gray-700 dark:text-gray-400', border: 'border-gray-200 dark:border-gray-800/50', isCompleted: true },
     };
@@ -205,15 +208,15 @@ export default function TenantMaintenance() {
                     if (searchQuery) {
                         const query = searchQuery.toLowerCase();
                         sorted = sorted.filter(req =>
-                            req.title.toLowerCase().includes(query) ||
-                            req.description.toLowerCase().includes(query) ||
+                            (req.title ?? "").toLowerCase().includes(query) ||
+                            (req.description ?? "").toLowerCase().includes(query) ||
                             req.id.toLowerCase().includes(query)
                         );
                     }
 
                     setMaintenanceRequests(sorted);
-                    setTotalRequests(response.data.pagination?.total || sorted.length);
-                    setTotalPages(response.data.pagination?.totalPages || 1);
+                    setTotalRequests(response.meta?.total || sorted.length);
+                    setTotalPages(response.meta?.totalPages || 1);
                 }
             } catch (err) {
                 console.error('Error fetching maintenance requests:', err);

@@ -73,9 +73,9 @@ export default function MakePaymentModal({ isOpen, onClose, onSuccess, paymentFo
                                 </div>
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Amount (₦)</label>
+                                <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Amount ($)</label>
                                 <div className="relative">
-                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-slate-400">₦</span>
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-slate-400">$</span>
                                     <input
                                         type="text"
                                         value={paymentAmount}
@@ -151,7 +151,7 @@ export default function MakePaymentModal({ isOpen, onClose, onSuccess, paymentFo
                             <div className="border-t border-slate-200 dark:border-slate-700 my-2"></div>
                             <div className="flex justify-between items-center">
                                 <span className="text-base font-bold text-slate-900 dark:text-white">Total Amount</span>
-                                <span className="text-xl font-extrabold text-[#137fec]">₦{paymentAmount}</span>
+                                <span className="text-xl font-extrabold text-[#137fec]">${paymentAmount}</span>
                             </div>
                         </div>
                     </div>

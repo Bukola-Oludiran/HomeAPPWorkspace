@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package homeai.analytics.v1;
+
+// Analytics — POST-as-compute; no DB write, but parameters in the body
+// place this on the mutating-side gRPC surface rather than direct-DB
+// reads. The price-optimization endpoint accepts target objectives
+// (occupancy / yield / time-to-rent) and returns a recommendation.
+
+service AnalyticsService {
+  rpc GetPriceOptimization(PriceOptimizationRequest)
+      returns (PriceOptimizationResult);
+}
+
+message PriceOptimizationRequest {
+  string property_id = 1;
+  string objective = 2;       // 'OCCUPANCY' | 'YIELD' | 'TIME_TO_RENT'
+  optional double current_price = 3;
+  optional string request_id = 4;
+}
+
+message PriceOptimizationResult {
+  double recommended_price = 1;
+  string rationale = 2;
+  double confidence = 3;
+}

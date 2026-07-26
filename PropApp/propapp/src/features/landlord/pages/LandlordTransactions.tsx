@@ -29,7 +29,7 @@ interface UITransaction {
 function formatCurrency(amount: number): string {
     return new Intl.NumberFormat('en-NG', {
         style: 'currency',
-        currency: 'NGN',
+        currency: 'CAD',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
     }).format(Math.abs(amount));
@@ -142,9 +142,9 @@ export default function LandlordTransactions() {
                 setError(null);
 
                 const response = await landlordService.getTransactions({ page, limit });
-                const txData = response.data?.data || [];
+                const txData = response.data || [];
                 setTransactions(txData.map(transformTransaction));
-                setTotalCount(response.data?.pagination?.total || 0);
+                setTotalCount(response.meta?.total || 0);
             } catch (err) {
                 console.error('Failed to fetch transactions:', err);
                 setError('Failed to load transactions. Please try again.');
@@ -176,9 +176,9 @@ export default function LandlordTransactions() {
     const filteredTransactions = transactions.filter(tx => {
         if (!searchQuery) return true;
         const query = searchQuery.toLowerCase();
-        return tx.description.toLowerCase().includes(query) ||
-            tx.tenant.toLowerCase().includes(query) ||
-            tx.property.toLowerCase().includes(query) ||
+        return (tx.description ?? "").toLowerCase().includes(query) ||
+            (tx.tenant ?? "").toLowerCase().includes(query) ||
+            (tx.property ?? "").toLowerCase().includes(query) ||
             tx.id.toLowerCase().includes(query);
     });
 
@@ -204,19 +204,19 @@ export default function LandlordTransactions() {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                 <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
                     <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Total Income (Month)</p>
-                    <p className="text-2xl font-extrabold text-green-600">{isLoading ? '...' : `₦${totalIncome.toLocaleString()}`}</p>
+                    <p className="text-2xl font-extrabold text-green-600">{isLoading ? '...' : `$${totalIncome.toLocaleString()}`}</p>
                 </div>
                 <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
                     <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Pending Payments</p>
-                    <p className="text-2xl font-extrabold text-orange-600">{isLoading ? '...' : `₦${pendingAmount.toLocaleString()}`}</p>
+                    <p className="text-2xl font-extrabold text-orange-600">{isLoading ? '...' : `$${pendingAmount.toLocaleString()}`}</p>
                 </div>
                 <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
                     <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Fees & Deductions</p>
-                    <p className="text-2xl font-extrabold text-red-500">{isLoading ? '...' : `₦${deductions.toLocaleString()}`}</p>
+                    <p className="text-2xl font-extrabold text-red-500">{isLoading ? '...' : `$${deductions.toLocaleString()}`}</p>
                 </div>
                 <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
                     <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Net Revenue</p>
-                    <p className="text-2xl font-extrabold text-[#137fec]">{isLoading ? '...' : `₦${netRevenue.toLocaleString()}`}</p>
+                    <p className="text-2xl font-extrabold text-[#137fec]">{isLoading ? '...' : `$${netRevenue.toLocaleString()}`}</p>
                 </div>
             </div>
 

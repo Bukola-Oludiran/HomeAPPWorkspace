@@ -64,6 +64,7 @@ model User {
   deviceTokens       DeviceToken[]
   favorites          Favorite[]
   refreshTokens      RefreshToken[]
+  aiSessions         AiSession[]
 
   @@map("users")
 }
@@ -702,5 +703,59 @@ enum NotificationType {
   JOB_COMPLETED
   AGENT_MATCHED
   GENERAL
+  SYSTEM
+}
+
+// ============================================
+// AI SESSIONS (owned by the AI service)
+// ============================================
+//
+// One row per user-facing conversation. Sidebar history is sourced from
+// this table. The ai-service holds full read/write on these two tables
+// (separate from the `homeai_readonly` role that backs the rest of the
+// read-tools). Schema authority stays with the backend; the ai-service
+// syncs schema.prisma + prisma generate but only mutates these models.
+
+model AiSession {
+  id            String   @id @default(uuid()) @db.Uuid
+  userId        String   @map("user_id") @db.Uuid
+  /// Auto-derived from the first user message, editable by the user.
+  title         String?  @db.VarChar(255)
+  /// Optional context bag (e.g. {propertyId, leaseId}) for deep-linked
+  /// chats so the LLM can be primed across reloads.
+  contextSeed   Json?    @map("context_seed")
+  lastMessageAt DateTime @default(now()) @map("last_message_at")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  user     User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages AiSessionMessage[]
+
+  @@index([userId, lastMessageAt])
+  @@map("ai_sessions")
+}
+
+model AiSessionMessage {
+  id        String       @id @default(uuid()) @db.Uuid
+  sessionId String       @map("session_id") @db.Uuid
+  role      AiMessageRole
+  /// Plain-text body (user message OR assistant text deltas concatenated).
+  content   String       @default("")
+  /// Optional structured payload — UI fragments emitted with this turn,
+  /// tool-call records, etc. Schema-shape mirrors the contract's UiFragment
+  /// union plus a tool-call envelope, but stored as Json so the column is
+  /// migration-safe across fragment additions.
+  payload   Json?
+  createdAt DateTime     @default(now()) @map("created_at")
+
+  session AiSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId, createdAt])
+  @@map("ai_session_messages")
+}
+
+enum AiMessageRole {
+  USER
+  ASSISTANT
   SYSTEM
 }

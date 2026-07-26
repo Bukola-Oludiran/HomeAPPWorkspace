@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package homeai.verification.v1;
+
+service VerificationService {
+  rpc SubmitIdentityVerification(SubmitIdentityRequest) returns (VerificationRef);
+  rpc SubmitAddressVerification(SubmitDocumentRequest) returns (VerificationRef);
+  rpc SubmitCofoVerification(SubmitPropertyDocumentRequest) returns (VerificationRef);
+  rpc RequestPropertyVerificationAudit(RequestPropertyAuditRequest)
+      returns (VerificationRef);
+}
+
+message SubmitIdentityRequest {
+  string document_type = 1;            // NIN | DRIVERS_LICENSE | PASSPORT
+  string document_number = 2;
+  optional string document_url = 3;
+  optional string request_id = 4;
+}
+
+message SubmitDocumentRequest {
+  string document_url = 1;
+  optional string document_type = 2;
+  optional string request_id = 3;
+}
+
+message SubmitPropertyDocumentRequest {
+  string property_id = 1;
+  string document_url = 2;
+  optional string request_id = 3;
+}
+
+message RequestPropertyAuditRequest {
+  string property_id = 1;
+  optional string preferred_date = 2;
+  optional string notes = 3;
+  optional string request_id = 4;
+}
+
+message VerificationRef {
+  string id = 1;
+  string status = 2;
+}

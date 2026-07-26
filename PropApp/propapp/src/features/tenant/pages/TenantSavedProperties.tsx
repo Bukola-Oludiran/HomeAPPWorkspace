@@ -26,7 +26,7 @@ interface UISavedProperty {
 }
 
 // Helper to format currency
-function formatCurrency(amount: number, currency: string = 'NGN'): string {
+function formatCurrency(amount: number, currency: string = 'CAD'): string {
     return new Intl.NumberFormat('en-NG', {
         style: 'currency',
         currency: currency,
@@ -58,7 +58,7 @@ function transformSavedProperty(property: PropertySummary): UISavedProperty {
         title: property.name,
         location: `${property.address.city}, ${property.address.state}`,
         image: property.primaryImage || PLACEHOLDER_IMAGE,
-        price: formatCurrency(property.price, 'NGN'),
+        price: formatCurrency(property.price, 'CAD'),
         period: getPricePeriod(property.listingType, property.priceUnit),
         type: getListingTypeLabel(property.listingType),
         beds: (property.bedrooms ?? 0) === 0 ? 'Studio' : `${property.bedrooms} Bed${(property.bedrooms ?? 0) > 1 ? 's' : ''}`,

@@ -8,9 +8,22 @@
 import { prisma } from '../../config/database';
 import { NotFoundError, AppError } from '../../common/utils/errors';
 import { paymentProviderFactory } from '../../integrations/payment';
+import { regionConfigService } from '../../config/regions';
 import { encrypt, decrypt, maskSensitiveData } from '../../common/utils/encryption.util';
 import { AddBankAccountDto, RequestPayoutDto, PayoutQueryDto } from './banking.dto';
 import { v4 as uuidv4 } from 'uuid';
+
+/**
+ * Resolve currency from the user's profile region. Banking/payout flows are
+ * always denominated in the user's home currency.
+ */
+async function currencyForUser(userId: string): Promise<string> {
+    const user = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { regionCode: true },
+    });
+    return regionConfigService.getCurrencyCode(user?.regionCode ?? 'NG');
+}
 
 // ============================================
 // TYPES
@@ -274,7 +287,7 @@ class BankingService {
                 userId,
                 bankAccountId: dto.bankAccountId,
                 amount: dto.amount,
-                currency: 'NGN',
+                currency: await currencyForUser(userId),
                 status: 'PROCESSING',
                 reference: `PAYOUT-${uuidv4().slice(0, 8).toUpperCase()}`,
                 description: dto.description,
@@ -412,7 +425,7 @@ class BankingService {
             autoPayoutEnabled: (profileData.autoPayoutEnabled as boolean) ?? true,
             pendingBalance,
             availableBalance,
-            currency: 'NGN',
+            currency: await currencyForUser(userId),
             lastPayoutDate: lastPayout?.completedAt || null,
             lastPayoutAmount: lastPayout ? Number(lastPayout.amount) : null,
             nextScheduledPayout,

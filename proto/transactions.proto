@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package homeai.transactions.v1;
+
+// Transaction-side mutating surface — the primary AI write is
+// InitiatePayment, which is confirm-gated and two-step on the tool side.
+
+service TransactionsService {
+  rpc InitiatePayment(InitiatePaymentRequest) returns (PaymentInitResult);
+}
+
+message InitiatePaymentRequest {
+  // 'RENT' | 'DEPOSIT' | 'AGENT_FEE' | 'OTHER' etc.
+  string type = 1;
+  double amount = 2;
+  string currency = 3;          // "NGN" etc.
+  optional string lease_id = 4;
+  optional string property_id = 5;
+  optional string payment_method = 6;   // "CARD" | "BANK_TRANSFER" | ...
+  optional string description = 7;
+  optional string request_id = 8;
+}
+
+message PaymentInitResult {
+  string transaction_id = 1;
+  optional string payment_url = 2;
+  optional string reference = 3;
+  string status = 4;
+}

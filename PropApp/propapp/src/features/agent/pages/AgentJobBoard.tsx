@@ -8,7 +8,7 @@ import type { AgentJob, AgentEarnings } from '../../../types/dashboard';
 function formatCurrency(amount: number): string {
     return new Intl.NumberFormat('en-NG', {
         style: 'currency',
-        currency: 'NGN',
+        currency: 'CAD',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
     }).format(amount);
@@ -54,7 +54,7 @@ export default function AgentJobBoard() {
                     agentService.getAvailableJobs(),
                     agentService.getEarnings(),
                 ]);
-                setJobs(jobsResponse.data.data || []);
+                setJobs(jobsResponse.data || []);
                 setEarnings(earningsResponse.data);
             } catch (err) {
                 console.error('Failed to fetch agent data:', err);

@@ -7,7 +7,7 @@ import { propertyService } from '@/lib/api/services/propertyService';
 import type { PropertySummary, ListingType } from '@/types/property';
 
 // Helper to format price with currency
-function formatPrice(price: number, currency: string = 'NGN'): string {
+function formatPrice(price: number, currency: string = 'CAD'): string {
     const formatter = new Intl.NumberFormat('en-NG', {
         style: 'currency',
         currency: currency,
@@ -310,7 +310,7 @@ export default function HomePage() {
                                                 <div>
                                                     <div className="flex justify-between items-baseline mb-1">
                                                         <p className="text-xl font-bold text-slate-900 dark:text-white">
-                                                            {formatPrice(property.price, 'NGN')}
+                                                            {formatPrice(property.price, 'CAD')}
                                                             {listingInfo.priceUnit && (
                                                                 <span className="text-sm font-normal text-slate-500">
                                                                     {listingInfo.priceUnit}

@@ -248,7 +248,7 @@ export default function TenantProfileLandlordView() {
                                     </li>
                                     <li className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
                                         <span className="text-sm text-slate-500 dark:text-slate-400">Max Budget</span>
-                                        <span className="text-sm font-bold text-slate-900 dark:text-white">{profile?.preferences?.monthlyBudgetMax ? `₦${profile.preferences.monthlyBudgetMax.toLocaleString()}` : '—'}</span>
+                                        <span className="text-sm font-bold text-slate-900 dark:text-white">{profile?.preferences?.monthlyBudgetMax ? `$${profile.preferences.monthlyBudgetMax.toLocaleString()}` : '—'}</span>
                                     </li>
                                 </ul>
                             </div>

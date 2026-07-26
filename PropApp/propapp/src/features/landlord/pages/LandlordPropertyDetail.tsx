@@ -62,7 +62,7 @@ interface UIPropertyData {
 }
 
 // Format currency
-function formatCurrency(amount: number, currency = 'NGN'): string {
+function formatCurrency(amount: number, currency = 'CAD'): string {
     return new Intl.NumberFormat('en-NG', {
         style: 'currency',
         currency,
@@ -75,6 +75,7 @@ function formatCurrency(amount: number, currency = 'NGN'): string {
 function getVerificationLabel(tier?: VerificationTier): string {
     if (!tier) return 'Not Verified';
     const labels: Record<VerificationTier, string> = {
+        UNVERIFIED: 'Not Verified',
         BRONZE: 'Bronze Verified',
         SILVER: 'Silver Verified',
         GOLD: 'Gold Verified',
@@ -126,7 +127,7 @@ function transformToUIProperty(
         id: property.id,
         name: property.name,
         address: formatAddress(property.address),
-        targetRent: formatCurrency(property.price, 'NGN'),
+        targetRent: formatCurrency(property.price, 'CAD'),
         marketComparison: marketComparison?.marketAnalysis ? `${marketComparison.marketAnalysis.percentile > 50 ? '+' : ''}${(marketComparison.marketAnalysis.percentile - 50).toFixed(0)}%` : 'N/A',
         status: getStatusLabel(property.status),
         onlineDays: getDaysOnline(property.createdAt),

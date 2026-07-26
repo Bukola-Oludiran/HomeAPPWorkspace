@@ -26,7 +26,7 @@ interface StatsCardProps {
     animateValue?: boolean;
     /** Numeric value for animation (parsed from value if not provided) */
     numericValue?: number;
-    /** Prefix for animated counter (e.g., "₦", "$") */
+    /** Prefix for animated counter (e.g., "$", "$") */
     valuePrefix?: string;
     /** Suffix for animated counter (e.g., "/mo") */
     valueSuffix?: string;
@@ -77,7 +77,7 @@ const StatsCard: React.FC<StatsCardProps> = ({
     const getNumericValue = (): number => {
         if (numericValue !== undefined) return numericValue;
         if (typeof value === 'number') return value;
-        // Extract numbers from string (e.g., "₦2,500,000" -> 2500000)
+        // Extract numbers from string (e.g., "$2,500,000" -> 2500000)
         const parsed = parseFloat(String(value).replace(/[^0-9.-]/g, ''));
         return isNaN(parsed) ? 0 : parsed;
     };

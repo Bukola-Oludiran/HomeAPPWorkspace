@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package homeai.lease_reports.v1;
+
+// Document/report generation. Output is async (the service returns a
+// reference; the actual PDF is generated server-side and pulled later
+// via a download URL).
+
+service LeaseReportsService {
+  rpc GenerateLeaseDocument(GenerateLeaseRequest) returns (ReportRef);
+  rpc GenerateFinancialReport(GenerateReportRequest) returns (ReportRef);
+}
+
+message GenerateLeaseRequest {
+  string lease_id = 1;
+  optional string template = 2;
+  optional string request_id = 3;
+}
+
+message GenerateReportRequest {
+  string report_type = 1;     // 'TENANT_SPEND' | 'LANDLORD_INCOME' | 'OCCUPANCY'
+  string start_date = 2;
+  string end_date = 3;
+  optional string property_id = 4;
+  optional string request_id = 5;
+}
+
+message ReportRef {
+  string id = 1;
+  string status = 2;
+  optional string download_url = 3;
+}

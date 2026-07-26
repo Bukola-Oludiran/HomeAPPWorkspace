@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package homeai.banking.v1;
+
+service BankingService {
+  rpc ResolveBankAccount(ResolveRequest) returns (ResolveResult);
+  rpc AddBankAccount(AddRequest) returns (BankAccountRef);
+  rpc SetDefaultBankAccount(BankAccountIdRequest) returns (BatchResult);
+  rpc DeleteBankAccount(BankAccountIdRequest) returns (BatchResult);
+  rpc RequestBankingPayout(RequestPayoutRequest) returns (PayoutRef);
+}
+
+message ResolveRequest {
+  string bank_code = 1;
+  string account_number = 2;
+}
+
+message ResolveResult {
+  string account_name = 1;
+  string bank_code = 2;
+  string account_number = 3;
+}
+
+message AddRequest {
+  string bank_code = 1;
+  string account_number = 2;
+  optional bool make_default = 3;
+  optional string request_id = 4;
+}
+
+message BankAccountRef {
+  string id = 1;
+  string bank_name = 2;
+  string masked_account_number = 3;
+  string account_name = 4;
+  bool is_default = 5;
+}
+
+message BankAccountIdRequest {
+  string id = 1;
+  optional string request_id = 2;
+}
+
+message RequestPayoutRequest {
+  double amount = 1;
+  optional string bank_account_id = 2;
+  optional string request_id = 3;
+}
+
+message PayoutRef {
+  string payout_id = 1;
+  string status = 2;
+}
+
+message BatchResult {
+  string message = 1;
+}

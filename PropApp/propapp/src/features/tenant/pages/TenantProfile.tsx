@@ -60,8 +60,8 @@ export default function TenantProfile() {
 
                 // Load applications for summary
                 const appsResponse = await tenantService.getApplications({ limit: 3 });
-                if (appsResponse.data?.data) {
-                    setApplications(appsResponse.data.data.map((app) => ({
+                if (appsResponse.data) {
+                    setApplications(appsResponse.data.map((app) => ({
                         id: app.id,
                         property: app.property?.name || 'Property',
                         date: new Date(app.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),

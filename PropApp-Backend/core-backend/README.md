@@ -24,20 +24,45 @@ npm run prisma:seed
 npm run dev
 ```
 
-## 🧪 Test Accounts
+## 🧪 Demo Accounts (Canada seed)
 
-After running `npm run prisma:seed`, the following test accounts are available:
+Running `npm run prisma:seed` against `DEFAULT_REGION=CA` populates a believable
+Canadian demo dataset (~870 rows) anchored on 5 fixed accounts. All share the
+same password — `DemoPass123!` — for easy demo logins.
 
-| Role | Email | Password |
-|------|-------|----------|
-| **Admin** | admin@homeai.ng | Password123! |
-| **Landlord** | landlord1@homeai.ng | Password123! |
-| **Landlord** | landlord2@homeai.ng | Password123! |
-| **Tenant** | tenant1@homeai.ng | Password123! |
-| **Tenant** | tenant2@homeai.ng | Password123! |
-| **Tenant** | tenant3@homeai.ng | Password123! |
-| **Agent** | agent1@homeai.ng | Password123! |
-| **Agent** | agent2@homeai.ng | Password123! |
+| Role | Email | Curated state |
+|------|-------|---------------|
+| **Admin** | `admin@homeai.demo` | PLATINUM, reviewer of approved verifications |
+| **Landlord** | `landlord@homeai.demo` | GOLD, owns 4 properties: 2 RENTED w/ live leases, 1 ACTIVE listed (3 pending applicants), 1 DRAFT |
+| **Tenant** | `tenant@homeai.demo` | GOLD, active 1-year lease on landlord's property, 4 completed rent payments, 1 IN_PROGRESS maintenance ticket, 3 favorites, 1 chat with 6 messages, 5 notifications |
+| **Agent** | `agent@homeai.demo` | GOLD (Vancouver), 6 jobs across COMPLETED/IN_PROGRESS/OPEN |
+| **Tenant** | `tenant2@homeai.demo` | SILVER (Montreal), application APPROVED → lease in PENDING_SIGNATURES (signed by tenant, awaiting landlord) |
+
+The seed is **deterministic** when `SEED_KEY` is set (defaults to
+`homeai-ca-2026`). Re-running produces identical output — same UUIDs, same
+property names, same payment dates. Useful for screenshots and regression tests.
+
+### Seeding against the deployed Neon DB
+
+```bash
+# From core-backend/, with your .env populated with the production
+# DATABASE_URL + DIRECT_URL (Neon pooled + non-pooled):
+export DEFAULT_REGION=CA
+npm run prisma:generate
+npm run prisma:migrate          # apply any pending migrations
+npm run prisma:seed             # wipes + reseeds (~6-10s on Neon)
+```
+
+The seed refuses to run when `NODE_ENV=production` unless `ALLOW_PROD_SEED=true`
+is also set. Sandbox DBs should run with `NODE_ENV` unset or `development`.
+
+### Verification after seed
+
+- `curl https://your-api/api/v1/properties` returns ≥26 results
+- Log in as `landlord@homeai.demo` → dashboard shows 4 properties, 3+ applicants, rent income card populated
+- Log in as `tenant@homeai.demo` → My Lease shows active lease, payment history has 4 entries, 1 IN_PROGRESS maintenance
+- Log in as `agent@homeai.demo` → Jobs tab has 6 jobs across statuses
+- Log in as `tenant2@homeai.demo` → triggers onboarding sign-flow (PENDING_SIGNATURES)
 
 ### Seed Data Included
 

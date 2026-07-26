@@ -27,7 +27,7 @@ interface UITransaction {
 function formatCurrency(amount: number): string {
     return new Intl.NumberFormat('en-NG', {
         style: 'currency',
-        currency: 'NGN',
+        currency: 'CAD',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
     }).format(amount);
@@ -65,7 +65,7 @@ function transformTransaction(tx: LandlordTransaction): UITransaction {
         description: tx.tenantName ? `From ${tx.tenantName}` : tx.type,
         amount: `${isPositive ? '+' : ''}${formatCurrency(tx.amount)}`,
         amountColor: isPositive ? 'text-green-600' : 'text-slate-900 dark:text-white',
-        status: tx.status.toLowerCase(),
+        status: (tx.status ?? "").toLowerCase(),
     };
 }
 
@@ -139,12 +139,12 @@ export default function LandlordFinancials() {
     // Filter transactions based on search and filters
     const filteredTransactions = transactions.filter(tx => {
         const matchesSearch = !searchQuery ||
-            tx.property.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            tx.description.toLowerCase().includes(searchQuery.toLowerCase());
+            (tx.property ?? "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+            (tx.description ?? "").toLowerCase().includes(searchQuery.toLowerCase());
         const matchesProperty = propertyFilter === 'all' ||
-            tx.property.toLowerCase().includes(propertyFilter.toLowerCase());
+            (tx.property ?? "").toLowerCase().includes(propertyFilter.toLowerCase());
         const matchesCategory = categoryFilter === 'all' ||
-            tx.category.toLowerCase().includes(categoryFilter.toLowerCase());
+            (tx.category ?? "").toLowerCase().includes(categoryFilter.toLowerCase());
         return matchesSearch && matchesProperty && matchesCategory;
     });
 
@@ -211,7 +211,7 @@ export default function LandlordFinancials() {
                     value={isLoading ? '...' : formatCurrency(totalRevenue)}
                     animateValue={!isLoading}
                     numericValue={totalRevenue}
-                    valuePrefix="₦"
+                    valuePrefix="$"
                 />
 
                 {/* Total Expenses */}
@@ -222,7 +222,7 @@ export default function LandlordFinancials() {
                     value={isLoading ? '...' : formatCurrency(totalExpenses)}
                     animateValue={!isLoading}
                     numericValue={totalExpenses}
-                    valuePrefix="₦"
+                    valuePrefix="$"
                 />
 
                 {/* Net Operating Income */}
@@ -233,7 +233,7 @@ export default function LandlordFinancials() {
                     value={isLoading ? '...' : formatCurrency(netOperatingIncome)}
                     animateValue={!isLoading}
                     numericValue={netOperatingIncome}
-                    valuePrefix="₦"
+                    valuePrefix="$"
                 />
 
                 {/* Cash Flow */}
@@ -244,7 +244,7 @@ export default function LandlordFinancials() {
                     value={isLoading ? '...' : formatCurrency(cashFlow)}
                     animateValue={!isLoading}
                     numericValue={cashFlow}
-                    valuePrefix="₦"
+                    valuePrefix="$"
                     badge={{ text: "vs last period", variant: "default" }}
                 />
             </AnimatedGroup>

@@ -87,8 +87,14 @@ export class PolygonProvider implements BlockchainProvider {
 
         // Initialize signer if private key provided
         if (privateKey) {
-            this.signer = new ethers.Wallet(privateKey, this.provider);
-            logger.info(`Polygon provider initialized with signer: ${this.signer.address}`);
+            try {
+                this.signer = new ethers.Wallet(privateKey, this.provider);
+                logger.info(`Polygon provider initialized with signer: ${this.signer.address}`);
+            } catch (err) {
+                logger.warn(
+                    `Polygon BLOCKCHAIN_PRIVATE_KEY is set but invalid; falling back to read-only mode: ${(err as Error).message}`
+                );
+            }
         } else {
             logger.warn('Polygon provider initialized in read-only mode (no private key)');
         }

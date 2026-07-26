@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package homeai.agent.v1;
+
+service AgentService {
+  rpc AcceptJob(JobActionRequest) returns (BatchResult);
+  rpc DeclineJob(DeclineJobRequest) returns (BatchResult);
+  rpc CompleteJob(CompleteJobRequest) returns (BatchResult);
+  rpc WithdrawEarnings(WithdrawRequest) returns (PayoutRef);
+}
+
+message JobActionRequest {
+  string job_id = 1;
+  optional string note = 2;
+  optional string request_id = 3;
+}
+
+message DeclineJobRequest {
+  string job_id = 1;
+  string reason = 2;
+  optional string request_id = 3;
+}
+
+message CompleteJobRequest {
+  string job_id = 1;
+  optional string completion_notes = 2;
+  optional string request_id = 3;
+}
+
+message WithdrawRequest {
+  double amount = 1;
+  string bank_account_id = 2;
+  optional string request_id = 3;
+}
+
+message PayoutRef {
+  string payout_id = 1;
+  string status = 2;
+}
+
+message BatchResult {
+  string message = 1;
+}
