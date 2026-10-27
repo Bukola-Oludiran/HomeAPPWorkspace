@@ -9,6 +9,7 @@ import { authenticate } from '../../common/middleware/auth.middleware';
 import { validate } from '../../common/middleware/validate.middleware';
 import { sendSuccess } from '../../common/utils/response.util';
 import { sessionService } from './session.service';
+import { prisma } from '../../config/database';
 import { z } from 'zod';
 
 const router = Router();
@@ -22,8 +23,9 @@ router.get(
     authenticate,
     async (req: Request, res: Response, next: NextFunction) => {
         try {
-            // TODO: Get current token hash from request
-            const result = await sessionService.getSessions(req.user!.id);
+            // The current session is identified by the sid in the access token
+            const session = await prisma.session.findUnique({ where: { id: req.user!.sessionId } });
+            const result = await sessionService.getSessions(req.user!.id, session?.tokenHash);
             sendSuccess(res, result);
         } catch (error) {
             next(error);
@@ -35,12 +37,13 @@ router.get(
 // REVOKE SESSION
 // ============================================
 
+// The UUID pattern keeps DELETE /sessions/all (below) from being captured as an id
 router.delete(
-    '/sessions/:id',
+    '/sessions/:id([0-9a-fA-F-]{36})',
     authenticate,
     async (req: Request, res: Response, next: NextFunction) => {
         try {
-            await sessionService.revokeSession(req.user!.id, req.params.id);
+            await sessionService.revokeSession(req.user!.id, req.params.id, req.user!.sessionId);
             sendSuccess(res, { message: 'Session revoked successfully' });
         } catch (error) {
             next(error);
@@ -63,11 +66,9 @@ router.delete(
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             const { password } = req.body;
-            // TODO: Get current session ID from token
-            const currentSessionId = ''; // Placeholder
             const result = await sessionService.revokeAllOtherSessions(
                 req.user!.id,
-                currentSessionId,
+                req.user!.sessionId!,
                 password
             );
             sendSuccess(res, {

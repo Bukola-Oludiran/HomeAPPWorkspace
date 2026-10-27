@@ -3,6 +3,7 @@
  * Handles authentication logic: registration, login, JWT, 2FA
  */
 
+import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import speakeasy from 'speakeasy';
@@ -16,11 +17,24 @@ import {
     InvalidCredentialsError,
     EmailExistsError,
     UserNotFoundError,
-    TwoFactorRequiredError,
     ValidationError,
 } from '../../common/utils/errors';
 import { logger } from '../../common/utils/logger';
-import type { WireAuthUser } from '@homeai/contracts/auth.contract';
+import { sessionService } from './session.service';
+import type { WireAuthUser, LoginResponse } from '@homeai/contracts/auth.contract';
+
+type AuthenticatedLoginResponse = Extract<LoginResponse, { requires2FA: false }>;
+type TwoFactorChallengeResponse = Extract<LoginResponse, { requires2FA: true }>;
+
+// Sessions are keyed by the SHA-256 of the current refresh token; the raw token is never stored there.
+const hashToken = (token: string): string => crypto.createHash('sha256').update(token).digest('hex');
+
+// A 2FA challenge is a short-lived JWT with its own audience, so it can never be
+// used as an access token (and vice versa: access tokens lack this audience).
+const CHALLENGE_AUDIENCE = 'homeai:2fa-challenge';
+const CHALLENGE_TTL_SECONDS = 300;
+const ACCESS_TOKEN_TTL_SECONDS = 900;
+const REFRESH_TOKEN_TTL_DAYS = 7;
 
 // Prisma row shape required by `serializeAuthUser`. Any auth endpoint
 // that emits a user must `select` (or `findUnique` without select to
@@ -257,11 +271,7 @@ class AuthService {
     /**
      * Login with email and password
      */
-    async login(
-        email: string,
-        password: string,
-        twoFactorCode?: string
-    ): Promise<{ user: WireAuthUser; tokens: TokenPair; requires2FA?: boolean }> {
+    async login(email: string, password: string, twoFactorCode?: string): Promise<LoginResponse> {
         // Find user (raw row needed for passwordHash + twoFactorSecret).
         const user = await prisma.user.findUnique({
             where: { email: email.toLowerCase() },
@@ -281,42 +291,47 @@ class AuthService {
             throw new InvalidCredentialsError();
         }
 
-        // Check 2FA
         if (user.twoFactorEnabled) {
+            // No code yet: hand back a challenge; no session exists until the second factor passes
             if (!twoFactorCode) {
-                throw new TwoFactorRequiredError();
+                return this.issueLoginChallenge(user.id);
             }
-
-            const isValid = speakeasy.totp.verify({
-                secret: user.twoFactorSecret!,
-                encoding: 'base32',
-                token: twoFactorCode,
-            });
-
-            if (!isValid) {
+            if (!this.isValidTotp(user.twoFactorSecret, twoFactorCode)) {
                 throw new InvalidCredentialsError('Invalid 2FA code');
             }
         }
 
-        // Generate tokens
-        const tokens = await this.generateTokenPair({
-            id: user.id,
-            email: user.email,
-            role: user.role,
-            verificationLevel: user.verificationLevel,
-            regionCode: user.regionCode,
-        });
-
-        logger.info(`User logged in: ${user.email}`);
-
-        return {
-            user: serializeAuthUser(user),
-            tokens,
-        };
+        return this.completeLogin(user);
     }
 
     /**
-     * Refresh access token
+     * Second step of a 2FA login: exchange the challenge token and a TOTP code for a session
+     * POST /api/v1/auth/2fa/challenge/verify
+     */
+    async verifyLoginChallenge(challengeToken: string, code: string): Promise<AuthenticatedLoginResponse> {
+        let userId: string;
+        try {
+            const payload = jwt.verify(challengeToken, env.JWT_SECRET, { audience: CHALLENGE_AUDIENCE }) as jwt.JwtPayload;
+            if (typeof payload.sub !== 'string') throw new Error('missing subject');
+            userId = payload.sub;
+        } catch {
+            throw new InvalidCredentialsError('Invalid or expired 2FA challenge');
+        }
+
+        const user = await prisma.user.findUnique({ where: { id: userId } });
+        if (!user || !user.isActive || !user.twoFactorEnabled) {
+            throw new InvalidCredentialsError('Invalid or expired 2FA challenge');
+        }
+        if (!this.isValidTotp(user.twoFactorSecret, code)) {
+            throw new InvalidCredentialsError('Invalid 2FA code');
+        }
+
+        return this.completeLogin(user);
+    }
+
+    /**
+     * Refresh access token. The refresh token must still belong to a live session,
+     * so revoking a session (or logging out) also stops it being refreshed.
      */
     async refreshToken(refreshToken: string): Promise<TokenPair> {
         // Find refresh token in database
@@ -338,26 +353,77 @@ class AuthService {
             throw new InvalidCredentialsError('Account is disabled');
         }
 
-        // Delete old refresh token
+        const session = await prisma.session.findFirst({
+            where: {
+                tokenHash: hashToken(refreshToken),
+                userId: storedToken.user.id,
+                revokedAt: null,
+                expiresAt: { gt: new Date() },
+            },
+        });
+
+        // Delete old refresh token (rotation), whether or not the session survived
         await prisma.refreshToken.delete({ where: { id: storedToken.id } });
 
-        // Generate new token pair
-        return this.generateTokenPair({
-            id: storedToken.user.id,
-            email: storedToken.user.email,
-            role: storedToken.user.role,
-            verificationLevel: storedToken.user.verificationLevel,
-            regionCode: storedToken.user.regionCode,
-        });
+        if (!session) {
+            throw new InvalidCredentialsError('Session is no longer valid');
+        }
+
+        // Generate new token pair on the same session
+        return this.generateTokenPair(
+            {
+                id: storedToken.user.id,
+                email: storedToken.user.email,
+                role: storedToken.user.role,
+                verificationLevel: storedToken.user.verificationLevel,
+                regionCode: storedToken.user.regionCode,
+            },
+            session.id
+        );
     }
 
     /**
-     * Logout - invalidate refresh token
+     * Logout - invalidate the refresh token and revoke its session
      */
     async logout(refreshToken: string): Promise<void> {
         await prisma.refreshToken.deleteMany({
             where: { token: refreshToken },
         });
+        await prisma.session.updateMany({
+            where: { tokenHash: hashToken(refreshToken), revokedAt: null },
+            data: { revokedAt: new Date() },
+        });
+    }
+
+    private issueLoginChallenge(userId: string): TwoFactorChallengeResponse {
+        const challengeToken = jwt.sign({ sub: userId }, env.JWT_SECRET, {
+            audience: CHALLENGE_AUDIENCE,
+            expiresIn: CHALLENGE_TTL_SECONDS,
+        });
+        return { requires2FA: true, challengeToken, expiresIn: CHALLENGE_TTL_SECONDS };
+    }
+
+    private isValidTotp(secret: string | null, code: string): boolean {
+        if (!secret) return false;
+        return speakeasy.totp.verify({ secret, encoding: 'base32', token: code });
+    }
+
+    private async completeLogin(user: PrismaAuthUser): Promise<AuthenticatedLoginResponse> {
+        const tokens = await this.generateTokenPair({
+            id: user.id,
+            email: user.email,
+            role: user.role,
+            verificationLevel: user.verificationLevel,
+            regionCode: user.regionCode,
+        });
+
+        logger.info(`User logged in: ${user.email}`);
+
+        return {
+            user: serializeAuthUser(user),
+            tokens,
+            requires2FA: false,
+        };
     }
 
     // ----------------------------------------
@@ -428,9 +494,13 @@ class AuthService {
             data: { passwordHash },
         });
 
-        // Invalidate all refresh tokens for this user
+        // Invalidate all refresh tokens and sessions for this user
         await prisma.refreshToken.deleteMany({
             where: { userId: stored.userId },
+        });
+        await prisma.session.updateMany({
+            where: { userId: stored.userId, revokedAt: null },
+            data: { revokedAt: new Date() },
         });
 
         passwordResetTokens.delete(token);
@@ -652,33 +722,36 @@ class AuthService {
     // TOKEN GENERATION
     // ----------------------------------------
 
-    private async generateTokenPair(user: {
-        id: string;
-        email: string;
-        role: UserRole;
-        verificationLevel: VerificationLevel;
-        regionCode: string;
-    }): Promise<TokenPair> {
-        const jti = uuidv4();
-
-        const payload: JwtPayload = {
-            sub: user.id,
-            email: user.email,
-            role: user.role,
-            verificationLevel: user.verificationLevel,
-            regionCode: user.regionCode,
-            jti,
-        };
-
-        // Generate access token (15 minutes = 900 seconds)
-        const accessToken = jwt.sign(payload, env.JWT_SECRET, {
-            expiresIn: 900,
-        });
-
-        // Generate refresh token
+    /**
+     * Issue an access/refresh token pair bound to a session.
+     * Without `sessionId` a new session is created (login); with it the session's
+     * refresh-token hash is rotated (refresh).
+     */
+    private async generateTokenPair(
+        user: {
+            id: string;
+            email: string;
+            role: UserRole;
+            verificationLevel: VerificationLevel;
+            regionCode: string;
+        },
+        sessionId?: string
+    ): Promise<TokenPair> {
         const refreshToken = uuidv4();
         const refreshExpiresAt = new Date();
-        refreshExpiresAt.setDate(refreshExpiresAt.getDate() + 7); // 7 days
+        refreshExpiresAt.setDate(refreshExpiresAt.getDate() + REFRESH_TOKEN_TTL_DAYS);
+        const tokenHash = hashToken(refreshToken);
+
+        let sid: string;
+        if (sessionId) {
+            await prisma.session.update({
+                where: { id: sessionId },
+                data: { tokenHash, expiresAt: refreshExpiresAt, lastActiveAt: new Date() },
+            });
+            sid = sessionId;
+        } else {
+            sid = await sessionService.createSession(user.id, tokenHash, {}, refreshExpiresAt);
+        }
 
         // Store refresh token in database
         await prisma.refreshToken.create({
@@ -689,10 +762,24 @@ class AuthService {
             },
         });
 
+        const payload: JwtPayload = {
+            sub: user.id,
+            email: user.email,
+            role: user.role,
+            verificationLevel: user.verificationLevel,
+            regionCode: user.regionCode,
+            jti: uuidv4(),
+            sid,
+        };
+
+        const accessToken = jwt.sign(payload, env.JWT_SECRET, {
+            expiresIn: ACCESS_TOKEN_TTL_SECONDS,
+        });
+
         return {
             accessToken,
             refreshToken,
-            expiresIn: 900, // 15 minutes in seconds
+            expiresIn: ACCESS_TOKEN_TTL_SECONDS,
         };
     }
 }

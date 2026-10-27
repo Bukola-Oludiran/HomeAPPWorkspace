@@ -66,6 +66,7 @@ export interface JwtPayload {
     iat?: number;
     exp?: number;
     jti?: string;
+    sid?: string;       // Session ID; tokens are only honoured while the session is live
 }
 
 // ============================================
@@ -92,7 +93,26 @@ export const authenticate = async (
         const token = authHeader.split(' ')[1];
 
         // Verify token
-        const payload = jwt.verify(token, env.JWT_SECRET) as JwtPayload;
+        const payload = jwt.verify(token, env.JWT_SECRET, { algorithms: ['HS256'] }) as JwtPayload;
+
+        // The token must belong to a session that has not been revoked or expired
+        if (!payload.sid) {
+            emitAuthDeny(req, 'homeai:auth.session', 'no-session');
+            sendUnauthorized(res, 'Session is no longer valid', 'AUTH_001');
+            return;
+        }
+
+        const session = await prisma.session.findFirst({
+            where: { id: payload.sid, userId: payload.sub, revokedAt: null, expiresAt: { gt: new Date() } },
+        });
+        if (!session) {
+            emitAuthDeny(req, 'homeai:auth.session', 'session-revoked-or-expired');
+            sendUnauthorized(res, 'Session is no longer valid', 'AUTH_001');
+            return;
+        }
+        void prisma.session
+            .update({ where: { id: session.id }, data: { lastActiveAt: new Date() } })
+            .catch(() => undefined);
 
         // Check if user still exists and is active
         const user = await prisma.user.findUnique({
@@ -120,6 +140,7 @@ export const authenticate = async (
             role: user.role,
             verificationLevel: user.verificationLevel,
             regionCode: user.regionCode,
+            sessionId: session.id,
         };
 
         next();
@@ -156,7 +177,18 @@ export const optionalAuth = async (
         }
 
         const token = authHeader.split(' ')[1];
-        const payload = jwt.verify(token, env.JWT_SECRET) as JwtPayload;
+        const payload = jwt.verify(token, env.JWT_SECRET, { algorithms: ['HS256'] }) as JwtPayload;
+
+        // A token from a revoked or expired session is treated as anonymous
+        const session = payload.sid
+            ? await prisma.session.findFirst({
+                where: { id: payload.sid, userId: payload.sub, revokedAt: null, expiresAt: { gt: new Date() } },
+            })
+            : null;
+        if (!session) {
+            next();
+            return;
+        }
 
         const user = await prisma.user.findUnique({
             where: { id: payload.sub },
@@ -177,6 +209,7 @@ export const optionalAuth = async (
                 role: user.role,
                 verificationLevel: user.verificationLevel,
                 regionCode: user.regionCode,
+                sessionId: session.id,
             };
         }
 

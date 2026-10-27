@@ -18,6 +18,7 @@ import {
     forgotPasswordSchema,
     resetPasswordSchema,
     verify2FASchema,
+    verify2FAChallengeSchema,
     disable2FASchema,
 } from './auth.dto';
 
@@ -184,6 +185,25 @@ router.post(
 // ============================================
 // TWO-FACTOR AUTHENTICATION ENDPOINTS
 // ============================================
+
+/**
+ * @route POST /auth/2fa/challenge/verify
+ * @desc Complete a 2FA login: exchange the challenge token from /auth/login and a TOTP code for tokens
+ * @access Public (the challenge token is the credential)
+ */
+router.post(
+    '/2fa/challenge/verify',
+    validate(verify2FAChallengeSchema),
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { challengeToken, code } = req.body;
+            const result = await authService.verifyLoginChallenge(challengeToken, code);
+            sendSuccess(res, result);
+        } catch (error) {
+            next(error);
+        }
+    }
+);
 
 /**
  * @route POST /auth/2fa/setup

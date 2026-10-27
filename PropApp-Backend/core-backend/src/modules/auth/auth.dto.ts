@@ -17,6 +17,7 @@ export {
     forgotPasswordSchema,
     resetPasswordSchema,
     verify2FASchema,
+    verify2FAChallengeSchema,
     disable2FASchema,
     type InitiateRegistrationDto,
     type VerifyEmailDto,
