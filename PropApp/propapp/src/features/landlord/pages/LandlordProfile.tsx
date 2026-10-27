@@ -205,7 +205,7 @@ export default function LandlordProfile() {
             <PageContainer maxWidth="lg">
                 <div className="flex items-center justify-center min-h-[400px]">
                     <div className="text-center">
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#137fec] mx-auto mb-4"></div>
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand mx-auto mb-4"></div>
                         <p className="text-slate-500 dark:text-slate-400">Loading profile...</p>
                     </div>
                 </div>
@@ -253,7 +253,7 @@ export default function LandlordProfile() {
                 {/* Left Sidebar */}
                 <div className="lg:col-span-4 flex flex-col gap-6">
                     {/* Profile Card */}
-                    <div className="bg-white dark:bg-[#101922] p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col items-center text-center">
+                    <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col items-center text-center">
                         <div className="relative group cursor-pointer mb-4">
                             <div className="size-32 rounded-full overflow-hidden border-4 border-slate-50 dark:border-slate-800 shadow-inner">
                                 <img
@@ -287,10 +287,10 @@ export default function LandlordProfile() {
                     </div>
 
                     {/* Verification Status */}
-                    <div className="bg-white dark:bg-[#101922] p-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+                    <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="font-bold text-slate-900 dark:text-white">Verification Status</h3>
-                            <Link to="/landlord/verification" className="text-xs font-bold text-[#137fec] hover:underline">View Hub</Link>
+                            <Link to="/landlord/verification" className="text-xs font-bold text-brand hover:underline">View Hub</Link>
                         </div>
                         <div className="space-y-3">
                             {profileData.verifications.map((item) => (
@@ -319,7 +319,7 @@ export default function LandlordProfile() {
                                     key={item.id}
                                     onClick={() => setActiveMenu(item.id)}
                                     className={`flex items-center justify-between p-4 text-left transition-colors ${activeMenu === item.id
-                                        ? 'bg-slate-50 dark:bg-slate-800/50 border-l-4 border-[#137fec] text-slate-900 dark:text-white font-medium'
+                                        ? 'bg-slate-50 dark:bg-slate-800/50 border-l-4 border-brand text-slate-900 dark:text-white font-medium'
                                         : 'border-l-4 border-transparent hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                                         }`}
                                 >
@@ -336,7 +336,7 @@ export default function LandlordProfile() {
                 {/* Right Content Area */}
                 <div className="lg:col-span-8 space-y-6">
                     {/* Personal Info Form */}
-                    <div className="bg-white dark:bg-[#101922] p-6 md:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+                    <div className="bg-white dark:bg-canvas-dark p-6 md:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
                         <div className="flex items-center justify-between mb-6">
                             <h2 className="text-xl font-bold text-slate-900 dark:text-white">Personal & Contact Information</h2>
                             <span className="flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-full">
@@ -349,7 +349,7 @@ export default function LandlordProfile() {
                                 <div className="space-y-2">
                                     <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">First Name</label>
                                     <input
-                                        className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#1e293b] text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-all text-sm"
+                                        className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#1e293b] text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all text-sm"
                                         type="text"
                                         value={formData.firstName}
                                         onChange={(e) => handleInputChange('firstName', e.target.value)}
@@ -358,7 +358,7 @@ export default function LandlordProfile() {
                                 <div className="space-y-2">
                                     <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Last Name</label>
                                     <input
-                                        className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#1e293b] text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-all text-sm"
+                                        className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#1e293b] text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all text-sm"
                                         type="text"
                                         value={formData.lastName}
                                         onChange={(e) => handleInputChange('lastName', e.target.value)}
@@ -369,7 +369,7 @@ export default function LandlordProfile() {
                                 <div className="space-y-2">
                                     <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Email Address</label>
                                     <input
-                                        className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#1e293b] text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-all text-sm"
+                                        className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#1e293b] text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all text-sm"
                                         type="email"
                                         value={formData.email}
                                         onChange={(e) => handleInputChange('email', e.target.value)}
@@ -378,7 +378,7 @@ export default function LandlordProfile() {
                                 <div className="space-y-2">
                                     <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Phone Number</label>
                                     <input
-                                        className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#1e293b] text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-all text-sm"
+                                        className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#1e293b] text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all text-sm"
                                         type="tel"
                                         value={formData.phone}
                                         onChange={(e) => handleInputChange('phone', e.target.value)}
@@ -389,7 +389,7 @@ export default function LandlordProfile() {
                     </div>
 
                     {/* About Me */}
-                    <div className="bg-white dark:bg-[#101922] p-6 md:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+                    <div className="bg-white dark:bg-canvas-dark p-6 md:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
                         <div className="flex items-center justify-between mb-4">
                             <h2 className="text-xl font-bold text-slate-900 dark:text-white">About Me</h2>
                         </div>
@@ -398,22 +398,22 @@ export default function LandlordProfile() {
                         </p>
                         <div className="relative">
                             <textarea
-                                className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#1e293b] text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-all text-sm resize-y"
+                                className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#1e293b] text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all text-sm resize-y"
                                 rows={4}
                                 value={formData.bio}
                                 onChange={(e) => handleInputChange('bio', e.target.value)}
                             />
-                            <button className="absolute bottom-3 right-3 p-1.5 text-[#137fec] hover:bg-blue-50 dark:hover:bg-slate-700 rounded-md transition-colors" title="Use AI to improve bio">
-                                <span className="material-symbols-outlined text-[20px]">smart_toy</span>
+                            <button className="absolute bottom-3 right-3 p-1.5 text-brand hover:bg-blue-50 dark:hover:bg-slate-700 rounded-md transition-colors" title="Use AI to improve bio">
+                                <span className="material-symbols-outlined text-[20px]">forum</span>
                             </button>
                         </div>
                     </div>
 
                     {/* Managed Properties */}
-                    <div className="bg-white dark:bg-[#101922] p-6 md:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+                    <div className="bg-white dark:bg-canvas-dark p-6 md:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
                         <div className="flex items-center justify-between mb-6">
                             <h2 className="text-xl font-bold text-slate-900 dark:text-white">Managed Properties</h2>
-                            <Link to="/landlord/properties" className="text-sm font-semibold text-[#137fec] hover:underline">Manage All</Link>
+                            <Link to="/landlord/properties" className="text-sm font-semibold text-brand hover:underline">Manage All</Link>
                         </div>
                         <div className="space-y-4">
                             {profileData.properties.map((property) => (
@@ -437,7 +437,7 @@ export default function LandlordProfile() {
                                             {property.status}
                                         </span>
                                     </div>
-                                    <span className="p-2 text-slate-400 hover:text-[#137fec] transition-colors">
+                                    <span className="p-2 text-slate-400 hover:text-brand transition-colors">
                                         <span className="material-symbols-outlined">chevron_right</span>
                                     </span>
                                 </Link>
@@ -446,7 +446,7 @@ export default function LandlordProfile() {
                     </div>
 
                     {/* Reviews */}
-                    <div className="bg-white dark:bg-[#101922] p-6 md:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+                    <div className="bg-white dark:bg-canvas-dark p-6 md:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
                         <div className="flex items-center justify-between mb-6">
                             <h2 className="text-xl font-bold text-slate-900 dark:text-white">Reviews & Ratings</h2>
                             <span className="text-sm text-slate-500">{profileData.reviews.total} Total Reviews</span>
@@ -481,7 +481,7 @@ export default function LandlordProfile() {
                         <button className="px-6 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
                             Cancel
                         </button>
-                        <button className="px-6 py-3 rounded-xl bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-sm shadow-lg shadow-[#137fec]/20 transition-all flex items-center gap-2">
+                        <button className="px-6 py-3 rounded-xl bg-brand hover:bg-brand/90 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2">
                             <span className="material-symbols-outlined text-[20px]">save</span>
                             Save Changes
                         </button>

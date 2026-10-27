@@ -48,10 +48,10 @@ export default function SignUpStep4Agent() {
     };
 
     return (
-        <div className="w-full max-w-2xl bg-white/10 dark:bg-[#1a2632]/40 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col">
+        <div className="w-full max-w-2xl bg-white/10 dark:bg-surface-dark/40 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col">
             {/* Step Badge */}
             <div className="flex items-center justify-center mb-6">
-                <span className="px-3 py-1 rounded-full bg-white/80 border border-white/40 text-[#137fec] text-xs font-bold uppercase tracking-wider">
+                <span className="px-3 py-1 rounded-full bg-white/80 border border-white/40 text-brand text-xs font-bold uppercase tracking-wider">
                     Step 4 of 4
                 </span>
             </div>
@@ -93,7 +93,7 @@ export default function SignUpStep4Agent() {
                                 <span className="material-symbols-outlined text-[20px]">location_on</span>
                             </span>
                             <input
-                                className="block w-full pl-11 pr-4 py-3.5 rounded-xl border-white/10 bg-white/5 text-white placeholder-slate-300 focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm shadow-sm transition-colors"
+                                className="block w-full pl-11 pr-4 py-3.5 rounded-xl border-white/10 bg-white/5 text-white placeholder-slate-300 focus:border-brand focus:ring-brand sm:text-sm shadow-sm transition-colors"
                                 id="service-area"
                                 name="service-area"
                                 placeholder="e.g. New York, NY"
@@ -107,7 +107,7 @@ export default function SignUpStep4Agent() {
                         <label className="block text-sm font-semibold text-slate-200" htmlFor="experience">Years of Experience</label>
                         <div className="relative">
                             <select
-                                className="block w-full pl-4 pr-10 py-3.5 rounded-xl border-white/10 bg-white/5 text-white focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm shadow-sm transition-colors appearance-none"
+                                className="block w-full pl-4 pr-10 py-3.5 rounded-xl border-white/10 bg-white/5 text-white focus:border-brand focus:ring-brand sm:text-sm shadow-sm transition-colors appearance-none"
                                 id="experience"
                                 name="experience"
                             >
@@ -134,7 +134,7 @@ export default function SignUpStep4Agent() {
                     </div>
                     <div className="relative flex items-center">
                         <input
-                            className="block w-full pl-4 pr-32 py-3.5 rounded-xl border-white/10 bg-white/5 text-white placeholder-slate-300 focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm shadow-sm transition-colors"
+                            className="block w-full pl-4 pr-32 py-3.5 rounded-xl border-white/10 bg-white/5 text-white placeholder-slate-300 focus:border-brand focus:ring-brand sm:text-sm shadow-sm transition-colors"
                             id="license"
                             name="license"
                             placeholder="License Number or ID"
@@ -154,7 +154,7 @@ export default function SignUpStep4Agent() {
                 <div className="pt-4">
                     <Link
                         to="/agent/jobs"
-                        className="w-full py-3.5 px-4 rounded-xl bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-lg shadow-lg shadow-[#137fec]/25 hover:shadow-[#137fec]/40 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
+                        className="w-full py-3.5 px-4 rounded-xl bg-brand hover:bg-brand/90 text-white font-bold text-lg shadow-sm transition-all flex items-center justify-center gap-2"
                     >
                         Go to Dashboard
                         <span className="material-symbols-outlined text-xl">arrow_forward</span>

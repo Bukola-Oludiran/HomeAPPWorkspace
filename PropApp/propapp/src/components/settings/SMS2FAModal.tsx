@@ -56,7 +56,7 @@ export default function SMS2FAModal({ isOpen, onClose, onSuccess }: SMS2FAModalP
                     <div className="p-6 md:p-8 space-y-6">
                         {/* Info */}
                         <div className="flex gap-4">
-                            <div className="flex-shrink-0 size-10 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-[#137fec]">
+                            <div className="flex-shrink-0 size-10 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-brand">
                                 <span className="material-symbols-outlined">sms</span>
                             </div>
                             <div>
@@ -75,7 +75,7 @@ export default function SMS2FAModal({ isOpen, onClose, onSuccess }: SMS2FAModalP
                                     <select
                                         value={countryCode}
                                         onChange={(e) => setCountryCode(e.target.value)}
-                                        className="w-full appearance-none rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white py-2.5 pl-3 pr-8 shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm"
+                                        className="w-full appearance-none rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white py-2.5 pl-3 pr-8 shadow-sm focus:border-brand focus:ring-brand sm:text-sm"
                                     >
                                         <option>US +1</option>
                                         <option>UK +44</option>
@@ -87,7 +87,7 @@ export default function SMS2FAModal({ isOpen, onClose, onSuccess }: SMS2FAModalP
                                     </div>
                                 </div>
                                 <input
-                                    className="flex-1 rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white py-2.5 shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm"
+                                    className="flex-1 rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white py-2.5 shadow-sm focus:border-brand focus:ring-brand sm:text-sm"
                                     placeholder="(555) 000-0000"
                                     type="tel"
                                     value={phoneNumber}
@@ -117,7 +117,7 @@ export default function SMS2FAModal({ isOpen, onClose, onSuccess }: SMS2FAModalP
                             </div>
                             <div>
                                 <input
-                                    className="block w-full text-center tracking-[0.5em] text-xl font-bold rounded-lg border-[#137fec] ring-1 ring-[#137fec] dark:border-[#137fec] bg-white dark:bg-slate-800 text-slate-900 dark:text-white py-3 shadow-sm focus:border-[#137fec] focus:ring-[#137fec] placeholder:text-slate-300 dark:placeholder:text-slate-600 placeholder:tracking-normal placeholder:font-normal"
+                                    className="block w-full text-center tracking-[0.5em] text-xl font-bold rounded-lg border-brand ring-1 ring-brand dark:border-brand bg-white dark:bg-slate-800 text-slate-900 dark:text-white py-3 shadow-sm focus:border-brand focus:ring-brand placeholder:text-slate-300 dark:placeholder:text-slate-600 placeholder:tracking-normal placeholder:font-normal"
                                     maxLength={6}
                                     placeholder="000000"
                                     type="text"
@@ -129,7 +129,7 @@ export default function SMS2FAModal({ isOpen, onClose, onSuccess }: SMS2FAModalP
                                 </p>
                             </div>
                             <div className="flex items-center justify-center text-sm pt-2">
-                                <button className="font-medium text-[#137fec] hover:text-[#137fec]/80 flex items-center gap-1 cursor-pointer">
+                                <button className="font-medium text-brand hover:text-brand/80 flex items-center gap-1 cursor-pointer">
                                     Didn't receive code?
                                 </button>
                             </div>
@@ -140,7 +140,7 @@ export default function SMS2FAModal({ isOpen, onClose, onSuccess }: SMS2FAModalP
                             <span className="material-symbols-outlined text-slate-400 text-lg mt-0.5">help</span>
                             <div className="text-sm text-slate-600 dark:text-slate-400 leading-snug">
                                 <p className="font-medium text-slate-900 dark:text-slate-200 mb-0.5">Having trouble?</p>
-                                Check if your phone blocks unknown numbers or <button className="text-[#137fec] hover:underline font-medium cursor-pointer">contact support</button> for manual verification.
+                                Check if your phone blocks unknown numbers or <button className="text-brand hover:underline font-medium cursor-pointer">contact support</button> for manual verification.
                             </div>
                         </div>
                     </div>
@@ -156,7 +156,7 @@ export default function SMS2FAModal({ isOpen, onClose, onSuccess }: SMS2FAModalP
                         <button
                             onClick={handleVerify}
                             disabled={code.length !== 6}
-                            className={`px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-[#137fec] shadow-lg shadow-[#137fec]/20 transition-all ${code.length === 6 ? 'hover:bg-[#137fec]/90 cursor-pointer' : 'opacity-50 cursor-not-allowed'
+                            className={`px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-brand shadow-sm transition-all ${code.length === 6 ? 'hover:bg-brand/90 cursor-pointer' : 'opacity-50 cursor-not-allowed'
                                 }`}
                         >
                             Verify &amp; Enable SMS 2FA

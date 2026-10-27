@@ -74,7 +74,7 @@ export default function LandlordEditLeaseTerms() {
         return (
             <div className="flex items-center justify-center min-h-screen">
                 <div className="flex flex-col items-center gap-3">
-                    <div className="size-10 border-4 border-[#137fec] border-t-transparent rounded-full animate-spin"></div>
+                    <div className="size-10 border-4 border-brand border-t-transparent rounded-full animate-spin"></div>
                     <p className="text-slate-500 font-medium">Loading lease details...</p>
                 </div>
             </div>
@@ -82,7 +82,7 @@ export default function LandlordEditLeaseTerms() {
     }
 
     return (
-        <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex flex-col font-[Manrope,Noto_Sans,sans-serif] text-slate-900 dark:text-white overflow-x-hidden pb-[140px]">
+        <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex flex-col text-slate-900 dark:text-white overflow-x-hidden pb-[140px]">
             {/* Header */}
             <header className="fixed top-0 left-0 w-full z-40 bg-transparent pointer-events-none">
                 <div className="px-4 md:px-8 py-4 flex items-center justify-between">
@@ -104,7 +104,7 @@ export default function LandlordEditLeaseTerms() {
                     className="w-full h-full object-cover grayscale opacity-50"
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBLkek33Arklj-USfcZgsPPZBOtl1xgDJAc8qsaWZ51gxbtpP66zlBLUyVnWMpQ-RJU5fAKgdnj0tinIhcrgAuGWf_niUPah6-Hj6KCuAOZJ1oJeGLHdy_jbHn5xP6TCcvkQ0v6oV6MWpgzwG1uQh7warVguTEVUbQUB9wMrWkVh9U5_S11vnDM5dVGchCc5Fy0-1NtBVIsr5FxhqIlixEvd_nVwqEC79YUlQwHMv9eJt54ZPwjFYLaoQKEBsFjNqbqRuketxBrs4l"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#f6f7f8] dark:from-[#101922] via-[#f6f7f8]/60 dark:via-[#101922]/60 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-canvas dark:from-canvas-dark via-canvas/60 dark:via-canvas-dark/60 to-transparent"></div>
                 <div className="absolute bottom-6 left-4 md:left-8 max-w-[1200px] w-full mx-auto px-4 md:px-0">
                     <div className="flex items-center gap-2 mb-2">
                         <span className="px-2.5 py-1 bg-amber-500/90 text-white text-xs font-bold uppercase tracking-wider rounded-md backdrop-blur-sm shadow-sm flex items-center gap-1">
@@ -136,7 +136,7 @@ export default function LandlordEditLeaseTerms() {
                     {/* Financials & Duration Section */}
                     <section className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm">
                         <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                            <span className="material-symbols-outlined text-[#137fec]">attach_money</span> Financials &amp; Duration
+                            <span className="material-symbols-outlined text-brand">attach_money</span> Financials &amp; Duration
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-1.5">
@@ -144,7 +144,7 @@ export default function LandlordEditLeaseTerms() {
                                 <div className="relative">
                                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">$</span>
                                     <input
-                                        className="w-full pl-8 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec] focus:border-[#137fec] transition-shadow font-medium"
+                                        className="w-full pl-8 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-brand transition-shadow font-medium"
                                         type="number"
                                         value={monthlyRent}
                                         onChange={(e) => setMonthlyRent(e.target.value)}
@@ -157,7 +157,7 @@ export default function LandlordEditLeaseTerms() {
                                 <div className="relative">
                                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">$</span>
                                     <input
-                                        className="w-full pl-8 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec] focus:border-[#137fec] transition-shadow font-medium"
+                                        className="w-full pl-8 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-brand transition-shadow font-medium"
                                         type="number"
                                         value={securityDeposit}
                                         onChange={(e) => setSecurityDeposit(e.target.value)}
@@ -169,25 +169,25 @@ export default function LandlordEditLeaseTerms() {
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                                     <label className="cursor-pointer">
                                         <input className="peer sr-only" name="duration" type="radio" value="mtm" checked={duration === 'mtm'} onChange={() => setDuration('mtm')} />
-                                        <div className="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 text-center font-medium peer-checked:border-[#137fec] peer-checked:bg-[#137fec]/5 peer-checked:text-[#137fec] transition-all hover:bg-slate-50 dark:hover:bg-slate-800">
+                                        <div className="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 text-center font-medium peer-checked:border-brand peer-checked:bg-brand/5 peer-checked:text-brand transition-all hover:bg-slate-50 dark:hover:bg-slate-800">
                                             Month-to-Month
                                         </div>
                                     </label>
                                     <label className="cursor-pointer">
                                         <input className="peer sr-only" name="duration" type="radio" value="6" checked={duration === '6'} onChange={() => setDuration('6')} />
-                                        <div className="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 text-center font-medium peer-checked:border-[#137fec] peer-checked:bg-[#137fec]/5 peer-checked:text-[#137fec] transition-all hover:bg-slate-50 dark:hover:bg-slate-800">
+                                        <div className="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 text-center font-medium peer-checked:border-brand peer-checked:bg-brand/5 peer-checked:text-brand transition-all hover:bg-slate-50 dark:hover:bg-slate-800">
                                             6 Months
                                         </div>
                                     </label>
                                     <label className="cursor-pointer">
                                         <input className="peer sr-only" name="duration" type="radio" value="12" checked={duration === '12'} onChange={() => setDuration('12')} />
-                                        <div className="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 text-center font-medium peer-checked:border-[#137fec] peer-checked:bg-[#137fec]/5 peer-checked:text-[#137fec] transition-all hover:bg-slate-50 dark:hover:bg-slate-800">
+                                        <div className="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 text-center font-medium peer-checked:border-brand peer-checked:bg-brand/5 peer-checked:text-brand transition-all hover:bg-slate-50 dark:hover:bg-slate-800">
                                             12 Months
                                         </div>
                                     </label>
                                     <label className="cursor-pointer">
                                         <input className="peer sr-only" name="duration" type="radio" value="24" checked={duration === '24'} onChange={() => setDuration('24')} />
-                                        <div className="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 text-center font-medium peer-checked:border-[#137fec] peer-checked:bg-[#137fec]/5 peer-checked:text-[#137fec] transition-all hover:bg-slate-50 dark:hover:bg-slate-800">
+                                        <div className="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 text-center font-medium peer-checked:border-brand peer-checked:bg-brand/5 peer-checked:text-brand transition-all hover:bg-slate-50 dark:hover:bg-slate-800">
                                             24 Months
                                         </div>
                                     </label>
@@ -199,13 +199,13 @@ export default function LandlordEditLeaseTerms() {
                     {/* Key Dates Section */}
                     <section className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm">
                         <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                            <span className="material-symbols-outlined text-[#137fec]">calendar_month</span> Key Dates
+                            <span className="material-symbols-outlined text-brand">calendar_month</span> Key Dates
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div className="space-y-1.5">
                                 <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Lease Start Date</label>
                                 <input
-                                    className="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec] focus:border-[#137fec] transition-shadow"
+                                    className="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-brand transition-shadow"
                                     type="date"
                                     value={leaseStart}
                                     onChange={(e) => setLeaseStart(e.target.value)}
@@ -214,7 +214,7 @@ export default function LandlordEditLeaseTerms() {
                             <div className="space-y-1.5">
                                 <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Lease End Date</label>
                                 <input
-                                    className="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec] focus:border-[#137fec] transition-shadow"
+                                    className="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-brand transition-shadow"
                                     type="date"
                                     value={leaseEnd}
                                     onChange={(e) => setLeaseEnd(e.target.value)}
@@ -226,12 +226,12 @@ export default function LandlordEditLeaseTerms() {
                                     <span className="material-symbols-outlined text-[16px] text-slate-400 cursor-help" title="When do these new terms apply?">help</span>
                                 </label>
                                 <input
-                                    className="w-full px-4 py-2.5 rounded-xl border border-[#137fec] dark:border-[#137fec] bg-blue-50/50 dark:bg-[#137fec]/5 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec] focus:border-[#137fec] transition-shadow"
+                                    className="w-full px-4 py-2.5 rounded-xl border border-brand dark:border-brand bg-blue-50/50 dark:bg-brand/5 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-brand transition-shadow"
                                     type="date"
                                     value={effectiveDate}
                                     onChange={(e) => setEffectiveDate(e.target.value)}
                                 />
-                                <span className="text-xs text-[#137fec] font-medium absolute -bottom-5 right-0">Changes apply next month</span>
+                                <span className="text-xs text-brand font-medium absolute -bottom-5 right-0">Changes apply next month</span>
                             </div>
                         </div>
                     </section>
@@ -240,9 +240,9 @@ export default function LandlordEditLeaseTerms() {
                     <section className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm">
                         <div className="flex items-center justify-between mb-6">
                             <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                                <span className="material-symbols-outlined text-[#137fec]">gavel</span> Clauses &amp; Addendums
+                                <span className="material-symbols-outlined text-brand">gavel</span> Clauses &amp; Addendums
                             </h2>
-                            <button className="text-sm font-bold text-[#137fec] hover:bg-[#137fec]/10 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1" type="button">
+                            <button className="text-sm font-bold text-brand hover:bg-brand/10 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1" type="button">
                                 <span className="material-symbols-outlined text-[18px]">add</span> Add Clause
                             </button>
                         </div>
@@ -256,7 +256,7 @@ export default function LandlordEditLeaseTerms() {
                                     <div className="flex items-center justify-between mb-1">
                                         <h4 className="font-bold text-slate-900 dark:text-white text-sm">Pet Policy Addendum</h4>
                                         <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-slate-500 hover:text-[#137fec] transition-colors">
+                                            <button className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-slate-500 hover:text-brand transition-colors">
                                                 <span className="material-symbols-outlined text-[18px]">edit</span>
                                             </button>
                                             <button className="p-1 hover:bg-red-100 dark:hover:bg-red-900/30 rounded text-slate-500 hover:text-red-600 transition-colors">
@@ -277,7 +277,7 @@ export default function LandlordEditLeaseTerms() {
                                     <div className="flex items-center justify-between mb-1">
                                         <h4 className="font-bold text-slate-900 dark:text-white text-sm">No Smoking Clause</h4>
                                         <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-slate-500 hover:text-[#137fec] transition-colors">
+                                            <button className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-slate-500 hover:text-brand transition-colors">
                                                 <span className="material-symbols-outlined text-[18px]">edit</span>
                                             </button>
                                             <button className="p-1 hover:bg-red-100 dark:hover:bg-red-900/30 rounded text-slate-500 hover:text-red-600 transition-colors">
@@ -293,7 +293,7 @@ export default function LandlordEditLeaseTerms() {
                             <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
                                 <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 block">Custom Notes / Additional Terms</label>
                                 <textarea
-                                    className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec] focus:border-[#137fec] transition-shadow text-sm"
+                                    className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-brand transition-shadow text-sm"
                                     placeholder="Enter any additional terms here..."
                                     rows={3}
                                     value={additionalTerms}
@@ -307,9 +307,9 @@ export default function LandlordEditLeaseTerms() {
 
             {/* Floating AI Bar */}
             <div className="fixed bottom-[90px] left-0 right-0 flex justify-center z-30 px-4 pointer-events-none">
-                <div className="w-full max-w-2xl bg-white/95 dark:bg-[#101922]/95 backdrop-blur-xl border border-[#137fec]/20 shadow-2xl shadow-[#137fec]/10 rounded-full py-2 px-2 flex items-center gap-3 pointer-events-auto" style={{ boxShadow: '0 0 15px rgba(19, 127, 236, 0.4)' }}>
-                    <div className="size-10 rounded-full bg-gradient-to-tr from-[#137fec] to-blue-400 flex items-center justify-center shrink-0">
-                        <span className="material-symbols-outlined text-white">auto_awesome</span>
+                <div className="w-full max-w-2xl bg-white/95 dark:bg-canvas-dark/95 backdrop-blur-xl border border-brand/20 shadow-lg rounded-full py-2 px-2 flex items-center gap-3 pointer-events-auto" style={{ boxShadow: '0 0 15px rgba(19, 127, 236, 0.4)' }}>
+                    <div className="size-10 rounded-full bg-brand flex items-center justify-center shrink-0">
+                        <span className="material-symbols-outlined text-white">forum</span>
                     </div>
                     <div className="flex-1 overflow-hidden h-10 flex items-center">
                         <p className="text-slate-600 dark:text-slate-300 text-sm truncate animate-pulse">
@@ -319,16 +319,16 @@ export default function LandlordEditLeaseTerms() {
                     <button className="size-10 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center transition-colors shrink-0">
                         <span className="material-symbols-outlined text-slate-600 dark:text-slate-300">mic</span>
                     </button>
-                    <button className="size-10 rounded-full bg-[#137fec] hover:bg-[#0e64bd] flex items-center justify-center transition-colors shrink-0 shadow-lg shadow-[#137fec]/30">
+                    <button className="size-10 rounded-full bg-brand hover:bg-[#0e64bd] flex items-center justify-center transition-colors shrink-0 shadow-sm">
                         <span className="material-symbols-outlined text-white">arrow_upward</span>
                     </button>
                 </div>
             </div>
 
             {/* Fixed Bottom Action Bar */}
-            <div className="fixed bottom-0 left-0 w-full z-20 bg-white dark:bg-[#101922] border-t border-slate-200 dark:border-slate-800 p-4 md:px-8 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+            <div className="fixed bottom-0 left-0 w-full z-20 bg-white dark:bg-canvas-dark border-t border-slate-200 dark:border-slate-800 p-4 md:px-8 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
                 <div className="max-w-[1000px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-                    <button className="hidden md:flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-[#137fec] transition-colors font-bold text-sm" type="button">
+                    <button className="hidden md:flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-brand transition-colors font-bold text-sm" type="button">
                         <span className="material-symbols-outlined text-[20px]">visibility</span>
                         Preview Changes
                     </button>
@@ -342,7 +342,7 @@ export default function LandlordEditLeaseTerms() {
                         <button
                             onClick={handleSave}
                             disabled={isSaving}
-                            className="flex-1 md:flex-none px-8 py-3 rounded-xl bg-[#137fec] text-white font-bold hover:bg-[#0e64bd] transition-colors shadow-lg shadow-[#137fec]/25 flex items-center justify-center gap-2 disabled:opacity-50"
+                            className="flex-1 md:flex-none px-8 py-3 rounded-xl bg-brand text-white font-bold hover:bg-[#0e64bd] transition-colors shadow-sm flex items-center justify-center gap-2 disabled:opacity-50"
                         >
                             <span className="material-symbols-outlined text-[20px]">save</span>
                             {isSaving ? 'Saving...' : 'Save Changes'}

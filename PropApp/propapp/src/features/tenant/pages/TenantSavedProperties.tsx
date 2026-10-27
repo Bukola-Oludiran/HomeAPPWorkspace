@@ -144,7 +144,7 @@ export default function TenantSavedProperties() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {Array.from({ length: 4 }).map((_, i) => (
-                        <div key={i} className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden animate-pulse">
+                        <div key={i} className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden animate-pulse">
                             <div className="h-48 bg-slate-200 dark:bg-slate-700" />
                             <div className="p-4">
                                 <div className="h-5 bg-slate-200 dark:bg-slate-700 rounded w-3/4 mb-2" />
@@ -197,7 +197,7 @@ export default function TenantSavedProperties() {
                     <div className="relative group" ref={typeDropdownRef}>
                         <button
                             onClick={() => setShowTypeDropdown(!showTypeDropdown)}
-                            className="flex items-center gap-2 px-4 py-2.5 bg-white dark:bg-[#1e293b] border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-semibold hover:border-[#137fec] focus:ring-2 focus:ring-[#137fec]/20 transition-all"
+                            className="flex items-center gap-2 px-4 py-2.5 bg-white dark:bg-[#1e293b] border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-semibold hover:border-brand focus:ring-2 focus:ring-brand/20 transition-all"
                         >
                             <span className="material-symbols-outlined text-[18px]">tune</span>
                             Type: {typeFilter === 'all' ? 'All' : typeFilter}
@@ -212,7 +212,7 @@ export default function TenantSavedProperties() {
                                             setTypeFilter(type);
                                             setShowTypeDropdown(false);
                                         }}
-                                        className={`w-full px-4 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center gap-2 ${typeFilter === type ? 'text-[#137fec] font-bold bg-blue-50 dark:bg-blue-900/20' : 'text-slate-700 dark:text-slate-300'}`}
+                                        className={`w-full px-4 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center gap-2 ${typeFilter === type ? 'text-brand font-bold bg-blue-50 dark:bg-blue-900/20' : 'text-slate-700 dark:text-slate-300'}`}
                                     >
                                         {type === 'all' ? 'All Types' : type}
                                         {typeFilter === type && (
@@ -227,7 +227,7 @@ export default function TenantSavedProperties() {
                     <div className="relative group" ref={sortDropdownRef}>
                         <button
                             onClick={() => setShowSortDropdown(!showSortDropdown)}
-                            className="flex items-center gap-2 px-4 py-2.5 bg-white dark:bg-[#1e293b] border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-semibold hover:border-[#137fec] focus:ring-2 focus:ring-[#137fec]/20 transition-all"
+                            className="flex items-center gap-2 px-4 py-2.5 bg-white dark:bg-[#1e293b] border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-semibold hover:border-brand focus:ring-2 focus:ring-brand/20 transition-all"
                         >
                             <span className="material-symbols-outlined text-[18px]">sort</span>
                             Sort: {sortBy === 'price-low' ? 'Price (Low to High)' : sortBy === 'price-high' ? 'Price (High to Low)' : 'Newest'}
@@ -242,7 +242,7 @@ export default function TenantSavedProperties() {
                                             setSortBy(option.id);
                                             setShowSortDropdown(false);
                                         }}
-                                        className={`w-full px-4 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center gap-2 ${sortBy === option.id ? 'text-[#137fec] font-bold bg-blue-50 dark:bg-blue-900/20' : 'text-slate-700 dark:text-slate-300'}`}
+                                        className={`w-full px-4 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center gap-2 ${sortBy === option.id ? 'text-brand font-bold bg-blue-50 dark:bg-blue-900/20' : 'text-slate-700 dark:text-slate-300'}`}
                                     >
                                         {option.label}
                                         {sortBy === option.id && (
@@ -266,7 +266,7 @@ export default function TenantSavedProperties() {
                     /* ===== GRID VIEW ===== */
                     <AnimatedGroup className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" stagger={0.06}>
                         {filteredProperties.map((property) => (
-                            <div key={property.id} className="group bg-white dark:bg-[#101922] rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl hover:border-[#137fec]/30 transition-all duration-300 flex flex-col">
+                            <div key={property.id} className="group bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl hover:border-brand/30 transition-all duration-300 flex flex-col">
                                 {/* Image with overlays */}
                                 <div className="relative w-full h-48 shrink-0 overflow-hidden">
                                     <img
@@ -288,7 +288,7 @@ export default function TenantSavedProperties() {
                                     </button>
                                     {/* Type Badge and Price Overlay */}
                                     <div className="absolute bottom-3 left-3 text-white">
-                                        <p className="text-[10px] font-bold bg-[#137fec]/90 px-2 py-0.5 rounded mb-1 w-fit">{property.type}</p>
+                                        <p className="text-xs font-bold bg-brand/90 px-2 py-0.5 rounded mb-1 w-fit">{property.type}</p>
                                         <h3 className="text-lg font-bold text-white shadow-sm">{property.price}<span className="text-xs font-normal opacity-90 ml-1">{property.period}</span></h3>
                                     </div>
                                 </div>
@@ -321,11 +321,11 @@ export default function TenantSavedProperties() {
                                     <div className="mt-auto flex gap-2">
                                         <Link
                                             to={`/property/${property.id}`}
-                                            className="flex-1 py-1.5 bg-[#137fec]/10 hover:bg-[#137fec]/20 text-[#137fec] rounded-lg font-semibold text-sm transition-colors text-center"
+                                            className="flex-1 py-1.5 bg-brand/10 hover:bg-brand/20 text-brand rounded-lg font-semibold text-sm transition-colors text-center"
                                         >
                                             View Details
                                         </Link>
-                                        <button className="p-1.5 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-500 hover:text-[#137fec] hover:border-[#137fec] transition-colors" title="Share">
+                                        <button className="p-1.5 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-500 hover:text-brand hover:border-brand transition-colors" title="Share">
                                             <span className="material-symbols-outlined text-[18px]">share</span>
                                         </button>
                                         <button
@@ -343,7 +343,7 @@ export default function TenantSavedProperties() {
                         {/* Empty State / CTA Card - Grid */}
                         <Link
                             to="/search"
-                            className="group bg-slate-50 dark:bg-[#101922]/50 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-[#137fec]/50 transition-all duration-300 flex flex-col items-center justify-center p-8 gap-4 min-h-[380px] h-full"
+                            className="group bg-slate-50 dark:bg-canvas-dark/50 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-brand/50 transition-all duration-300 flex flex-col items-center justify-center p-8 gap-4 min-h-[380px] h-full"
                         >
                             <div className="size-16 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 group-hover:scale-110 transition-transform shrink-0">
                                 <span className="material-symbols-outlined text-3xl">add_home</span>
@@ -351,7 +351,7 @@ export default function TenantSavedProperties() {
                             <div className="text-center">
                                 <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Looking for more?</h3>
                                 <p className="text-slate-500 dark:text-slate-400 mb-6 text-sm max-w-[200px] mx-auto">Continue your search to find the perfect verified rental property.</p>
-                                <span className="px-5 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-[#137fec] text-sm font-bold shadow-sm hover:shadow-md transition-all">
+                                <span className="px-5 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-brand text-sm font-bold shadow-sm hover:shadow-md transition-all">
                                     Explore Properties
                                 </span>
                             </div>
@@ -361,7 +361,7 @@ export default function TenantSavedProperties() {
                     /* ===== LIST VIEW ===== */
                     <AnimatedGroup className="flex flex-col gap-4" stagger={0.05}>
                         {filteredProperties.map((property) => (
-                            <div key={property.id} className="group bg-white dark:bg-[#101922] rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl hover:border-[#137fec]/30 transition-all duration-300 flex flex-col md:flex-row">
+                            <div key={property.id} className="group bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl hover:border-brand/30 transition-all duration-300 flex flex-col md:flex-row">
                                 {/* Image */}
                                 <div className="relative w-full md:w-80 h-56 md:h-auto shrink-0 overflow-hidden">
                                     <img
@@ -379,7 +379,7 @@ export default function TenantSavedProperties() {
                                     )}
                                     {/* Type Badge */}
                                     <div className="absolute bottom-3 left-3">
-                                        <p className="text-[10px] font-bold bg-[#137fec]/90 text-white px-2 py-0.5 rounded shadow-sm">{property.type}</p>
+                                        <p className="text-xs font-bold bg-brand/90 text-white px-2 py-0.5 rounded shadow-sm">{property.type}</p>
                                     </div>
                                 </div>
 
@@ -418,7 +418,7 @@ export default function TenantSavedProperties() {
                                     <div className="flex items-center gap-2 md:mt-auto">
                                         <Link
                                             to={`/property/${property.id}`}
-                                            className="px-4 py-2 bg-[#137fec] hover:bg-[#137fec]/90 text-white rounded-lg text-sm font-bold shadow-sm transition-colors"
+                                            className="px-4 py-2 bg-brand hover:bg-brand/90 text-white rounded-lg text-sm font-bold shadow-sm transition-colors"
                                         >
                                             View Details
                                         </Link>
@@ -442,7 +442,7 @@ export default function TenantSavedProperties() {
                         {/* Empty State / CTA Card - List */}
                         <Link
                             to="/search"
-                            className="group bg-slate-50 dark:bg-[#101922]/50 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-[#137fec]/50 transition-all duration-300 flex flex-col md:flex-row items-center justify-between p-6 gap-6"
+                            className="group bg-slate-50 dark:bg-canvas-dark/50 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-brand/50 transition-all duration-300 flex flex-col md:flex-row items-center justify-between p-6 gap-6"
                         >
                             <div className="flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
                                 <div className="size-16 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 group-hover:scale-110 transition-transform shrink-0">
@@ -453,7 +453,7 @@ export default function TenantSavedProperties() {
                                     <p className="text-slate-500 dark:text-slate-400 text-sm max-w-[300px]">Continue your search to find the perfect verified rental property.</p>
                                 </div>
                             </div>
-                            <span className="px-5 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-[#137fec] text-sm font-bold shadow-sm hover:shadow-md transition-all whitespace-nowrap">
+                            <span className="px-5 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-brand text-sm font-bold shadow-sm hover:shadow-md transition-all whitespace-nowrap">
                                 Explore Properties
                             </span>
                         </Link>

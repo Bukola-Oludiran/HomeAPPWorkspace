@@ -41,7 +41,7 @@ export default function TenantProfileLandlordView() {
             <PageContainer>
                 <div className="flex items-center justify-center min-h-[60vh]">
                     <div className="flex flex-col items-center gap-3">
-                        <div className="size-10 border-4 border-[#137fec] border-t-transparent rounded-full animate-spin"></div>
+                        <div className="size-10 border-4 border-brand border-t-transparent rounded-full animate-spin"></div>
                         <p className="text-slate-500 font-medium">Loading tenant profile...</p>
                     </div>
                 </div>
@@ -55,7 +55,7 @@ export default function TenantProfileLandlordView() {
             <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
                     <div className="flex items-center gap-2 text-sm text-slate-800 dark:text-slate-400 mb-2 font-medium">
-                        <Link className="hover:text-[#137fec]" to="/landlord/tenants">Applications</Link>
+                        <Link className="hover:text-brand" to="/landlord/tenants">Applications</Link>
                         <span className="material-symbols-outlined text-[14px]">chevron_right</span>
                         <span>Applicant Profile</span>
                     </div>
@@ -68,15 +68,15 @@ export default function TenantProfileLandlordView() {
                 {/* Left Column - Profile Card & Verification */}
                 <div className="lg:col-span-4 xl:col-span-3 flex flex-col gap-6">
                     {/* Profile Card */}
-                    <div className="bg-white dark:bg-[#101922] p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm text-center relative overflow-hidden">
-                        <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-r from-[#137fec]/10 to-blue-400/10"></div>
+                    <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm text-center relative overflow-hidden">
+                        <div className="absolute top-0 left-0 w-full h-20 bg-brand/10 dark:bg-brand/20"></div>
                         <div className="relative inline-block mx-auto mb-4 mt-8">
-                            <div className="size-24 rounded-full bg-gradient-to-tr from-[#137fec] to-blue-300 p-1 shadow-xl">
+                            <div className="size-24 rounded-full bg-brand p-1 shadow-xl">
                                 <div className="w-full h-full rounded-full bg-white dark:bg-slate-800 flex items-center justify-center overflow-hidden">
                                     {profile?.user?.avatarUrl ? (
                                         <img src={profile.user.avatarUrl} alt={tenantName} className="w-full h-full object-cover" />
                                     ) : (
-                                        <span className="text-2xl font-bold text-[#137fec]">{tenantInitials}</span>
+                                        <span className="text-2xl font-bold text-brand">{tenantInitials}</span>
                                     )}
                                 </div>
                             </div>
@@ -91,9 +91,9 @@ export default function TenantProfileLandlordView() {
                     </div>
 
                     {/* Verification Report */}
-                    <div className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden p-5">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden p-5">
                         <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wide mb-4 flex items-center gap-2">
-                            <span className="material-symbols-outlined text-[#137fec] text-[18px]">gpp_good</span> Verification Report
+                            <span className="material-symbols-outlined text-brand text-[18px]">gpp_good</span> Verification Report
                         </h3>
                         <div className="space-y-4">
                             <div className="flex items-center justify-between">
@@ -119,10 +119,10 @@ export default function TenantProfileLandlordView() {
                 {/* Right Column - Details */}
                 <div className="lg:col-span-8 xl:col-span-9 flex flex-col gap-6">
                     {/* Application History */}
-                    <div className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6 md:p-8">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6 md:p-8">
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                                <span className="material-symbols-outlined text-[#137fec]">history</span> Application History
+                                <span className="material-symbols-outlined text-brand">history</span> Application History
                             </h3>
                             <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">1 Active Application</span>
                         </div>
@@ -134,7 +134,7 @@ export default function TenantProfileLandlordView() {
                                 <div className="flex-1">
                                     <div className="flex items-center gap-2 mb-1">
                                         <h4 className="text-base font-bold text-slate-900 dark:text-white">1243 Oakwood Ave, Apt 4B</h4>
-                                        <span className="px-2 py-0.5 bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300 text-[10px] font-bold rounded-full uppercase">Current</span>
+                                        <span className="px-2 py-0.5 bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300 text-xs font-bold rounded-full uppercase">Current</span>
                                     </div>
                                     <p className="text-sm text-slate-500 dark:text-slate-400">Submitted on Sep 28, 2024 • Lease Start: Nov 1, 2024</p>
                                 </div>
@@ -153,16 +153,16 @@ export default function TenantProfileLandlordView() {
                                     <h4 className="text-sm font-bold text-slate-900 dark:text-white">880 Fairview Blvd</h4>
                                     <p className="text-xs text-slate-500 dark:text-slate-400">Inquired on Aug 12, 2024</p>
                                 </div>
-                                <span className="px-2 py-1 bg-slate-200 text-slate-600 dark:bg-slate-700 dark:text-slate-400 text-[10px] font-bold rounded-full">Closed</span>
+                                <span className="px-2 py-1 bg-slate-200 text-slate-600 dark:bg-slate-700 dark:text-slate-400 text-xs font-bold rounded-full">Closed</span>
                             </div>
                         </div>
                     </div>
 
                     {/* Personal & Contact Details */}
-                    <div className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6 md:p-8">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6 md:p-8">
                         <div className="mb-6 pb-4 border-b border-slate-100 dark:border-slate-800">
                             <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                                <span className="material-symbols-outlined text-[#137fec]">badge</span> Personal &amp; Contact Details
+                                <span className="material-symbols-outlined text-brand">badge</span> Personal &amp; Contact Details
                             </h3>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
@@ -197,10 +197,10 @@ export default function TenantProfileLandlordView() {
                     </div>
 
                     {/* Employment & Financial */}
-                    <div className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6 md:p-8">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6 md:p-8">
                         <div className="mb-6 pb-4 border-b border-slate-100 dark:border-slate-800">
                             <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                                <span className="material-symbols-outlined text-[#137fec]">work</span> Employment &amp; Financial
+                                <span className="material-symbols-outlined text-brand">work</span> Employment &amp; Financial
                             </h3>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -224,7 +224,7 @@ export default function TenantProfileLandlordView() {
                             </div>
                             <div className="md:col-span-2">
                                 <label className="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase mb-1">Proof of Income</label>
-                                <div className="flex items-center gap-2 text-sm text-[#137fec] font-medium bg-[#137fec]/5 px-4 py-3 rounded-xl border border-[#137fec]/10 cursor-pointer hover:bg-[#137fec]/10 transition-colors">
+                                <div className="flex items-center gap-2 text-sm text-brand font-medium bg-brand/5 px-4 py-3 rounded-xl border border-brand/10 cursor-pointer hover:bg-brand/10 transition-colors">
                                     <span className="material-symbols-outlined text-[18px]">description</span>
                                     <span>paystub_sep_2024.pdf</span>
                                     <span className="ml-auto text-xs text-slate-400">Uploaded Sep 28</span>
@@ -234,9 +234,9 @@ export default function TenantProfileLandlordView() {
                     </div>
 
                     {/* Tenant Preferences */}
-                    <div className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6 md:p-8">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6 md:p-8">
                         <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-6 pb-4 border-b border-slate-100 dark:border-slate-800">
-                            <span className="material-symbols-outlined text-[#137fec]">tune</span> Tenant Preferences
+                            <span className="material-symbols-outlined text-brand">tune</span> Tenant Preferences
                         </h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div>
@@ -273,12 +273,12 @@ export default function TenantProfileLandlordView() {
             </div>
 
             {/* Action Bar */}
-            <div className="fixed bottom-0 left-0 w-full bg-white dark:bg-[#101922] border-t border-slate-200 dark:border-slate-800 p-4 z-40 md:static md:bg-transparent md:border-0 md:p-0 md:mt-8">
+            <div className="fixed bottom-0 left-0 w-full bg-white dark:bg-canvas-dark border-t border-slate-200 dark:border-slate-800 p-4 z-40 md:static md:bg-transparent md:border-0 md:p-0 md:mt-8">
                 <div className="max-w-[1400px] mx-auto flex justify-end gap-4">
                     <button className="px-6 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-sm flex items-center gap-2">
                         <span className="material-symbols-outlined text-[18px]">chat_bubble_outline</span> Message
                     </button>
-                    <button className="px-8 py-3 rounded-xl bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-sm shadow-lg shadow-[#137fec]/20 transition-all flex items-center gap-2">
+                    <button className="px-8 py-3 rounded-xl bg-brand hover:bg-brand/90 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2">
                         <span className="material-symbols-outlined text-[18px]">call</span> Contact Tenant
                     </button>
                 </div>
@@ -289,23 +289,23 @@ export default function TenantProfileLandlordView() {
                 {/* AI Modal */}
                 {showAIChat && (
                     <div className="flex flex-col w-[360px] md:w-[420px] bg-white dark:bg-[#1e293b] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
-                        <div className="p-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-gradient-to-r from-blue-50 to-white dark:from-[#1e293b] dark:to-[#1e293b]">
+                        <div className="p-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-blue-50/50 dark:bg-[#1e293b]">
                             <div className="flex items-center gap-2">
-                                <div className="size-8 rounded-full bg-gradient-to-tr from-[#137fec] to-blue-400 flex items-center justify-center text-white shadow-md">
+                                <div className="size-8 rounded-full bg-brand flex items-center justify-center text-white shadow-md">
                                     <span className="material-symbols-outlined text-[20px]">psychology_alt</span>
                                 </div>
                                 <div>
                                     <h3 className="text-sm font-bold text-slate-900 dark:text-white">Tenant Evaluator</h3>
-                                    <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">AI Insights</p>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">AI Insights</p>
                                 </div>
                             </div>
                             <button onClick={() => setShowAIChat(false)} className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
                                 <span className="material-symbols-outlined text-[20px]">close</span>
                             </button>
                         </div>
-                        <div className="flex-1 p-4 h-[300px] overflow-y-auto flex flex-col gap-4 bg-slate-50/50 dark:bg-[#101922]/50">
+                        <div className="flex-1 p-4 h-[300px] overflow-y-auto flex flex-col gap-4 bg-slate-50/50 dark:bg-canvas-dark/50">
                             <div className="flex gap-3">
-                                <div className="size-8 rounded-full bg-gradient-to-tr from-[#137fec] to-blue-400 flex items-center justify-center text-white shrink-0 mt-1 shadow-sm">
+                                <div className="size-8 rounded-full bg-brand flex items-center justify-center text-white shrink-0 mt-1 shadow-sm">
                                     <span className="material-symbols-outlined text-[16px]">psychology_alt</span>
                                 </div>
                                 <div className="bg-white dark:bg-[#1e293b] border border-slate-100 dark:border-slate-700 p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[85%]">
@@ -315,8 +315,8 @@ export default function TenantProfileLandlordView() {
                         </div>
                         <div className="p-3 border-t border-slate-100 dark:border-slate-700 bg-white dark:bg-[#1e293b]">
                             <div className="relative flex items-center">
-                                <input className="w-full pl-4 pr-12 py-3 bg-slate-50 dark:bg-[#101922] border-none rounded-xl text-sm focus:ring-2 focus:ring-[#137fec]/20 text-slate-900 dark:text-white placeholder:text-slate-400 shadow-inner" placeholder="Ask about this tenant..." type="text" />
-                                <button className="absolute right-2 p-1.5 bg-[#137fec] text-white rounded-lg hover:bg-[#137fec]/90 transition-colors shadow-md">
+                                <input className="w-full pl-4 pr-12 py-3 bg-slate-50 dark:bg-canvas-dark border-none rounded-xl text-sm focus:ring-2 focus:ring-brand/20 text-slate-900 dark:text-white placeholder:text-slate-400 shadow-inner" placeholder="Ask about this tenant..." type="text" />
+                                <button className="absolute right-2 p-1.5 bg-brand text-white rounded-lg hover:bg-brand/90 transition-colors shadow-md">
                                     <span className="material-symbols-outlined text-[18px]">arrow_upward</span>
                                 </button>
                             </div>
@@ -327,14 +327,14 @@ export default function TenantProfileLandlordView() {
                 {/* AI Trigger Button */}
                 <button
                     onClick={() => setShowAIChat(!showAIChat)}
-                    className={`group flex items-center gap-3 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white pl-1.5 pr-5 py-1.5 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 dark:border-slate-700 hover:scale-105 hover:shadow-[0_8px_30px_rgb(0,0,0,0.18)] transition-all duration-300 ${showAIChat ? 'hidden' : ''}`}
+                    className={`group flex items-center gap-3 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white pl-1.5 pr-5 py-1.5 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 dark:border-slate-700 hover:shadow-[0_8px_30px_rgb(0,0,0,0.18)] transition-all duration-300 ${showAIChat ? 'hidden' : ''}`}
                 >
-                    <div className="size-10 rounded-full bg-gradient-to-tr from-[#137fec] to-blue-400 flex items-center justify-center text-white shadow-md group-hover:rotate-12 transition-transform">
+                    <div className="size-10 rounded-full bg-brand flex items-center justify-center text-white shadow-md">
                         <span className="material-symbols-outlined">psychology_alt</span>
                     </div>
                     <div className="flex flex-col items-start">
                         <span className="text-sm font-bold leading-none">Evaluate Tenant</span>
-                        <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium leading-tight mt-0.5">AI Insights</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-tight mt-0.5">AI Insights</span>
                     </div>
                 </button>
             </div>

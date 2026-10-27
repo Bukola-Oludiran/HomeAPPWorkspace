@@ -148,7 +148,7 @@ export default function TenantPayments() {
                 />
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     {Array.from({ length: 3 }).map((_, i) => (
-                        <div key={i} className="bg-white dark:bg-[#101922] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 animate-pulse">
+                        <div key={i} className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-200 dark:border-slate-800 animate-pulse">
                             <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/3 mb-4" />
                             <div className="h-8 bg-slate-200 dark:bg-slate-700 rounded w-2/3" />
                         </div>
@@ -199,7 +199,7 @@ export default function TenantPayments() {
             {/* Stats Cards */}
             <AnimatedGroup className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8" stagger={0.1}>
                 {/* Upcoming Due */}
-                <div className="bg-white dark:bg-[#101922] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between relative overflow-hidden group">
+                <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between relative overflow-hidden group">
                     <div className="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                         <span className="material-symbols-outlined text-[100px] text-orange-500">calendar_clock</span>
                     </div>
@@ -218,7 +218,7 @@ export default function TenantPayments() {
                 </div>
 
                 {/* Last Payment */}
-                <div className="bg-white dark:bg-[#101922] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between relative overflow-hidden group">
+                <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between relative overflow-hidden group">
                     <div className="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                         <span className="material-symbols-outlined text-[100px] text-green-600">check_circle</span>
                     </div>
@@ -238,9 +238,9 @@ export default function TenantPayments() {
                 </div>
 
                 {/* Total Paid (YTD) */}
-                <div className="bg-white dark:bg-[#101922] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between relative overflow-hidden group">
+                <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between relative overflow-hidden group">
                     <div className="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                        <span className="material-symbols-outlined text-[100px] text-[#137fec]">pie_chart</span>
+                        <span className="material-symbols-outlined text-[100px] text-brand">pie_chart</span>
                     </div>
                     <div>
                         <p className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Total Paid (YTD)</p>
@@ -249,7 +249,7 @@ export default function TenantPayments() {
                         </h3>
                     </div>
                     <div className="mt-6 w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
-                        <div className="bg-[#137fec] h-full rounded-full" style={{ width: `${Math.min((transactionHistory.filter(t => t.status === 'Paid').length / 12) * 100, 100)}%` }}></div>
+                        <div className="bg-brand h-full rounded-full" style={{ width: `${Math.min((transactionHistory.filter(t => t.status === 'Paid').length / 12) * 100, 100)}%` }}></div>
                     </div>
                 </div>
             </AnimatedGroup>
@@ -259,16 +259,16 @@ export default function TenantPayments() {
                 {/* Left Column - Transaction History */}
                 <div className="lg:col-span-2 flex flex-col gap-6">
                     {/* Payment Activity Heatmap */}
-                    <div className="bg-white dark:bg-[#101922] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="font-bold text-lg text-slate-900 dark:text-white">Payment Activity</h3>
                             <div className="flex items-center gap-2 text-xs text-slate-500">
                                 <span>Less</span>
                                 <div className="flex gap-1">
                                     <div className="size-3 rounded-sm bg-slate-100 dark:bg-slate-800"></div>
-                                    <div className="size-3 rounded-sm bg-[#137fec]/20"></div>
-                                    <div className="size-3 rounded-sm bg-[#137fec]/50"></div>
-                                    <div className="size-3 rounded-sm bg-[#137fec]"></div>
+                                    <div className="size-3 rounded-sm bg-brand/20"></div>
+                                    <div className="size-3 rounded-sm bg-brand/50"></div>
+                                    <div className="size-3 rounded-sm bg-brand"></div>
                                 </div>
                                 <span>More</span>
                             </div>
@@ -280,16 +280,16 @@ export default function TenantPayments() {
                             <div className="grid grid-cols-12 gap-1 h-[80px]">
                                 {/* Jan-Dec heatmap columns */}
                                 {[
-                                    ['bg-[#137fec]', 'bg-slate-100 dark:bg-slate-800', 'bg-[#137fec]/50', 'bg-slate-100 dark:bg-slate-800', 'bg-[#137fec]/20'],
-                                    ['bg-[#137fec]/50', 'bg-slate-100 dark:bg-slate-800', 'bg-[#137fec]', 'bg-slate-100 dark:bg-slate-800', 'bg-[#137fec]/20'],
-                                    ['bg-[#137fec]', 'bg-[#137fec]/50', 'bg-slate-100 dark:bg-slate-800', 'bg-[#137fec]/20', 'bg-slate-100 dark:bg-slate-800'],
-                                    ['bg-slate-100 dark:bg-slate-800', 'bg-[#137fec]', 'bg-[#137fec]/50', 'bg-slate-100 dark:bg-slate-800', 'bg-[#137fec]/20'],
-                                    ['bg-[#137fec]', 'bg-slate-100 dark:bg-slate-800', 'bg-slate-100 dark:bg-slate-800', 'bg-[#137fec]/50', 'bg-[#137fec]'],
-                                    ['bg-slate-100 dark:bg-slate-800', 'bg-[#137fec]/20', 'bg-[#137fec]', 'bg-slate-100 dark:bg-slate-800', 'bg-[#137fec]/50'],
-                                    ['bg-[#137fec]', 'bg-slate-100 dark:bg-slate-800', 'bg-[#137fec]/50', 'bg-[#137fec]/20', 'bg-slate-100 dark:bg-slate-800'],
-                                    ['bg-[#137fec]/50', 'bg-[#137fec]', 'bg-slate-100 dark:bg-slate-800', 'bg-slate-100 dark:bg-slate-800', 'bg-[#137fec]/20'],
-                                    ['bg-[#137fec]', 'bg-slate-100 dark:bg-slate-800', 'bg-[#137fec]/50', 'bg-[#137fec]', 'bg-slate-100 dark:bg-slate-800'],
-                                    ['bg-[#137fec]/20', 'bg-[#137fec]', 'bg-slate-100 dark:bg-slate-800', 'bg-[#137fec]/50', 'bg-[#137fec]/80'],
+                                    ['bg-brand', 'bg-slate-100 dark:bg-slate-800', 'bg-brand/50', 'bg-slate-100 dark:bg-slate-800', 'bg-brand/20'],
+                                    ['bg-brand/50', 'bg-slate-100 dark:bg-slate-800', 'bg-brand', 'bg-slate-100 dark:bg-slate-800', 'bg-brand/20'],
+                                    ['bg-brand', 'bg-brand/50', 'bg-slate-100 dark:bg-slate-800', 'bg-brand/20', 'bg-slate-100 dark:bg-slate-800'],
+                                    ['bg-slate-100 dark:bg-slate-800', 'bg-brand', 'bg-brand/50', 'bg-slate-100 dark:bg-slate-800', 'bg-brand/20'],
+                                    ['bg-brand', 'bg-slate-100 dark:bg-slate-800', 'bg-slate-100 dark:bg-slate-800', 'bg-brand/50', 'bg-brand'],
+                                    ['bg-slate-100 dark:bg-slate-800', 'bg-brand/20', 'bg-brand', 'bg-slate-100 dark:bg-slate-800', 'bg-brand/50'],
+                                    ['bg-brand', 'bg-slate-100 dark:bg-slate-800', 'bg-brand/50', 'bg-brand/20', 'bg-slate-100 dark:bg-slate-800'],
+                                    ['bg-brand/50', 'bg-brand', 'bg-slate-100 dark:bg-slate-800', 'bg-slate-100 dark:bg-slate-800', 'bg-brand/20'],
+                                    ['bg-brand', 'bg-slate-100 dark:bg-slate-800', 'bg-brand/50', 'bg-brand', 'bg-slate-100 dark:bg-slate-800'],
+                                    ['bg-brand/20', 'bg-brand', 'bg-slate-100 dark:bg-slate-800', 'bg-brand/50', 'bg-brand/80'],
                                     ['bg-slate-100 dark:bg-slate-800', 'bg-slate-100 dark:bg-slate-800', 'bg-slate-100 dark:bg-slate-800', 'bg-slate-100 dark:bg-slate-800', 'bg-slate-100 dark:bg-slate-800'],
                                     ['bg-slate-100 dark:bg-slate-800', 'bg-slate-100 dark:bg-slate-800', 'bg-slate-100 dark:bg-slate-800', 'bg-slate-100 dark:bg-slate-800', 'bg-slate-100 dark:bg-slate-800'],
                                 ].map((column, colIndex) => (
@@ -304,14 +304,14 @@ export default function TenantPayments() {
                     </div>
 
                     {/* Filters */}
-                    <div className="bg-white dark:bg-[#101922] p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div className="bg-white dark:bg-canvas-dark p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row justify-between items-center gap-4">
                         <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
                             <div className="relative">
                                 <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[20px]">calendar_month</span>
                                 <select
                                     value={yearFilter}
                                     onChange={(e) => setYearFilter(e.target.value)}
-                                    className="pl-10 pr-8 py-2 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-[#137fec]/50 cursor-pointer appearance-none"
+                                    className="pl-10 pr-8 py-2 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-brand/50 cursor-pointer appearance-none"
                                 >
                                     <option value="this-year">This Year</option>
                                     <option value="last-year">Last Year</option>
@@ -323,7 +323,7 @@ export default function TenantPayments() {
                                 <select
                                     value={statusFilter}
                                     onChange={(e) => setStatusFilter(e.target.value)}
-                                    className="pl-10 pr-8 py-2 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-[#137fec]/50 cursor-pointer appearance-none"
+                                    className="pl-10 pr-8 py-2 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-brand/50 cursor-pointer appearance-none"
                                 >
                                     <option value="all">All Status</option>
                                     <option value="paid">Paid</option>
@@ -336,7 +336,7 @@ export default function TenantPayments() {
                             <div className="relative w-full">
                                 <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[20px]">search</span>
                                 <input
-                                    className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-[#137fec]/50"
+                                    className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-brand/50"
                                     placeholder="Search payments..."
                                     type="text"
                                 />
@@ -348,7 +348,7 @@ export default function TenantPayments() {
                     <SectionCard padding="none">
                         <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
                             <h3 className="font-bold text-lg text-slate-900 dark:text-white">Transaction History</h3>
-                            <Link to="/tenant/transactions" className="text-sm text-[#137fec] font-bold hover:underline">View All</Link>
+                            <Link to="/tenant/transactions" className="text-sm text-brand font-bold hover:underline">View All</Link>
                         </div>
                         <div className="overflow-x-auto">
                             <table className="w-full text-left border-collapse">
@@ -389,7 +389,7 @@ export default function TenantPayments() {
                                                 <p className="font-bold text-slate-900 dark:text-white">{item.amount}</p>
                                             </td>
                                             <td className="px-6 py-4 text-right">
-                                                <button className="p-2 text-slate-400 hover:text-[#137fec] hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors">
+                                                <button className="p-2 text-slate-400 hover:text-brand hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors">
                                                     <span className="material-symbols-outlined text-[20px]">receipt_long</span>
                                                 </button>
                                             </td>
@@ -399,7 +399,7 @@ export default function TenantPayments() {
                             </table>
                         </div>
                         <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/20 flex justify-center">
-                            <button className="text-sm font-bold text-slate-500 hover:text-[#137fec] transition-colors flex items-center gap-2">
+                            <button className="text-sm font-bold text-slate-500 hover:text-brand transition-colors flex items-center gap-2">
                                 Load more transactions
                                 <span className="material-symbols-outlined text-[16px]">expand_more</span>
                             </button>
@@ -412,7 +412,7 @@ export default function TenantPayments() {
                     {/* Payment Card */}
                     <div className="bg-gradient-to-br from-slate-900 to-slate-800 dark:from-slate-800 dark:to-black rounded-2xl p-6 text-white shadow-xl relative overflow-hidden">
                         <div className="absolute -right-10 -top-10 size-40 bg-white/5 rounded-full blur-3xl"></div>
-                        <div className="absolute -left-10 -bottom-10 size-40 bg-[#137fec]/20 rounded-full blur-3xl"></div>
+                        <div className="absolute -left-10 -bottom-10 size-40 bg-brand/20 rounded-full blur-3xl"></div>
                         <div className="relative z-10">
                             <div className="flex justify-between items-start mb-6">
                                 <span className="material-symbols-outlined text-3xl text-white/80">assured_workload</span>
@@ -428,7 +428,7 @@ export default function TenantPayments() {
                             <MagneticButton>
                                 <button
                                     onClick={() => setIsPaymentModalOpen(true)}
-                                    className="w-full py-3 rounded-xl bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold transition-colors shadow-lg shadow-[#137fec]/20 flex items-center justify-center gap-2"
+                                    className="w-full py-3 rounded-xl bg-brand hover:bg-brand/90 text-white font-bold transition-colors shadow-sm flex items-center justify-center gap-2"
                                 >
                                     Pay Now
                                     <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
@@ -438,19 +438,19 @@ export default function TenantPayments() {
                     </div>
 
                     {/* Quick Actions */}
-                    <div className="bg-white dark:bg-[#101922] p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
                         <h3 className="font-bold text-slate-900 dark:text-white mb-4">Quick Actions</h3>
                         <div className="grid grid-cols-2 gap-3">
                             <button
                                 onClick={() => setIsPaymentModalOpen(true)}
-                                className="flex flex-col items-center justify-center p-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-[#137fec]/50 hover:bg-white dark:hover:bg-slate-700/80 transition-all group"
+                                className="flex flex-col items-center justify-center p-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-brand/50 hover:bg-white dark:hover:bg-slate-700/80 transition-all group"
                             >
-                                <div className="size-10 rounded-full bg-[#137fec]/10 text-[#137fec] flex items-center justify-center mb-2 group-hover:bg-[#137fec] group-hover:text-white transition-colors">
+                                <div className="size-10 rounded-full bg-brand/10 text-brand flex items-center justify-center mb-2 group-hover:bg-brand group-hover:text-white transition-colors">
                                     <span className="material-symbols-outlined text-[20px]">payments</span>
                                 </div>
                                 <span className="text-sm font-bold text-slate-700 dark:text-slate-300">Make Payment</span>
                             </button>
-                            <button className="flex flex-col items-center justify-center p-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-[#137fec]/50 hover:bg-white dark:hover:bg-slate-700/80 transition-all group">
+                            <button className="flex flex-col items-center justify-center p-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-brand/50 hover:bg-white dark:hover:bg-slate-700/80 transition-all group">
                                 <div className="size-10 rounded-full bg-purple-50 dark:bg-purple-900/20 text-purple-600 flex items-center justify-center mb-2 group-hover:bg-purple-600 group-hover:text-white transition-colors">
                                     <span className="material-symbols-outlined text-[20px]">autorenew</span>
                                 </div>
@@ -458,19 +458,19 @@ export default function TenantPayments() {
                             </button>
                             <button
                                 onClick={() => setIsBillingModalOpen(true)}
-                                className="col-span-2 flex items-center justify-center gap-2 p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-[#137fec]/50 hover:bg-white dark:hover:bg-slate-700/80 transition-all group"
+                                className="col-span-2 flex items-center justify-center gap-2 p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-brand/50 hover:bg-white dark:hover:bg-slate-700/80 transition-all group"
                             >
-                                <span className="material-symbols-outlined text-slate-500 text-[20px] group-hover:text-[#137fec] transition-colors">description</span>
+                                <span className="material-symbols-outlined text-slate-500 text-[20px] group-hover:text-brand transition-colors">description</span>
                                 <span className="text-sm font-bold text-slate-700 dark:text-slate-300">View Billing Statements</span>
                             </button>
                         </div>
                     </div>
 
                     {/* Payment Methods */}
-                    <div className="bg-white dark:bg-[#101922] p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex-1">
+                    <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex-1">
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="font-bold text-slate-900 dark:text-white">Payment Methods</h3>
-                            <button className="text-xs font-bold text-[#137fec] hover:underline flex items-center">
+                            <button className="text-xs font-bold text-brand hover:underline flex items-center">
                                 <span className="material-symbols-outlined text-[16px]">add</span>
                                 Add New
                             </button>
@@ -481,7 +481,7 @@ export default function TenantPayments() {
                                     key={method.id}
                                     className={`flex items-center gap-3 p-3 rounded-lg border ${method.isPrimary
                                         ? 'border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50'
-                                        : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-[#101922] opacity-70 hover:opacity-100 transition-opacity cursor-pointer'
+                                        : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-canvas-dark opacity-70 hover:opacity-100 transition-opacity cursor-pointer'
                                         }`}
                                 >
                                     <div className="size-10 bg-white dark:bg-slate-700 rounded-md shadow-sm flex items-center justify-center">

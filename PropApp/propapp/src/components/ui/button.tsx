@@ -20,11 +20,11 @@ const buttonVariants = cva(
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
         brand:
-          "bg-[#137fec] text-white font-bold hover:bg-[#137fec]/90 shadow-lg shadow-[#137fec]/25 transition-all",
+          "bg-brand text-white font-bold hover:bg-brand/90 shadow-sm transition-all",
         brandOutline:
-          "border-2 border-[#137fec] text-[#137fec] bg-transparent hover:bg-[#137fec]/10 font-bold transition-all",
+          "border-2 border-brand text-brand bg-transparent hover:bg-brand/10 font-bold transition-all",
         brandGhost:
-          "text-[#137fec] font-bold hover:bg-[#137fec]/10 transition-colors",
+          "text-brand font-bold hover:bg-brand/10 transition-colors",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

@@ -14,10 +14,10 @@ export default function SignUpStep4Landlord() {
     };
 
     return (
-        <div className="w-full max-w-3xl bg-white/10 dark:bg-[#1a2632]/40 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col my-4 overflow-y-auto max-h-[85vh]">
+        <div className="w-full max-w-3xl bg-white/10 dark:bg-surface-dark/40 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col my-4 overflow-y-auto max-h-[85vh]">
             {/* Step Badge */}
             <div className="flex items-center justify-center mb-6">
-                <span className="px-3 py-1 rounded-full bg-white/80 border border-white/40 text-[#137fec] text-xs font-bold uppercase tracking-wider">
+                <span className="px-3 py-1 rounded-full bg-white/80 border border-white/40 text-brand text-xs font-bold uppercase tracking-wider">
                     Step 4 of 4
                 </span>
             </div>
@@ -33,7 +33,7 @@ export default function SignUpStep4Landlord() {
                     <label className="text-sm font-semibold text-slate-200" htmlFor="property-count">How many properties do you currently manage?</label>
                     <div className="relative">
                         <select
-                            className="block w-full rounded-xl border-white/10 bg-white/5 px-4 py-3.5 text-white placeholder-slate-300 focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm shadow-sm transition-colors appearance-none"
+                            className="block w-full rounded-xl border-white/10 bg-white/5 px-4 py-3.5 text-white placeholder-slate-300 focus:border-brand focus:ring-brand sm:text-sm shadow-sm transition-colors appearance-none"
                             id="property-count"
                             name="property-count"
                         >
@@ -68,8 +68,8 @@ export default function SignUpStep4Landlord() {
                                     checked={propertyTypes.includes(type.value)}
                                     onChange={() => togglePropertyType(type.value)}
                                 />
-                                <div className="flex items-center gap-3 p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all duration-200 peer-checked:ring-1 peer-checked:ring-[#137fec] peer-checked:border-[#137fec] peer-checked:bg-[#137fec]/10">
-                                    <div className={`flex-shrink-0 size-5 rounded border ${propertyTypes.includes(type.value) ? 'bg-[#137fec] border-[#137fec]' : 'border-slate-500 bg-transparent'} flex items-center justify-center transition-colors`}>
+                                <div className="flex items-center gap-3 p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all duration-200 peer-checked:ring-1 peer-checked:ring-brand peer-checked:border-brand peer-checked:bg-brand/10">
+                                    <div className={`flex-shrink-0 size-5 rounded border ${propertyTypes.includes(type.value) ? 'bg-brand border-brand' : 'border-slate-500 bg-transparent'} flex items-center justify-center transition-colors`}>
                                         {propertyTypes.includes(type.value) && (
                                             <span className="text-white material-symbols-outlined text-[16px]">check</span>
                                         )}
@@ -93,7 +93,7 @@ export default function SignUpStep4Landlord() {
                             ].map((option) => (
                                 <label key={option.value} className="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-white/5 transition-colors">
                                     <input
-                                        className="w-5 h-5 bg-transparent border-slate-500 focus:ring-[#137fec] focus:ring-offset-0 text-[#137fec]"
+                                        className="w-5 h-5 bg-transparent border-slate-500 focus:ring-brand focus:ring-offset-0 text-brand"
                                         name="role"
                                         type="radio"
                                         value={option.value}
@@ -116,7 +116,7 @@ export default function SignUpStep4Landlord() {
                             ].map((option) => (
                                 <label key={option.value} className="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-white/5 transition-colors">
                                     <input
-                                        className="w-5 h-5 bg-transparent border-slate-500 focus:ring-[#137fec] focus:ring-offset-0 text-[#137fec]"
+                                        className="w-5 h-5 bg-transparent border-slate-500 focus:ring-brand focus:ring-offset-0 text-brand"
                                         name="listing_intent"
                                         type="radio"
                                         value={option.value}
@@ -151,8 +151,8 @@ export default function SignUpStep4Landlord() {
                                     checked={contactPref === option.value}
                                     onChange={() => setContactPref(option.value)}
                                 />
-                                <div className="flex flex-col items-center justify-center p-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all duration-200 peer-checked:ring-1 peer-checked:ring-[#137fec] peer-checked:bg-[#137fec]/10 peer-checked:border-[#137fec]">
-                                    <span className={`material-symbols-outlined mb-1 ${contactPref === option.value ? 'text-[#137fec]' : 'text-slate-300'}`}>
+                                <div className="flex flex-col items-center justify-center p-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all duration-200 peer-checked:ring-1 peer-checked:ring-brand peer-checked:bg-brand/10 peer-checked:border-brand">
+                                    <span className={`material-symbols-outlined mb-1 ${contactPref === option.value ? 'text-brand' : 'text-slate-300'}`}>
                                         {option.icon}
                                     </span>
                                     <span className={`text-xs font-medium ${contactPref === option.value ? 'text-white' : 'text-slate-300'}`}>
@@ -168,7 +168,7 @@ export default function SignUpStep4Landlord() {
                 <div className="pt-4">
                     <Link
                         to="/landlord/dashboard"
-                        className="w-full py-3.5 px-4 rounded-xl bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-lg shadow-lg shadow-[#137fec]/25 hover:shadow-[#137fec]/40 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
+                        className="w-full py-3.5 px-4 rounded-xl bg-brand hover:bg-brand/90 text-white font-bold text-lg shadow-sm transition-all flex items-center justify-center gap-2"
                     >
                         Finish Setup
                         <span className="material-symbols-outlined text-xl">arrow_forward</span>

@@ -76,12 +76,12 @@ export default function CalendarSyncModal({ isOpen, onClose }: CalendarSyncModal
             />
 
             {/* Modal */}
-            <div className="relative bg-white dark:bg-[#1a2632] rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 fade-in duration-200">
+            <div className="relative bg-white dark:bg-surface-dark rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 fade-in duration-200">
                 {/* Header */}
                 <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="size-10 bg-[#137fec]/10 rounded-full flex items-center justify-center">
-                            <span className="material-symbols-outlined text-[#137fec]">sync</span>
+                        <div className="size-10 bg-brand/10 rounded-full flex items-center justify-center">
+                            <span className="material-symbols-outlined text-brand">sync</span>
                         </div>
                         <h2 className="text-lg font-bold text-slate-900 dark:text-white">Sync Calendar</h2>
                     </div>
@@ -135,7 +135,7 @@ export default function CalendarSyncModal({ isOpen, onClose }: CalendarSyncModal
                                         <button
                                             onClick={() => handleConnect(calendar.id)}
                                             disabled={syncing === calendar.id}
-                                            className="text-xs font-semibold text-[#137fec] px-3 py-1.5 rounded-lg bg-[#137fec]/10 hover:bg-[#137fec]/20 transition-colors disabled:opacity-50 flex items-center gap-1"
+                                            className="text-xs font-semibold text-brand px-3 py-1.5 rounded-lg bg-brand/10 hover:bg-brand/20 transition-colors disabled:opacity-50 flex items-center gap-1"
                                         >
                                             {syncing === calendar.id ? (
                                                 <>
@@ -172,7 +172,7 @@ export default function CalendarSyncModal({ isOpen, onClose }: CalendarSyncModal
                                             key={option.value}
                                             onClick={() => setSyncDirection(option.value as typeof syncDirection)}
                                             className={`flex-1 py-2 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors ${syncDirection === option.value
-                                                    ? 'bg-[#137fec] text-white'
+                                                    ? 'bg-brand text-white'
                                                     : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
                                                 }`}
                                         >
@@ -195,7 +195,7 @@ export default function CalendarSyncModal({ isOpen, onClose }: CalendarSyncModal
                                     type="checkbox"
                                     checked={syncAll}
                                     onChange={(e) => setSyncAll(e.target.checked)}
-                                    className="size-4 rounded border-slate-300 text-[#137fec] focus:ring-[#137fec]"
+                                    className="size-4 rounded border-slate-300 text-brand focus:ring-brand"
                                 />
                             </label>
                         </div>
@@ -206,7 +206,7 @@ export default function CalendarSyncModal({ isOpen, onClose }: CalendarSyncModal
                 <div className="px-6 py-4 border-t border-slate-100 dark:border-slate-800 flex justify-end">
                     <button
                         onClick={onClose}
-                        className="px-6 py-2.5 rounded-xl bg-[#137fec] text-white font-bold text-sm hover:bg-[#137fec]/90 transition-colors shadow-lg shadow-[#137fec]/20"
+                        className="px-6 py-2.5 rounded-xl bg-brand text-white font-bold text-sm hover:bg-brand/90 transition-colors shadow-sm"
                     >
                         Done
                     </button>

@@ -72,7 +72,7 @@ export default function LandlordPropertyTasks() {
         return (
             <div className="flex items-center justify-center min-h-screen">
                 <div className="flex flex-col items-center gap-3">
-                    <div className="size-10 border-4 border-[#137fec] border-t-transparent rounded-full animate-spin"></div>
+                    <div className="size-10 border-4 border-brand border-t-transparent rounded-full animate-spin"></div>
                     <p className="text-slate-500 font-medium">Loading tasks...</p>
                 </div>
             </div>
@@ -82,7 +82,7 @@ export default function LandlordPropertyTasks() {
     return (
         <>
             {/* Header - Page's own navbar */}
-            <header className="fixed top-0 left-0 w-full z-40 bg-white/80 dark:bg-[#101922]/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+            <header className="fixed top-0 left-0 w-full z-40 bg-white/80 dark:bg-canvas-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
                 <div className="px-4 md:px-8 py-3 flex items-center justify-between">
                     <div className="flex items-center gap-4">
                         <Link
@@ -101,7 +101,7 @@ export default function LandlordPropertyTasks() {
                             <span className="material-symbols-outlined">notifications</span>
                             <span className="absolute top-2 right-2 size-2.5 bg-red-500 rounded-full border-2 border-slate-100 dark:border-slate-800"></span>
                         </button>
-                        <div className="size-10 rounded-full bg-[#137fec]/10 flex items-center justify-center text-[#137fec] font-bold border border-[#137fec]/20">
+                        <div className="size-10 rounded-full bg-brand/10 flex items-center justify-center text-brand font-bold border border-brand/20">
                             JD
                         </div>
                     </div>
@@ -121,7 +121,7 @@ export default function LandlordPropertyTasks() {
                         </div>
                         <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white">All Property Tasks</h2>
                     </div>
-                    <button className="px-5 py-2.5 bg-[#137fec] hover:bg-[#0e64bd] text-white font-bold rounded-xl shadow-lg shadow-[#137fec]/25 transition-colors flex items-center gap-2">
+                    <button className="px-5 py-2.5 bg-brand hover:bg-[#0e64bd] text-white font-bold rounded-xl shadow-sm transition-colors flex items-center gap-2">
                         <span className="material-symbols-outlined">add</span>
                         New Task
                     </button>
@@ -131,7 +131,7 @@ export default function LandlordPropertyTasks() {
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
                     <div className="lg:col-span-4 grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center gap-3">
-                            <div className="size-10 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-[#137fec]">
+                            <div className="size-10 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-brand">
                                 <span className="material-symbols-outlined">assignment</span>
                             </div>
                             <div>
@@ -174,7 +174,7 @@ export default function LandlordPropertyTasks() {
                     <div className="relative w-full md:w-96">
                         <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
                         <input
-                            className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-[#137fec] focus:border-transparent outline-none text-slate-900 dark:text-white"
+                            className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-brand focus:border-transparent outline-none text-slate-900 dark:text-white"
                             placeholder="Search tasks by name, assignee..."
                             type="text"
                         />
@@ -279,20 +279,20 @@ export default function LandlordPropertyTasks() {
                                                 </td>
                                                 <td className="px-6 py-4">
                                                     <div className="flex items-center gap-2">
-                                                        <div className="size-6 rounded-full bg-slate-200 dark:bg-slate-600 flex items-center justify-center text-[10px] font-bold">{agentInitials}</div>
+                                                        <div className="size-6 rounded-full bg-slate-200 dark:bg-slate-600 flex items-center justify-center text-xs font-bold">{agentInitials}</div>
                                                         <span className="text-sm text-slate-600 dark:text-slate-300">{agentName}</span>
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4 text-right">
                                                     <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                                         {isCompleted ? (
-                                                            <button className="text-xs text-[#137fec] font-bold hover:underline">View Details</button>
+                                                            <button className="text-xs text-brand font-bold hover:underline">View Details</button>
                                                         ) : (
                                                             <>
-                                                                <button className="size-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:border-[#137fec] hover:text-[#137fec] text-slate-400 transition-colors" title="Mark Complete">
+                                                                <button className="size-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:border-brand hover:text-brand text-slate-400 transition-colors" title="Mark Complete">
                                                                     <span className="material-symbols-outlined text-[18px]">check</span>
                                                                 </button>
-                                                                <button className="size-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:border-[#137fec] hover:text-[#137fec] text-slate-400 transition-colors" title="Edit Task">
+                                                                <button className="size-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:border-brand hover:text-brand text-slate-400 transition-colors" title="Edit Task">
                                                                     <span className="material-symbols-outlined text-[18px]">edit</span>
                                                                 </button>
                                                             </>
@@ -320,9 +320,9 @@ export default function LandlordPropertyTasks() {
 
             {/* AI Assistant Bar */}
             <div className="fixed bottom-[40px] left-0 right-0 flex justify-center z-30 px-4 pointer-events-none">
-                <div className="w-full max-w-2xl bg-white/95 dark:bg-[#101922]/95 backdrop-blur-xl border border-[#137fec]/20 shadow-2xl shadow-[#137fec]/10 rounded-full py-2 px-2 flex items-center gap-3 pointer-events-auto transition-all hover:scale-[1.01]" style={{ boxShadow: '0 0 15px rgba(19, 127, 236, 0.4)' }}>
-                    <div className="size-10 rounded-full bg-gradient-to-tr from-[#137fec] to-blue-400 flex items-center justify-center shrink-0">
-                        <span className="material-symbols-outlined text-white">auto_awesome</span>
+                <div className="w-full max-w-2xl bg-white/95 dark:bg-canvas-dark/95 backdrop-blur-xl border border-brand/20 shadow-lg rounded-full py-2 px-2 flex items-center gap-3 pointer-events-auto transition-all hover:scale-[1.01]" style={{ boxShadow: '0 0 15px rgba(19, 127, 236, 0.4)' }}>
+                    <div className="size-10 rounded-full bg-brand flex items-center justify-center shrink-0">
+                        <span className="material-symbols-outlined text-white">forum</span>
                     </div>
                     <div className="flex-1 overflow-hidden h-10 flex items-center">
                         <p className="text-slate-600 dark:text-slate-300 text-sm truncate animate-pulse">
@@ -332,7 +332,7 @@ export default function LandlordPropertyTasks() {
                     <button className="size-10 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center transition-colors shrink-0">
                         <span className="material-symbols-outlined text-slate-600 dark:text-slate-300">mic</span>
                     </button>
-                    <button className="size-10 rounded-full bg-[#137fec] hover:bg-[#0e64bd] flex items-center justify-center transition-colors shrink-0 shadow-lg shadow-[#137fec]/30">
+                    <button className="size-10 rounded-full bg-brand hover:bg-[#0e64bd] flex items-center justify-center transition-colors shrink-0 shadow-sm">
                         <span className="material-symbols-outlined text-white">arrow_upward</span>
                     </button>
                 </div>
