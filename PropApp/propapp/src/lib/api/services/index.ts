@@ -18,3 +18,4 @@ export { verificationService } from './verificationService';
 export { reportService } from './reportService';
 export { bankingService } from './bankingService';
 export { analyticsService } from './analyticsService';
+export { integrationService } from './integrationService';
