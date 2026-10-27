@@ -69,8 +69,12 @@ export async function deleteAccount() {
  */
 export async function uploadAvatar(file: File) {
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('avatar', file);
     return api.upload<{ avatarUrl: string }>(API_ENDPOINTS.USERS.AVATAR, formData);
+}
+
+export async function removeAvatar() {
+    return api.delete<{ avatarUrl: null }>(API_ENDPOINTS.USERS.AVATAR);
 }
 
 /**
@@ -317,6 +321,7 @@ export const userService = {
     updateNotificationSettings,
     deleteAccount,
     uploadAvatar,
+    removeAvatar,
     getPrivacySettings,
     updatePrivacySettings,
     getTenantProfile,

@@ -1,4 +1,4 @@
-import type { DataClassification, ComplianceActor } from '@complyflow/shared';
+import type { DataClassification, ComplianceActor } from './compliance.types';
 import type { Request, Response } from 'express';
 
 export type ComplianceAction = 'read' | 'write' | 'delete' | 'list';

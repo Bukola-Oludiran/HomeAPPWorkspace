@@ -18,6 +18,9 @@ jest.mock('../../src/config/database', () => ({
             delete: jest.fn(),
             deleteMany: jest.fn(),
         },
+        session: {
+            create: jest.fn().mockResolvedValue({ id: 'session-id' }),
+        },
     },
 }));
 
@@ -88,6 +91,16 @@ describe('AuthService', () => {
                 role: 'TENANT',
                 verificationLevel: 'UNVERIFIED',
                 regionCode: 'NG',
+                firstName: null,
+                lastName: null,
+                phone: null,
+                avatarUrl: null,
+                emailVerified: false,
+                preferredCurrency: 'NGN',
+                preferredLanguage: 'en',
+                walletAddress: null,
+                createdAt: new Date('2026-01-01T00:00:00Z'),
+                updatedAt: new Date('2026-01-01T00:00:00Z'),
             });
 
             await expect(
@@ -107,6 +120,16 @@ describe('AuthService', () => {
                 role: 'TENANT',
                 verificationLevel: 'UNVERIFIED',
                 regionCode: 'NG',
+                firstName: null,
+                lastName: null,
+                phone: null,
+                avatarUrl: null,
+                emailVerified: false,
+                preferredCurrency: 'NGN',
+                preferredLanguage: 'en',
+                walletAddress: null,
+                createdAt: new Date('2026-01-01T00:00:00Z'),
+                updatedAt: new Date('2026-01-01T00:00:00Z'),
             });
 
             (prisma.refreshToken.create as jest.Mock).mockResolvedValue({
@@ -118,9 +141,28 @@ describe('AuthService', () => {
 
             expect(result).toHaveProperty('user');
             expect(result).toHaveProperty('tokens');
+            expect(result.requires2FA).toBe(false);
+            if (result.requires2FA) throw new Error('Expected authenticated login response');
             expect(result.user.email).toBe('test@example.com');
             expect(result.tokens).toHaveProperty('accessToken');
             expect(result.tokens).toHaveProperty('refreshToken');
+        });
+
+        it('returns a short-lived challenge for a 2FA-protected account', async () => {
+            const hashedPassword = await bcrypt.hash('correctpassword', 10);
+            (prisma.user.findUnique as jest.Mock).mockResolvedValue({
+                id: 'user-2fa', email: '2fa@example.com', passwordHash: hashedPassword,
+                isActive: true, twoFactorEnabled: true, role: 'TENANT',
+                verificationLevel: 'UNVERIFIED', regionCode: 'NG',
+            });
+
+            const result = await authService.login('2fa@example.com', 'correctpassword');
+
+            expect(result.requires2FA).toBe(true);
+            if (!result.requires2FA) throw new Error('Expected 2FA challenge');
+            expect(result.challengeToken).toEqual(expect.any(String));
+            expect(result.expiresIn).toBe(300);
+            expect(prisma.session.create).not.toHaveBeenCalled();
         });
 
         it('should throw InvalidCredentialsError for inactive user', async () => {

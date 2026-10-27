@@ -179,6 +179,14 @@ router.post(
     }
 );
 
+router.delete('/me/avatar', authenticate, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        sendSuccess(res, await userService.updateAvatar(req.user!.id, null));
+    } catch (error) {
+        next(error);
+    }
+});
+
 // ============================================
 // WALLET ENDPOINTS (PRD Section 7.2)
 // ============================================

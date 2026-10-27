@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ModalPortal from './ModalPortal';
+import { integrationService } from '../lib/api/services/integrationService';
 
 interface BillingStatement {
-    id: number;
+    id: string;
     title: string;
     type: 'monthly' | 'quarterly' | 'utilities';
     date: string;
@@ -18,67 +19,32 @@ interface BillingDetailsModalProps {
     onClose: () => void;
 }
 
-const mockStatements: BillingStatement[] = [
-    {
-        id: 1,
-        title: 'November 2023 Statement',
-        type: 'monthly',
-        date: 'Nov 01, 2023',
-        amount: '$120,000.00',
-        status: 'paid',
-        icon: 'description',
-        iconBg: 'bg-blue-50 dark:bg-blue-900/20',
-        iconColor: 'text-[#137fec]',
-    },
-    {
-        id: 2,
-        title: 'Q3 2023 Consolidated Statement',
-        type: 'quarterly',
-        date: 'Oct 05, 2023',
-        amount: '$360,000.00',
-        status: 'paid',
-        icon: 'folder_zip',
-        iconBg: 'bg-purple-50 dark:bg-purple-900/20',
-        iconColor: 'text-purple-600 dark:text-purple-400',
-    },
-    {
-        id: 3,
-        title: 'September 2023 Statement',
-        type: 'monthly',
-        date: 'Sept 01, 2023',
-        amount: '$120,000.00',
-        status: 'paid',
-        icon: 'description',
-        iconBg: 'bg-blue-50 dark:bg-blue-900/20',
-        iconColor: 'text-[#137fec]',
-    },
-    {
-        id: 4,
-        title: 'Utility Bill - Aug 2023',
-        type: 'utilities',
-        date: 'Aug 15, 2023',
-        amount: '$25,000.00',
-        status: 'paid',
-        icon: 'receipt_long',
-        iconBg: 'bg-orange-50 dark:bg-orange-900/20',
-        iconColor: 'text-orange-600 dark:text-orange-400',
-    },
-    {
-        id: 5,
-        title: 'August 2023 Statement',
-        type: 'monthly',
-        date: 'Aug 01, 2023',
-        amount: '$120,000.00',
-        status: 'paid',
-        icon: 'description',
-        iconBg: 'bg-blue-50 dark:bg-blue-900/20',
-        iconColor: 'text-[#137fec]',
-    },
-];
-
 export default function BillingDetailsModal({ isOpen, onClose }: BillingDetailsModalProps) {
-    const [selectedYear, setSelectedYear] = useState('2023');
+    const [selectedYear, setSelectedYear] = useState(String(new Date().getFullYear()));
     const [selectedPeriod, setSelectedPeriod] = useState('all');
+    const [statements, setStatements] = useState<BillingStatement[]>([]);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (!isOpen) return;
+        integrationService.getBillingStatements().then(response => {
+            const items = response.data as Array<{ id: string; period: string; total: number; currency: string }>;
+            setStatements(items.map(item => ({
+                id: item.id,
+                title: `${item.period} Statement`,
+                type: 'monthly',
+                date: item.period,
+                amount: new Intl.NumberFormat(undefined, { style: 'currency', currency: item.currency }).format(item.total),
+                status: 'paid',
+                icon: 'description',
+                iconBg: 'bg-blue-50 dark:bg-blue-900/20',
+                iconColor: 'text-[#137fec]',
+            })));
+            setError(null);
+        }).catch(() => setError('Unable to load billing statements.'));
+    }, [isOpen]);
+
+    const visibleStatements = statements.filter(statement => statement.date.startsWith(selectedYear) && (selectedPeriod === 'all' || statement.type === selectedPeriod));
 
     if (!isOpen) return null;
 
@@ -126,9 +92,10 @@ export default function BillingDetailsModal({ isOpen, onClose }: BillingDetailsM
                                 onChange={(e) => setSelectedYear(e.target.value)}
                                 className="pl-3 pr-8 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-[#137fec]/50 cursor-pointer appearance-none outline-none"
                             >
-                                <option value="2023">Year: 2023</option>
-                                <option value="2022">Year: 2022</option>
-                                <option value="2021">Year: 2021</option>
+                                {[0, 1, 2].map(offset => {
+                                    const year = String(new Date().getFullYear() - offset);
+                                    return <option key={year} value={year}>Year: {year}</option>;
+                                })}
                             </select>
                             <span className="absolute right-2 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[18px] pointer-events-none">expand_more</span>
                         </div>
@@ -148,7 +115,9 @@ export default function BillingDetailsModal({ isOpen, onClose }: BillingDetailsM
 
                     {/* Statements List */}
                     <div className="overflow-y-auto flex-1">
-                        {mockStatements.map((statement) => (
+                        {error && <p role="alert" className="p-4 text-sm text-red-600">{error}</p>}
+                        {!error && visibleStatements.length === 0 && <p className="p-8 text-center text-sm text-slate-500">No statements for this period.</p>}
+                        {visibleStatements.map((statement) => (
                             <div
                                 key={statement.id}
                                 className="flex items-center justify-between p-4 border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group"
@@ -179,6 +148,7 @@ export default function BillingDetailsModal({ isOpen, onClose }: BillingDetailsM
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <button
+                                            onClick={() => void integrationService.exportData({ dataset: 'transactions', format: 'pdf', start: `${statement.id}-01`, end: `${statement.id}-31` })}
                                             className="p-2 text-slate-400 hover:text-[#137fec] hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
                                             title="View"
                                         >

@@ -1,21 +1,25 @@
 import { useState } from 'react';
+import { integrationService } from '../lib/api/services/integrationService';
 
 interface ReviewModalProps {
     isOpen: boolean;
     onClose: () => void;
     recipient: {
+        id: string;
         name: string;
         type: 'landlord' | 'agent' | 'tenant' | 'property';
         image?: string;
     };
+    context?: { type: 'LEASE' | 'JOB'; id: string };
 }
 
-export default function ReviewModal({ isOpen, onClose, recipient }: ReviewModalProps) {
+export default function ReviewModal({ isOpen, onClose, recipient, context }: ReviewModalProps) {
     const [rating, setRating] = useState(0);
     const [hoverRating, setHoverRating] = useState(0);
     const [review, setReview] = useState('');
     const [submitting, setSubmitting] = useState(false);
     const [submitted, setSubmitted] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const ratingLabels = ['Terrible', 'Poor', 'Average', 'Good', 'Excellent'];
 
@@ -24,16 +28,16 @@ export default function ReviewModal({ isOpen, onClose, recipient }: ReviewModalP
         if (rating === 0) return;
 
         setSubmitting(true);
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        setSubmitting(false);
-        setSubmitted(true);
-
-        setTimeout(() => {
-            onClose();
-            setRating(0);
-            setReview('');
-            setSubmitted(false);
-        }, 2000);
+        setError(null);
+        try {
+            if (!context) throw new Error('A completed lease or job is required to submit a review.');
+            await integrationService.createReview({ subjectId: recipient.id, contextType: context.type, contextId: context.id, rating, body: review || undefined });
+            setSubmitted(true);
+        } catch (cause) {
+            setError(cause instanceof Error ? cause.message : 'Unable to submit the review.');
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     if (!isOpen) return null;
@@ -71,6 +75,7 @@ export default function ReviewModal({ isOpen, onClose, recipient }: ReviewModalP
                     </div>
                 ) : (
                     <form onSubmit={handleSubmit} className="p-6">
+                        {error && <p role="alert" className="mb-4 text-sm text-red-600">{error}</p>}
                         {/* Recipient Info */}
                         <div className="flex items-center gap-3 mb-6">
                             {recipient.image ? (

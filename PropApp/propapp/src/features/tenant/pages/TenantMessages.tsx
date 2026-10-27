@@ -53,7 +53,7 @@ export default function TenantMessages() {
             }
         }
         fetchMessages();
-    }, [selectedConversation?.id]);
+    }, [selectedConversation]);
 
     // Scroll to bottom when messages change
     useEffect(() => {

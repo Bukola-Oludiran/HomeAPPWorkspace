@@ -1,0 +1,20 @@
+{
+  "name": "homeapp-workspace",
+  "private": true,
+  "scripts": {
+    "install:all": "npm ci --prefix contracts && npm ci --prefix PropApp-Backend/core-backend && npm ci --prefix ai-service && npm ci --prefix PropApp/propapp",
+    "db:up": "docker compose up -d postgres redis",
+    "db:down": "docker compose down",
+    "db:generate": "npm --prefix PropApp-Backend/core-backend run prisma:generate && npm --prefix ai-service run prisma:sync",
+    "db:migrate": "npm --prefix PropApp-Backend/core-backend exec prisma migrate deploy",
+    "db:seed": "npm --prefix PropApp-Backend/core-backend run prisma:seed",
+    "setup": "npm run install:all && npm run db:up && npm run db:generate && npm run db:migrate && npm run db:seed",
+    "dev": "npm --prefix PropApp-Backend/core-backend run dev & npm --prefix ai-service run dev & npm --prefix PropApp/propapp run dev & wait",
+    "build": "npm --prefix PropApp-Backend/core-backend run build && npm --prefix ai-service run build && npm --prefix PropApp/propapp run build",
+    "lint": "npm --prefix PropApp-Backend/core-backend run lint && npm --prefix ai-service run lint && npm --prefix PropApp/propapp run lint",
+    "test": "npm --prefix PropApp-Backend/core-backend test -- --runInBand",
+    "test:integration": "npm --prefix PropApp-Backend/core-backend run test:integration -- --runInBand",
+    "test:e2e": "npm --prefix PropApp/propapp run test:e2e",
+    "openapi": "npm --prefix PropApp-Backend/core-backend run generate:openapi"
+  }
+}

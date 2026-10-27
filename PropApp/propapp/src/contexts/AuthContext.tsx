@@ -19,6 +19,12 @@ import type {
 } from '../types/auth';
 import type { ApiError } from '../types/api';
 
+type AuthenticatedLoginResponse = Extract<LoginResponse, { requires2FA: false }>;
+const requireAuthenticatedResponse = (data: LoginResponse): AuthenticatedLoginResponse => {
+    if (data.requires2FA) throw new Error('Unexpected 2FA challenge');
+    return data;
+};
+
 // Auth state interface
 interface AuthState {
     user: User | null;
@@ -80,8 +86,7 @@ interface AuthProviderProps {
     children: ReactNode;
 }
 
-// Temporary token storage for 2FA flow
-let pending2FAToken: string | null = null;
+const TWO_FACTOR_CHALLENGE_KEY = 'homeai_2fa_challenge';
 
 export function AuthProvider({ children }: AuthProviderProps) {
     const [authState, setAuthState] = useState<AuthState>({
@@ -217,14 +222,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 email: registrationState.email,
             };
             const response = await api.post<LoginResponse>(API_ENDPOINTS.AUTH.REGISTER_COMPLETE, requestData);
+            const loginData = requireAuthenticatedResponse(response.data);
 
             // Store tokens and user - backend returns { user, tokens: { accessToken, refreshToken, expiresIn } }
-            tokenManager.setTokens(response.data.tokens.accessToken, response.data.tokens.refreshToken);
-            tokenManager.setStoredUser(response.data.user);
+            tokenManager.setTokens(loginData.tokens.accessToken, loginData.tokens.refreshToken);
+            tokenManager.setStoredUser(loginData.user);
 
             setRegistrationState((prev) => ({ ...prev, step: 4 }));
             setAuthState({
-                user: response.data.user,
+                user: loginData.user,
                 isAuthenticated: true,
                 isLoading: false,
                 error: null,
@@ -252,14 +258,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
             // Extract login data - backend returns { user, tokens: { accessToken, refreshToken, expiresIn } }
             const loginData = response.data;
 
-            if (!loginData || !loginData.tokens?.accessToken) {
-                console.error('Login response missing tokens:', response);
-                throw new Error('Invalid login response: missing access token');
-            }
-
             if (loginData.requires2FA) {
-                // Store temporary token for 2FA verification
-                pending2FAToken = loginData.tokens.accessToken;
+                sessionStorage.setItem(TWO_FACTOR_CHALLENGE_KEY, JSON.stringify({
+                    token: loginData.challengeToken,
+                    expiresAt: Date.now() + loginData.expiresIn * 1000,
+                }));
                 setAuthState((prev) => ({ ...prev, isLoading: false }));
                 return { requires2FA: true };
             }
@@ -296,36 +299,45 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }, [setError]);
 
     const verify2FA = useCallback(async (code: string) => {
-        if (!pending2FAToken) {
+        const pendingChallenge = sessionStorage.getItem(TWO_FACTOR_CHALLENGE_KEY);
+        if (!pendingChallenge) {
             throw new Error('No pending 2FA verification');
+        }
+        let challengeToken: string;
+        try {
+            const parsed = JSON.parse(pendingChallenge) as { token: string; expiresAt: number };
+            if (!parsed.token || parsed.expiresAt <= Date.now()) {
+                sessionStorage.removeItem(TWO_FACTOR_CHALLENGE_KEY);
+                throw new Error('The 2FA challenge has expired. Please sign in again.');
+            }
+            challengeToken = parsed.token;
+        } catch (error) {
+            sessionStorage.removeItem(TWO_FACTOR_CHALLENGE_KEY);
+            throw error instanceof Error ? error : new Error('Invalid 2FA challenge state');
         }
 
         setAuthState((prev) => ({ ...prev, isLoading: true, error: null }));
 
         try {
-            // Temporarily set the pending token for this request
-            localStorage.setItem('homeai_access_token', pending2FAToken);
-
-            const response = await api.post<LoginResponse>(API_ENDPOINTS.AUTH.VERIFY_2FA, { code });
+            const response = await api.post<LoginResponse>(API_ENDPOINTS.AUTH.VERIFY_2FA_CHALLENGE, { challengeToken, code });
+            const loginData = requireAuthenticatedResponse(response.data);
 
             // Clear pending token
-            pending2FAToken = null;
+            sessionStorage.removeItem(TWO_FACTOR_CHALLENGE_KEY);
 
             // Store tokens and user - backend returns { user, tokens: { accessToken, refreshToken, expiresIn } }
-            tokenManager.setTokens(response.data.tokens.accessToken, response.data.tokens.refreshToken);
-            tokenManager.setStoredUser(response.data.user);
+            tokenManager.setTokens(loginData.tokens.accessToken, loginData.tokens.refreshToken);
+            tokenManager.setStoredUser(loginData.user);
 
             setAuthState({
-                user: response.data.user,
+                user: loginData.user,
                 isAuthenticated: true,
                 isLoading: false,
                 error: null,
             });
         } catch (error) {
             // Restore original token if 2FA fails
-            if (pending2FAToken) {
-                localStorage.removeItem('homeai_access_token');
-            }
+            sessionStorage.removeItem(TWO_FACTOR_CHALLENGE_KEY);
             setError(error as ApiError);
             throw error;
         }
@@ -336,13 +348,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
         try {
             const response = await api.post<LoginResponse>(API_ENDPOINTS.AUTH.OAUTH_LOGIN(provider), data);
+            const loginData = requireAuthenticatedResponse(response.data);
 
             // Store tokens and user - backend returns { user, tokens: { accessToken, refreshToken, expiresIn } }
-            tokenManager.setTokens(response.data.tokens.accessToken, response.data.tokens.refreshToken);
-            tokenManager.setStoredUser(response.data.user);
+            tokenManager.setTokens(loginData.tokens.accessToken, loginData.tokens.refreshToken);
+            tokenManager.setStoredUser(loginData.user);
 
             setAuthState({
-                user: response.data.user,
+                user: loginData.user,
                 isAuthenticated: true,
                 isLoading: false,
                 error: null,

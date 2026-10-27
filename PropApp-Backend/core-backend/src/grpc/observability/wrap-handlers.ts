@@ -1,5 +1,5 @@
 import type { UntypedHandleCall } from '@grpc/grpc-js';
-import type { ComplianceActor } from '@complyflow/shared';
+import type { ComplianceActor } from '../../common/observability/compliance.types';
 import { safeEmit } from '../../common/observability/comply';
 import { lookupGrpcCompliance } from './registry';
 import { logger } from '../../common/utils/logger';

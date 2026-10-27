@@ -345,7 +345,7 @@ class UserService {
      * Update avatar URL
      * POST /api/v1/users/me/avatar
      */
-    async updateAvatar(userId: string, avatarUrl: string): Promise<{ avatarUrl: string }> {
+    async updateAvatar(userId: string, avatarUrl: string | null): Promise<{ avatarUrl: string | null }> {
         const user = await prisma.user.findUnique({
             where: { id: userId },
         });

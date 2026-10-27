@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import type { ComplianceActor, DataAccessInput } from '@complyflow/shared';
+import type { ComplianceActor, DataAccessInput } from './compliance.types';
 import { safeEmit } from './comply';
 import { lookupRouteCompliance } from './registry';
 import type { RouteComplianceEntry } from './registry.types';
@@ -19,6 +19,7 @@ declare global {
                 role: string;
                 verificationLevel: string;
                 regionCode: string;
+                sessionId?: string;
             };
             service?: {
                 serviceName: string;

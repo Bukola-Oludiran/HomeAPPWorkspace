@@ -108,6 +108,11 @@ export const verify2FASchema = z.object({
     code: z.string().length(6, 'Code must be 6 digits'),
 });
 
+export const verify2FAChallengeSchema = z.object({
+    challengeToken: z.string().min(1),
+    code: z.string().length(6, 'Code must be 6 digits'),
+});
+
 export const disable2FASchema = z.object({
     code: z.string().length(6, 'Code must be 6 digits'),
     password: z.string().min(1, 'Password is required'),
@@ -130,6 +135,7 @@ export type OAuthLoginRequest = z.input<typeof oauthLoginSchema>;
 export type ForgotPasswordRequest = z.input<typeof forgotPasswordSchema>;
 export type ResetPasswordRequest = z.input<typeof resetPasswordSchema>;
 export type Verify2FARequest = z.input<typeof verify2FASchema>;
+export type Verify2FAChallengeRequest = z.input<typeof verify2FAChallengeSchema>;
 export type Disable2FARequest = z.input<typeof disable2FASchema>;
 
 // ============================================
@@ -149,6 +155,7 @@ export type OAuthLoginDto = z.infer<typeof oauthLoginSchema>;
 export type ForgotPasswordDto = z.infer<typeof forgotPasswordSchema>;
 export type ResetPasswordDto = z.infer<typeof resetPasswordSchema>;
 export type Verify2FADto = z.infer<typeof verify2FASchema>;
+export type Verify2FAChallengeDto = z.infer<typeof verify2FAChallengeSchema>;
 export type Disable2FADto = z.infer<typeof disable2FASchema>;
 
 // ============================================
@@ -192,13 +199,24 @@ export const wireAuthUserSchema = z
     })
     .openapi('WireAuthUser');
 
-export const loginResponseSchema = z
+export const authenticatedLoginResponseSchema = z
     .object({
         user: wireAuthUserSchema,
         tokens: authTokensSchema,
-        requires2FA: z.boolean().optional(),
+        requires2FA: z.literal(false),
     })
-    .openapi('LoginResponse');
+    .openapi('AuthenticatedLoginResponse');
+
+export const twoFactorChallengeResponseSchema = z.object({
+    requires2FA: z.literal(true),
+    challengeToken: z.string(),
+    expiresIn: z.number().int().positive(),
+}).openapi('TwoFactorChallengeResponse');
+
+export const loginResponseSchema = z.union([
+    authenticatedLoginResponseSchema,
+    twoFactorChallengeResponseSchema,
+]).openapi('LoginResponse');
 
 export type AuthTokens = z.infer<typeof authTokensSchema>;
 export type WireAuthUser = z.infer<typeof wireAuthUserSchema>;
@@ -239,6 +257,18 @@ const JSON_BODY = (schema: z.ZodTypeAny) => ({
 });
 
 export const registerAuthPaths = (registry: OpenAPIRegistry): void => {
+    registry.registerPath({
+        method: 'post',
+        path: '/auth/2fa/challenge/verify',
+        tags: [TAG],
+        summary: 'Complete a pending login challenge with a TOTP code.',
+        request: JSON_BODY(verify2FAChallengeSchema),
+        responses: {
+            200: successResponse('Login successful', authenticatedLoginResponseSchema),
+            ...STANDARD_ERROR_RESPONSES,
+        },
+    });
+
     registry.registerPath({
         method: 'post',
         path: '/auth/register/initiate',

@@ -67,17 +67,10 @@ export default function TenantApplicationDetail() {
         fetchApplication();
     }, [id]);
 
-    async function handleWithdraw() {
-        if (!id) return;
-        try {
-            await tenantService.withdrawApplication(id);
-            setApplication(prev => prev ? { ...prev, status: 'WITHDRAWN' as const } : prev);
-            setIsWithdrawModalOpen(false);
-            navigate('/tenant/applications');
-        } catch (err) {
-            console.error('Failed to withdraw application:', err);
-            alert('Failed to withdraw application. Please try again.');
-        }
+    function handleWithdraw() {
+        setApplication(prev => prev ? { ...prev, status: 'WITHDRAWN' as const } : prev);
+        setIsWithdrawModalOpen(false);
+        navigate('/tenant/applications');
     }
 
     if (isLoading) {
@@ -329,6 +322,7 @@ export default function TenantApplicationDetail() {
                 onClose={() => setIsWithdrawModalOpen(false)}
                 onConfirm={handleWithdraw}
                 propertyName={propertyName}
+                applicationId={id}
             />
         </PageContainer>
     );

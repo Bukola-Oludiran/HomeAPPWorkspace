@@ -460,6 +460,11 @@ export default function TenantApplications() {
                 isOpen={isWithdrawModalOpen}
                 onClose={() => setIsWithdrawModalOpen(false)}
                 propertyName={selectedApp?.propertyName}
+                applicationId={selectedApp?.id}
+                onConfirm={() => {
+                    if (selectedApp) setApplicationsData(current => current.filter(application => application.id !== selectedApp.id));
+                    setSelectedApp(null);
+                }}
             />
 
             {/* Sign Lease Renewal Modal */}

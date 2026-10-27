@@ -4,16 +4,6 @@ import MakePaymentModal from '../../../components/MakePaymentModal';
 import DocumentViewerModal from '../../../components/DocumentViewerModal';
 import { tenantService } from '../../../lib/api/services/tenantService';
 
-// Helper to format currency
-function formatCurrency(amount: number): string {
-    return new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency: 'CAD',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-    }).format(amount);
-}
-
 // Helper to format date
 function formatDate(dateString: string): string {
     return new Date(dateString).toLocaleDateString('en-US', {

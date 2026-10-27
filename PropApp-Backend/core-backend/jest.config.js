@@ -16,6 +16,7 @@ module.exports = {
         '^@common/(.*)$': '<rootDir>/src/common/$1',
         '^@config/(.*)$': '<rootDir>/src/config/$1',
         '^@integrations/(.*)$': '<rootDir>/src/integrations/$1',
+        '^@homeai/contracts/(.*)$': '<rootDir>/../../contracts/$1',
         '^@complyflow/sdk$': '<rootDir>/tests/__mocks__/complyflow-sdk.ts',
         '^@complyflow/shared$': '<rootDir>/tests/__mocks__/complyflow-shared.ts',
     },

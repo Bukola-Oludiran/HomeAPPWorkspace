@@ -80,7 +80,7 @@ router.post(
 // ============================================
 
 router.get(
-    '/market-trends',
+    '/analytics/market-trends',
     authenticate,
     async (req: Request, res: Response, next: NextFunction) => {
         try {

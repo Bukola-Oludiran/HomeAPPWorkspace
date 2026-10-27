@@ -50,6 +50,7 @@ import AgentPublicProfile from './pages/Profile/AgentPublicProfile'
 import LandlordPublicProfile from './pages/Profile/LandlordPublicProfile'
 import TenantPublicProfile from './pages/Profile/TenantPublicProfile'
 import SettingsPage from './pages/Home/SettingsPage'
+import ApplicantInvitationPage from './pages/ApplicantInvitationPage'
 
 // Auth Pages
 import AuthLayout from './layouts/AuthLayout'
@@ -114,6 +115,7 @@ function App() {
         <Route path="/landlord-profile/:id" element={<LandlordPublicProfile />} />
         <Route path="/member/:id" element={<TenantPublicProfile />} />
         <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/applicant-invitations/:token" element={<ApplicantInvitationPage />} />
 
         {/* Landlord Dashboard Routes - Protected */}
         <Route path="/landlord" element={

@@ -32,6 +32,7 @@ import { registerTenantPaths } from '@homeai/contracts/tenant.contract';
 import { registerLandlordPaths } from '@homeai/contracts/landlord.contract';
 import { registerAgentPaths } from '@homeai/contracts/agent.contract';
 import { registerUsersPaths } from '@homeai/contracts/users.contract';
+import { registerIntegrationPaths } from '@homeai/contracts/integration.contract';
 
 const DEFAULT_PORT = process.env.PORT ?? '3000';
 const DEFAULT_VERSION = process.env.API_VERSION ?? 'v1';
@@ -59,6 +60,7 @@ export const buildOpenApiDocument = (): ReturnType<OpenApiGeneratorV31['generate
     registerLandlordPaths(registry);
     registerAgentPaths(registry);
     registerUsersPaths(registry);
+    registerIntegrationPaths(registry);
 
     const generator = new OpenApiGeneratorV31(registry.definitions);
     return generator.generateDocument({

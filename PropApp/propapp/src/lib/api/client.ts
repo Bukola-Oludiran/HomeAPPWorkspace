@@ -193,6 +193,12 @@ export const api = {
                 'Content-Type': 'multipart/form-data',
             },
         }).then((res) => res.data),
+
+    download: (url: string, data?: unknown) =>
+        apiClient.post<Blob>(url, data, { responseType: 'blob' }).then((res) => ({
+            blob: res.data,
+            contentDisposition: res.headers['content-disposition'] as string | undefined,
+        })),
 };
 
 export default apiClient;

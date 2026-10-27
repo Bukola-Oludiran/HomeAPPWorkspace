@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import AddPersonalEventModal from '../../../components/AddPersonalEventModal';
 import MonthNavigator from '../../../components/MonthNavigator';
-import CalendarSyncModal from '../../../components/CalendarSyncModal';
 import AddAvailabilityModal from '../../../components/AddAvailabilityModal';
 import NotificationPreferencesModal from '../../../components/NotificationPreferencesModal';
 import PageContainer from '../../../components/common/PageContainer';
@@ -114,7 +113,7 @@ function transformToSelectedJob(item: AgentScheduleItem): UISelectedJob {
         client: item.clientName || 'N/A',
         clientPhone: item.clientPhone,
         instructions: 'Please arrive 10 minutes early and contact the client upon arrival.',
-        payout: '$0', // Would come from job details API
+        payout: new Intl.NumberFormat(undefined, { style: 'currency', currency: 'CAD' }).format(item.payout || 0),
     };
 }
 
@@ -148,8 +147,7 @@ type ViewMode = 'month' | 'week' | 'day';
 export default function AgentSchedule() {
     const [viewMode, setViewMode] = useState<ViewMode>('month');
     const [isAddEventModalOpen, setIsAddEventModalOpen] = useState(false);
-    const [currentDate, setCurrentDate] = useState(new Date(2023, 9, 1)); // October 2023
-    const [isCalendarSyncOpen, setIsCalendarSyncOpen] = useState(false);
+    const [currentDate, setCurrentDate] = useState(new Date());
     const [isAddAvailabilityOpen, setIsAddAvailabilityOpen] = useState(false);
     const [isNotificationPrefsOpen, setIsNotificationPrefsOpen] = useState(false);
 
@@ -177,12 +175,19 @@ export default function AgentSchedule() {
                     endDate: endDate.toISOString().split('T')[0],
                 });
 
-                const items = response.data || [];
+                const items = response.data?.jobs || [];
                 setScheduleItems(items);
 
                 // Transform to calendar events
                 const today = new Date();
-                const events = items.map(item => transformToCalendarEvent(item, today));
+                const availabilityEvents: UICalendarEvent[] = (response.data?.availability || []).map(item => ({
+                    id: `availability-${item.id}`,
+                    day: new Date(item.date).getDate(),
+                    time: `${formatTime(item.startTime)}–${formatTime(item.endTime)}`,
+                    title: 'Available',
+                    type: 'personal',
+                }));
+                const events = [...items.map(item => transformToCalendarEvent(item, today)), ...availabilityEvents];
                 setCalendarEvents(events);
 
                 // Transform to upcoming jobs (filter future items, sort by date)
@@ -509,14 +514,7 @@ export default function AgentSchedule() {
                                 <span className="material-symbols-outlined">play_arrow</span>
                                 Start Job
                             </button>
-                            <div className="grid grid-cols-2 gap-3">
-                                <button
-                                    onClick={() => setIsCalendarSyncOpen(true)}
-                                    className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold py-2.5 rounded-lg transition-all text-xs flex items-center justify-center gap-2"
-                                >
-                                    <span className="material-symbols-outlined text-[18px]">sync</span>
-                                    Sync Calendar
-                                </button>
+                            <div>
                                 <button
                                     onClick={() => setIsNotificationPrefsOpen(true)}
                                     className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold py-2.5 rounded-lg transition-all text-xs flex items-center justify-center gap-2"
@@ -573,12 +571,6 @@ export default function AgentSchedule() {
             <AddPersonalEventModal
                 isOpen={isAddEventModalOpen}
                 onClose={() => setIsAddEventModalOpen(false)}
-            />
-
-            {/* Calendar Sync Modal */}
-            <CalendarSyncModal
-                isOpen={isCalendarSyncOpen}
-                onClose={() => setIsCalendarSyncOpen(false)}
             />
 
             {/* Add Availability Modal */}

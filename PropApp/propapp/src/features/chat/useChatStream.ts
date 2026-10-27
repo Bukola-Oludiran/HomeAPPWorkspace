@@ -335,7 +335,6 @@ export function useChatStream({ getJwt, initialContextSeed }: UseChatStreamOptio
                 refreshSessions();
             }
         },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         [getJwt, state.sessionId, state.contextSeed, refreshSessions]
     );
 

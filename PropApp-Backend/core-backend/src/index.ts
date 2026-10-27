@@ -32,6 +32,16 @@ import messagingRoutes from './modules/messaging/messaging.routes';
 import transactionRoutes from './modules/transactions/transactions.routes';
 import verificationRoutes from './modules/verification/verification.routes';
 import notificationRoutes from './modules/notifications/notifications.routes';
+import sessionRoutes from './modules/auth/session.routes';
+import profilesRoutes from './modules/users/profiles.routes';
+import privacyRoutes from './modules/users/privacy.routes';
+import connectedAccountsRoutes from './modules/users/connected-accounts.routes';
+import paymentMethodsRoutes from './modules/users/payment-methods.routes';
+import bankingRoutes from './modules/banking/banking.routes';
+import analyticsRoutes from './modules/analytics/analytics.routes';
+import documentsRoutes from './modules/documents/documents.routes';
+import leaseReportsRoutes from './modules/documents/lease-reports.routes';
+import integrationRoutes from './modules/integration/integration.routes';
 
 // ============================================
 // CREATE EXPRESS APP
@@ -148,9 +158,15 @@ const API_PREFIX = `/api/${env.API_VERSION}`;
 
 // Auth routes
 app.use(`${API_PREFIX}/auth`, authRoutes);
+app.use(`${API_PREFIX}/auth`, sessionRoutes);
 
 // User routes
 app.use(`${API_PREFIX}/users`, userRoutes);
+app.use(`${API_PREFIX}/users`, profilesRoutes);
+app.use(`${API_PREFIX}/users`, privacyRoutes);
+app.use(`${API_PREFIX}/users`, connectedAccountsRoutes);
+app.use(`${API_PREFIX}/users`, paymentMethodsRoutes);
+app.use(`${API_PREFIX}/users/me/documents`, documentsRoutes);
 
 // Property routes
 app.use(`${API_PREFIX}/properties`, propertyRoutes);
@@ -181,6 +197,12 @@ app.use(`${API_PREFIX}/verification`, verificationRoutes);
 
 // Notification routes
 app.use(`${API_PREFIX}/notifications`, notificationRoutes);
+
+// Cross-domain routers declare their complete path below the API prefix.
+app.use(API_PREFIX, bankingRoutes);
+app.use(API_PREFIX, analyticsRoutes);
+app.use(API_PREFIX, leaseReportsRoutes);
+app.use(API_PREFIX, integrationRoutes);
 
 // ============================================
 // ERROR HANDLING

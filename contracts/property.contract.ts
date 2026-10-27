@@ -22,6 +22,7 @@ import {
     ListingTypeValues,
     PriceUnitValues,
     PropertyStatusValues,
+    PropertyMediaTypeValues,
 } from './enums';
 import type { PropertyType, ListingType, PriceUnit, PropertyStatus, PropertyMediaType } from './enums';
 import {
@@ -550,9 +551,9 @@ export const registerPropertyPaths = (registry: OpenAPIRegistry): void => {
 
     registry.registerPath({
         method: 'post',
-        path: '/properties/{id}/images',
+        path: '/properties/{id}/media',
         tags: [TAG],
-        summary: 'Upload up to 10 images (multipart/form-data, field name `images`).',
+        summary: 'Upload one property media file with metadata.',
         security: requireBearerAuth,
         request: {
             params: z.object({ id: z.string().uuid() }),
@@ -560,30 +561,28 @@ export const registerPropertyPaths = (registry: OpenAPIRegistry): void => {
                 content: {
                     'multipart/form-data': {
                         schema: z.object({
-                            images: z.array(z.string()).describe('Image binaries (binary format)'),
+                            file: z.string().describe('Media binary'),
+                            type: z.enum(PropertyMediaTypeValues),
+                            caption: z.string().max(255).optional(),
+                            isPrimary: z.coerce.boolean().optional(),
                         }),
                     },
                 },
             },
         },
         responses: {
-            200: successResponse(
-                'Images attached',
-                z.object({
-                    media: z.array(z.object({ id: z.string().uuid(), url: z.string().url() })),
-                })
-            ),
+            200: successResponse('Media attached', wirePropertyMediaSchema),
             ...STANDARD_ERROR_RESPONSES,
         },
     });
 
     registry.registerPath({
         method: 'delete',
-        path: '/properties/{id}/images/{imageId}',
+        path: '/properties/{id}/media/{mediaId}',
         tags: [TAG],
-        summary: 'Remove a single image from a property.',
+        summary: 'Remove a single media item from a property.',
         security: requireBearerAuth,
-        request: { params: z.object({ id: z.string().uuid(), imageId: z.string().uuid() }) },
+        request: { params: z.object({ id: z.string().uuid(), mediaId: z.string().uuid() }) },
         responses: {
             200: successResponse('Image removed', z.object({ message: z.string() })),
             ...STANDARD_ERROR_RESPONSES,

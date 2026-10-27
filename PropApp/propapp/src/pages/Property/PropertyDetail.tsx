@@ -551,11 +551,13 @@ export default function PropertyDetail() {
                 isOpen={showContactModal}
                 onClose={() => setShowContactModal(false)}
                 agent={{
+                    id: property.owner.id,
                     name: [property.owner?.firstName, property.owner?.lastName].filter(Boolean).join(' ') || 'Property Agent',
                     title: 'Property Owner',
                     image: property.owner?.avatarUrl || 'https://placehold.co/64x64?text=Agent',
                 }}
                 property={{
+                    id: property.id,
                     name: property.name,
                     address: fullAddress,
                 }}

@@ -1,9 +1,9 @@
-import { comply } from '@complyflow/sdk';
 import type {
     DataAccessInput,
     AccessControlInput,
     DataFlowInput,
-} from '@complyflow/shared';
+} from './compliance.types';
+import { complianceAdapter } from './compliance.adapter';
 import { isComplyEnabled } from './comply.bootstrap';
 import { logger } from '../utils/logger';
 
@@ -19,7 +19,7 @@ export const safeEmit = {
     dataAccess(input: DataAccessInput): void {
         if (!isComplyEnabled()) return;
         try {
-            comply.dataAccess(input);
+            complianceAdapter.dataAccess(input);
         } catch (err) {
             logger.debug('safeEmit.dataAccess swallowed error', { error: err });
         }
@@ -28,7 +28,7 @@ export const safeEmit = {
     accessControl(input: AccessControlInput): void {
         if (!isComplyEnabled()) return;
         try {
-            comply.accessControl(input);
+            complianceAdapter.accessControl(input);
         } catch (err) {
             logger.debug('safeEmit.accessControl swallowed error', { error: err });
         }
@@ -37,7 +37,7 @@ export const safeEmit = {
     dataFlow(input: DataFlowInput): void {
         if (!isComplyEnabled()) return;
         try {
-            comply.dataFlow(input);
+            complianceAdapter.dataFlow(input);
         } catch (err) {
             logger.debug('safeEmit.dataFlow swallowed error', { error: err });
         }

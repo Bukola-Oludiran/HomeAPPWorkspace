@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import ModalPortal from './ModalPortal';
+import { tenantService } from '../lib/api/services/tenantService';
 
 interface WithdrawApplicationModalProps {
     isOpen: boolean;
     onClose: () => void;
     onConfirm?: () => void;
     propertyName?: string;
+    applicationId?: string;
 }
 
 export default function WithdrawApplicationModal({
@@ -13,18 +15,26 @@ export default function WithdrawApplicationModal({
     onClose,
     onConfirm,
     propertyName = '1243 Oakwood Ave'
+    , applicationId
 }: WithdrawApplicationModalProps) {
     const [isWithdrawing, setIsWithdrawing] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     if (!isOpen) return null;
 
-    const handleWithdraw = () => {
+    const handleWithdraw = async () => {
         setIsWithdrawing(true);
-        setTimeout(() => {
+        setError(null);
+        try {
+            if (!applicationId) throw new Error('Application details are unavailable.');
+            await tenantService.withdrawApplication(applicationId);
             onConfirm?.();
-            setIsWithdrawing(false);
             onClose();
-        }, 1000);
+        } catch (cause) {
+            setError(cause instanceof Error ? cause.message : 'Unable to withdraw the application.');
+        } finally {
+            setIsWithdrawing(false);
+        }
     };
 
     return (
@@ -58,6 +68,7 @@ export default function WithdrawApplicationModal({
                             and will remove you from consideration for this property.
                         </p>
 
+                        {error && <p role="alert" className="mb-4 text-sm text-red-600">{error}</p>}
                         {/* Actions */}
                         <div className="flex gap-3">
                             <button

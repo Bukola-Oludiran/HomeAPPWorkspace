@@ -207,6 +207,13 @@ export default function LandlordApplicantDetail() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
+    const rejectApplicant = async () => {
+        if (!id) return;
+        await landlordService.rejectApplicant(id, 'Application did not meet the current property requirements.');
+        setApplicantData(current => ({ ...current, status: 'Rejected', statusColor: 'bg-red-100 text-red-800' }));
+        setShowRejectModal(false);
+    };
+
     // Fetch applicant details
     useEffect(() => {
         async function fetchApplicant() {
@@ -270,7 +277,7 @@ export default function LandlordApplicantDetail() {
             <ConfirmationModal
                 isOpen={showRejectModal}
                 onClose={() => setShowRejectModal(false)}
-                onConfirm={() => console.log('Applicant rejected')}
+                onConfirm={rejectApplicant}
                 title="Reject Application?"
                 description={`Are you sure you want to reject ${applicantData.name}'s application? They will be notified and removed from consideration for this property.`}
                 confirmText="Reject Application"

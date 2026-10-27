@@ -63,6 +63,12 @@ export class UserNotFoundError extends AppError {
     }
 }
 
+export class NotFoundError extends AppError {
+    constructor(message: string = 'Resource not found') {
+        super(message, 'NOT_FOUND', 404);
+    }
+}
+
 export class EmailExistsError extends AppError {
     constructor(message: string = 'Email already exists') {
         super(message, 'USER_002', 409);

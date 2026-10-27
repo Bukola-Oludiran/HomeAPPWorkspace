@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useEffect } from 'react';
+import { notificationService } from '../lib/api/services/notificationService';
 
 interface NotificationPreferencesModalProps {
     isOpen: boolean;
@@ -66,6 +68,20 @@ export default function NotificationPreferencesModal({ isOpen, onClose }: Notifi
 
     const [saving, setSaving] = useState(false);
     const [saved, setSaved] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (!isOpen) return;
+        notificationService.getPreferences().then(response => {
+            const preferences = response.data;
+            setCategories(current => current.map(category => ({
+                ...category,
+                email: preferences.email && (category.id === 'marketing' ? preferences.types.marketing : true),
+                push: preferences.push,
+                sms: preferences.sms,
+            })));
+        }).catch(() => setError('Unable to load notification preferences.'));
+    }, [isOpen]);
 
     const togglePreference = (categoryId: string, type: 'email' | 'push' | 'sms') => {
         setCategories(prev => prev.map(cat =>
@@ -77,13 +93,25 @@ export default function NotificationPreferencesModal({ isOpen, onClose }: Notifi
 
     const handleSave = async () => {
         setSaving(true);
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        setSaving(false);
-        setSaved(true);
-        setTimeout(() => {
-            setSaved(false);
+        setError(null);
+        try {
+            await notificationService.updatePreferences({
+                email: categories.some(category => category.email),
+                push: categories.some(category => category.push),
+                sms: categories.some(category => category.sms),
+                types: {
+                    payments: categories.find(category => category.id === 'payments')?.email ?? false,
+                    messages: categories.find(category => category.id === 'messages')?.email ?? false,
+                    marketing: categories.find(category => category.id === 'marketing')?.email ?? false,
+                },
+            });
+            setSaved(true);
             onClose();
-        }, 1500);
+        } catch {
+            setError('Unable to save notification preferences.');
+        } finally {
+            setSaving(false);
+        }
     };
 
     if (!isOpen) return null;
@@ -116,6 +144,7 @@ export default function NotificationPreferencesModal({ isOpen, onClose }: Notifi
 
                 {/* Content */}
                 <div className="p-6 overflow-y-auto flex-1">
+                    {error && <p role="alert" className="mb-4 text-sm text-red-600">{error}</p>}
                     {/* Channel Headers */}
                     <div className="flex items-center justify-end gap-6 mb-4 text-xs font-semibold text-slate-500 uppercase tracking-wide pr-2">
                         <span className="w-12 text-center">Email</span>

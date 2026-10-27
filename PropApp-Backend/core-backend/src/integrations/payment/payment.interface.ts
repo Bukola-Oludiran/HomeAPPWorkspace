@@ -92,6 +92,15 @@ export interface WebhookEvent {
     data: Record<string, unknown>;
 }
 
+export interface ProviderBank { code: string; name: string; slug: string; country?: string }
+export interface ResolveBankAccountResult {
+    success: boolean;
+    accountNumber: string;
+    accountName: string;
+    bankCode: string;
+    bankName?: string;
+}
+
 // ============================================
 // PROVIDER INTERFACE
 // ============================================
@@ -115,4 +124,6 @@ export interface PaymentProvider {
     // Webhooks
     validateWebhook(payload: unknown, signature: string): boolean;
     parseWebhookEvent(payload: unknown): WebhookEvent;
+    listBanks?(country: string): Promise<ProviderBank[]>;
+    resolveBankAccount?(params: { bankCode: string; accountNumber: string }): Promise<ResolveBankAccountResult>;
 }

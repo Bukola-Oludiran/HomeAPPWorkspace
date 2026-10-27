@@ -61,7 +61,7 @@ class AgentService {
      * GET /api/v1/agent/jobs
      */
     async getAvailableJobs(agentId: string, query: JobQueryDto): Promise<{
-        jobs: JobSummary[];
+        jobs: Record<string, unknown>[];
         total: number;
         page: number;
         limit: number;
@@ -94,19 +94,15 @@ class AgentService {
         return {
             jobs: jobs.map((j: any) => ({
                 id: j.id,
-                title: j.title,
-                category: j.category,
+                type: j.title || j.type,
+                property: j.property?.name || 'Unassigned property',
+                address: [j.property?.addressStreet, j.property?.addressCity].filter(Boolean).join(', '),
+                date: j.scheduledDate,
+                time: j.scheduledTime || '',
+                clientName: [j.requester?.firstName, j.requester?.lastName].filter(Boolean).join(' '),
+                clientPhone: j.requester?.phone || undefined,
                 payout: Number(j.payout || 0),
-                scheduledDate: j.scheduledDate,
-                scheduledTime: j.scheduledTime,
-                urgency: j.urgency,
                 status: j.status,
-                property: j.property ? {
-                    id: j.property.id,
-                    name: j.property.name,
-                    city: j.property.addressCity,
-                } : null,
-                createdAt: j.createdAt,
             })),
             total,
             page: query.page,
@@ -292,7 +288,7 @@ class AgentService {
      */
     async getSchedule(agentId: string, query: ScheduleQueryDto): Promise<{
         jobs: JobSummary[];
-        events: Record<string, unknown>[];
+        availability: Record<string, unknown>[];
     }> {
         const startDate = query.startDate ? new Date(query.startDate) : new Date();
         const endDate = query.endDate
@@ -309,13 +305,16 @@ class AgentService {
             orderBy: { scheduledDate: 'asc' },
             include: {
                 property: {
-                    select: { id: true, name: true, addressCity: true },
+                    select: { id: true, name: true, addressStreet: true, addressCity: true },
                 },
+                requester: { select: { firstName: true, lastName: true, phone: true } },
             },
         });
 
-        // TODO: Get personal calendar events from a AgentSchedule table
-        const events: Record<string, unknown>[] = [];
+        const availability = await prisma.agentAvailability.findMany({
+            where: { agentId, date: { gte: startDate, lte: endDate } },
+            orderBy: [{ date: 'asc' }, { startTime: 'asc' }],
+        });
 
         return {
             jobs: jobs.map((j: any) => ({
@@ -334,7 +333,7 @@ class AgentService {
                 } : null,
                 createdAt: j.createdAt,
             })),
-            events,
+            availability,
         };
     }
 

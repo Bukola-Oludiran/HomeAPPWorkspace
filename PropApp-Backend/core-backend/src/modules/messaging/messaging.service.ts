@@ -373,6 +373,11 @@ class MessagingService {
                     senderId: creatorId,
                     content: data.initialMessage,
                     read: false,
+                    attachments: data.callbackRequest?.requested ? [{
+                        type: 'callback_request',
+                        phone: data.callbackRequest.phone,
+                        preferredTime: data.callbackRequest.preferredTime,
+                    }] : undefined,
                 },
             });
         }

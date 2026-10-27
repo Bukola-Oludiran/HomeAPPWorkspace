@@ -464,6 +464,7 @@ export default function AgentPublicProfile() {
                 isOpen={showContactModal}
                 onClose={() => setShowContactModal(false)}
                 agent={{
+                    id: agent.id,
                     name: agent.name,
                     title: agent.title,
                     image: agent.image,
@@ -475,6 +476,7 @@ export default function AgentPublicProfile() {
                 isOpen={showReviewModal}
                 onClose={() => setShowReviewModal(false)}
                 recipient={{
+                    id: agent.id,
                     name: agent.name,
                     type: 'agent',
                     image: agent.image,

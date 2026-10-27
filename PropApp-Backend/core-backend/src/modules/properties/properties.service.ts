@@ -4,7 +4,7 @@
  * Per PRD Section 8
  */
 
-import { Prisma } from '@prisma/client';
+import { MediaType, Prisma } from '@prisma/client';
 import { prisma } from '../../config/database';
 import { logger } from '../../common/utils/logger';
 import {
@@ -509,6 +509,32 @@ class PropertyService {
         logger.info(`${imageUrls.length} images added to property: ${propertyId}`);
 
         return { media: createdImages };
+    }
+
+    async addMedia(
+        propertyId: string,
+        ownerId: string,
+        input: { url: string; type: MediaType; caption?: string; isPrimary?: boolean }
+    ) {
+        await this.verifyOwnership(propertyId, ownerId);
+        const [lastMedia, count] = await Promise.all([
+            prisma.propertyMedia.findFirst({ where: { propertyId }, orderBy: { orderIndex: 'desc' } }),
+            prisma.propertyMedia.count({ where: { propertyId } }),
+        ]);
+        const shouldBePrimary = input.isPrimary ?? count === 0;
+        return prisma.$transaction(async tx => {
+            if (shouldBePrimary) await tx.propertyMedia.updateMany({ where: { propertyId }, data: { isPrimary: false } });
+            return tx.propertyMedia.create({
+                data: {
+                    propertyId,
+                    url: input.url,
+                    type: input.type,
+                    caption: input.caption,
+                    isPrimary: shouldBePrimary,
+                    orderIndex: (lastMedia?.orderIndex ?? -1) + 1,
+                },
+            });
+        });
     }
 
     /**

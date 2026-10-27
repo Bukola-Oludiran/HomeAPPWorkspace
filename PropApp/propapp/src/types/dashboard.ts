@@ -195,6 +195,21 @@ export interface AgentScheduleItem {
     clientName: string;
     clientPhone?: string;
     status: string;
+    payout?: number;
+}
+
+export interface AgentAvailability {
+    id: string;
+    date: string;
+    startTime: string;
+    endTime: string;
+    recurring: boolean;
+    recurringDays: string[];
+}
+
+export interface AgentScheduleResponse {
+    jobs: AgentScheduleItem[];
+    availability: AgentAvailability[];
 }
 
 // ==========================================
@@ -304,6 +319,7 @@ export interface StartConversationRequest {
     propertyId?: string;
     recipientId: string;
     initialMessage: string;
+    callbackRequest?: { requested: boolean; phone?: string; preferredTime?: string };
 }
 
 export interface SendMessageRequest {

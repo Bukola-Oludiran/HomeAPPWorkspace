@@ -4,7 +4,7 @@ import ModalPortal from './ModalPortal';
 interface ConfirmationModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onConfirm?: () => void;
+    onConfirm?: () => void | Promise<void>;
     title: string;
     description: string;
     confirmText?: string;
@@ -28,13 +28,14 @@ export default function ConfirmationModal({
 
     if (!isOpen) return null;
 
-    const handleConfirm = () => {
+    const handleConfirm = async () => {
         setIsProcessing(true);
-        setTimeout(() => {
-            onConfirm?.();
-            setIsProcessing(false);
+        try {
+            await onConfirm?.();
             onClose();
-        }, 800);
+        } finally {
+            setIsProcessing(false);
+        }
     };
 
     const iconMap = {

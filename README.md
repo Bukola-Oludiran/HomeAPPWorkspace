@@ -38,44 +38,37 @@ HomeAPPWorkspace/
 
 ## Local development
 
-Each service manages its own dependencies and environment configuration. Start by copying the
-tracked example environment files; never commit real credentials.
-
-Frontend:
+Node 20+ and Docker are required. From a fresh checkout, copy the tracked examples and use the
+same local JWT secret and database URL for both services:
 
 ```bash
-cd PropApp/propapp
-npm install
+cp PropApp-Backend/core-backend/.env.example PropApp-Backend/core-backend/.env
+cp ai-service/.env.example ai-service/.env
+cp PropApp/propapp/.env.example PropApp/propapp/.env
+```
+
+For the local Docker database, set `DATABASE_URL` and `DIRECT_URL` in the backend to
+`postgresql://homeai:homeai_dev@localhost:5433/homeai_dev?schema=public`. Set the AI service
+`DATABASE_URL` to the same value, and set both services' `JWT_SECRET` to the same 32+ character
+value. Then run:
+
+```bash
+npm run setup
 npm run dev
 ```
 
-Core backend:
+The frontend is served at `http://localhost:5173`, the API at `http://localhost:3000/api/v1`, and
+the AI service at `http://localhost:4000`. Useful verification commands are `npm run build`,
+`npm run lint`, `npm test`, `npm run test:integration`, and `npm run openapi`.
 
-```bash
-cd PropApp-Backend/core-backend
-cp .env.example .env
-npm install
-npm run prisma:generate
-npm run dev
-```
-
-AI service:
-
-```bash
-cd ai-service
-cp .env.example .env
-npm install
-npm run prisma:generate
-npm run dev
-```
-
-Some integrations require local infrastructure and service credentials described by the example
-environment files.
+Email, payments, KYC, storage, push, and LLM credentials are optional in local development. Their
+deterministic development adapters remain behind the same service interfaces. ComplyFlow telemetry
+is also optional and defaults to a no-op internal adapter; no sibling repository is required.
 
 ## Status
 
-Rebuilding. The repository is useful as an architecture and product case study, but parts of the
-runtime may require repair or integration work before the complete application can be served.
+The workspace includes a documented local integration workflow and additive database migrations.
+Production infrastructure and production provider credentials remain outside this MVP.
 
 ## Source access
 

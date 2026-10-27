@@ -5,14 +5,17 @@ import ConfirmationModal from '../../../components/ConfirmationModal';
 import { useAuth } from '../../../contexts/AuthContext';
 import { userService } from '../../../lib/api/services/userService';
 import { agentService } from '../../../lib/api/services/agentService';
+import { integrationService } from '../../../lib/api/services/integrationService';
 import type { AgentProfile as AgentProfileType, AgentCertification } from '../../../types/auth';
 import type { AgentEarnings } from '../../../types/dashboard';
 
-// Mock reviews data (not available from API yet)
-const mockReviews = [
-    { id: 1, stars: 5, text: '"Very professional service. Highly recommended!"', author: 'Client', date: 'Recently' },
-    { id: 2, stars: 4.5, text: '"Great service overall, did a fantastic job."', author: 'Client', date: 'Recently' },
-];
+interface ReviewItem {
+    id: string;
+    rating: number;
+    body?: string;
+    createdAt: string;
+    author: { firstName: string; lastName: string };
+}
 
 export default function AgentProfile() {
     const { user } = useAuth();
@@ -21,6 +24,9 @@ export default function AgentProfile() {
     const [agentProfile, setAgentProfile] = useState<AgentProfileType | null>(null);
     const [earnings, setEarnings] = useState<AgentEarnings | null>(null);
     const [certifications, setCertifications] = useState<AgentCertification[]>([]);
+    const [reviews, setReviews] = useState<ReviewItem[]>([]);
+    const [rating, setRating] = useState(0);
+    const [jobsDone, setJobsDone] = useState(0);
 
     const [formData, setFormData] = useState({
         name: '',
@@ -40,12 +46,24 @@ export default function AgentProfile() {
                 if (profileResponse.data) {
                     setAgentProfile(profileResponse.data);
                     setLocations(profileResponse.data.serviceAreas || []);
+                    setCertifications((profileResponse.data as AgentProfileType & { certifications?: AgentCertification[] }).certifications || []);
                 }
 
                 // Load earnings for wallet balance
                 const earningsResponse = await agentService.getEarnings();
                 if (earningsResponse.data) {
                     setEarnings(earningsResponse.data);
+                }
+
+                if (user?.id) {
+                    const [reviewResponse, jobsResponse] = await Promise.all([
+                        integrationService.getReviews(user.id),
+                        agentService.getAcceptedJobs({ status: 'COMPLETED' }),
+                    ]);
+                    const reviewData = reviewResponse.data as { reviews?: ReviewItem[]; averageRating?: number };
+                    setReviews(reviewData.reviews || []);
+                    setRating(reviewData.averageRating || 0);
+                    setJobsDone(jobsResponse.data?.length || 0);
                 }
             } catch (error) {
                 console.error('Failed to load agent profile:', error);
@@ -55,7 +73,7 @@ export default function AgentProfile() {
         }
 
         loadProfileData();
-    }, []);
+    }, [user?.id]);
 
     // Initialize form with user data
     useEffect(() => {
@@ -92,9 +110,6 @@ export default function AgentProfile() {
     // Check verification status
     const isVerified = user?.verificationLevel && user.verificationLevel !== 'BRONZE';
 
-    // Calculate stats (placeholder - these would come from a stats endpoint)
-    const rating = 4.9; // Would come from reviews/stats API
-    const jobsDone = 0; // Would come from completed jobs count
     const [newLocation, setNewLocation] = useState('');
     const [locationToRemove, setLocationToRemove] = useState<string | null>(null);
     const [certToDelete, setCertToDelete] = useState<{ id: string; name: string } | null>(null);
@@ -114,6 +129,17 @@ export default function AgentProfile() {
             setNewLocation('');
         }
     };
+
+    const handleDeleteCertification = async () => {
+        if (!certToDelete) return;
+        await userService.deleteAgentCertification(certToDelete.id);
+        setCertifications(current => current.filter(cert => cert.id !== certToDelete.id));
+        setCertToDelete(null);
+    };
+
+    if (loading) {
+        return <PageContainer maxWidth="lg"><p className="py-16 text-center text-slate-500">Loading profile...</p></PageContainer>;
+    }
 
     return (
         <PageContainer maxWidth="lg">
@@ -398,23 +424,24 @@ export default function AgentProfile() {
                             </div>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {mockReviews.map((review) => (
+                            {reviews.length === 0 && <p className="text-sm text-slate-500">No reviews yet.</p>}
+                            {reviews.map((review) => (
                                 <div key={review.id} className="p-4 rounded-xl border border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/30">
                                     <div className="flex items-center gap-1 mb-2 text-yellow-500">
                                         {[1, 2, 3, 4, 5].map((star) => (
                                             <span
                                                 key={star}
                                                 className="material-symbols-outlined text-[16px]"
-                                                style={{ fontVariationSettings: star <= Math.floor(review.stars) ? "'FILL' 1" : "'FILL' 0" }}
+                                                style={{ fontVariationSettings: star <= Math.floor(review.rating) ? "'FILL' 1" : "'FILL' 0" }}
                                             >
-                                                {star <= review.stars ? 'star' : star - 0.5 <= review.stars ? 'star_half' : 'star'}
+                                                {star <= review.rating ? 'star' : 'star'}
                                             </span>
                                         ))}
                                     </div>
-                                    <p className="text-sm text-slate-700 dark:text-slate-300 italic mb-3">{review.text}</p>
+                                    <p className="text-sm text-slate-700 dark:text-slate-300 italic mb-3">{review.body || 'Rating submitted without a comment.'}</p>
                                     <div className="flex items-center justify-between text-xs text-slate-400">
-                                        <span className="font-bold">{review.author}</span>
-                                        <span>{review.date}</span>
+                                        <span className="font-bold">{review.author.firstName} {review.author.lastName}</span>
+                                        <span>{new Date(review.createdAt).toLocaleDateString()}</span>
                                     </div>
                                 </div>
                             ))}
@@ -430,7 +457,7 @@ export default function AgentProfile() {
             <ConfirmationModal
                 isOpen={locationToRemove !== null}
                 onClose={() => setLocationToRemove(null)}
-                onConfirm={() => locationToRemove && handleRemoveLocation(locationToRemove)}
+                onConfirm={() => { if (locationToRemove) handleRemoveLocation(locationToRemove); }}
                 title="Remove Service Area?"
                 description={`Are you sure you want to remove "${locationToRemove}" from your service areas? You can add it back later.`}
                 confirmText="Remove"
@@ -443,10 +470,7 @@ export default function AgentProfile() {
             <ConfirmationModal
                 isOpen={certToDelete !== null}
                 onClose={() => setCertToDelete(null)}
-                onConfirm={() => {
-                    console.log('Deleting certification:', certToDelete?.id);
-                    setCertToDelete(null);
-                }}
+                onConfirm={handleDeleteCertification}
                 title="Delete Certification?"
                 description={`Are you sure you want to delete "${certToDelete?.name}"? This will remove it from your public profile.`}
                 confirmText="Delete"

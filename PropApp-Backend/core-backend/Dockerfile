@@ -3,22 +3,20 @@ FROM node:20-alpine
 # Install OpenSSL for Prisma
 RUN apk add --no-cache openssl
 
-WORKDIR /app
-
-# Copy package files
-COPY package*.json ./
+WORKDIR /workspace
+COPY contracts ./contracts
+COPY proto ./proto
+COPY PropApp-Backend/core-backend ./PropApp-Backend/core-backend
+WORKDIR /workspace/PropApp-Backend/core-backend
 
 # Install dependencies
 RUN npm install
-
-# Copy source code
-COPY . .
 
 # Generate Prisma client
 RUN npx prisma generate
 
 # Build the application
-RUN npx tsc -p tsconfig.build.json
+RUN npm run build
 
 # Expose port
 EXPOSE 3000

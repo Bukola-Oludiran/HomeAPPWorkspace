@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import ModalPortal from './ModalPortal';
+import { maintenanceService } from '../lib/api/services/maintenanceService';
+import { leaseService } from '../lib/api/services/leaseService';
 
 interface MaintenanceRequestModalProps {
     isOpen: boolean;
     onClose: () => void;
     onSubmit?: (data: MaintenanceRequestData) => void;
+    propertyId?: string;
     propertyManager?: {
         name: string;
     };
@@ -20,22 +23,40 @@ export default function MaintenanceRequestModal({
     isOpen,
     onClose,
     onSubmit,
+    propertyId,
     propertyManager = { name: 'Robert Johnson' }
 }: MaintenanceRequestModalProps) {
     const [category, setCategory] = useState('Plumbing');
     const [urgency, setUrgency] = useState<'low' | 'medium' | 'high'>('medium');
     const [description, setDescription] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     if (!isOpen) return null;
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         setIsSubmitting(true);
-        onSubmit?.({ category, urgency, description });
-        setTimeout(() => {
-            setIsSubmitting(false);
+        setError(null);
+        try {
+            let targetPropertyId = propertyId;
+            if (!targetPropertyId) {
+                const leases = await leaseService.getLeases({ status: 'ACTIVE', limit: 1 });
+                targetPropertyId = leases.data?.[0]?.propertyId;
+            }
+            if (!targetPropertyId) throw new Error('No active property is available for this request.');
+            await maintenanceService.createMaintenanceRequest({
+                propertyId: targetPropertyId,
+                category: (category === 'General' ? 'OTHER' : category.toUpperCase()) as 'PLUMBING' | 'ELECTRICAL' | 'APPLIANCE' | 'HVAC' | 'OTHER',
+                description,
+                priority: urgency.toUpperCase() as 'LOW' | 'MEDIUM' | 'HIGH',
+            });
+            onSubmit?.({ category, urgency, description });
             onClose();
-        }, 1000);
+        } catch (cause) {
+            setError(cause instanceof Error ? cause.message : 'Unable to submit the request.');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -67,6 +88,7 @@ export default function MaintenanceRequestModal({
 
                     {/* Content */}
                     <div className="flex-1 p-5 flex flex-col gap-5 overflow-y-auto">
+                        {error && <p role="alert" className="text-sm text-red-600">{error}</p>}
                         {/* AI Message */}
                         <div className="bg-blue-50 dark:bg-blue-900/20 p-3.5 rounded-2xl rounded-tl-sm flex gap-3 items-start border border-blue-100 dark:border-blue-800 shadow-sm">
                             <span className="material-symbols-outlined text-[#137fec] text-xl mt-0.5">smart_toy</span>

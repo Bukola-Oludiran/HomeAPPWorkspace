@@ -1,5 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ModalPortal from './ModalPortal';
+import { landlordService } from '../lib/api/services/landlordService';
+import { integrationService } from '../lib/api/services/integrationService';
+import type { PropertySummary } from '../types/property';
 
 interface NewApplicantModalProps {
     isOpen: boolean;
@@ -8,7 +11,7 @@ interface NewApplicantModalProps {
 }
 
 interface Property {
-    id: number;
+    id: string;
     name: string;
     address: string;
     icon: string;
@@ -20,16 +23,12 @@ interface Property {
     statusLabel: string;
 }
 
-const mockProperties: Property[] = [
-    { id: 1, name: '5500 Highland Park', address: 'Chicago, IL 60615', icon: 'apartment', beds: 3, baths: '2', sqft: '1,450', rent: '$2,800', status: 'vacant', statusLabel: 'Vacant' },
-    { id: 2, name: '1243 Oakwood Avenue', address: 'Chicago, IL 60615', icon: 'house', beds: 2, baths: '1', sqft: '950', rent: '$1,950', status: 'available', statusLabel: 'Available Oct 1' },
-    { id: 3, name: 'Downtown Loft', address: 'Chicago, IL 60601', icon: 'domain', beds: 1, baths: '1', sqft: '800', rent: '$2,200', status: 'occupied', statusLabel: 'Occupied' },
-    { id: 4, name: '778 Sunnyvale Dr', address: 'Evanston, IL 60201', icon: 'cottage', beds: 4, baths: '2.5', sqft: '2,100', rent: '$3,500', status: 'vacant', statusLabel: 'Vacant' },
-];
-
 export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewApplicantModalProps) {
     const [step, setStep] = useState(1);
-    const [selectedProperty, setSelectedProperty] = useState<number | null>(null);
+    const [selectedProperty, setSelectedProperty] = useState<string | null>(null);
+    const [properties, setProperties] = useState<Property[]>([]);
+    const [submitting, setSubmitting] = useState(false);
+    const [error, setError] = useState<string | null>(null);
     const [formData, setFormData] = useState({
         fullName: '',
         dob: '',
@@ -44,6 +43,24 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
         jobTitle: '',
     });
 
+    useEffect(() => {
+        if (!isOpen) return;
+        landlordService.getProperties().then(response => {
+            setProperties((response.data as PropertySummary[]).map(property => ({
+                id: property.id,
+                name: property.name,
+                address: [property.address.street, property.address.city, property.address.state].filter(Boolean).join(', '),
+                icon: 'apartment',
+                beds: property.bedrooms ?? 0,
+                baths: String(property.bathrooms ?? 0),
+                sqft: String(property.squareFeet ?? 0),
+                rent: new Intl.NumberFormat(undefined, { style: 'currency', currency: property.priceUnit === 'PER_MONTH' ? 'CAD' : 'NGN' }).format(property.price),
+                status: property.status === 'ACTIVE' ? 'available' : property.status === 'RENTED' ? 'occupied' : 'vacant',
+                statusLabel: property.status,
+            })));
+        }).catch(() => setError('Unable to load properties.'));
+    }, [isOpen]);
+
     if (!isOpen) return null;
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -51,12 +68,27 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleNextStep = () => {
+    const handleNextStep = async () => {
         if (step === 1) {
             setStep(2);
         } else {
-            onComplete?.();
-            onClose();
+            if (!selectedProperty) return;
+            setSubmitting(true);
+            setError(null);
+            try {
+                await integrationService.createInvitation({
+                    propertyId: selectedProperty,
+                    email: formData.email,
+                    personalInfo: { fullName: formData.fullName, dob: formData.dob, phone: formData.phone, address: formData.address, city: formData.city, state: formData.state, zip: formData.zip },
+                    employmentInfo: { employer: formData.employer, annualIncome: formData.annualIncome, jobTitle: formData.jobTitle },
+                });
+                onComplete?.();
+                onClose();
+            } catch {
+                setError('Unable to send the applicant invitation.');
+            } finally {
+                setSubmitting(false);
+            }
         }
     };
 
@@ -103,6 +135,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
 
                     {/* Content */}
                     <div className="flex-1 overflow-y-auto p-6 md:p-8" style={{ scrollbarWidth: 'thin' }}>
+                        {error && <p role="alert" className="mb-4 text-sm text-red-600">{error}</p>}
                         {step === 1 ? (
                             <form className="space-y-8">
                                 {/* Personal Information */}
@@ -338,7 +371,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
 
                                 {/* Property Grid */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    {mockProperties.map((property) => (
+                                    {properties.map((property) => (
                                         <label key={property.id} className="cursor-pointer relative group">
                                             <input
                                                 className="peer sr-only"
@@ -414,10 +447,10 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                 </button>
                                 <button
                                     onClick={handleNextStep}
-                                    disabled={!selectedProperty}
+                                    disabled={!selectedProperty || submitting}
                                     className="px-6 py-2.5 rounded-lg bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-sm shadow-lg shadow-[#137fec]/20 hover:shadow-[#137fec]/30 transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                    Confirm Association <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                                    {submitting ? 'Sending Invitation…' : 'Send Invitation'} <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
                                 </button>
                             </>
                         )}

@@ -1,4 +1,4 @@
-import { comply } from '@complyflow/sdk';
+import { complianceAdapter } from './compliance.adapter';
 import { env } from '../../config/env';
 import { logger } from '../utils/logger';
 
@@ -22,7 +22,7 @@ export const initComply = (): void => {
     }
 
     try {
-        comply.init({
+        complianceAdapter.init({
             apiKey: env.COMPLY_FLOW_API_KEY,
             tenantId: env.COMPLY_FLOW_TENANT_ID,
             endpoint: env.COMPLY_FLOW_ENDPOINT,
@@ -46,7 +46,7 @@ export const shutdownComply = async (timeoutMs = 3000): Promise<void> => {
     if (!initialized) return;
     try {
         await Promise.race([
-            comply.shutdown(),
+            complianceAdapter.shutdown(),
             new Promise<void>(resolve => setTimeout(resolve, timeoutMs)),
         ]);
     } catch (err) {

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { integrationService } from '../lib/api/services/integrationService';
 
 interface ExportModalProps {
     isOpen: boolean;
@@ -16,6 +17,7 @@ export default function ExportModal({ isOpen, onClose, dataType = 'data', onExpo
     const [preset, setPreset] = useState<'all' | 'month' | 'quarter' | 'year' | 'custom'>('all');
     const [exporting, setExporting] = useState(false);
     const [exported, setExported] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const handlePresetChange = (newPreset: typeof preset) => {
         setPreset(newPreset);
@@ -55,19 +57,22 @@ export default function ExportModal({ isOpen, onClose, dataType = 'data', onExpo
 
     const handleExport = async () => {
         setExporting(true);
-        await new Promise(resolve => setTimeout(resolve, 2000));
-
-        if (onExport) {
-            onExport(format, dateRange);
-        }
-
-        setExporting(false);
-        setExported(true);
-
-        setTimeout(() => {
-            setExported(false);
+        setError(null);
+        try {
+            if (onExport) {
+                await onExport(format, dateRange);
+            } else {
+                const normalized = dataType.toLowerCase();
+                const dataset = normalized.includes('application') ? 'applications' : normalized.includes('job') ? 'jobs' : 'transactions';
+                await integrationService.exportData({ dataset, format, start: dateRange.start || undefined, end: dateRange.end || undefined });
+            }
+            setExported(true);
             onClose();
-        }, 2000);
+        } catch {
+            setError('Export failed. Please try again.');
+        } finally {
+            setExporting(false);
+        }
     };
 
     if (!isOpen) return null;
@@ -88,6 +93,7 @@ export default function ExportModal({ isOpen, onClose, dataType = 'data', onExpo
 
             {/* Modal */}
             <div className="relative bg-white dark:bg-[#1a2632] rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 fade-in duration-200">
+                {error && <p role="alert" className="px-6 pt-4 text-sm text-red-600">{error}</p>}
                 {/* Header */}
                 <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
                     <div className="flex items-center gap-3">

@@ -1,14 +1,17 @@
 import { useState } from 'react';
+import { messageService } from '../lib/api/services/messageService';
 
 interface ContactAgentModalProps {
     isOpen: boolean;
     onClose: () => void;
     agent: {
+        id: string;
         name: string;
         image?: string;
         title?: string;
     };
     property?: {
+        id?: string;
         name: string;
         address?: string;
     };
@@ -22,28 +25,25 @@ export default function ContactAgentModal({ isOpen, onClose, agent, property }: 
     const [preferredTime, setPreferredTime] = useState('');
     const [sending, setSending] = useState(false);
     const [sent, setSent] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setSending(true);
-
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1500));
-
-        setSending(false);
-        setSent(true);
-
-        // Auto close after showing success
-        setTimeout(() => {
-            onClose();
-            // Reset form
-            setSubject(property ? `Inquiry about ${property.name}` : '');
-            setMessage('');
-            setRequestCallback(false);
-            setPhone('');
-            setPreferredTime('');
-            setSent(false);
-        }, 2000);
+        setError(null);
+        try {
+            await messageService.startConversation({
+                recipientId: agent.id,
+                propertyId: property?.id,
+                initialMessage: `${subject}\n\n${message}`,
+                callbackRequest: { requested: requestCallback, phone: requestCallback ? phone : undefined, preferredTime: requestCallback ? preferredTime : undefined },
+            });
+            setSent(true);
+        } catch {
+            setError('Unable to send your message. Please try again.');
+        } finally {
+            setSending(false);
+        }
     };
 
     if (!isOpen) return null;
@@ -83,6 +83,7 @@ export default function ContactAgentModal({ isOpen, onClose, agent, property }: 
                 ) : (
                     /* Form */
                     <form onSubmit={handleSubmit} className="p-6">
+                        {error && <p role="alert" className="mb-4 text-sm text-red-600">{error}</p>}
                         {/* Agent Info */}
                         <div className="flex items-center gap-3 mb-6 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
                             <img

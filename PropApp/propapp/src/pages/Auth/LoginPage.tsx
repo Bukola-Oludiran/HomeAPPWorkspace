@@ -38,18 +38,6 @@ export default function LoginPage() {
         }
     };
 
-    const handleGoogleLogin = async () => {
-        // TODO: Implement Google OAuth flow
-        // This would typically open a Google OAuth popup/redirect
-        // and handle the callback with the idToken
-        console.log('Google login not yet implemented');
-    };
-
-    const handleAppleLogin = async () => {
-        // TODO: Implement Apple OAuth flow
-        console.log('Apple login not yet implemented');
-    };
-
     return (
         <div className="w-full max-w-md bg-white/10 dark:bg-[#1a2632]/60 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col items-center">
             <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-2">Welcome Back</h1>
@@ -151,42 +139,6 @@ export default function LoginPage() {
                     )}
                 </button>
             </form>
-
-            {/* Divider */}
-            <div className="relative w-full my-6">
-                <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-white/10 dark:border-slate-600"></div>
-                </div>
-                <div className="relative flex justify-center text-sm">
-                    <span className="px-2 bg-transparent text-slate-300 dark:text-slate-300 text-xs uppercase font-medium tracking-wide">Or continue with</span>
-                </div>
-            </div>
-
-            {/* Social Login Buttons */}
-            <div className="flex gap-4 w-full">
-                <button
-                    type="button"
-                    onClick={handleGoogleLogin}
-                    disabled={isLoading}
-                    className="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-white text-slate-900 hover:bg-slate-50 border border-slate-200 shadow-sm transition-all font-semibold text-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                    <img
-                        alt="Google"
-                        className="w-5 h-5"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMIPoePMDajF4AS4iDsM0Vqp3-4XdvoQ1s2-NVjbLkeQBAGxsjW_P-WB1SG7GgqXB7yRG_PIy9GaVZ00B1kRRzJIOqJPn_hCw8_iFvARH3iksBKtAogs5nPEdaM6btjf-E4G-IeXiK9wPplBA0gNP8FL_GoQ8e6eyktTTQ1Mc-MDfjknZise8fPXmSJDro0KOvfoba_KsUs2RnVZye2Jh49rv9W2C_Z74uNOgpKTuPLb3_VZ9yHnEXJngFtac0BQIN62fv0bFWkAMC"
-                    />
-                    Google
-                </button>
-                <button
-                    type="button"
-                    onClick={handleAppleLogin}
-                    disabled={isLoading}
-                    className="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-black text-white hover:bg-slate-900 border border-slate-800 shadow-sm transition-all font-semibold text-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                    <span className="material-symbols-outlined text-[20px]">ios</span>
-                    Apple
-                </button>
-            </div>
 
             <p className="mt-8 text-sm text-slate-300">
                 Don't have an account?{' '}

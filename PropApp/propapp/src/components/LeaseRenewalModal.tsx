@@ -8,6 +8,7 @@ import DocumentViewerModal from './DocumentViewerModal';
 interface LeaseRenewalModalProps {
     isOpen: boolean;
     onClose: () => void;
+    leaseId?: string;
     property?: {
         address: string;
         unit: string;
@@ -26,6 +27,7 @@ interface LeaseRenewalModalProps {
 export default function LeaseRenewalModal({
     isOpen,
     onClose,
+    leaseId,
     property = { address: '1243 Oakwood Avenue', unit: 'Unit 4B' },
     offer = {
         currentRent: 2400,
@@ -37,7 +39,6 @@ export default function LeaseRenewalModal({
         expiresDate: 'October 15, 2023',
     }
 }: LeaseRenewalModalProps) {
-    const [isSubmitting, setIsSubmitting] = useState(false);
     const [showSignModal, setShowSignModal] = useState(false);
     const [showRejectModal, setShowRejectModal] = useState(false);
     const [showDocumentModal, setShowDocumentModal] = useState(false);
@@ -52,13 +53,8 @@ export default function LeaseRenewalModal({
     };
 
     const handleSignComplete = () => {
-        setIsSubmitting(true);
-        // Simulate API call
-        setTimeout(() => {
-            setIsSubmitting(false);
-            setShowSignModal(false);
-            onClose();
-        }, 1500);
+        setShowSignModal(false);
+        onClose();
     };
 
     return (
@@ -207,20 +203,10 @@ export default function LeaseRenewalModal({
                             </button>
                             <button
                                 onClick={handleAccept}
-                                disabled={isSubmitting}
                                 className="w-full sm:w-auto px-6 py-2.5 bg-[#137fec] hover:bg-[#0e64bd] text-white font-bold text-sm rounded-xl transition-all shadow-lg shadow-[#137fec]/20 flex items-center justify-center gap-2 disabled:opacity-70"
                             >
-                                {isSubmitting ? (
-                                    <>
-                                        <span className="animate-spin material-symbols-outlined text-[18px]">progress_activity</span>
-                                        Processing...
-                                    </>
-                                ) : (
-                                    <>
-                                        <span className="material-symbols-outlined text-[18px]">ink_pen</span>
-                                        Accept & Sign
-                                    </>
-                                )}
+                                <span className="material-symbols-outlined text-[18px]">ink_pen</span>
+                                Accept & Sign
                             </button>
                         </div>
                     </div>
@@ -231,12 +217,14 @@ export default function LeaseRenewalModal({
                     isOpen={showSignModal}
                     onClose={() => setShowSignModal(false)}
                     onSign={handleSignComplete}
+                    leaseId={leaseId}
                 />
 
                 {/* Reject Modal */}
                 <RejectOfferModal
                     isOpen={showRejectModal}
                     onClose={() => setShowRejectModal(false)}
+                    leaseId={leaseId}
                     onConfirm={onClose}
                     property={property}
                 />

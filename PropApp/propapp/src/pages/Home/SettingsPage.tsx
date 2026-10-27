@@ -305,7 +305,7 @@ function ProfileContent() {
             <ConfirmationModal
                 isOpen={showRemovePhotoModal}
                 onClose={() => setShowRemovePhotoModal(false)}
-                onConfirm={() => console.log('Photo removed')}
+                onConfirm={async () => { await userService.removeAvatar(); }}
                 title="Remove Profile Photo?"
                 description="Are you sure you want to remove your profile photo? Your profile will show a default avatar instead."
                 confirmText="Remove Photo"
@@ -392,20 +392,8 @@ function ProfileContent() {
 
 // Login & Security Content
 function SecurityContent() {
-    const [showDeactivateModal, setShowDeactivateModal] = useState(false);
-
     return (
         <>
-            <ConfirmationModal
-                isOpen={showDeactivateModal}
-                onClose={() => setShowDeactivateModal(false)}
-                onConfirm={() => console.log('Account deactivated')}
-                title="Deactivate Account?"
-                description="Are you sure you want to deactivate your account? Your profile and listings will be hidden, but you can reactivate anytime by logging back in."
-                confirmText="Deactivate"
-                icon="block"
-                variant="warning"
-            />
             <div className="p-6 md:p-8 border-b border-slate-100 dark:border-slate-800">
                 <h2 className="text-xl font-bold text-slate-900 dark:text-white">Login & Security</h2>
                 <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Manage your password and security preferences.</p>
@@ -531,21 +519,6 @@ function SecurityContent() {
                     </div>
                 </div>
 
-                <hr className="border-slate-100 dark:border-slate-800" />
-
-                {/* Deactivate Account */}
-                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                    <div>
-                        <h3 className="text-base font-semibold text-slate-900 dark:text-white">Deactivate Account</h3>
-                        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Temporarily disable your account. You can reactivate it anytime.</p>
-                    </div>
-                    <button
-                        onClick={() => setShowDeactivateModal(true)}
-                        className="whitespace-nowrap px-4 py-2 rounded-lg text-sm font-medium text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/10 hover:bg-red-100 dark:hover:bg-red-900/20 border border-red-200 dark:border-red-900/30 transition-colors cursor-pointer"
-                    >
-                        Deactivate Account
-                    </button>
-                </div>
             </div>
             <SettingsFooter />
         </>
@@ -602,7 +575,11 @@ function PrivacyContent() {
             <ConfirmationModal
                 isOpen={showDeleteDataModal}
                 onClose={() => setShowDeleteDataModal(false)}
-                onConfirm={() => console.log('Data deleted')}
+                onConfirm={async () => {
+                    await userService.deleteAccount();
+                    localStorage.clear();
+                    window.location.assign('/');
+                }}
                 title="Delete All Your Data?"
                 description="This action is permanent and cannot be undone. All your personal data, preferences, saved properties, and account history will be permanently deleted."
                 confirmText="Delete All Data"
@@ -1687,4 +1664,3 @@ function AgentProfileContent() {
         </>
     );
 }
-

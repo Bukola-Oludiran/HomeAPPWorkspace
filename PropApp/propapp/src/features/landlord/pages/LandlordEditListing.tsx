@@ -2,12 +2,10 @@ import { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import ConfirmationModal from '../../../components/ConfirmationModal';
 import { propertyService } from '../../../lib/api/services/propertyService';
-import type { Property } from '../../../types/property';
 
 export default function LandlordEditListing() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [property, setProperty] = useState<Property | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
@@ -30,7 +28,6 @@ export default function LandlordEditListing() {
                 setIsLoading(true);
                 const response = await propertyService.getPropertyById(id);
                 const data = response.data;
-                setProperty(data);
                 setTitle(data.name || '');
                 setDescription(data.description || '');
                 setAddress(data.address ? `${data.address.street || ''}, ${data.address.city || ''}, ${data.address.state || ''}` : '');
@@ -106,7 +103,7 @@ export default function LandlordEditListing() {
                 onConfirm={handleDelete}
                 title="Delete Listing?"
                 description="Are you sure you want to permanently delete this listing? All associated data including photos, applications, and analytics will be lost forever."
-                confirmText="Delete Listing"
+                confirmText={isDeleting ? 'Deleting...' : 'Delete Listing'}
                 icon="delete"
             />
             {/* Header - Page's own navbar */}

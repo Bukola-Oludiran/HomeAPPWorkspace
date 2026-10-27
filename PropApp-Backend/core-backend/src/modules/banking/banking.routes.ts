@@ -25,7 +25,7 @@ const router = Router();
 // ============================================
 
 router.get(
-    '/banks',
+    '/banking/banks',
     authenticate,
     validateQuery(bankQuerySchema),
     async (req: Request, res: Response, next: NextFunction) => {
@@ -44,7 +44,7 @@ router.get(
 // ============================================
 
 router.post(
-    '/resolve',
+    '/banking/resolve',
     authenticate,
     validate(resolveBankAccountSchema),
     async (req: Request, res: Response, next: NextFunction) => {

@@ -1,4 +1,4 @@
-import type { DataClassification } from '@complyflow/shared';
+import type { DataClassification } from './compliance.types';
 import { safeEmit } from './comply';
 
 export interface InstrumentationOptions {

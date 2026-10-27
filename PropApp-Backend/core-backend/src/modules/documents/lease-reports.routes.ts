@@ -22,7 +22,7 @@ const router = Router();
 // ============================================
 
 router.get(
-    '/',
+    '/leases',
     authenticate,
     async (req: Request, res: Response, next: NextFunction) => {
         try {
@@ -36,7 +36,7 @@ router.get(
 );
 
 router.get(
-    '/:id/document',
+    '/leases/:id/document',
     authenticate,
     async (req: Request, res: Response, next: NextFunction) => {
         try {
@@ -49,7 +49,7 @@ router.get(
 );
 
 router.post(
-    '/:id/document/generate',
+    '/leases/:id/document/generate',
     authenticate,
     async (req: Request, res: Response, next: NextFunction) => {
         try {

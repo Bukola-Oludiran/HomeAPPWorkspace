@@ -1,0 +1,38 @@
+/** Canonical, version-relative HTTP paths shared by clients and services. */
+export const API_ROUTES = {
+    AUTH_SESSIONS: '/auth/sessions',
+    AUTH_2FA_CHALLENGE_VERIFY: '/auth/2fa/challenge/verify',
+    USER_PRIVACY: '/users/me/privacy',
+    USER_DOCUMENTS: '/users/me/documents',
+    USER_CONNECTED_ACCOUNTS: '/users/me/connected-accounts',
+    USER_PAYMENT_METHODS: '/users/me/payment-methods',
+    USER_BANK_ACCOUNTS: '/users/me/bank-accounts',
+    USER_PAYOUTS: '/users/me/payouts',
+    USER_PAYOUT_SETTINGS: '/users/me/payout-settings',
+    BANKS: '/banking/banks',
+    BANK_RESOLVE: '/banking/resolve',
+    REPORTS: '/reports',
+    MARKET_TRENDS: '/analytics/market-trends',
+    APPLICANT_INVITATIONS: '/landlord/applicant-invitations',
+    AGENT_AVAILABILITY: '/agent/availability',
+    REVIEWS: '/reviews',
+    BILLING_STATEMENTS: '/users/me/billing-statements',
+    EXPORTS: '/exports',
+    propertyMedia: (id: string) => `/properties/${id}/media`,
+    tenantInvitation: (token: string) => `/tenant/applicant-invitations/${token}`,
+    userReviews: (id: string) => `/users/${id}/reviews`,
+} as const;
+
+export const CANONICAL_OPENAPI_PATHS = [
+    API_ROUTES.AUTH_2FA_CHALLENGE_VERIFY,
+    API_ROUTES.APPLICANT_INVITATIONS,
+    '/tenant/applicant-invitations/{token}',
+    API_ROUTES.AGENT_AVAILABILITY,
+    '/agent/availability/{id}',
+    API_ROUTES.REVIEWS,
+    '/users/{id}/reviews',
+    API_ROUTES.BILLING_STATEMENTS,
+    API_ROUTES.EXPORTS,
+    '/properties/{id}/media',
+    '/properties/{id}/media/{mediaId}',
+] as const;

@@ -3,8 +3,10 @@
  * Centralized configuration for API endpoints and settings
  */
 
+import { API_ROUTES } from '@homeai/contracts/routes';
+
 // Base URL configuration
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api/v1';
+export const API_BASE_URL = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api/v1';
 export const WS_BASE_URL = import.meta.env.VITE_WS_BASE_URL || 'ws://localhost:3000';
 
 // Token storage keys
@@ -29,9 +31,10 @@ export const API_ENDPOINTS = {
         RESET_PASSWORD: '/auth/reset-password',
         SETUP_2FA: '/auth/2fa/setup',
         VERIFY_2FA: '/auth/2fa/verify',
+        VERIFY_2FA_CHALLENGE: API_ROUTES.AUTH_2FA_CHALLENGE_VERIFY,
         DISABLE_2FA: '/auth/2fa/disable',
         RECOVERY_CODES: '/auth/2fa/recovery-codes',
-        SESSIONS: '/auth/sessions',
+        SESSIONS: API_ROUTES.AUTH_SESSIONS,
         REVOKE_SESSION: (id: string) => `/auth/sessions/${id}`,
         REVOKE_ALL_SESSIONS: '/auth/sessions/all',
     },
@@ -88,7 +91,7 @@ export const API_ENDPOINTS = {
         UPDATE: (id: string) => `/properties/${id}`,
         DELETE: (id: string) => `/properties/${id}`,
         STATUS: (id: string) => `/properties/${id}/status`,
-        MEDIA: (id: string) => `/properties/${id}/media`,
+        MEDIA: API_ROUTES.propertyMedia,
         MEDIA_DELETE: (id: string, mediaId: string) => `/properties/${id}/media/${mediaId}`,
         DRAFT: '/properties/draft',
         DRAFT_UPDATE: (id: string) => `/properties/draft/${id}`,
@@ -135,6 +138,8 @@ export const API_ENDPOINTS = {
         JOB_DECLINE: (id: string) => `/agent/jobs/${id}/decline`,
         JOB_COMPLETE: (id: string) => `/agent/jobs/${id}/complete`,
         SCHEDULE: '/agent/schedule',
+        AVAILABILITY: API_ROUTES.AGENT_AVAILABILITY,
+        AVAILABILITY_ITEM: (id: string) => `/agent/availability/${id}`,
         EARNINGS: '/agent/earnings',
         EARNINGS_HISTORY: '/agent/earnings/history',
         EARNINGS_WITHDRAW: '/agent/earnings/withdraw',
@@ -217,6 +222,14 @@ export const API_ENDPOINTS = {
         LIST: '/reports',
         DETAIL: (id: string) => `/reports/${id}`,
         GENERATE: '/reports/generate',
+    },
+    INTEGRATION: {
+        APPLICANT_INVITATIONS: API_ROUTES.APPLICANT_INVITATIONS,
+        TENANT_INVITATION: API_ROUTES.tenantInvitation,
+        REVIEWS: API_ROUTES.REVIEWS,
+        USER_REVIEWS: API_ROUTES.userReviews,
+        BILLING_STATEMENTS: API_ROUTES.BILLING_STATEMENTS,
+        EXPORTS: API_ROUTES.EXPORTS,
     },
 } as const;
 

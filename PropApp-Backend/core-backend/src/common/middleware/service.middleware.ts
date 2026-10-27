@@ -9,7 +9,7 @@ import { sendUnauthorized, sendForbidden } from '../utils/response.util';
 import { prisma } from '../../config/database';
 import { logger } from '../utils/logger';
 import { safeEmit } from '../observability/comply';
-import type { ComplianceActor } from '@complyflow/shared';
+import type { ComplianceActor } from '../observability/compliance.types';
 
 const serviceActor = (req: Request, fallbackName?: string): ComplianceActor => {
     const name = req.service?.serviceName ?? fallbackName ?? 'unknown-service';

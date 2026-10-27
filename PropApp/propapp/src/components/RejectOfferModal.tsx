@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import ModalPortal from './ModalPortal';
+import { leaseService } from '../lib/api/services/leaseService';
 
 interface RejectOfferModalProps {
     isOpen: boolean;
     onClose: () => void;
     onConfirm?: () => void;
+    leaseId?: string;
     property?: {
         address: string;
         unit: string;
@@ -15,11 +17,13 @@ export default function RejectOfferModal({
     isOpen,
     onClose,
     onConfirm,
+    leaseId,
     property = { address: '1243 Oakwood Avenue', unit: 'Unit 4B' },
 }: RejectOfferModalProps) {
     const [reason, setReason] = useState('');
     const [selectedReason, setSelectedReason] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const rejectionReasons = [
         { id: 'rent_high', label: 'Rent increase is too high', icon: 'trending_up' },
@@ -30,11 +34,23 @@ export default function RejectOfferModal({
 
     const handleConfirm = async () => {
         setIsSubmitting(true);
-        // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-        setIsSubmitting(false);
-        onConfirm?.();
-        onClose();
+        setError(null);
+        try {
+            let targetLeaseId = leaseId;
+            if (!targetLeaseId) {
+                const leases = await leaseService.getLeases({ status: 'ACTIVE', limit: 1 });
+                targetLeaseId = leases.data?.[0]?.id;
+            }
+            if (!targetLeaseId) throw new Error('No active renewal offer is available.');
+            const selectedLabel = rejectionReasons.find(item => item.id === selectedReason)?.label;
+            await leaseService.respondToRenewal(targetLeaseId, { accept: false, message: reason || selectedLabel });
+            onConfirm?.();
+            onClose();
+        } catch (cause) {
+            setError(cause instanceof Error ? cause.message : 'Unable to decline the renewal.');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     if (!isOpen) return null;
@@ -68,6 +84,7 @@ export default function RejectOfferModal({
 
                     {/* Content */}
                     <div className="p-6 space-y-6">
+                        {error && <p role="alert" className="text-sm text-red-600">{error}</p>}
                         {/* Warning */}
                         <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4 flex gap-3 items-start">
                             <span className="material-symbols-outlined text-amber-600 dark:text-amber-400 shrink-0">warning</span>

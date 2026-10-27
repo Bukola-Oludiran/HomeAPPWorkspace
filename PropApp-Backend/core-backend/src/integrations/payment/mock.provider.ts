@@ -29,6 +29,23 @@ export class MockPaymentProvider implements PaymentProvider {
     readonly supportedRegions = ['NG', 'GH', 'KE', 'ZA', 'GB', 'US'];
     readonly supportedMethods: PaymentMethod[] = ['card', 'bank_transfer', 'mobile_money'];
 
+    async listBanks(country: string) {
+        const banks = country === 'CA'
+            ? [{ code: '001', name: 'Bank of Montreal', slug: 'bmo', country: 'CA' }]
+            : [{ code: '058', name: 'Guaranty Trust Bank', slug: 'gtbank', country: 'NG' }];
+        return banks;
+    }
+
+    async resolveBankAccount(params: { bankCode: string; accountNumber: string }) {
+        return {
+            success: params.accountNumber.length >= 6,
+            accountNumber: params.accountNumber,
+            accountName: 'Development Account',
+            bankCode: params.bankCode,
+            bankName: 'Development Bank',
+        };
+    }
+
     async initializePayment(params: InitializePaymentParams): Promise<PaymentInitResult> {
         const reference = params.reference || `mock_${uuidv4().split('-')[0]}`;
 

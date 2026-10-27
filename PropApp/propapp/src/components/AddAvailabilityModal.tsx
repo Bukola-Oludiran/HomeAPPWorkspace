@@ -1,9 +1,10 @@
 import { useState } from 'react';
+import { integrationService } from '../lib/api/services/integrationService';
 
 interface AddAvailabilityModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onSave?: (availability: AvailabilitySlot) => void;
+    onSave?: (availability: AvailabilitySlot) => void | Promise<void>;
 }
 
 interface AvailabilitySlot {
@@ -23,6 +24,7 @@ export default function AddAvailabilityModal({ isOpen, onClose, onSave }: AddAva
     const [recurring, setRecurring] = useState(false);
     const [recurringDays, setRecurringDays] = useState<string[]>([]);
     const [saving, setSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const toggleDay = (day: string) => {
         setRecurringDays(prev =>
@@ -32,26 +34,28 @@ export default function AddAvailabilityModal({ isOpen, onClose, onSave }: AddAva
 
     const handleSave = async () => {
         setSaving(true);
-        await new Promise(resolve => setTimeout(resolve, 1000));
-
-        if (onSave) {
-            onSave({
+        setError(null);
+        const availability = {
                 date,
                 startTime,
                 endTime,
                 recurring,
                 recurringDays: recurring ? recurringDays : undefined,
-            });
+        };
+        try {
+            await integrationService.createAvailability(availability);
+            await onSave?.(availability);
+            onClose();
+            setDate('');
+            setStartTime('09:00');
+            setEndTime('17:00');
+            setRecurring(false);
+            setRecurringDays([]);
+        } catch {
+            setError('Unable to save availability. Please try again.');
+        } finally {
+            setSaving(false);
         }
-
-        setSaving(false);
-        onClose();
-        // Reset form
-        setDate('');
-        setStartTime('09:00');
-        setEndTime('17:00');
-        setRecurring(false);
-        setRecurringDays([]);
     };
 
     if (!isOpen) return null;
@@ -84,6 +88,7 @@ export default function AddAvailabilityModal({ isOpen, onClose, onSave }: AddAva
 
                 {/* Content */}
                 <div className="p-6">
+                    {error && <p role="alert" className="mb-4 text-sm text-red-600">{error}</p>}
                     {/* Date Selection */}
                     <div className="mb-5">
                         <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 block">

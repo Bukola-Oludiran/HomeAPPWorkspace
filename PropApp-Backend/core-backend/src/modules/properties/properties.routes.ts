@@ -4,6 +4,7 @@
  */
 
 import { Router, Request, Response, NextFunction } from 'express';
+import { MediaType } from '@prisma/client';
 import multer from 'multer';
 import { propertyService } from './properties.service';
 import { authenticate, optionalAuth, requirePermission } from '../../common/middleware/auth.middleware';
@@ -250,19 +251,19 @@ router.patch(
 // ============================================
 
 /**
- * @route POST /properties/:id/images
+ * @route POST /properties/:id/media
  * @desc Upload images to property
  * @access Private (Landlord)
  */
 router.post(
-    '/:id/images',
+    '/:id/media',
     authenticate,
     requirePermission('property:write'),
-    upload.array('images', 10),
+    upload.single('file'),
     async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const files = req.files as Express.Multer.File[];
-            if (!files || files.length === 0) {
+            const files = req.file ? [req.file] : [];
+            if (files.length === 0) {
                 throw new Error('No files uploaded');
             }
 
@@ -292,7 +293,13 @@ router.post(
                 throw new Error('Failed to upload any images');
             }
 
-            const result = await propertyService.addImages(req.params.id, req.user!.id, imageUrls);
+            const type = Object.values(MediaType).includes(req.body.type as MediaType) ? req.body.type as MediaType : MediaType.IMAGE;
+            const result = await propertyService.addMedia(req.params.id, req.user!.id, {
+                url: imageUrls[0],
+                type,
+                caption: req.body.caption || undefined,
+                isPrimary: req.body.isPrimary === undefined ? undefined : req.body.isPrimary === 'true',
+            });
             sendSuccess(res, result);
         } catch (error) {
             next(error);
@@ -301,19 +308,19 @@ router.post(
 );
 
 /**
- * @route DELETE /properties/:id/images/:imageId
+ * @route DELETE /properties/:id/media/:imageId
  * @desc Delete an image from property
  * @access Private (Landlord)
  */
 router.delete(
-    '/:id/images/:imageId',
+    '/:id/media/:mediaId',
     authenticate,
     requirePermission('property:write'),
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             const result = await propertyService.deleteImage(
                 req.params.id,
-                req.params.imageId,
+                req.params.mediaId,
                 req.user!.id
             );
             sendSuccess(res, result);

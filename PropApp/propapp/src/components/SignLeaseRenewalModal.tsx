@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import ModalPortal from './ModalPortal';
+import { leaseService } from '../lib/api/services/leaseService';
 
 interface SignLeaseRenewalModalProps {
     isOpen: boolean;
     onClose: () => void;
     onSign?: () => void;
+    leaseId?: string;
     property?: {
         address: string;
         unit: string;
@@ -24,6 +26,7 @@ export default function SignLeaseRenewalModal({
     isOpen,
     onClose,
     onSign,
+    leaseId,
     property = { address: '1243 Oakwood Avenue', unit: 'Unit 4B' },
     leaseDetails = {
         landlord: 'LuxRealty Management',
@@ -39,15 +42,28 @@ export default function SignLeaseRenewalModal({
     const [fullName, setFullName] = useState(leaseDetails.tenant);
     const [agreedToTerms, setAgreedToTerms] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const handleSign = async () => {
         if (!agreedToTerms || !fullName.trim()) return;
         setIsSubmitting(true);
-        // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-        setIsSubmitting(false);
-        onSign?.();
-        onClose();
+        setError(null);
+        try {
+            let targetLeaseId = leaseId;
+            if (!targetLeaseId) {
+                const leases = await leaseService.getLeases({ status: 'ACTIVE', limit: 1 });
+                targetLeaseId = leases.data?.[0]?.id;
+            }
+            if (!targetLeaseId) throw new Error('No active lease is available to sign.');
+            await leaseService.respondToRenewal(targetLeaseId, { accept: true });
+            await leaseService.signLease(targetLeaseId, { signature: fullName, signedAt: new Date().toISOString() });
+            onSign?.();
+            onClose();
+        } catch (cause) {
+            setError(cause instanceof Error ? cause.message : 'Unable to sign the renewal.');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     if (!isOpen) return null;
@@ -60,6 +76,7 @@ export default function SignLeaseRenewalModal({
 
                 {/* Modal */}
                 <div className="relative w-full max-w-6xl bg-white dark:bg-slate-950 rounded-2xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden">
+                    {error && <p role="alert" className="mx-6 mt-4 text-sm text-red-600">{error}</p>}
                     {/* Header */}
                     <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 z-20">
                         <div className="flex items-center gap-4">

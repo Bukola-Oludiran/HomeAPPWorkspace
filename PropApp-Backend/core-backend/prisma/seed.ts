@@ -21,6 +21,7 @@
 
 import { PrismaClient, type Prisma } from '@prisma/client';
 import bcrypt from 'bcrypt';
+import crypto from 'crypto';
 
 const prisma = new PrismaClient();
 
@@ -361,6 +362,15 @@ async function clearDown(): Promise<void> {
     await prisma.aiSessionMessage.deleteMany();
     await prisma.aiSession.deleteMany();
     await prisma.notification.deleteMany();
+    await prisma.review.deleteMany();
+    await prisma.agentAvailability.deleteMany();
+    await prisma.applicantInvitation.deleteMany();
+    await prisma.session.deleteMany();
+    await prisma.connectedAccount.deleteMany();
+    await prisma.document.deleteMany();
+    await prisma.payout.deleteMany();
+    await prisma.bankAccount.deleteMany();
+    await prisma.paymentMethod.deleteMany();
     await prisma.deviceToken.deleteMany();
     await prisma.favorite.deleteMany();
     await prisma.message.deleteMany();
@@ -1753,6 +1763,45 @@ async function seedAiSessions(demoUsers: SeededUser[]): Promise<void> {
     console.log(`  ✓ ${sessionCount} AI sessions, ${messageCount} messages`);
 }
 
+async function seedIntegrationData(
+    demo: Record<string, SeededUser>,
+    properties: Array<{ id: string; ownerId: string }>,
+    leases: Array<{ id: string; tenantId: string; landlordId: string }>,
+): Promise<void> {
+    const landlord = demo['landlord@homeai.demo'];
+    const tenant = demo['tenant@homeai.demo'];
+    const agent = demo['agent@homeai.demo'];
+    const property = properties.find(item => item.ownerId === landlord.id)!;
+    const lease = leases.find(item => item.tenantId === tenant.id && item.landlordId === landlord.id);
+
+    await prisma.agentAvailability.create({
+        data: { agentId: agent.id, date: new Date('2026-09-01'), startTime: '09:00', endTime: '17:00', recurring: true, recurringDays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'] },
+    });
+    await prisma.applicantInvitation.create({
+        data: {
+            tokenHash: crypto.createHash('sha256').update('demo-applicant-invitation').digest('hex'),
+            landlordId: landlord.id,
+            propertyId: property.id,
+            email: 'invited.tenant@homeai.demo',
+            expiresAt: new Date('2030-01-01'),
+        },
+    });
+    await prisma.session.create({
+        data: {
+            userId: tenant.id,
+            tokenHash: crypto.createHash('sha256').update('seed-session').digest('hex'),
+            deviceName: 'Seeded browser',
+            browser: 'Chromium',
+            expiresAt: new Date('2030-01-01'),
+        },
+    });
+    if (lease) {
+        await prisma.review.create({
+            data: { authorId: tenant.id, subjectId: landlord.id, leaseId: lease.id, type: 'LANDLORD_REVIEW', rating: 5, body: 'Responsive and professional.', isVerified: true },
+        });
+    }
+}
+
 // ============================================================================
 // MAIN
 // ============================================================================
@@ -1816,6 +1865,7 @@ async function main(): Promise<void> {
     await seedDeviceTokens(demoUsers, otherUsers);
 
     await seedAiSessions(demoUsers);
+    await seedIntegrationData(demo, properties, leases);
 
     // Final summary.
     const counts = {
