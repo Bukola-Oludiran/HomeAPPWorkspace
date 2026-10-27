@@ -8,7 +8,7 @@ import { API_ENDPOINTS } from '../config';
 import type {
     AgentJob,
     AgentEarnings,
-    AgentScheduleItem,
+    AgentScheduleResponse,
 } from '../../../types/dashboard';
 import type { Payout, RequestPayoutRequest } from '../../../types/lease';
 
@@ -51,7 +51,7 @@ export async function completeJob(id: string, data: { notes?: string; photos?: s
  * Get agent's schedule
  */
 export async function getSchedule(params?: { startDate?: string; endDate?: string }) {
-    return api.get<AgentScheduleItem[]>(API_ENDPOINTS.AGENT.SCHEDULE, params);
+    return api.get<AgentScheduleResponse>(API_ENDPOINTS.AGENT.SCHEDULE, params);
 }
 
 /**

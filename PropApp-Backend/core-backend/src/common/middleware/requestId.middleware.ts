@@ -29,6 +29,7 @@ declare global {
                 role: string;
                 verificationLevel: string;
                 regionCode: string;
+                sessionId?: string;
             };
         }
     }

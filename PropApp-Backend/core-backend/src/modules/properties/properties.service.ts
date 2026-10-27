@@ -146,7 +146,7 @@ class PropertyService {
         // Build orderBy
         const orderBy: Prisma.PropertyOrderByWithRelationInput = {};
         if (sortBy) {
-            orderBy[sortBy] = sortOrder;
+            orderBy[sortBy as 'price' | 'createdAt' | 'bedrooms' | 'squareFeet'] = sortOrder;
         } else {
             orderBy.createdAt = 'desc';
         }

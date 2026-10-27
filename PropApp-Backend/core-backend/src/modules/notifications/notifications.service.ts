@@ -29,7 +29,7 @@ interface NotificationDetail {
     title: string | null;
     body: string | null;
     data: Record<string, unknown>;
-    read: boolean;
+    isRead: boolean;
     channels: NotificationChannel[];
     createdAt: Date;
 }
@@ -93,7 +93,7 @@ class NotificationService {
                 title: n.title,
                 body: n.body,
                 data: (n.data as Record<string, unknown>) || {},
-                read: n.read,
+                isRead: n.read,
                 channels: (n.channels as NotificationChannel[]) || ['IN_APP'],
                 createdAt: n.createdAt,
             })),

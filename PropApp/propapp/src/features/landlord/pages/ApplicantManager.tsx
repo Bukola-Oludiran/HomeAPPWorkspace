@@ -245,7 +245,7 @@ export default function ApplicantManager() {
                         </button>
                         <button
                             onClick={() => setIsNewApplicantModalOpen(true)}
-                            className="px-5 py-2.5 rounded-lg bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-sm shadow-lg shadow-[#137fec]/20 transition-all flex items-center gap-2"
+                            className="px-5 py-2.5 rounded-lg bg-brand hover:bg-brand/90 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2"
                         >
                             <span className="material-symbols-outlined text-[20px]">add</span> New Application
                         </button>
@@ -254,14 +254,14 @@ export default function ApplicantManager() {
             />
 
             {/* Filters Bar */}
-            <div className="bg-white dark:bg-[#101922] p-4 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm mb-8 flex flex-col lg:flex-row gap-4 items-center justify-between">
+            <div className="bg-white dark:bg-canvas-dark p-4 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm mb-8 flex flex-col lg:flex-row gap-4 items-center justify-between">
                 <div className="flex flex-col sm:flex-row w-full lg:w-auto gap-4 items-center">
                     {/* Property Selector */}
                     <div className="relative w-full sm:w-64">
                         <span className="material-symbols-outlined absolute left-3 top-2.5 text-slate-400 text-[20px]">
                             apartment
                         </span>
-                        <select className="w-full pl-10 pr-8 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-medium focus:ring-[#137fec] focus:border-[#137fec] text-slate-900 dark:text-white cursor-pointer appearance-none">
+                        <select className="w-full pl-10 pr-8 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-medium focus:ring-brand focus:border-brand text-slate-900 dark:text-white cursor-pointer appearance-none">
                             <option>All Properties</option>
                             <option>5500 Highland Park</option>
                             <option>1243 Oakwood Avenue</option>
@@ -300,11 +300,11 @@ export default function ApplicantManager() {
                     <div className="relative" ref={propertyDropdownRef}>
                         <button
                             onClick={() => setShowPropertyDropdown(!showPropertyDropdown)}
-                            className={`p-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-600 dark:text-slate-300 hover:border-[#137fec] hover:text-[#137fec] transition-colors ${propertyFilter !== 'all' ? 'border-[#137fec] text-[#137fec]' : ''}`}
+                            className={`p-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-600 dark:text-slate-300 hover:border-brand hover:text-brand transition-colors ${propertyFilter !== 'all' ? 'border-brand text-brand' : ''}`}
                         >
                             <span className="material-symbols-outlined">tune</span>
                             {propertyFilter !== 'all' && (
-                                <span className="absolute -top-1 -right-1 size-3 bg-[#137fec] rounded-full"></span>
+                                <span className="absolute -top-1 -right-1 size-3 bg-brand rounded-full"></span>
                             )}
                         </button>
                         {showPropertyDropdown && (
@@ -319,7 +319,7 @@ export default function ApplicantManager() {
                                             setPropertyFilter(property);
                                             setShowPropertyDropdown(false);
                                         }}
-                                        className={`w-full px-4 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center gap-2 ${propertyFilter === property ? 'text-[#137fec] font-bold bg-blue-50 dark:bg-blue-900/20' : 'text-slate-700 dark:text-slate-300'}`}
+                                        className={`w-full px-4 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center gap-2 ${propertyFilter === property ? 'text-brand font-bold bg-blue-50 dark:bg-blue-900/20' : 'text-slate-700 dark:text-slate-300'}`}
                                     >
                                         {property === 'all' ? 'All Properties' : property}
                                         {propertyFilter === property && (
@@ -333,12 +333,21 @@ export default function ApplicantManager() {
                 </div>
             </div>
 
+            {isLoading && (
+                <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">Loading applicants…</p>
+            )}
+            {error && (
+                <div role="alert" className="mb-6 rounded-xl border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-900/20 px-4 py-3 text-sm text-red-700 dark:text-red-300">
+                    {error}
+                </div>
+            )}
+
             {/* Applicant Cards Grid */}
             <AnimatedGroup className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" stagger={0.08}>
                 {filteredApplicants.map((applicant) => (
                     <div
                         key={applicant.id}
-                        className={`bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow flex flex-col relative overflow-hidden group ${applicant.status === 'Rejected' ? 'opacity-90 hover:opacity-100' : ''
+                        className={`bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow flex flex-col relative overflow-hidden group ${applicant.status === 'Rejected' ? 'opacity-90 hover:opacity-100' : ''
                             }`}
                     >
                         {/* Status bar */}
@@ -398,7 +407,7 @@ export default function ApplicantManager() {
                                     {/* Credit Score */}
                                     {applicant.creditScore && (
                                         <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
-                                            <p className="text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">
+                                            <p className="text-xs uppercase tracking-wider font-bold text-slate-400 mb-1">
                                                 Credit Score
                                             </p>
                                             <div className="flex items-center gap-2">
@@ -417,7 +426,7 @@ export default function ApplicantManager() {
                                     {/* Monthly Income or Move-in Date or Rent Coverage */}
                                     {applicant.monthlyIncome && (
                                         <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
-                                            <p className="text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">
+                                            <p className="text-xs uppercase tracking-wider font-bold text-slate-400 mb-1">
                                                 Monthly Inc.
                                             </p>
                                             <div className="flex items-center gap-2">
@@ -433,7 +442,7 @@ export default function ApplicantManager() {
 
                                     {applicant.moveInDate && (
                                         <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
-                                            <p className="text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">
+                                            <p className="text-xs uppercase tracking-wider font-bold text-slate-400 mb-1">
                                                 Move-in Date
                                             </p>
                                             <div className="flex items-center gap-2">
@@ -449,7 +458,7 @@ export default function ApplicantManager() {
 
                                     {applicant.rentCoverage && (
                                         <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
-                                            <p className="text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">
+                                            <p className="text-xs uppercase tracking-wider font-bold text-slate-400 mb-1">
                                                 Rent Coverage
                                             </p>
                                             <div className="flex items-center gap-2">
@@ -466,7 +475,7 @@ export default function ApplicantManager() {
                                     {/* Employment or Background Check or Missing Docs or Pet */}
                                     {applicant.employment && (
                                         <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700 col-span-2">
-                                            <p className="text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">
+                                            <p className="text-xs uppercase tracking-wider font-bold text-slate-400 mb-1">
                                                 Employment
                                             </p>
                                             <div className="flex items-center gap-2">
@@ -528,7 +537,7 @@ export default function ApplicantManager() {
                             {applicant.actions.includes('review') && (
                                 <Link
                                     to={`/landlord/tenants/${applicant.id}`}
-                                    className="w-full py-2.5 bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-sm rounded-lg transition-colors shadow-sm flex items-center justify-center gap-2"
+                                    className="w-full py-2.5 bg-brand hover:bg-brand/90 text-white font-bold text-sm rounded-lg transition-colors shadow-sm flex items-center justify-center gap-2"
                                 >
                                     Review Application
                                 </Link>
@@ -558,7 +567,7 @@ export default function ApplicantManager() {
                                     </div>
                                     <Link
                                         to={`/landlord/tenants/${applicant.id}/profile`}
-                                        className="w-full py-2 bg-transparent text-slate-500 dark:text-slate-400 hover:text-[#137fec] font-semibold text-xs rounded-lg transition-colors"
+                                        className="w-full py-2 bg-transparent text-slate-500 dark:text-slate-400 hover:text-brand font-semibold text-xs rounded-lg transition-colors"
                                     >
                                         View Full Profile
                                     </Link>
@@ -578,7 +587,7 @@ export default function ApplicantManager() {
                                 </button>
                             )}
                             {applicant.actions.includes('request-docs') && (
-                                <button className="w-full py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-[#137fec] hover:text-[#137fec] font-bold text-sm rounded-lg transition-colors shadow-sm flex items-center justify-center gap-2">
+                                <button className="w-full py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-brand hover:text-brand font-bold text-sm rounded-lg transition-colors shadow-sm flex items-center justify-center gap-2">
                                     Request Documents
                                 </button>
                             )}
@@ -589,13 +598,13 @@ export default function ApplicantManager() {
 
             {/* Floating AI Bar */}
             <div className="fixed bottom-6 right-6 z-[100] flex flex-col items-end gap-2">
-                <label className="cursor-pointer group flex items-center gap-3 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white pl-1.5 pr-5 py-1.5 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 dark:border-slate-700 hover:scale-105 hover:shadow-[0_8px_30px_rgb(0,0,0,0.18)] transition-all duration-300">
-                    <div className="size-10 rounded-full bg-gradient-to-tr from-[#137fec] to-blue-400 flex items-center justify-center text-white shadow-md group-hover:rotate-12 transition-transform">
-                        <span className="material-symbols-outlined">smart_toy</span>
+                <label className="cursor-pointer group flex items-center gap-3 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white pl-1.5 pr-5 py-1.5 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 dark:border-slate-700 hover:shadow-[0_8px_30px_rgb(0,0,0,0.18)] transition-all duration-300">
+                    <div className="size-10 rounded-full bg-brand flex items-center justify-center text-white shadow-md">
+                        <span className="material-symbols-outlined">forum</span>
                     </div>
                     <div className="flex flex-col items-start">
                         <span className="text-sm font-bold leading-none">Ask HomeAI...</span>
-                        <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium leading-tight mt-0.5">
+                        <span className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-tight mt-0.5">
                             Click to chat
                         </span>
                     </div>

@@ -10,7 +10,7 @@ import { sendUnauthorized, sendForbidden } from '../utils/response.util';
 import { prisma } from '../../config/database';
 import { UserRole } from '@prisma/client';
 import { safeEmit } from '../observability/comply';
-import type { ComplianceActor, DataClassification } from '@complyflow/shared';
+import type { ComplianceActor, DataClassification } from '../observability/compliance.types';
 
 // ============================================
 // COMPLIANCE EMISSION HELPERS

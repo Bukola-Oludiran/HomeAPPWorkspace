@@ -9,11 +9,30 @@ import { z } from 'zod';
 // CONVERSATIONS
 // ============================================
 
-export const createConversationSchema = z.object({
-    participantIds: z.array(z.string().uuid()).min(1),
-    propertyId: z.string().uuid().optional(),
-    initialMessage: z.string().max(2000).optional(),
-});
+// The web app sends a single `recipientId` (ContactAgentModal); other clients send
+// `participantIds`. Accept either and normalise to `participantIds`.
+export const createConversationSchema = z
+    .object({
+        participantIds: z.array(z.string().uuid()).min(1).optional(),
+        recipientId: z.string().uuid().optional(),
+        propertyId: z.string().uuid().optional(),
+        initialMessage: z.string().max(2000).optional(),
+        callbackRequest: z
+            .object({
+                requested: z.boolean(),
+                phone: z.string().max(30).optional(),
+                preferredTime: z.string().max(100).optional(),
+            })
+            .optional(),
+    })
+    .refine((data) => Boolean(data.participantIds?.length || data.recipientId), {
+        message: 'participantIds or recipientId is required',
+        path: ['participantIds'],
+    })
+    .transform(({ recipientId, participantIds, ...rest }) => ({
+        ...rest,
+        participantIds: participantIds ?? [recipientId as string],
+    }));
 
 export const conversationQuerySchema = z.object({
     page: z.coerce.number().int().positive().default(1),
