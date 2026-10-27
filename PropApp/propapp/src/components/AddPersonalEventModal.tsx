@@ -52,7 +52,7 @@ export default function AddPersonalEventModal({
                 <div className="absolute inset-0 cursor-default" onClick={onClose}></div>
 
                 {/* Modal */}
-                <div className="relative bg-white dark:bg-[#101922] w-full max-w-xl rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col max-h-[90vh]">
+                <div className="relative bg-white dark:bg-canvas-dark w-full max-w-xl rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col max-h-[90vh]">
                     {/* Header */}
                     <div className="px-6 py-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
                         <div>
@@ -75,7 +75,7 @@ export default function AddPersonalEventModal({
                             <div className="relative">
                                 <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">event</span>
                                 <input
-                                    className="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl py-2.5 pl-10 pr-4 text-slate-900 dark:text-white font-medium focus:ring-[#137fec] focus:border-[#137fec] transition-all placeholder:text-slate-400"
+                                    className="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl py-2.5 pl-10 pr-4 text-slate-900 dark:text-white font-medium focus:ring-brand focus:border-brand transition-all placeholder:text-slate-400"
                                     placeholder="e.g., Dentist Appointment"
                                     type="text"
                                     value={event.title}
@@ -90,13 +90,13 @@ export default function AddPersonalEventModal({
                                 <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">Starts</label>
                                 <div className="flex gap-2">
                                     <input
-                                        className="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl py-2 px-3 text-slate-900 dark:text-white text-sm font-medium focus:ring-[#137fec] focus:border-[#137fec]"
+                                        className="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl py-2 px-3 text-slate-900 dark:text-white text-sm font-medium focus:ring-brand focus:border-brand"
                                         type="date"
                                         value={event.startDate}
                                         onChange={(e) => setEvent({ ...event, startDate: e.target.value })}
                                     />
                                     <input
-                                        className="w-28 bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl py-2 px-2 text-slate-900 dark:text-white text-sm font-medium focus:ring-[#137fec] focus:border-[#137fec]"
+                                        className="w-28 bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl py-2 px-2 text-slate-900 dark:text-white text-sm font-medium focus:ring-brand focus:border-brand"
                                         type="time"
                                         value={event.startTime}
                                         onChange={(e) => setEvent({ ...event, startTime: e.target.value })}
@@ -108,13 +108,13 @@ export default function AddPersonalEventModal({
                                 <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">Ends</label>
                                 <div className="flex gap-2">
                                     <input
-                                        className="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl py-2 px-3 text-slate-900 dark:text-white text-sm font-medium focus:ring-[#137fec] focus:border-[#137fec]"
+                                        className="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl py-2 px-3 text-slate-900 dark:text-white text-sm font-medium focus:ring-brand focus:border-brand"
                                         type="date"
                                         value={event.endDate}
                                         onChange={(e) => setEvent({ ...event, endDate: e.target.value })}
                                     />
                                     <input
-                                        className="w-28 bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl py-2 px-2 text-slate-900 dark:text-white text-sm font-medium focus:ring-[#137fec] focus:border-[#137fec]"
+                                        className="w-28 bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl py-2 px-2 text-slate-900 dark:text-white text-sm font-medium focus:ring-brand focus:border-brand"
                                         type="time"
                                         value={event.endTime}
                                         onChange={(e) => setEvent({ ...event, endTime: e.target.value })}
@@ -127,7 +127,7 @@ export default function AddPersonalEventModal({
                         {/* All Day Toggle */}
                         <div className="flex items-center gap-2 mb-6 ml-1">
                             <input
-                                className="rounded border-slate-300 dark:border-slate-600 text-[#137fec] focus:ring-[#137fec] bg-slate-50 dark:bg-slate-800 size-4"
+                                className="rounded border-slate-300 dark:border-slate-600 text-brand focus:ring-brand bg-slate-50 dark:bg-slate-800 size-4"
                                 id="all-day"
                                 type="checkbox"
                                 checked={event.allDay}
@@ -146,7 +146,7 @@ export default function AddPersonalEventModal({
                             <div className="relative">
                                 <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">location_on</span>
                                 <input
-                                    className="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl py-2.5 pl-10 pr-4 text-slate-900 dark:text-white font-medium focus:ring-[#137fec] focus:border-[#137fec] transition-all placeholder:text-slate-400"
+                                    className="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl py-2.5 pl-10 pr-4 text-slate-900 dark:text-white font-medium focus:ring-brand focus:border-brand transition-all placeholder:text-slate-400"
                                     placeholder="Add location"
                                     type="text"
                                     value={event.location}
@@ -162,7 +162,7 @@ export default function AddPersonalEventModal({
                                 <div className="relative">
                                     <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">notifications</span>
                                     <select
-                                        className="w-full appearance-none bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl py-2.5 pl-10 pr-8 text-slate-900 dark:text-white font-medium focus:ring-[#137fec] focus:border-[#137fec] transition-all cursor-pointer"
+                                        className="w-full appearance-none bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl py-2.5 pl-10 pr-8 text-slate-900 dark:text-white font-medium focus:ring-brand focus:border-brand transition-all cursor-pointer"
                                         value={event.reminder}
                                         onChange={(e) => setEvent({ ...event, reminder: e.target.value })}
                                     >
@@ -211,7 +211,7 @@ export default function AddPersonalEventModal({
                                 Description <span className="text-slate-400 font-normal normal-case opacity-70 ml-1">(Optional)</span>
                             </label>
                             <textarea
-                                className="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl py-3 px-4 text-slate-900 dark:text-white font-medium focus:ring-[#137fec] focus:border-[#137fec] transition-all placeholder:text-slate-400 resize-none"
+                                className="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl py-3 px-4 text-slate-900 dark:text-white font-medium focus:ring-brand focus:border-brand transition-all placeholder:text-slate-400 resize-none"
                                 placeholder="Add details..."
                                 rows={3}
                                 value={event.description}
@@ -230,7 +230,7 @@ export default function AddPersonalEventModal({
                         </button>
                         <button
                             onClick={handleSave}
-                            className="px-6 py-2.5 rounded-xl bg-[#137fec] text-white font-bold text-sm hover:bg-[#137fec]/90 shadow-lg shadow-[#137fec]/20 transition-all flex items-center gap-2"
+                            className="px-6 py-2.5 rounded-xl bg-brand text-white font-bold text-sm hover:bg-brand/90 shadow-sm transition-all flex items-center gap-2"
                         >
                             <span className="material-symbols-outlined text-[18px]">check</span>
                             Save Event

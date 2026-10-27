@@ -126,8 +126,8 @@ export default function FileUploadZone({
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
                 className={`relative border-2 border-dashed rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer transition-all min-h-[140px] ${isDragging
-                        ? 'border-[#137fec] bg-[#137fec]/5'
-                        : 'border-slate-300 dark:border-slate-600 hover:border-[#137fec] hover:bg-slate-50 dark:hover:bg-slate-800/50'
+                        ? 'border-brand bg-brand/5'
+                        : 'border-slate-300 dark:border-slate-600 hover:border-brand hover:bg-slate-50 dark:hover:bg-slate-800/50'
                     }`}
             >
                 <input
@@ -140,7 +140,7 @@ export default function FileUploadZone({
                 />
 
                 <div className={`size-12 rounded-full flex items-center justify-center mb-3 transition-colors ${isDragging
-                        ? 'bg-[#137fec]/10 text-[#137fec]'
+                        ? 'bg-brand/10 text-brand'
                         : 'bg-slate-100 dark:bg-slate-800 text-slate-400'
                     }`}>
                     <span className="material-symbols-outlined text-2xl">cloud_upload</span>

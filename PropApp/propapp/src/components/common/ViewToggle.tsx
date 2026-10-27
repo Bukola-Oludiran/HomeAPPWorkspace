@@ -23,7 +23,7 @@ const ViewToggle: React.FC<ViewToggleProps> = ({
     const getButtonClasses = (mode: ViewMode) => {
         const isActive = value === mode;
         return `p-1.5 rounded-md transition-colors ${isActive
-                ? 'bg-white dark:bg-[#101922] shadow-sm text-slate-900 dark:text-white'
+                ? 'bg-white dark:bg-canvas-dark shadow-sm text-slate-900 dark:text-white'
                 : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`;
     };

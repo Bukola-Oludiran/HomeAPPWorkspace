@@ -66,7 +66,7 @@ export function InlineTagInput({ onAdd, placeholder = 'Type and press Enter...' 
                 onKeyDown={handleKeyDown}
                 onBlur={handleBlur}
                 placeholder={placeholder}
-                className="px-4 py-2 rounded-xl border border-dashed border-[#137fec]/50 bg-white/5 text-white placeholder-slate-300 text-sm font-medium focus:outline-none focus:border-[#137fec] focus:ring-1 focus:ring-[#137fec] transition-all min-w-[120px]"
+                className="px-4 py-2 rounded-xl border border-dashed border-brand/50 bg-white/5 text-white placeholder-slate-300 text-sm font-medium focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-all min-w-[120px]"
             />
         );
     }
@@ -108,7 +108,7 @@ export function SelectableTag({ label, isSelected, onToggle, onDelete, isCustom 
                 type="button"
                 onClick={onToggle}
                 className={`cursor-pointer px-4 py-2 rounded-xl border transition-all text-sm font-medium select-none inline-block ${isSelected
-                    ? 'bg-[#137fec]/20 border-[#137fec] text-white'
+                    ? 'bg-brand/20 border-brand text-white'
                     : 'border-white/10 bg-white/5 hover:bg-white/10 text-slate-300'
                     }`}
             >
@@ -123,7 +123,7 @@ export function SelectableTag({ label, isSelected, onToggle, onDelete, isCustom 
                         e.stopPropagation();
                         onDelete();
                     }}
-                    className="absolute -top-1.5 -right-1.5 size-5 rounded-full bg-white hover:bg-slate-100 text-red-500 flex items-center justify-center shadow-lg transition-all transform hover:scale-110"
+                    className="absolute -top-1.5 -right-1.5 size-5 rounded-full bg-white hover:bg-slate-100 text-red-500 flex items-center justify-center shadow-lg transition-all transform"
                     title="Remove custom option"
                 >
                     <span className="text-[18px] font-bold leading-none">×</span>

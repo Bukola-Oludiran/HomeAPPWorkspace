@@ -57,7 +57,7 @@ export default function ContactAgentModal({ isOpen, onClose, agent, property }: 
             />
 
             {/* Modal */}
-            <div className="relative bg-white dark:bg-[#1a2632] rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-in zoom-in-95 fade-in duration-200">
+            <div className="relative bg-white dark:bg-surface-dark rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-in zoom-in-95 fade-in duration-200">
                 {/* Header */}
                 <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
                     <h2 className="text-lg font-bold text-slate-900 dark:text-white">Contact Agent</h2>
@@ -109,7 +109,7 @@ export default function ContactAgentModal({ isOpen, onClose, agent, property }: 
                                 value={subject}
                                 onChange={(e) => setSubject(e.target.value)}
                                 placeholder="What's this about?"
-                                className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-colors"
+                                className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-brand/20 focus:border-brand transition-colors"
                                 required
                             />
                         </div>
@@ -124,7 +124,7 @@ export default function ContactAgentModal({ isOpen, onClose, agent, property }: 
                                 onChange={(e) => setMessage(e.target.value)}
                                 placeholder="Write your message here..."
                                 rows={4}
-                                className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-colors resize-none"
+                                className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-brand/20 focus:border-brand transition-colors resize-none"
                                 required
                             />
                         </div>
@@ -136,7 +136,7 @@ export default function ContactAgentModal({ isOpen, onClose, agent, property }: 
                                     type="checkbox"
                                     checked={requestCallback}
                                     onChange={(e) => setRequestCallback(e.target.checked)}
-                                    className="size-4 rounded border-slate-300 text-[#137fec] focus:ring-[#137fec]"
+                                    className="size-4 rounded border-slate-300 text-brand focus:ring-brand"
                                 />
                                 <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
                                     Request a callback
@@ -156,7 +156,7 @@ export default function ContactAgentModal({ isOpen, onClose, agent, property }: 
                                         value={phone}
                                         onChange={(e) => setPhone(e.target.value)}
                                         placeholder="+1 (555) 000-0000"
-                                        className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-colors"
+                                        className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-brand/20 focus:border-brand transition-colors"
                                     />
                                 </div>
                                 <div>
@@ -166,7 +166,7 @@ export default function ContactAgentModal({ isOpen, onClose, agent, property }: 
                                     <select
                                         value={preferredTime}
                                         onChange={(e) => setPreferredTime(e.target.value)}
-                                        className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-colors"
+                                        className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-brand/20 focus:border-brand transition-colors"
                                     >
                                         <option value="">Any time</option>
                                         <option value="morning">Morning (9AM - 12PM)</option>
@@ -189,7 +189,7 @@ export default function ContactAgentModal({ isOpen, onClose, agent, property }: 
                             <button
                                 type="submit"
                                 disabled={sending}
-                                className="flex-1 py-3 rounded-xl bg-[#137fec] text-white font-bold text-sm hover:bg-[#137fec]/90 transition-colors shadow-lg shadow-[#137fec]/20 flex items-center justify-center gap-2 disabled:opacity-70"
+                                className="flex-1 py-3 rounded-xl bg-brand text-white font-bold text-sm hover:bg-brand/90 transition-colors shadow-sm flex items-center justify-center gap-2 disabled:opacity-70"
                             >
                                 {sending ? (
                                     <>

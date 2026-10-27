@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 export default function SecurityKeyVerifiedPage() {
     return (
-        <div className="w-full max-w-md bg-white/10 dark:bg-[#1a2632]/60 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col items-center relative">
+        <div className="w-full max-w-md bg-white/10 dark:bg-surface-dark/60 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col items-center relative">
             {/* Close Button */}
             <Link
                 to="/auth/login"
@@ -27,7 +27,7 @@ export default function SecurityKeyVerifiedPage() {
                 {/* Continue Button */}
                 <Link
                     to="/tenant/dashboard"
-                    className="w-full py-4 px-5 rounded-xl bg-[#137fec] hover:bg-blue-600 border border-transparent text-white font-bold text-sm shadow-lg shadow-[#137fec]/25 hover:shadow-[#137fec]/40 transition-all transform active:scale-[0.98] flex items-center justify-center"
+                    className="w-full py-4 px-5 rounded-xl bg-brand hover:bg-blue-600 border border-transparent text-white font-bold text-sm shadow-sm transition-all transform active:scale-[0.98] flex items-center justify-center"
                 >
                     Continue to Dashboard
                 </Link>

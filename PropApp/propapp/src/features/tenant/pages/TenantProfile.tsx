@@ -133,10 +133,10 @@ export default function TenantProfile() {
                 {/* Left Sidebar */}
                 <div className="lg:col-span-4 xl:col-span-3 flex flex-col gap-6">
                     {/* Profile Card */}
-                    <div className="bg-white dark:bg-[#101922] p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm text-center relative overflow-hidden">
-                        <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-r from-[#137fec]/10 to-blue-400/10"></div>
+                    <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm text-center relative overflow-hidden">
+                        <div className="absolute top-0 left-0 w-full h-20 bg-brand/10 dark:bg-brand/20"></div>
                         <div className="relative inline-block mx-auto mb-4 mt-8">
-                            <div className="size-24 rounded-full bg-gradient-to-tr from-[#137fec] to-blue-300 p-1 shadow-xl">
+                            <div className="size-24 rounded-full bg-brand p-1 shadow-xl">
                                 <div className="w-full h-full rounded-full bg-white dark:bg-slate-800 flex items-center justify-center overflow-hidden">
                                     {user?.avatarUrl ? (
                                         <img src={user.avatarUrl} alt={formData.fullName} className="w-full h-full object-cover" />
@@ -145,7 +145,7 @@ export default function TenantProfile() {
                                     )}
                                 </div>
                             </div>
-                            <button className="absolute bottom-0 right-0 size-8 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-lg cursor-pointer">
+                            <button className="absolute bottom-0 right-0 size-8 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full flex items-center justify-center transition-transform shadow-lg cursor-pointer">
                                 <span className="material-symbols-outlined text-[16px]">photo_camera</span>
                             </button>
                         </div>
@@ -167,7 +167,7 @@ export default function TenantProfile() {
                                     key={item.id}
                                     onClick={() => setActiveMenu(item.id)}
                                     className={`flex items-center gap-3 px-5 py-4 text-left text-sm transition-colors border-l-4 ${activeMenu === item.id
-                                        ? 'bg-[#137fec]/5 dark:bg-[#137fec]/10 border-[#137fec] text-[#137fec] font-bold'
+                                        ? 'bg-brand/5 dark:bg-brand/10 border-brand text-brand font-bold'
                                         : 'border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 font-medium hover:border-slate-300 dark:hover:border-slate-600'
                                         }`}
                                 >
@@ -179,16 +179,15 @@ export default function TenantProfile() {
                     </SectionCard>
 
                     {/* AI Tip Card */}
-                    <div className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl p-5 text-white shadow-lg relative overflow-hidden">
-                        <span className="material-symbols-outlined absolute -right-4 -bottom-4 text-9xl text-white/10 rotate-12">assistant</span>
+                    <div className="bg-brand rounded-2xl p-5 text-white shadow-lg relative overflow-hidden">
                         <div className="relative z-10">
                             <div className="flex items-center gap-2 mb-2">
-                                <span className="material-symbols-outlined">auto_awesome</span>
+                                <span className="material-symbols-outlined">forum</span>
                                 <span className="text-xs font-bold uppercase tracking-wider opacity-80">Profile AI</span>
                             </div>
                             <h4 className="font-bold text-lg leading-tight mb-2">Increase approval odds?</h4>
-                            <p className="text-sm text-indigo-100 mb-4">Let AI review your profile completeness and suggest improvements.</p>
-                            <button className="w-full py-2 bg-white text-indigo-600 font-bold text-sm rounded-lg hover:bg-indigo-50 transition-colors text-center shadow-md">Run Profile Check</button>
+                            <p className="text-sm text-blue-100 mb-4">Let AI review your profile completeness and suggest improvements.</p>
+                            <button className="w-full py-2 bg-white text-brand font-bold text-sm rounded-lg hover:bg-blue-50 transition-colors text-center shadow-md">Run Profile Check</button>
                         </div>
                     </div>
                 </div>
@@ -196,19 +195,19 @@ export default function TenantProfile() {
                 {/* Right Content Area */}
                 <div className="lg:col-span-8 xl:col-span-9 flex flex-col gap-6">
                     {/* Personal Information */}
-                    <div className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6 md:p-8">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6 md:p-8">
                         <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-100 dark:border-slate-800">
                             <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                                <span className="material-symbols-outlined text-[#137fec]">badge</span>
+                                <span className="material-symbols-outlined text-brand">badge</span>
                                 Personal & Contact Information
                             </h3>
-                            <button className="text-sm text-[#137fec] font-semibold hover:underline">Edit</button>
+                            <button className="text-sm text-brand font-semibold hover:underline">Edit</button>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Full Name</label>
                                 <input
-                                    className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-all font-medium"
+                                    className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all font-medium"
                                     type="text"
                                     value={formData.fullName}
                                     onChange={(e) => handleInputChange('fullName', e.target.value)}
@@ -217,7 +216,7 @@ export default function TenantProfile() {
                             <div>
                                 <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Date of Birth</label>
                                 <input
-                                    className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-all font-medium"
+                                    className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all font-medium"
                                     type="date"
                                     value={formData.dob}
                                     onChange={(e) => handleInputChange('dob', e.target.value)}
@@ -226,7 +225,7 @@ export default function TenantProfile() {
                             <div>
                                 <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Email Address</label>
                                 <input
-                                    className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-all font-medium"
+                                    className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all font-medium"
                                     type="email"
                                     value={formData.email}
                                     onChange={(e) => handleInputChange('email', e.target.value)}
@@ -235,7 +234,7 @@ export default function TenantProfile() {
                             <div>
                                 <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Phone Number</label>
                                 <input
-                                    className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-all font-medium"
+                                    className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all font-medium"
                                     type="tel"
                                     value={formData.phone}
                                     onChange={(e) => handleInputChange('phone', e.target.value)}
@@ -245,13 +244,13 @@ export default function TenantProfile() {
                     </div>
 
                     {/* Employment & Financial */}
-                    <div className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6 md:p-8">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6 md:p-8">
                         <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 pb-4 border-b border-slate-100 dark:border-slate-800 gap-4">
                             <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                                <span className="material-symbols-outlined text-[#137fec]">work</span>
+                                <span className="material-symbols-outlined text-brand">work</span>
                                 Employment & Financial
                             </h3>
-                            <Link to="/tenant/payments" className="text-xs font-bold text-[#137fec] hover:underline flex items-center gap-1 px-3 py-1.5 bg-[#137fec]/5 rounded-lg">
+                            <Link to="/tenant/payments" className="text-xs font-bold text-brand hover:underline flex items-center gap-1 px-3 py-1.5 bg-brand/5 rounded-lg">
                                 <span className="material-symbols-outlined text-[16px]">credit_card</span>
                                 Manage Payment Methods
                             </Link>
@@ -260,7 +259,7 @@ export default function TenantProfile() {
                             <div className="md:col-span-2">
                                 <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Current Employer</label>
                                 <input
-                                    className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-all font-medium"
+                                    className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all font-medium"
                                     type="text"
                                     value={formData.employer}
                                     onChange={(e) => handleInputChange('employer', e.target.value)}
@@ -269,7 +268,7 @@ export default function TenantProfile() {
                             <div>
                                 <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Job Title</label>
                                 <input
-                                    className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-all font-medium"
+                                    className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all font-medium"
                                     type="text"
                                     value={formData.jobTitle}
                                     onChange={(e) => handleInputChange('jobTitle', e.target.value)}
@@ -280,7 +279,7 @@ export default function TenantProfile() {
                                 <div className="relative">
                                     <span className="absolute left-4 top-2.5 text-slate-500 dark:text-slate-400 font-bold">$</span>
                                     <input
-                                        className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl pl-8 pr-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-all font-medium"
+                                        className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl pl-8 pr-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all font-medium"
                                         type="text"
                                         value={formData.income}
                                         onChange={(e) => handleInputChange('income', e.target.value)}
@@ -291,9 +290,9 @@ export default function TenantProfile() {
                     </div>
 
                     {/* Preferences */}
-                    <div className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6 md:p-8">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6 md:p-8">
                         <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-6 pb-4 border-b border-slate-100 dark:border-slate-800">
-                            <span className="material-symbols-outlined text-[#137fec]">tune</span>
+                            <span className="material-symbols-outlined text-brand">tune</span>
                             Preferences
                         </h3>
                         <div className="space-y-8">
@@ -306,18 +305,18 @@ export default function TenantProfile() {
                                             type="checkbox"
                                             checked={formData.emailNotifications}
                                             onChange={(e) => handleInputChange('emailNotifications', e.target.checked)}
-                                            className="w-5 h-5 text-[#137fec] bg-slate-100 border-slate-300 rounded focus:ring-[#137fec] focus:ring-2"
+                                            className="w-5 h-5 text-brand bg-slate-100 border-slate-300 rounded focus:ring-brand focus:ring-2"
                                         />
-                                        <span className="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-[#137fec] transition-colors">Email Notifications</span>
+                                        <span className="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-brand transition-colors">Email Notifications</span>
                                     </label>
                                     <label className="flex items-center gap-3 p-4 border border-slate-200 dark:border-slate-700 rounded-xl cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex-1 group">
                                         <input
                                             type="checkbox"
                                             checked={formData.pushAlerts}
                                             onChange={(e) => handleInputChange('pushAlerts', e.target.checked)}
-                                            className="w-5 h-5 text-[#137fec] bg-slate-100 border-slate-300 rounded focus:ring-[#137fec] focus:ring-2"
+                                            className="w-5 h-5 text-brand bg-slate-100 border-slate-300 rounded focus:ring-brand focus:ring-2"
                                         />
-                                        <span className="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-[#137fec] transition-colors">App Push Alerts</span>
+                                        <span className="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-brand transition-colors">App Push Alerts</span>
                                     </label>
                                 </div>
                             </div>
@@ -332,7 +331,7 @@ export default function TenantProfile() {
                                             <select
                                                 value={formData.bedrooms}
                                                 onChange={(e) => handleInputChange('bedrooms', e.target.value)}
-                                                className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-all font-medium appearance-none"
+                                                className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all font-medium appearance-none"
                                             >
                                                 <option>Studio</option>
                                                 <option>1 Bedroom</option>
@@ -347,7 +346,7 @@ export default function TenantProfile() {
                                         <div className="relative">
                                             <span className="absolute left-4 top-2.5 text-slate-500 dark:text-slate-400 font-bold">$</span>
                                             <input
-                                                className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl pl-8 pr-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-all font-medium"
+                                                className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl pl-8 pr-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all font-medium"
                                                 type="text"
                                                 value={formData.maxRent}
                                                 onChange={(e) => handleInputChange('maxRent', e.target.value)}
@@ -357,7 +356,7 @@ export default function TenantProfile() {
                                     <div className="sm:col-span-2">
                                         <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Desired Amenities (Comma separated)</label>
                                         <input
-                                            className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-all font-medium"
+                                            className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all font-medium"
                                             type="text"
                                             value={formData.amenities}
                                             onChange={(e) => handleInputChange('amenities', e.target.value)}
@@ -369,9 +368,9 @@ export default function TenantProfile() {
                     </div>
 
                     {/* Application History Summary */}
-                    <div className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6">
                         <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-4">
-                            <span className="material-symbols-outlined text-[#137fec]">history</span>
+                            <span className="material-symbols-outlined text-brand">history</span>
                             Application History Summary
                         </h3>
                         {loading ? (
@@ -388,16 +387,16 @@ export default function TenantProfile() {
                                         <h4 className="text-sm font-bold text-slate-900 dark:text-white">{app.property}</h4>
                                         <p className="text-xs text-slate-500 dark:text-slate-400">Submitted on {app.date}</p>
                                     </div>
-                                    <span className="px-2 py-1 bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 text-[10px] font-bold rounded-full border border-blue-200 dark:border-blue-800">
+                                    <span className="px-2 py-1 bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 text-xs font-bold rounded-full border border-blue-200 dark:border-blue-800">
                                         {app.status}
                                     </span>
-                                    <Link to="/tenant/applications" className="text-slate-400 hover:text-[#137fec] transition-colors">
+                                    <Link to="/tenant/applications" className="text-slate-400 hover:text-brand transition-colors">
                                         <span className="material-symbols-outlined">chevron_right</span>
                                     </Link>
                                 </div>
                             ))
                         )}
-                        <Link to="/tenant/applications" className="block text-center text-sm font-bold text-[#137fec] mt-4 hover:underline">
+                        <Link to="/tenant/applications" className="block text-center text-sm font-bold text-brand mt-4 hover:underline">
                             View All Applications
                         </Link>
                     </div>
@@ -405,7 +404,7 @@ export default function TenantProfile() {
             </div>
 
             {/* Fixed Action Bar */}
-            <div className="fixed bottom-0 left-0 w-full bg-white dark:bg-[#101922] border-t border-slate-200 dark:border-slate-800 p-4 z-40 md:static md:bg-transparent md:border-0 md:p-0 md:mt-8">
+            <div className="fixed bottom-0 left-0 w-full bg-white dark:bg-canvas-dark border-t border-slate-200 dark:border-slate-800 p-4 z-40 md:static md:bg-transparent md:border-0 md:p-0 md:mt-8">
                 <div className="max-w-[1400px] mx-auto flex justify-end gap-4">
                     <button className="px-6 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-sm">
                         Cancel
@@ -413,7 +412,7 @@ export default function TenantProfile() {
                     <button
                         onClick={handleSaveChanges}
                         disabled={saving}
-                        className="px-8 py-3 rounded-xl bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-sm shadow-lg shadow-[#137fec]/20 transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="px-8 py-3 rounded-xl bg-brand hover:bg-brand/90 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         <span className="material-symbols-outlined text-[18px]">{saving ? 'sync' : 'save'}</span>
                         {saving ? 'Saving...' : 'Save Changes'}

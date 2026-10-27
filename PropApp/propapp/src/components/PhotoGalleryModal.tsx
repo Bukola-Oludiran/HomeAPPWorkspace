@@ -97,7 +97,7 @@ export default function PhotoGalleryModal({ isOpen, onClose, property, images, i
                                 key={index}
                                 onClick={() => setCurrentIndex(index)}
                                 className={`relative w-20 h-14 md:w-24 md:h-16 rounded-lg overflow-hidden cursor-pointer border-2 transition-all shrink-0 ${index === currentIndex
-                                    ? 'border-[#137fec] ring-2 ring-[#137fec]/30 opacity-100 scale-105'
+                                    ? 'border-brand ring-2 ring-brand/30 opacity-100 scale-105'
                                     : 'border-transparent hover:border-slate-500 opacity-60 hover:opacity-100'
                                     }`}
                             >

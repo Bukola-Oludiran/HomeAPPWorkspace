@@ -27,7 +27,7 @@ const DateRangeFilter: React.FC<DateRangeFilterProps> = ({
     label = 'Date Range',
     className = '',
 }) => {
-    const inputClasses = 'w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec]/50 focus:border-[#137fec]';
+    const inputClasses = 'w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/50 focus:border-brand';
 
     return (
         <div className={className}>

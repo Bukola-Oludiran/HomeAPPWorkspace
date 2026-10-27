@@ -79,7 +79,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                             className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-all ${currentStep > step
                                 ? 'bg-green-500 text-white shadow-sm'
                                 : currentStep === step
-                                    ? 'bg-[#137fec] text-white shadow-lg shadow-[#137fec]/30 ring-4 ring-white dark:ring-slate-900'
+                                    ? 'bg-brand text-white shadow-sm ring-4 ring-white dark:ring-slate-900'
                                     : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border-2 border-white dark:border-slate-900'
                                 }`}
                         >
@@ -93,7 +93,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                             className={`absolute top-10 text-xs font-bold whitespace-nowrap ${currentStep > step
                                 ? 'text-green-600 dark:text-green-500'
                                 : currentStep === step
-                                    ? 'text-[#137fec]'
+                                    ? 'text-brand'
                                     : 'text-slate-400 dark:text-slate-500'
                                 }`}
                         >
@@ -117,14 +117,14 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
             <div className="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
                     <label className="block text-sm font-bold text-slate-900 dark:text-white">Proposed Offer Amount</label>
-                    <span className="text-xs font-medium bg-blue-50 text-[#137fec] px-2.5 py-1 rounded-md dark:bg-blue-900/20 border border-blue-100 dark:border-blue-900">
+                    <span className="text-xs font-medium bg-blue-50 text-brand px-2.5 py-1 rounded-md dark:bg-blue-900/20 border border-blue-100 dark:border-blue-900">
                         Listing Price: ${property.listingPrice.toLocaleString()}
                     </span>
                 </div>
                 <div className="relative">
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg font-bold">$</span>
                     <input
-                        className="w-full pl-8 pr-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-lg font-bold text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec] focus:border-transparent outline-none transition-all placeholder-slate-300"
+                        className="w-full pl-8 pr-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-lg font-bold text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-transparent outline-none transition-all placeholder-slate-300"
                         type="text"
                         value={offerDetails.offerAmount}
                         onChange={(e) => setOfferDetails({ ...offerDetails, offerAmount: e.target.value })}
@@ -146,7 +146,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                     <div>
                         <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5">Offer Expiration Date</label>
                         <input
-                            className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec] outline-none"
+                            className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand outline-none"
                             type="date"
                             value={offerDetails.expirationDate}
                             onChange={(e) => setOfferDetails({ ...offerDetails, expirationDate: e.target.value })}
@@ -155,7 +155,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                     <div>
                         <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5">Time</label>
                         <input
-                            className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec] outline-none"
+                            className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand outline-none"
                             type="time"
                             value={offerDetails.expirationTime}
                             onChange={(e) => setOfferDetails({ ...offerDetails, expirationTime: e.target.value })}
@@ -176,10 +176,10 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                                 type="checkbox"
                                 checked={offerDetails.contingencies.includes(option.id)}
                                 onChange={() => toggleContingency(option.id)}
-                                className="mt-1 w-4 h-4 text-[#137fec] rounded border-gray-300 focus:ring-[#137fec]"
+                                className="mt-1 w-4 h-4 text-brand rounded border-gray-300 focus:ring-brand"
                             />
                             <div>
-                                <span className="block text-sm font-bold text-slate-900 dark:text-white group-hover:text-[#137fec] transition-colors">{option.label}</span>
+                                <span className="block text-sm font-bold text-slate-900 dark:text-white group-hover:text-brand transition-colors">{option.label}</span>
                                 <span className="block text-xs text-slate-500">{option.description}</span>
                             </div>
                         </label>
@@ -196,11 +196,11 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                     </h3>
                     <span className="text-xs text-orange-600 bg-orange-100 dark:bg-orange-900/30 dark:text-orange-400 px-2 py-0.5 rounded font-bold">REQUIRED</span>
                 </div>
-                <div className="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-xl p-8 flex flex-col items-center justify-center text-center hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors cursor-pointer group hover:border-[#137fec]/50">
+                <div className="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-xl p-8 flex flex-col items-center justify-center text-center hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors cursor-pointer group hover:border-brand/50">
                     <div className="size-12 rounded-full bg-blue-50 dark:bg-slate-700 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform shadow-sm">
-                        <span className="material-symbols-outlined text-[#137fec] text-2xl">cloud_upload</span>
+                        <span className="material-symbols-outlined text-brand text-2xl">cloud_upload</span>
                     </div>
-                    <p className="text-sm font-medium text-slate-900 dark:text-white group-hover:text-[#137fec] transition-colors">Click to upload or drag and drop</p>
+                    <p className="text-sm font-medium text-slate-900 dark:text-white group-hover:text-brand transition-colors">Click to upload or drag and drop</p>
                     <p className="text-xs text-slate-500 mt-1">PDF, JPG or PNG (max. 10MB)</p>
                 </div>
             </div>
@@ -212,7 +212,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
             {/* Offer Summary */}
             <div className="bg-blue-50/50 dark:bg-slate-800/50 p-4 rounded-xl border border-blue-100 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-start gap-4">
-                    <div className="size-10 shrink-0 rounded-full bg-white dark:bg-slate-700 flex items-center justify-center text-[#137fec] shadow-sm border border-slate-100 dark:border-slate-600">
+                    <div className="size-10 shrink-0 rounded-full bg-white dark:bg-slate-700 flex items-center justify-center text-brand shadow-sm border border-slate-100 dark:border-slate-600">
                         <span className="material-symbols-outlined">description</span>
                     </div>
                     <div>
@@ -224,7 +224,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                         </div>
                     </div>
                 </div>
-                <button onClick={() => setCurrentStep(1)} className="text-[#137fec] text-sm font-bold hover:underline whitespace-nowrap px-2">Edit Details</button>
+                <button onClick={() => setCurrentStep(1)} className="text-brand text-sm font-bold hover:underline whitespace-nowrap px-2">Edit Details</button>
             </div>
 
             {/* Buyer Contact Info */}
@@ -234,13 +234,13 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                         <span className="material-symbols-outlined text-slate-400">person</span>
                         Buyer Contact Information
                     </h3>
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-[#137fec] dark:text-blue-400 border border-blue-100 dark:border-blue-800/50 self-start sm:self-auto">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-brand dark:text-blue-400 border border-blue-100 dark:border-blue-800/50 self-start sm:self-auto">
                         <span className="material-symbols-outlined text-[16px]">verified_user</span>
-                        <span className="text-[10px] font-bold uppercase tracking-wider">Account Linked</span>
+                        <span className="text-xs font-bold uppercase tracking-wider">Account Linked</span>
                     </div>
                 </div>
                 <div className="bg-slate-50 dark:bg-slate-700/30 border border-slate-100 dark:border-slate-700 rounded-lg p-4 mb-6 flex gap-3">
-                    <span className="material-symbols-outlined text-[#137fec] text-sm mt-0.5 shrink-0">info</span>
+                    <span className="material-symbols-outlined text-brand text-sm mt-0.5 shrink-0">info</span>
                     <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                         The fields below are automatically populated from your verified account profile. To ensure security, they cannot be edited here.
                     </p>
@@ -280,7 +280,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                     <div>
                         <label className="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Street Address</label>
                         <input
-                            className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec] outline-none placeholder-slate-400"
+                            className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand outline-none placeholder-slate-400"
                             placeholder="e.g. 123 Main St"
                             value={buyerInfo.streetAddress}
                             onChange={(e) => setBuyerInfo({ ...buyerInfo, streetAddress: e.target.value })}
@@ -289,7 +289,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                     <div>
                         <label className="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Apartment, suite, etc. (optional)</label>
                         <input
-                            className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec] outline-none placeholder-slate-400"
+                            className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand outline-none placeholder-slate-400"
                             placeholder="e.g. Apt 4B"
                             value={buyerInfo.apartment}
                             onChange={(e) => setBuyerInfo({ ...buyerInfo, apartment: e.target.value })}
@@ -298,15 +298,15 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                         <div className="col-span-2 md:col-span-1">
                             <label className="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">City</label>
-                            <input className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec] outline-none placeholder-slate-400" placeholder="City" value={buyerInfo.city} onChange={(e) => setBuyerInfo({ ...buyerInfo, city: e.target.value })} />
+                            <input className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand outline-none placeholder-slate-400" placeholder="City" value={buyerInfo.city} onChange={(e) => setBuyerInfo({ ...buyerInfo, city: e.target.value })} />
                         </div>
                         <div>
                             <label className="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">State</label>
-                            <input className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec] outline-none placeholder-slate-400" placeholder="State" value={buyerInfo.state} onChange={(e) => setBuyerInfo({ ...buyerInfo, state: e.target.value })} />
+                            <input className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand outline-none placeholder-slate-400" placeholder="State" value={buyerInfo.state} onChange={(e) => setBuyerInfo({ ...buyerInfo, state: e.target.value })} />
                         </div>
                         <div>
                             <label className="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Zip Code</label>
-                            <input className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec] outline-none placeholder-slate-400" placeholder="Zip" value={buyerInfo.zipCode} onChange={(e) => setBuyerInfo({ ...buyerInfo, zipCode: e.target.value })} />
+                            <input className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand outline-none placeholder-slate-400" placeholder="Zip" value={buyerInfo.zipCode} onChange={(e) => setBuyerInfo({ ...buyerInfo, zipCode: e.target.value })} />
                         </div>
                     </div>
                 </div>
@@ -323,7 +323,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                         <span className="material-symbols-outlined text-slate-400">description</span>
                         Offer Details Summary
                     </h3>
-                    <button onClick={() => setCurrentStep(1)} className="text-[#137fec] text-sm font-bold hover:underline">Edit</button>
+                    <button onClick={() => setCurrentStep(1)} className="text-brand text-sm font-bold hover:underline">Edit</button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-8">
                     <div>
@@ -362,7 +362,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                         <span className="material-symbols-outlined text-slate-400">person</span>
                         Buyer Contact Information
                     </h3>
-                    <button onClick={() => setCurrentStep(2)} className="text-[#137fec] text-sm font-bold hover:underline">Edit</button>
+                    <button onClick={() => setCurrentStep(2)} className="text-brand text-sm font-bold hover:underline">Edit</button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-8">
                     <div className="md:col-span-2">
@@ -394,10 +394,10 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                         type="checkbox"
                         checked={agreedToTerms}
                         onChange={(e) => setAgreedToTerms(e.target.checked)}
-                        className="mt-1 w-5 h-5 rounded border-slate-300 text-[#137fec] focus:ring-[#137fec] focus:ring-offset-0 cursor-pointer"
+                        className="mt-1 w-5 h-5 rounded border-slate-300 text-brand focus:ring-brand focus:ring-offset-0 cursor-pointer"
                     />
                     <span className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed select-none group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
-                        By submitting this offer, I agree to the platform's <a className="text-[#137fec] font-bold hover:underline" href="#">Terms and Conditions</a> and understand that this is a <span className="font-bold">legally binding offer</span>. I acknowledge that if accepted, I am obligated to proceed with the purchase according to these terms.
+                        By submitting this offer, I agree to the platform's <a className="text-brand font-bold hover:underline" href="#">Terms and Conditions</a> and understand that this is a <span className="font-bold">legally binding offer</span>. I acknowledge that if accepted, I am obligated to proceed with the purchase according to these terms.
                     </span>
                 </label>
             </div>
@@ -410,7 +410,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                 <div className="h-32 bg-slate-200 relative">
                     <img alt="Property Thumbnail" className="w-full h-full object-cover" src={property.image} />
                     <div className="absolute inset-0 bg-black/10"></div>
-                    <span className="absolute top-2 right-2 bg-white/90 dark:bg-black/70 px-2 py-0.5 text-[10px] font-bold rounded text-slate-900 dark:text-white uppercase tracking-wide">For Sale</span>
+                    <span className="absolute top-2 right-2 bg-white/90 dark:bg-black/70 px-2 py-0.5 text-xs font-bold rounded text-slate-900 dark:text-white uppercase tracking-wide">For Sale</span>
                 </div>
                 <div className="p-5">
                     <h4 className="font-bold text-slate-900 dark:text-white mb-1 line-clamp-1">{property.name}</h4>
@@ -424,8 +424,8 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                             <span className="font-medium text-slate-900 dark:text-white line-through decoration-slate-400 decoration-2">${property.listingPrice.toLocaleString()}</span>
                         </div>
                         <div className="flex justify-between text-sm items-center">
-                            <span className="text-[#137fec] font-bold">Your Offer</span>
-                            <span className="font-bold text-lg text-[#137fec] bg-blue-50 dark:bg-blue-900/30 px-2 rounded">${offerDetails.offerAmount}</span>
+                            <span className="text-brand font-bold">Your Offer</span>
+                            <span className="font-bold text-lg text-brand bg-blue-50 dark:bg-blue-900/30 px-2 rounded">${offerDetails.offerAmount}</span>
                         </div>
                         <div className="flex justify-between text-xs text-slate-400 mt-2">
                             <span>Est. Earnest Money (1%)</span>
@@ -444,16 +444,16 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
     );
 
     const aiTips = [
-        { step: 1, tip: 'Tip: Sellers often prefer a shorter inspection period (5-7 days).', icon: 'auto_awesome' },
-        { step: 2, tip: 'Privacy Tip: Your contact info is kept private until you choose to reveal it.', icon: 'auto_awesome' },
-        { step: 3, tip: 'AI Assistant: I can explain any legal terms or next steps.', icon: 'smart_toy' },
+        { step: 1, tip: 'Tip: Sellers often prefer a shorter inspection period (5-7 days).', icon: 'lightbulb' },
+        { step: 2, tip: 'Privacy Tip: Your contact info is kept private until you choose to reveal it.', icon: 'lock' },
+        { step: 3, tip: 'AI Assistant: I can explain any legal terms or next steps.', icon: 'forum' },
     ];
 
     const currentTip = aiTips.find((t) => t.step === currentStep);
 
     return (
         <ModalPortal>
-            <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6 font-[Manrope,Noto_Sans,sans-serif]">
+            <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6">
                 <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={onClose}></div>
                 <div className="relative w-full max-w-5xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
                     {/* Header */}
@@ -461,7 +461,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                         <div className="flex items-center justify-between mb-8">
                             <div>
                                 <div className="flex items-center gap-2 mb-1">
-                                    <span className="material-symbols-outlined text-[#137fec] text-xl">real_estate_agent</span>
+                                    <span className="material-symbols-outlined text-brand text-xl">real_estate_agent</span>
                                     <h2 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">
                                         {currentStep === 3 ? 'Review & Submit Offer' : 'Make an Offer to Buy'}
                                     </h2>
@@ -517,7 +517,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                                     }
                                 }}
                                 disabled={currentStep === 3 && !agreedToTerms}
-                                className="px-8 py-2.5 rounded-xl bg-[#137fec] text-white font-bold hover:bg-[#0e64bd] transition-colors shadow-lg shadow-[#137fec]/25 flex items-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="px-8 py-2.5 rounded-xl bg-brand text-white font-bold hover:bg-[#0e64bd] transition-colors shadow-sm flex items-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {currentStep === 3 ? 'Submit Offer' : 'Next Step'}
                                 {currentStep < 3 && <span className="material-symbols-outlined text-sm">arrow_forward</span>}
@@ -528,13 +528,13 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                     {/* Floating AI Tip */}
                     {currentTip && (
                         <div className="absolute bottom-24 left-0 right-0 flex justify-center z-[70] pointer-events-none px-4">
-                            <div className="w-full max-w-xl bg-white/95 dark:bg-[#101922]/95 backdrop-blur-xl border border-[#137fec]/20 shadow-2xl shadow-[#137fec]/10 rounded-full py-2 px-2 flex items-center gap-3 pointer-events-auto" style={{ boxShadow: '0 0 15px rgba(19, 127, 236, 0.4)' }}>
-                                <div className="size-10 rounded-full bg-gradient-to-tr from-[#137fec] to-blue-400 flex items-center justify-center shrink-0 shadow-lg">
+                            <div className="w-full max-w-xl bg-white/95 dark:bg-canvas-dark/95 backdrop-blur-xl border border-brand/20 shadow-lg rounded-full py-2 px-2 flex items-center gap-3 pointer-events-auto" style={{ boxShadow: '0 0 15px rgba(19, 127, 236, 0.4)' }}>
+                                <div className="size-10 rounded-full bg-brand flex items-center justify-center shrink-0 shadow-lg">
                                     <span className="material-symbols-outlined text-white">{currentTip.icon}</span>
                                 </div>
                                 <div className="flex-1 overflow-hidden h-10 flex items-center">
                                     <p className="text-slate-700 dark:text-slate-200 text-sm truncate font-medium">
-                                        <span className="text-[#137fec] font-bold">{currentTip.tip.split(':')[0]}:</span>{currentTip.tip.split(':').slice(1).join(':')}
+                                        <span className="text-brand font-bold">{currentTip.tip.split(':')[0]}:</span>{currentTip.tip.split(':').slice(1).join(':')}
                                     </p>
                                 </div>
                                 <button className="size-10 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center transition-colors shrink-0">

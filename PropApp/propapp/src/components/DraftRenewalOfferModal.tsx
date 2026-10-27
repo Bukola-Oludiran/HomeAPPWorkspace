@@ -60,7 +60,7 @@ export default function DraftRenewalOfferModal({
                                 {/* Current Lease Info */}
                                 <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800/50 rounded-xl p-4 flex flex-wrap items-center gap-6">
                                     <div className="flex items-center gap-3">
-                                        <div className="size-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-[#137fec]">
+                                        <div className="size-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-brand">
                                             <span className="material-symbols-outlined text-[18px]">history</span>
                                         </div>
                                         <div>
@@ -92,7 +92,7 @@ export default function DraftRenewalOfferModal({
                                                 <span className="text-slate-500 font-medium">$</span>
                                             </div>
                                             <input
-                                                className="block w-full rounded-xl border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 py-3 pl-8 pr-12 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-[#137fec] focus:border-[#137fec] sm:text-sm sm:leading-6 font-semibold shadow-sm"
+                                                className="block w-full rounded-xl border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 py-3 pl-8 pr-12 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-brand focus:border-brand sm:text-sm sm:leading-6 font-semibold shadow-sm"
                                                 id="rent"
                                                 name="rent"
                                                 placeholder="0.00"
@@ -105,7 +105,7 @@ export default function DraftRenewalOfferModal({
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-1.5 mt-1.5">
-                                            <span className="material-symbols-outlined text-[16px] text-[#137fec]" style={{ boxShadow: '0 0 15px rgba(19, 127, 236, 0.4)', borderRadius: '9999px' }}>auto_awesome</span>
+                                            <span className="material-symbols-outlined text-[16px] text-brand">forum</span>
                                             <p className="text-xs text-slate-500 dark:text-slate-400">AI suggested based on local comps</p>
                                         </div>
                                     </div>
@@ -115,7 +115,7 @@ export default function DraftRenewalOfferModal({
                                         </label>
                                         <div className="relative">
                                             <input
-                                                className="block w-full rounded-xl border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 py-3 px-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec] focus:border-[#137fec] sm:text-sm sm:leading-6 shadow-sm font-medium"
+                                                className="block w-full rounded-xl border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 py-3 px-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-brand sm:text-sm sm:leading-6 shadow-sm font-medium"
                                                 id="date"
                                                 name="date"
                                                 type="date"
@@ -130,27 +130,27 @@ export default function DraftRenewalOfferModal({
                                 <div className="space-y-3">
                                     <label className="block text-sm font-bold text-slate-900 dark:text-white">New Lease Duration</label>
                                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                                        <label className={`cursor-pointer group relative flex flex-col items-start p-4 rounded-xl border-2 transition-all ${duration === '12' ? 'border-[#137fec] bg-[#137fec]/5 dark:bg-[#137fec]/10' : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-600'}`}>
+                                        <label className={`cursor-pointer group relative flex flex-col items-start p-4 rounded-xl border-2 transition-all ${duration === '12' ? 'border-brand bg-brand/5 dark:bg-brand/10' : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-600'}`}>
                                             <input className="sr-only" name="duration" type="radio" value="12" checked={duration === '12'} onChange={() => setDuration('12')} />
                                             <div className="flex items-center justify-between w-full mb-1">
-                                                <span className={`font-bold text-sm ${duration === '12' ? 'text-[#137fec]' : 'text-slate-700 dark:text-slate-200'}`}>12 Months</span>
-                                                <span className={`size-4 rounded-full border ${duration === '12' ? 'border-[5px] border-[#137fec] bg-white dark:bg-slate-900 shadow-sm' : 'border border-slate-300 dark:border-slate-600 bg-transparent'}`}></span>
+                                                <span className={`font-bold text-sm ${duration === '12' ? 'text-brand' : 'text-slate-700 dark:text-slate-200'}`}>12 Months</span>
+                                                <span className={`size-4 rounded-full border ${duration === '12' ? 'border-[5px] border-brand bg-white dark:bg-slate-900 shadow-sm' : 'border border-slate-300 dark:border-slate-600 bg-transparent'}`}></span>
                                             </div>
                                             <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Standard Term</span>
                                         </label>
-                                        <label className={`cursor-pointer group relative flex flex-col items-start p-4 rounded-xl border-2 transition-all ${duration === '6' ? 'border-[#137fec] bg-[#137fec]/5 dark:bg-[#137fec]/10' : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-600'}`}>
+                                        <label className={`cursor-pointer group relative flex flex-col items-start p-4 rounded-xl border-2 transition-all ${duration === '6' ? 'border-brand bg-brand/5 dark:bg-brand/10' : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-600'}`}>
                                             <input className="sr-only" name="duration" type="radio" value="6" checked={duration === '6'} onChange={() => setDuration('6')} />
                                             <div className="flex items-center justify-between w-full mb-1">
-                                                <span className={`font-bold text-sm ${duration === '6' ? 'text-[#137fec]' : 'text-slate-700 dark:text-slate-200'}`}>6 Months</span>
-                                                <span className={`size-4 rounded-full border ${duration === '6' ? 'border-[5px] border-[#137fec] bg-white dark:bg-slate-900 shadow-sm' : 'border border-slate-300 dark:border-slate-600 bg-transparent'}`}></span>
+                                                <span className={`font-bold text-sm ${duration === '6' ? 'text-brand' : 'text-slate-700 dark:text-slate-200'}`}>6 Months</span>
+                                                <span className={`size-4 rounded-full border ${duration === '6' ? 'border-[5px] border-brand bg-white dark:bg-slate-900 shadow-sm' : 'border border-slate-300 dark:border-slate-600 bg-transparent'}`}></span>
                                             </div>
                                             <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Short Term</span>
                                         </label>
-                                        <label className={`cursor-pointer group relative flex flex-col items-start p-4 rounded-xl border-2 transition-all ${duration === 'mtm' ? 'border-[#137fec] bg-[#137fec]/5 dark:bg-[#137fec]/10' : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-600'}`}>
+                                        <label className={`cursor-pointer group relative flex flex-col items-start p-4 rounded-xl border-2 transition-all ${duration === 'mtm' ? 'border-brand bg-brand/5 dark:bg-brand/10' : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-600'}`}>
                                             <input className="sr-only" name="duration" type="radio" value="mtm" checked={duration === 'mtm'} onChange={() => setDuration('mtm')} />
                                             <div className="flex items-center justify-between w-full mb-1">
-                                                <span className={`font-bold text-sm ${duration === 'mtm' ? 'text-[#137fec]' : 'text-slate-700 dark:text-slate-200'}`}>Month-to-Month</span>
-                                                <span className={`size-4 rounded-full border ${duration === 'mtm' ? 'border-[5px] border-[#137fec] bg-white dark:bg-slate-900 shadow-sm' : 'border border-slate-300 dark:border-slate-600 bg-transparent'}`}></span>
+                                                <span className={`font-bold text-sm ${duration === 'mtm' ? 'text-brand' : 'text-slate-700 dark:text-slate-200'}`}>Month-to-Month</span>
+                                                <span className={`size-4 rounded-full border ${duration === 'mtm' ? 'border-[5px] border-brand bg-white dark:bg-slate-900 shadow-sm' : 'border border-slate-300 dark:border-slate-600 bg-transparent'}`}></span>
                                             </div>
                                             <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Flexible</span>
                                         </label>
@@ -161,14 +161,14 @@ export default function DraftRenewalOfferModal({
                                 <div className="space-y-2">
                                     <div className="flex items-center justify-between">
                                         <label className="block text-sm font-bold text-slate-900 dark:text-white" htmlFor="terms">Additional Terms / Changes <span className="text-slate-400 font-normal ml-1">(Optional)</span></label>
-                                        <button className="text-xs font-semibold text-[#137fec] hover:text-[#0e64bd] flex items-center gap-1 transition-colors">
+                                        <button className="text-xs font-semibold text-brand hover:text-[#0e64bd] flex items-center gap-1 transition-colors">
                                             <span className="material-symbols-outlined text-[14px]">magic_button</span>
                                             AI Enhancement
                                         </button>
                                     </div>
                                     <div className="relative">
                                         <textarea
-                                            className="block w-full rounded-xl border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 py-3 px-4 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-[#137fec] focus:border-[#137fec] sm:text-sm shadow-sm resize-none"
+                                            className="block w-full rounded-xl border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 py-3 px-4 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-brand focus:border-brand sm:text-sm shadow-sm resize-none"
                                             id="terms"
                                             name="terms"
                                             placeholder="e.g. Pet policy update: No pets over 50lbs..."
@@ -182,8 +182,8 @@ export default function DraftRenewalOfferModal({
 
                             {/* Footer */}
                             <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-4 px-6 py-5 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-700 rounded-b-2xl">
-                                <button className="group flex items-center gap-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-[#137fec] dark:hover:text-[#137fec] transition-colors" type="button">
-                                    <span className="material-symbols-outlined text-[20px] text-slate-400 group-hover:text-[#137fec] transition-colors">visibility</span>
+                                <button className="group flex items-center gap-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-brand dark:hover:text-brand transition-colors" type="button">
+                                    <span className="material-symbols-outlined text-[20px] text-slate-400 group-hover:text-brand transition-colors">visibility</span>
                                     Preview Document
                                 </button>
                                 <div className="flex items-center gap-3 w-full sm:w-auto">
@@ -195,7 +195,7 @@ export default function DraftRenewalOfferModal({
                                         Cancel
                                     </button>
                                     <button
-                                        className="flex-1 sm:flex-none px-6 py-2.5 rounded-xl bg-[#137fec] hover:bg-[#0e64bd] text-white font-bold shadow-lg shadow-[#137fec]/25 transition-all text-sm flex items-center justify-center gap-2 transform active:scale-95"
+                                        className="flex-1 sm:flex-none px-6 py-2.5 rounded-xl bg-brand hover:bg-[#0e64bd] text-white font-bold shadow-sm transition-all text-sm flex items-center justify-center gap-2 transform active:scale-95"
                                         type="button"
                                         onClick={handleSubmit}
                                     >

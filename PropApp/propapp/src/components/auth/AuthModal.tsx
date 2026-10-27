@@ -19,7 +19,7 @@ interface AuthModalProps {
 
 export default function AuthModal({
     icon,
-    iconColor = 'text-[#137fec]',
+    iconColor = 'text-brand',
     title,
     subtitle,
     children,
@@ -38,7 +38,7 @@ export default function AuthModal({
     };
 
     return (
-        <div className={`w-full ${maxWidthClasses[maxWidth]} bg-white/10 dark:bg-[#1a2632]/60 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col items-center relative`}>
+        <div className={`w-full ${maxWidthClasses[maxWidth]} bg-white/10 dark:bg-surface-dark/60 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col items-center relative`}>
             {/* Close Button */}
             {showClose && onClose && (
                 <button
@@ -53,7 +53,7 @@ export default function AuthModal({
             {/* Step Badge */}
             {stepBadge && (
                 <div className="flex items-center gap-2 mb-6">
-                    <span className="px-3 py-1 rounded-full bg-[#137fec]/20 border border-[#137fec]/30 text-[#137fec] text-xs font-bold uppercase tracking-wider">
+                    <span className="px-3 py-1 rounded-full bg-brand/20 border border-brand/30 text-brand text-xs font-bold uppercase tracking-wider">
                         {stepBadge}
                     </span>
                 </div>

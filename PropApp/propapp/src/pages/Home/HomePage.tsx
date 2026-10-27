@@ -116,14 +116,14 @@ export default function HomePage() {
     const categories: CategoryType[] = ['Buy', 'Rent', 'Short-let', 'Land'];
 
     return (
-        <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex flex-col font-[Manrope,Noto_Sans,sans-serif] text-slate-900 dark:text-white overflow-x-hidden relative">
+        <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex flex-col text-slate-900 dark:text-white overflow-x-hidden relative">
             {/* Logo - positioned above everything */}
             <div className="absolute top-6 left-6 md:left-10 z-40 flex items-center gap-3">
-                <div className="size-10 bg-[#137fec] rounded-xl flex items-center justify-center text-white shadow-lg shadow-[#137fec]/20">
+                <div className="size-10 bg-brand rounded-xl flex items-center justify-center text-white shadow-sm">
                     <span className="material-symbols-outlined">real_estate_agent</span>
                 </div>
                 <h2 className="hidden md:block text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">
-                    PropertyApp
+                    HomeAI
                 </h2>
             </div>
 
@@ -145,21 +145,21 @@ export default function HomePage() {
                         playsInline
                     />
                     {/* Gradient overlay - same white filter as before */}
-                    <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/30 via-[#f6f7f8]/70 to-[#f6f7f8] dark:from-black/50 dark:via-[#101922]/70 dark:to-[#101922]"></div>
+                    <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/30 via-canvas/70 to-canvas dark:from-black/50 dark:via-canvas-dark/70 dark:to-canvas-dark"></div>
 
                     <div className="relative z-10 max-w-4xl w-full flex flex-col items-center mt-24">
                         <div className="text-center mb-10 space-y-4">
                             <h1 className="text-slate-900 dark:text-white tracking-tight text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight drop-shadow-sm">
-                                Find your place <span className="text-[#137fec]">with confidence.</span>
+                                Know what's been checked before you visit.
                             </h1>
                             <p className="text-slate-600 dark:text-slate-300 text-lg md:text-xl font-normal max-w-2xl mx-auto drop-shadow-sm">
-                                Browse thousands of verified listings with AI-powered matching to find exactly what
-                                you're looking for.
+                                Every listing shows its verification tier, from Bronze to Platinum. Search by area and
+                                budget, or describe the home you want in plain words.
                             </p>
                         </div>
 
                         {/* Search Bar */}
-                        <div className="w-full max-w-3xl bg-white dark:bg-[#1a2632] p-2 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] dark:shadow-black/30 border border-slate-100 dark:border-slate-800">
+                        <div className="w-full max-w-3xl bg-white dark:bg-surface-dark p-2 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] dark:shadow-black/30 border border-slate-100 dark:border-slate-800">
                             <div className="flex flex-col md:flex-row gap-2">
                                 <div className="flex-1 flex items-center bg-slate-50 dark:bg-slate-800/50 rounded-xl px-4 h-14 md:h-16">
                                     <span className="material-symbols-outlined text-slate-400 mr-3">search</span>
@@ -175,7 +175,7 @@ export default function HomePage() {
                                         size="sm"
                                     />
                                 </div>
-                                <button className="h-14 md:h-16 px-8 rounded-xl bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-lg shadow-lg shadow-[#137fec]/20 transition-all flex items-center justify-center gap-2 w-full md:w-auto">
+                                <button className="h-14 md:h-16 px-8 rounded-xl bg-brand hover:bg-brand/90 text-white font-bold text-lg shadow-sm transition-all flex items-center justify-center gap-2 w-full md:w-auto">
                                     <span>Search</span>
                                 </button>
                             </div>
@@ -189,23 +189,23 @@ export default function HomePage() {
                                         key={category}
                                         onClick={() => setActiveCategory(category)}
                                         className={`whitespace-nowrap px-6 py-2.5 rounded-full font-semibold text-sm transition-all shadow-sm ${activeCategory === category
-                                            ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:scale-105 shadow-md'
-                                            : 'bg-white dark:bg-[#1a2632] border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-[#137fec] hover:text-[#137fec]'
+                                            ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-md'
+                                            : 'bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-brand hover:text-brand'
                                             }`}
                                     >
                                         {category}
                                     </button>
                                 ))}
                             </div>
-                            <div className="flex items-center gap-3 bg-white dark:bg-[#1a2632] px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 shadow-sm">
-                                <span className="material-symbols-outlined text-[#137fec] icon-filled">
-                                    smart_toy
+                            <div className="flex items-center gap-3 bg-white dark:bg-surface-dark px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 shadow-sm">
+                                <span className="material-symbols-outlined text-brand icon-filled">
+                                    forum
                                 </span>
                                 <div className="flex flex-col">
                                     <span className="text-xs font-bold text-slate-900 dark:text-white leading-none">
                                         AI Search
                                     </span>
-                                    <span className="text-[10px] text-slate-500 dark:text-slate-400 leading-none mt-0.5">
+                                    <span className="text-xs text-slate-500 dark:text-slate-400 leading-none mt-0.5">
                                         Natural language
                                     </span>
                                 </div>
@@ -216,7 +216,7 @@ export default function HomePage() {
                                         onChange={(e) => setAiSearchEnabled(e.target.checked)}
                                         className="sr-only peer"
                                     />
-                                    <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none peer-focus:ring-0 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#137fec]"></div>
+                                    <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none peer-focus:ring-0 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand"></div>
                                 </label>
                             </div>
                         </div>
@@ -224,7 +224,7 @@ export default function HomePage() {
                 </section>
 
                 {/* Featured Properties Section */}
-                <section className="flex-1 w-full bg-white dark:bg-[#101922] py-16 px-4 md:px-10 lg:px-20 border-t border-slate-100 dark:border-slate-800">
+                <section className="flex-1 w-full bg-white dark:bg-canvas-dark py-16 px-4 md:px-10 lg:px-20 border-t border-slate-100 dark:border-slate-800">
                     <div className="max-w-[1400px] mx-auto">
                         <div className="flex items-center justify-between mb-8">
                             <div>
@@ -237,7 +237,7 @@ export default function HomePage() {
                             </div>
                             <Link
                                 to="/search"
-                                className="hidden md:flex items-center gap-1 text-[#137fec] font-bold hover:underline"
+                                className="hidden md:flex items-center gap-1 text-brand font-bold hover:underline"
                             >
                                 View all{' '}
                                 <span className="material-symbols-outlined text-lg">arrow_forward</span>
@@ -265,7 +265,7 @@ export default function HomePage() {
                                     <p className="text-slate-500 dark:text-slate-400">{error}</p>
                                     <button
                                         onClick={() => window.location.reload()}
-                                        className="mt-4 px-4 py-2 bg-[#137fec] text-white rounded-lg hover:bg-[#137fec]/90"
+                                        className="mt-4 px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand/90"
                                     >
                                         Try Again
                                     </button>
@@ -354,7 +354,7 @@ export default function HomePage() {
                         <div className="mt-8 flex md:hidden justify-center">
                             <Link
                                 to="/search"
-                                className="flex items-center gap-1 text-[#137fec] font-bold hover:underline"
+                                className="flex items-center gap-1 text-brand font-bold hover:underline"
                             >
                                 View all properties{' '}
                                 <span className="material-symbols-outlined text-lg">arrow_forward</span>
@@ -365,17 +365,17 @@ export default function HomePage() {
             </main>
 
             {/* Footer */}
-            <footer className="bg-white dark:bg-[#101922] border-t border-slate-200 dark:border-slate-800 py-6 px-4 md:px-10 lg:px-20 text-center">
+            <footer className="bg-white dark:bg-canvas-dark border-t border-slate-200 dark:border-slate-800 py-6 px-4 md:px-10 lg:px-20 text-center">
                 <div className="flex flex-col md:flex-row items-center justify-between max-w-[1400px] mx-auto text-sm text-slate-500 dark:text-slate-400">
-                    <p>© 2024 PropertyApp. All rights reserved.</p>
+                    <p>© {new Date().getFullYear()} HomeAI. All rights reserved.</p>
                     <div className="flex gap-4 mt-2 md:mt-0">
-                        <Link to="/privacy" className="hover:text-[#137fec] transition-colors">
+                        <Link to="/privacy" className="hover:text-brand transition-colors">
                             Privacy Policy
                         </Link>
-                        <Link to="/terms" className="hover:text-[#137fec] transition-colors">
+                        <Link to="/terms" className="hover:text-brand transition-colors">
                             Terms of Service
                         </Link>
-                        <Link to="/support" className="hover:text-[#137fec] transition-colors">
+                        <Link to="/support" className="hover:text-brand transition-colors">
                             Support
                         </Link>
                     </div>

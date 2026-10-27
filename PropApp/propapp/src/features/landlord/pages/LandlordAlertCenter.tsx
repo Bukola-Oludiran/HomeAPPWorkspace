@@ -83,7 +83,7 @@ function getAlertTypeStyles(type: AlertType): {
         case 'VERIFICATION_PENDING':
             return {
                 icon: 'verified_user',
-                iconBg: 'bg-blue-100 dark:bg-blue-900/30 text-[#137fec]',
+                iconBg: 'bg-blue-100 dark:bg-blue-900/30 text-brand',
                 barColor: 'bg-blue-500',
                 uiType: 'verification',
             };
@@ -129,14 +129,14 @@ function getPriorityStyles(priority: AlertPriority): {
             return {
                 urgencyLabel: 'Medium',
                 urgencyBg: 'bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-300 border-orange-200 dark:border-orange-800',
-                primaryActionBg: 'bg-[#137fec] hover:bg-[#137fec]/90 text-white shadow-blue-200',
+                primaryActionBg: 'bg-brand hover:bg-brand/90 text-white shadow-blue-200',
             };
         case 'low':
         default:
             return {
                 urgencyLabel: 'Low',
                 urgencyBg: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border-slate-200 dark:border-slate-700',
-                primaryActionBg: 'bg-white dark:bg-[#1a2632] border border-slate-200 dark:border-slate-700 hover:border-[#137fec] hover:text-[#137fec] text-slate-700 dark:text-slate-300',
+                primaryActionBg: 'bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 hover:border-brand hover:text-brand text-slate-700 dark:text-slate-300',
             };
     }
 }
@@ -259,7 +259,7 @@ export default function LandlordAlertCenter() {
                 />
                 <div className="flex flex-col gap-4">
                     {Array.from({ length: 5 }).map((_, i) => (
-                        <div key={i} className="bg-white dark:bg-[#101922] p-5 rounded-xl border border-slate-200 dark:border-slate-800 animate-pulse">
+                        <div key={i} className="bg-white dark:bg-canvas-dark p-5 rounded-xl border border-slate-200 dark:border-slate-800 animate-pulse">
                             <div className="flex gap-4">
                                 <div className="w-12 h-12 bg-slate-200 dark:bg-slate-700 rounded-full" />
                                 <div className="flex-1">
@@ -321,7 +321,7 @@ export default function LandlordAlertCenter() {
             />
 
             {/* Filters */}
-            <div className="bg-white dark:bg-[#101922] p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm mb-6 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4">
+            <div className="bg-white dark:bg-canvas-dark p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm mb-6 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4">
                 <div className="flex flex-wrap items-center gap-3 w-full xl:w-auto">
                     <div className="flex items-center gap-2">
                         <span className="text-sm font-semibold text-slate-500 dark:text-slate-400 mr-1">Filter by:</span>
@@ -329,7 +329,7 @@ export default function LandlordAlertCenter() {
                             <select
                                 value={typeFilter}
                                 onChange={(e) => setTypeFilter(e.target.value)}
-                                className="pl-3 pr-8 py-2 text-sm bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-[#137fec] focus:border-[#137fec] text-slate-900 dark:text-white cursor-pointer min-w-[140px]"
+                                className="pl-3 pr-8 py-2 text-sm bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-brand focus:border-brand text-slate-900 dark:text-white cursor-pointer min-w-[140px]"
                             >
                                 <option value="all">All Types</option>
                                 <option value="maintenance">Maintenance</option>
@@ -342,7 +342,7 @@ export default function LandlordAlertCenter() {
                             <select
                                 value={urgencyFilter}
                                 onChange={(e) => setUrgencyFilter(e.target.value)}
-                                className="pl-3 pr-8 py-2 text-sm bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-[#137fec] focus:border-[#137fec] text-slate-900 dark:text-white cursor-pointer min-w-[120px]"
+                                className="pl-3 pr-8 py-2 text-sm bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-brand focus:border-brand text-slate-900 dark:text-white cursor-pointer min-w-[120px]"
                             >
                                 <option value="all">Any Urgency</option>
                                 <option value="high">High</option>
@@ -354,7 +354,7 @@ export default function LandlordAlertCenter() {
                             <select
                                 value={statusFilter}
                                 onChange={(e) => setStatusFilter(e.target.value)}
-                                className="pl-3 pr-8 py-2 text-sm bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-[#137fec] focus:border-[#137fec] text-slate-900 dark:text-white cursor-pointer min-w-[120px]"
+                                className="pl-3 pr-8 py-2 text-sm bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-brand focus:border-brand text-slate-900 dark:text-white cursor-pointer min-w-[120px]"
                             >
                                 <option value="new">Status: New</option>
                                 <option value="acknowledged">Acknowledged</option>
@@ -380,14 +380,14 @@ export default function LandlordAlertCenter() {
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search by property, tenant, or keyword..."
-                        className="w-full pl-10 pr-4 py-2 text-sm bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-[#137fec] focus:border-[#137fec] text-slate-900 dark:text-white placeholder:text-slate-400"
+                        className="w-full pl-10 pr-4 py-2 text-sm bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-brand focus:border-brand text-slate-900 dark:text-white placeholder:text-slate-400"
                     />
                 </div>
             </div>
 
             {/* Alerts List */}
             {filteredAlerts.length === 0 ? (
-                <div className="py-16 text-center bg-white dark:bg-[#101922] rounded-xl border border-slate-200 dark:border-slate-800">
+                <div className="py-16 text-center bg-white dark:bg-canvas-dark rounded-xl border border-slate-200 dark:border-slate-800">
                     <span className="material-symbols-outlined text-5xl text-slate-300 dark:text-slate-600 mb-4">notifications_off</span>
                     <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">No alerts found</h3>
                     <p className="text-slate-500 dark:text-slate-400">
@@ -399,8 +399,8 @@ export default function LandlordAlertCenter() {
                 {filteredAlerts.map((alert) => (
                     <div
                         key={alert.id}
-                        className={`group bg-white dark:bg-[#101922] p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-[#137fec]/50 dark:hover:border-[#137fec]/50 hover:shadow-md transition-all relative overflow-hidden ${alert.isResolved ? 'opacity-75 hover:opacity-100' : ''
-                            } ${alert.isAIInsight ? 'bg-gradient-to-r from-blue-50 to-white dark:from-slate-800 dark:to-[#101922] border-blue-100 dark:border-slate-700' : ''}`}
+                        className={`group bg-white dark:bg-canvas-dark p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-brand/50 dark:hover:border-brand/50 hover:shadow-md transition-all relative overflow-hidden ${alert.isResolved ? 'opacity-75 hover:opacity-100' : ''
+                            } ${alert.isAIInsight ? 'bg-blue-50/50 dark:bg-slate-800 border-blue-100 dark:border-slate-700' : ''}`}
                     >
                         <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${alert.barColor}`}></div>
                         <div className="flex flex-col md:flex-row gap-5 items-start">
@@ -409,7 +409,7 @@ export default function LandlordAlertCenter() {
                                     type="checkbox"
                                     checked={selectedAlerts.includes(alert.id)}
                                     onChange={() => toggleAlert(alert.id)}
-                                    className="mt-1.5 rounded border-slate-300 text-[#137fec] focus:ring-[#137fec] dark:border-slate-600 dark:bg-slate-800 cursor-pointer"
+                                    className="mt-1.5 rounded border-slate-300 text-brand focus:ring-brand dark:border-slate-600 dark:bg-slate-800 cursor-pointer"
                                 />
                                 <div className={`size-12 rounded-full ${alert.iconBg} flex items-center justify-center shrink-0`}>
                                     <span className="material-symbols-outlined text-[24px]">{alert.icon}</span>
@@ -418,10 +418,10 @@ export default function LandlordAlertCenter() {
                             <div className="flex-1 min-w-0 w-full">
                                 <div className="flex flex-wrap justify-between items-start gap-2 mb-1">
                                     <div>
-                                        <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-[#137fec] transition-colors flex items-center gap-2">
+                                        <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-brand transition-colors flex items-center gap-2">
                                             {alert.title}
                                             {alert.isAIInsight && (
-                                                <span className="px-2 py-0.5 bg-blue-100 dark:bg-blue-900 text-[#137fec] dark:text-blue-300 text-[10px] uppercase font-bold tracking-wide rounded">
+                                                <span className="px-2 py-0.5 bg-blue-100 dark:bg-blue-900 text-brand dark:text-blue-300 text-xs uppercase font-bold tracking-wide rounded">
                                                     AI Insight
                                                 </span>
                                             )}
@@ -474,7 +474,7 @@ export default function LandlordAlertCenter() {
                                             <Link
                                                 key={idx}
                                                 to={`/landlord/maintenance/${alert.id}`}
-                                                className="px-4 py-2 text-sm font-semibold rounded-lg transition-colors bg-white dark:bg-[#1a2632] border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300"
+                                                className="px-4 py-2 text-sm font-semibold rounded-lg transition-colors bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300"
                                             >
                                                 {action}
                                             </Link>
@@ -483,7 +483,7 @@ export default function LandlordAlertCenter() {
                                                 key={idx}
                                                 className={`px-4 py-2 text-sm font-semibold rounded-lg transition-colors ${alert.isResolved
                                                     ? 'bg-slate-50 dark:bg-slate-900 text-slate-800 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
-                                                    : 'bg-white dark:bg-[#1a2632] border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300'
+                                                    : 'bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300'
                                                     }`}
                                             >
                                                 {action}

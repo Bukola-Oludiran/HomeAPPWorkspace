@@ -44,14 +44,14 @@ const EmptyState: React.FC<EmptyStateProps> = ({
                 action.href ? (
                     <Link
                         to={action.href}
-                        className="mt-4 px-5 py-2 bg-[#137fec] text-white text-sm font-bold rounded-lg hover:bg-[#0e6bc9] transition-colors"
+                        className="mt-4 px-5 py-2 bg-brand text-white text-sm font-bold rounded-lg hover:bg-[#0e6bc9] transition-colors"
                     >
                         {action.label}
                     </Link>
                 ) : (
                     <button
                         onClick={action.onClick}
-                        className="mt-4 px-5 py-2 bg-[#137fec] text-white text-sm font-bold rounded-lg hover:bg-[#0e6bc9] transition-colors"
+                        className="mt-4 px-5 py-2 bg-brand text-white text-sm font-bold rounded-lg hover:bg-[#0e6bc9] transition-colors"
                     >
                         {action.label}
                     </button>

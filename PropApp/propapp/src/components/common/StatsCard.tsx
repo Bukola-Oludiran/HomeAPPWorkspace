@@ -1,5 +1,4 @@
 import React from 'react';
-import { Counter } from '../animation';
 
 interface StatsCardProps {
     /** Material icon name */
@@ -22,15 +21,15 @@ interface StatsCardProps {
     };
     /** Optional subtext below the value (e.g., "Due: Jan 15, 2024") */
     subtext?: string;
-    /** Enable rolling counter animation for numeric values */
+    /** Apply valuePrefix/valueSuffix to a numeric value (the count-up animation was removed) */
     animateValue?: boolean;
-    /** Numeric value for animation (parsed from value if not provided) */
+    /** @deprecated Ignored; the value is rendered as given */
     numericValue?: number;
-    /** Prefix for animated counter (e.g., "$", "$") */
+    /** Prefix for a numeric value when animateValue is set (e.g., "$") */
     valuePrefix?: string;
-    /** Suffix for animated counter (e.g., "/mo") */
+    /** Suffix for a numeric value when animateValue is set (e.g., "/mo") */
     valueSuffix?: string;
-    /** Animation delay in seconds */
+    /** @deprecated Ignored; there is no count-up animation */
     animationDelay?: number;
     /** Additional className for customization */
     className?: string;
@@ -67,51 +66,22 @@ const StatsCard: React.FC<StatsCardProps> = ({
     badge,
     subtext,
     animateValue = false,
-    numericValue,
     valuePrefix = '',
     valueSuffix = '',
-    animationDelay = 0,
     className = '',
 }) => {
-    // Parse numeric value from string if not explicitly provided
-    const getNumericValue = (): number => {
-        if (numericValue !== undefined) return numericValue;
-        if (typeof value === 'number') return value;
-        // Extract numbers from string (e.g., "$2,500,000" -> 2500000)
-        const parsed = parseFloat(String(value).replace(/[^0-9.-]/g, ''));
-        return isNaN(parsed) ? 0 : parsed;
-    };
-
+    // Values render as given (no count-up). Pre-formatted strings keep their own
+    // currency formatting; bare numbers still get the optional prefix/suffix.
     const renderValue = () => {
-        if (animateValue && typeof value !== 'string') {
-            return (
-                <Counter
-                    end={getNumericValue()}
-                    prefix={valuePrefix}
-                    suffix={valueSuffix}
-                    delay={animationDelay}
-                    duration={1.5}
-                />
-            );
-        }
-        if (animateValue && typeof value === 'string') {
-            // For string values with currency/formatting, use Counter
-            return (
-                <Counter
-                    end={getNumericValue()}
-                    prefix={valuePrefix}
-                    suffix={valueSuffix}
-                    delay={animationDelay}
-                    duration={1.5}
-                />
-            );
+        if (animateValue && typeof value === 'number') {
+            return `${valuePrefix}${value.toLocaleString()}${valueSuffix}`;
         }
         return value;
     };
 
     return (
         <div
-            className={`bg-white dark:bg-[#101922] p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col justify-between ${className}`}
+            className={`bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col justify-between ${className}`}
         >
             <div className="flex justify-between items-start mb-4">
                 <div className={`p-3 rounded-xl ${iconColorStyles[iconColor]}`}>

@@ -143,10 +143,10 @@ export default function RentalApplicationWizard() {
                             <div className="relative z-10">
                                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                                     <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                                        <span className="material-symbols-outlined text-[#137fec]">badge</span>
+                                        <span className="material-symbols-outlined text-brand">badge</span>
                                         Applicant Information
                                     </h2>
-                                    <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-[#137fec] text-[#137fec] text-sm font-semibold hover:bg-blue-50 dark:hover:bg-[#137fec]/10 transition-colors">
+                                    <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-brand text-brand text-sm font-semibold hover:bg-blue-50 dark:hover:bg-brand/10 transition-colors">
                                         <span className="material-symbols-outlined text-[18px]">cloud_download</span>
                                         Link Saved Tenant Profile
                                     </button>
@@ -161,7 +161,7 @@ export default function RentalApplicationWizard() {
                                                 type="text"
                                                 value={applicantData.name}
                                             />
-                                            <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-[18px] group-hover:text-[#137fec] transition-colors">lock</span>
+                                            <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-[18px] group-hover:text-brand transition-colors">lock</span>
                                         </div>
                                     </div>
                                     <div>
@@ -173,7 +173,7 @@ export default function RentalApplicationWizard() {
                                                 type="email"
                                                 value={applicantData.email}
                                             />
-                                            <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-[18px] group-hover:text-[#137fec] transition-colors">lock</span>
+                                            <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-[18px] group-hover:text-brand transition-colors">lock</span>
                                         </div>
                                     </div>
                                     <div className="md:col-span-2">
@@ -185,11 +185,11 @@ export default function RentalApplicationWizard() {
                                                 type="tel"
                                                 value={applicantData.phone}
                                             />
-                                            <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-[18px] group-hover:text-[#137fec] transition-colors">lock</span>
+                                            <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-[18px] group-hover:text-brand transition-colors">lock</span>
                                         </div>
                                         <p className="mt-3 text-xs text-slate-400 flex items-center gap-1.5">
-                                            <span className="material-symbols-outlined text-[16px] text-[#137fec]" style={{ fontVariationSettings: "'FILL' 1" }}>info</span>
-                                            These details are verified and linked to your main profile. <Link to="/tenant/profile" className="text-[#137fec] hover:underline font-semibold">Edit in Profile Settings</Link>
+                                            <span className="material-symbols-outlined text-[16px] text-brand" style={{ fontVariationSettings: "'FILL' 1" }}>info</span>
+                                            These details are verified and linked to your main profile. <Link to="/tenant/profile" className="text-brand hover:underline font-semibold">Edit in Profile Settings</Link>
                                         </p>
                                     </div>
                                 </div>
@@ -199,7 +199,7 @@ export default function RentalApplicationWizard() {
                         {/* Desired Lease Terms */}
                         <section className="bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-8 border border-slate-200 dark:border-slate-700 shadow-sm">
                             <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-6">
-                                <span className="material-symbols-outlined text-[#137fec]">calendar_clock</span>
+                                <span className="material-symbols-outlined text-brand">calendar_clock</span>
                                 Desired Lease Terms
                             </h2>
                             <div className="space-y-6">
@@ -219,8 +219,8 @@ export default function RentalApplicationWizard() {
                                                     checked={formData.leaseDuration === option.value}
                                                     onChange={() => setFormData({ ...formData, leaseDuration: option.value })}
                                                 />
-                                                <div className="h-full rounded-xl border-2 border-slate-200 dark:border-slate-600 p-4 text-center hover:border-[#137fec] peer-checked:border-[#137fec] peer-checked:bg-blue-50 dark:peer-checked:bg-[#137fec]/10 transition-all shadow-sm">
-                                                    <div className="mb-1 text-slate-400 group-hover:text-[#137fec] peer-checked:text-[#137fec] transition-colors">
+                                                <div className="h-full rounded-xl border-2 border-slate-200 dark:border-slate-600 p-4 text-center hover:border-brand peer-checked:border-brand peer-checked:bg-blue-50 dark:peer-checked:bg-brand/10 transition-all shadow-sm">
+                                                    <div className="mb-1 text-slate-400 group-hover:text-brand peer-checked:text-brand transition-colors">
                                                         <span className="material-symbols-outlined">{option.icon}</span>
                                                     </div>
                                                     <span className="block font-bold text-slate-900 dark:text-white">{option.label}</span>
@@ -235,7 +235,7 @@ export default function RentalApplicationWizard() {
                                     <div className="relative max-w-sm">
                                         <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">calendar_month</span>
                                         <input
-                                            className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-xl pl-12 pr-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec] focus:border-transparent font-medium"
+                                            className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-xl pl-12 pr-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-transparent font-medium"
                                             type="date"
                                             value={formData.moveInDate}
                                             onChange={(e) => setFormData({ ...formData, moveInDate: e.target.value })}
@@ -248,7 +248,7 @@ export default function RentalApplicationWizard() {
                         {/* Household Details */}
                         <section className="bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-8 border border-slate-200 dark:border-slate-700 shadow-sm">
                             <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-6">
-                                <span className="material-symbols-outlined text-[#137fec]">family_restroom</span>
+                                <span className="material-symbols-outlined text-brand">family_restroom</span>
                                 Household Details
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -290,7 +290,7 @@ export default function RentalApplicationWizard() {
                                                 checked={formData.hasPets}
                                                 onChange={() => setFormData({ ...formData, hasPets: true })}
                                             />
-                                            <div className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-slate-200 dark:border-slate-600 peer-checked:bg-[#137fec] peer-checked:border-[#137fec] peer-checked:text-white text-slate-700 dark:text-slate-300 font-bold transition-all hover:bg-slate-50 dark:hover:bg-slate-700">
+                                            <div className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-slate-200 dark:border-slate-600 peer-checked:bg-brand peer-checked:border-brand peer-checked:text-white text-slate-700 dark:text-slate-300 font-bold transition-all hover:bg-slate-50 dark:hover:bg-slate-700">
                                                 <span className="material-symbols-outlined text-[20px]">check</span> Yes
                                             </div>
                                         </label>
@@ -302,7 +302,7 @@ export default function RentalApplicationWizard() {
                                                 checked={!formData.hasPets}
                                                 onChange={() => setFormData({ ...formData, hasPets: false })}
                                             />
-                                            <div className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-slate-200 dark:border-slate-600 peer-checked:bg-[#137fec] peer-checked:border-[#137fec] peer-checked:text-white text-slate-700 dark:text-slate-300 font-bold transition-all hover:bg-slate-50 dark:hover:bg-slate-700">
+                                            <div className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-slate-200 dark:border-slate-600 peer-checked:bg-brand peer-checked:border-brand peer-checked:text-white text-slate-700 dark:text-slate-300 font-bold transition-all hover:bg-slate-50 dark:hover:bg-slate-700">
                                                 <span className="material-symbols-outlined text-[20px]">close</span> No
                                             </div>
                                         </label>
@@ -312,10 +312,10 @@ export default function RentalApplicationWizard() {
                         </section>
 
                         {/* Upcoming Requirements Notice */}
-                        <div className="bg-gradient-to-r from-blue-50 to-white dark:from-slate-800 dark:to-slate-800/50 rounded-2xl p-6 border border-blue-100 dark:border-slate-700 flex flex-col md:flex-row gap-6 relative overflow-hidden">
+                        <div className="bg-blue-50/50 dark:bg-slate-800 rounded-2xl p-6 border border-blue-100 dark:border-slate-700 flex flex-col md:flex-row gap-6 relative overflow-hidden">
                             <div className="absolute -right-6 -bottom-6 size-24 bg-blue-100 dark:bg-blue-900/20 rounded-full blur-2xl"></div>
                             <div className="shrink-0 relative z-10">
-                                <div className="size-14 rounded-2xl bg-white dark:bg-slate-700 shadow-md border border-slate-100 dark:border-slate-600 flex items-center justify-center text-[#137fec]">
+                                <div className="size-14 rounded-2xl bg-white dark:bg-slate-700 shadow-md border border-slate-100 dark:border-slate-600 flex items-center justify-center text-brand">
                                     <span className="material-symbols-outlined text-3xl">folder_shared</span>
                                 </div>
                             </div>
@@ -345,14 +345,14 @@ export default function RentalApplicationWizard() {
                         {/* Employment Information */}
                         <section className="bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-8 border border-slate-200 dark:border-slate-700 shadow-sm">
                             <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-6">
-                                <span className="material-symbols-outlined text-[#137fec]">work</span>
+                                <span className="material-symbols-outlined text-brand">work</span>
                                 Employment Information
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Employer Name</label>
                                     <input
-                                        className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec] focus:border-transparent font-medium"
+                                        className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-transparent font-medium"
                                         type="text"
                                         placeholder="e.g. TechCorp Inc."
                                         value={formData.employerName}
@@ -364,7 +364,7 @@ export default function RentalApplicationWizard() {
                                     <div className="relative">
                                         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 font-bold">$</span>
                                         <input
-                                            className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-xl pl-8 pr-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec] focus:border-transparent font-medium"
+                                            className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-xl pl-8 pr-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-transparent font-medium"
                                             type="number"
                                             placeholder="0.00"
                                             value={formData.monthlyIncome}
@@ -378,14 +378,14 @@ export default function RentalApplicationWizard() {
                         {/* Rental History */}
                         <section className="bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-8 border border-slate-200 dark:border-slate-700 shadow-sm">
                             <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-6">
-                                <span className="material-symbols-outlined text-[#137fec]">home</span>
+                                <span className="material-symbols-outlined text-brand">home</span>
                                 Rental History
                             </h2>
                             <div className="space-y-6">
                                 <div>
                                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Current Address</label>
                                     <input
-                                        className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec] focus:border-transparent font-medium"
+                                        className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-transparent font-medium"
                                         type="text"
                                         placeholder="Enter your current address"
                                         value={formData.currentAddress}
@@ -395,7 +395,7 @@ export default function RentalApplicationWizard() {
                                 <div>
                                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Reason for Moving</label>
                                     <textarea
-                                        className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec] focus:border-transparent font-medium resize-none"
+                                        className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-transparent font-medium resize-none"
                                         rows={3}
                                         placeholder="e.g. Job relocation, looking for more space..."
                                         value={formData.reasonForMoving}
@@ -413,7 +413,7 @@ export default function RentalApplicationWizard() {
                         {/* Document Upload */}
                         <section className="bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-8 border border-slate-200 dark:border-slate-700 shadow-sm">
                             <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-6">
-                                <span className="material-symbols-outlined text-[#137fec]">upload_file</span>
+                                <span className="material-symbols-outlined text-brand">upload_file</span>
                                 Required Documents
                             </h2>
                             <div className="space-y-4">
@@ -422,16 +422,16 @@ export default function RentalApplicationWizard() {
                                     { name: 'Valid ID', desc: 'Driver\'s license, passport, or state ID', icon: 'id_card' },
                                     { name: 'Rental History Reference', desc: 'Previous landlord contact information', icon: 'contact_phone' },
                                 ].map((doc) => (
-                                    <div key={doc.name} className="border-2 border-dashed border-slate-200 dark:border-slate-600 rounded-xl p-5 hover:border-[#137fec] transition-colors group cursor-pointer">
+                                    <div key={doc.name} className="border-2 border-dashed border-slate-200 dark:border-slate-600 rounded-xl p-5 hover:border-brand transition-colors group cursor-pointer">
                                         <div className="flex items-start gap-4">
-                                            <div className="size-12 rounded-xl bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400 group-hover:text-[#137fec] transition-colors">
+                                            <div className="size-12 rounded-xl bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400 group-hover:text-brand transition-colors">
                                                 <span className="material-symbols-outlined text-2xl">{doc.icon}</span>
                                             </div>
                                             <div className="flex-1">
                                                 <h4 className="font-bold text-slate-900 dark:text-white">{doc.name}</h4>
                                                 <p className="text-sm text-slate-500 dark:text-slate-400">{doc.desc}</p>
                                             </div>
-                                            <button className="px-4 py-2 rounded-lg bg-[#137fec]/10 text-[#137fec] text-sm font-bold hover:bg-[#137fec]/20 transition-colors">
+                                            <button className="px-4 py-2 rounded-lg bg-brand/10 text-brand text-sm font-bold hover:bg-brand/20 transition-colors">
                                                 Upload
                                             </button>
                                         </div>
@@ -443,7 +443,7 @@ export default function RentalApplicationWizard() {
                         {/* Background Check Authorization */}
                         <section className="bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-8 border border-slate-200 dark:border-slate-700 shadow-sm">
                             <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-6">
-                                <span className="material-symbols-outlined text-[#137fec]">verified_user</span>
+                                <span className="material-symbols-outlined text-brand">verified_user</span>
                                 Background Check Authorization
                             </h2>
                             <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-4 mb-4">
@@ -451,9 +451,9 @@ export default function RentalApplicationWizard() {
                                     By submitting this application, you authorize the landlord to conduct a background check including credit history, criminal records, and employment verification.
                                 </p>
                                 <label className="flex items-start gap-3 cursor-pointer">
-                                    <input type="checkbox" className="mt-1 w-5 h-5 rounded border-slate-300 text-[#137fec] focus:ring-[#137fec]" />
+                                    <input type="checkbox" className="mt-1 w-5 h-5 rounded border-slate-300 text-brand focus:ring-brand" />
                                     <span className="text-sm text-slate-700 dark:text-slate-300 font-medium">
-                                        I authorize background check and agree to the <Link to="#" className="text-[#137fec] hover:underline">Terms & Conditions</Link>
+                                        I authorize background check and agree to the <Link to="#" className="text-brand hover:underline">Terms & Conditions</Link>
                                     </span>
                                 </label>
                             </div>
@@ -467,7 +467,7 @@ export default function RentalApplicationWizard() {
                         {/* Review Summary */}
                         <section className="bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-8 border border-slate-200 dark:border-slate-700 shadow-sm">
                             <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-6">
-                                <span className="material-symbols-outlined text-[#137fec]">checklist</span>
+                                <span className="material-symbols-outlined text-brand">checklist</span>
                                 Review Your Application
                             </h2>
                             <div className="space-y-6">
@@ -495,7 +495,7 @@ export default function RentalApplicationWizard() {
                         </section>
 
                         {/* Application Fee */}
-                        <section className="bg-gradient-to-r from-green-50 to-white dark:from-green-900/20 dark:to-slate-800 rounded-2xl p-6 border border-green-100 dark:border-green-800">
+                        <section className="bg-green-50/50 dark:bg-green-900/20 rounded-2xl p-6 border border-green-100 dark:border-green-800">
                             <div className="flex items-start gap-4">
                                 <div className="size-12 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600">
                                     <span className="material-symbols-outlined text-2xl">payments</span>
@@ -516,9 +516,9 @@ export default function RentalApplicationWizard() {
 
     if (loading) {
         return (
-            <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex items-center justify-center">
+            <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex items-center justify-center">
                 <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#137fec] mx-auto mb-4"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand mx-auto mb-4"></div>
                     <p className="text-slate-500 dark:text-slate-400">Loading application...</p>
                 </div>
             </div>
@@ -526,9 +526,9 @@ export default function RentalApplicationWizard() {
     }
 
     return (
-        <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex flex-col font-[Manrope,Noto_Sans,sans-serif] text-slate-900 dark:text-white overflow-x-hidden pb-[100px]">
+        <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex flex-col text-slate-900 dark:text-white overflow-x-hidden pb-[100px]">
             {/* Header */}
-            <header className="sticky top-0 z-40 bg-white/90 dark:bg-[#101922]/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+            <header className="sticky top-0 z-40 bg-white/90 dark:bg-canvas-dark/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
                 <div className="max-w-[1200px] mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
                     <div className="flex items-center gap-4">
                         <Link to={`/property/${id || 1}`} className="flex items-center justify-center size-10 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300">
@@ -556,11 +556,11 @@ export default function RentalApplicationWizard() {
                     <p className="text-slate-500 dark:text-slate-400 mb-8">{propertyData.address} • {propertyData.neighborhood}</p>
                     <div className="bg-slate-200 dark:bg-slate-700 rounded-full h-3 w-full max-w-lg relative overflow-hidden">
                         <div
-                            className="absolute top-0 left-0 h-full bg-[#137fec] rounded-full shadow-[0_0_10px_rgba(19,127,236,0.5)] transition-all duration-500"
+                            className="absolute top-0 left-0 h-full bg-brand rounded-full shadow-[0_0_10px_rgba(19,127,236,0.5)] transition-all duration-500"
                             style={{ width: `${(currentStep / totalSteps) * 100}%` }}
                         ></div>
                     </div>
-                    <div className="flex justify-between w-full max-w-lg mt-2 text-xs font-bold uppercase tracking-wider text-[#137fec]">
+                    <div className="flex justify-between w-full max-w-lg mt-2 text-xs font-bold uppercase tracking-wider text-brand">
                         <span>Step {currentStep} of {totalSteps}: {stepTitles[currentStep - 1]}</span>
                     </div>
                 </div>
@@ -585,7 +585,7 @@ export default function RentalApplicationWizard() {
                                 {currentStep < totalSteps ? (
                                     <button
                                         onClick={() => setCurrentStep(currentStep + 1)}
-                                        className="px-6 md:px-8 py-3 rounded-xl bg-[#137fec] text-white font-bold hover:bg-[#0e64bd] transition-colors shadow-lg shadow-[#137fec]/25 flex items-center gap-2"
+                                        className="px-6 md:px-8 py-3 rounded-xl bg-brand text-white font-bold hover:bg-[#0e64bd] transition-colors shadow-sm flex items-center gap-2"
                                     >
                                         Next Step <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
                                     </button>
@@ -619,27 +619,27 @@ export default function RentalApplicationWizard() {
                                     <div>
                                         <h4 className="font-bold text-slate-900 dark:text-white leading-tight mb-1">{propertyData.name}</h4>
                                         <p className="text-xs text-slate-500 dark:text-slate-400 mb-2">{propertyData.address}</p>
-                                        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800">{propertyData.status}</span>
+                                        <span className="px-2 py-0.5 rounded text-xs font-bold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800">{propertyData.status}</span>
                                     </div>
                                 </div>
                                 <div className="px-4 pb-4">
                                     <div className="grid grid-cols-3 gap-2 py-3 border-t border-slate-100 dark:border-slate-700">
                                         <div className="text-center">
                                             <span className="block font-bold text-slate-900 dark:text-white">{propertyData.beds}</span>
-                                            <span className="text-[10px] text-slate-500 uppercase">Beds</span>
+                                            <span className="text-xs text-slate-500 uppercase">Beds</span>
                                         </div>
                                         <div className="text-center border-l border-slate-100 dark:border-slate-700">
                                             <span className="block font-bold text-slate-900 dark:text-white">{propertyData.baths}</span>
-                                            <span className="text-[10px] text-slate-500 uppercase">Baths</span>
+                                            <span className="text-xs text-slate-500 uppercase">Baths</span>
                                         </div>
                                         <div className="text-center border-l border-slate-100 dark:border-slate-700">
                                             <span className="block font-bold text-slate-900 dark:text-white">{propertyData.sqft}</span>
-                                            <span className="text-[10px] text-slate-500 uppercase">Sq Ft</span>
+                                            <span className="text-xs text-slate-500 uppercase">Sq Ft</span>
                                         </div>
                                     </div>
                                     <div className="mt-2 pt-3 border-t border-slate-100 dark:border-slate-700 flex justify-between items-center">
                                         <span className="text-sm font-medium text-slate-600 dark:text-slate-400">Monthly Rent</span>
-                                        <span className="text-xl font-extrabold text-[#137fec]">{propertyData.rent}</span>
+                                        <span className="text-xl font-extrabold text-brand">{propertyData.rent}</span>
                                     </div>
                                 </div>
                             </div>
@@ -654,7 +654,7 @@ export default function RentalApplicationWizard() {
                                     Your data is encrypted and securely transmitted. We only share details with verified landlords once you approve.
                                 </p>
                                 <div className="w-full bg-slate-100 dark:bg-slate-700 rounded-lg p-2 flex items-center justify-center">
-                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">256-bit Encryption</span>
+                                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">256-bit Encryption</span>
                                 </div>
                             </div>
                         </div>
@@ -664,19 +664,19 @@ export default function RentalApplicationWizard() {
 
             {/* Floating AI Assistant */}
             <div className="fixed bottom-6 left-0 right-0 flex justify-center z-40 px-4 pointer-events-none">
-                <div className="w-full max-w-2xl bg-white/95 dark:bg-[#101922]/95 backdrop-blur-xl border border-[#137fec]/20 shadow-2xl shadow-[#137fec]/10 rounded-full py-2 px-2 flex items-center gap-3 pointer-events-auto transition-all hover:scale-[1.01] group" style={{ boxShadow: '0 0 15px rgba(19, 127, 236, 0.4)' }}>
-                    <div className="size-10 rounded-full bg-gradient-to-tr from-[#137fec] to-blue-400 flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/30">
-                        <span className="material-symbols-outlined text-white animate-pulse">auto_awesome</span>
+                <div className="w-full max-w-2xl bg-white/95 dark:bg-canvas-dark/95 backdrop-blur-xl border border-brand/20 shadow-lg rounded-full py-2 px-2 flex items-center gap-3 pointer-events-auto transition-all hover:scale-[1.01] group" style={{ boxShadow: '0 0 15px rgba(19, 127, 236, 0.4)' }}>
+                    <div className="size-10 rounded-full bg-brand flex items-center justify-center shrink-0 shadow-sm">
+                        <span className="material-symbols-outlined text-white">forum</span>
                     </div>
                     <div className="flex-1 overflow-hidden h-10 flex items-center">
-                        <p className="text-slate-600 dark:text-slate-300 text-sm truncate group-hover:text-[#137fec] transition-colors">
+                        <p className="text-slate-600 dark:text-slate-300 text-sm truncate group-hover:text-brand transition-colors">
                             Ask about lease term flexibility, pet deposits, or document checklist...
                         </p>
                     </div>
                     <button className="size-10 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center transition-colors shrink-0">
                         <span className="material-symbols-outlined text-slate-600 dark:text-slate-300">mic</span>
                     </button>
-                    <button className="size-10 rounded-full bg-[#137fec] hover:bg-[#0e64bd] flex items-center justify-center transition-colors shrink-0 shadow-lg shadow-[#137fec]/30">
+                    <button className="size-10 rounded-full bg-brand hover:bg-[#0e64bd] flex items-center justify-center transition-colors shrink-0 shadow-sm">
                         <span className="material-symbols-outlined text-white">arrow_upward</span>
                     </button>
                 </div>

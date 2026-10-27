@@ -71,7 +71,7 @@ export default function VoiceInputButton({
     const variantClasses = {
         default: `bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 ${isListening ? 'bg-red-100 dark:bg-red-900/30 text-red-500' : ''
             }`,
-        primary: `bg-[#137fec] text-white hover:bg-[#137fec]/90 shadow-lg shadow-[#137fec]/30 ${isListening ? 'bg-red-500 shadow-red-500/30' : ''
+        primary: `bg-brand text-white hover:bg-brand/90 shadow-sm ${isListening ? 'bg-red-500 shadow-red-500/30' : ''
             }`,
         outline: `border-2 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-slate-400 ${isListening ? 'border-red-500 text-red-500' : ''
             }`,

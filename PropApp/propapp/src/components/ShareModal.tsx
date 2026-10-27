@@ -49,7 +49,7 @@ export default function ShareModal({ isOpen, onClose, title, url }: ShareModalPr
             />
 
             {/* Modal */}
-            <div className="relative bg-white dark:bg-[#1a2632] rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 fade-in duration-200">
+            <div className="relative bg-white dark:bg-surface-dark rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 fade-in duration-200">
                 {/* Header */}
                 <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
                     <h2 className="text-lg font-bold text-slate-900 dark:text-white">Share</h2>
@@ -84,7 +84,7 @@ export default function ShareModal({ isOpen, onClose, title, url }: ShareModalPr
                                 onClick={copyToClipboard}
                                 className={`px-4 py-2.5 rounded-lg font-semibold text-sm transition-all flex items-center gap-2 ${copied
                                         ? 'bg-green-500 text-white'
-                                        : 'bg-[#137fec] text-white hover:bg-[#137fec]/90'
+                                        : 'bg-brand text-white hover:bg-brand/90'
                                     }`}
                             >
                                 <span className="material-symbols-outlined text-[18px]">

@@ -69,12 +69,12 @@ export default function AddAvailabilityModal({ isOpen, onClose, onSave }: AddAva
             />
 
             {/* Modal */}
-            <div className="relative bg-white dark:bg-[#1a2632] rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 fade-in duration-200">
+            <div className="relative bg-white dark:bg-surface-dark rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 fade-in duration-200">
                 {/* Header */}
                 <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="size-10 bg-[#137fec]/10 rounded-full flex items-center justify-center">
-                            <span className="material-symbols-outlined text-[#137fec]">event_available</span>
+                        <div className="size-10 bg-brand/10 rounded-full flex items-center justify-center">
+                            <span className="material-symbols-outlined text-brand">event_available</span>
                         </div>
                         <h2 className="text-lg font-bold text-slate-900 dark:text-white">Add Availability</h2>
                     </div>
@@ -99,7 +99,7 @@ export default function AddAvailabilityModal({ isOpen, onClose, onSave }: AddAva
                             value={date}
                             onChange={(e) => setDate(e.target.value)}
                             min={new Date().toISOString().split('T')[0]}
-                            className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-colors"
+                            className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-brand/20 focus:border-brand transition-colors"
                         />
                     </div>
 
@@ -113,7 +113,7 @@ export default function AddAvailabilityModal({ isOpen, onClose, onSave }: AddAva
                                 type="time"
                                 value={startTime}
                                 onChange={(e) => setStartTime(e.target.value)}
-                                className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-colors"
+                                className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-brand/20 focus:border-brand transition-colors"
                             />
                         </div>
                         <div>
@@ -124,14 +124,14 @@ export default function AddAvailabilityModal({ isOpen, onClose, onSave }: AddAva
                                 type="time"
                                 value={endTime}
                                 onChange={(e) => setEndTime(e.target.value)}
-                                className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-colors"
+                                className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-brand/20 focus:border-brand transition-colors"
                             />
                         </div>
                     </div>
 
                     {/* Recurring Toggle */}
                     <div className="mb-5">
-                        <label className="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer hover:border-[#137fec]/30 transition-colors">
+                        <label className="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer hover:border-brand/30 transition-colors">
                             <div className="flex items-center gap-3">
                                 <span className="material-symbols-outlined text-slate-400">repeat</span>
                                 <div>
@@ -147,7 +147,7 @@ export default function AddAvailabilityModal({ isOpen, onClose, onSave }: AddAva
                                 type="checkbox"
                                 checked={recurring}
                                 onChange={(e) => setRecurring(e.target.checked)}
-                                className="size-5 rounded border-slate-300 text-[#137fec] focus:ring-[#137fec]"
+                                className="size-5 rounded border-slate-300 text-brand focus:ring-brand"
                             />
                         </label>
                     </div>
@@ -165,7 +165,7 @@ export default function AddAvailabilityModal({ isOpen, onClose, onSave }: AddAva
                                         type="button"
                                         onClick={() => toggleDay(day)}
                                         className={`flex-1 py-2 rounded-lg text-xs font-bold transition-colors ${recurringDays.includes(day)
-                                                ? 'bg-[#137fec] text-white'
+                                                ? 'bg-brand text-white'
                                                 : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
                                             }`}
                                     >
@@ -188,7 +188,7 @@ export default function AddAvailabilityModal({ isOpen, onClose, onSave }: AddAva
                     <button
                         onClick={handleSave}
                         disabled={!date || saving}
-                        className="px-6 py-2.5 rounded-xl bg-[#137fec] text-white font-bold text-sm hover:bg-[#137fec]/90 transition-colors shadow-lg shadow-[#137fec]/20 disabled:opacity-50 flex items-center gap-2"
+                        className="px-6 py-2.5 rounded-xl bg-brand text-white font-bold text-sm hover:bg-brand/90 transition-colors shadow-sm disabled:opacity-50 flex items-center gap-2"
                     >
                         {saving ? (
                             <>

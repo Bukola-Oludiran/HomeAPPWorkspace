@@ -46,11 +46,11 @@ export default function PasswordResetPage() {
     };
 
     return (
-        <div className="w-full max-w-md bg-white/10 dark:bg-[#1a2632]/60 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col items-center transition-all duration-300">
+        <div className="w-full max-w-md bg-white/10 dark:bg-surface-dark/60 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col items-center transition-all duration-300">
             <div className="w-full flex flex-col items-center">
                 {/* Icon */}
                 <div className="mb-6 bg-white/10 p-4 rounded-full border border-white/10">
-                    <span className="material-symbols-outlined text-4xl text-[#137fec]">lock_reset</span>
+                    <span className="material-symbols-outlined text-4xl text-brand">lock_reset</span>
                 </div>
 
                 <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-3 text-center">Set New Password</h1>
@@ -74,10 +74,10 @@ export default function PasswordResetPage() {
                         <label className="sr-only" htmlFor="new-password">New Password</label>
                         <div className="relative group">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <span className="material-symbols-outlined text-slate-300 text-[20px] group-focus-within:text-[#137fec] transition-colors">lock</span>
+                                <span className="material-symbols-outlined text-slate-300 text-[20px] group-focus-within:text-brand transition-colors">lock</span>
                             </div>
                             <input
-                                className="block w-full pl-10 pr-10 py-3.5 border border-white/10 dark:border-slate-600 rounded-xl bg-white/5 dark:bg-slate-900/50 text-white placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent transition-all sm:text-sm"
+                                className="block w-full pl-10 pr-10 py-3.5 border border-white/10 dark:border-slate-600 rounded-xl bg-white/5 dark:bg-slate-900/50 text-white placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all sm:text-sm"
                                 id="new-password"
                                 name="new-password"
                                 placeholder="New Password"
@@ -100,7 +100,7 @@ export default function PasswordResetPage() {
 
                         {/* Password Strength */}
                         <div className="bg-white/5 dark:bg-slate-900/30 rounded-lg p-3 border border-white/5">
-                            <p className="text-[11px] uppercase tracking-wider text-slate-300 font-semibold mb-2">Password Strength</p>
+                            <p className="text-xs uppercase tracking-wider text-slate-300 font-semibold mb-2">Password Strength</p>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
                                 <div className={`flex items-center gap-2 text-xs font-medium transition-colors ${hasMinLength ? 'text-green-400' : 'text-slate-300 opacity-70'}`}>
                                     <span className={`material-symbols-outlined text-[16px] ${hasMinLength ? 'icon-filled' : ''}`}>
@@ -134,10 +134,10 @@ export default function PasswordResetPage() {
                     <div className="relative group">
                         <label className="sr-only" htmlFor="confirm-password">Confirm New Password</label>
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <span className="material-symbols-outlined text-slate-300 text-[20px] group-focus-within:text-[#137fec] transition-colors">key</span>
+                            <span className="material-symbols-outlined text-slate-300 text-[20px] group-focus-within:text-brand transition-colors">key</span>
                         </div>
                         <input
-                            className={`block w-full pl-10 pr-10 py-3.5 border rounded-xl bg-white/5 dark:bg-slate-900/50 text-white placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent transition-all sm:text-sm ${confirmPassword && !passwordsMatch ? 'border-red-500/50' : 'border-white/10 dark:border-slate-600'
+                            className={`block w-full pl-10 pr-10 py-3.5 border rounded-xl bg-white/5 dark:bg-slate-900/50 text-white placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all sm:text-sm ${confirmPassword && !passwordsMatch ? 'border-red-500/50' : 'border-white/10 dark:border-slate-600'
                                 }`}
                             id="confirm-password"
                             name="confirm-password"
@@ -166,7 +166,7 @@ export default function PasswordResetPage() {
                     <button
                         type="submit"
                         disabled={isLoading || !isPasswordValid || !passwordsMatch}
-                        className="w-full py-3.5 px-4 mt-2 rounded-xl bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-lg shadow-lg shadow-[#137fec]/25 hover:shadow-[#137fec]/40 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                        className="w-full py-3.5 px-4 mt-2 rounded-xl bg-brand hover:bg-brand/90 text-white font-bold text-lg shadow-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                     >
                         {isLoading ? (
                             <>

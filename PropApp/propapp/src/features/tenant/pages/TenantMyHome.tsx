@@ -194,9 +194,9 @@ export default function TenantMyHome() {
     // Show loading state
     if (isLoading) {
         return (
-            <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex items-center justify-center">
+            <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex items-center justify-center">
                 <div className="flex flex-col items-center gap-3">
-                    <div className="size-8 border-3 border-[#137fec] border-t-transparent rounded-full animate-spin"></div>
+                    <div className="size-8 border-3 border-brand border-t-transparent rounded-full animate-spin"></div>
                     <span className="text-sm text-slate-500">Loading your home...</span>
                 </div>
             </div>
@@ -204,7 +204,7 @@ export default function TenantMyHome() {
     }
 
     return (
-        <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex flex-col font-[Manrope,Noto_Sans,sans-serif] text-slate-900 dark:text-white overflow-x-hidden pb-[120px]">
+        <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex flex-col text-slate-900 dark:text-white overflow-x-hidden pb-[120px]">
             {/* Hero Image */}
             <div className="relative w-full h-[50vh] md:h-[60vh] lg:h-[70vh] bg-slate-200 overflow-hidden group">
                 <img
@@ -303,12 +303,12 @@ export default function TenantMyHome() {
                         <section className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
                             <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
                                 <div className="flex items-center gap-3">
-                                    <div className="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-[#137fec]">
+                                    <div className="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-brand">
                                         <span className="material-symbols-outlined">payments</span>
                                     </div>
                                     <h3 className="text-lg font-bold text-slate-900 dark:text-white">Payments</h3>
                                 </div>
-                                <Link to="/tenant/payments" className="text-sm font-semibold text-[#137fec] hover:text-[#0e64bd]">
+                                <Link to="/tenant/payments" className="text-sm font-semibold text-brand hover:text-[#0e64bd]">
                                     View History
                                 </Link>
                             </div>
@@ -329,7 +329,7 @@ export default function TenantMyHome() {
                                     </div>
                                     <button
                                         onClick={() => setIsPaymentModalOpen(true)}
-                                        className="w-full sm:w-auto px-6 py-3 bg-[#137fec] hover:bg-[#0e64bd] text-white font-bold rounded-xl transition-all shadow-lg shadow-[#137fec]/20 flex items-center justify-center gap-2"
+                                        className="w-full sm:w-auto px-6 py-3 bg-brand hover:bg-[#0e64bd] text-white font-bold rounded-xl transition-all shadow-sm flex items-center justify-center gap-2"
                                     >
                                         <span className="material-symbols-outlined">credit_card</span>
                                         Pay Rent
@@ -349,7 +349,7 @@ export default function TenantMyHome() {
                                             defaultChecked={homeData.payment.autoPayEnabled}
                                             className="sr-only peer"
                                         />
-                                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#137fec]"></div>
+                                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-brand"></div>
                                     </label>
                                 </div>
                             </div>
@@ -362,14 +362,14 @@ export default function TenantMyHome() {
                                     <div className="p-2 bg-purple-50 dark:bg-purple-900/20 rounded-lg text-purple-600 dark:text-purple-400">
                                         <span className="material-symbols-outlined">description</span>
                                     </div>
-                                    <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-[#137fec] transition-colors">Lease Details</h3>
-                                    <span className="material-symbols-outlined text-slate-400 group-hover:text-[#137fec] transition-colors text-[18px]">chevron_right</span>
+                                    <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-brand transition-colors">Lease Details</h3>
+                                    <span className="material-symbols-outlined text-slate-400 group-hover:text-brand transition-colors text-[18px]">chevron_right</span>
                                 </Link>
                                 <div className="flex items-center gap-3">
-                                    <Link to="/tenant/lease-details" className="text-sm font-semibold text-[#137fec] hover:underline hidden sm:block">
+                                    <Link to="/tenant/lease-details" className="text-sm font-semibold text-brand hover:underline hidden sm:block">
                                         View Full Details
                                     </Link>
-                                    <button className="text-sm font-semibold text-slate-500 hover:text-[#137fec] flex items-center gap-1">
+                                    <button className="text-sm font-semibold text-slate-500 hover:text-brand flex items-center gap-1">
                                         <span className="material-symbols-outlined text-[18px]">download</span> PDF
                                     </button>
                                 </div>
@@ -414,7 +414,7 @@ export default function TenantMyHome() {
                                                     <h4 className="font-bold text-sm text-slate-900 dark:text-white">
                                                         Renewal Offer from Landlord
                                                     </h4>
-                                                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-[10px] font-bold uppercase tracking-wide border border-green-200 dark:border-green-800">
+                                                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-bold uppercase tracking-wide border border-green-200 dark:border-green-800">
                                                         <span className="size-1.5 rounded-full bg-green-500 animate-pulse"></span>
                                                         Offer Received
                                                     </span>
@@ -438,7 +438,7 @@ export default function TenantMyHome() {
                                 )}
 
                                 <div className="p-4 rounded-xl bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 flex items-start gap-3">
-                                    <span className="material-symbols-outlined text-[#137fec] mt-0.5">info</span>
+                                    <span className="material-symbols-outlined text-brand mt-0.5">info</span>
                                     <div>
                                         <h4 className="font-bold text-sm text-slate-900 dark:text-white">
                                             Renewal Options Available
@@ -528,7 +528,7 @@ export default function TenantMyHome() {
                                             setSelectedDocument({ name: doc.name, type: doc.type });
                                             setIsDocumentModalOpen(true);
                                         }}
-                                        className="flex items-center p-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-[#137fec]/50 hover:bg-blue-50/50 dark:hover:bg-slate-800 transition-all group text-left"
+                                        className="flex items-center p-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand/50 hover:bg-blue-50/50 dark:hover:bg-slate-800 transition-all group text-left"
                                     >
                                         <span className={`material-symbols-outlined ${doc.iconColor} text-3xl mr-3`}>
                                             {doc.icon}
@@ -541,7 +541,7 @@ export default function TenantMyHome() {
                                                 {doc.type} • {doc.size}
                                             </p>
                                         </div>
-                                        <span className="material-symbols-outlined text-slate-400 group-hover:text-[#137fec]">
+                                        <span className="material-symbols-outlined text-slate-400 group-hover:text-brand">
                                             open_in_new
                                         </span>
                                     </button>
@@ -562,7 +562,7 @@ export default function TenantMyHome() {
                                     <div className="relative">
                                         <img
                                             alt="Manager Profile"
-                                            className="size-16 rounded-full object-cover border-2 border-slate-100 dark:border-slate-600 group-hover:border-[#137fec] transition-colors"
+                                            className="size-16 rounded-full object-cover border-2 border-slate-100 dark:border-slate-600 group-hover:border-brand transition-colors"
                                             src={homeData.manager.image}
                                         />
                                         {homeData.manager.online && (
@@ -573,12 +573,12 @@ export default function TenantMyHome() {
                                         )}
                                     </div>
                                     <div>
-                                        <h4 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-[#137fec] transition-colors">
+                                        <h4 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-brand transition-colors">
                                             {homeData.manager.name}
                                         </h4>
                                         <p className="text-slate-500 text-sm">{homeData.manager.company}</p>
                                     </div>
-                                    <span className="material-symbols-outlined text-slate-400 group-hover:text-[#137fec] transition-colors ml-auto">chevron_right</span>
+                                    <span className="material-symbols-outlined text-slate-400 group-hover:text-brand transition-colors ml-auto">chevron_right</span>
                                 </Link>
                                 <div className="space-y-3 mb-6">
                                     <div className="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
@@ -600,9 +600,9 @@ export default function TenantMyHome() {
                             </div>
 
                             {/* Property Insights Card */}
-                            <div className="bg-gradient-to-br from-indigo-50 to-white dark:from-slate-800 dark:to-slate-900 rounded-2xl border border-indigo-100 dark:border-slate-700 p-6">
+                            <div className="bg-blue-50/50 dark:bg-slate-800 rounded-2xl border border-indigo-100 dark:border-slate-700 p-6">
                                 <div className="flex items-center gap-2 mb-3">
-                                    <span className="material-symbols-outlined text-[#137fec]">auto_awesome</span>
+                                    <span className="material-symbols-outlined text-brand">forum</span>
                                     <h4 className="font-bold text-slate-900 dark:text-white text-sm">
                                         Property Insights
                                     </h4>
@@ -623,9 +623,9 @@ export default function TenantMyHome() {
 
             {/* Floating AI Bar */}
             <div className="fixed bottom-6 left-0 right-0 flex justify-center z-40 px-4 pointer-events-none">
-                <div className="w-full max-w-2xl bg-white/95 dark:bg-[#101922]/95 backdrop-blur-xl border border-[#137fec]/20 shadow-2xl shadow-[#137fec]/10 rounded-full py-2 px-2 flex items-center gap-3 pointer-events-auto [box-shadow:0_0_15px_rgba(19,127,236,0.4)] transition-all hover:scale-[1.01]">
-                    <div className="size-10 rounded-full bg-gradient-to-tr from-[#137fec] to-blue-400 flex items-center justify-center shrink-0">
-                        <span className="material-symbols-outlined text-white">auto_awesome</span>
+                <div className="w-full max-w-2xl bg-white/95 dark:bg-canvas-dark/95 backdrop-blur-xl border border-brand/20 shadow-lg rounded-full py-2 px-2 flex items-center gap-3 pointer-events-auto [box-shadow:0_0_15px_rgba(19,127,236,0.4)] transition-all hover:scale-[1.01]">
+                    <div className="size-10 rounded-full bg-brand flex items-center justify-center shrink-0">
+                        <span className="material-symbols-outlined text-white">forum</span>
                     </div>
                     <div className="flex-1 overflow-hidden h-10 flex items-center">
                         <input
@@ -637,7 +637,7 @@ export default function TenantMyHome() {
                     <button className="size-10 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center transition-colors shrink-0 text-slate-600 dark:text-slate-300">
                         <span className="material-symbols-outlined">mic</span>
                     </button>
-                    <button className="size-10 rounded-full bg-[#137fec] hover:bg-[#0e64bd] flex items-center justify-center transition-colors shrink-0 shadow-lg shadow-[#137fec]/30 text-white">
+                    <button className="size-10 rounded-full bg-brand hover:bg-[#0e64bd] flex items-center justify-center transition-colors shrink-0 shadow-sm text-white">
                         <span className="material-symbols-outlined">arrow_upward</span>
                     </button>
                 </div>

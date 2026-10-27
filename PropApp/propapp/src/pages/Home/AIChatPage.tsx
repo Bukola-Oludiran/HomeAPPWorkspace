@@ -221,7 +221,7 @@ export default function AIChatPage() {
     const firstName = user?.firstName ?? '';
 
     return (
-        <div className="bg-[#f6f7f8] dark:bg-[#101922] h-screen flex flex-col font-[Manrope,Noto_Sans,sans-serif] text-slate-900 dark:text-white overflow-hidden relative">
+        <div className="bg-canvas dark:bg-canvas-dark h-screen flex flex-col text-slate-900 dark:text-white overflow-hidden relative">
             <ConfirmationModal
                 isOpen={showClearModal}
                 onClose={() => {
@@ -242,69 +242,69 @@ export default function AIChatPage() {
             {/* Logo */}
             <div className="absolute top-6 left-6 md:left-10 z-40 flex items-center gap-3">
                 <Link to="/" className="flex items-center gap-3">
-                    <div className="size-10 bg-[#137fec] rounded-xl flex items-center justify-center text-white shadow-lg shadow-[#137fec]/20">
+                    <div className="size-10 bg-brand rounded-xl flex items-center justify-center text-white shadow-sm">
                         <span className="material-symbols-outlined">real_estate_agent</span>
                     </div>
                     <h2 className="hidden md:block text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">
-                        PropertyApp
+                        HomeAI
                     </h2>
                 </Link>
             </div>
 
             {/* Header Navbar */}
             <header className="fixed top-6 left-0 right-0 z-40 flex justify-center w-full pointer-events-none">
-                <div className="pointer-events-auto flex items-center gap-1 md:gap-2 px-3 py-2 bg-white/90 dark:bg-[#1a2632]/90 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-black/20 rounded-full mx-4">
+                <div className="pointer-events-auto flex items-center gap-1 md:gap-2 px-3 py-2 bg-white/90 dark:bg-surface-dark/90 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-black/20 rounded-full mx-4">
                     <div className="flex items-center gap-1">
-                        <Link to="/" aria-label="Home" className="flex items-center justify-center size-10 md:size-11 rounded-full text-slate-500 hover:text-[#137fec] hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
+                        <Link to="/" aria-label="Home" className="flex items-center justify-center size-10 md:size-11 rounded-full text-slate-500 hover:text-brand hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
                             <span className="material-symbols-outlined">home</span>
                         </Link>
-                        <Link to="/search?type=buy" className="px-4 py-2 text-sm font-semibold rounded-full text-slate-600 hover:text-[#137fec] hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
+                        <Link to="/search?type=buy" className="px-4 py-2 text-sm font-semibold rounded-full text-slate-600 hover:text-brand hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
                             Buy
                         </Link>
-                        <Link to="/search?type=rent" className="px-4 py-2 text-sm font-semibold rounded-full text-slate-600 hover:text-[#137fec] hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
+                        <Link to="/search?type=rent" className="px-4 py-2 text-sm font-semibold rounded-full text-slate-600 hover:text-brand hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
                             Rent
                         </Link>
-                        <Link to="/search?type=sell" className="px-4 py-2 text-sm font-semibold rounded-full text-slate-600 hover:text-[#137fec] hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
+                        <Link to="/search?type=sell" className="px-4 py-2 text-sm font-semibold rounded-full text-slate-600 hover:text-brand hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
                             Sell
                         </Link>
-                        <Link to="/ai-chat" aria-label="AI Chat" className="flex items-center justify-center size-10 md:size-11 rounded-full text-[#137fec] bg-slate-100 dark:bg-slate-700 transition-all">
-                            <span className="material-symbols-outlined">smart_toy</span>
+                        <Link to="/ai-chat" aria-label="AI Chat" className="flex items-center justify-center size-10 md:size-11 rounded-full text-brand bg-slate-100 dark:bg-slate-700 transition-all">
+                            <span className="material-symbols-outlined">forum</span>
                         </Link>
                     </div>
                     <div className="w-px h-6 bg-slate-200 dark:bg-slate-700 mx-1"></div>
                     <div className="flex items-center gap-1 md:gap-2">
-                        <button className="flex items-center justify-center size-10 md:size-11 rounded-full text-slate-500 hover:text-[#137fec] hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
+                        <button className="flex items-center justify-center size-10 md:size-11 rounded-full text-slate-500 hover:text-brand hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
                             <span className="material-symbols-outlined">notifications</span>
                         </button>
                         <div className="relative">
                             <button
                                 onClick={() => setShowDropdown(!showDropdown)}
-                                className="flex items-center justify-center overflow-hidden rounded-full size-10 md:size-11 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:ring-2 hover:ring-[#137fec]/20 transition-all border border-slate-200 dark:border-slate-600"
+                                className="flex items-center justify-center overflow-hidden rounded-full size-10 md:size-11 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:ring-2 hover:ring-brand/20 transition-all border border-slate-200 dark:border-slate-600"
                             >
                                 <span className="material-symbols-outlined">account_circle</span>
                             </button>
                             {showDropdown && (
                                 <div className="absolute right-0 mt-2 py-2 bg-white dark:bg-slate-800 min-w-[200px] shadow-[0px_8px_16px_0px_rgba(0,0,0,0.1)] z-50 rounded-xl border border-slate-200 dark:border-slate-700">
-                                    <Link to="/landlord/dashboard" className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-[#137fec]">
+                                    <Link to="/landlord/dashboard" className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand">
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">dashboard</span>
                                             Landlord Dashboard
                                         </div>
                                     </Link>
-                                    <Link to="/tenant/dashboard" className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-[#137fec]">
+                                    <Link to="/tenant/dashboard" className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand">
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">vpn_key</span>
                                             Tenant Dashboard
                                         </div>
                                     </Link>
-                                    <Link to="/agent/jobs" className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-[#137fec]">
+                                    <Link to="/agent/jobs" className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand">
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">support_agent</span>
                                             Agent Dashboard
                                         </div>
                                     </Link>
                                     <hr className="my-1 border-slate-200 dark:border-slate-700" />
-                                    <Link to="/settings" className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-[#137fec]">
+                                    <Link to="/settings" className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand">
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">settings</span>
                                             Account Settings
@@ -321,8 +321,8 @@ export default function AIChatPage() {
                 <div className="flex-1 flex gap-4 md:gap-6 w-full max-w-[95rem] mx-auto overflow-hidden">
                     {/* Sidebar */}
                     {showSidebar && (
-                        <aside className="hidden md:flex w-80 flex-col bg-white dark:bg-[#1a2632] rounded-3xl shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden shrink-0 animate-fade-in-up">
-                            <div className="px-5 py-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between shrink-0 bg-white dark:bg-[#1a2632] z-10">
+                        <aside className="hidden md:flex w-80 flex-col bg-white dark:bg-surface-dark rounded-3xl shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden shrink-0 animate-fade-in-up">
+                            <div className="px-5 py-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between shrink-0 bg-white dark:bg-surface-dark z-10">
                                 <h2 className="font-bold text-slate-900 dark:text-white text-lg">Chat History</h2>
                                 <div className="flex items-center gap-1">
                                     <button
@@ -349,7 +349,7 @@ export default function AIChatPage() {
                                 ) : (
                                     groups.map((g) => (
                                         <div className="mb-6" key={g.label}>
-                                            <h3 className="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+                                            <h3 className="px-3 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
                                                 {g.label}
                                             </h3>
                                             <div className="space-y-1">
@@ -360,7 +360,7 @@ export default function AIChatPage() {
                                                             key={chatRow.id}
                                                             className={`group relative w-full text-left p-3 rounded-xl transition-all cursor-pointer ${
                                                                 active
-                                                                    ? 'bg-[#137fec] text-white shadow-md shadow-[#137fec]/20'
+                                                                    ? 'bg-brand text-white shadow-sm'
                                                                     : 'hover:bg-slate-50 dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
                                                             }`}
                                                             onClick={() => handleSidebarClick(chatRow.id)}
@@ -374,7 +374,7 @@ export default function AIChatPage() {
                                                                     {chatRow.title}
                                                                 </span>
                                                                 <span
-                                                                    className={`text-[10px] whitespace-nowrap ${
+                                                                    className={`text-xs whitespace-nowrap ${
                                                                         active ? 'opacity-80' : 'text-slate-400'
                                                                     }`}
                                                                 >
@@ -405,7 +405,7 @@ export default function AIChatPage() {
                             <div className="p-4 bg-slate-50 dark:bg-slate-900 border-t border-slate-100 dark:border-slate-700 shrink-0">
                                 <button
                                     onClick={handleNewChat}
-                                    className="w-full flex items-center justify-center gap-2 py-2 text-xs font-semibold text-white bg-[#137fec] hover:bg-[#137fec]/90 rounded-lg transition-colors"
+                                    className="w-full flex items-center justify-center gap-2 py-2 text-xs font-semibold text-white bg-brand hover:bg-brand/90 rounded-lg transition-colors"
                                 >
                                     <span className="material-symbols-outlined text-[16px]">add</span>
                                     New conversation
@@ -416,13 +416,13 @@ export default function AIChatPage() {
 
                     {/* Chat Container */}
                     <div
-                        className={`flex-1 bg-white dark:bg-[#1a2632] rounded-3xl shadow-xl border border-slate-200 dark:border-slate-800 flex flex-col ${
+                        className={`flex-1 bg-white dark:bg-surface-dark rounded-3xl shadow-xl border border-slate-200 dark:border-slate-800 flex flex-col ${
                             showSidebar ? 'w-full' : 'max-w-5xl mx-auto w-full'
                         } overflow-hidden relative`}
                     >
                         <button
                             onClick={() => setShowSidebar(!showSidebar)}
-                            className={`absolute top-4 left-4 z-20 p-2 rounded-xl transition-all focus:outline-none focus:ring-2 focus:ring-[#137fec]/20 ${
+                            className={`absolute top-4 left-4 z-20 p-2 rounded-xl transition-all focus:outline-none focus:ring-2 focus:ring-brand/20 ${
                                 showSidebar
                                     ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white'
                                     : 'bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white shadow-sm border border-slate-200 dark:border-slate-700'
@@ -473,7 +473,7 @@ export default function AIChatPage() {
                                                 onClick={() =>
                                                     sendConfirmation(state.pendingConfirmation!.toolCallId, true)
                                                 }
-                                                className="rounded-full bg-[#137fec] px-4 py-1.5 text-sm font-medium text-white"
+                                                className="rounded-full bg-brand px-4 py-1.5 text-sm font-medium text-white"
                                             >
                                                 Confirm
                                             </button>
@@ -484,9 +484,9 @@ export default function AIChatPage() {
                         </div>
 
                         {/* Input Area */}
-                        <div className="p-3 md:p-4 bg-white/80 dark:bg-[#1a2632]/80 backdrop-blur-md border-t border-slate-100 dark:border-slate-800 shrink-0 z-20">
+                        <div className="p-3 md:p-4 bg-white/80 dark:bg-surface-dark/80 backdrop-blur-md border-t border-slate-100 dark:border-slate-800 shrink-0 z-20">
                             <div className="relative max-w-3xl mx-auto w-full">
-                                <div className="flex items-center gap-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-full px-4 py-2 shadow-sm focus-within:ring-2 focus-within:ring-[#137fec]/20 focus-within:border-[#137fec] transition-all">
+                                <div className="flex items-center gap-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-full px-4 py-2 shadow-sm focus-within:ring-2 focus-within:ring-brand/20 focus-within:border-brand transition-all">
                                     <textarea
                                         ref={inputRef}
                                         className="flex-1 bg-transparent border-none outline-none focus:ring-0 text-slate-900 dark:text-white placeholder:text-slate-400 py-1 resize-none max-h-24 text-sm"
@@ -513,7 +513,7 @@ export default function AIChatPage() {
                                     <button
                                         onClick={submit}
                                         disabled={state.isStreaming || !message.trim()}
-                                        className="p-2 bg-[#137fec] text-white rounded-full shadow-md shadow-[#137fec]/20 hover:bg-[#137fec]/90 transition-all flex items-center justify-center disabled:opacity-50"
+                                        className="p-2 bg-brand text-white rounded-full shadow-sm hover:bg-brand/90 transition-all flex items-center justify-center disabled:opacity-50"
                                     >
                                         <span className="material-symbols-outlined icon-filled text-lg">
                                             {state.isStreaming ? 'hourglass_top' : 'send'}
@@ -535,8 +535,8 @@ export default function AIChatPage() {
 
 function AssistantAvatar() {
     return (
-        <div className="size-8 md:size-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex-shrink-0 flex items-center justify-center text-white shadow-lg shadow-blue-500/30 mt-1">
-            <span className="material-symbols-outlined text-base md:text-lg icon-filled">smart_toy</span>
+        <div className="size-8 md:size-10 rounded-full bg-brand flex-shrink-0 flex items-center justify-center text-white shadow-sm mt-1">
+            <span className="material-symbols-outlined text-base md:text-lg icon-filled">forum</span>
         </div>
     );
 }
@@ -566,8 +566,8 @@ interface EmptyStateProps {
 function EmptyState({ title, firstName, placeholder, suggestions, onSuggestion, seed }: EmptyStateProps) {
     return (
         <div className="flex flex-col items-center justify-center h-full px-6 pt-12">
-            <div className="size-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 grid place-items-center text-white shadow-lg shadow-blue-500/30 mb-4">
-                <span className="material-symbols-outlined text-2xl icon-filled">smart_toy</span>
+            <div className="size-14 rounded-2xl bg-brand grid place-items-center text-white shadow-sm mb-4">
+                <span className="material-symbols-outlined text-2xl icon-filled">forum</span>
             </div>
             <h2 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white">
                 {title}
@@ -590,7 +590,7 @@ function EmptyState({ title, firstName, placeholder, suggestions, onSuggestion, 
                         <button
                             key={s}
                             onClick={() => onSuggestion(s)}
-                            className="px-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 hover:border-[#137fec] hover:text-[#137fec] transition-colors"
+                            className="px-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 hover:border-brand hover:text-brand transition-colors"
                         >
                             {s}
                         </button>
@@ -647,10 +647,10 @@ function UserBubble({ text, createdAt }: { text: string; createdAt: string }) {
     return (
         <div className="flex justify-end animate-fade-in-up">
             <div className="flex flex-col items-end gap-1 max-w-[85%] md:max-w-[70%]">
-                <div className="bg-[#137fec] text-white rounded-2xl rounded-tr-sm px-5 py-3.5 shadow-md">
+                <div className="bg-brand text-white rounded-2xl rounded-tr-sm px-5 py-3.5 shadow-md">
                     <p className="text-sm md:text-base leading-relaxed whitespace-pre-wrap">{text}</p>
                 </div>
-                <span className="text-[10px] text-slate-400 mr-1">
+                <span className="text-xs text-slate-400 mr-1">
                     {new Date(createdAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}
                 </span>
             </div>
@@ -704,7 +704,7 @@ function AssistantBlock({ items, onFragmentAction }: AssistantBlockProps) {
                     return null;
                 })}
                 {lastAt ? (
-                    <span className="text-[10px] text-slate-400 ml-1 mt-1">
+                    <span className="text-xs text-slate-400 ml-1 mt-1">
                         HomeAI Assistant ·{' '}
                         {new Date(lastAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}
                     </span>

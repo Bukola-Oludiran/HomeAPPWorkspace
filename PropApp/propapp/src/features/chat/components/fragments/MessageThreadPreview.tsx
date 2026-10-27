@@ -29,7 +29,7 @@ export function MessageThreadPreview({ props, onAction }: Props) {
                 </header>
                 <p className="line-clamp-1 text-sm text-slate-600">{props.lastMessage}</p>
                 {props.unreadCount > 0 ? (
-                    <span className="mt-1 inline-block rounded-full bg-slate-900 px-2 py-0.5 text-[10px] font-medium text-white">
+                    <span className="mt-1 inline-block rounded-full bg-slate-900 px-2 py-0.5 text-xs font-medium text-white">
                         {props.unreadCount} unread
                     </span>
                 ) : null}

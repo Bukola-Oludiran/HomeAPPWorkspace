@@ -32,7 +32,7 @@ export default function SupportTicketModal({ isOpen, onClose, onSubmit }: Suppor
         <ModalPortal>
             <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
                 <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm" onClick={onClose}></div>
-                <div className="relative w-full max-w-2xl transform rounded-2xl bg-white dark:bg-[#1a2632] p-6 text-left shadow-2xl sm:p-8 border border-slate-200 dark:border-slate-700 max-h-[90vh] overflow-y-auto">
+                <div className="relative w-full max-w-2xl transform rounded-2xl bg-white dark:bg-surface-dark p-6 text-left shadow-2xl sm:p-8 border border-slate-200 dark:border-slate-700 max-h-[90vh] overflow-y-auto">
                     {/* Header */}
                     <div className="flex items-center justify-between mb-6">
                         <div>
@@ -83,7 +83,7 @@ export default function SupportTicketModal({ isOpen, onClose, onSubmit }: Suppor
                                 <select
                                     value={topic}
                                     onChange={(e) => setTopic(e.target.value)}
-                                    className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm text-sm py-2.5 focus:ring-[#137fec] focus:border-[#137fec]"
+                                    className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm text-sm py-2.5 focus:ring-brand focus:border-brand"
                                 >
                                     <option value="">Select a topic...</option>
                                     <option value="billing">Billing Issue</option>
@@ -126,7 +126,7 @@ export default function SupportTicketModal({ isOpen, onClose, onSubmit }: Suppor
                         <div className="space-y-1.5">
                             <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Subject</label>
                             <input
-                                className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm text-sm py-2.5 focus:ring-[#137fec] focus:border-[#137fec]"
+                                className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm text-sm py-2.5 focus:ring-brand focus:border-brand"
                                 placeholder="Brief summary of the issue"
                                 type="text"
                                 value={subject}
@@ -138,7 +138,7 @@ export default function SupportTicketModal({ isOpen, onClose, onSubmit }: Suppor
                         <div className="space-y-1.5">
                             <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Description</label>
                             <textarea
-                                className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm text-sm p-3 focus:ring-[#137fec] focus:border-[#137fec] resize-y"
+                                className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm text-sm p-3 focus:ring-brand focus:border-brand resize-y"
                                 placeholder="Please provide specific details about the issue..."
                                 rows={5}
                                 value={description}
@@ -170,7 +170,7 @@ export default function SupportTicketModal({ isOpen, onClose, onSubmit }: Suppor
                             </button>
                             <button
                                 type="submit"
-                                className="px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-[#137fec] hover:bg-[#137fec]/90 shadow-md shadow-[#137fec]/20 transition-all cursor-pointer"
+                                className="px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-brand hover:bg-brand/90 shadow-sm transition-all cursor-pointer"
                             >
                                 Submit Ticket
                             </button>

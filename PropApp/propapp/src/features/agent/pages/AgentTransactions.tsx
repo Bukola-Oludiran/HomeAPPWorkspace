@@ -167,7 +167,7 @@ export default function AgentTransactions() {
         <PageContainer>
             {/* Back Link */}
             <div className="mb-6">
-                <Link to="/agent/earnings" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-[#137fec] transition-colors">
+                <Link to="/agent/earnings" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-brand transition-colors">
                     <span className="material-symbols-outlined text-[20px]">arrow_back</span>
                     Back to Earnings Dashboard
                 </Link>
@@ -191,13 +191,13 @@ export default function AgentTransactions() {
             </div>
 
             {/* Filters */}
-            <div className="bg-white dark:bg-[#101922] p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm mb-6">
+            <div className="bg-white dark:bg-canvas-dark p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm mb-6">
                 <div className="flex flex-col gap-4">
                     <div className="flex items-center justify-between">
                         <h3 className="font-bold text-slate-700 dark:text-slate-200 text-sm uppercase tracking-wide flex items-center gap-2">
-                            <span className="material-symbols-outlined text-[#137fec]">tune</span> Filters
+                            <span className="material-symbols-outlined text-brand">tune</span> Filters
                         </h3>
-                        <button className="text-xs font-semibold text-[#137fec] hover:underline">Clear all</button>
+                        <button className="text-xs font-semibold text-brand hover:underline">Clear all</button>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4">
                         <div className="lg:col-span-4 relative">
@@ -211,7 +211,7 @@ export default function AgentTransactions() {
                         <DateRangeFilter className="lg:col-span-3" />
                         <div className="lg:col-span-2">
                             <label className="block text-xs font-medium text-slate-500 mb-1">Property</label>
-                            <select className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec]/50 focus:border-[#137fec]">
+                            <select className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/50 focus:border-brand">
                                 <option>All Properties</option>
                                 <option>Sunset Apartments, Unit 4B</option>
                                 <option>Modern Oakwood Estate</option>
@@ -220,7 +220,7 @@ export default function AgentTransactions() {
                         </div>
                         <div className="lg:col-span-2">
                             <label className="block text-xs font-medium text-slate-500 mb-1">Type</label>
-                            <select className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec]/50 focus:border-[#137fec]">
+                            <select className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/50 focus:border-brand">
                                 <option>All Types</option>
                                 <option>Commission</option>
                                 <option>Bonus</option>
@@ -230,7 +230,7 @@ export default function AgentTransactions() {
                         </div>
                         <div className="lg:col-span-1">
                             <label className="block text-xs font-medium text-slate-500 mb-1">Status</label>
-                            <select className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec]/50 focus:border-[#137fec]">
+                            <select className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/50 focus:border-brand">
                                 <option>All</option>
                                 <option>Paid</option>
                                 <option>Pending</option>
@@ -334,7 +334,7 @@ export default function AgentTransactions() {
                                         <p className="font-bold text-slate-900 dark:text-white">{tx.amount}</p>
                                     </td>
                                     <td className="px-6 py-4 text-center">
-                                        <button className="p-2 text-slate-400 hover:text-[#137fec] hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors" title={tx.status === 'Failed' ? 'Retry / View Details' : 'View Receipt'}>
+                                        <button className="p-2 text-slate-400 hover:text-brand hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors" title={tx.status === 'Failed' ? 'Retry / View Details' : 'View Receipt'}>
                                             <span className="material-symbols-outlined text-[20px]">
                                                 {tx.status === 'Failed' ? 'refresh' : tx.status === 'Pending' ? 'visibility' : 'receipt_long'}
                                             </span>
@@ -371,7 +371,7 @@ export default function AgentTransactions() {
                             className={`px-3 py-1 text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded transition-colors ${
                                 page >= totalPages || isLoading
                                     ? 'text-slate-500 dark:text-slate-400 opacity-50 cursor-not-allowed'
-                                    : 'text-[#137fec] hover:bg-slate-50 dark:hover:bg-slate-700'
+                                    : 'text-brand hover:bg-slate-50 dark:hover:bg-slate-700'
                             }`}
                         >
                             Next
@@ -385,14 +385,14 @@ export default function AgentTransactions() {
                 {/* AI Modal */}
                 {showAIChat && (
                     <div className="flex flex-col w-[360px] md:w-[420px] bg-white dark:bg-[#1e293b] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
-                        <div className="p-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-gradient-to-r from-blue-50 to-white dark:from-[#1e293b] dark:to-[#1e293b]">
+                        <div className="p-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-blue-50/50 dark:bg-[#1e293b]">
                             <div className="flex items-center gap-3">
-                                <div className="size-9 bg-gradient-to-tr from-[#137fec] to-blue-400 rounded-full flex items-center justify-center text-white shadow-md">
-                                    <span className="material-symbols-outlined text-lg">smart_toy</span>
+                                <div className="size-9 bg-brand rounded-full flex items-center justify-center text-white shadow-md">
+                                    <span className="material-symbols-outlined text-lg">forum</span>
                                 </div>
                                 <div>
                                     <h4 className="font-bold text-slate-900 dark:text-white text-sm">Earnings Assistant</h4>
-                                    <p className="text-[10px] text-green-500 font-semibold flex items-center gap-1">
+                                    <p className="text-xs text-green-500 font-semibold flex items-center gap-1">
                                         <span className="size-1.5 bg-green-500 rounded-full"></span>
                                         Online
                                     </p>
@@ -407,7 +407,7 @@ export default function AgentTransactions() {
                         </div>
                         <div className="p-4 bg-slate-50 dark:bg-slate-800/50 h-[250px] overflow-y-auto">
                             <div className="flex gap-3">
-                                <div className="size-7 bg-gradient-to-tr from-[#137fec] to-blue-400 rounded-full flex items-center justify-center text-white text-xs shrink-0 shadow-sm font-bold">AI</div>
+                                <div className="size-7 bg-brand rounded-full flex items-center justify-center text-white text-xs shrink-0 shadow-sm font-bold">AI</div>
                                 <div className="bg-white dark:bg-[#1e293b] p-3 rounded-xl rounded-tl-none shadow-sm max-w-[85%]">
                                     <p className="text-sm text-slate-700 dark:text-slate-300">Hello! I can help you analyze your earnings, find specific transactions, or generate reports. What would you like to know?</p>
                                 </div>
@@ -416,11 +416,11 @@ export default function AgentTransactions() {
                         <div className="p-3 border-t border-slate-100 dark:border-slate-700 bg-white dark:bg-[#1e293b]">
                             <div className="relative flex items-center">
                                 <input
-                                    className="w-full pl-4 pr-12 py-2.5 bg-slate-100 dark:bg-slate-800 rounded-full text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-[#137fec]/20 focus:outline-none"
+                                    className="w-full pl-4 pr-12 py-2.5 bg-slate-100 dark:bg-slate-800 rounded-full text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-brand/20 focus:outline-none"
                                     placeholder="Ask about your earnings..."
                                     type="text"
                                 />
-                                <button className="absolute right-1.5 size-8 bg-[#137fec] rounded-full flex items-center justify-center text-white hover:bg-[#137fec]/90 transition-colors">
+                                <button className="absolute right-1.5 size-8 bg-brand rounded-full flex items-center justify-center text-white hover:bg-brand/90 transition-colors">
                                     <span className="material-symbols-outlined text-lg">arrow_upward</span>
                                 </button>
                             </div>
@@ -430,14 +430,14 @@ export default function AgentTransactions() {
                 {/* AI Toggle Button */}
                 <button
                     onClick={() => setShowAIChat(!showAIChat)}
-                    className="cursor-pointer group flex items-center gap-3 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white pl-1.5 pr-5 py-1.5 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 dark:border-slate-700 hover:scale-105 hover:shadow-[0_8px_30px_rgb(0,0,0,0.18)] transition-all duration-300"
+                    className="cursor-pointer group flex items-center gap-3 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white pl-1.5 pr-5 py-1.5 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 dark:border-slate-700 hover:shadow-[0_8px_30px_rgb(0,0,0,0.18)] transition-all duration-300"
                 >
-                    <div className="size-10 rounded-full bg-gradient-to-tr from-[#137fec] to-blue-400 flex items-center justify-center text-white shadow-md group-hover:rotate-12 transition-transform">
-                        <span className="material-symbols-outlined">smart_toy</span>
+                    <div className="size-10 rounded-full bg-brand flex items-center justify-center text-white shadow-md">
+                        <span className="material-symbols-outlined">forum</span>
                     </div>
                     <div className="flex flex-col items-start">
                         <span className="text-sm font-bold leading-none">Earnings Assistant</span>
-                        <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium leading-tight mt-0.5">Click for help</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-tight mt-0.5">Click for help</span>
                     </div>
                 </button>
             </div>

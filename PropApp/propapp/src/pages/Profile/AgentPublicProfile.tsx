@@ -99,9 +99,9 @@ export default function AgentPublicProfile() {
 
     if (loading) {
         return (
-            <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex items-center justify-center">
+            <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex items-center justify-center">
                 <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#137fec] mx-auto mb-4"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand mx-auto mb-4"></div>
                     <p className="text-slate-500 dark:text-slate-400">Loading profile...</p>
                 </div>
             </div>
@@ -110,11 +110,11 @@ export default function AgentPublicProfile() {
 
     if (error || !agent) {
         return (
-            <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex items-center justify-center">
+            <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex items-center justify-center">
                 <div className="text-center">
                     <span className="material-symbols-outlined text-4xl text-slate-400 mb-4">error_outline</span>
                     <p className="text-slate-600 dark:text-slate-400">{error || 'Profile not found'}</p>
-                    <Link to="/" className="text-[#137fec] font-semibold mt-4 inline-block hover:underline">Go Home</Link>
+                    <Link to="/" className="text-brand font-semibold mt-4 inline-block hover:underline">Go Home</Link>
                 </div>
             </div>
         );
@@ -135,21 +135,21 @@ export default function AgentPublicProfile() {
     };
 
     return (
-        <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex flex-col font-[Manrope,Noto_Sans,sans-serif] text-slate-900 dark:text-white overflow-x-hidden pb-32">
+        <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex flex-col text-slate-900 dark:text-white overflow-x-hidden pb-32">
             {/* Header */}
-            <header className="sticky top-0 z-40 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-[#101922]/90 backdrop-blur-md px-4 md:px-10 py-3">
+            <header className="sticky top-0 z-40 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-canvas-dark/90 backdrop-blur-md px-4 md:px-10 py-3">
                 <div className="flex items-center gap-4 text-slate-900 dark:text-white">
-                    <Link to="/" className="size-8 bg-[#137fec] rounded-lg flex items-center justify-center text-white">
+                    <Link to="/" className="size-8 bg-brand rounded-lg flex items-center justify-center text-white">
                         <span className="material-symbols-outlined">engineering</span>
                     </Link>
                     <h2 className="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">
-                        PropertyApp <span className="text-slate-400 font-medium text-sm ml-1">Connect</span>
+                        HomeAI <span className="text-slate-400 font-medium text-sm ml-1">Connect</span>
                     </h2>
                 </div>
                 <div className="flex flex-1 justify-end gap-8">
                     <div className="hidden md:flex items-center gap-9">
-                        <Link to="/search" className="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-[#137fec] transition-colors">Find Agents</Link>
-                        <Link to="/search" className="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-[#137fec] transition-colors">Properties</Link>
+                        <Link to="/search" className="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-brand transition-colors">Find Agents</Link>
+                        <Link to="/search" className="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-brand transition-colors">Properties</Link>
                     </div>
                 </div>
             </header>
@@ -172,7 +172,7 @@ export default function AgentPublicProfile() {
                             </button>
                             <button
                                 onClick={() => setShowContactModal(true)}
-                                className="px-5 py-2.5 rounded-lg bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-sm transition-all shadow-lg shadow-[#137fec]/25 flex items-center gap-2"
+                                className="px-5 py-2.5 rounded-lg bg-brand hover:bg-brand/90 text-white font-bold text-sm transition-all shadow-sm flex items-center gap-2"
                             >
                                 <span className="material-symbols-outlined text-[18px]">chat</span>
                                 Contact Agent
@@ -184,10 +184,10 @@ export default function AgentPublicProfile() {
                         {/* Left Column - Profile Card */}
                         <div className="lg:col-span-4 space-y-6">
                             {/* Profile Card */}
-                            <div className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm text-center relative overflow-hidden">
-                                <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-r from-[#137fec]/10 to-blue-500/10 dark:from-[#137fec]/20 dark:to-blue-500/20"></div>
+                            <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm text-center relative overflow-hidden">
+                                <div className="absolute top-0 left-0 w-full h-24 bg-brand/10 dark:bg-brand/20"></div>
                                 <div className="relative z-10 mb-4">
-                                    <div className="relative w-32 h-32 mx-auto rounded-full p-1 bg-white dark:bg-[#101922]">
+                                    <div className="relative w-32 h-32 mx-auto rounded-full p-1 bg-white dark:bg-canvas-dark">
                                         <img alt="Profile" className="w-full h-full object-cover rounded-full" src={agent.image} />
                                     </div>
                                 </div>
@@ -216,7 +216,7 @@ export default function AgentPublicProfile() {
                             </div>
 
                             {/* Contact Info */}
-                            <div className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+                            <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
                                 <h4 className="font-bold text-slate-900 dark:text-white mb-4">Contact Information</h4>
                                 <div className="space-y-4">
                                     <div className="flex items-center gap-3">
@@ -261,9 +261,9 @@ export default function AgentPublicProfile() {
                         {/* Right Column - Details */}
                         <div className="lg:col-span-8 space-y-6">
                             {/* About */}
-                            <div className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm">
+                            <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm">
                                 <div className="flex items-center gap-3 mb-4">
-                                    <div className="size-10 bg-blue-50 dark:bg-slate-800 rounded-full flex items-center justify-center text-[#137fec]">
+                                    <div className="size-10 bg-blue-50 dark:bg-slate-800 rounded-full flex items-center justify-center text-brand">
                                         <span className="material-symbols-outlined">person</span>
                                     </div>
                                     <h3 className="text-lg font-bold text-slate-900 dark:text-white">About {agent.name.split(' ')[0]}</h3>
@@ -274,7 +274,7 @@ export default function AgentPublicProfile() {
                             </div>
 
                             {/* Certifications */}
-                            <div className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm">
+                            <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm">
                                 <div className="flex items-center gap-3 mb-6">
                                     <div className="size-10 bg-orange-50 dark:bg-slate-800 rounded-full flex items-center justify-center text-orange-600">
                                         <span className="material-symbols-outlined">workspace_premium</span>
@@ -294,8 +294,8 @@ export default function AgentPublicProfile() {
                                                 <h4 className="font-bold text-slate-900 dark:text-white text-sm">{cert.name}</h4>
                                                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Issuing Authority: {cert.issuer}</p>
                                                 <div className="flex items-center gap-2 mt-2">
-                                                    <span className="text-[10px] font-bold bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-2 py-0.5 rounded-full">{cert.status}</span>
-                                                    <span className="text-[10px] text-slate-400">Exp: {cert.expiry}</span>
+                                                    <span className="text-xs font-bold bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-2 py-0.5 rounded-full">{cert.status}</span>
+                                                    <span className="text-xs text-slate-400">Exp: {cert.expiry}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -304,7 +304,7 @@ export default function AgentPublicProfile() {
                             </div>
 
                             {/* Service Area */}
-                            <div className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm">
+                            <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm">
                                 <div className="flex items-center gap-3 mb-6">
                                     <div className="size-10 bg-purple-50 dark:bg-slate-800 rounded-full flex items-center justify-center text-purple-600">
                                         <span className="material-symbols-outlined">map</span>
@@ -316,7 +316,7 @@ export default function AgentPublicProfile() {
                                 </div>
                                 <div className="relative w-full h-48 bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden mb-4 border border-slate-200 dark:border-slate-700 flex items-center justify-center">
                                     <div className="relative z-10 flex flex-col items-center gap-2">
-                                        <div className="size-8 bg-white dark:bg-slate-700 rounded-full shadow-lg flex items-center justify-center text-[#137fec]">
+                                        <div className="size-8 bg-white dark:bg-slate-700 rounded-full shadow-lg flex items-center justify-center text-brand">
                                             <span className="material-symbols-outlined icon-filled text-[20px]">location_on</span>
                                         </div>
                                         <span className="text-xs font-bold bg-white/90 dark:bg-black/80 px-3 py-1 rounded-full backdrop-blur-sm shadow-sm border border-slate-200 dark:border-slate-600">Base: {agent.baseLocation}</span>
@@ -336,7 +336,7 @@ export default function AgentPublicProfile() {
                             </div>
 
                             {/* Reviews */}
-                            <div className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm">
+                            <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm">
                                 <div className="flex items-center justify-between mb-6">
                                     <div className="flex items-center gap-3">
                                         <div className="size-10 bg-yellow-50 dark:bg-slate-800 rounded-full flex items-center justify-center text-yellow-600">
@@ -388,24 +388,24 @@ export default function AgentPublicProfile() {
             <div className="fixed bottom-6 right-6 z-[100] flex flex-col items-end gap-2">
                 {showAIChat && (
                     <div className="flex flex-col w-[360px] md:w-[420px] bg-white dark:bg-[#1e293b] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
-                        <div className="p-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-gradient-to-r from-blue-50 to-white dark:from-[#1e293b] dark:to-[#1e293b]">
+                        <div className="p-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-blue-50/50 dark:bg-[#1e293b]">
                             <div className="flex items-center gap-2">
-                                <div className="size-8 rounded-full bg-gradient-to-tr from-[#137fec] to-blue-400 flex items-center justify-center text-white shadow-md">
-                                    <span className="material-symbols-outlined text-[20px]">smart_toy</span>
+                                <div className="size-8 rounded-full bg-brand flex items-center justify-center text-white shadow-md">
+                                    <span className="material-symbols-outlined text-[20px]">forum</span>
                                 </div>
                                 <div>
                                     <h3 className="text-sm font-bold text-slate-900 dark:text-white">Agent Evaluator</h3>
-                                    <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">Assistant</p>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">Assistant</p>
                                 </div>
                             </div>
                             <button onClick={() => setShowAIChat(false)} className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
                                 <span className="material-symbols-outlined text-[20px]">close</span>
                             </button>
                         </div>
-                        <div className="flex-1 p-4 h-[300px] overflow-y-auto flex flex-col gap-4 bg-slate-50/50 dark:bg-[#101922]/50">
+                        <div className="flex-1 p-4 h-[300px] overflow-y-auto flex flex-col gap-4 bg-slate-50/50 dark:bg-canvas-dark/50">
                             <div className="flex gap-3">
-                                <div className="size-8 rounded-full bg-gradient-to-tr from-[#137fec] to-blue-400 flex items-center justify-center text-white shrink-0 mt-1 shadow-sm">
-                                    <span className="material-symbols-outlined text-[16px]">smart_toy</span>
+                                <div className="size-8 rounded-full bg-brand flex items-center justify-center text-white shrink-0 mt-1 shadow-sm">
+                                    <span className="material-symbols-outlined text-[16px]">forum</span>
                                 </div>
                                 <div className="bg-white dark:bg-[#1e293b] border border-slate-100 dark:border-slate-700 p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[85%]">
                                     <p className="text-sm text-slate-700 dark:text-slate-300">Hi! I can help you evaluate {agent.name}. Would you like to know if their certifications are valid for your specific maintenance needs or compare their ratings to other agents?</p>
@@ -428,8 +428,8 @@ export default function AgentPublicProfile() {
                         </div>
                         <div className="p-3 border-t border-slate-100 dark:border-slate-700 bg-white dark:bg-[#1e293b]">
                             <div className="relative flex items-center">
-                                <input className="w-full pl-4 pr-12 py-3 bg-slate-50 dark:bg-[#101922] border-none rounded-xl text-sm focus:ring-2 focus:ring-[#137fec]/20 text-slate-900 dark:text-white placeholder:text-slate-400 shadow-inner" placeholder="Ask about this agent..." type="text" />
-                                <button className="absolute right-2 p-1.5 bg-[#137fec] text-white rounded-lg hover:bg-[#137fec]/90 transition-colors shadow-md">
+                                <input className="w-full pl-4 pr-12 py-3 bg-slate-50 dark:bg-canvas-dark border-none rounded-xl text-sm focus:ring-2 focus:ring-brand/20 text-slate-900 dark:text-white placeholder:text-slate-400 shadow-inner" placeholder="Ask about this agent..." type="text" />
+                                <button className="absolute right-2 p-1.5 bg-brand text-white rounded-lg hover:bg-brand/90 transition-colors shadow-md">
                                     <span className="material-symbols-outlined text-[18px]">arrow_upward</span>
                                 </button>
                             </div>
@@ -439,14 +439,14 @@ export default function AgentPublicProfile() {
 
                 <button
                     onClick={() => setShowAIChat(!showAIChat)}
-                    className={`group flex items-center gap-3 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white pl-1.5 pr-5 py-1.5 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 dark:border-slate-700 hover:scale-105 hover:shadow-[0_8px_30px_rgb(0,0,0,0.18)] transition-all duration-300 ${showAIChat ? 'hidden' : ''}`}
+                    className={`group flex items-center gap-3 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white pl-1.5 pr-5 py-1.5 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 dark:border-slate-700 hover:shadow-[0_8px_30px_rgb(0,0,0,0.18)] transition-all duration-300 ${showAIChat ? 'hidden' : ''}`}
                 >
-                    <div className="size-10 rounded-full bg-gradient-to-tr from-[#137fec] to-blue-400 flex items-center justify-center text-white shadow-md group-hover:rotate-12 transition-transform">
-                        <span className="material-symbols-outlined">smart_toy</span>
+                    <div className="size-10 rounded-full bg-brand flex items-center justify-center text-white shadow-md">
+                        <span className="material-symbols-outlined">forum</span>
                     </div>
                     <div className="flex flex-col items-start">
                         <span className="text-sm font-bold leading-none">Agent Assistant...</span>
-                        <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium leading-tight mt-0.5">Click for insights</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-tight mt-0.5">Click for insights</span>
                     </div>
                 </button>
             </div>
@@ -455,7 +455,7 @@ export default function AgentPublicProfile() {
             <ShareModal
                 isOpen={showShareModal}
                 onClose={() => setShowShareModal(false)}
-                title={`${agent.name} - ${agent.title} | PropertyApp`}
+                title={`${agent.name} - ${agent.title} | HomeAI`}
                 url={window.location.href}
             />
 

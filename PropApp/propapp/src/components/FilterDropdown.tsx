@@ -69,8 +69,8 @@ export default function FilterDropdown({
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className={`whitespace-nowrap flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold active:scale-95 transition-all ${selected.length > 0
-                        ? 'border-[#137fec]/30 bg-[#137fec]/5 text-[#137fec]'
-                        : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1a2632] text-slate-700 dark:text-slate-300 hover:border-slate-400'
+                        ? 'border-brand/30 bg-brand/5 text-brand'
+                        : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark text-slate-700 dark:text-slate-300 hover:border-slate-400'
                     }`}
             >
                 {getDisplayLabel()}
@@ -81,7 +81,7 @@ export default function FilterDropdown({
 
             {/* Dropdown */}
             {isOpen && (
-                <div className="absolute top-full left-0 mt-2 min-w-[200px] bg-white dark:bg-[#1a2632] rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="absolute top-full left-0 mt-2 min-w-[200px] bg-white dark:bg-surface-dark rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                     {/* Options */}
                     <div className="max-h-[300px] overflow-y-auto">
                         {options.map((option) => (
@@ -92,7 +92,7 @@ export default function FilterDropdown({
                             >
                                 {multiple ? (
                                     <span className={`size-5 rounded border flex items-center justify-center transition-colors ${selected.includes(option.id)
-                                            ? 'bg-[#137fec] border-[#137fec] text-white'
+                                            ? 'bg-brand border-brand text-white'
                                             : 'border-slate-300 dark:border-slate-600'
                                         }`}>
                                         {selected.includes(option.id) && (
@@ -101,11 +101,11 @@ export default function FilterDropdown({
                                     </span>
                                 ) : (
                                     <span className={`size-4 rounded-full border-2 flex items-center justify-center transition-colors ${selected.includes(option.id)
-                                            ? 'border-[#137fec]'
+                                            ? 'border-brand'
                                             : 'border-slate-300 dark:border-slate-600'
                                         }`}>
                                         {selected.includes(option.id) && (
-                                            <span className="size-2 bg-[#137fec] rounded-full"></span>
+                                            <span className="size-2 bg-brand rounded-full"></span>
                                         )}
                                     </span>
                                 )}
@@ -126,7 +126,7 @@ export default function FilterDropdown({
                         <div className="border-t border-slate-100 dark:border-slate-800 mt-2 pt-2 px-4">
                             <button
                                 onClick={clearAll}
-                                className="text-xs font-semibold text-slate-500 hover:text-[#137fec] transition-colors"
+                                className="text-xs font-semibold text-slate-500 hover:text-brand transition-colors"
                             >
                                 Clear all
                             </button>

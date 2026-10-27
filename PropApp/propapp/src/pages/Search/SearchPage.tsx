@@ -287,17 +287,17 @@ export default function SearchPage() {
     }, []);
 
     return (
-        <div className={`bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex flex-col font-[Manrope,Noto_Sans,sans-serif] text-slate-900 dark:text-white ${viewMode === 'map' ? 'overflow-hidden' : 'overflow-x-hidden'}`}>
+        <div className={`bg-canvas dark:bg-canvas-dark min-h-screen flex flex-col text-slate-900 dark:text-white ${viewMode === 'map' ? 'overflow-hidden' : 'overflow-x-hidden'}`}>
             {/* Header - Shared Between Both Views */}
-            <header className="sticky top-0 z-40 bg-white/95 dark:bg-[#101922]/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm transition-all duration-300">
+            <header className="sticky top-0 z-40 bg-white/95 dark:bg-canvas-dark/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm transition-all duration-300">
                 <div className="px-4 md:px-8 py-3 flex items-center justify-between gap-4 md:gap-8">
                     {/* Logo */}
                     <Link to="/" className="flex items-center gap-3 text-slate-900 dark:text-white shrink-0">
-                        <div className="size-9 bg-[#137fec] rounded-lg flex items-center justify-center text-white shadow-lg shadow-[#137fec]/30">
+                        <div className="size-9 bg-brand rounded-lg flex items-center justify-center text-white shadow-sm">
                             <span className="material-symbols-outlined">real_estate_agent</span>
                         </div>
                         <h2 className="hidden md:block text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">
-                            PropertyApp
+                            HomeAI
                         </h2>
                     </Link>
 
@@ -314,14 +314,14 @@ export default function SearchPage() {
                                 <span className="material-symbols-outlined text-slate-400">search</span>
                             </div>
                             <input
-                                className="block w-full pl-10 pr-12 py-2.5 bg-slate-100 dark:bg-slate-800 border-none rounded-full text-sm md:text-base text-slate-900 dark:text-white placeholder:text-slate-500 focus:ring-2 focus:ring-[#137fec] focus:bg-white dark:focus:bg-slate-900 transition-all shadow-inner"
+                                className="block w-full pl-10 pr-12 py-2.5 bg-slate-100 dark:bg-slate-800 border-none rounded-full text-sm md:text-base text-slate-900 dark:text-white placeholder:text-slate-500 focus:ring-2 focus:ring-brand focus:bg-white dark:focus:bg-slate-900 transition-all shadow-inner"
                                 placeholder="Location, property type, or keywords..."
                                 type="text"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
                             <button type="submit" className="absolute inset-y-0 right-1.5 flex items-center">
-                                <div className="size-8 bg-[#137fec] rounded-full text-white hover:bg-blue-600 transition-colors shadow-sm flex items-center justify-center">
+                                <div className="size-8 bg-brand rounded-full text-white hover:bg-blue-600 transition-colors shadow-sm flex items-center justify-center">
                                     <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
                                 </div>
                             </button>
@@ -340,7 +340,7 @@ export default function SearchPage() {
                         <div className="relative">
                             <button
                                 onClick={() => setShowProfileDropdown(!showProfileDropdown)}
-                                className="flex items-center justify-center overflow-hidden rounded-full size-10 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:ring-2 hover:ring-[#137fec]/20 transition-all border border-slate-200 dark:border-slate-600"
+                                className="flex items-center justify-center overflow-hidden rounded-full size-10 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:ring-2 hover:ring-brand/20 transition-all border border-slate-200 dark:border-slate-600"
                             >
                                 <img
                                     alt="Profile"
@@ -352,7 +352,7 @@ export default function SearchPage() {
                                 <div className="absolute right-0 mt-2 py-2 bg-white dark:bg-slate-800 min-w-[200px] shadow-[0px_8px_16px_0px_rgba(0,0,0,0.1)] z-50 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <Link
                                         to="/landlord/dashboard"
-                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-[#137fec]"
+                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand"
                                     >
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">dashboard</span>
@@ -361,7 +361,7 @@ export default function SearchPage() {
                                     </Link>
                                     <Link
                                         to="/tenant/dashboard"
-                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-[#137fec]"
+                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand"
                                     >
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">vpn_key</span>
@@ -370,7 +370,7 @@ export default function SearchPage() {
                                     </Link>
                                     <Link
                                         to="/agent/jobs"
-                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-[#137fec]"
+                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand"
                                     >
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">support_agent</span>
@@ -380,14 +380,14 @@ export default function SearchPage() {
                                     <hr className="my-1 border-slate-200 dark:border-slate-700" />
                                     <Link
                                         to="/settings"
-                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-[#137fec]"
+                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand"
                                     >
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">settings</span>
                                             Account Settings
                                         </div>
                                     </Link>
-                                    <button className="w-full text-left block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-[#137fec]">
+                                    <button className="w-full text-left block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand">
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">logout</span>
                                             Sign Out
@@ -407,8 +407,8 @@ export default function SearchPage() {
                             <button
                                 onClick={() => toggleDropdown('price')}
                                 className={`whitespace-nowrap flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold active:scale-95 transition-all ${priceRange.min || priceRange.max
-                                    ? 'border-[#137fec]/30 bg-[#137fec]/5 text-[#137fec]'
-                                    : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1a2632] text-slate-700 dark:text-slate-300 hover:border-slate-400'
+                                    ? 'border-brand/30 bg-brand/5 text-brand'
+                                    : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark text-slate-700 dark:text-slate-300 hover:border-slate-400'
                                     }`}
                             >
                                 {priceRange.min || priceRange.max
@@ -419,7 +419,7 @@ export default function SearchPage() {
                                 </span>
                             </button>
                             {showPriceDropdown && (
-                                <div className="absolute top-full left-0 mt-2 w-72 bg-white dark:bg-[#1a2632] rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 p-5 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                                <div className="absolute top-full left-0 mt-2 w-72 bg-white dark:bg-surface-dark rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 p-5 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                                     <h4 className="font-bold text-slate-900 dark:text-white mb-4">Price Range</h4>
                                     <div className="flex gap-3 mb-4">
                                         <div className="flex-1">
@@ -431,7 +431,7 @@ export default function SearchPage() {
                                                     placeholder="0"
                                                     value={priceRange.min}
                                                     onChange={(e) => setPriceRange(prev => ({ ...prev, min: e.target.value.replace(/\D/g, '') }))}
-                                                    className="w-full pl-7 pr-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec]"
+                                                    className="w-full pl-7 pr-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-brand/20 focus:border-brand"
                                                 />
                                             </div>
                                         </div>
@@ -445,7 +445,7 @@ export default function SearchPage() {
                                                     placeholder="Any"
                                                     value={priceRange.max}
                                                     onChange={(e) => setPriceRange(prev => ({ ...prev, max: e.target.value.replace(/\D/g, '') }))}
-                                                    className="w-full pl-7 pr-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec]"
+                                                    className="w-full pl-7 pr-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-brand/20 focus:border-brand"
                                                 />
                                             </div>
                                         </div>
@@ -456,7 +456,7 @@ export default function SearchPage() {
                                             <button
                                                 key={val}
                                                 onClick={() => setPriceRange(prev => ({ ...prev, max: val.includes('M') ? '1000000' : val.replace('k', '000') }))}
-                                                className="px-3 py-1.5 text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-[#137fec]/10 hover:text-[#137fec] rounded-full transition-colors"
+                                                className="px-3 py-1.5 text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-brand/10 hover:text-brand rounded-full transition-colors"
                                             >
                                                 Under ${val}
                                             </button>
@@ -471,7 +471,7 @@ export default function SearchPage() {
                                         </button>
                                         <button
                                             onClick={() => setShowPriceDropdown(false)}
-                                            className="flex-1 py-2 bg-[#137fec] text-white text-sm font-bold rounded-lg hover:bg-[#137fec]/90 transition-colors"
+                                            className="flex-1 py-2 bg-brand text-white text-sm font-bold rounded-lg hover:bg-brand/90 transition-colors"
                                         >
                                             Apply
                                         </button>
@@ -485,8 +485,8 @@ export default function SearchPage() {
                             <button
                                 onClick={() => toggleDropdown('type')}
                                 className={`whitespace-nowrap flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold active:scale-95 transition-all ${selectedTypes.length > 0
-                                    ? 'border-[#137fec]/30 bg-[#137fec]/5 text-[#137fec]'
-                                    : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1a2632] text-slate-700 dark:text-slate-300 hover:border-slate-400'
+                                    ? 'border-brand/30 bg-brand/5 text-brand'
+                                    : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark text-slate-700 dark:text-slate-300 hover:border-slate-400'
                                     }`}
                             >
                                 {selectedTypes.length > 0
@@ -497,7 +497,7 @@ export default function SearchPage() {
                                 </span>
                             </button>
                             {showTypeDropdown && (
-                                <div className="absolute top-full left-0 mt-2 w-56 bg-white dark:bg-[#1a2632] rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 p-4 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                                <div className="absolute top-full left-0 mt-2 w-56 bg-white dark:bg-surface-dark rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 p-4 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                                     <h4 className="font-bold text-slate-900 dark:text-white mb-3">Property Type</h4>
                                     <div className="space-y-2 max-h-60 overflow-y-auto">
                                         {propertyTypes.map((type) => (
@@ -509,7 +509,7 @@ export default function SearchPage() {
                                                     type="checkbox"
                                                     checked={selectedTypes.includes(type)}
                                                     onChange={() => toggleType(type)}
-                                                    className="size-4 rounded border-slate-300 text-[#137fec] focus:ring-[#137fec]"
+                                                    className="size-4 rounded border-slate-300 text-brand focus:ring-brand"
                                                 />
                                                 <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{type}</span>
                                             </label>
@@ -524,7 +524,7 @@ export default function SearchPage() {
                                         </button>
                                         <button
                                             onClick={() => setShowTypeDropdown(false)}
-                                            className="flex-1 py-2 bg-[#137fec] text-white text-sm font-bold rounded-lg hover:bg-[#137fec]/90 transition-colors"
+                                            className="flex-1 py-2 bg-brand text-white text-sm font-bold rounded-lg hover:bg-brand/90 transition-colors"
                                         >
                                             Apply
                                         </button>
@@ -538,8 +538,8 @@ export default function SearchPage() {
                             <button
                                 onClick={() => toggleDropdown('beds')}
                                 className={`whitespace-nowrap flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold active:scale-95 transition-all ${beds !== 'Any' || baths !== 'Any'
-                                    ? 'border-[#137fec]/30 bg-[#137fec]/5 text-[#137fec]'
-                                    : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1a2632] text-slate-700 dark:text-slate-300 hover:border-slate-400'
+                                    ? 'border-brand/30 bg-brand/5 text-brand'
+                                    : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark text-slate-700 dark:text-slate-300 hover:border-slate-400'
                                     }`}
                             >
                                 {beds !== 'Any' || baths !== 'Any'
@@ -550,7 +550,7 @@ export default function SearchPage() {
                                 </span>
                             </button>
                             {showBedsDropdown && (
-                                <div className="absolute top-full left-0 mt-2 w-72 bg-white dark:bg-[#1a2632] rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 p-5 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                                <div className="absolute top-full left-0 mt-2 w-72 bg-white dark:bg-surface-dark rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 p-5 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                                     {/* Bedrooms */}
                                     <div className="mb-5">
                                         <h4 className="font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
@@ -563,7 +563,7 @@ export default function SearchPage() {
                                                     key={option}
                                                     onClick={() => setBeds(option)}
                                                     className={`flex-1 py-2 text-sm font-semibold rounded-lg transition-all ${beds === option
-                                                        ? 'bg-[#137fec] text-white shadow-sm'
+                                                        ? 'bg-brand text-white shadow-sm'
                                                         : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
                                                         }`}
                                                 >
@@ -584,7 +584,7 @@ export default function SearchPage() {
                                                     key={option}
                                                     onClick={() => setBaths(option)}
                                                     className={`flex-1 py-2 text-sm font-semibold rounded-lg transition-all ${baths === option
-                                                        ? 'bg-[#137fec] text-white shadow-sm'
+                                                        ? 'bg-brand text-white shadow-sm'
                                                         : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
                                                         }`}
                                                 >
@@ -602,7 +602,7 @@ export default function SearchPage() {
                                         </button>
                                         <button
                                             onClick={() => setShowBedsDropdown(false)}
-                                            className="flex-1 py-2 bg-[#137fec] text-white text-sm font-bold rounded-lg hover:bg-[#137fec]/90 transition-colors"
+                                            className="flex-1 py-2 bg-brand text-white text-sm font-bold rounded-lg hover:bg-brand/90 transition-colors"
                                         >
                                             Apply
                                         </button>
@@ -615,8 +615,8 @@ export default function SearchPage() {
                         <button
                             onClick={() => setVerifiedOnly(!verifiedOnly)}
                             className={`whitespace-nowrap flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold active:scale-95 transition-all ${verifiedOnly
-                                ? 'border border-[#137fec]/30 bg-[#137fec]/5 text-[#137fec] hover:bg-[#137fec]/10'
-                                : 'border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1a2632] text-slate-700 dark:text-slate-300'
+                                ? 'border border-brand/30 bg-brand/5 text-brand hover:bg-brand/10'
+                                : 'border border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark text-slate-700 dark:text-slate-300'
                                 }`}
                         >
                             <span className={`material-symbols-outlined text-[18px] ${verifiedOnly ? 'icon-filled' : ''}`}>
@@ -630,25 +630,25 @@ export default function SearchPage() {
                             <button
                                 onClick={() => toggleDropdown('more')}
                                 className={`whitespace-nowrap flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold active:scale-95 transition-all ${getActiveFilterCount() > 0
-                                    ? 'border-[#137fec]/30 bg-[#137fec]/5 text-[#137fec]'
-                                    : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1a2632] text-slate-700 dark:text-slate-300 hover:border-slate-400'
+                                    ? 'border-brand/30 bg-brand/5 text-brand'
+                                    : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark text-slate-700 dark:text-slate-300 hover:border-slate-400'
                                     }`}
                             >
                                 <span className="material-symbols-outlined text-[18px]">tune</span>
                                 More Filters
                                 {getActiveFilterCount() > 0 && (
-                                    <span className="size-5 bg-[#137fec] text-white text-xs font-bold rounded-full flex items-center justify-center">
+                                    <span className="size-5 bg-brand text-white text-xs font-bold rounded-full flex items-center justify-center">
                                         {getActiveFilterCount()}
                                     </span>
                                 )}
                             </button>
                             {showMoreFilters && (
-                                <div className="absolute top-full right-0 mt-2 w-[360px] bg-white dark:bg-[#1a2632] rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 p-5 z-50 animate-in fade-in slide-in-from-top-2 duration-200 max-h-[70vh] overflow-y-auto">
+                                <div className="absolute top-full right-0 mt-2 w-[360px] bg-white dark:bg-surface-dark rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 p-5 z-50 animate-in fade-in slide-in-from-top-2 duration-200 max-h-[70vh] overflow-y-auto">
                                     <div className="flex items-center justify-between mb-4">
                                         <h4 className="text-lg font-bold text-slate-900 dark:text-white">More Filters</h4>
                                         <button
                                             onClick={clearAllFilters}
-                                            className="text-sm font-semibold text-[#137fec] hover:underline"
+                                            className="text-sm font-semibold text-brand hover:underline"
                                         >
                                             Clear All
                                         </button>
@@ -667,7 +667,7 @@ export default function SearchPage() {
                                                     placeholder="Min sqft"
                                                     value={sqftRange.min}
                                                     onChange={(e) => setSqftRange(prev => ({ ...prev, min: e.target.value.replace(/\D/g, '') }))}
-                                                    className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec]"
+                                                    className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-brand/20 focus:border-brand"
                                                 />
                                             </div>
                                             <span className="flex items-center text-slate-400">—</span>
@@ -677,7 +677,7 @@ export default function SearchPage() {
                                                     placeholder="Max sqft"
                                                     value={sqftRange.max}
                                                     onChange={(e) => setSqftRange(prev => ({ ...prev, max: e.target.value.replace(/\D/g, '') }))}
-                                                    className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec]"
+                                                    className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-brand/20 focus:border-brand"
                                                 />
                                             </div>
                                         </div>
@@ -696,7 +696,7 @@ export default function SearchPage() {
                                                     placeholder="From"
                                                     value={yearBuilt.min}
                                                     onChange={(e) => setYearBuilt(prev => ({ ...prev, min: e.target.value.replace(/\D/g, '').slice(0, 4) }))}
-                                                    className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec]"
+                                                    className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-brand/20 focus:border-brand"
                                                 />
                                             </div>
                                             <span className="flex items-center text-slate-400">—</span>
@@ -706,7 +706,7 @@ export default function SearchPage() {
                                                     placeholder="To"
                                                     value={yearBuilt.max}
                                                     onChange={(e) => setYearBuilt(prev => ({ ...prev, max: e.target.value.replace(/\D/g, '').slice(0, 4) }))}
-                                                    className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec]"
+                                                    className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-brand/20 focus:border-brand"
                                                 />
                                             </div>
                                         </div>
@@ -724,7 +724,7 @@ export default function SearchPage() {
                                                     key={amenity.id}
                                                     onClick={() => toggleAmenity(amenity.id)}
                                                     className={`flex items-center gap-2 p-2.5 rounded-lg text-sm font-medium transition-all ${selectedAmenities.includes(amenity.id)
-                                                        ? 'bg-[#137fec]/10 text-[#137fec] border border-[#137fec]/30'
+                                                        ? 'bg-brand/10 text-brand border border-brand/30'
                                                         : 'bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
                                                         }`}
                                                 >
@@ -744,7 +744,7 @@ export default function SearchPage() {
                                         </button>
                                         <button
                                             onClick={() => setShowMoreFilters(false)}
-                                            className="flex-1 py-2.5 bg-[#137fec] text-white text-sm font-bold rounded-lg hover:bg-[#137fec]/90 transition-colors shadow-lg shadow-[#137fec]/20"
+                                            className="flex-1 py-2.5 bg-brand text-white text-sm font-bold rounded-lg hover:bg-brand/90 transition-colors shadow-sm"
                                         >
                                             Show Results
                                         </button>
@@ -759,7 +759,7 @@ export default function SearchPage() {
                         <button
                             onClick={() => setViewMode('grid')}
                             className={`flex items-center justify-center size-9 rounded-full transition-all ${viewMode === 'grid'
-                                ? 'bg-white dark:bg-[#101922] text-slate-900 dark:text-white shadow-sm'
+                                ? 'bg-white dark:bg-canvas-dark text-slate-900 dark:text-white shadow-sm'
                                 : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                                 }`}
                         >
@@ -768,7 +768,7 @@ export default function SearchPage() {
                         <button
                             onClick={() => setViewMode('map')}
                             className={`flex items-center justify-center size-9 rounded-full transition-all ${viewMode === 'map'
-                                ? 'bg-white dark:bg-[#101922] text-slate-900 dark:text-white shadow-sm'
+                                ? 'bg-white dark:bg-canvas-dark text-slate-900 dark:text-white shadow-sm'
                                 : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                                 }`}
                         >
@@ -780,7 +780,7 @@ export default function SearchPage() {
 
             {/* Conditional Content Based on View Mode */}
             {viewMode === 'grid' ? (
-                <main className="flex-1 w-full bg-[#f6f7f8] dark:bg-[#101922] py-8 px-4 md:px-8">
+                <main className="flex-1 w-full bg-canvas dark:bg-canvas-dark py-8 px-4 md:px-8">
                     <div className="max-w-[1600px] mx-auto">
                         {/* Results Header */}
                         <div className="flex items-baseline justify-between mb-6">
@@ -821,7 +821,7 @@ export default function SearchPage() {
                                 <p className="text-slate-500 dark:text-slate-400 mb-4">{error.error?.message || 'Failed to load properties'}</p>
                                 <button
                                     onClick={() => fetchProperties(1)}
-                                    className="px-6 py-2 bg-[#137fec] text-white rounded-lg font-semibold hover:bg-blue-600"
+                                    className="px-6 py-2 bg-brand text-white rounded-lg font-semibold hover:bg-blue-600"
                                 >
                                     Try Again
                                 </button>
@@ -870,7 +870,7 @@ export default function SearchPage() {
                                                 {/* Featured Badge — derived from verificationTier until backend
                                                     exposes a real isFeatured column. */}
                                                 {(property.verificationTier === 'GOLD' || property.verificationTier === 'PLATINUM') && (
-                                                    <div className="absolute bottom-4 left-4 bg-[#137fec] text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm">
+                                                    <div className="absolute bottom-4 left-4 bg-brand text-white text-xs font-bold px-2 py-1 rounded shadow-sm">
                                                         FEATURED
                                                     </div>
                                                 )}
@@ -887,7 +887,7 @@ export default function SearchPage() {
                                                         )}
                                                     </p>
                                                     <span
-                                                        className={`text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md ${listingTypeDisplay[property.listingType]?.color || 'bg-gray-100 text-gray-700'
+                                                        className={`text-xs font-bold uppercase tracking-wider px-2 py-1 rounded-md ${listingTypeDisplay[property.listingType]?.color || 'bg-gray-100 text-gray-700'
                                                             }`}
                                                     >
                                                         {listingTypeDisplay[property.listingType]?.label || property.listingType}
@@ -928,7 +928,7 @@ export default function SearchPage() {
                                 <button
                                     onClick={handleLoadMore}
                                     disabled={isLoading}
-                                    className="px-8 py-3 rounded-xl bg-white dark:bg-[#1a2632] border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-sm disabled:opacity-50"
+                                    className="px-8 py-3 rounded-xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-sm disabled:opacity-50"
                                 >
                                     {isLoading ? 'Loading...' : 'Show more properties'}
                                 </button>
@@ -960,23 +960,23 @@ export default function SearchPage() {
 
                     {/* Search This Area Button */}
                     <div className="absolute top-6 left-1/2 -translate-x-1/2 z-30">
-                        <button className="bg-white dark:bg-[#1a2632] text-slate-900 dark:text-white px-5 py-2.5 rounded-full shadow-lg font-semibold text-sm flex items-center gap-2 hover:scale-105 transition-transform border border-slate-100 dark:border-slate-700">
-                            <span className="material-symbols-outlined text-[#137fec] text-[18px]">refresh</span>
+                        <button className="bg-white dark:bg-surface-dark text-slate-900 dark:text-white px-5 py-2.5 rounded-full shadow-lg font-semibold text-sm flex items-center gap-2 transition-transform border border-slate-100 dark:border-slate-700">
+                            <span className="material-symbols-outlined text-brand text-[18px]">refresh</span>
                             Search this area
                         </button>
                     </div>
 
                     {/* Property Count Badge - Coming Soon for full map integration */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 text-center">
-                        <div className="bg-white dark:bg-[#1a2632] rounded-2xl shadow-2xl p-8 border border-slate-200 dark:border-slate-700">
-                            <span className="material-symbols-outlined text-6xl text-[#137fec] mb-4">map</span>
+                        <div className="bg-white dark:bg-surface-dark rounded-2xl shadow-2xl p-8 border border-slate-200 dark:border-slate-700">
+                            <span className="material-symbols-outlined text-6xl text-brand mb-4">map</span>
                             <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Map View Coming Soon</h3>
                             <p className="text-slate-500 dark:text-slate-400 mb-4">
                                 {properties.length} properties available in this area
                             </p>
                             <button
                                 onClick={() => setViewMode('grid')}
-                                className="px-6 py-2 bg-[#137fec] text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors"
+                                className="px-6 py-2 bg-brand text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors"
                             >
                                 View in Grid
                             </button>
@@ -985,17 +985,17 @@ export default function SearchPage() {
 
                     {/* Cluster Marker */}
                     <div className="absolute z-10" style={{ top: clusterPosition.top, left: clusterPosition.left }}>
-                        <button className="bg-[#137fec] text-white font-bold text-sm size-10 rounded-full shadow-lg border-2 border-white hover:scale-110 hover:bg-blue-600 transition-all flex items-center justify-center">
+                        <button className="bg-brand text-white font-bold text-sm size-10 rounded-full shadow-lg border-2 border-white hover:bg-blue-600 transition-all flex items-center justify-center">
                             {properties.length}
                         </button>
                     </div>
 
                     {/* Map Controls */}
                     <div className="absolute bottom-8 right-8 flex flex-col gap-2 z-30">
-                        <button className="bg-white dark:bg-[#1a2632] text-slate-700 dark:text-slate-200 p-2.5 rounded-lg shadow-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700">
+                        <button className="bg-white dark:bg-surface-dark text-slate-700 dark:text-slate-200 p-2.5 rounded-lg shadow-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700">
                             <span className="material-symbols-outlined">my_location</span>
                         </button>
-                        <div className="flex flex-col bg-white dark:bg-[#1a2632] rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
+                        <div className="flex flex-col bg-white dark:bg-surface-dark rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
                             <button className="p-2.5 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors border-b border-slate-200 dark:border-slate-700">
                                 <span className="material-symbols-outlined">add</span>
                             </button>
@@ -1006,7 +1006,7 @@ export default function SearchPage() {
                     </div>
 
                     {/* Map Attribution */}
-                    <div className="absolute bottom-1 right-1 px-2 py-0.5 bg-white/60 dark:bg-black/50 backdrop-blur-sm text-[10px] text-slate-600 dark:text-slate-400 rounded-tl-md hover:bg-white/80 transition-colors cursor-pointer">
+                    <div className="absolute bottom-1 right-1 px-2 py-0.5 bg-white/60 dark:bg-black/50 backdrop-blur-sm text-xs text-slate-600 dark:text-slate-400 rounded-tl-md hover:bg-white/80 transition-colors cursor-pointer">
                         © Mapbox © OpenStreetMap
                     </div>
                 </main>

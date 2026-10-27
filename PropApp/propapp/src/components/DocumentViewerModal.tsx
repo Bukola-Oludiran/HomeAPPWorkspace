@@ -37,9 +37,9 @@ export default function DocumentViewerModal({ isOpen, onClose, document }: Docum
 
     return (
         <ModalPortal>
-            <div className="fixed inset-0 z-[200] bg-slate-100 dark:bg-[#0B1116] flex flex-col font-[Manrope,Noto_Sans,sans-serif] text-slate-900 dark:text-white overflow-hidden">
+            <div className="fixed inset-0 z-[200] bg-slate-100 dark:bg-[#0B1116] flex flex-col text-slate-900 dark:text-white overflow-hidden">
                 {/* Header */}
-                <header className="bg-white dark:bg-[#101922] h-[72px] px-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between shrink-0 shadow-sm z-30">
+                <header className="bg-white dark:bg-canvas-dark h-[72px] px-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between shrink-0 shadow-sm z-30">
                     <div className="flex items-center gap-4">
                         <div className={`size-10 rounded-lg ${docStyle.bg} ${docStyle.text} flex items-center justify-center border ${docStyle.border}`}>
                             <span className="material-symbols-outlined text-[24px]">{docStyle.icon}</span>
@@ -63,7 +63,7 @@ export default function DocumentViewerModal({ isOpen, onClose, document }: Docum
                 </header>
 
                 {/* Toolbar */}
-                <div className="bg-white dark:bg-[#101922] h-14 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 shrink-0 z-20 relative">
+                <div className="bg-white dark:bg-canvas-dark h-14 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 shrink-0 z-20 relative">
                     <div className="flex items-center gap-1">
                         <button className="flex items-center justify-center size-9 rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 transition-colors" title="Toggle Sidebar">
                             <span className="material-symbols-outlined text-[20px]">thumbnail_bar</span>
@@ -79,7 +79,7 @@ export default function DocumentViewerModal({ isOpen, onClose, document }: Docum
                         <button
                             onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                             disabled={currentPage === 1}
-                            className="size-8 flex items-center justify-center rounded-md bg-white dark:bg-slate-700 shadow-sm text-slate-600 dark:text-slate-300 hover:text-[#137fec] transition-colors disabled:opacity-50"
+                            className="size-8 flex items-center justify-center rounded-md bg-white dark:bg-slate-700 shadow-sm text-slate-600 dark:text-slate-300 hover:text-brand transition-colors disabled:opacity-50"
                         >
                             <span className="material-symbols-outlined text-[18px]">chevron_left</span>
                         </button>
@@ -106,8 +106,8 @@ export default function DocumentViewerModal({ isOpen, onClose, document }: Docum
                             variant="compact"
                         />
                         <div className="h-5 w-px bg-slate-200 dark:bg-slate-700"></div>
-                        <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[#137fec] hover:bg-[#137fec]/5 border border-[#137fec]/20 transition-colors text-sm font-semibold">
-                            <span className="material-symbols-outlined text-[18px]">auto_awesome</span>
+                        <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-brand hover:bg-brand/5 border border-brand/20 transition-colors text-sm font-semibold">
+                            <span className="material-symbols-outlined text-[18px]">forum</span>
                             <span>Analyze</span>
                         </button>
                     </div>
@@ -181,7 +181,7 @@ export default function DocumentViewerModal({ isOpen, onClose, document }: Docum
                 </main>
 
                 {/* Footer Actions */}
-                <footer className="bg-white dark:bg-[#101922] border-t border-slate-200 dark:border-slate-800 p-4 md:px-8 shrink-0 z-30">
+                <footer className="bg-white dark:bg-canvas-dark border-t border-slate-200 dark:border-slate-800 p-4 md:px-8 shrink-0 z-30">
                     <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
                         <div className="flex items-center gap-3 w-full md:w-auto">
                             <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
@@ -203,7 +203,7 @@ export default function DocumentViewerModal({ isOpen, onClose, document }: Docum
                                     <div className="h-8 w-px bg-slate-200 dark:bg-slate-700 hidden lg:block"></div>
                                 </>
                             )}
-                            <button className="flex-1 md:flex-none bg-[#137fec] hover:bg-[#0e64bd] text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-[#137fec]/25 transition-all flex items-center justify-center gap-2 w-full md:w-auto">
+                            <button className="flex-1 md:flex-none bg-brand hover:bg-[#0e64bd] text-white px-8 py-3 rounded-xl font-bold shadow-sm transition-all flex items-center justify-center gap-2 w-full md:w-auto">
                                 <span>Proceed to Sign</span>
                                 <span className="material-symbols-outlined text-[20px]">ink_pen</span>
                             </button>

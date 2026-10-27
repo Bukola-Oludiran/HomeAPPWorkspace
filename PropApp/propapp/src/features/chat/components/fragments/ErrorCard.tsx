@@ -12,7 +12,7 @@ export function ErrorCard({ props, onAction }: Props) {
             <h3 className="text-sm font-semibold text-red-700">{props.title}</h3>
             <p className="mt-1 text-sm text-red-900">{props.message}</p>
             {props.code ? (
-                <p className="mt-1 font-mono text-[10px] text-red-500">code: {props.code}</p>
+                <p className="mt-1 font-mono text-xs text-red-500">code: {props.code}</p>
             ) : null}
             {props.retryAction ? (
                 <FragmentActions actions={[props.retryAction]} onAction={onAction} />

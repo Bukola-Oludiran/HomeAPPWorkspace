@@ -29,7 +29,7 @@ export default function TwoFactorMethodsPage() {
     ];
 
     return (
-        <div className="w-full max-w-md bg-white/10 dark:bg-[#1a2632]/60 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col items-center relative">
+        <div className="w-full max-w-md bg-white/10 dark:bg-surface-dark/60 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col items-center relative">
             {/* Close Button */}
             <Link
                 to="/auth/2fa"
@@ -41,7 +41,7 @@ export default function TwoFactorMethodsPage() {
             {/* Icon */}
             <div className="mb-6 flex justify-center">
                 <div className="size-16 bg-white/10 rounded-full flex items-center justify-center border border-white/10 shadow-inner ring-1 ring-white/5">
-                    <span className="material-symbols-outlined text-[#137fec] text-3xl">phonelink_lock</span>
+                    <span className="material-symbols-outlined text-brand text-3xl">phonelink_lock</span>
                 </div>
             </div>
 

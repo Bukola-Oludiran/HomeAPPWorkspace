@@ -6,7 +6,7 @@ export default function EnterSMSCodePage() {
     const [code, setCode] = useState('');
 
     return (
-        <div className="w-full max-w-md bg-white/10 dark:bg-[#1a2632]/60 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col items-center relative">
+        <div className="w-full max-w-md bg-white/10 dark:bg-surface-dark/60 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col items-center relative">
             {/* Close Button */}
             <Link
                 to="/auth/2fa/methods"
@@ -18,7 +18,7 @@ export default function EnterSMSCodePage() {
             {/* Icon */}
             <div className="mb-6 flex justify-center">
                 <div className="size-16 bg-white/10 rounded-full flex items-center justify-center border border-white/10 shadow-inner ring-1 ring-white/5">
-                    <span className="material-symbols-outlined text-[#137fec] text-3xl">sms</span>
+                    <span className="material-symbols-outlined text-brand text-3xl">sms</span>
                 </div>
             </div>
 
@@ -38,7 +38,7 @@ export default function EnterSMSCodePage() {
                         placeholder="000000"
                     />
                     <div className="mt-3 flex justify-end">
-                        <button className="text-xs text-[#137fec] hover:text-[#137fec]/80 font-medium transition-colors flex items-center gap-1">
+                        <button className="text-xs text-brand hover:text-brand/80 font-medium transition-colors flex items-center gap-1">
                             Resend Code (30s)
                         </button>
                     </div>
@@ -48,7 +48,7 @@ export default function EnterSMSCodePage() {
                 <div className="flex flex-col gap-3 pt-2">
                     <Link
                         to="/auth/2fa/sms-success"
-                        className="w-full py-3.5 px-5 rounded-xl bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold shadow-lg shadow-[#137fec]/25 transition-all flex items-center justify-center gap-2"
+                        className="w-full py-3.5 px-5 rounded-xl bg-brand hover:bg-brand/90 text-white font-bold shadow-sm transition-all flex items-center justify-center gap-2"
                     >
                         <span>Verify Code</span>
                         <span className="material-symbols-outlined text-[20px]">check</span>

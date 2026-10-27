@@ -37,17 +37,17 @@ const SearchInput: React.FC<SearchInputProps> = ({
         : 'left-3 top-2.5';
 
     const focusClasses = glowOnFocus
-        ? 'focus:ring-2 focus:ring-[#137fec]/30 focus:border-[#137fec] focus:shadow-lg focus:shadow-[#137fec]/10 focus:scale-[1.01] transition-all duration-200'
-        : 'focus:ring-[#137fec] focus:border-[#137fec] transition-colors';
+        ? 'focus:ring-2 focus:ring-brand/30 focus:border-brand focus:shadow-lg focus:scale-[1.01] transition-all duration-200'
+        : 'focus:ring-brand focus:border-brand transition-colors';
 
     return (
         <div className={`relative ${className}`}>
-            <span className={`material-symbols-outlined absolute ${iconPositionClasses} text-slate-400 text-[20px] pointer-events-none transition-colors peer-focus:text-[#137fec]`}>
+            <span className={`material-symbols-outlined absolute ${iconPositionClasses} text-slate-400 text-[20px] pointer-events-none transition-colors peer-focus:text-brand`}>
                 search
             </span>
             <input
                 type="text"
-                className={`peer w-full ${sizeClasses} bg-white dark:bg-[#101922] border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white placeholder:text-slate-400 ${focusClasses}`}
+                className={`peer w-full ${sizeClasses} bg-white dark:bg-canvas-dark border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white placeholder:text-slate-400 ${focusClasses}`}
                 placeholder={placeholder}
                 value={value}
                 onChange={(e) => onChange(e.target.value)}

@@ -32,9 +32,9 @@ export default function ScheduleMaintenanceModal({
         <ModalPortal>
             <div aria-labelledby="modal-title" aria-modal="true" className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6" role="dialog">
                 <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onClick={onClose}></div>
-                <div className="relative w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white dark:bg-[#101922] text-left shadow-2xl transition-all flex flex-col max-h-[90vh]">
+                <div className="relative w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white dark:bg-canvas-dark text-left shadow-2xl transition-all flex flex-col max-h-[90vh]">
                     {/* Header */}
-                    <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 px-6 py-4 bg-white dark:bg-[#101922]">
+                    <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 px-6 py-4 bg-white dark:bg-canvas-dark">
                         <div>
                             <h3 className="text-xl font-bold text-slate-900 dark:text-white" id="modal-title">Schedule Maintenance</h3>
                             <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5 flex items-center gap-1">
@@ -60,7 +60,7 @@ export default function ScheduleMaintenanceModal({
                                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300">Maintenance Type</label>
                                     <div className="relative">
                                         <select
-                                            className="w-full appearance-none rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-3 pr-10 text-slate-900 dark:text-white focus:border-[#137fec] focus:outline-none focus:ring-1 focus:ring-[#137fec] text-sm font-medium"
+                                            className="w-full appearance-none rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-3 pr-10 text-slate-900 dark:text-white focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand text-sm font-medium"
                                             value={maintenanceType}
                                             onChange={(e) => setMaintenanceType(e.target.value)}
                                         >
@@ -113,7 +113,7 @@ export default function ScheduleMaintenanceModal({
                             <div className="space-y-2">
                                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300">Description of Issue</label>
                                 <textarea
-                                    className="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-3 text-slate-900 dark:text-white placeholder-slate-400 focus:border-[#137fec] focus:outline-none focus:ring-1 focus:ring-[#137fec] text-sm"
+                                    className="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-3 text-slate-900 dark:text-white placeholder-slate-400 focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand text-sm"
                                     placeholder="Please provide details about the problem..."
                                     rows={3}
                                     value={description}
@@ -125,12 +125,12 @@ export default function ScheduleMaintenanceModal({
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
                                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300">Preferred Date</label>
-                                    <input className="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-3 text-slate-900 dark:text-white focus:border-[#137fec] focus:outline-none focus:ring-1 focus:ring-[#137fec] text-sm font-medium h-[48px]" type="date" />
+                                    <input className="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-3 text-slate-900 dark:text-white focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand text-sm font-medium h-[48px]" type="date" />
                                 </div>
                                 <div className="space-y-2">
                                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300">Time Slot</label>
                                     <div className="relative">
-                                        <select className="w-full appearance-none rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-3 pr-10 text-slate-900 dark:text-white focus:border-[#137fec] focus:outline-none focus:ring-1 focus:ring-[#137fec] text-sm font-medium">
+                                        <select className="w-full appearance-none rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-3 pr-10 text-slate-900 dark:text-white focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand text-sm font-medium">
                                             <option>Anytime (8am - 6pm)</option>
                                             <option>Morning (8am - 12pm)</option>
                                             <option>Afternoon (12pm - 4pm)</option>
@@ -147,7 +147,7 @@ export default function ScheduleMaintenanceModal({
                             <div className="space-y-2">
                                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300">Access Instructions</label>
                                 <textarea
-                                    className="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-3 text-slate-900 dark:text-white placeholder-slate-400 focus:border-[#137fec] focus:outline-none focus:ring-1 focus:ring-[#137fec] text-sm"
+                                    className="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-3 text-slate-900 dark:text-white placeholder-slate-400 focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand text-sm"
                                     placeholder="e.g. Gate code is #1234, Key in lockbox..."
                                     rows={2}
                                     value={accessInstructions}
@@ -161,7 +161,7 @@ export default function ScheduleMaintenanceModal({
                             <div className="space-y-2">
                                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300">Assign to Vendor (Optional)</label>
                                 <div className="relative">
-                                    <select className="w-full appearance-none rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-3 pr-10 text-slate-900 dark:text-white focus:border-[#137fec] focus:outline-none focus:ring-1 focus:ring-[#137fec] text-sm font-medium">
+                                    <select className="w-full appearance-none rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-3 pr-10 text-slate-900 dark:text-white focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand text-sm font-medium">
                                         <option value="">Select from Preferred Vendors...</option>
                                         <option>Bob's Plumbing Services (Rated 4.8)</option>
                                         <option>Sparky Electric Co. (Rated 4.9)</option>
@@ -180,7 +180,7 @@ export default function ScheduleMaintenanceModal({
                                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300">Contact Person</label>
                                     <div className="relative">
                                         <input
-                                            className="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-3 pl-10 text-slate-900 dark:text-white focus:border-[#137fec] focus:outline-none focus:ring-1 focus:ring-[#137fec] text-sm font-medium"
+                                            className="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-3 pl-10 text-slate-900 dark:text-white focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand text-sm font-medium"
                                             type="text"
                                             value={contactPerson}
                                             onChange={(e) => setContactPerson(e.target.value)}
@@ -194,7 +194,7 @@ export default function ScheduleMaintenanceModal({
                                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300">Phone Number</label>
                                     <div className="relative">
                                         <input
-                                            className="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-3 pl-10 text-slate-900 dark:text-white focus:border-[#137fec] focus:outline-none focus:ring-1 focus:ring-[#137fec] text-sm font-medium"
+                                            className="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-3 pl-10 text-slate-900 dark:text-white focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand text-sm font-medium"
                                             type="tel"
                                             value={phoneNumber}
                                             onChange={(e) => setPhoneNumber(e.target.value)}
@@ -209,7 +209,7 @@ export default function ScheduleMaintenanceModal({
                     </div>
 
                     {/* Footer */}
-                    <div className="flex flex-col-reverse sm:flex-row items-center justify-end gap-3 bg-slate-50 dark:bg-[#101922] px-6 py-4 border-t border-slate-200 dark:border-slate-700">
+                    <div className="flex flex-col-reverse sm:flex-row items-center justify-end gap-3 bg-slate-50 dark:bg-canvas-dark px-6 py-4 border-t border-slate-200 dark:border-slate-700">
                         <button
                             className="w-full sm:w-auto px-6 py-3 rounded-xl border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-white font-bold hover:bg-white dark:hover:bg-slate-800 transition-colors text-sm"
                             type="button"
@@ -218,7 +218,7 @@ export default function ScheduleMaintenanceModal({
                             Cancel
                         </button>
                         <button
-                            className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#137fec] text-white font-bold hover:bg-[#0e64bd] shadow-lg shadow-[#137fec]/25 transition-colors text-sm flex items-center justify-center gap-2"
+                            className="w-full sm:w-auto px-6 py-3 rounded-xl bg-brand text-white font-bold hover:bg-[#0e64bd] shadow-sm transition-colors text-sm flex items-center justify-center gap-2"
                             type="button"
                             onClick={handleSubmit}
                         >

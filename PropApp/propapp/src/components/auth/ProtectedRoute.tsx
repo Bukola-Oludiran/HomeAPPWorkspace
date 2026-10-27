@@ -33,7 +33,7 @@ export function ProtectedRoute({
         return (
             <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-[#0a1018]">
                 <div className="flex flex-col items-center gap-4">
-                    <div className="w-12 h-12 border-4 border-[#137fec] border-t-transparent rounded-full animate-spin" />
+                    <div className="w-12 h-12 border-4 border-brand border-t-transparent rounded-full animate-spin" />
                     <p className="text-slate-600 dark:text-slate-400 text-sm">Loading...</p>
                 </div>
             </div>
@@ -98,7 +98,7 @@ export function GuestRoute({ children }: GuestRouteProps) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-[#0a1018]">
                 <div className="flex flex-col items-center gap-4">
-                    <div className="w-12 h-12 border-4 border-[#137fec] border-t-transparent rounded-full animate-spin" />
+                    <div className="w-12 h-12 border-4 border-brand border-t-transparent rounded-full animate-spin" />
                     <p className="text-slate-600 dark:text-slate-400 text-sm">Loading...</p>
                 </div>
             </div>

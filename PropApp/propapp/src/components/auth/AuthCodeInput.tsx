@@ -33,7 +33,7 @@ export default function AuthCodeInput({
                     autoFocus={autoFocus}
                     autoComplete="one-time-code"
                     placeholder={placeholder}
-                    className="block w-full py-4 px-4 border border-white/10 dark:border-slate-600 rounded-xl bg-white/5 dark:bg-slate-900/50 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent transition-all text-center text-3xl font-bold tracking-[0.5em] md:tracking-[0.75em]"
+                    className="block w-full py-4 px-4 border border-white/10 dark:border-slate-600 rounded-xl bg-white/5 dark:bg-slate-900/50 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all text-center text-3xl font-bold tracking-[0.5em] md:tracking-[0.75em]"
                 />
             </div>
         );
@@ -87,7 +87,7 @@ export default function AuthCodeInput({
                     onKeyDown={(e) => handleKeyDown(index, e)}
                     onPaste={handlePaste}
                     autoFocus={autoFocus && index === 0}
-                    className="w-full h-12 sm:h-16 rounded-xl border-white/10 bg-white/5 text-center text-2xl font-bold text-white placeholder-slate-600 focus:border-[#137fec] focus:ring-[#137fec] shadow-sm transition-all outline-none"
+                    className="w-full h-12 sm:h-16 rounded-xl border-white/10 bg-white/5 text-center text-2xl font-bold text-white placeholder-slate-600 focus:border-brand focus:ring-brand shadow-sm transition-all outline-none"
                 />
             ))}
         </div>

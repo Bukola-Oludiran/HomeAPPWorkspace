@@ -14,31 +14,31 @@ const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormD
     return (
         <>
             {/* AI Auto-fill Section */}
-            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-[#1a2632] dark:to-[#16202a] border border-blue-100 dark:border-blue-900/50 rounded-2xl p-6 md:p-8 mb-10 relative overflow-hidden group shadow-sm">
+            <div className="bg-blue-50 dark:bg-surface-dark border border-blue-100 dark:border-blue-900/50 rounded-2xl p-6 md:p-8 mb-10 relative overflow-hidden group shadow-sm">
                 <div className="absolute -top-6 -right-6 p-4 opacity-5 dark:opacity-10 pointer-events-none transform rotate-12">
-                    <span className="material-symbols-outlined text-9xl text-[#137fec]">smart_toy</span>
+                    <span className="material-symbols-outlined text-9xl text-brand">forum</span>
                 </div>
                 <div className="relative z-10">
                     <div className="flex items-center gap-3 mb-4">
-                        <div className="size-10 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center text-[#137fec] shadow-sm">
-                            <span className="material-symbols-outlined">auto_awesome</span>
+                        <div className="size-10 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center text-brand shadow-sm">
+                            <span className="material-symbols-outlined">forum</span>
                         </div>
                         <div>
                             <h3 className="font-bold text-lg text-slate-900 dark:text-white">AI Property Assistant</h3>
                             <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Auto-fill details in seconds</p>
                         </div>
                     </div>
-                    <div className="bg-white dark:bg-[#101922] border border-slate-200 dark:border-slate-700 rounded-xl p-1 shadow-sm focus-within:ring-2 focus-within:ring-[#137fec]/50 focus-within:border-[#137fec] transition-all duration-300">
+                    <div className="bg-white dark:bg-canvas-dark border border-slate-200 dark:border-slate-700 rounded-xl p-1 shadow-sm focus-within:ring-2 focus-within:ring-brand/50 focus-within:border-brand transition-all duration-300">
                         <textarea
                             className="w-full bg-transparent border-none text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-0 resize-none p-4 min-h-[100px] outline-none"
                             placeholder="Paste a description here (e.g., 'Modern 2-bedroom apartment with hardwood floors, newly renovated kitchen, and balcony overlooking the park...'), or upload a video tour to let HomeAI extract the details automatically."
                         ></textarea>
                         <div className="flex flex-col sm:flex-row justify-between items-center gap-3 px-3 pb-3 pt-2 border-t border-slate-100 dark:border-slate-800 mt-1">
-                            <button className="text-slate-500 hover:text-[#137fec] dark:text-slate-400 dark:hover:text-[#137fec] flex items-center gap-2 text-xs font-bold transition-colors px-2 py-1 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800">
+                            <button className="text-slate-500 hover:text-brand dark:text-slate-400 dark:hover:text-brand flex items-center gap-2 text-xs font-bold transition-colors px-2 py-1 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800">
                                 <span className="material-symbols-outlined text-[18px]">videocam</span> Upload Video Tour
                             </button>
-                            <button className="w-full sm:w-auto bg-[#137fec] hover:bg-[#137fec]/90 text-white px-5 py-2 rounded-lg text-sm font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#137fec]/25">
-                                <span className="material-symbols-outlined text-[18px]">smart_toy</span> Auto-fill Details
+                            <button className="w-full sm:w-auto bg-brand hover:bg-brand/90 text-white px-5 py-2 rounded-lg text-sm font-bold transition-all flex items-center justify-center gap-2 shadow-sm">
+                                <span className="material-symbols-outlined text-[18px]">forum</span> Auto-fill Details
                             </button>
                         </div>
                     </div>
@@ -50,7 +50,7 @@ const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormD
                 <div className="md:col-span-8">
                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Listing Title</label>
                     <input
-                        className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] h-12 px-4 shadow-sm"
+                        className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white focus:border-brand focus:ring-brand h-12 px-4 shadow-sm"
                         placeholder="e.g. Spacious Downtown Loft with City Views"
                         type="text"
                         value={formData.title}
@@ -60,7 +60,7 @@ const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormD
                 <div className="md:col-span-4">
                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Property Type</label>
                     <select
-                        className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] h-12 px-4 shadow-sm"
+                        className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white focus:border-brand focus:ring-brand h-12 px-4 shadow-sm"
                         value={formData.propertyType}
                         onChange={(e) => setFormData({ ...formData, propertyType: e.target.value })}
                     >
@@ -75,7 +75,7 @@ const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormD
                     <div className="relative">
                         <span className="absolute left-4 top-3.5 text-slate-400 material-symbols-outlined text-[20px]">location_on</span>
                         <input
-                            className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] h-12 pl-11 pr-4 shadow-sm"
+                            className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white focus:border-brand focus:ring-brand h-12 pl-11 pr-4 shadow-sm"
                             placeholder="Enter property address"
                             type="text"
                             value={formData.address}
@@ -87,7 +87,7 @@ const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormD
                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Beds</label>
                     <div className="relative">
                         <input
-                            className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] h-12 px-4 shadow-sm"
+                            className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white focus:border-brand focus:ring-brand h-12 px-4 shadow-sm"
                             placeholder="0"
                             type="number"
                             value={formData.beds}
@@ -100,7 +100,7 @@ const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormD
                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Baths</label>
                     <div className="relative">
                         <input
-                            className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] h-12 px-4 shadow-sm"
+                            className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white focus:border-brand focus:ring-brand h-12 px-4 shadow-sm"
                             placeholder="0"
                             type="number"
                             value={formData.baths}
@@ -112,7 +112,7 @@ const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormD
                 <div className="md:col-span-3">
                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Sq Ft</label>
                     <input
-                        className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] h-12 px-4 shadow-sm"
+                        className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white focus:border-brand focus:ring-brand h-12 px-4 shadow-sm"
                         placeholder="0"
                         type="number"
                         value={formData.sqft}
@@ -124,7 +124,7 @@ const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormD
                     <div className="relative">
                         <span className="absolute left-4 top-3.5 text-slate-500 font-bold">$</span>
                         <input
-                            className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] h-12 pl-8 pr-4 shadow-sm"
+                            className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white focus:border-brand focus:ring-brand h-12 pl-8 pr-4 shadow-sm"
                             placeholder="0.00"
                             type="number"
                             value={formData.rent}
@@ -142,8 +142,8 @@ const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormD
                         <label
                             key={amenity.id}
                             className={`cursor-pointer inline-flex items-center gap-2 px-4 py-2 rounded-full border transition-colors select-none ${formData.amenities.includes(amenity.id)
-                                ? 'border-[#137fec] bg-blue-50 dark:bg-[#137fec]/10 text-[#137fec]'
-                                : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-700 dark:text-slate-300 hover:border-[#137fec] hover:text-[#137fec]'
+                                ? 'border-brand bg-blue-50 dark:bg-brand/10 text-brand'
+                                : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-700 dark:text-slate-300 hover:border-brand hover:text-brand'
                                 }`}
                         >
                             <input
@@ -162,7 +162,7 @@ const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormD
                             <span className="text-sm font-medium">{amenity.label}</span>
                         </label>
                     ))}
-                    <button className="inline-flex items-center gap-1 px-4 py-2 rounded-full border border-dashed border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-[#137fec] hover:text-[#137fec] transition-colors text-sm font-medium">
+                    <button className="inline-flex items-center gap-1 px-4 py-2 rounded-full border border-dashed border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-brand hover:text-brand transition-colors text-sm font-medium">
                         <span className="material-symbols-outlined text-[18px]">add</span> Add more
                     </button>
                 </div>
@@ -171,7 +171,7 @@ const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormD
             {/* Gold Badge CTA */}
             <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-200 dark:from-yellow-700 dark:via-yellow-500 dark:to-yellow-700 p-0.5 shadow-lg group">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out pointer-events-none"></div>
-                <div className="bg-white/95 dark:bg-[#101922]/90 backdrop-blur-sm rounded-[10px] p-5 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="bg-white/95 dark:bg-canvas-dark/90 backdrop-blur-sm rounded-[10px] p-5 flex flex-col md:flex-row items-center justify-between gap-6">
                     <div className="flex items-center gap-5">
                         <div className="size-14 rounded-full bg-gradient-to-b from-yellow-300 to-yellow-500 flex items-center justify-center text-white shadow-md shrink-0 border-2 border-white dark:border-slate-800">
                             <span className="material-symbols-outlined text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
@@ -179,12 +179,12 @@ const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormD
                         <div>
                             <h4 className="font-extrabold text-slate-900 dark:text-white text-lg flex flex-wrap items-center gap-2">
                                 Boost your listing
-                                <span className="px-2 py-0.5 rounded-md bg-gradient-to-r from-yellow-300 to-amber-400 text-white text-[10px] uppercase font-black tracking-wider shadow-sm">Gold Badge</span>
+                                <span className="px-2 py-0.5 rounded-md bg-gradient-to-r from-yellow-300 to-amber-400 text-white text-xs uppercase font-black tracking-wider shadow-sm">Gold Badge</span>
                             </h4>
                             <p className="text-sm text-slate-600 dark:text-slate-300 mt-1">Upload your Certificate of Occupancy (C of O) now to get verified status immediately.</p>
                         </div>
                     </div>
-                    <button className="whitespace-nowrap px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold rounded-lg hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center gap-2 text-sm">
+                    <button className="whitespace-nowrap px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold rounded-lg hover:shadow-lg transition-all flex items-center gap-2 text-sm">
                         <span className="material-symbols-outlined text-[20px]">upload_file</span> Upload C of O
                     </button>
                 </div>
@@ -204,8 +204,8 @@ const StepTwo = () => {
         <>
             {/* Upload Zone */}
             <div className="bg-white dark:bg-[#1e293b] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 md:p-8 mb-8">
-                <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-[#101922]/50 hover:bg-slate-100 dark:hover:bg-[#101922] transition-colors cursor-pointer group flex flex-col items-center justify-center py-16 px-4 text-center">
-                    <div className="size-20 bg-blue-100 dark:bg-blue-900/20 text-[#137fec] rounded-full flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
+                <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-canvas-dark/50 hover:bg-slate-100 dark:hover:bg-canvas-dark transition-colors cursor-pointer group flex flex-col items-center justify-center py-16 px-4 text-center">
+                    <div className="size-20 bg-blue-100 dark:bg-blue-900/20 text-brand rounded-full flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
                         <span className="material-symbols-outlined text-[40px]">add_photo_alternate</span>
                     </div>
                     <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Drag & drop photos here</h3>
@@ -214,11 +214,11 @@ const StepTwo = () => {
                         <span className="text-xs mt-2 block opacity-70">Accepted: JPG, PNG, WEBP (Max 10MB)</span>
                     </p>
                     <div className="flex flex-wrap items-center justify-center gap-3">
-                        <button className="bg-[#137fec] hover:bg-[#137fec]/90 text-white px-6 py-2.5 rounded-lg font-bold shadow-lg shadow-[#137fec]/20 transition-all flex items-center gap-2">
+                        <button className="bg-brand hover:bg-brand/90 text-white px-6 py-2.5 rounded-lg font-bold shadow-sm transition-all flex items-center gap-2">
                             <span className="material-symbols-outlined text-[20px]">upload_file</span> Browse Files
                         </button>
                         <div className="w-px h-8 bg-slate-300 dark:bg-slate-700 mx-2 hidden sm:block"></div>
-                        <button className="text-slate-700 dark:text-slate-300 hover:text-[#137fec] dark:hover:text-[#137fec] font-bold text-sm px-4 py-2 rounded-lg hover:bg-white dark:hover:bg-slate-800 transition-colors flex items-center gap-2">
+                        <button className="text-slate-700 dark:text-slate-300 hover:text-brand dark:hover:text-brand font-bold text-sm px-4 py-2 rounded-lg hover:bg-white dark:hover:bg-slate-800 transition-colors flex items-center gap-2">
                             <span className="material-symbols-outlined text-[20px]">add_a_photo</span> Take Photo
                         </button>
                     </div>
@@ -237,7 +237,7 @@ const StepTwo = () => {
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {photos.map((photo) => (
-                        <div key={photo.id} className={`group relative aspect-[4/3] rounded-xl overflow-hidden cursor-grab active:cursor-grabbing bg-slate-100 dark:bg-slate-800 hover:border-[#137fec]/50 transition-colors ${photo.isCover ? 'border-2 border-[#137fec] shadow-md' : 'border border-slate-200 dark:border-slate-700'}`}>
+                        <div key={photo.id} className={`group relative aspect-[4/3] rounded-xl overflow-hidden cursor-grab active:cursor-grabbing bg-slate-100 dark:bg-slate-800 hover:border-brand/50 transition-colors ${photo.isCover ? 'border-2 border-brand shadow-md' : 'border border-slate-200 dark:border-slate-700'}`}>
                             <img
                                 alt="Property"
                                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -245,13 +245,13 @@ const StepTwo = () => {
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                             {photo.isCover && (
-                                <span className="absolute top-3 left-3 bg-[#137fec] text-white text-[10px] uppercase font-bold px-2 py-1 rounded shadow-sm z-10">Cover Photo</span>
+                                <span className="absolute top-3 left-3 bg-brand text-white text-xs uppercase font-bold px-2 py-1 rounded shadow-sm z-10">Cover Photo</span>
                             )}
                             <button className="absolute top-2 right-2 p-1.5 bg-white/90 dark:bg-slate-900/90 text-slate-400 hover:text-red-500 rounded-lg hover:bg-white dark:hover:bg-slate-800 transition-colors opacity-0 group-hover:opacity-100 shadow-sm z-10">
                                 <span className="material-symbols-outlined text-[18px]">delete</span>
                             </button>
                             {!photo.isCover && (
-                                <button className="absolute top-2 left-2 p-1.5 bg-white/90 dark:bg-slate-900/90 text-slate-600 dark:text-slate-300 hover:text-[#137fec] rounded-lg hover:bg-white dark:hover:bg-slate-800 transition-colors opacity-0 group-hover:opacity-100 shadow-sm z-10 text-[10px] font-bold px-2">
+                                <button className="absolute top-2 left-2 p-1.5 bg-white/90 dark:bg-slate-900/90 text-slate-600 dark:text-slate-300 hover:text-brand rounded-lg hover:bg-white dark:hover:bg-slate-800 transition-colors opacity-0 group-hover:opacity-100 shadow-sm z-10 text-xs font-bold px-2">
                                     Set as Cover
                                 </button>
                             )}
@@ -269,8 +269,8 @@ const StepTwo = () => {
                     </div>
                 </div>
                 <div className="bg-white dark:bg-[#1e293b] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 md:p-8">
-                    <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-[#101922]/50 hover:bg-slate-100 dark:hover:bg-[#101922] transition-colors cursor-pointer group flex flex-col items-center justify-center py-12 px-4 text-center">
-                        <div className="size-16 bg-blue-100 dark:bg-blue-900/20 text-[#137fec] rounded-full flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
+                    <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-canvas-dark/50 hover:bg-slate-100 dark:hover:bg-canvas-dark transition-colors cursor-pointer group flex flex-col items-center justify-center py-12 px-4 text-center">
+                        <div className="size-16 bg-blue-100 dark:bg-blue-900/20 text-brand rounded-full flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
                             <span className="material-symbols-outlined text-[32px]">view_in_ar</span>
                         </div>
                         <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Drag & drop 3D files here</h3>
@@ -279,11 +279,11 @@ const StepTwo = () => {
                             <span className="opacity-80 block mt-1">Or embed a tour from Matterport, Sketchfab, etc.</span>
                         </p>
                         <div className="flex flex-wrap items-center justify-center gap-3">
-                            <button className="bg-[#137fec] hover:bg-[#137fec]/90 text-white px-6 py-2.5 rounded-lg font-bold shadow-lg shadow-[#137fec]/20 transition-all flex items-center gap-2">
+                            <button className="bg-brand hover:bg-brand/90 text-white px-6 py-2.5 rounded-lg font-bold shadow-sm transition-all flex items-center gap-2">
                                 <span className="material-symbols-outlined text-[20px]">upload_file</span> Browse Files
                             </button>
                             <div className="w-px h-8 bg-slate-300 dark:bg-slate-700 mx-2 hidden sm:block"></div>
-                            <button className="text-slate-700 dark:text-slate-300 hover:text-[#137fec] dark:hover:text-[#137fec] font-bold text-sm px-4 py-2 rounded-lg hover:bg-white dark:hover:bg-slate-800 transition-colors flex items-center gap-2">
+                            <button className="text-slate-700 dark:text-slate-300 hover:text-brand dark:hover:text-brand font-bold text-sm px-4 py-2 rounded-lg hover:bg-white dark:hover:bg-slate-800 transition-colors flex items-center gap-2">
                                 <span className="material-symbols-outlined text-[20px]">link</span> Link from 3D Tour Provider
                             </button>
                         </div>
@@ -311,14 +311,14 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
                 {/* Pricing */}
                 <div className="bg-white dark:bg-[#1e293b] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 md:p-8">
                     <div className="flex items-center gap-3 mb-6 border-b border-slate-100 dark:border-slate-700 pb-4">
-                        <span className="material-symbols-outlined text-[#137fec] text-2xl">payments</span>
+                        <span className="material-symbols-outlined text-brand text-2xl">payments</span>
                         <h3 className="text-xl font-bold text-slate-900 dark:text-white">Pricing & Lease Terms</h3>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div>
                             <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Currency</label>
                             <select
-                                className="w-full bg-slate-50 dark:bg-[#101922] border border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] text-slate-900 dark:text-white outline-none font-medium"
+                                className="w-full bg-slate-50 dark:bg-canvas-dark border border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-2 focus:ring-brand/20 focus:border-brand text-slate-900 dark:text-white outline-none font-medium"
                                 value={formData.currency}
                                 onChange={(e) => setFormData({ ...formData, currency: e.target.value })}
                             >
@@ -332,7 +332,7 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
                             <div className="relative">
                                 <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-500 font-bold">$</span>
                                 <input
-                                    className="w-full bg-slate-50 dark:bg-[#101922] border border-slate-200 dark:border-slate-700 rounded-lg py-3 pl-8 pr-4 focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] text-slate-900 dark:text-white outline-none font-medium"
+                                    className="w-full bg-slate-50 dark:bg-canvas-dark border border-slate-200 dark:border-slate-700 rounded-lg py-3 pl-8 pr-4 focus:ring-2 focus:ring-brand/20 focus:border-brand text-slate-900 dark:text-white outline-none font-medium"
                                     placeholder="0.00"
                                     type="number"
                                     value={formData.rent}
@@ -353,7 +353,7 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
                                         checked={formData.leaseDuration === duration}
                                         onChange={() => setFormData({ ...formData, leaseDuration: duration })}
                                     />
-                                    <div className="w-full p-3 bg-slate-50 dark:bg-[#101922] border border-slate-200 dark:border-slate-700 rounded-lg peer-checked:border-[#137fec] peer-checked:bg-blue-50 dark:peer-checked:bg-[#137fec]/10 peer-checked:text-[#137fec] text-center transition-all">
+                                    <div className="w-full p-3 bg-slate-50 dark:bg-canvas-dark border border-slate-200 dark:border-slate-700 rounded-lg peer-checked:border-brand peer-checked:bg-blue-50 dark:peer-checked:bg-brand/10 peer-checked:text-brand text-center transition-all">
                                         <span className="block text-sm font-bold">{duration}</span>
                                     </div>
                                 </label>
@@ -363,7 +363,7 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
                     <label className="flex items-center gap-2 cursor-pointer w-max">
                         <input
                             type="checkbox"
-                            className="w-5 h-5 rounded border-gray-300 text-[#137fec] focus:ring-[#137fec]"
+                            className="w-5 h-5 rounded border-gray-300 text-brand focus:ring-brand"
                             checked={formData.negotiable}
                             onChange={(e) => setFormData({ ...formData, negotiable: e.target.checked })}
                         />
@@ -375,11 +375,11 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
                 <div className="bg-white dark:bg-[#1e293b] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 md:p-8">
                     <div className="flex items-center justify-between gap-3 mb-6 border-b border-slate-100 dark:border-slate-700 pb-4">
                         <div className="flex items-center gap-3">
-                            <span className="material-symbols-outlined text-[#137fec] text-2xl">info</span>
+                            <span className="material-symbols-outlined text-brand text-2xl">info</span>
                             <h3 className="text-xl font-bold text-slate-900 dark:text-white">Property Details</h3>
                         </div>
-                        <div className="bg-blue-50 dark:bg-blue-900/20 text-[#137fec] text-xs font-bold px-2 py-1 rounded flex items-center gap-1">
-                            <span className="material-symbols-outlined text-[14px]">auto_awesome</span>
+                        <div className="bg-blue-50 dark:bg-blue-900/20 text-brand text-xs font-bold px-2 py-1 rounded flex items-center gap-1">
+                            <span className="material-symbols-outlined text-[14px]">forum</span>
                             AI Auto-filled
                         </div>
                     </div>
@@ -388,7 +388,7 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
                             <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Bedrooms</label>
                             <div className="flex items-center">
                                 <button
-                                    className="size-10 rounded-l-lg border border-r-0 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#101922] hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400"
+                                    className="size-10 rounded-l-lg border border-r-0 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-canvas-dark hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400"
                                     onClick={() => setFormData({ ...formData, beds: String(Math.max(0, parseInt(formData.beds || '0') - 1)) })}
                                 >
                                     <span className="material-symbols-outlined text-sm">remove</span>
@@ -400,7 +400,7 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
                                     value={formData.beds}
                                 />
                                 <button
-                                    className="size-10 rounded-r-lg border border-l-0 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#101922] hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400"
+                                    className="size-10 rounded-r-lg border border-l-0 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-canvas-dark hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400"
                                     onClick={() => setFormData({ ...formData, beds: String(parseInt(formData.beds || '0') + 1) })}
                                 >
                                     <span className="material-symbols-outlined text-sm">add</span>
@@ -411,7 +411,7 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
                             <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Bathrooms</label>
                             <div className="flex items-center">
                                 <button
-                                    className="size-10 rounded-l-lg border border-r-0 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#101922] hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400"
+                                    className="size-10 rounded-l-lg border border-r-0 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-canvas-dark hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400"
                                     onClick={() => setFormData({ ...formData, baths: String(Math.max(0, parseInt(formData.baths || '0') - 1)) })}
                                 >
                                     <span className="material-symbols-outlined text-sm">remove</span>
@@ -423,7 +423,7 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
                                     value={formData.baths}
                                 />
                                 <button
-                                    className="size-10 rounded-r-lg border border-l-0 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#101922] hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400"
+                                    className="size-10 rounded-r-lg border border-l-0 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-canvas-dark hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400"
                                     onClick={() => setFormData({ ...formData, baths: String(parseInt(formData.baths || '0') + 1) })}
                                 >
                                     <span className="material-symbols-outlined text-sm">add</span>
@@ -433,7 +433,7 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
                         <div>
                             <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Toilets</label>
                             <div className="flex items-center">
-                                <button className="size-10 rounded-l-lg border border-r-0 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#101922] hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400">
+                                <button className="size-10 rounded-l-lg border border-r-0 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-canvas-dark hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400">
                                     <span className="material-symbols-outlined text-sm">remove</span>
                                 </button>
                                 <input
@@ -442,7 +442,7 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
                                     type="number"
                                     value="3"
                                 />
-                                <button className="size-10 rounded-r-lg border border-l-0 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#101922] hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400">
+                                <button className="size-10 rounded-r-lg border border-l-0 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-canvas-dark hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400">
                                     <span className="material-symbols-outlined text-sm">add</span>
                                 </button>
                             </div>
@@ -452,7 +452,7 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
                         <div>
                             <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Property Size (sqft)</label>
                             <input
-                                className="w-full bg-slate-50 dark:bg-[#101922] border border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] text-slate-900 dark:text-white outline-none font-medium"
+                                className="w-full bg-slate-50 dark:bg-canvas-dark border border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-2 focus:ring-brand/20 focus:border-brand text-slate-900 dark:text-white outline-none font-medium"
                                 placeholder="e.g. 1500"
                                 type="number"
                                 value={formData.sqft}
@@ -462,7 +462,7 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
                         <div>
                             <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Furnishing State</label>
                             <select
-                                className="w-full bg-slate-50 dark:bg-[#101922] border border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] text-slate-900 dark:text-white outline-none font-medium"
+                                className="w-full bg-slate-50 dark:bg-canvas-dark border border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-2 focus:ring-brand/20 focus:border-brand text-slate-900 dark:text-white outline-none font-medium"
                                 value={formData.furnishing}
                                 onChange={(e) => setFormData({ ...formData, furnishing: e.target.value })}
                             >
@@ -480,7 +480,7 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
             <div className="lg:col-span-1">
                 <div className="bg-white dark:bg-[#1e293b] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 sticky top-24">
                     <div className="flex items-center gap-3 mb-6 border-b border-slate-100 dark:border-slate-700 pb-4">
-                        <span className="material-symbols-outlined text-[#137fec] text-2xl">wifi</span>
+                        <span className="material-symbols-outlined text-brand text-2xl">wifi</span>
                         <h3 className="text-xl font-bold text-slate-900 dark:text-white">Amenities</h3>
                     </div>
                     <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2">
@@ -499,11 +499,11 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
                                             }
                                         }}
                                     />
-                                    <div className="size-5 border-2 border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-[#101922] peer-checked:bg-[#137fec] peer-checked:border-[#137fec] transition-all"></div>
+                                    <div className="size-5 border-2 border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-canvas-dark peer-checked:bg-brand peer-checked:border-brand transition-all"></div>
                                     <span className="material-symbols-outlined text-white text-[14px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 peer-checked:opacity-100 pointer-events-none">check</span>
                                 </div>
                                 <div>
-                                    <span className="block text-sm font-bold text-slate-700 dark:text-slate-300 group-hover:text-[#137fec] transition-colors">{amenity.label}</span>
+                                    <span className="block text-sm font-bold text-slate-700 dark:text-slate-300 group-hover:text-brand transition-colors">{amenity.label}</span>
                                     <span className="text-xs text-slate-500">{amenity.desc}</span>
                                 </div>
                             </label>
@@ -518,18 +518,18 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
 const StepFour = () => (
     <div className="bg-white dark:bg-[#1e293b] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 md:p-8">
         <div className="flex items-center gap-3 mb-6 border-b border-slate-100 dark:border-slate-700 pb-4">
-            <span className="material-symbols-outlined text-[#137fec] text-2xl">description</span>
+            <span className="material-symbols-outlined text-brand text-2xl">description</span>
             <h3 className="text-xl font-bold text-slate-900 dark:text-white">Property Description</h3>
         </div>
         <div className="mb-6">
             <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Description</label>
             <textarea
-                className="w-full min-h-[200px] bg-slate-50 dark:bg-[#101922] border border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] text-slate-900 dark:text-white outline-none resize-none"
+                className="w-full min-h-[200px] bg-slate-50 dark:bg-canvas-dark border border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-2 focus:ring-brand/20 focus:border-brand text-slate-900 dark:text-white outline-none resize-none"
                 placeholder="Describe your property in detail. Highlight unique features, nearby amenities, and what makes it special..."
             ></textarea>
             <div className="flex justify-between mt-2">
-                <button className="text-[#137fec] text-sm font-bold flex items-center gap-1 hover:underline">
-                    <span className="material-symbols-outlined text-[18px]">auto_awesome</span> Improve with AI
+                <button className="text-brand text-sm font-bold flex items-center gap-1 hover:underline">
+                    <span className="material-symbols-outlined text-[18px]">forum</span> Improve with AI
                 </button>
                 <span className="text-xs text-slate-400">0/2000 characters</span>
             </div>
@@ -539,14 +539,14 @@ const StepFour = () => (
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Move-in Date</label>
                 <input
                     type="date"
-                    className="w-full bg-slate-50 dark:bg-[#101922] border border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] text-slate-900 dark:text-white outline-none font-medium"
+                    className="w-full bg-slate-50 dark:bg-canvas-dark border border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-2 focus:ring-brand/20 focus:border-brand text-slate-900 dark:text-white outline-none font-medium"
                 />
             </div>
             <div>
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Application Deadline</label>
                 <input
                     type="date"
-                    className="w-full bg-slate-50 dark:bg-[#101922] border border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] text-slate-900 dark:text-white outline-none font-medium"
+                    className="w-full bg-slate-50 dark:bg-canvas-dark border border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-2 focus:ring-brand/20 focus:border-brand text-slate-900 dark:text-white outline-none font-medium"
                 />
             </div>
         </div>
@@ -556,7 +556,7 @@ const StepFour = () => (
 const StepFive = ({ formData }: { formData: WizardFormData }) => (
     <div className="space-y-8">
         {/* Success Preview */}
-        <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border border-green-100 dark:border-green-800 rounded-2xl p-8 text-center">
+        <div className="bg-green-50 dark:bg-green-900/20 border border-green-100 dark:border-green-800 rounded-2xl p-8 text-center">
             <div className="size-20 bg-green-100 dark:bg-green-900/30 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
                 <span className="material-symbols-outlined text-[48px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
             </div>
@@ -572,7 +572,7 @@ const StepFive = ({ formData }: { formData: WizardFormData }) => (
                     alt="Property"
                     className="w-full h-full object-cover"
                 />
-                <div className="absolute top-4 left-4 px-3 py-1 bg-[#137fec] text-white text-xs font-bold uppercase rounded-full">
+                <div className="absolute top-4 left-4 px-3 py-1 bg-brand text-white text-xs font-bold uppercase rounded-full">
                     Preview
                 </div>
             </div>
@@ -587,7 +587,7 @@ const StepFive = ({ formData }: { formData: WizardFormData }) => (
                     <span className="text-sm"><strong>{formData.baths || '0'}</strong> Baths</span>
                     <span className="text-sm"><strong>{formData.sqft || '0'}</strong> sqft</span>
                 </div>
-                <div className="text-2xl font-extrabold text-[#137fec]">${formData.rent || '0'}/mo</div>
+                <div className="text-2xl font-extrabold text-brand">${formData.rent || '0'}/mo</div>
             </div>
         </div>
     </div>
@@ -728,11 +728,11 @@ export default function PropertyWizard() {
                             <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">{stepTitles[currentStep - 1].title}</h1>
                             <p className="text-slate-500 dark:text-slate-400 mt-1">{stepTitles[currentStep - 1].subtitle}</p>
                         </div>
-                        <span className="text-sm font-bold text-[#137fec] bg-blue-50 dark:bg-blue-900/30 px-3 py-1 rounded-full">Step {currentStep} of {totalSteps}</span>
+                        <span className="text-sm font-bold text-brand bg-blue-50 dark:bg-blue-900/30 px-3 py-1 rounded-full">Step {currentStep} of {totalSteps}</span>
                     </div>
                     <div className="h-2 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
                         <div
-                            className="h-full bg-[#137fec] rounded-full shadow-[0_0_10px_rgba(19,127,236,0.5)] transition-all duration-500"
+                            className="h-full bg-brand rounded-full shadow-[0_0_10px_rgba(19,127,236,0.5)] transition-all duration-500"
                             style={{ width: `${(currentStep / totalSteps) * 100}%` }}
                         ></div>
                     </div>
@@ -747,12 +747,12 @@ export default function PropertyWizard() {
                         {currentStep > 1 && (
                             <button
                                 onClick={() => setCurrentStep(currentStep - 1)}
-                                className="w-full md:w-auto text-slate-600 dark:text-slate-400 font-bold text-sm hover:text-[#137fec] dark:hover:text-[#137fec] transition-colors flex items-center justify-center gap-2 px-6 py-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+                                className="w-full md:w-auto text-slate-600 dark:text-slate-400 font-bold text-sm hover:text-brand dark:hover:text-brand transition-colors flex items-center justify-center gap-2 px-6 py-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
                             >
                                 <span className="material-symbols-outlined text-[20px]">arrow_back</span> Previous Step
                             </button>
                         )}
-                        <Link to="/landlord/dashboard" className="w-full md:w-auto text-slate-600 dark:text-slate-400 font-bold text-sm hover:text-[#137fec] dark:hover:text-[#137fec] transition-colors flex items-center justify-center gap-2 px-4 py-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800">
+                        <Link to="/landlord/dashboard" className="w-full md:w-auto text-slate-600 dark:text-slate-400 font-bold text-sm hover:text-brand dark:hover:text-brand transition-colors flex items-center justify-center gap-2 px-4 py-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800">
                             <span className="material-symbols-outlined text-[20px]">visibility</span> See how your listing looks
                         </Link>
                     </div>
@@ -767,7 +767,7 @@ export default function PropertyWizard() {
                         {currentStep < totalSteps ? (
                             <button
                                 onClick={() => setCurrentStep(currentStep + 1)}
-                                className="w-full md:w-auto bg-[#137fec] hover:bg-[#137fec]/90 text-white px-8 py-3 rounded-lg font-bold text-sm shadow-lg shadow-[#137fec]/30 hover:shadow-[#137fec]/40 transition-all flex items-center justify-center gap-2"
+                                className="w-full md:w-auto bg-brand hover:bg-brand/90 text-white px-8 py-3 rounded-lg font-bold text-sm shadow-sm transition-all flex items-center justify-center gap-2"
                             >
                                 Next Step <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
                             </button>

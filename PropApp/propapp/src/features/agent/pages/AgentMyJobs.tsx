@@ -92,7 +92,7 @@ export default function AgentMyJobs() {
                             <button
                                 onClick={() => setActiveTab('all')}
                                 className={`px-5 py-2 text-sm font-bold whitespace-nowrap rounded-lg transition-all ${activeTab === 'all'
-                                    ? 'bg-[#137fec] text-white shadow-md'
+                                    ? 'bg-brand text-white shadow-md'
                                     : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white'
                                     }`}
                             >
@@ -101,7 +101,7 @@ export default function AgentMyJobs() {
                             <button
                                 onClick={() => setActiveTab('Accepted')}
                                 className={`px-5 py-2 text-sm font-medium whitespace-nowrap rounded-lg transition-all ${activeTab === 'Accepted'
-                                    ? 'bg-[#137fec] text-white shadow-md'
+                                    ? 'bg-brand text-white shadow-md'
                                     : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white'
                                     }`}
                             >
@@ -110,7 +110,7 @@ export default function AgentMyJobs() {
                             <button
                                 onClick={() => setActiveTab('Completed')}
                                 className={`px-5 py-2 text-sm font-medium whitespace-nowrap rounded-lg transition-all ${activeTab === 'Completed'
-                                    ? 'bg-[#137fec] text-white shadow-md'
+                                    ? 'bg-brand text-white shadow-md'
                                     : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white'
                                     }`}
                             >
@@ -119,7 +119,7 @@ export default function AgentMyJobs() {
                             <button
                                 onClick={() => setActiveTab('Cancelled')}
                                 className={`px-5 py-2 text-sm font-medium whitespace-nowrap rounded-lg transition-all ${activeTab === 'Cancelled'
-                                    ? 'bg-[#137fec] text-white shadow-md'
+                                    ? 'bg-brand text-white shadow-md'
                                     : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white'
                                     }`}
                             >
@@ -146,7 +146,7 @@ export default function AgentMyJobs() {
             {isLoading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {Array.from({ length: 6 }).map((_, i) => (
-                        <div key={i} className="bg-white dark:bg-[#101922] rounded-2xl p-6 animate-pulse">
+                        <div key={i} className="bg-white dark:bg-canvas-dark rounded-2xl p-6 animate-pulse">
                             <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/4 mb-4" />
                             <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded w-3/4 mb-4" />
                             <div className="space-y-2">
@@ -175,7 +175,7 @@ export default function AgentMyJobs() {
                     return (
                         <div
                             key={job.id}
-                            className={`bg-white dark:bg-[#101922] rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:shadow-lg hover:border-[#137fec]/30 transition-all group relative overflow-hidden ${isCompleted || isCancelled ? 'opacity-80 hover:opacity-100' : ''}`}
+                            className={`bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:shadow-lg hover:border-brand/30 transition-all group relative overflow-hidden ${isCompleted || isCancelled ? 'opacity-80 hover:opacity-100' : ''}`}
                         >
                             {/* Left Border Accent */}
                             <div className={`absolute top-0 left-0 w-1 h-full ${styles.bar}`}></div>
@@ -184,10 +184,10 @@ export default function AgentMyJobs() {
                             <div className="flex justify-between items-start mb-4 pl-2">
                                 <div>
                                     <div className="flex items-center gap-2 mb-2">
-                                        <span className="inline-block px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+                                        <span className="inline-block px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
                                             {job.type}
                                         </span>
-                                        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${styles.bg} ${styles.text}`}>
+                                        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold ${styles.bg} ${styles.text}`}>
                                             {styles.icon && (
                                                 <span className={`material-symbols-outlined text-[12px] ${styles.animate ? 'animate-spin' : ''}`} style={{ animationDuration: '3s' }}>
                                                     {styles.icon}
@@ -245,7 +245,7 @@ export default function AgentMyJobs() {
                                             <button
                                                 onClick={() => handleCompleteJob(job.id)}
                                                 disabled={completingJobId === job.id}
-                                                className="px-4 py-2 bg-[#137fec] text-white text-sm font-bold rounded-lg hover:bg-[#137fec]/90 shadow-lg shadow-[#137fec]/20 transition-all disabled:opacity-50"
+                                                className="px-4 py-2 bg-brand text-white text-sm font-bold rounded-lg hover:bg-brand/90 shadow-sm transition-all disabled:opacity-50"
                                             >
                                                 {completingJobId === job.id ? 'Completing...' : 'Complete'}
                                             </button>

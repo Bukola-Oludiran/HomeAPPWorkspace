@@ -181,7 +181,7 @@ function PropertyCardGrid({ property, isIncoming = false }: PropertyCardGridProp
     const regularProp = property as RegularProperty;
 
     return (
-        <Link to={`/landlord/properties/${property.id}`} className={`bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden group hover:shadow-md transition-all flex flex-col ${isIncoming ? 'relative' : ''}`}>
+        <Link to={`/landlord/properties/${property.id}`} className={`bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden group hover:shadow-md transition-all flex flex-col ${isIncoming ? 'relative' : ''}`}>
             {isIncoming && <div className="absolute inset-0 bg-slate-50/50 dark:bg-slate-900/50 pointer-events-none z-10"></div>}
             <div className={`relative h-48 overflow-hidden ${isIncoming ? 'grayscale opacity-80' : ''}`}>
                 <img
@@ -235,7 +235,7 @@ function PropertyCardGrid({ property, isIncoming = false }: PropertyCardGridProp
                             <div>
                                 <p className="text-lg font-bold text-slate-900 dark:text-white">{regularProp.price}<span className="text-xs font-normal text-slate-400">{regularProp.priceType}</span></p>
                             </div>
-                            <button onClick={(e) => { e.preventDefault(); e.stopPropagation(); navigate('/landlord/verification'); }} className="flex items-center gap-1.5 text-xs font-bold text-[#137fec] hover:text-[#137fec]/80 transition-colors bg-blue-50 dark:bg-blue-900/20 px-3 py-1.5 rounded-full">
+                            <button onClick={(e) => { e.preventDefault(); e.stopPropagation(); navigate('/landlord/verification'); }} className="flex items-center gap-1.5 text-xs font-bold text-brand hover:text-brand/80 transition-colors bg-blue-50 dark:bg-blue-900/20 px-3 py-1.5 rounded-full">
                                 <span className="material-symbols-outlined text-[16px]">verified_user</span> Verify Status
                             </button>
                         </div>
@@ -268,12 +268,12 @@ function PropertyCardList({ property, isIncoming = false, verifyColor = 'primary
             case 'orange':
                 return 'bg-orange-50 dark:bg-orange-900/20 hover:bg-orange-100 dark:hover:bg-orange-900/40 text-orange-700 dark:text-orange-400';
             default:
-                return 'bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/40 text-[#137fec]';
+                return 'bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/40 text-brand';
         }
     };
 
     return (
-        <div className={`bg-white dark:bg-[#101922] rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden group hover:shadow-md transition-all flex flex-col md:flex-row ${isIncoming ? 'relative' : ''}`}>
+        <div className={`bg-white dark:bg-canvas-dark rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden group hover:shadow-md transition-all flex flex-col md:flex-row ${isIncoming ? 'relative' : ''}`}>
             {isIncoming && <div className="absolute inset-0 bg-slate-50/30 dark:bg-slate-900/30 pointer-events-none z-10"></div>}
             <div className={`relative w-full md:w-64 h-48 md:h-auto shrink-0 overflow-hidden ${isIncoming ? 'grayscale opacity-90' : ''}`}>
                 <img
@@ -400,7 +400,7 @@ export default function LandlordProperties() {
                 />
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {Array.from({ length: 8 }).map((_, i) => (
-                        <div key={i} className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden animate-pulse">
+                        <div key={i} className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden animate-pulse">
                             <div className="h-48 bg-slate-200 dark:bg-slate-700" />
                             <div className="p-5">
                                 <div className="h-5 bg-slate-200 dark:bg-slate-700 rounded w-3/4 mb-2" />
@@ -464,7 +464,7 @@ export default function LandlordProperties() {
                             showClearButton={false}
                         />
                         <MagneticButton>
-                            <Link to="/landlord/new-property" className="px-5 py-2.5 rounded-lg bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-sm shadow-lg shadow-[#137fec]/20 transition-all flex items-center gap-2">
+                            <Link to="/landlord/new-property" className="px-5 py-2.5 rounded-lg bg-brand hover:bg-brand/90 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2">
                                 <span className="material-symbols-outlined text-[20px]">add_home</span> Add Property
                             </Link>
                         </MagneticButton>
@@ -599,7 +599,7 @@ export default function LandlordProperties() {
                     {!searchQuery && (
                         <Link
                             to="/landlord/new-property"
-                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-sm"
+                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand hover:bg-brand/90 text-white font-bold text-sm"
                         >
                             <span className="material-symbols-outlined text-[20px]">add_home</span> Add Property
                         </Link>

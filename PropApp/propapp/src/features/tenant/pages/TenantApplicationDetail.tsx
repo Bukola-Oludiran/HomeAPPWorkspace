@@ -78,7 +78,7 @@ export default function TenantApplicationDetail() {
             <PageContainer>
                 <div className="flex items-center justify-center min-h-[400px]">
                     <div className="flex flex-col items-center gap-3">
-                        <div className="size-10 border-4 border-[#137fec] border-t-transparent rounded-full animate-spin"></div>
+                        <div className="size-10 border-4 border-brand border-t-transparent rounded-full animate-spin"></div>
                         <p className="text-slate-500 font-medium">Loading application...</p>
                     </div>
                 </div>
@@ -92,7 +92,7 @@ export default function TenantApplicationDetail() {
                 <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
                     <span className="material-symbols-outlined text-5xl text-slate-300">error</span>
                     <p className="text-slate-500 font-medium">{error || 'Application not found'}</p>
-                    <Link to="/tenant/applications" className="text-[#137fec] font-bold hover:underline">Back to Applications</Link>
+                    <Link to="/tenant/applications" className="text-brand font-bold hover:underline">Back to Applications</Link>
                 </div>
             </PageContainer>
         );
@@ -165,8 +165,8 @@ export default function TenantApplicationDetail() {
 
                     {/* Application Message */}
                     {application.message && (
-                        <div className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
-                            <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2 bg-slate-50/50 dark:bg-[#101922]">
+                        <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
+                            <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2 bg-slate-50/50 dark:bg-canvas-dark">
                                 <span className="material-symbols-outlined text-slate-400">comment</span>
                                 <h3 className="font-bold text-slate-900 dark:text-white">Your Message</h3>
                             </div>
@@ -179,8 +179,8 @@ export default function TenantApplicationDetail() {
                     )}
 
                     {/* Submitted Information */}
-                    <div className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
-                        <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-[#101922]">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
+                        <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-canvas-dark">
                             <div className="flex items-center gap-2">
                                 <span className="material-symbols-outlined text-slate-400">description</span>
                                 <h3 className="font-bold text-slate-900 dark:text-white">Submitted Information</h3>
@@ -244,7 +244,7 @@ export default function TenantApplicationDetail() {
                 <div className="flex flex-col gap-6">
                     {/* Property Card */}
                     {application.property && (
-                        <div className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden group">
+                        <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden group">
                             {application.property.primaryImage && (
                                 <div className="relative h-48 w-full overflow-hidden">
                                     <img
@@ -280,11 +280,11 @@ export default function TenantApplicationDetail() {
                     )}
 
                     {/* Application Timeline */}
-                    <div className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6">
                         <h3 className="font-bold text-slate-900 dark:text-white mb-5">Application Timeline</h3>
                         <div className="relative border-l-2 border-slate-100 dark:border-slate-800 ml-3 space-y-6">
                             <div className="relative pl-6">
-                                <div className="absolute -left-[9px] top-0 size-4 rounded-full border-4 border-white dark:border-[#101922] bg-amber-500"></div>
+                                <div className="absolute -left-[9px] top-0 size-4 rounded-full border-4 border-white dark:border-canvas-dark bg-amber-500"></div>
                                 <p className="text-xs text-slate-400 font-mono mb-0.5">
                                     {new Date(application.updatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                                 </p>
@@ -292,7 +292,7 @@ export default function TenantApplicationDetail() {
                                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Current status</p>
                             </div>
                             <div className="relative pl-6">
-                                <div className="absolute -left-[9px] top-0 size-4 rounded-full border-4 border-white dark:border-[#101922] bg-slate-300 dark:bg-slate-600"></div>
+                                <div className="absolute -left-[9px] top-0 size-4 rounded-full border-4 border-white dark:border-canvas-dark bg-slate-300 dark:bg-slate-600"></div>
                                 <p className="text-xs text-slate-400 font-mono mb-0.5">{submittedDate}</p>
                                 <h4 className="text-sm font-bold text-slate-900 dark:text-white">Application Submitted</h4>
                                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">You completed the application form.</p>
@@ -301,16 +301,15 @@ export default function TenantApplicationDetail() {
                     </div>
 
                     {/* AI Assistant Card */}
-                    <div className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl p-5 text-white shadow-lg relative overflow-hidden">
-                        <span className="material-symbols-outlined absolute -right-4 -bottom-4 text-9xl text-white/10 rotate-12">assistant</span>
+                    <div className="bg-brand rounded-2xl p-5 text-white shadow-lg relative overflow-hidden">
                         <div className="relative z-10">
                             <div className="flex items-center gap-2 mb-2">
-                                <span className="material-symbols-outlined">auto_awesome</span>
+                                <span className="material-symbols-outlined">forum</span>
                                 <span className="text-xs font-bold uppercase tracking-wider opacity-80">AI Assistant</span>
                             </div>
                             <h4 className="font-bold text-sm leading-tight mb-2">Have questions about this application?</h4>
-                            <p className="text-xs text-indigo-100 mb-3">Ask HomeAI about typical wait times or clarification on the landlord's request.</p>
-                            <button className="cursor-pointer inline-block w-full py-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/30 text-white font-bold text-xs rounded-lg transition-colors text-center">Ask Assistant</button>
+                            <p className="text-xs text-blue-100 mb-3">Ask HomeAI about typical wait times or clarification on the landlord's request.</p>
+                            <button className="cursor-pointer inline-block w-full py-2 bg-white/20 hover:bg-white/30 border border-white/30 text-white font-bold text-xs rounded-lg transition-colors text-center">Ask Assistant</button>
                         </div>
                     </div>
                 </div>

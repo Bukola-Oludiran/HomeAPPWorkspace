@@ -51,7 +51,7 @@ export default function ReviewModal({ isOpen, onClose, recipient, context }: Rev
             />
 
             {/* Modal */}
-            <div className="relative bg-white dark:bg-[#1a2632] rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 fade-in duration-200">
+            <div className="relative bg-white dark:bg-surface-dark rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 fade-in duration-200">
                 {/* Header */}
                 <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
                     <h2 className="text-lg font-bold text-slate-900 dark:text-white">Write a Review</h2>
@@ -113,7 +113,7 @@ export default function ReviewModal({ isOpen, onClose, recipient, context }: Rev
                                             onClick={() => setRating(star)}
                                             onMouseEnter={() => setHoverRating(star)}
                                             onMouseLeave={() => setHoverRating(0)}
-                                            className="p-1 transition-transform hover:scale-110"
+                                            className="p-1 transition-transform"
                                         >
                                             <span className={`material-symbols-outlined text-4xl ${(hoverRating || rating) >= star
                                                     ? 'text-amber-400 icon-filled'
@@ -142,7 +142,7 @@ export default function ReviewModal({ isOpen, onClose, recipient, context }: Rev
                                 onChange={(e) => setReview(e.target.value)}
                                 placeholder="Share your experience..."
                                 rows={4}
-                                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-colors resize-none"
+                                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-brand/20 focus:border-brand transition-colors resize-none"
                             />
                             <p className="text-xs text-slate-400 mt-1 text-right">{review.length}/500</p>
                         </div>
@@ -159,7 +159,7 @@ export default function ReviewModal({ isOpen, onClose, recipient, context }: Rev
                             <button
                                 type="submit"
                                 disabled={rating === 0 || submitting}
-                                className="flex-1 py-3 rounded-xl bg-[#137fec] text-white font-bold text-sm hover:bg-[#137fec]/90 transition-colors shadow-lg shadow-[#137fec]/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                className="flex-1 py-3 rounded-xl bg-brand text-white font-bold text-sm hover:bg-brand/90 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                             >
                                 {submitting ? (
                                     <>

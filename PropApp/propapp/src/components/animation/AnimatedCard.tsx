@@ -25,7 +25,7 @@ interface AnimatedCardProps {
 const AnimatedCard: React.FC<AnimatedCardProps> = ({
     children,
     delay = 0,
-    duration = 0.6,
+    duration = 0.25,
     className = '',
     disabled = false,
 }) => {
@@ -39,21 +39,17 @@ const AnimatedCard: React.FC<AnimatedCardProps> = ({
     useGSAP(() => {
         if (disabled || prefersReducedMotion || !cardRef.current) return;
 
-        // Set initial state
         gsap.set(cardRef.current, {
             opacity: 0,
-            y: 20,
-            scale: 0.95,
+            y: 4,
         });
 
-        // Animate to final state
         gsap.to(cardRef.current, {
             opacity: 1,
             y: 0,
-            scale: 1,
-            duration: duration,
+            duration: Math.min(duration, 0.3),
             delay: delay,
-            ease: 'back.out(1.7)', // Subtle bounce
+            ease: 'power2.out',
         });
     }, { scope: cardRef });
 

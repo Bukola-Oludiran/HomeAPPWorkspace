@@ -38,7 +38,7 @@ export default function BillingDetailsModal({ isOpen, onClose }: BillingDetailsM
                 status: 'paid',
                 icon: 'description',
                 iconBg: 'bg-blue-50 dark:bg-blue-900/20',
-                iconColor: 'text-[#137fec]',
+                iconColor: 'text-brand',
             })));
             setError(null);
         }).catch(() => setError('Unable to load billing statements.'));
@@ -90,7 +90,7 @@ export default function BillingDetailsModal({ isOpen, onClose }: BillingDetailsM
                             <select
                                 value={selectedYear}
                                 onChange={(e) => setSelectedYear(e.target.value)}
-                                className="pl-3 pr-8 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-[#137fec]/50 cursor-pointer appearance-none outline-none"
+                                className="pl-3 pr-8 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-brand/50 cursor-pointer appearance-none outline-none"
                             >
                                 {[0, 1, 2].map(offset => {
                                     const year = String(new Date().getFullYear() - offset);
@@ -103,7 +103,7 @@ export default function BillingDetailsModal({ isOpen, onClose }: BillingDetailsM
                             <select
                                 value={selectedPeriod}
                                 onChange={(e) => setSelectedPeriod(e.target.value)}
-                                className="pl-3 pr-8 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-[#137fec]/50 cursor-pointer appearance-none outline-none"
+                                className="pl-3 pr-8 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-brand/50 cursor-pointer appearance-none outline-none"
                             >
                                 <option value="all">All Periods</option>
                                 <option value="monthly">Monthly</option>
@@ -139,7 +139,7 @@ export default function BillingDetailsModal({ isOpen, onClose }: BillingDetailsM
                                 <div className="flex items-center gap-4">
                                     <div className="text-right hidden sm:block mr-2">
                                         <p className="font-bold text-slate-900 dark:text-white text-sm">{statement.amount}</p>
-                                        <p className={`text-[10px] font-bold uppercase ${statement.status === 'paid'
+                                        <p className={`text-xs font-bold uppercase ${statement.status === 'paid'
                                             ? 'text-green-600 dark:text-green-400'
                                             : 'text-orange-600 dark:text-orange-400'
                                             }`}>
@@ -149,13 +149,13 @@ export default function BillingDetailsModal({ isOpen, onClose }: BillingDetailsM
                                     <div className="flex items-center gap-2">
                                         <button
                                             onClick={() => void integrationService.exportData({ dataset: 'transactions', format: 'pdf', start: `${statement.id}-01`, end: `${statement.id}-31` })}
-                                            className="p-2 text-slate-400 hover:text-[#137fec] hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+                                            className="p-2 text-slate-400 hover:text-brand hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
                                             title="View"
                                         >
                                             <span className="material-symbols-outlined text-[20px]">visibility</span>
                                         </button>
                                         <button
-                                            className="p-2 text-slate-400 hover:text-[#137fec] hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+                                            className="p-2 text-slate-400 hover:text-brand hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
                                             title="Download PDF"
                                         >
                                             <span className="material-symbols-outlined text-[20px]">download</span>
@@ -168,7 +168,7 @@ export default function BillingDetailsModal({ isOpen, onClose }: BillingDetailsM
 
                     {/* Footer */}
                     <div className="p-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-700 text-center">
-                        <button className="text-sm font-bold text-[#137fec] hover:text-[#137fec]/80 transition-colors">
+                        <button className="text-sm font-bold text-brand hover:text-brand/80 transition-colors">
                             Load older statements
                         </button>
                     </div>

@@ -102,7 +102,7 @@ export default function AgentEarnings() {
             {isLoading ? (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     {Array.from({ length: 3 }).map((_, i) => (
-                        <div key={i} className="bg-white dark:bg-[#101922] p-6 rounded-2xl animate-pulse">
+                        <div key={i} className="bg-white dark:bg-canvas-dark p-6 rounded-2xl animate-pulse">
                             <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/3 mb-4" />
                             <div className="h-10 bg-slate-200 dark:bg-slate-700 rounded w-2/3 mb-4" />
                             <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/2" />
@@ -120,7 +120,7 @@ export default function AgentEarnings() {
             ) : (
             <AnimatedGroup className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8" stagger={0.1}>
                 {/* Available Balance */}
-                <div className="bg-white dark:bg-[#101922] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between relative overflow-hidden group">
+                <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between relative overflow-hidden group">
                     <div className="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                         <span className="material-symbols-outlined text-[100px] text-green-600">account_balance_wallet</span>
                     </div>
@@ -139,7 +139,7 @@ export default function AgentEarnings() {
                 </div>
 
                 {/* Pending Payouts */}
-                <div className="bg-white dark:bg-[#101922] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between relative overflow-hidden group">
+                <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between relative overflow-hidden group">
                     <div className="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                         <span className="material-symbols-outlined text-[100px] text-orange-500">pending</span>
                     </div>
@@ -156,9 +156,9 @@ export default function AgentEarnings() {
                 </div>
 
                 {/* Total Earnings (YTD) */}
-                <div className="bg-white dark:bg-[#101922] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between relative overflow-hidden group">
+                <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between relative overflow-hidden group">
                     <div className="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                        <span className="material-symbols-outlined text-[100px] text-[#137fec]">savings</span>
+                        <span className="material-symbols-outlined text-[100px] text-brand">savings</span>
                     </div>
                     <div>
                         <p className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Total Earnings</p>
@@ -167,7 +167,7 @@ export default function AgentEarnings() {
                         </h3>
                     </div>
                     <div className="mt-6 flex items-center gap-2 text-sm font-medium text-slate-500">
-                        <span className="material-symbols-outlined text-[18px] text-[#137fec]">trending_up</span>
+                        <span className="material-symbols-outlined text-[18px] text-brand">trending_up</span>
                         <span>Withdrawn: {formatCurrency(earnings?.totalWithdrawn || 0)}</span>
                     </div>
                 </div>
@@ -179,14 +179,14 @@ export default function AgentEarnings() {
                 {/* Left Column - Payout History */}
                 <div className="lg:col-span-2 flex flex-col gap-6">
                     {/* Filters */}
-                    <div className="bg-white dark:bg-[#101922] p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div className="bg-white dark:bg-canvas-dark p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row justify-between items-center gap-4">
                         <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
                             <div className="relative">
                                 <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[20px]">calendar_month</span>
                                 <select
                                     value={dateFilter}
                                     onChange={(e) => setDateFilter(e.target.value)}
-                                    className="pl-10 pr-8 py-2 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-[#137fec]/50 cursor-pointer appearance-none"
+                                    className="pl-10 pr-8 py-2 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-brand/50 cursor-pointer appearance-none"
                                 >
                                     <option value="this-month">This Month</option>
                                     <option value="last-month">Last Month</option>
@@ -199,7 +199,7 @@ export default function AgentEarnings() {
                                 <select
                                     value={statusFilter}
                                     onChange={(e) => setStatusFilter(e.target.value)}
-                                    className="pl-10 pr-8 py-2 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-[#137fec]/50 cursor-pointer appearance-none"
+                                    className="pl-10 pr-8 py-2 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-brand/50 cursor-pointer appearance-none"
                                 >
                                     <option value="all">All Status</option>
                                     <option value="completed">Completed</option>
@@ -212,7 +212,7 @@ export default function AgentEarnings() {
                             <div className="relative w-full">
                                 <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[20px]">search</span>
                                 <input
-                                    className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-[#137fec]/50"
+                                    className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-brand/50"
                                     placeholder="Search transactions..."
                                     type="text"
                                 />
@@ -224,7 +224,7 @@ export default function AgentEarnings() {
                     <SectionCard padding="none">
                         <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
                             <h3 className="font-bold text-lg text-slate-900 dark:text-white">Payout History</h3>
-                            <Link to="/agent/transactions" className="text-sm text-[#137fec] font-bold hover:underline">View All</Link>
+                            <Link to="/agent/transactions" className="text-sm text-brand font-bold hover:underline">View All</Link>
                         </div>
                         <div className="overflow-x-auto">
                             <table className="w-full text-left border-collapse">
@@ -280,7 +280,7 @@ export default function AgentEarnings() {
                                                         <p className="font-bold text-slate-900 dark:text-white">+ {formatCurrency(payout.amount)}</p>
                                                     </td>
                                                     <td className="px-6 py-4 text-right">
-                                                        <button className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-[#137fec] hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors">
+                                                        <button className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-brand hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors">
                                                             <span className="material-symbols-outlined text-[20px]">visibility</span>
                                                         </button>
                                                     </td>
@@ -292,7 +292,7 @@ export default function AgentEarnings() {
                             </table>
                         </div>
                         <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/20 flex justify-center">
-                            <button className="text-sm font-bold text-slate-500 bg-slate-50 dark:bg-slate-800 hover:text-[#137fec] transition-colors flex items-center gap-2 px-3 py-1.5 rounded-lg">
+                            <button className="text-sm font-bold text-slate-500 bg-slate-50 dark:bg-slate-800 hover:text-brand transition-colors flex items-center gap-2 px-3 py-1.5 rounded-lg">
                                 Load more transactions
                                 <span className="material-symbols-outlined text-[16px]">expand_more</span>
                             </button>
@@ -305,7 +305,7 @@ export default function AgentEarnings() {
                     {/* Wallet Card */}
                     <div className="bg-gradient-to-br from-slate-900 to-slate-800 dark:from-slate-800 dark:to-black rounded-2xl p-6 text-white shadow-xl relative overflow-hidden">
                         <div className="absolute -right-10 -top-10 size-40 bg-white/5 rounded-full blur-3xl"></div>
-                        <div className="absolute -left-10 -bottom-10 size-40 bg-[#137fec]/20 rounded-full blur-3xl"></div>
+                        <div className="absolute -left-10 -bottom-10 size-40 bg-brand/20 rounded-full blur-3xl"></div>
                         <div className="relative z-10">
                             <div className="flex justify-between items-start mb-8">
                                 <span className="material-symbols-outlined text-3xl text-white/80">contactless</span>
@@ -317,11 +317,11 @@ export default function AgentEarnings() {
                             </div>
                             <div className="flex justify-between items-end">
                                 <div className="flex flex-col">
-                                    <span className="text-[10px] text-slate-400 uppercase tracking-wider">Account Holder</span>
+                                    <span className="text-xs text-slate-400 uppercase tracking-wider">Account Holder</span>
                                     <span className="font-medium text-sm">{accountHolderName}</span>
                                 </div>
                                 <div className="flex flex-col items-end">
-                                    <span className="text-[10px] text-slate-400 uppercase tracking-wider">Status</span>
+                                    <span className="text-xs text-slate-400 uppercase tracking-wider">Status</span>
                                     <span className="font-medium text-sm">Active</span>
                                 </div>
                             </div>
@@ -329,16 +329,16 @@ export default function AgentEarnings() {
                     </div>
 
                     {/* Quick Actions */}
-                    <div className="bg-white dark:bg-[#101922] p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
                         <h3 className="font-bold text-slate-900 dark:text-white mb-4">Quick Actions</h3>
                         <div className="grid grid-cols-2 gap-3">
-                            <button className="flex flex-col items-center justify-center p-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-[#137fec]/50 hover:bg-white dark:hover:bg-slate-700/80 transition-all group">
-                                <div className="size-10 rounded-full bg-[#137fec]/10 text-[#137fec] flex items-center justify-center mb-2 group-hover:bg-[#137fec] group-hover:text-white transition-colors">
+                            <button className="flex flex-col items-center justify-center p-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-brand/50 hover:bg-white dark:hover:bg-slate-700/80 transition-all group">
+                                <div className="size-10 rounded-full bg-brand/10 text-brand flex items-center justify-center mb-2 group-hover:bg-brand group-hover:text-white transition-colors">
                                     <span className="material-symbols-outlined text-[20px]">payments</span>
                                 </div>
                                 <span className="text-sm font-bold text-slate-700 dark:text-slate-300">Withdraw</span>
                             </button>
-                            <button className="flex flex-col items-center justify-center p-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-[#137fec]/50 hover:bg-white dark:hover:bg-slate-700/80 transition-all group">
+                            <button className="flex flex-col items-center justify-center p-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-brand/50 hover:bg-white dark:hover:bg-slate-700/80 transition-all group">
                                 <div className="size-10 rounded-full bg-purple-50 dark:bg-purple-900/20 text-purple-600 flex items-center justify-center mb-2 group-hover:bg-purple-600 group-hover:text-white transition-colors">
                                     <span className="material-symbols-outlined text-[20px]">add_card</span>
                                 </div>
@@ -348,10 +348,10 @@ export default function AgentEarnings() {
                     </div>
 
                     {/* Payout Methods */}
-                    <div className="bg-white dark:bg-[#101922] p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex-1">
+                    <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex-1">
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="font-bold text-slate-900 dark:text-white">Payout Methods</h3>
-                            <button className="text-xs font-bold text-[#137fec] hover:underline flex items-center">
+                            <button className="text-xs font-bold text-brand hover:underline flex items-center">
                                 <span className="material-symbols-outlined text-[16px]">add</span>
                                 Add New
                             </button>
@@ -367,7 +367,7 @@ export default function AgentEarnings() {
                                         key={account.id}
                                         className={`flex items-center gap-3 p-3 rounded-lg border ${account.isDefault
                                             ? 'border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50'
-                                            : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-[#101922] opacity-70 hover:opacity-100 transition-opacity cursor-pointer'
+                                            : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-canvas-dark opacity-70 hover:opacity-100 transition-opacity cursor-pointer'
                                             }`}
                                     >
                                         <div className="size-10 bg-white dark:bg-slate-700 rounded-md shadow-sm flex items-center justify-center">

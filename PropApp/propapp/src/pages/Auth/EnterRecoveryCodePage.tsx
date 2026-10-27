@@ -5,7 +5,7 @@ export default function EnterRecoveryCodePage() {
     const [code, setCode] = useState('');
 
     return (
-        <div className="w-full max-w-md bg-white/10 dark:bg-[#1a2632]/60 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col items-center relative">
+        <div className="w-full max-w-md bg-white/10 dark:bg-surface-dark/60 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col items-center relative">
             {/* Close Button */}
             <Link
                 to="/auth/2fa/methods"
@@ -17,7 +17,7 @@ export default function EnterRecoveryCodePage() {
             {/* Icon */}
             <div className="mb-6 flex justify-center">
                 <div className="size-16 bg-white/10 rounded-full flex items-center justify-center border border-white/10 shadow-inner ring-1 ring-white/5">
-                    <span className="material-symbols-outlined text-[#137fec] text-3xl">key</span>
+                    <span className="material-symbols-outlined text-brand text-3xl">key</span>
                 </div>
             </div>
 
@@ -35,7 +35,7 @@ export default function EnterRecoveryCodePage() {
                         </div>
                         <input
                             aria-label="Recovery Code"
-                            className="w-full py-4 pl-12 pr-4 rounded-xl bg-white/5 hover:bg-white/10 border border-slate-600/30 focus:border-slate-500/50 focus:bg-white/10 text-white placeholder-slate-500 outline-none transition-all text-lg tracking-[0.2em] font-medium text-center shadow-inner focus:ring-2 focus:ring-[#137fec]"
+                            className="w-full py-4 pl-12 pr-4 rounded-xl bg-white/5 hover:bg-white/10 border border-slate-600/30 focus:border-slate-500/50 focus:bg-white/10 text-white placeholder-slate-500 outline-none transition-all text-lg tracking-[0.2em] font-medium text-center shadow-inner focus:ring-2 focus:ring-brand"
                             maxLength={8}
                             placeholder="XXXXXXXX"
                             type="text"
@@ -52,7 +52,7 @@ export default function EnterRecoveryCodePage() {
                 {/* Verify Button */}
                 <Link
                     to="/auth/2fa/recovery-success"
-                    className="w-full py-4 px-5 rounded-xl bg-[#137fec] hover:bg-blue-600 border border-transparent text-white font-bold text-sm shadow-lg shadow-[#137fec]/25 hover:shadow-[#137fec]/40 transition-all transform active:scale-[0.98] flex items-center justify-center"
+                    className="w-full py-4 px-5 rounded-xl bg-brand hover:bg-blue-600 border border-transparent text-white font-bold text-sm shadow-sm transition-all transform active:scale-[0.98] flex items-center justify-center"
                 >
                     Verify Code
                 </Link>

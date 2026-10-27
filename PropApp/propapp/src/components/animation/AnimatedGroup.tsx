@@ -28,8 +28,8 @@ interface AnimatedGroupProps {
  */
 const AnimatedGroup: React.FC<AnimatedGroupProps> = ({
     children,
-    stagger = 0.1,
-    duration = 0.6,
+    stagger = 0.03,
+    duration = 0.25,
     delay = 0,
     className = '',
     disabled = false,
@@ -46,22 +46,19 @@ const AnimatedGroup: React.FC<AnimatedGroupProps> = ({
         const children = containerRef.current.querySelectorAll(':scope > *');
         if (children.length === 0) return;
 
-        // Set initial state for all children
+        // Quiet fade-in; stagger is capped so long lists don't take seconds to settle
         gsap.set(children, {
             opacity: 0,
-            y: 20,
-            scale: 0.95,
+            y: 4,
         });
 
-        // Stagger animate to final state
         gsap.to(children, {
             opacity: 1,
             y: 0,
-            scale: 1,
-            duration: duration,
+            duration: Math.min(duration, 0.3),
             delay: delay,
-            stagger: stagger,
-            ease: 'back.out(1.7)',
+            stagger: Math.min(stagger, 0.03),
+            ease: 'power2.out',
         });
     }, { scope: containerRef });
 

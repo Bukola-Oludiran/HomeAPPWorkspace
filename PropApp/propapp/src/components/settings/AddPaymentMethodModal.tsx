@@ -15,7 +15,7 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
         <ModalPortal>
             <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6">
                 <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={onClose}></div>
-                <div className="relative w-full max-w-2xl transform rounded-2xl bg-white dark:bg-[#1a2632] shadow-2xl transition-all flex flex-col max-h-[90vh]">
+                <div className="relative w-full max-w-2xl transform rounded-2xl bg-white dark:bg-surface-dark shadow-2xl transition-all flex flex-col max-h-[90vh]">
                     {/* Header */}
                     <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 px-6 py-5">
                         <h3 className="text-xl font-bold text-slate-900 dark:text-white">Add New Payment Method</h3>
@@ -34,7 +34,7 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
                             <button
                                 onClick={() => setActiveTab('card')}
                                 className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-bold rounded-lg transition-all cursor-pointer ${activeTab === 'card'
-                                        ? 'bg-white dark:bg-slate-600 text-[#137fec] dark:text-white shadow-sm ring-1 ring-slate-200 dark:ring-slate-500'
+                                        ? 'bg-white dark:bg-slate-600 text-brand dark:text-white shadow-sm ring-1 ring-slate-200 dark:ring-slate-500'
                                         : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-700/50'
                                     }`}
                             >
@@ -44,7 +44,7 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
                             <button
                                 onClick={() => setActiveTab('bank')}
                                 className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-bold rounded-lg transition-all cursor-pointer ${activeTab === 'bank'
-                                        ? 'bg-white dark:bg-slate-600 text-[#137fec] dark:text-white shadow-sm ring-1 ring-slate-200 dark:ring-slate-500'
+                                        ? 'bg-white dark:bg-slate-600 text-brand dark:text-white shadow-sm ring-1 ring-slate-200 dark:ring-slate-500'
                                         : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-700/50'
                                     }`}
                             >
@@ -62,7 +62,7 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
                                             <span className="material-symbols-outlined text-[20px]">credit_card</span>
                                         </span>
                                         <input
-                                            className="w-full pl-10 pr-12 py-3 rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm font-medium placeholder-slate-400"
+                                            className="w-full pl-10 pr-12 py-3 rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:border-brand focus:ring-brand sm:text-sm font-medium placeholder-slate-400"
                                             placeholder="0000 0000 0000 0000"
                                             type="text"
                                         />
@@ -77,7 +77,7 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
                                     <div>
                                         <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Expiration Date</label>
                                         <input
-                                            className="w-full px-4 py-3 rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm font-medium placeholder-slate-400"
+                                            className="w-full px-4 py-3 rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:border-brand focus:ring-brand sm:text-sm font-medium placeholder-slate-400"
                                             placeholder="MM / YY"
                                             type="text"
                                         />
@@ -86,11 +86,11 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
                                         <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">CVV / CVC</label>
                                         <div className="relative">
                                             <input
-                                                className="w-full px-4 py-3 rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm font-medium placeholder-slate-400"
+                                                className="w-full px-4 py-3 rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:border-brand focus:ring-brand sm:text-sm font-medium placeholder-slate-400"
                                                 placeholder="123"
                                                 type="text"
                                             />
-                                            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 cursor-help hover:text-[#137fec] transition-colors" title="3 digits on back of card">
+                                            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 cursor-help hover:text-brand transition-colors" title="3 digits on back of card">
                                                 <span className="material-symbols-outlined text-[20px]">help</span>
                                             </span>
                                         </div>
@@ -100,7 +100,7 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
                                 <div>
                                     <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Cardholder Name</label>
                                     <input
-                                        className="w-full px-4 py-3 rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm font-medium placeholder-slate-400"
+                                        className="w-full px-4 py-3 rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:border-brand focus:ring-brand sm:text-sm font-medium placeholder-slate-400"
                                         placeholder="Full name as on card"
                                         type="text"
                                     />
@@ -108,13 +108,13 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
 
                                 <div className="space-y-3 pt-2">
                                     <label className="flex items-center gap-3 cursor-pointer group select-none">
-                                        <input defaultChecked className="w-5 h-5 text-[#137fec] border-slate-300 rounded focus:ring-[#137fec] dark:bg-slate-800 dark:border-slate-600 cursor-pointer" type="checkbox" />
+                                        <input defaultChecked className="w-5 h-5 text-brand border-slate-300 rounded focus:ring-brand dark:bg-slate-800 dark:border-slate-600 cursor-pointer" type="checkbox" />
                                         <span className="text-sm text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">
                                             Use profile address as billing address
                                         </span>
                                     </label>
                                     <label className="flex items-center gap-3 cursor-pointer group select-none">
-                                        <input defaultChecked className="w-5 h-5 text-[#137fec] border-slate-300 rounded focus:ring-[#137fec] dark:bg-slate-800 dark:border-slate-600 cursor-pointer" type="checkbox" />
+                                        <input defaultChecked className="w-5 h-5 text-brand border-slate-300 rounded focus:ring-brand dark:bg-slate-800 dark:border-slate-600 cursor-pointer" type="checkbox" />
                                         <span className="text-sm text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">
                                             Save card for future payments
                                         </span>
@@ -134,7 +134,7 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
                                 <div>
                                     <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Bank Name</label>
                                     <input
-                                        className="w-full px-4 py-3 rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm font-medium placeholder-slate-400"
+                                        className="w-full px-4 py-3 rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:border-brand focus:ring-brand sm:text-sm font-medium placeholder-slate-400"
                                         placeholder="Enter your bank name"
                                         type="text"
                                     />
@@ -142,7 +142,7 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
                                 <div>
                                     <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Account Number</label>
                                     <input
-                                        className="w-full px-4 py-3 rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm font-medium placeholder-slate-400"
+                                        className="w-full px-4 py-3 rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:border-brand focus:ring-brand sm:text-sm font-medium placeholder-slate-400"
                                         placeholder="Enter your account number"
                                         type="text"
                                     />
@@ -150,7 +150,7 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
                                 <div>
                                     <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Routing Number</label>
                                     <input
-                                        className="w-full px-4 py-3 rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm font-medium placeholder-slate-400"
+                                        className="w-full px-4 py-3 rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:border-brand focus:ring-brand sm:text-sm font-medium placeholder-slate-400"
                                         placeholder="Enter routing number"
                                         type="text"
                                     />
@@ -167,7 +167,7 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
                         >
                             Cancel
                         </button>
-                        <button className="px-6 py-2.5 rounded-xl text-sm font-bold text-white bg-[#137fec] hover:bg-[#137fec]/90 shadow-lg shadow-[#137fec]/25 hover:shadow-[#137fec]/40 transition-all flex items-center gap-2 cursor-pointer">
+                        <button className="px-6 py-2.5 rounded-xl text-sm font-bold text-white bg-brand hover:bg-brand/90 shadow-sm transition-all flex items-center gap-2 cursor-pointer">
                             <span className="material-symbols-outlined text-[18px]">add</span>
                             {activeTab === 'card' ? 'Add Card' : 'Add Bank Account'}
                         </button>

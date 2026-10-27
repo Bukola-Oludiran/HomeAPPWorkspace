@@ -218,7 +218,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
                 <h3 className="text-sm font-bold text-slate-900 dark:text-white leading-tight truncate">{title}</h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 truncate">{location}</p>
                 {price && (
-                    <p className="text-sm font-bold text-[#137fec] mt-1">
+                    <p className="text-sm font-bold text-brand mt-1">
                         {price}
                         <span className="text-xs font-normal text-slate-400">{priceType}</span>
                     </p>
@@ -227,9 +227,9 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
         </>
     );
 
-    const gridClasses = `bg-white dark:bg-[#101922] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden group hover:shadow-lg hover:border-[#137fec]/30 transition-all flex flex-col ${className}`;
-    const listClasses = `bg-white dark:bg-[#101922] rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden group hover:shadow-lg hover:border-[#137fec]/30 transition-all flex flex-col md:flex-row ${className}`;
-    const miniClasses = `bg-white dark:bg-[#101922] rounded-lg border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden group hover:shadow-md transition-all flex gap-3 p-3 ${className}`;
+    const gridClasses = `bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden group hover:shadow-lg hover:border-brand/30 transition-all flex flex-col ${className}`;
+    const listClasses = `bg-white dark:bg-canvas-dark rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden group hover:shadow-lg hover:border-brand/30 transition-all flex flex-col md:flex-row ${className}`;
+    const miniClasses = `bg-white dark:bg-canvas-dark rounded-lg border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden group hover:shadow-md transition-all flex gap-3 p-3 ${className}`;
 
     // Grid variant
     if (variant === 'grid') {

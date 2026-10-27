@@ -56,44 +56,44 @@ export default function SettingsPage() {
     };
 
     return (
-        <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex flex-col font-[Manrope,Noto_Sans,sans-serif] text-slate-900 dark:text-white overflow-x-hidden relative">
+        <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex flex-col text-slate-900 dark:text-white overflow-x-hidden relative">
             {/* Logo */}
             <div className="absolute top-6 left-6 md:left-10 z-40 flex items-center gap-3">
-                <div className="size-10 bg-[#137fec] rounded-xl flex items-center justify-center text-white shadow-lg shadow-[#137fec]/20">
+                <div className="size-10 bg-brand rounded-xl flex items-center justify-center text-white shadow-sm">
                     <span className="material-symbols-outlined">real_estate_agent</span>
                 </div>
-                <h2 className="hidden md:block text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">PropertyApp</h2>
+                <h2 className="hidden md:block text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">HomeAI</h2>
             </div>
 
             {/* Header/Navbar */}
             <header className="fixed top-6 left-0 right-0 z-40 flex justify-center w-full pointer-events-none">
-                <div className="pointer-events-auto flex items-center gap-1 md:gap-2 px-3 py-2 bg-white/90 dark:bg-[#1a2632]/90 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-black/20 rounded-full mx-4">
+                <div className="pointer-events-auto flex items-center gap-1 md:gap-2 px-3 py-2 bg-white/90 dark:bg-surface-dark/90 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-black/20 rounded-full mx-4">
                     <div className="flex items-center gap-1">
-                        <Link to="/" aria-label="Home" className="flex items-center justify-center size-10 md:size-11 rounded-full text-slate-500 hover:text-[#137fec] hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
+                        <Link to="/" aria-label="Home" className="flex items-center justify-center size-10 md:size-11 rounded-full text-slate-500 hover:text-brand hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
                             <span className="material-symbols-outlined">home</span>
                         </Link>
-                        <Link to="/search?type=buy" className="px-4 py-2 text-sm font-semibold rounded-full text-slate-600 hover:text-[#137fec] hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
+                        <Link to="/search?type=buy" className="px-4 py-2 text-sm font-semibold rounded-full text-slate-600 hover:text-brand hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
                             Buy
                         </Link>
-                        <Link to="/search?type=rent" className="px-4 py-2 text-sm font-semibold rounded-full text-slate-600 hover:text-[#137fec] hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
+                        <Link to="/search?type=rent" className="px-4 py-2 text-sm font-semibold rounded-full text-slate-600 hover:text-brand hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
                             Rent
                         </Link>
-                        <Link to="/search?type=sell" className="px-4 py-2 text-sm font-semibold rounded-full text-slate-600 hover:text-[#137fec] hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
+                        <Link to="/search?type=sell" className="px-4 py-2 text-sm font-semibold rounded-full text-slate-600 hover:text-brand hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
                             Sell
                         </Link>
-                        <Link to="/ai-chat" aria-label="AI Chat" className="flex items-center justify-center size-10 md:size-11 rounded-full text-slate-500 hover:text-[#137fec] hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
-                            <span className="material-symbols-outlined">smart_toy</span>
+                        <Link to="/ai-chat" aria-label="AI Chat" className="flex items-center justify-center size-10 md:size-11 rounded-full text-slate-500 hover:text-brand hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
+                            <span className="material-symbols-outlined">forum</span>
                         </Link>
                     </div>
                     <div className="w-px h-6 bg-slate-200 dark:bg-slate-700 mx-1"></div>
                     <div className="flex items-center gap-1 md:gap-2">
-                        <button className="flex items-center justify-center size-10 md:size-11 rounded-full text-slate-500 hover:text-[#137fec] hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white transition-all cursor-pointer">
+                        <button className="flex items-center justify-center size-10 md:size-11 rounded-full text-slate-500 hover:text-brand hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white transition-all cursor-pointer">
                             <span className="material-symbols-outlined">notifications</span>
                         </button>
                         <div className="relative">
                             <button
                                 onClick={() => setShowDropdown(!showDropdown)}
-                                className="flex items-center justify-center overflow-hidden rounded-full size-10 md:size-11 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:ring-2 hover:ring-[#137fec]/20 transition-all border border-slate-200 dark:border-slate-600 cursor-pointer"
+                                className="flex items-center justify-center overflow-hidden rounded-full size-10 md:size-11 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:ring-2 hover:ring-brand/20 transition-all border border-slate-200 dark:border-slate-600 cursor-pointer"
                             >
                                 <img
                                     alt="User Avatar"
@@ -105,7 +105,7 @@ export default function SettingsPage() {
                                 <div className="absolute right-0 mt-2 py-2 bg-white dark:bg-slate-800 min-w-[200px] shadow-[0px_8px_16px_0px_rgba(0,0,0,0.1)] z-50 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <Link
                                         to="/landlord/dashboard"
-                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-[#137fec]"
+                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand"
                                     >
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">dashboard</span>
@@ -114,7 +114,7 @@ export default function SettingsPage() {
                                     </Link>
                                     <Link
                                         to="/tenant/dashboard"
-                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-[#137fec]"
+                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand"
                                     >
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">vpn_key</span>
@@ -123,7 +123,7 @@ export default function SettingsPage() {
                                     </Link>
                                     <Link
                                         to="/agent/jobs"
-                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-[#137fec]"
+                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand"
                                     >
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">support_agent</span>
@@ -133,7 +133,7 @@ export default function SettingsPage() {
                                     <hr className="my-1 border-slate-200 dark:border-slate-700" />
                                     <Link
                                         to="/settings"
-                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-[#137fec]"
+                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand"
                                     >
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">settings</span>
@@ -176,7 +176,7 @@ export default function SettingsPage() {
                     <aside className={`
                         fixed lg:relative inset-y-0 left-0 z-40 lg:z-auto
                         w-72 flex-shrink-0 
-                        bg-[#f6f7f8] dark:bg-[#101922] lg:bg-transparent
+                        bg-canvas dark:bg-canvas-dark lg:bg-transparent
                         transform transition-transform duration-300 ease-in-out
                         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
                         lg:sticky lg:top-32 
@@ -205,7 +205,7 @@ export default function SettingsPage() {
                                             key={item.id}
                                             onClick={() => handleSectionClick(item.id)}
                                             className={`w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg transition-colors cursor-pointer ${activeSection === item.id
-                                                ? 'bg-white dark:bg-slate-800 text-[#137fec] shadow-sm ring-1 ring-slate-200 dark:ring-slate-700'
+                                                ? 'bg-white dark:bg-slate-800 text-brand shadow-sm ring-1 ring-slate-200 dark:ring-slate-700'
                                                 : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
                                                 }`}
                                         >
@@ -223,7 +223,7 @@ export default function SettingsPage() {
                                 <button
                                     onClick={() => handleSectionClick('help')}
                                     className={`w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg transition-colors cursor-pointer ${activeSection === 'help'
-                                        ? 'bg-white dark:bg-slate-800 text-[#137fec] shadow-sm ring-1 ring-slate-200 dark:ring-slate-700'
+                                        ? 'bg-white dark:bg-slate-800 text-brand shadow-sm ring-1 ring-slate-200 dark:ring-slate-700'
                                         : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
                                         }`}
                                 >
@@ -235,7 +235,7 @@ export default function SettingsPage() {
                     </aside>
 
                     {/* Content Panel */}
-                    <div className="flex-1 w-full bg-white dark:bg-[#1a2632] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm min-h-[600px] flex flex-col">
+                    <div className="flex-1 w-full bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm min-h-[600px] flex flex-col">
                         {activeSection === 'profile' && <ProfileContent />}
                         {activeSection === 'security' && <SecurityContent />}
                         {activeSection === 'email' && <EmailPreferencesContent />}
@@ -254,13 +254,13 @@ export default function SettingsPage() {
             </main>
 
             {/* Footer */}
-            <footer className="bg-white dark:bg-[#101922] border-t border-slate-200 dark:border-slate-800 py-6 px-4 md:px-10 lg:px-20 text-center mt-auto">
+            <footer className="bg-white dark:bg-canvas-dark border-t border-slate-200 dark:border-slate-800 py-6 px-4 md:px-10 lg:px-20 text-center mt-auto">
                 <div className="flex flex-col md:flex-row items-center justify-between max-w-[1400px] mx-auto text-sm text-slate-500 dark:text-slate-400">
-                    <p>© 2024 PropertyApp. All rights reserved.</p>
+                    <p>© 2024 HomeAI. All rights reserved.</p>
                     <div className="flex gap-4 mt-2 md:mt-0">
-                        <Link to="/privacy" className="hover:text-[#137fec] transition-colors">Privacy Policy</Link>
-                        <Link to="/terms" className="hover:text-[#137fec] transition-colors">Terms of Service</Link>
-                        <Link to="/support" className="hover:text-[#137fec] transition-colors">Support</Link>
+                        <Link to="/privacy" className="hover:text-brand transition-colors">Privacy Policy</Link>
+                        <Link to="/terms" className="hover:text-brand transition-colors">Terms of Service</Link>
+                        <Link to="/support" className="hover:text-brand transition-colors">Support</Link>
                     </div>
                 </div>
             </footer>
@@ -293,7 +293,7 @@ function ProfileContent() {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
                 <div className="flex flex-col items-center gap-3">
-                    <div className="size-10 border-4 border-[#137fec] border-t-transparent rounded-full animate-spin"></div>
+                    <div className="size-10 border-4 border-brand border-t-transparent rounded-full animate-spin"></div>
                     <p className="text-slate-500 font-medium">Loading profile...</p>
                 </div>
             </div>
@@ -328,7 +328,7 @@ function ProfileContent() {
                         {user?.avatarUrl ? (
                             <img alt="Current profile photo" className="w-24 h-24 rounded-full object-cover ring-4 ring-slate-50 dark:ring-slate-800" src={user.avatarUrl} />
                         ) : (
-                            <div className="w-24 h-24 rounded-full ring-4 ring-slate-50 dark:ring-slate-800 bg-[#137fec]/10 flex items-center justify-center text-2xl font-bold text-[#137fec]">
+                            <div className="w-24 h-24 rounded-full ring-4 ring-slate-50 dark:ring-slate-800 bg-brand/10 flex items-center justify-center text-2xl font-bold text-brand">
                                 {user ? `${user.firstName?.[0] || ''}${user.lastName?.[0] || ''}` : ''}
                             </div>
                         )}
@@ -357,11 +357,11 @@ function ProfileContent() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="col-span-1">
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" htmlFor="firstName">First Name</label>
-                        <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" id="firstName" name="firstName" type="text" defaultValue={user?.firstName || ''} />
+                        <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand sm:text-sm" id="firstName" name="firstName" type="text" defaultValue={user?.firstName || ''} />
                     </div>
                     <div className="col-span-1">
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" htmlFor="lastName">Last Name</label>
-                        <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" id="lastName" name="lastName" type="text" defaultValue={user?.lastName || ''} />
+                        <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand sm:text-sm" id="lastName" name="lastName" type="text" defaultValue={user?.lastName || ''} />
                     </div>
                     <div className="col-span-1 md:col-span-2">
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" htmlFor="email">Email Address</label>
@@ -369,7 +369,7 @@ function ProfileContent() {
                             <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                                 <span className="material-symbols-outlined text-[20px]">mail</span>
                             </span>
-                            <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white pl-10 shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" id="email" name="email" type="email" defaultValue={user?.email || ''} />
+                            <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white pl-10 shadow-sm focus:border-brand focus:ring-brand sm:text-sm" id="email" name="email" type="email" defaultValue={user?.email || ''} />
                         </div>
                         <p className="mt-1.5 text-xs text-slate-500">This is the email you use to log in.</p>
                     </div>
@@ -379,7 +379,7 @@ function ProfileContent() {
                             <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                                 <span className="material-symbols-outlined text-[20px]">call</span>
                             </span>
-                            <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white pl-10 shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" id="phone" name="phone" type="tel" defaultValue={user?.phone || ''} />
+                            <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white pl-10 shadow-sm focus:border-brand focus:ring-brand sm:text-sm" id="phone" name="phone" type="tel" defaultValue={user?.phone || ''} />
                         </div>
                     </div>
                 </div>
@@ -405,12 +405,12 @@ function SecurityContent() {
                     <div className="space-y-5">
                         <div>
                             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Current Password</label>
-                            <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" placeholder="••••••••" type="password" />
+                            <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand sm:text-sm" placeholder="••••••••" type="password" />
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">New Password</label>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" placeholder="••••••••" type="password" />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand sm:text-sm" placeholder="••••••••" type="password" />
                                 <div className="mt-2 flex gap-1 h-1.5">
                                     <div className="flex-1 bg-green-500 rounded-full"></div>
                                     <div className="flex-1 bg-green-500 rounded-full"></div>
@@ -421,7 +421,7 @@ function SecurityContent() {
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Confirm New Password</label>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" placeholder="••••••••" type="password" />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand sm:text-sm" placeholder="••••••••" type="password" />
                             </div>
                         </div>
                     </div>
@@ -444,7 +444,7 @@ function SecurityContent() {
                     <div className="space-y-3">
                         <div className="flex items-center justify-between p-4 border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800/50">
                             <div className="flex items-center gap-4">
-                                <div className="bg-white dark:bg-slate-700 p-2.5 rounded-lg shadow-sm text-[#137fec] ring-1 ring-slate-100 dark:ring-slate-600">
+                                <div className="bg-white dark:bg-slate-700 p-2.5 rounded-lg shadow-sm text-brand ring-1 ring-slate-100 dark:ring-slate-600">
                                     <span className="material-symbols-outlined">qr_code_2</span>
                                 </div>
                                 <div>
@@ -452,7 +452,7 @@ function SecurityContent() {
                                     <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Google Authenticator, Authy, etc.</p>
                                 </div>
                             </div>
-                            <button className="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-[#137fec] dark:hover:text-white px-3 py-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">Manage</button>
+                            <button className="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand dark:hover:text-white px-3 py-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">Manage</button>
                         </div>
                         <div className="flex items-center justify-between p-4 border border-slate-200 dark:border-slate-700 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                             <div className="flex items-center gap-4">
@@ -464,7 +464,7 @@ function SecurityContent() {
                                     <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Use your mobile phone number.</p>
                                 </div>
                             </div>
-                            <button className="text-sm font-medium text-[#137fec] hover:text-[#137fec]/80 px-3 py-1.5">Set up</button>
+                            <button className="text-sm font-medium text-brand hover:text-brand/80 px-3 py-1.5">Set up</button>
                         </div>
                         <div className="flex items-center justify-between p-4 border border-slate-200 dark:border-slate-700 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                             <div className="flex items-center gap-4">
@@ -476,7 +476,7 @@ function SecurityContent() {
                                     <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">YubiKey, Titan Security Key, etc.</p>
                                 </div>
                             </div>
-                            <button className="text-sm font-medium text-[#137fec] hover:text-[#137fec]/80 px-3 py-1.5">Add Key</button>
+                            <button className="text-sm font-medium text-brand hover:text-brand/80 px-3 py-1.5">Add Key</button>
                         </div>
                     </div>
                 </div>
@@ -641,7 +641,7 @@ function PaymentMethodsContent() {
                     <h2 className="text-xl font-bold text-slate-900 dark:text-white">Payment Methods</h2>
                     <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Manage your saved payment methods.</p>
                 </div>
-                <button className="px-4 py-2 text-sm font-medium text-white bg-[#137fec] rounded-lg hover:bg-[#137fec]/90 transition-colors flex items-center gap-2">
+                <button className="px-4 py-2 text-sm font-medium text-white bg-brand rounded-lg hover:bg-brand/90 transition-colors flex items-center gap-2">
                     <span className="material-symbols-outlined text-[18px]">add</span>
                     Add New
                 </button>
@@ -695,7 +695,7 @@ function PayoutPreferencesContent() {
                 <div className="space-y-4">
                     <div>
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Payout Schedule</label>
-                        <select className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm">
+                        <select className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand sm:text-sm">
                             <option>Monthly</option>
                             <option>Bi-weekly</option>
                             <option>Weekly</option>
@@ -703,7 +703,7 @@ function PayoutPreferencesContent() {
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Minimum Payout Amount</label>
-                        <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="text" defaultValue="$100.00" />
+                        <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand sm:text-sm" type="text" defaultValue="$100.00" />
                     </div>
                 </div>
             </div>
@@ -723,7 +723,7 @@ function GeneralPreferencesContent() {
                 <div className="space-y-4">
                     <div>
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Language</label>
-                        <select className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm">
+                        <select className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand sm:text-sm">
                             <option>English (US)</option>
                             <option>English (UK)</option>
                             <option>Spanish</option>
@@ -732,7 +732,7 @@ function GeneralPreferencesContent() {
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Currency</label>
-                        <select className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm">
+                        <select className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand sm:text-sm">
                             <option>USD ($)</option>
                             <option>EUR (€)</option>
                             <option>GBP (£)</option>
@@ -741,7 +741,7 @@ function GeneralPreferencesContent() {
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Date Format</label>
-                        <select className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm">
+                        <select className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand sm:text-sm">
                             <option>MM/DD/YYYY</option>
                             <option>DD/MM/YYYY</option>
                             <option>YYYY-MM-DD</option>
@@ -763,39 +763,39 @@ function HelpSupportContent() {
             </div>
             <div className="p-6 md:p-8 space-y-6 flex-1">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <a href="#" className="flex items-start gap-4 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-[#137fec] dark:hover:border-[#137fec] hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all group">
+                    <a href="#" className="flex items-start gap-4 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand dark:hover:border-brand hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all group">
                         <div className="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-lg text-blue-600 dark:text-blue-400">
                             <span className="material-symbols-outlined">help</span>
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-white group-hover:text-[#137fec] transition-colors">Help Center</h4>
+                            <h4 className="font-bold text-slate-900 dark:text-white group-hover:text-brand transition-colors">Help Center</h4>
                             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Browse FAQs and guides.</p>
                         </div>
                     </a>
-                    <a href="#" className="flex items-start gap-4 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-[#137fec] dark:hover:border-[#137fec] hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all group">
+                    <a href="#" className="flex items-start gap-4 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand dark:hover:border-brand hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all group">
                         <div className="bg-green-100 dark:bg-green-900/30 p-2 rounded-lg text-green-600 dark:text-green-400">
                             <span className="material-symbols-outlined">chat</span>
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-white group-hover:text-[#137fec] transition-colors">Live Chat</h4>
+                            <h4 className="font-bold text-slate-900 dark:text-white group-hover:text-brand transition-colors">Live Chat</h4>
                             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Chat with our support team.</p>
                         </div>
                     </a>
-                    <a href="#" className="flex items-start gap-4 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-[#137fec] dark:hover:border-[#137fec] hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all group">
+                    <a href="#" className="flex items-start gap-4 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand dark:hover:border-brand hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all group">
                         <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-lg text-purple-600 dark:text-purple-400">
                             <span className="material-symbols-outlined">mail</span>
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-white group-hover:text-[#137fec] transition-colors">Email Support</h4>
+                            <h4 className="font-bold text-slate-900 dark:text-white group-hover:text-brand transition-colors">Email Support</h4>
                             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">support@propertyapp.com</p>
                         </div>
                     </a>
-                    <a href="#" className="flex items-start gap-4 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-[#137fec] dark:hover:border-[#137fec] hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all group">
+                    <a href="#" className="flex items-start gap-4 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand dark:hover:border-brand hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all group">
                         <div className="bg-orange-100 dark:bg-orange-900/30 p-2 rounded-lg text-orange-600 dark:text-orange-400">
                             <span className="material-symbols-outlined">description</span>
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-white group-hover:text-[#137fec] transition-colors">Submit a Ticket</h4>
+                            <h4 className="font-bold text-slate-900 dark:text-white group-hover:text-brand transition-colors">Submit a Ticket</h4>
                             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Report an issue or request.</p>
                         </div>
                     </a>
@@ -816,7 +816,7 @@ function ToggleSetting({ title, description, defaultChecked }: { title: string; 
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" checked={checked} onChange={(e) => setChecked(e.target.checked)} className="sr-only peer" />
-                <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-0 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#137fec]"></div>
+                <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-0 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand"></div>
             </label>
         </div>
     );
@@ -829,7 +829,7 @@ function SettingsFooter() {
             <button className="px-5 py-2.5 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-600 transition-all shadow-sm cursor-pointer">
                 Cancel
             </button>
-            <button className="px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-[#137fec] hover:bg-[#137fec]/90 shadow-lg shadow-[#137fec]/20 transition-all cursor-pointer">
+            <button className="px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-brand hover:bg-brand/90 shadow-sm transition-all cursor-pointer">
                 Save Changes
             </button>
         </div>
@@ -910,16 +910,16 @@ function TenantProfileContent() {
                                     <span className="material-symbols-outlined text-orange-500">attach_money</span>
                                     <span className="text-slate-900 dark:text-white">Proof of Income</span>
                                 </div>
-                                <button className="text-xs text-[#137fec] hover:underline cursor-pointer">Upload New</button>
+                                <button className="text-xs text-brand hover:underline cursor-pointer">Upload New</button>
                             </div>
                             <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-lg">
                                 <div className="flex items-center gap-3">
                                     <span className="material-symbols-outlined text-blue-500">description</span>
                                     <span className="text-slate-900 dark:text-white">Credit Report</span>
                                 </div>
-                                <button className="text-xs text-[#137fec] hover:underline cursor-pointer">Upload</button>
+                                <button className="text-xs text-brand hover:underline cursor-pointer">Upload</button>
                             </div>
-                            <button className="w-full mt-4 py-2 text-sm font-medium text-white bg-[#137fec] rounded-lg hover:bg-[#137fec]/90 cursor-pointer">
+                            <button className="w-full mt-4 py-2 text-sm font-medium text-white bg-brand rounded-lg hover:bg-brand/90 cursor-pointer">
                                 Upload New Document
                             </button>
                         </div>
@@ -930,7 +930,7 @@ function TenantProfileContent() {
             <div className="p-6 md:p-8 border-b border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
                     <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-semibold text-[#137fec] uppercase tracking-wide">Global Settings</span>
+                        <span className="text-xs font-semibold text-brand uppercase tracking-wide">Global Settings</span>
                         <span className="text-slate-300 dark:text-slate-600">/</span>
                         <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Profiles</span>
                     </div>
@@ -954,15 +954,15 @@ function TenantProfileContent() {
                         <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Display Name</label>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="text" defaultValue={tenantProfile?.displayName || ''} />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand sm:text-sm" type="text" defaultValue={tenantProfile?.displayName || ''} />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Contact Phone</label>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="tel" defaultValue="+1 (555) 123-4567" />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand sm:text-sm" type="tel" defaultValue="+1 (555) 123-4567" />
                             </div>
                             <div className="md:col-span-2">
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Short Bio (Visible to Landlords)</label>
-                                <textarea className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" rows={2} defaultValue={tenantProfile?.bio || ''} />
+                                <textarea className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand sm:text-sm" rows={2} defaultValue={tenantProfile?.bio || ''} />
                             </div>
                         </div>
                     </div>
@@ -978,7 +978,7 @@ function TenantProfileContent() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Desired Bedrooms</label>
-                            <select className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm">
+                            <select className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand sm:text-sm">
                                 <option>Studio</option>
                                 <option>1 Bedroom</option>
                                 <option>2 Bedrooms</option>
@@ -989,7 +989,7 @@ function TenantProfileContent() {
                             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Monthly Budget (Max)</label>
                             <div className="relative">
                                 <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">$</span>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white pl-7 shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="number" defaultValue={tenantProfile?.preferences?.monthlyBudgetMax || ''} />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white pl-7 shadow-sm focus:border-brand focus:ring-brand sm:text-sm" type="number" defaultValue={tenantProfile?.preferences?.monthlyBudgetMax || ''} />
                             </div>
                         </div>
                         <div className="md:col-span-2">
@@ -1005,7 +1005,7 @@ function TenantProfileContent() {
                                         <input
                                             checked={checked[amenity.key as keyof typeof checked]}
                                             onChange={(e) => setChecked({ ...checked, [amenity.key]: e.target.checked })}
-                                            className="form-checkbox h-4 w-4 text-[#137fec] rounded border-slate-300 focus:ring-[#137fec]"
+                                            className="form-checkbox h-4 w-4 text-brand rounded border-slate-300 focus:ring-brand"
                                             type="checkbox"
                                         />
                                         <span className="ml-2 text-sm text-slate-700 dark:text-slate-300">{amenity.label}</span>
@@ -1025,7 +1025,7 @@ function TenantProfileContent() {
                     </h3>
                     <div className="bg-blue-50 dark:bg-slate-800/50 border border-blue-100 dark:border-slate-700 rounded-xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                         <div className="flex items-start gap-4">
-                            <div className="bg-white dark:bg-slate-700 p-2 rounded-lg text-[#137fec] shadow-sm">
+                            <div className="bg-white dark:bg-slate-700 p-2 rounded-lg text-brand shadow-sm">
                                 <span className="material-symbols-outlined">apartment</span>
                             </div>
                             <div>
@@ -1033,7 +1033,7 @@ function TenantProfileContent() {
                                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">3 Verified past rentals • No reported disputes • 5 Years history</p>
                             </div>
                         </div>
-                        <button onClick={() => setShowHistoryModal(true)} className="text-sm font-medium text-[#137fec] hover:text-[#137fec]/80 whitespace-nowrap flex items-center gap-1 cursor-pointer">
+                        <button onClick={() => setShowHistoryModal(true)} className="text-sm font-medium text-brand hover:text-brand/80 whitespace-nowrap flex items-center gap-1 cursor-pointer">
                             View Full History <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
                         </button>
                     </div>
@@ -1047,7 +1047,7 @@ function TenantProfileContent() {
                         <h3 className="text-base font-semibold text-slate-900 dark:text-white flex items-center gap-2">
                             <span className="material-symbols-outlined text-slate-400">folder_shared</span> Linked Documents
                         </h3>
-                        <button onClick={() => setShowDocumentsModal(true)} className="text-xs font-semibold text-[#137fec] hover:underline cursor-pointer">Manage Tenant Documents</button>
+                        <button onClick={() => setShowDocumentsModal(true)} className="text-xs font-semibold text-brand hover:underline cursor-pointer">Manage Tenant Documents</button>
                     </div>
                     <div className="space-y-3">
                         <div className="flex items-center justify-between p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
@@ -1072,7 +1072,7 @@ function TenantProfileContent() {
                                     <p className="text-xs text-orange-600 dark:text-orange-400">Update needed (Older than 3 months)</p>
                                 </div>
                             </div>
-                            <button onClick={() => setShowDocumentsModal(true)} className="text-xs font-medium bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 px-2 py-1 rounded text-slate-700 dark:text-slate-300 hover:text-[#137fec] cursor-pointer">Update</button>
+                            <button onClick={() => setShowDocumentsModal(true)} className="text-xs font-medium bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 px-2 py-1 rounded text-slate-700 dark:text-slate-300 hover:text-brand cursor-pointer">Update</button>
                         </div>
                     </div>
                 </section>
@@ -1119,7 +1119,7 @@ function LandlordProfileContent() {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
                 <div className="flex flex-col items-center gap-3">
-                    <div className="size-10 border-4 border-[#137fec] border-t-transparent rounded-full animate-spin"></div>
+                    <div className="size-10 border-4 border-brand border-t-transparent rounded-full animate-spin"></div>
                     <p className="text-slate-500 font-medium">Loading landlord profile...</p>
                 </div>
             </div>
@@ -1147,7 +1147,7 @@ function LandlordProfileContent() {
             </div>
             <div className="p-6 md:p-8 space-y-8 flex-1">
                 {/* Verification Status */}
-                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-800/50 rounded-xl p-5 border border-blue-100 dark:border-slate-700 relative overflow-hidden">
+                <div className="bg-blue-50 dark:bg-slate-800 rounded-xl p-5 border border-blue-100 dark:border-slate-700 relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-4 opacity-10">
                         <span className="material-symbols-outlined text-[100px] text-blue-500">verified</span>
                     </div>
@@ -1179,7 +1179,7 @@ function LandlordProfileContent() {
                         <div className="flex items-center gap-4">
                             <div className="relative group">
                                 <img alt="Landlord profile photo" className="w-16 h-16 rounded-full object-cover ring-2 ring-slate-100 dark:ring-slate-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwTu80T-Ii1i2JHfbWEMDgwXRNP0ehdOTldQ7IxlyR1MCzL8MrOZBjoYfXJZAXXTJlIi2HNi9nfioA7ksEMvF5HBEBODUnWum2NL5XhkC95MK52bAAZDSe9d891ZAw5MbM9oRR30lP8umsxTAf1eXbePW_bZ0I5rsOo88ELIF5aCU07WBBeE1z6_RwK6Y9O6FRPgxUzYEmE3EzdyA9_YtX-v69bXptpU6g1Xr3eGcYlqLvJjRJJdBDyZYyiAuPmTNA3aMrKcO3r42a" />
-                                <button className="absolute -bottom-1 -right-1 bg-white dark:bg-slate-700 text-slate-600 dark:text-white p-1 rounded-full shadow-md border border-slate-200 dark:border-slate-600 hover:text-[#137fec] transition-colors cursor-pointer">
+                                <button className="absolute -bottom-1 -right-1 bg-white dark:bg-slate-700 text-slate-600 dark:text-white p-1 rounded-full shadow-md border border-slate-200 dark:border-slate-600 hover:text-brand transition-colors cursor-pointer">
                                     <span className="material-symbols-outlined text-[14px]">edit</span>
                                 </button>
                             </div>
@@ -1191,15 +1191,15 @@ function LandlordProfileContent() {
                         <div className="space-y-4">
                             <div>
                                 <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">Display Name</label>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] text-sm" type="text" defaultValue={landlordProfile?.businessName || ''} />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand text-sm" type="text" defaultValue={landlordProfile?.businessName || ''} />
                             </div>
                             <div>
                                 <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">Contact Email</label>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] text-sm" type="email" defaultValue={landlordProfile?.businessEmail || ''} />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand text-sm" type="email" defaultValue={landlordProfile?.businessEmail || ''} />
                             </div>
                             <div>
                                 <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">Contact Phone</label>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] text-sm" type="tel" placeholder="+1 (555) 000-0000" />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand text-sm" type="tel" placeholder="+1 (555) 000-0000" />
                             </div>
                         </div>
                     </div>
@@ -1207,16 +1207,16 @@ function LandlordProfileContent() {
                     <div className="space-y-6">
                         <h3 className="text-base font-semibold text-slate-900 dark:text-white flex items-center gap-2">
                             Business Information
-                            <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-300 uppercase">Optional</span>
+                            <span className="px-2 py-0.5 rounded text-xs font-bold bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-300 uppercase">Optional</span>
                         </h3>
                         <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700 space-y-4">
                             <div>
                                 <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">Company / Business Name</label>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] text-sm" placeholder="e.g. Johnson Properties LLC" type="text" defaultValue={landlordProfile?.businessName || ''} />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand text-sm" placeholder="e.g. Johnson Properties LLC" type="text" defaultValue={landlordProfile?.businessName || ''} />
                             </div>
                             <div>
                                 <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">Registration / Tax ID</label>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] text-sm" placeholder="e.g. 12-3456789" type="text" />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand text-sm" placeholder="e.g. 12-3456789" type="text" />
                             </div>
                         </div>
                     </div>
@@ -1244,7 +1244,7 @@ function LandlordProfileContent() {
                                 <p className="text-lg font-bold text-slate-900 dark:text-white text-center sm:text-left">3</p>
                             </div>
                         </div>
-                        <Link to="/landlord/properties" className="ml-auto text-sm font-medium text-[#137fec] hover:text-[#137fec]/80 flex items-center gap-1 group">
+                        <Link to="/landlord/properties" className="ml-auto text-sm font-medium text-brand hover:text-brand/80 flex items-center gap-1 group">
                             View All Properties <span className="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
                         </Link>
                     </div>
@@ -1379,22 +1379,22 @@ function AgentProfileContent() {
                         <div className="space-y-4">
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Certification Name</label>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="text" placeholder="e.g. Certified Property Manager" />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand sm:text-sm" type="text" placeholder="e.g. Certified Property Manager" />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Issuing Authority</label>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="text" placeholder="e.g. National Association of Realtors" />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand sm:text-sm" type="text" placeholder="e.g. National Association of Realtors" />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Expiration Date</label>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="date" />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand sm:text-sm" type="date" />
                             </div>
                             <button
                                 onClick={() => {
                                     setCertifications([...certifications, { id: Date.now(), name: 'New Certification', issuer: 'Issuing Authority', expiry: 'TBD', icon: 'verified', color: 'blue' }]);
                                     setShowCertModal(false);
                                 }}
-                                className="w-full py-2 text-sm font-medium text-white bg-[#137fec] rounded-lg hover:bg-[#137fec]/90 cursor-pointer"
+                                className="w-full py-2 text-sm font-medium text-white bg-brand rounded-lg hover:bg-brand/90 cursor-pointer"
                             >
                                 Add Certification
                             </button>
@@ -1411,14 +1411,14 @@ function AgentProfileContent() {
                         <input
                             value={newArea}
                             onChange={(e) => setNewArea(e.target.value)}
-                            className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm mb-4"
+                            className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand sm:text-sm mb-4"
                             type="text"
                             placeholder="e.g. Northside"
                             onKeyDown={(e) => e.key === 'Enter' && handleAddArea()}
                         />
                         <div className="flex gap-3 justify-end">
                             <button onClick={() => setShowAddAreaModal(false)} className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-50 cursor-pointer">Cancel</button>
-                            <button onClick={handleAddArea} className="px-4 py-2 text-sm font-medium text-white bg-[#137fec] rounded-lg hover:bg-[#137fec]/90 cursor-pointer">Add</button>
+                            <button onClick={handleAddArea} className="px-4 py-2 text-sm font-medium text-white bg-brand rounded-lg hover:bg-brand/90 cursor-pointer">Add</button>
                         </div>
                     </div>
                 </div>
@@ -1470,7 +1470,7 @@ function AgentProfileContent() {
                 {/* Professional Details */}
                 <section>
                     <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-5 flex items-center gap-2">
-                        <span className="material-symbols-outlined text-[#137fec]">id_card</span> Professional Details
+                        <span className="material-symbols-outlined text-brand">id_card</span> Professional Details
                     </h3>
                     <div className="flex flex-col md:flex-row gap-8">
                         <div className="flex-shrink-0 flex flex-col items-center space-y-3">
@@ -1480,20 +1480,20 @@ function AgentProfileContent() {
                                     <span className="material-symbols-outlined text-white text-3xl">photo_camera</span>
                                 </div>
                             </div>
-                            <button className="text-sm font-medium text-[#137fec] hover:text-[#137fec]/80 transition-colors cursor-pointer">Update Photo</button>
+                            <button className="text-sm font-medium text-brand hover:text-brand/80 transition-colors cursor-pointer">Update Photo</button>
                         </div>
                         <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-5">
                             <div className="col-span-1 md:col-span-2">
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Professional Name</label>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="text" defaultValue={agentProfile?.companyName || ''} />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand sm:text-sm" type="text" defaultValue={agentProfile?.companyName || ''} />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Business Email</label>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="email" placeholder="agent@example.com" />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand sm:text-sm" type="email" placeholder="agent@example.com" />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Business Phone</label>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-[#137fec] focus:ring-[#137fec] sm:text-sm" type="tel" placeholder="+1 (555) 000-0000" />
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand sm:text-sm" type="tel" placeholder="+1 (555) 000-0000" />
                             </div>
                         </div>
                     </div>
@@ -1505,9 +1505,9 @@ function AgentProfileContent() {
                 <section>
                     <div className="flex justify-between items-center mb-5">
                         <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                            <span className="material-symbols-outlined text-[#137fec]">verified_user</span> Certifications
+                            <span className="material-symbols-outlined text-brand">verified_user</span> Certifications
                         </h3>
-                        <button onClick={() => setShowCertModal(true)} className="text-sm font-semibold text-[#137fec] hover:text-[#137fec]/80 flex items-center gap-1 cursor-pointer">
+                        <button onClick={() => setShowCertModal(true)} className="text-sm font-semibold text-brand hover:text-brand/80 flex items-center gap-1 cursor-pointer">
                             <span className="material-symbols-outlined text-[18px]">add</span> Add New
                         </button>
                     </div>
@@ -1542,7 +1542,7 @@ function AgentProfileContent() {
                 {/* Service Area */}
                 <section>
                     <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                        <span className="material-symbols-outlined text-[#137fec]">location_on</span> Service Area
+                        <span className="material-symbols-outlined text-brand">location_on</span> Service Area
                     </h3>
                     <div className="space-y-4">
                         <div className="relative w-full h-40 bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 group">
@@ -1564,7 +1564,7 @@ function AgentProfileContent() {
                                         </button>
                                     </span>
                                 ))}
-                                <button onClick={() => setShowAddAreaModal(true)} className="inline-flex items-center gap-1 px-3 py-1 rounded-full border border-dashed border-slate-300 dark:border-slate-600 text-slate-500 hover:text-[#137fec] hover:border-[#137fec] transition-colors text-sm cursor-pointer">
+                                <button onClick={() => setShowAddAreaModal(true)} className="inline-flex items-center gap-1 px-3 py-1 rounded-full border border-dashed border-slate-300 dark:border-slate-600 text-slate-500 hover:text-brand hover:border-brand transition-colors text-sm cursor-pointer">
                                     <span className="material-symbols-outlined text-[14px]">add</span> Add Area
                                 </button>
                             </div>
@@ -1577,7 +1577,7 @@ function AgentProfileContent() {
                 {/* Specialties */}
                 <section>
                     <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                        <span className="material-symbols-outlined text-[#137fec]">label</span> Specialties
+                        <span className="material-symbols-outlined text-brand">label</span> Specialties
                     </h3>
                     <div className="space-y-4">
                         <p className="text-sm text-slate-500 dark:text-slate-400">Select the tags that best describe your expertise to help clients find you.</p>
@@ -1596,7 +1596,7 @@ function AgentProfileContent() {
                                         className="peer sr-only"
                                         type="checkbox"
                                     />
-                                    <div className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-sm peer-checked:bg-[#137fec]/10 peer-checked:text-[#137fec] peer-checked:border-[#137fec] transition-all">
+                                    <div className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-sm peer-checked:bg-brand/10 peer-checked:text-brand peer-checked:border-brand transition-all">
                                         {specialty}
                                     </div>
                                 </label>
@@ -1621,7 +1621,7 @@ function AgentProfileContent() {
                 {/* Public Visibility */}
                 <section>
                     <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                        <span className="material-symbols-outlined text-[#137fec]">visibility</span> Public Visibility
+                        <span className="material-symbols-outlined text-brand">visibility</span> Public Visibility
                     </h3>
                     <div className="space-y-4">
                         <ToggleSetting title="Show Contact Email" description="Allow public users to see your email address" defaultChecked={true} />
@@ -1635,7 +1635,7 @@ function AgentProfileContent() {
                 {/* Reviews & Ratings */}
                 <section>
                     <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                        <span className="material-symbols-outlined text-[#137fec]">star</span> Reviews & Ratings
+                        <span className="material-symbols-outlined text-brand">star</span> Reviews & Ratings
                     </h3>
                     <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
                         <div className="flex items-center gap-4 mb-4">

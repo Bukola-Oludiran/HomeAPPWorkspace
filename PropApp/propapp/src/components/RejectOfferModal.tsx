@@ -57,7 +57,7 @@ export default function RejectOfferModal({
 
     return (
         <ModalPortal>
-            <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6 font-[Manrope,Noto_Sans,sans-serif]">
+            <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6">
                 {/* Backdrop */}
                 <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={onClose}></div>
 
@@ -107,24 +107,24 @@ export default function RejectOfferModal({
                                         key={reasonOption.id}
                                         onClick={() => setSelectedReason(reasonOption.id)}
                                         className={`w-full p-3 rounded-xl border text-left flex items-center gap-3 transition-all ${selectedReason === reasonOption.id
-                                            ? 'border-[#137fec] bg-blue-50 dark:bg-blue-900/20'
+                                            ? 'border-brand bg-blue-50 dark:bg-blue-900/20'
                                             : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800/50'
                                             }`}
                                     >
                                         <span className={`material-symbols-outlined ${selectedReason === reasonOption.id
-                                            ? 'text-[#137fec]'
+                                            ? 'text-brand'
                                             : 'text-slate-400'
                                             }`}>
                                             {reasonOption.icon}
                                         </span>
                                         <span className={`font-medium text-sm ${selectedReason === reasonOption.id
-                                            ? 'text-[#137fec]'
+                                            ? 'text-brand'
                                             : 'text-slate-700 dark:text-slate-200'
                                             }`}>
                                             {reasonOption.label}
                                         </span>
                                         {selectedReason === reasonOption.id && (
-                                            <span className="material-symbols-outlined text-[#137fec] ml-auto">check_circle</span>
+                                            <span className="material-symbols-outlined text-brand ml-auto">check_circle</span>
                                         )}
                                     </button>
                                 ))}
@@ -138,7 +138,7 @@ export default function RejectOfferModal({
                                     Additional Comments
                                 </label>
                                 <textarea
-                                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec] focus:border-transparent outline-none transition-all placeholder-slate-400 resize-none"
+                                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-transparent outline-none transition-all placeholder-slate-400 resize-none"
                                     placeholder="Please share your feedback..."
                                     rows={3}
                                     value={reason}

@@ -210,10 +210,10 @@ const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
                     e.stopPropagation();
                     setIsExpanded(!isExpanded);
                 }}
-                className="shrink-0 size-12 m-1 rounded-full bg-gradient-to-tr from-[#137fec] to-blue-400 flex items-center justify-center text-white shadow-md hover:scale-105 active:scale-95 transition-transform"
+                className="shrink-0 size-12 m-1 rounded-full bg-brand flex items-center justify-center text-white shadow-md active:scale-95 transition-transform"
                 title={isExpanded ? "Minimize" : "Expand"}
             >
-                <span className="material-symbols-outlined text-[22px]">smart_toy</span>
+                <span className="material-symbols-outlined text-[22px]">forum</span>
             </button>
 
             {showInput ? (
@@ -236,7 +236,7 @@ const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
                             e.stopPropagation();
                             handleSubmit();
                         }}
-                        className="shrink-0 size-10 m-1.5 rounded-full bg-[#137fec] hover:bg-[#137fec]/90 active:scale-95 text-white flex items-center justify-center transition-all"
+                        className="shrink-0 size-10 m-1.5 rounded-full bg-brand hover:bg-brand/90 active:scale-95 text-white flex items-center justify-center transition-all"
                     >
                         <span className="material-symbols-outlined text-[20px]">arrow_upward</span>
                     </button>
@@ -245,7 +245,7 @@ const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
                 /* Collapsed: Label */
                 <div className="flex flex-col items-start pl-1 pr-4">
                     <span className="text-sm font-bold leading-none text-slate-900 dark:text-white whitespace-nowrap">Ask HomeAI...</span>
-                    <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium leading-tight mt-0.5">Click to chat</span>
+                    <span className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-tight mt-0.5">Click to chat</span>
                 </div>
             )}
         </div>

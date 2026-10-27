@@ -225,7 +225,7 @@ export default function TenantApplications() {
                 </div>
                 <div className="flex flex-col gap-6">
                     {Array.from({ length: 3 }).map((_, i) => (
-                        <div key={i} className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-200 dark:border-slate-800 p-6 animate-pulse">
+                        <div key={i} className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 animate-pulse">
                             <div className="flex gap-6">
                                 <div className="w-64 h-40 bg-slate-200 dark:bg-slate-700 rounded-xl" />
                                 <div className="flex-1">
@@ -278,7 +278,7 @@ export default function TenantApplications() {
                 </div>
                 <div className="flex flex-wrap items-center gap-3">
                     {/* Filter Tabs */}
-                    <div className="flex bg-white dark:bg-[#101922] p-1 rounded-lg border border-slate-200 dark:border-slate-800">
+                    <div className="flex bg-white dark:bg-canvas-dark p-1 rounded-lg border border-slate-200 dark:border-slate-800">
                         <button
                             onClick={() => setActiveFilter('all')}
                             className={`px-4 py-1.5 rounded-md text-sm font-bold transition-colors ${activeFilter === 'all'
@@ -311,7 +311,7 @@ export default function TenantApplications() {
                     <div className="relative" ref={sortDropdownRef}>
                         <button
                             onClick={() => setShowSortDropdown(!showSortDropdown)}
-                            className="px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#101922] text-slate-700 dark:text-slate-300 font-medium text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-2"
+                            className="px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-canvas-dark text-slate-700 dark:text-slate-300 font-medium text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-2"
                         >
                             <span className="material-symbols-outlined text-[20px]">sort</span>
                             Sort by: {sortBy === 'date' ? 'Date' : sortBy === 'name' ? 'Name' : 'Status'}
@@ -325,7 +325,7 @@ export default function TenantApplications() {
                                             setSortBy(option.id as 'date' | 'name' | 'status');
                                             setShowSortDropdown(false);
                                         }}
-                                        className={`w-full px-4 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center gap-2 ${sortBy === option.id ? 'text-[#137fec] font-bold bg-blue-50 dark:bg-blue-900/20' : 'text-slate-700 dark:text-slate-300'}`}
+                                        className={`w-full px-4 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center gap-2 ${sortBy === option.id ? 'text-brand font-bold bg-blue-50 dark:bg-blue-900/20' : 'text-slate-700 dark:text-slate-300'}`}
                                     >
                                         {option.label}
                                         {sortBy === option.id && (
@@ -344,7 +344,7 @@ export default function TenantApplications() {
                 {filteredApplications.map((app) => (
                     <div
                         key={app.id}
-                        className={`bg-white dark:bg-[#101922] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 md:p-6 flex flex-col md:flex-row gap-6 hover:border-[#137fec]/30 transition-all duration-300 ${app.isRejected ? 'opacity-80 hover:opacity-100' : ''
+                        className={`bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 md:p-6 flex flex-col md:flex-row gap-6 hover:border-brand/30 transition-all duration-300 ${app.isRejected ? 'opacity-80 hover:opacity-100' : ''
                             }`}
                     >
                         {/* Property Image */}
@@ -387,7 +387,7 @@ export default function TenantApplications() {
                                             <span className="material-symbols-outlined text-[18px] text-slate-400">square_foot</span>
                                             {app.sqft} sqft
                                         </span>
-                                        <span className="font-bold text-[#137fec] ml-2">{app.price}</span>
+                                        <span className="font-bold text-brand ml-2">{app.price}</span>
                                     </div>
                                 </div>
                                 <div className="flex flex-row md:flex-col items-center md:items-end justify-between w-full md:w-auto gap-2">
@@ -434,7 +434,7 @@ export default function TenantApplications() {
                                                     setIsSignLeaseModalOpen(true);
                                                 }
                                             }}
-                                            className="flex-1 md:flex-none px-5 py-2 rounded-lg bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-sm shadow-lg shadow-[#137fec]/20 transition-all flex items-center justify-center gap-2"
+                                            className="flex-1 md:flex-none px-5 py-2 rounded-lg bg-brand hover:bg-brand/90 text-white font-bold text-sm shadow-sm transition-all flex items-center justify-center gap-2"
                                         >
                                             {app.primaryAction.label}
                                             <span className="material-symbols-outlined text-[18px]">{app.primaryAction.icon}</span>
@@ -449,7 +449,7 @@ export default function TenantApplications() {
 
             {/* Load More Button */}
             <div className="flex justify-center mt-12">
-                <button className="px-6 py-3 rounded-xl bg-white dark:bg-[#101922] border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white font-bold text-sm shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-2">
+                <button className="px-6 py-3 rounded-xl bg-white dark:bg-canvas-dark border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white font-bold text-sm shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-2">
                     Load More Applications
                     <span className="material-symbols-outlined">expand_more</span>
                 </button>

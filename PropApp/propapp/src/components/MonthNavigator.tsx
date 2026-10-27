@@ -130,7 +130,7 @@ export default function MonthNavigator({
 
             <button
                 onClick={goToToday}
-                className="px-3 py-1.5 rounded-lg text-xs font-semibold text-[#137fec] bg-[#137fec]/10 hover:bg-[#137fec]/20 transition-colors"
+                className="px-3 py-1.5 rounded-lg text-xs font-semibold text-brand bg-brand/10 hover:bg-brand/20 transition-colors"
             >
                 Today
             </button>

@@ -23,7 +23,7 @@ export function LeaseDetailPanel({ props, onAction }: Props) {
             <header className="flex items-start justify-between gap-2">
                 <div>
                     <h3 className="text-base font-semibold">{props.propertyTitle}</h3>
-                    <p className="font-mono text-[10px] text-slate-400">
+                    <p className="font-mono text-xs text-slate-400">
                         lease · {props.leaseId.slice(0, 8)}…
                     </p>
                 </div>

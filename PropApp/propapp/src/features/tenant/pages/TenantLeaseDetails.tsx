@@ -159,9 +159,9 @@ export default function TenantLeaseDetails() {
     // Show loading state
     if (isLoading) {
         return (
-            <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex items-center justify-center">
+            <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex items-center justify-center">
                 <div className="flex flex-col items-center gap-3">
-                    <div className="size-8 border-3 border-[#137fec] border-t-transparent rounded-full animate-spin"></div>
+                    <div className="size-8 border-3 border-brand border-t-transparent rounded-full animate-spin"></div>
                     <span className="text-sm text-slate-500">Loading lease details...</span>
                 </div>
             </div>
@@ -169,7 +169,7 @@ export default function TenantLeaseDetails() {
     }
 
     return (
-        <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex flex-col font-[Manrope,Noto_Sans,sans-serif] text-slate-900 dark:text-white overflow-x-hidden pb-[140px]">
+        <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex flex-col text-slate-900 dark:text-white overflow-x-hidden pb-[140px]">
             {/* Hero Image */}
             <div className="relative w-full h-[50vh] md:h-[60vh] lg:h-[70vh] bg-slate-200 overflow-hidden group">
                 <img
@@ -236,16 +236,16 @@ export default function TenantLeaseDetails() {
                         <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
                             <div className="p-4 md:p-6 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
                                 <h3 className="font-bold text-lg text-slate-900 dark:text-white flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-[#137fec]">description</span>
+                                    <span className="material-symbols-outlined text-brand">description</span>
                                     Lease Document
                                 </h3>
                                 <div className="flex gap-2">
-                                    <button className="text-sm font-semibold text-[#137fec] hover:bg-blue-50 dark:hover:bg-[#137fec]/10 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1">
+                                    <button className="text-sm font-semibold text-brand hover:bg-blue-50 dark:hover:bg-brand/10 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1">
                                         <span className="material-symbols-outlined text-[18px]">download</span> Download
                                     </button>
                                     <button
                                         onClick={() => setIsDocumentModalOpen(true)}
-                                        className="text-sm font-semibold text-white bg-[#137fec] hover:bg-[#0e64bd] px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1 shadow-sm"
+                                        className="text-sm font-semibold text-white bg-brand hover:bg-[#0e64bd] px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1 shadow-sm"
                                     >
                                         <span className="material-symbols-outlined text-[18px]">open_in_new</span> View Full
                                     </button>
@@ -289,7 +289,7 @@ export default function TenantLeaseDetails() {
                                             <h4 className="font-bold text-slate-900 dark:text-white text-sm">{clause.title}</h4>
                                             <p className="text-sm text-slate-500 mt-1">{clause.description}</p>
                                         </div>
-                                        <button className="ml-auto text-[#137fec] text-sm font-semibold hover:underline">View</button>
+                                        <button className="ml-auto text-brand text-sm font-semibold hover:underline">View</button>
                                     </div>
                                 ))}
                             </div>
@@ -299,7 +299,7 @@ export default function TenantLeaseDetails() {
                         <div>
                             <div className="flex items-center justify-between mb-4">
                                 <h3 className="font-bold text-lg text-slate-900 dark:text-white">Payment Schedule</h3>
-                                <Link to="/tenant/payments" className="text-sm text-[#137fec] font-semibold hover:underline">
+                                <Link to="/tenant/payments" className="text-sm text-brand font-semibold hover:underline">
                                     View Full Ledger
                                 </Link>
                             </div>
@@ -375,7 +375,7 @@ export default function TenantLeaseDetails() {
                             <div className="mt-6 pt-6 border-t border-slate-100 dark:border-slate-700 flex gap-2">
                                 <Link
                                     to="/tenant/messages"
-                                    className="w-full py-2.5 rounded-lg bg-[#137fec] text-white font-semibold text-sm hover:bg-[#0e64bd] transition-colors shadow-sm flex items-center justify-center gap-2"
+                                    className="w-full py-2.5 rounded-lg bg-brand text-white font-semibold text-sm hover:bg-[#0e64bd] transition-colors shadow-sm flex items-center justify-center gap-2"
                                 >
                                     <span className="material-symbols-outlined text-[18px]">chat</span>
                                     Message
@@ -386,7 +386,7 @@ export default function TenantLeaseDetails() {
                         {/* My Info */}
                         <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm">
                             <h4 className="font-bold text-lg text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                                <span className="material-symbols-outlined text-[#137fec]">person</span>
+                                <span className="material-symbols-outlined text-brand">person</span>
                                 My Info
                             </h4>
                             <div className="flex items-center gap-4 mb-4">
@@ -414,9 +414,9 @@ export default function TenantLeaseDetails() {
                         </div>
 
                         {/* Renewal Insight */}
-                        <div className="bg-gradient-to-br from-blue-50 to-white dark:from-slate-800 dark:to-slate-900 rounded-2xl border border-blue-100 dark:border-slate-700 p-6">
+                        <div className="bg-blue-50/50 dark:bg-slate-800 rounded-2xl border border-blue-100 dark:border-slate-700 p-6">
                             <div className="flex items-center gap-3 mb-4">
-                                <div className="size-8 rounded-full bg-[#137fec] flex items-center justify-center text-white shadow-lg shadow-[#137fec]/30">
+                                <div className="size-8 rounded-full bg-brand flex items-center justify-center text-white shadow-sm">
                                     <span className="material-symbols-outlined text-[18px]">tips_and_updates</span>
                                 </div>
                                 <h3 className="text-lg font-bold text-slate-900 dark:text-white">Renewal Insight</h3>
@@ -424,7 +424,7 @@ export default function TenantLeaseDetails() {
                             <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">
                                 Your lease expires in <strong className="text-slate-900 dark:text-white">{leaseData.daysUntilExpiry} days</strong>. You have a great payment history! Initiating renewal early often locks in better rates.
                             </p>
-                            <button className="w-full py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 font-semibold text-sm text-[#137fec] hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm">
+                            <button className="w-full py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 font-semibold text-sm text-brand hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm">
                                 Explore Renewal Options
                             </button>
                         </div>
@@ -434,9 +434,9 @@ export default function TenantLeaseDetails() {
 
             {/* Floating AI Bar */}
             <div className="fixed bottom-[90px] left-0 right-0 flex justify-center z-30 px-4 pointer-events-none">
-                <div className="w-full max-w-2xl bg-white/95 dark:bg-[#101922]/95 backdrop-blur-xl border border-[#137fec]/20 shadow-2xl shadow-[#137fec]/10 rounded-full py-2 px-2 flex items-center gap-3 pointer-events-auto hover:scale-[1.01] transition-transform" style={{ boxShadow: '0 0 15px rgba(19, 127, 236, 0.4)' }}>
-                    <div className="size-10 rounded-full bg-gradient-to-tr from-[#137fec] to-blue-400 flex items-center justify-center shrink-0">
-                        <span className="material-symbols-outlined text-white">auto_awesome</span>
+                <div className="w-full max-w-2xl bg-white/95 dark:bg-canvas-dark/95 backdrop-blur-xl border border-brand/20 shadow-lg rounded-full py-2 px-2 flex items-center gap-3 pointer-events-auto hover:scale-[1.01] transition-transform" style={{ boxShadow: '0 0 15px rgba(19, 127, 236, 0.4)' }}>
+                    <div className="size-10 rounded-full bg-brand flex items-center justify-center shrink-0">
+                        <span className="material-symbols-outlined text-white">forum</span>
                     </div>
                     <div className="flex-1 overflow-hidden h-10 flex items-center">
                         <input
@@ -448,14 +448,14 @@ export default function TenantLeaseDetails() {
                     <button className="size-10 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center transition-colors shrink-0">
                         <span className="material-symbols-outlined text-slate-600 dark:text-slate-300">mic</span>
                     </button>
-                    <button className="size-10 rounded-full bg-[#137fec] hover:bg-[#0e64bd] flex items-center justify-center transition-colors shrink-0 shadow-lg shadow-[#137fec]/30">
+                    <button className="size-10 rounded-full bg-brand hover:bg-[#0e64bd] flex items-center justify-center transition-colors shrink-0 shadow-sm">
                         <span className="material-symbols-outlined text-white">arrow_upward</span>
                     </button>
                 </div>
             </div>
 
             {/* Bottom Action Bar */}
-            <div className="fixed bottom-0 left-0 w-full z-20 bg-white dark:bg-[#101922] border-t border-slate-200 dark:border-slate-800 p-4 md:px-8 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+            <div className="fixed bottom-0 left-0 w-full z-20 bg-white dark:bg-canvas-dark border-t border-slate-200 dark:border-slate-800 p-4 md:px-8 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
                 <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
                     <div className="hidden md:flex items-center gap-4">
                         <div>

@@ -59,7 +59,7 @@ export default function LeaseRenewalModal({
 
     return (
         <ModalPortal>
-            <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6 font-[Manrope,Noto_Sans,sans-serif]">
+            <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6">
                 <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={onClose}></div>
                 <div className="relative w-full max-w-4xl bg-white dark:bg-slate-950 rounded-2xl shadow-2xl flex flex-col max-h-[90vh]">
                     {/* Header */}
@@ -136,7 +136,7 @@ export default function LeaseRenewalModal({
                                 <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">Changes & Additional Terms</h3>
                                 <div className="space-y-4">
                                     <div className="flex gap-3">
-                                        <span className="material-symbols-outlined text-[#137fec] shrink-0">info</span>
+                                        <span className="material-symbols-outlined text-brand shrink-0">info</span>
                                         <div>
                                             <h4 className="text-sm font-bold text-slate-900 dark:text-white">Pet Policy Update</h4>
                                             <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mt-1">
@@ -203,7 +203,7 @@ export default function LeaseRenewalModal({
                             </button>
                             <button
                                 onClick={handleAccept}
-                                className="w-full sm:w-auto px-6 py-2.5 bg-[#137fec] hover:bg-[#0e64bd] text-white font-bold text-sm rounded-xl transition-all shadow-lg shadow-[#137fec]/20 flex items-center justify-center gap-2 disabled:opacity-70"
+                                className="w-full sm:w-auto px-6 py-2.5 bg-brand hover:bg-[#0e64bd] text-white font-bold text-sm rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 disabled:opacity-70"
                             >
                                 <span className="material-symbols-outlined text-[18px]">ink_pen</span>
                                 Accept & Sign

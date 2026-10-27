@@ -119,7 +119,7 @@ export default function SignLeaseRenewalModal({
                             </div>
 
                             <div className="flex-1 overflow-y-auto p-8 flex justify-center bg-slate-100 dark:bg-[#0b1116]">
-                                <div className="w-full max-w-[600px] bg-white text-slate-900 shadow-xl min-h-[800px] p-12 text-[10px] sm:text-xs leading-relaxed select-none relative">
+                                <div className="w-full max-w-[600px] bg-white text-slate-900 shadow-xl min-h-[800px] p-12 text-xs sm:text-xs leading-relaxed select-none relative">
                                     <div className="border-b-2 border-slate-900 pb-4 mb-8 flex justify-between items-end">
                                         <div>
                                             <h1 className="text-2xl font-serif font-bold text-slate-900 mb-2">RESIDENTIAL LEASE RENEWAL</h1>
@@ -166,7 +166,7 @@ export default function SignLeaseRenewalModal({
                             </div>
 
                             <div className="p-4 bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 text-center">
-                                <button className="text-[#137fec] hover:text-[#0e64bd] text-sm font-bold flex items-center justify-center gap-2 mx-auto">
+                                <button className="text-brand hover:text-[#0e64bd] text-sm font-bold flex items-center justify-center gap-2 mx-auto">
                                     <span className="material-symbols-outlined text-[18px]">download</span>
                                     Download Full PDF
                                 </button>
@@ -204,7 +204,7 @@ export default function SignLeaseRenewalModal({
                                     <div>
                                         <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Full Legal Name</label>
                                         <input
-                                            className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec] focus:border-transparent outline-none transition-all placeholder-slate-400"
+                                            className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-transparent outline-none transition-all placeholder-slate-400"
                                             placeholder="e.g. Alex Morgan"
                                             type="text"
                                             value={fullName}
@@ -222,7 +222,7 @@ export default function SignLeaseRenewalModal({
                                             >
                                                 {fullName || 'Your Name'}
                                             </p>
-                                            <div className="absolute bottom-2 right-3 text-[10px] text-yellow-700 dark:text-yellow-600 font-mono opacity-60">
+                                            <div className="absolute bottom-2 right-3 text-xs text-yellow-700 dark:text-yellow-600 font-mono opacity-60">
                                                 ID: 8821-secure
                                             </div>
                                             <button className="absolute top-2 right-2 p-1.5 rounded-full bg-white/50 hover:bg-white dark:bg-black/20 dark:hover:bg-black/50 text-slate-500 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100">
@@ -245,13 +245,13 @@ export default function SignLeaseRenewalModal({
                                                 checked={agreedToTerms}
                                                 onChange={(e) => setAgreedToTerms(e.target.checked)}
                                             />
-                                            <div className="size-5 border-2 border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-800 peer-checked:bg-[#137fec] peer-checked:border-[#137fec] transition-all"></div>
+                                            <div className="size-5 border-2 border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-800 peer-checked:bg-brand peer-checked:border-brand transition-all"></div>
                                             <span className="material-symbols-outlined text-white absolute inset-0 text-[16px] opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none flex items-center justify-center">
                                                 check
                                             </span>
                                         </div>
                                         <div className="flex-1">
-                                            <p className="text-sm font-semibold text-slate-900 dark:text-white leading-snug group-hover:text-[#137fec] transition-colors">
+                                            <p className="text-sm font-semibold text-slate-900 dark:text-white leading-snug group-hover:text-brand transition-colors">
                                                 I agree to the terms of this lease renewal offer.
                                             </p>
                                             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
@@ -265,7 +265,7 @@ export default function SignLeaseRenewalModal({
                             {/* Footer */}
                             <div className="p-6 bg-slate-50 dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-3">
                                 <div className="flex items-center gap-2 mb-2 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-100 dark:border-blue-900/30">
-                                    <span className="material-symbols-outlined text-[#137fec] text-[20px]">verified_user</span>
+                                    <span className="material-symbols-outlined text-brand text-[20px]">verified_user</span>
                                     <p className="text-xs text-blue-800 dark:text-blue-200">Your signature is secured with 256-bit encryption.</p>
                                 </div>
                                 <div className="flex gap-3">
@@ -278,7 +278,7 @@ export default function SignLeaseRenewalModal({
                                     <button
                                         onClick={handleSign}
                                         disabled={!agreedToTerms || !fullName.trim() || isSubmitting}
-                                        className="flex-[2] py-3 px-4 bg-[#137fec] hover:bg-[#0e64bd] disabled:bg-slate-300 disabled:cursor-not-allowed text-white rounded-xl font-bold shadow-lg shadow-[#137fec]/25 transition-all flex items-center justify-center gap-2"
+                                        className="flex-[2] py-3 px-4 bg-brand hover:bg-[#0e64bd] disabled:bg-slate-300 disabled:cursor-not-allowed text-white rounded-xl font-bold shadow-sm transition-all flex items-center justify-center gap-2"
                                     >
                                         {isSubmitting ? (
                                             <>

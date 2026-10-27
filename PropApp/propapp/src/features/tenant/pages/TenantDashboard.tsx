@@ -82,7 +82,7 @@ export default function TenantDashboardPage() {
                         </button>
                         <button
                             onClick={() => setIsPaymentModalOpen(true)}
-                            className="px-5 py-2.5 rounded-lg bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-sm shadow-lg shadow-[#137fec]/20 transition-all flex items-center gap-2"
+                            className="px-5 py-2.5 rounded-lg bg-brand hover:bg-brand/90 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2"
                         >
                             <span className="material-symbols-outlined text-[20px]">payments</span> Pay Rent
                         </button>
@@ -94,7 +94,7 @@ export default function TenantDashboardPage() {
             {isLoading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
                     {Array.from({ length: 4 }).map((_, i) => (
-                        <div key={i} className="bg-white dark:bg-[#101922] p-6 rounded-2xl animate-pulse">
+                        <div key={i} className="bg-white dark:bg-canvas-dark p-6 rounded-2xl animate-pulse">
                             <div className="h-10 w-10 bg-slate-200 dark:bg-slate-700 rounded-xl mb-4" />
                             <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-2/3 mb-2" />
                             <div className="h-8 bg-slate-200 dark:bg-slate-700 rounded w-1/2" />
@@ -163,7 +163,7 @@ export default function TenantDashboardPage() {
                     {/* Current Rental */}
                     <div className="flex items-center justify-between">
                         <h2 className="text-xl font-bold text-slate-900 dark:text-white">My Current Rental</h2>
-                        <Link to="/tenant/lease-details" className="text-sm text-[#137fec] font-semibold hover:underline">
+                        <Link to="/tenant/lease-details" className="text-sm text-brand font-semibold hover:underline">
                             View Lease Details
                         </Link>
                     </div>
@@ -227,7 +227,7 @@ export default function TenantDashboardPage() {
                                         {dashboardData.property.landlordAvatar ? (
                                             <img src={dashboardData.property.landlordAvatar} alt="" className="size-8 rounded-full object-cover" />
                                         ) : (
-                                            <div className="size-8 rounded-full bg-[#137fec]/10 text-[#137fec] flex items-center justify-center font-bold text-xs">
+                                            <div className="size-8 rounded-full bg-brand/10 text-brand flex items-center justify-center font-bold text-xs">
                                                 {dashboardData.property.landlordName.split(' ').map(n => n[0]).join('')}
                                             </div>
                                         )}
@@ -245,7 +245,7 @@ export default function TenantDashboardPage() {
                         <SectionCard className="text-center py-12">
                             <span className="material-symbols-outlined text-4xl text-slate-300 mb-2">home</span>
                             <p className="text-slate-500 dark:text-slate-400">No active rental</p>
-                            <Link to="/search" className="mt-4 inline-block px-4 py-2 bg-[#137fec] text-white rounded-lg hover:bg-[#137fec]/90">
+                            <Link to="/search" className="mt-4 inline-block px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand/90">
                                 Browse Properties
                             </Link>
                         </SectionCard>
@@ -254,7 +254,7 @@ export default function TenantDashboardPage() {
                     {/* Saved Properties */}
                     <div className="flex items-center justify-between mt-4">
                         <h2 className="text-xl font-bold text-slate-900 dark:text-white">Saved Properties</h2>
-                        <Link to="/tenant/saved" className="text-sm text-[#137fec] font-semibold hover:underline">
+                        <Link to="/tenant/saved" className="text-sm text-brand font-semibold hover:underline">
                             View All
                         </Link>
                     </div>
@@ -262,7 +262,7 @@ export default function TenantDashboardPage() {
                         {dashboardData.savedProperties.map((property) => (
                             <div
                                 key={property.id}
-                                className="bg-white dark:bg-[#101922] p-3 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm flex gap-3 cursor-pointer hover:border-[#137fec]/50 transition-colors"
+                                className="bg-white dark:bg-canvas-dark p-3 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm flex gap-3 cursor-pointer hover:border-brand/50 transition-colors"
                             >
                                 <img
                                     alt="Saved home"
@@ -274,7 +274,7 @@ export default function TenantDashboardPage() {
                                         {property.address}
                                     </h4>
                                     <p className="text-xs text-slate-500 dark:text-slate-400">{property.city}</p>
-                                    <p className="text-sm font-bold text-[#137fec] mt-2">
+                                    <p className="text-sm font-bold text-brand mt-2">
                                         {property.price}
                                         <span className="text-slate-400 font-normal text-xs">/mo</span>
                                     </p>
@@ -283,7 +283,7 @@ export default function TenantDashboardPage() {
                         ))}
                         <Link
                             to="/search"
-                            className="bg-white dark:bg-[#101922] p-3 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm flex gap-3 cursor-pointer hover:border-[#137fec]/50 transition-colors"
+                            className="bg-white dark:bg-canvas-dark p-3 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm flex gap-3 cursor-pointer hover:border-brand/50 transition-colors"
                         >
                             <div className="w-20 h-20 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400">
                                 <span className="material-symbols-outlined">add</span>
@@ -323,7 +323,7 @@ export default function TenantDashboardPage() {
                                             {item.title}
                                         </h4>
                                         <span
-                                            className={`text-[10px] px-1.5 py-0.5 rounded font-bold ${item.statusColor}`}
+                                            className={`text-xs px-1.5 py-0.5 rounded font-bold ${item.statusColor}`}
                                         >
                                             {item.status}
                                         </span>
@@ -360,7 +360,7 @@ export default function TenantDashboardPage() {
                                         <p className="text-xs text-slate-500 dark:text-slate-400">{app.city}</p>
                                     </div>
                                     <span
-                                        className={`text-[10px] px-2 py-1 rounded-full font-bold ${app.statusColor}`}
+                                        className={`text-xs px-2 py-1 rounded-full font-bold ${app.statusColor}`}
                                     >
                                         {app.status}
                                     </span>
@@ -375,7 +375,7 @@ export default function TenantDashboardPage() {
                                         </Link>
                                         <button
                                             onClick={() => setIsSignLeaseModalOpen(true)}
-                                            className="flex-1 py-2 bg-[#137fec] hover:bg-[#0e64bd] text-white rounded-lg text-xs font-bold transition-colors"
+                                            className="flex-1 py-2 bg-brand hover:bg-[#0e64bd] text-white rounded-lg text-xs font-bold transition-colors"
                                         >
                                             Sign Lease
                                         </button>
@@ -383,22 +383,21 @@ export default function TenantDashboardPage() {
                                 )}
                             </div>
                         ))}
-                        <button className="w-full py-2 bg-[#137fec]/10 hover:bg-[#137fec]/20 text-[#137fec] rounded-lg text-xs font-bold transition-colors">
+                        <button className="w-full py-2 bg-brand/10 hover:bg-brand/20 text-brand rounded-lg text-xs font-bold transition-colors">
                             Check Status
                         </button>
                     </SectionCard>
 
                     {/* AI Assistant Card */}
-                    <div className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl p-5 text-white shadow-lg relative overflow-hidden">
-                        <span className="material-symbols-outlined absolute -right-4 -bottom-4 text-9xl text-white/10 rotate-12">assistant</span>
+                    <div className="bg-brand rounded-2xl p-5 text-white shadow-lg relative overflow-hidden">
                         <div className="relative z-10">
                             <div className="flex items-center gap-2 mb-2">
-                                <span className="material-symbols-outlined">auto_awesome</span>
+                                <span className="material-symbols-outlined">forum</span>
                                 <span className="text-xs font-bold uppercase tracking-wider opacity-80">AI Assistant</span>
                             </div>
                             <h4 className="font-bold text-lg leading-tight mb-2">Need help with your lease?</h4>
-                            <p className="text-sm text-indigo-100 mb-4">You can ask HomeAI to clarify clauses or request repairs instantly.</p>
-                            <button className="cursor-pointer inline-block w-full py-2 bg-white text-indigo-600 font-bold text-sm rounded-lg hover:bg-indigo-50 transition-colors text-center">Try HomeAI</button>
+                            <p className="text-sm text-blue-100 mb-4">You can ask HomeAI to clarify clauses or request repairs instantly.</p>
+                            <button className="cursor-pointer inline-block w-full py-2 bg-white text-brand font-bold text-sm rounded-lg hover:bg-blue-50 transition-colors text-center">Try HomeAI</button>
                         </div>
                     </div>
                 </div>

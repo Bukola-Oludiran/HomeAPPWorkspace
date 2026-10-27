@@ -92,13 +92,13 @@ export default function ExportModal({ isOpen, onClose, dataType = 'data', onExpo
             />
 
             {/* Modal */}
-            <div className="relative bg-white dark:bg-[#1a2632] rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 fade-in duration-200">
+            <div className="relative bg-white dark:bg-surface-dark rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 fade-in duration-200">
                 {error && <p role="alert" className="px-6 pt-4 text-sm text-red-600">{error}</p>}
                 {/* Header */}
                 <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="size-10 bg-[#137fec]/10 rounded-full flex items-center justify-center">
-                            <span className="material-symbols-outlined text-[#137fec]">download</span>
+                        <div className="size-10 bg-brand/10 rounded-full flex items-center justify-center">
+                            <span className="material-symbols-outlined text-brand">download</span>
                         </div>
                         <h2 className="text-lg font-bold text-slate-900 dark:text-white">Export {dataType}</h2>
                     </div>
@@ -135,15 +135,15 @@ export default function ExportModal({ isOpen, onClose, dataType = 'data', onExpo
                                             key={option.id}
                                             onClick={() => setFormat(option.id as typeof format)}
                                             className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all ${format === option.id
-                                                    ? 'border-[#137fec] bg-[#137fec]/5'
+                                                    ? 'border-brand bg-brand/5'
                                                     : 'border-slate-200 dark:border-slate-700 hover:border-slate-300'
                                                 }`}
                                         >
-                                            <span className={`material-symbols-outlined text-2xl ${format === option.id ? 'text-[#137fec]' : 'text-slate-400'
+                                            <span className={`material-symbols-outlined text-2xl ${format === option.id ? 'text-brand' : 'text-slate-400'
                                                 }`}>
                                                 {option.icon}
                                             </span>
-                                            <span className={`text-sm font-semibold ${format === option.id ? 'text-[#137fec]' : 'text-slate-700 dark:text-slate-300'
+                                            <span className={`text-sm font-semibold ${format === option.id ? 'text-brand' : 'text-slate-700 dark:text-slate-300'
                                                 }`}>
                                                 {option.label}
                                             </span>
@@ -169,7 +169,7 @@ export default function ExportModal({ isOpen, onClose, dataType = 'data', onExpo
                                             key={opt.id}
                                             onClick={() => handlePresetChange(opt.id as typeof preset)}
                                             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${preset === opt.id
-                                                    ? 'bg-[#137fec] text-white'
+                                                    ? 'bg-brand text-white'
                                                     : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
                                                 }`}
                                         >
@@ -214,7 +214,7 @@ export default function ExportModal({ isOpen, onClose, dataType = 'data', onExpo
                             <button
                                 onClick={handleExport}
                                 disabled={exporting}
-                                className="px-6 py-2.5 rounded-xl bg-[#137fec] text-white font-bold text-sm hover:bg-[#137fec]/90 transition-colors shadow-lg shadow-[#137fec]/20 disabled:opacity-70 flex items-center gap-2"
+                                className="px-6 py-2.5 rounded-xl bg-brand text-white font-bold text-sm hover:bg-brand/90 transition-colors shadow-sm disabled:opacity-70 flex items-center gap-2"
                             >
                                 {exporting ? (
                                     <>

@@ -39,10 +39,10 @@ export default function MakePaymentModal({ isOpen, onClose, onSuccess, paymentFo
 
     return (
         <ModalPortal>
-            <div className="fixed inset-0 z-[200] bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 font-[Manrope,Noto_Sans,sans-serif]">
-                <div className="bg-white dark:bg-[#101922] w-full max-w-xl rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="fixed inset-0 z-[200] bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4">
+                <div className="bg-white dark:bg-canvas-dark w-full max-w-xl rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col max-h-[90vh]">
                     {/* Header */}
-                    <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-white dark:bg-[#101922]">
+                    <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-white dark:bg-canvas-dark">
                         <div>
                             <h2 className="text-xl font-bold text-slate-900 dark:text-white">Make Payment</h2>
                             <p className="text-sm text-slate-500 dark:text-slate-400">Secure transaction for your property</p>
@@ -63,7 +63,7 @@ export default function MakePaymentModal({ isOpen, onClose, onSuccess, paymentFo
                                     <select
                                         value={selectedPaymentFor}
                                         onChange={(e) => setSelectedPaymentFor(e.target.value)}
-                                        className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec] focus:border-[#137fec] appearance-none"
+                                        className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-brand appearance-none"
                                     >
                                         {paymentOptions.map((option) => (
                                             <option key={option.value} value={option.value}>{option.label}</option>
@@ -80,7 +80,7 @@ export default function MakePaymentModal({ isOpen, onClose, onSuccess, paymentFo
                                         type="text"
                                         value={paymentAmount}
                                         onChange={(e) => setPaymentAmount(e.target.value)}
-                                        className="w-full pl-8 pr-4 py-3 bg-white dark:bg-[#101922] border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-900 dark:text-white focus:ring-2 focus:ring-[#137fec] focus:border-[#137fec]"
+                                        className="w-full pl-8 pr-4 py-3 bg-white dark:bg-canvas-dark border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-brand"
                                     />
                                 </div>
                             </div>
@@ -90,7 +90,7 @@ export default function MakePaymentModal({ isOpen, onClose, onSuccess, paymentFo
                         <div className="space-y-3">
                             <div className="flex items-center justify-between">
                                 <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Select Payment Method</label>
-                                <button className="text-xs font-bold text-[#137fec] hover:text-[#137fec]/80 flex items-center gap-1">
+                                <button className="text-xs font-bold text-brand hover:text-brand/80 flex items-center gap-1">
                                     <span className="material-symbols-outlined text-[14px]">add</span> Add New
                                 </button>
                             </div>
@@ -99,7 +99,7 @@ export default function MakePaymentModal({ isOpen, onClose, onSuccess, paymentFo
                                 <label
                                     key={method.id}
                                     className={`relative flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all ${selectedMethod === method.id
-                                        ? 'border-[#137fec] bg-blue-50/50 dark:bg-[#137fec]/10'
+                                        ? 'border-brand bg-blue-50/50 dark:bg-brand/10'
                                         : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/30 hover:bg-slate-50 dark:hover:bg-slate-800'
                                         }`}
                                 >
@@ -111,7 +111,7 @@ export default function MakePaymentModal({ isOpen, onClose, onSuccess, paymentFo
                                         onChange={() => setSelectedMethod(method.id)}
                                         className="sr-only"
                                     />
-                                    <div className={`size-5 rounded-full border-2 flex items-center justify-center ${selectedMethod === method.id ? 'border-[#137fec] bg-[#137fec]' : 'border-slate-300 dark:border-slate-600'
+                                    <div className={`size-5 rounded-full border-2 flex items-center justify-center ${selectedMethod === method.id ? 'border-brand bg-brand' : 'border-slate-300 dark:border-slate-600'
                                         }`}>
                                         {selectedMethod === method.id && <div className="size-2.5 rounded-full bg-white"></div>}
                                     </div>
@@ -124,7 +124,7 @@ export default function MakePaymentModal({ isOpen, onClose, onSuccess, paymentFo
                                         <div className="flex justify-between items-center">
                                             <span className="font-bold text-slate-900 dark:text-white text-sm">{method.name}</span>
                                             {method.isPreferred && (
-                                                <span className="bg-[#137fec]/10 text-[#137fec] text-[10px] font-bold px-2 py-0.5 rounded-full">Preferred</span>
+                                                <span className="bg-brand/10 text-brand text-xs font-bold px-2 py-0.5 rounded-full">Preferred</span>
                                             )}
                                         </div>
                                         <span className="text-xs text-slate-500 dark:text-slate-400">
@@ -151,13 +151,13 @@ export default function MakePaymentModal({ isOpen, onClose, onSuccess, paymentFo
                             <div className="border-t border-slate-200 dark:border-slate-700 my-2"></div>
                             <div className="flex justify-between items-center">
                                 <span className="text-base font-bold text-slate-900 dark:text-white">Total Amount</span>
-                                <span className="text-xl font-extrabold text-[#137fec]">${paymentAmount}</span>
+                                <span className="text-xl font-extrabold text-brand">${paymentAmount}</span>
                             </div>
                         </div>
                     </div>
 
                     {/* Footer */}
-                    <div className="p-6 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-[#101922] flex gap-3">
+                    <div className="p-6 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-canvas-dark flex gap-3">
                         <button
                             onClick={onClose}
                             className="flex-1 px-5 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white font-bold text-sm hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
@@ -169,7 +169,7 @@ export default function MakePaymentModal({ isOpen, onClose, onSuccess, paymentFo
                                 onClose();
                                 onSuccess?.();
                             }}
-                            className="flex-1 px-5 py-3 rounded-xl bg-[#137fec] text-white font-bold text-sm hover:bg-[#137fec]/90 transition-colors shadow-lg shadow-[#137fec]/25 flex items-center justify-center gap-2"
+                            className="flex-1 px-5 py-3 rounded-xl bg-brand text-white font-bold text-sm hover:bg-brand/90 transition-colors shadow-sm flex items-center justify-center gap-2"
                         >
                             <span className="material-symbols-outlined text-[18px]">lock</span> Confirm Payment
                         </button>

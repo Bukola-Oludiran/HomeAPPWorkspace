@@ -241,7 +241,7 @@ export default function TenantMaintenance() {
                 actions={
                     <button
                         onClick={() => setIsMaintenanceModalOpen(true)}
-                        className="px-5 py-3 rounded-lg bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-sm shadow-lg shadow-[#137fec]/20 transition-all flex items-center gap-2 group"
+                        className="px-5 py-3 rounded-lg bg-brand hover:bg-brand/90 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2 group"
                     >
                         <span className="material-symbols-outlined text-[20px] group-hover:rotate-90 transition-transform">add</span>
                         New Request
@@ -250,7 +250,7 @@ export default function TenantMaintenance() {
             />
 
             {/* Search and Filters */}
-            <div className="bg-white dark:bg-[#101922] p-4 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm mb-6 flex flex-col lg:flex-row gap-4 items-center">
+            <div className="bg-white dark:bg-canvas-dark p-4 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm mb-6 flex flex-col lg:flex-row gap-4 items-center">
                 <div className="relative flex-1 w-full">
                     <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
                     <input
@@ -258,7 +258,7 @@ export default function TenantMaintenance() {
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search by issue, ID, or keyword..."
-                        className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-colors"
+                        className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand transition-colors"
                     />
                 </div>
                 <div className="flex gap-3 w-full lg:w-auto overflow-x-auto pb-1 lg:pb-0">
@@ -266,7 +266,7 @@ export default function TenantMaintenance() {
                         <select
                             value={statusFilter}
                             onChange={(e) => setStatusFilter(e.target.value)}
-                            className="w-full pl-3 pr-10 py-2.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:border-[#137fec] appearance-none cursor-pointer font-medium hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                            className="w-full pl-3 pr-10 py-2.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand appearance-none cursor-pointer font-medium hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                         >
                             <option value="all">All Statuses</option>
                             <option value="submitted">Submitted</option>
@@ -281,7 +281,7 @@ export default function TenantMaintenance() {
                         <select
                             value={urgencyFilter}
                             onChange={(e) => setUrgencyFilter(e.target.value)}
-                            className="w-full pl-3 pr-10 py-2.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:border-[#137fec] appearance-none cursor-pointer font-medium hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                            className="w-full pl-3 pr-10 py-2.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand appearance-none cursor-pointer font-medium hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                         >
                             <option value="all">Any Urgency</option>
                             <option value="low">Low</option>
@@ -295,7 +295,7 @@ export default function TenantMaintenance() {
                         <select
                             value={sortOrder}
                             onChange={(e) => setSortOrder(e.target.value)}
-                            className="w-full pl-3 pr-10 py-2.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:border-[#137fec] appearance-none cursor-pointer font-medium hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                            className="w-full pl-3 pr-10 py-2.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand appearance-none cursor-pointer font-medium hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                         >
                             <option value="newest">Newest First</option>
                             <option value="oldest">Oldest First</option>
@@ -375,7 +375,7 @@ export default function TenantMaintenance() {
                                             <p className="text-sm text-slate-500 dark:text-slate-400">No maintenance requests found</p>
                                             <button
                                                 onClick={() => setIsMaintenanceModalOpen(true)}
-                                                className="px-4 py-2 rounded-lg bg-[#137fec] text-xs font-bold text-white hover:bg-[#137fec]/90 transition-colors"
+                                                className="px-4 py-2 rounded-lg bg-brand text-xs font-bold text-white hover:bg-brand/90 transition-colors"
                                             >
                                                 Submit New Request
                                             </button>
@@ -393,7 +393,7 @@ export default function TenantMaintenance() {
                                                 <span className="material-symbols-outlined">{request.categoryIcon}</span>
                                             </div>
                                             <div>
-                                                <h4 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-[#137fec] transition-colors">
+                                                <h4 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-brand transition-colors">
                                                     {request.title}
                                                 </h4>
                                                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-1">
@@ -402,7 +402,7 @@ export default function TenantMaintenance() {
                                                 {request.hasPhotos && (
                                                     <div className="flex items-center gap-1 mt-1.5">
                                                         <span className="material-symbols-outlined text-[14px] text-slate-400">image</span>
-                                                        <span className="text-[10px] font-medium text-slate-400">{request.photoCount} photos attached</span>
+                                                        <span className="text-xs font-medium text-slate-400">{request.photoCount} photos attached</span>
                                                     </div>
                                                 )}
                                             </div>
@@ -436,7 +436,7 @@ export default function TenantMaintenance() {
                                             {request.status}
                                         </span>
                                         {request.scheduledDate && (
-                                            <div className="text-[10px] text-purple-600 dark:text-purple-400 mt-1 font-medium">{request.scheduledDate}</div>
+                                            <div className="text-xs text-purple-600 dark:text-purple-400 mt-1 font-medium">{request.scheduledDate}</div>
                                         )}
                                     </td>
                                     <td className="p-5 pr-6 text-right">
@@ -459,7 +459,7 @@ export default function TenantMaintenance() {
                                                 </Link>
                                             ) : (
                                                 <>
-                                                    <button className="size-8 flex items-center justify-center rounded-lg hover:bg-[#137fec]/10 text-slate-400 hover:text-[#137fec] transition-colors" title="Message Landlord">
+                                                    <button className="size-8 flex items-center justify-center rounded-lg hover:bg-brand/10 text-slate-400 hover:text-brand transition-colors" title="Message Landlord">
                                                         <span className="material-symbols-outlined text-[18px]">chat</span>
                                                     </button>
                                                     <Link
@@ -479,7 +479,7 @@ export default function TenantMaintenance() {
                 </div>
 
                 {/* Footer Pagination */}
-                <div className="p-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-[#101922]">
+                <div className="p-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-canvas-dark">
                     <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
                         {isLoading ? (
                             <span className="animate-pulse">Loading...</span>

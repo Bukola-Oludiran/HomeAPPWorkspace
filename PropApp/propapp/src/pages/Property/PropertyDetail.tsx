@@ -121,9 +121,9 @@ export default function PropertyDetail() {
     // Loading state
     if (isLoading) {
         return (
-            <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex items-center justify-center">
+            <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex items-center justify-center">
                 <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#137fec] mx-auto mb-4"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand mx-auto mb-4"></div>
                     <p className="text-slate-500 dark:text-slate-400">Loading property...</p>
                 </div>
             </div>
@@ -133,7 +133,7 @@ export default function PropertyDetail() {
     // Error state
     if (error || !property) {
         return (
-            <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex items-center justify-center">
+            <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex items-center justify-center">
                 <div className="text-center">
                     <span className="material-symbols-outlined text-6xl text-red-400 mb-4">error</span>
                     <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
@@ -144,7 +144,7 @@ export default function PropertyDetail() {
                     </p>
                     <Link
                         to="/search"
-                        className="px-6 py-2 bg-[#137fec] text-white rounded-lg font-semibold hover:bg-blue-600 inline-block"
+                        className="px-6 py-2 bg-brand text-white rounded-lg font-semibold hover:bg-blue-600 inline-block"
                     >
                         Back to Search
                     </Link>
@@ -162,7 +162,7 @@ export default function PropertyDetail() {
     const sqft = property.squareFeet ? property.squareFeet.toLocaleString() : 'N/A';
 
     return (
-        <div className="bg-[#f6f7f8] dark:bg-[#101922] min-h-screen flex flex-col font-[Manrope,Noto_Sans,sans-serif] text-slate-900 dark:text-white overflow-x-hidden pb-[140px]">
+        <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex flex-col text-slate-900 dark:text-white overflow-x-hidden pb-[140px]">
             {/* Floating Header (No navbar per design) */}
             <header className="fixed top-0 left-0 w-full z-40 bg-transparent pointer-events-none">
                 <div className="px-4 md:px-8 py-4 flex items-center justify-between">
@@ -250,7 +250,7 @@ export default function PropertyDetail() {
                                     </div>
                                 </div>
                                 <div className="flex flex-col items-start md:items-end">
-                                    <h2 className="text-3xl md:text-4xl font-extrabold text-[#137fec]">
+                                    <h2 className="text-3xl md:text-4xl font-extrabold text-brand">
                                         {priceDisplay}
                                     </h2>
                                     <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
@@ -352,17 +352,17 @@ export default function PropertyDetail() {
                                     </p>
                                 ))}
                             </div>
-                            <button className="mt-4 text-[#137fec] font-semibold flex items-center gap-1 hover:underline">
+                            <button className="mt-4 text-brand font-semibold flex items-center gap-1 hover:underline">
                                 Read more{' '}
                                 <span className="material-symbols-outlined text-[18px]">expand_more</span>
                             </button>
                         </div>
 
                         {/* AI Property Analysis */}
-                        <div className="mb-10 p-6 rounded-2xl bg-gradient-to-br from-blue-50 to-white dark:from-slate-800 dark:to-slate-900 border border-blue-100 dark:border-slate-700">
+                        <div className="mb-10 p-6 rounded-2xl bg-blue-50/50 dark:bg-slate-800 border border-blue-100 dark:border-slate-700">
                             <div className="flex items-center gap-3 mb-4">
-                                <div className="size-8 rounded-full bg-[#137fec] flex items-center justify-center text-white shadow-lg shadow-[#137fec]/30">
-                                    <span className="material-symbols-outlined text-[18px]">auto_awesome</span>
+                                <div className="size-8 rounded-full bg-brand flex items-center justify-center text-white shadow-sm">
+                                    <span className="material-symbols-outlined text-[18px]">forum</span>
                                 </div>
                                 <h3 className="text-lg font-bold text-slate-900 dark:text-white">
                                     AI Property Analysis
@@ -384,10 +384,10 @@ export default function PropertyDetail() {
                                         map
                                     </span>
                                 </div>
-                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-12 bg-[#137fec]/20 rounded-full flex items-center justify-center animate-pulse">
-                                    <div className="size-4 bg-[#137fec] rounded-full border-2 border-white shadow-lg"></div>
+                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-12 bg-brand/20 rounded-full flex items-center justify-center animate-pulse">
+                                    <div className="size-4 bg-brand rounded-full border-2 border-white shadow-lg"></div>
                                 </div>
-                                <button className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white dark:bg-slate-800 px-4 py-2 rounded-full shadow-lg text-sm font-semibold hover:scale-105 transition-transform">
+                                <button className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white dark:bg-slate-800 px-4 py-2 rounded-full shadow-lg text-sm font-semibold transition-transform">
                                     Explore Map
                                 </button>
                             </div>
@@ -416,7 +416,7 @@ export default function PropertyDetail() {
                                         </h4>
                                         <p className="text-slate-500 text-sm">Property Owner</p>
                                         {property.owner?.verificationLevel && property.owner.verificationLevel !== 'UNVERIFIED' && (
-                                            <div className="flex items-center gap-1 text-xs font-semibold text-[#137fec] mt-1">
+                                            <div className="flex items-center gap-1 text-xs font-semibold text-brand mt-1">
                                                 <span className="material-symbols-outlined text-[14px] icon-filled">
                                                     verified
                                                 </span>
@@ -439,9 +439,9 @@ export default function PropertyDetail() {
 
             {/* Floating AI Bar */}
             <div className="fixed bottom-[90px] left-0 right-0 flex justify-center z-30 px-4 pointer-events-none">
-                <div className="w-full max-w-2xl bg-white/95 dark:bg-[#101922]/95 backdrop-blur-xl border border-[#137fec]/20 shadow-2xl shadow-[#137fec]/10 rounded-full py-2 px-2 flex items-center gap-3 pointer-events-auto [box-shadow:0_0_15px_rgba(19,127,236,0.4)] transition-all hover:scale-[1.01]">
-                    <div className="size-10 rounded-full bg-gradient-to-tr from-[#137fec] to-blue-400 flex items-center justify-center shrink-0">
-                        <span className="material-symbols-outlined text-white">auto_awesome</span>
+                <div className="w-full max-w-2xl bg-white/95 dark:bg-canvas-dark/95 backdrop-blur-xl border border-brand/20 shadow-lg rounded-full py-2 px-2 flex items-center gap-3 pointer-events-auto [box-shadow:0_0_15px_rgba(19,127,236,0.4)] transition-all hover:scale-[1.01]">
+                    <div className="size-10 rounded-full bg-brand flex items-center justify-center shrink-0">
+                        <span className="material-symbols-outlined text-white">forum</span>
                     </div>
                     <div className="flex-1 overflow-hidden h-10 flex items-center">
                         <p className="text-slate-600 dark:text-slate-300 text-sm truncate animate-pulse">
@@ -453,14 +453,14 @@ export default function PropertyDetail() {
                             mic
                         </span>
                     </button>
-                    <button className="size-10 rounded-full bg-[#137fec] hover:bg-[#0e64bd] flex items-center justify-center transition-colors shrink-0 shadow-lg shadow-[#137fec]/30">
+                    <button className="size-10 rounded-full bg-brand hover:bg-[#0e64bd] flex items-center justify-center transition-colors shrink-0 shadow-sm">
                         <span className="material-symbols-outlined text-white">arrow_upward</span>
                     </button>
                 </div>
             </div>
 
             {/* Bottom Action Bar */}
-            <div className="fixed bottom-0 left-0 w-full z-20 bg-white dark:bg-[#101922] border-t border-slate-200 dark:border-slate-800 p-4 md:px-8 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+            <div className="fixed bottom-0 left-0 w-full z-20 bg-white dark:bg-canvas-dark border-t border-slate-200 dark:border-slate-800 p-4 md:px-8 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
                 <div className="max-w-[1200px] mx-auto flex items-center justify-between gap-4">
                     <div className="hidden md:block">
                         <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-0.5">
@@ -475,13 +475,13 @@ export default function PropertyDetail() {
                     <div className="flex-1 md:flex-none flex gap-3 w-full md:w-auto">
                         <button
                             onClick={() => setShowViewingModal(true)}
-                            className="flex-1 md:flex-none px-6 py-3.5 rounded-xl border-2 border-[#137fec] text-[#137fec] font-bold hover:bg-blue-50 dark:hover:bg-[#137fec]/10 transition-colors whitespace-nowrap"
+                            className="flex-1 md:flex-none px-6 py-3.5 rounded-xl border-2 border-brand text-brand font-bold hover:bg-blue-50 dark:hover:bg-brand/10 transition-colors whitespace-nowrap"
                         >
                             Schedule Viewing
                         </button>
                         <button
                             onClick={() => setShowBuyModal(true)}
-                            className="flex-1 md:flex-none px-8 py-3.5 rounded-xl bg-[#137fec] text-white font-bold hover:bg-[#0e64bd] transition-colors shadow-lg shadow-[#137fec]/25 whitespace-nowrap"
+                            className="flex-1 md:flex-none px-8 py-3.5 rounded-xl bg-brand text-white font-bold hover:bg-[#0e64bd] transition-colors shadow-sm whitespace-nowrap"
                         >
                             Buy Now / Apply
                         </button>

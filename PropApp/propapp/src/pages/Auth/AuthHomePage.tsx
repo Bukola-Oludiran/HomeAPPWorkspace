@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 export default function AuthHomePage() {
     return (
-        <div className="w-full max-w-md bg-white/10 dark:bg-[#1a2632]/40 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col items-center text-center">
+        <div className="w-full max-w-md bg-white/10 dark:bg-surface-dark/40 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col items-center text-center">
             <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-2">Welcome Home</h1>
             <p className="text-slate-200 dark:text-slate-300 text-base md:text-lg mb-8 font-normal">
                 Your journey to finding the perfect property starts here.
@@ -11,7 +11,7 @@ export default function AuthHomePage() {
             <div className="w-full space-y-4">
                 <Link
                     to="/auth/login"
-                    className="w-full py-3.5 px-4 rounded-xl bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-lg shadow-lg shadow-[#137fec]/25 hover:shadow-[#137fec]/40 transition-all transform hover:-translate-y-0.5 flex items-center justify-center"
+                    className="w-full py-3.5 px-4 rounded-xl bg-brand hover:bg-brand/90 text-white font-bold text-lg shadow-sm transition-all flex items-center justify-center"
                 >
                     Log In
                 </Link>
@@ -51,9 +51,9 @@ export default function AuthHomePage() {
 
             <p className="mt-8 text-xs text-slate-300">
                 By continuing, you agree to our{' '}
-                <a className="text-[#137fec] hover:text-[#137fec]/80 underline" href="#">Terms of Service</a>
+                <a className="text-brand hover:text-brand/80 underline" href="#">Terms of Service</a>
                 {' '}and{' '}
-                <a className="text-[#137fec] hover:text-[#137fec]/80 underline" href="#">Privacy Policy</a>.
+                <a className="text-brand hover:text-brand/80 underline" href="#">Privacy Policy</a>.
             </p>
         </div>
     );

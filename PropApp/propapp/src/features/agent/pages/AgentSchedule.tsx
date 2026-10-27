@@ -296,7 +296,7 @@ export default function AgentSchedule() {
                 actions={
                     <>
                         {/* View Mode Toggle */}
-                        <div className="flex bg-white dark:bg-[#101922] p-1 rounded-lg border border-slate-200 dark:border-slate-800">
+                        <div className="flex bg-white dark:bg-canvas-dark p-1 rounded-lg border border-slate-200 dark:border-slate-800">
                             <button
                                 onClick={() => setViewMode('month')}
                                 className={`px-4 py-1.5 rounded-md text-sm font-bold transition-all ${viewMode === 'month'
@@ -327,7 +327,7 @@ export default function AgentSchedule() {
                         </div>
                         <button
                             onClick={() => setIsAddEventModalOpen(true)}
-                            className="px-5 py-2.5 rounded-lg bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold text-sm transition-all flex items-center gap-2 shadow-lg shadow-[#137fec]/20"
+                            className="px-5 py-2.5 rounded-lg bg-brand hover:bg-brand/90 text-white font-bold text-sm transition-all flex items-center gap-2 shadow-sm"
                         >
                             <span className="material-symbols-outlined text-[20px]">add</span>
                             Add Personal Event
@@ -339,7 +339,7 @@ export default function AgentSchedule() {
             {/* Main Content */}
             <div className="flex flex-col lg:flex-row gap-6 min-h-[700px]">
                 {/* Calendar */}
-                <div className="flex-1 flex flex-col bg-white dark:bg-[#101922] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                <div className="flex-1 flex flex-col bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
                     {/* Calendar Header */}
                     <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
                         <div className="flex items-center gap-4">
@@ -380,21 +380,21 @@ export default function AgentSchedule() {
                     {/* Calendar Grid */}
                     <div className="flex-1 grid grid-cols-7 gap-px bg-slate-200 dark:bg-slate-800 overflow-y-auto relative">
                         {isLoading && (
-                            <div className="absolute inset-0 bg-white/80 dark:bg-[#101922]/80 flex items-center justify-center z-10">
+                            <div className="absolute inset-0 bg-white/80 dark:bg-canvas-dark/80 flex items-center justify-center z-10">
                                 <div className="flex flex-col items-center gap-3">
-                                    <div className="size-8 border-3 border-[#137fec] border-t-transparent rounded-full animate-spin"></div>
+                                    <div className="size-8 border-3 border-brand border-t-transparent rounded-full animate-spin"></div>
                                     <span className="text-sm text-slate-500">Loading schedule...</span>
                                 </div>
                             </div>
                         )}
                         {error && (
-                            <div className="absolute inset-0 bg-white/90 dark:bg-[#101922]/90 flex items-center justify-center z-10">
+                            <div className="absolute inset-0 bg-white/90 dark:bg-canvas-dark/90 flex items-center justify-center z-10">
                                 <div className="flex flex-col items-center gap-3 p-6 text-center">
                                     <span className="material-symbols-outlined text-4xl text-red-500">error</span>
                                     <p className="text-sm text-slate-600 dark:text-slate-400">{error}</p>
                                     <button
                                         onClick={() => setCurrentDate(new Date(currentDate))}
-                                        className="px-4 py-2 bg-[#137fec] text-white text-sm font-bold rounded-lg hover:bg-[#137fec]/90"
+                                        className="px-4 py-2 bg-brand text-white text-sm font-bold rounded-lg hover:bg-brand/90"
                                     >
                                         Retry
                                     </button>
@@ -405,16 +405,16 @@ export default function AgentSchedule() {
                             <div
                                 key={index}
                                 className={`min-h-[100px] p-2 flex flex-col gap-1 relative transition-colors ${dayData.isCurrentMonth
-                                    ? 'bg-white dark:bg-[#101922] hover:bg-slate-50 dark:hover:bg-slate-800/50'
+                                    ? 'bg-white dark:bg-canvas-dark hover:bg-slate-50 dark:hover:bg-slate-800/50'
                                     : 'bg-slate-50/50 dark:bg-[#151f2a] opacity-50'
                                     }`}
                             >
                                 {dayData.isToday ? (
                                     <>
-                                        <span className="text-sm font-bold text-white bg-[#137fec] rounded-full size-6 flex items-center justify-center -ml-1 -mt-1 shadow-sm">
+                                        <span className="text-sm font-bold text-white bg-brand rounded-full size-6 flex items-center justify-center -ml-1 -mt-1 shadow-sm">
                                             {dayData.day}
                                         </span>
-                                        <div className="absolute inset-0 border-2 border-[#137fec] pointer-events-none"></div>
+                                        <div className="absolute inset-0 border-2 border-brand pointer-events-none"></div>
                                     </>
                                 ) : (
                                     <span className={`text-sm font-medium ml-1 ${dayData.isCurrentMonth ? 'text-slate-900 dark:text-slate-300' : 'text-slate-400'}`}>
@@ -438,14 +438,14 @@ export default function AgentSchedule() {
                 {/* Sidebar - Job Details */}
                 <div className="w-full lg:w-[400px] shrink-0 flex flex-col gap-6">
                     {/* Selected Job Card */}
-                    <div className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-lg flex flex-col overflow-hidden">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 shadow-lg flex flex-col overflow-hidden">
                         <div className="p-5 border-b border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-[#151f2a]">
                             <div className="flex justify-between items-start mb-2">
                                 <div className="flex items-center gap-2">
-                                    <span className="bg-red-100 text-red-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">
+                                    <span className="bg-red-100 text-red-700 text-xs font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">
                                         {selectedJob.priority}
                                     </span>
-                                    <span className="bg-blue-50 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">
+                                    <span className="bg-blue-50 text-blue-700 text-xs font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">
                                         {selectedJob.type}
                                     </span>
                                 </div>
@@ -464,7 +464,7 @@ export default function AgentSchedule() {
                                     <div>
                                         <h4 className="text-sm font-bold text-slate-900 dark:text-white">Date & Time</h4>
                                         <p className="text-sm text-slate-500 dark:text-slate-400">{selectedJob.date}</p>
-                                        <p className="text-sm text-[#137fec] font-semibold">{selectedJob.time}</p>
+                                        <p className="text-sm text-brand font-semibold">{selectedJob.time}</p>
                                     </div>
                                 </div>
                                 <div className="flex gap-4 items-start">
@@ -510,7 +510,7 @@ export default function AgentSchedule() {
                         </div>
 
                         <div className="p-5 border-t border-slate-200 dark:border-slate-800 space-y-3 bg-slate-50 dark:bg-[#151f2a]">
-                            <button className="w-full bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold py-3 rounded-xl shadow-lg shadow-[#137fec]/20 transition-all text-sm flex items-center justify-center gap-2">
+                            <button className="w-full bg-brand hover:bg-brand/90 text-white font-bold py-3 rounded-xl shadow-sm transition-all text-sm flex items-center justify-center gap-2">
                                 <span className="material-symbols-outlined">play_arrow</span>
                                 Start Job
                             </button>
@@ -534,7 +534,7 @@ export default function AgentSchedule() {
                     </div>
 
                     {/* Upcoming Jobs */}
-                    <div className="bg-white dark:bg-[#101922] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 flex-1 overflow-hidden flex flex-col">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 flex-1 overflow-hidden flex flex-col">
                         <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wide mb-4">Upcoming Next</h3>
                         <div className="flex-1 overflow-y-auto space-y-3">
                             {upcomingJobs.length === 0 && !isLoading ? (
@@ -551,7 +551,7 @@ export default function AgentSchedule() {
                                     >
                                         <div className={`w-1 h-10 rounded-full ${job.color}`}></div>
                                         <div className="flex-1">
-                                            <h4 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-[#137fec] transition-colors">
+                                            <h4 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-brand transition-colors">
                                                 {job.title}
                                             </h4>
                                             <p className="text-xs text-slate-500 dark:text-slate-400">
