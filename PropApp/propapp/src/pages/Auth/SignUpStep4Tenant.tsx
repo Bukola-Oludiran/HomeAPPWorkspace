@@ -32,7 +32,7 @@ export default function SignUpStep4Tenant() {
                 </span>
             </div>
 
-            <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-2 text-center">Tell Us Your Home Preferences</h1>
+            <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-2 text-center">Tell us your home preferences</h1>
             <p className="text-slate-300 text-sm md:text-base mb-8 text-center font-normal">
                 Help us find your perfect match by setting your preferences.
             </p>
@@ -61,7 +61,7 @@ export default function SignUpStep4Tenant() {
                     <div className="flex flex-col gap-6">
                         {/* Property Type */}
                         <div className="space-y-3">
-                            <label className="text-sm font-semibold text-slate-200">Desired Property Type</label>
+                            <label className="text-sm font-semibold text-slate-200">Desired property type</label>
                             <div className="grid grid-cols-3 gap-3">
                                 {propertyTypes.map((type) => (
                                     <label key={type.value} className="cursor-pointer group relative">
@@ -121,7 +121,7 @@ export default function SignUpStep4Tenant() {
                         {/* Budget */}
                         <div className="space-y-4">
                             <div className="flex justify-between items-center">
-                                <label className="text-sm font-semibold text-slate-200">Monthly Budget</label>
+                                <label className="text-sm font-semibold text-slate-200">Monthly budget</label>
                                 <span className="text-sky font-bold text-sm">$1,200 - $3,500</span>
                             </div>
                             <div className="px-2">
@@ -191,7 +191,7 @@ export default function SignUpStep4Tenant() {
                         to="/tenant/dashboard"
                         className="w-full py-3.5 px-4 rounded-xl bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-lg transition-all flex items-center justify-center gap-2"
                     >
-                        Finish Setup
+                        Finish setup
                         <span className="material-symbols-outlined text-xl">arrow_forward</span>
                     </Link>
                 </div>

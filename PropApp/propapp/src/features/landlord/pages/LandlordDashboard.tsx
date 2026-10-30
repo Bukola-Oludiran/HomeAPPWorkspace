@@ -101,7 +101,7 @@ export default function LandlordDashboardPage() {
     return (
         <PageContainer>
             <PageHeader
-                title="Landlord Dashboard"
+                title="Landlord dashboard"
                 subtitle="Welcome back. Here's what's happening with your portfolio today."
                 actions={
                     <>
@@ -154,7 +154,7 @@ export default function LandlordDashboardPage() {
                 <StatsCard
                     icon="pie_chart"
                     iconColor="purple"
-                    label="Occupancy Rate"
+                    label="Occupancy rate"
                     value={`${dashboardData?.occupancyRate || 0}%`}
                     animateValue
                     numericValue={dashboardData?.occupancyRate || 0}
@@ -166,7 +166,7 @@ export default function LandlordDashboardPage() {
                 <StatsCard
                     icon="real_estate_agent"
                     iconColor="orange"
-                    label="Active Listings"
+                    label="Active listings"
                     value={String(dashboardData?.activeListings || 0)}
                     animateValue
                     numericValue={dashboardData?.activeListings || 0}
@@ -182,7 +182,7 @@ export default function LandlordDashboardPage() {
                         </div>
                     </div>
                     <div>
-                        <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">Action Required</p>
+                        <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">Action required</p>
                         <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">{dashboardData?.actionRequired ?? dashboardData?.alertCount ?? 0} Alerts</h3>
                     </div>
                 </div>
@@ -194,7 +194,7 @@ export default function LandlordDashboardPage() {
                 {/* Properties List */}
                 <div className="xl:col-span-2 flex flex-col gap-6">
                     <div className="flex items-center justify-between">
-                        <h2 className="text-xl font-bold text-slate-900 dark:text-white">My Properties</h2>
+                        <h2 className="text-xl font-bold text-slate-900 dark:text-white">My properties</h2>
                         <div className="flex gap-2">
                             <SearchInput
                                 placeholder="Search property..."
@@ -205,7 +205,7 @@ export default function LandlordDashboardPage() {
                             <FilterDropdown
                                 label="Filter"
                                 options={[
-                                    { id: 'all', label: 'All Properties' },
+                                    { id: 'all', label: 'All properties' },
                                     { id: 'ACTIVE', label: 'Active' },
                                     { id: 'RENTED', label: 'Rented' },
                                     { id: 'DRAFT', label: 'Draft' },
@@ -298,8 +298,8 @@ export default function LandlordDashboardPage() {
                 {/* Right Sidebar */}
                 <div className="flex flex-col gap-6">
                     <div className="flex items-center justify-between">
-                        <h2 className="text-xl font-bold text-slate-900 dark:text-white">Actionable Alerts</h2>
-                        <Link to="/landlord/alerts" className="text-sm font-semibold text-brand-ink hover:underline">View All</Link>
+                        <h2 className="text-xl font-bold text-slate-900 dark:text-white">Actionable alerts</h2>
+                        <Link to="/landlord/alerts" className="text-sm font-semibold text-brand-ink hover:underline">View all</Link>
                     </div>
 
                     <SectionCard padding="sm" className="flex flex-col gap-4">
@@ -345,7 +345,7 @@ export default function LandlordDashboardPage() {
                             </div>
                             <h4 className="font-bold text-lg leading-tight mb-2">Optimize your rental yield</h4>
                             <p className="text-sm text-blue-100 mb-4">Based on market trends, you could increase rent for 1243 Oakwood by 5%.</p>
-                            <button className="w-full py-2 bg-white text-brand-ink font-bold text-sm rounded-lg hover:bg-blue-50 transition-colors">View Analysis</button>
+                            <button className="w-full py-2 bg-white text-brand-ink font-bold text-sm rounded-lg hover:bg-blue-50 transition-colors">View analysis</button>
                         </div>
                     </div>
                 </div>

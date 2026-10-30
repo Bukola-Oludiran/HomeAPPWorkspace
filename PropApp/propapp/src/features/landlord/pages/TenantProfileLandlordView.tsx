@@ -58,9 +58,9 @@ export default function TenantProfileLandlordView() {
                     <div className="flex items-center gap-2 text-sm text-slate-800 dark:text-slate-400 mb-2 font-medium">
                         <Link className="hover:text-brand-ink" to="/landlord/tenants">Applications</Link>
                         <span className="material-symbols-outlined text-[14px]">chevron_right</span>
-                        <span>Applicant Profile</span>
+                        <span>Applicant profile</span>
                     </div>
-                    <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Tenant Profile</h1>
+                    <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Tenant profile</h1>
                     <p className="text-slate-800 dark:text-slate-400 mt-2 text-lg">Review applicant details, verification status, and history.</p>
                 </div>
             </div>
@@ -98,15 +98,15 @@ export default function TenantProfileLandlordView() {
                         </h3>
                         <div className="space-y-4">
                             <div className="flex items-center justify-between">
-                                <span className="text-sm text-slate-600 dark:text-slate-400 font-medium">Background Check</span>
+                                <span className="text-sm text-slate-600 dark:text-slate-400 font-medium">Background check</span>
                                 <span className="text-xs font-bold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 px-2 py-1 rounded">Cleared</span>
                             </div>
                             <div className="flex items-center justify-between">
-                                <span className="text-sm text-slate-600 dark:text-slate-400 font-medium">Income Verification</span>
+                                <span className="text-sm text-slate-600 dark:text-slate-400 font-medium">Income verification</span>
                                 <span className="text-xs font-bold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 px-2 py-1 rounded">Verified</span>
                             </div>
                             <div className="flex items-center justify-between">
-                                <span className="text-sm text-slate-600 dark:text-slate-400 font-medium">Credit Score</span>
+                                <span className="text-sm text-slate-600 dark:text-slate-400 font-medium">Credit score</span>
                                 <span className="text-sm font-bold text-slate-900 dark:text-white">742 <span className="text-green-500 text-xs font-normal">(Excellent)</span></span>
                             </div>
                             <hr className="border-slate-100 dark:border-slate-700" />
@@ -142,7 +142,7 @@ export default function TenantProfileLandlordView() {
                                 <div className="flex flex-row md:flex-col items-center md:items-end gap-3 md:gap-1">
                                     <div className="text-right">
                                         <span className="block text-xs text-slate-500 dark:text-slate-400 font-medium uppercase">Status</span>
-                                        <span className="text-sm font-bold text-blue-600 dark:text-blue-400">Review Pending</span>
+                                        <span className="text-sm font-bold text-blue-600 dark:text-blue-400">Review pending</span>
                                     </div>
                                 </div>
                             </div>
@@ -168,27 +168,27 @@ export default function TenantProfileLandlordView() {
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                             <div>
-                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-500 uppercase mb-1">Full Name</label>
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-500 uppercase mb-1">Full name</label>
                                 <div className="text-base font-semibold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 px-4 py-3 rounded-xl border border-transparent dark:border-slate-800">
                                     {tenantName}
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-500 uppercase mb-1">Date of Birth</label>
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-500 uppercase mb-1">Date of birth</label>
                                 <div className="text-base font-semibold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 px-4 py-3 rounded-xl border border-transparent dark:border-slate-800 flex items-center gap-2">
                                     <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-lg">calendar_today</span>
                                     August 15, 1995 <span className="text-sm font-normal text-slate-500 dark:text-slate-400">(29 yrs)</span>
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-500 uppercase mb-1">Email Address</label>
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-500 uppercase mb-1">Email address</label>
                                 <div className="text-base font-semibold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 px-4 py-3 rounded-xl border border-transparent dark:border-slate-800 flex items-center justify-between group cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
                                     <span>sarah.johnson@example.com</span>
                                     <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-sm opacity-0 group-hover:opacity-100">content_copy</span>
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-500 uppercase mb-1">Phone Number</label>
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-500 uppercase mb-1">Phone number</label>
                                 <div className="text-base font-semibold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 px-4 py-3 rounded-xl border border-transparent dark:border-slate-800 flex items-center justify-between group cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
                                     <span>(555) 123-4567</span>
                                     <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-sm opacity-0 group-hover:opacity-100">call</span>
@@ -206,25 +206,25 @@ export default function TenantProfileLandlordView() {
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div className="md:col-span-2">
-                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-500 uppercase mb-1">Current Employer</label>
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-500 uppercase mb-1">Current employer</label>
                                 <div className="text-base font-semibold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 px-4 py-3 rounded-xl border border-transparent dark:border-slate-800">
                                     Tech Solutions Inc.
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-500 uppercase mb-1">Job Title</label>
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-500 uppercase mb-1">Job title</label>
                                 <div className="text-base font-semibold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 px-4 py-3 rounded-xl border border-transparent dark:border-slate-800">
                                     Senior UX Designer
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-500 uppercase mb-1">Annual Income</label>
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-500 uppercase mb-1">Annual income</label>
                                 <div className="text-base font-bold text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-900/10 px-4 py-3 rounded-xl border border-green-100 dark:border-green-900/30 flex items-center gap-2">
                                     <span className="material-symbols-outlined text-[18px]">payments</span> 95,000
                                 </div>
                             </div>
                             <div className="md:col-span-2">
-                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-500 uppercase mb-1">Proof of Income</label>
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-500 uppercase mb-1">Proof of income</label>
                                 <div className="flex items-center gap-2 text-sm text-brand-ink font-medium bg-brand/5 px-4 py-3 rounded-xl border border-brand/10 cursor-pointer hover:bg-brand/10 transition-colors">
                                     <span className="material-symbols-outlined text-[18px]">description</span>
                                     <span>paystub_sep_2024.pdf</span>
@@ -241,14 +241,14 @@ export default function TenantProfileLandlordView() {
                         </h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div>
-                                <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-3">Search Criteria</h4>
+                                <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-3">Search criteria</h4>
                                 <ul className="space-y-3">
                                     <li className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
-                                        <span className="text-sm text-slate-500 dark:text-slate-400">Desired Bedrooms</span>
+                                        <span className="text-sm text-slate-500 dark:text-slate-400">Desired bedrooms</span>
                                         <span className="text-sm font-bold text-slate-900 dark:text-white">{profile?.preferences?.desiredBedrooms || '—'}</span>
                                     </li>
                                     <li className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
-                                        <span className="text-sm text-slate-500 dark:text-slate-400">Max Budget</span>
+                                        <span className="text-sm text-slate-500 dark:text-slate-400">Max budget</span>
                                         <span className="text-sm font-bold text-slate-900 dark:text-white">{profile?.preferences?.monthlyBudgetMax ? formatCurrency(profile.preferences.monthlyBudgetMax) : '—'}</span>
                                     </li>
                                 </ul>
@@ -264,7 +264,7 @@ export default function TenantProfileLandlordView() {
                                 <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
                                     <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                                         <span className="material-symbols-outlined text-[18px]">mark_email_read</span>
-                                        Tenant prefers <strong>Email Notifications</strong>
+                                        Tenant prefers <strong>Email notifications</strong>
                                     </div>
                                 </div>
                             </div>
@@ -334,7 +334,7 @@ export default function TenantProfileLandlordView() {
                         <span className="material-symbols-outlined">psychology_alt</span>
                     </div>
                     <div className="flex flex-col items-start">
-                        <span className="text-sm font-bold leading-none">Evaluate Tenant</span>
+                        <span className="text-sm font-bold leading-none">Evaluate tenant</span>
                         <span className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-tight mt-0.5">AI Insights</span>
                     </div>
                 </button>

@@ -53,7 +53,7 @@ export default function PasswordResetPage() {
                     <span className="material-symbols-outlined text-4xl text-sky">lock_reset</span>
                 </div>
 
-                <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-3 text-center">Set New Password</h1>
+                <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-3 text-center">Set new password</h1>
                 <p className="text-slate-200 dark:text-slate-300 text-sm mb-8 font-normal text-center leading-relaxed">
                     Please enter and confirm your new password below.
                 </p>
@@ -71,7 +71,7 @@ export default function PasswordResetPage() {
                 <form onSubmit={handleSubmit} className="w-full space-y-5">
                     {/* New Password */}
                     <div className="space-y-3">
-                        <label className="sr-only" htmlFor="new-password">New Password</label>
+                        <label className="sr-only" htmlFor="new-password">New password</label>
                         <div className="relative group">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <span className="material-symbols-outlined text-slate-300 text-[20px] group-focus-within:text-sky transition-colors">lock</span>
@@ -80,7 +80,7 @@ export default function PasswordResetPage() {
                                 className="block w-full pl-10 pr-10 py-3.5 border border-white/10 dark:border-slate-600 rounded-xl bg-white/5 dark:bg-slate-900/50 text-white placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all sm:text-sm"
                                 id="new-password"
                                 name="new-password"
-                                placeholder="New Password"
+                                placeholder="New password"
                                 required
                                 type={showNewPassword ? 'text' : 'password'}
                                 value={newPassword}
@@ -100,7 +100,7 @@ export default function PasswordResetPage() {
 
                         {/* Password Strength */}
                         <div className="bg-white/5 dark:bg-slate-900/30 rounded-lg p-3 border border-white/5">
-                            <p className="text-xs uppercase tracking-wider text-slate-300 font-semibold mb-2">Password Strength</p>
+                            <p className="text-xs uppercase tracking-wider text-slate-300 font-semibold mb-2">Password strength</p>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
                                 <div className={`flex items-center gap-2 text-xs font-medium transition-colors ${hasMinLength ? 'text-green-400' : 'text-slate-300 opacity-70'}`}>
                                     <span className={`material-symbols-outlined text-[16px] ${hasMinLength ? 'icon-filled' : ''}`}>
@@ -132,7 +132,7 @@ export default function PasswordResetPage() {
 
                     {/* Confirm Password */}
                     <div className="relative group">
-                        <label className="sr-only" htmlFor="confirm-password">Confirm New Password</label>
+                        <label className="sr-only" htmlFor="confirm-password">Confirm new password</label>
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <span className="material-symbols-outlined text-slate-300 text-[20px] group-focus-within:text-sky transition-colors">key</span>
                         </div>
@@ -141,7 +141,7 @@ export default function PasswordResetPage() {
                                 }`}
                             id="confirm-password"
                             name="confirm-password"
-                            placeholder="Confirm New Password"
+                            placeholder="Confirm new password"
                             required
                             type={showConfirmPassword ? 'text' : 'password'}
                             value={confirmPassword}

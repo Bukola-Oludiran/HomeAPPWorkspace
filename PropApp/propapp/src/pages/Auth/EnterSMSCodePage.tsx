@@ -50,7 +50,7 @@ export default function EnterSMSCodePage() {
                         to="/auth/2fa/sms-success"
                         className="w-full py-3.5 px-5 rounded-xl bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold transition-all flex items-center justify-center gap-2"
                     >
-                        <span>Verify Code</span>
+                        <span>Verify code</span>
                         <span className="material-symbols-outlined text-[20px]">check</span>
                     </Link>
                     <Link

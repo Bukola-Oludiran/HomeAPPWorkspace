@@ -83,7 +83,7 @@ export default function CalendarSyncModal({ isOpen, onClose }: CalendarSyncModal
                         <div className="size-10 bg-brand/10 rounded-full flex items-center justify-center">
                             <span className="material-symbols-outlined text-brand-ink">sync</span>
                         </div>
-                        <h2 className="text-lg font-bold text-slate-900 dark:text-white">Sync Calendar</h2>
+                        <h2 className="text-lg font-bold text-slate-900 dark:text-white">Sync calendar</h2>
                     </div>
                     <button
                         onClick={onClose}
@@ -98,7 +98,7 @@ export default function CalendarSyncModal({ isOpen, onClose }: CalendarSyncModal
                     {/* Calendar Connections */}
                     <div className="mb-6">
                         <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3 block">
-                            Connect a Calendar
+                            Connect a calendar
                         </label>
                         <div className="space-y-3">
                             {connections.map((calendar) => (
@@ -156,12 +156,12 @@ export default function CalendarSyncModal({ isOpen, onClose }: CalendarSyncModal
                     {connectedCalendars.length > 0 && (
                         <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
                             <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3 block">
-                                Sync Settings
+                                Sync settings
                             </label>
 
                             {/* Sync Direction */}
                             <div className="mb-4">
-                                <p className="text-xs text-slate-500 dark:text-slate-400 mb-2">Sync Direction</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 mb-2">Sync direction</p>
                                 <div className="flex gap-2">
                                     {[
                                         { value: 'both', label: 'Two-way', icon: 'sync_alt' },

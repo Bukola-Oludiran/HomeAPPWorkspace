@@ -51,7 +51,7 @@ export default function SignUpStep1() {
                 </span>
             </div>
 
-            <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-2 text-center">Create Your Account</h1>
+            <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-2 text-center">Create your account</h1>
             <p className="text-slate-300 text-sm md:text-base mb-8 text-center font-normal">
                 Start your journey to finding the perfect property.
             </p>
@@ -69,7 +69,7 @@ export default function SignUpStep1() {
             <form onSubmit={handleSubmit} className="w-full space-y-5">
                 {/* Email */}
                 <div className="space-y-1.5">
-                    <label className="block text-sm font-semibold text-slate-200" htmlFor="email">Email Address</label>
+                    <label className="block text-sm font-semibold text-slate-200" htmlFor="email">Email address</label>
                     <div className="relative">
                         <input
                             className="block w-full rounded-xl border-white/10 bg-white/5 px-4 py-3.5 text-white placeholder-slate-300 focus:border-brand focus:ring-brand sm:text-sm shadow-sm transition-colors"
@@ -148,11 +148,11 @@ export default function SignUpStep1() {
                         <label className="font-medium text-slate-300" htmlFor="terms">
                             I agree to the{' '}
                             <a className="font-semibold text-sky hover:text-sky/80 underline decoration-brand/30 underline-offset-2" href="#">
-                                Terms of Service
+                                Terms of service
                             </a>
                             {' '}and{' '}
                             <a className="font-semibold text-sky hover:text-sky/80 underline decoration-brand/30 underline-offset-2" href="#">
-                                Privacy Policy
+                                Privacy policy
                             </a>.
                         </label>
                     </div>
@@ -171,7 +171,7 @@ export default function SignUpStep1() {
                         </>
                     ) : (
                         <>
-                            Create Account
+                            Create account
                             <span className="material-symbols-outlined text-xl">arrow_forward</span>
                         </>
                     )}
@@ -181,7 +181,7 @@ export default function SignUpStep1() {
             <p className="mt-8 text-sm text-slate-300">
                 Already have an account?{' '}
                 <Link className="font-bold text-white hover:text-sky transition-colors" to="/auth/login">
-                    Log In
+                    Log in
                 </Link>
             </p>
         </div>

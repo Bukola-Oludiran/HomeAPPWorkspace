@@ -18,7 +18,7 @@ export default function UseSecurityKeyPage() {
                 </div>
             </div>
 
-            <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-3 text-center">Use Security Key</h1>
+            <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-3 text-center">Use security key</h1>
             <p className="text-slate-200 dark:text-slate-300 text-sm mb-8 font-normal text-center leading-relaxed">
                 Insert your security key and follow the prompts to verify your identity.
             </p>

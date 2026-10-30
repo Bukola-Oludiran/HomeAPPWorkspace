@@ -84,7 +84,7 @@ export default function TenantApplicationDetail() {
                 <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
                     <span className="material-symbols-outlined text-5xl text-slate-300">error</span>
                     <p className="text-slate-500 dark:text-slate-400 font-medium">{error || 'Application not found'}</p>
-                    <Link to="/tenant/applications" className="text-brand-ink font-bold hover:underline">Back to Applications</Link>
+                    <Link to="/tenant/applications" className="text-brand-ink font-bold hover:underline">Back to applications</Link>
                 </div>
             </PageContainer>
         );
@@ -130,7 +130,7 @@ export default function TenantApplicationDetail() {
                             onClick={() => setIsWithdrawModalOpen(true)}
                             className="px-4 py-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-red-200 dark:border-red-900/50 text-red-600 dark:text-red-400 font-semibold text-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                         >
-                            Withdraw Application
+                            Withdraw application
                         </button>
                     </div>
                 )}
@@ -147,7 +147,7 @@ export default function TenantApplicationDetail() {
                                 <span className="material-symbols-outlined">cancel</span>
                             </div>
                             <div className="flex-1">
-                                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">Application Rejected</h3>
+                                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">Application rejected</h3>
                                 <p className="text-slate-600 dark:text-slate-300 text-sm">
                                     {application.rejectionReason}
                                 </p>
@@ -160,7 +160,7 @@ export default function TenantApplicationDetail() {
                         <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden">
                             <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2 bg-slate-50/50 dark:bg-canvas-dark">
                                 <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">comment</span>
-                                <h3 className="font-bold text-slate-900 dark:text-white">Your Message</h3>
+                                <h3 className="font-bold text-slate-900 dark:text-white">Your message</h3>
                             </div>
                             <div className="p-6">
                                 <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
@@ -175,28 +175,28 @@ export default function TenantApplicationDetail() {
                         <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-canvas-dark">
                             <div className="flex items-center gap-2">
                                 <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">description</span>
-                                <h3 className="font-bold text-slate-900 dark:text-white">Submitted Information</h3>
+                                <h3 className="font-bold text-slate-900 dark:text-white">Submitted information</h3>
                             </div>
                         </div>
                         <div className="divide-y divide-slate-100 dark:divide-slate-800">
                             {/* Personal Details */}
                             {application.tenant && (
                                 <div className="p-6">
-                                    <h4 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-4 opacity-70">Personal Details</h4>
+                                    <h4 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-4 opacity-70">Personal details</h4>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div>
-                                            <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Full Name</p>
+                                            <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Full name</p>
                                             <p className="text-sm font-medium text-slate-900 dark:text-white">{application.tenant.firstName} {application.tenant.lastName}</p>
                                         </div>
                                         {application.tenant.email && (
                                             <div>
-                                                <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Email Address</p>
+                                                <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Email address</p>
                                                 <p className="text-sm font-medium text-slate-900 dark:text-white">{application.tenant.email}</p>
                                             </div>
                                         )}
                                         {application.tenant.phone && (
                                             <div>
-                                                <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Phone Number</p>
+                                                <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Phone number</p>
                                                 <p className="text-sm font-medium text-slate-900 dark:text-white">{application.tenant.phone}</p>
                                             </div>
                                         )}
@@ -206,7 +206,7 @@ export default function TenantApplicationDetail() {
 
                             {/* Employment & Income */}
                             <div className="p-6">
-                                <h4 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-4 opacity-70">Employment & Income</h4>
+                                <h4 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-4 opacity-70">Employment & income</h4>
                                 <div className="flex items-start gap-4">
                                     <div className="size-10 bg-blue-50 dark:bg-blue-900/20 rounded-lg flex items-center justify-center text-blue-600 shrink-0">
                                         <span className="material-symbols-outlined">work</span>
@@ -215,7 +215,7 @@ export default function TenantApplicationDetail() {
                                         <h5 className="font-bold text-slate-900 dark:text-white">{formatEmploymentStatus(application.employmentStatus)}</h5>
                                         <div className="grid grid-cols-2 gap-4 mt-3">
                                             <div>
-                                                <p className="text-xs text-slate-500 dark:text-slate-400 mb-0.5">Monthly Income</p>
+                                                <p className="text-xs text-slate-500 dark:text-slate-400 mb-0.5">Monthly income</p>
                                                 <p className="text-sm font-bold text-slate-900 dark:text-white">{formatCurrency(application.monthlyIncome)}</p>
                                             </div>
                                             <div>
@@ -265,7 +265,7 @@ export default function TenantApplicationDetail() {
                                     to={`/property/${application.propertyId}`}
                                     className="w-full py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors block text-center"
                                 >
-                                    View Full Listing
+                                    View full listing
                                 </Link>
                             </div>
                         </div>
@@ -273,7 +273,7 @@ export default function TenantApplicationDetail() {
 
                     {/* Application Timeline */}
                     <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 p-6">
-                        <h3 className="font-bold text-slate-900 dark:text-white mb-5">Application Timeline</h3>
+                        <h3 className="font-bold text-slate-900 dark:text-white mb-5">Application timeline</h3>
                         <div className="relative border-l-2 border-slate-100 dark:border-slate-800 ml-3 space-y-6">
                             <div className="relative pl-6">
                                 <div className="absolute -left-[9px] top-0 size-4 rounded-full border-4 border-white dark:border-canvas-dark bg-amber-500"></div>
@@ -286,7 +286,7 @@ export default function TenantApplicationDetail() {
                             <div className="relative pl-6">
                                 <div className="absolute -left-[9px] top-0 size-4 rounded-full border-4 border-white dark:border-canvas-dark bg-slate-300 dark:bg-slate-600"></div>
                                 <p className="text-xs text-slate-500 dark:text-slate-400 font-mono mb-0.5">{submittedDate}</p>
-                                <h4 className="text-sm font-bold text-slate-900 dark:text-white">Application Submitted</h4>
+                                <h4 className="text-sm font-bold text-slate-900 dark:text-white">Application submitted</h4>
                                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">You completed the application form.</p>
                             </div>
                         </div>

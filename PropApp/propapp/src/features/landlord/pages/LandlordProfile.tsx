@@ -133,11 +133,11 @@ const defaultProfileData: UIProfileData = {
 };
 
 const menuItems = [
-    { id: 'personal', icon: 'person', label: 'Personal Info' },
-    { id: 'security', icon: 'lock', label: 'Login & Security' },
+    { id: 'personal', icon: 'person', label: 'Personal info' },
+    { id: 'security', icon: 'lock', label: 'Login & security' },
     { id: 'notifications', icon: 'notifications', label: 'Notifications' },
-    { id: 'billing', icon: 'credit_card', label: 'Billing & Payouts' },
-    { id: 'privacy', icon: 'shield', label: 'Privacy Settings' },
+    { id: 'billing', icon: 'credit_card', label: 'Billing & payouts' },
+    { id: 'privacy', icon: 'shield', label: 'Privacy settings' },
 ];
 
 export default function LandlordProfile() {
@@ -225,7 +225,7 @@ export default function LandlordProfile() {
                             onClick={() => window.location.reload()}
                             className="px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-sm font-bold text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                         >
-                            Try Again
+                            Try again
                         </button>
                     </div>
                 </div>
@@ -236,14 +236,14 @@ export default function LandlordProfile() {
     return (
         <PageContainer maxWidth="lg">
             <PageHeader
-                title="Landlord Profile"
+                title="Landlord profile"
                 breadcrumb={[
                     { label: 'Account', href: '/landlord/dashboard' },
                     { label: 'Profile' }
                 ]}
                 actions={
                     <button className="px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold text-sm bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 transition-colors">
-                        View Public Profile
+                        View public profile
                     </button>
                 }
             />
@@ -289,8 +289,8 @@ export default function LandlordProfile() {
                     {/* Verification Status */}
                     <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-100 dark:border-slate-800">
                         <div className="flex items-center justify-between mb-4">
-                            <h3 className="font-bold text-slate-900 dark:text-white">Verification Status</h3>
-                            <Link to="/landlord/verification" className="text-xs font-bold text-brand-ink hover:underline">View Hub</Link>
+                            <h3 className="font-bold text-slate-900 dark:text-white">Verification status</h3>
+                            <Link to="/landlord/verification" className="text-xs font-bold text-brand-ink hover:underline">View hub</Link>
                         </div>
                         <div className="space-y-3">
                             {profileData.verifications.map((item) => (
@@ -338,7 +338,7 @@ export default function LandlordProfile() {
                     {/* Personal Info Form */}
                     <div className="bg-white dark:bg-canvas-dark p-6 md:p-8 rounded-2xl border border-slate-100 dark:border-slate-800">
                         <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Personal & Contact Information</h2>
+                            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Personal & contact information</h2>
                             <span className="flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-full">
                                 <span className="material-symbols-outlined text-[14px]">visibility</span>
                                 Visible to tenants
@@ -347,7 +347,7 @@ export default function LandlordProfile() {
                         <form className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
-                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">First Name</label>
+                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">First name</label>
                                     <input
                                         className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#1e293b] text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all text-sm"
                                         type="text"
@@ -356,7 +356,7 @@ export default function LandlordProfile() {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Last Name</label>
+                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Last name</label>
                                     <input
                                         className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#1e293b] text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all text-sm"
                                         type="text"
@@ -367,7 +367,7 @@ export default function LandlordProfile() {
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
-                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Email Address</label>
+                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Email address</label>
                                     <input
                                         className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#1e293b] text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all text-sm"
                                         type="email"
@@ -376,7 +376,7 @@ export default function LandlordProfile() {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Phone Number</label>
+                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Phone number</label>
                                     <input
                                         className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#1e293b] text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all text-sm"
                                         type="tel"
@@ -391,7 +391,7 @@ export default function LandlordProfile() {
                     {/* About Me */}
                     <div className="bg-white dark:bg-canvas-dark p-6 md:p-8 rounded-2xl border border-slate-100 dark:border-slate-800">
                         <div className="flex items-center justify-between mb-4">
-                            <h2 className="text-xl font-bold text-slate-900 dark:text-white">About Me</h2>
+                            <h2 className="text-xl font-bold text-slate-900 dark:text-white">About me</h2>
                         </div>
                         <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
                             This description will appear on your public profile and property listings.
@@ -412,8 +412,8 @@ export default function LandlordProfile() {
                     {/* Managed Properties */}
                     <div className="bg-white dark:bg-canvas-dark p-6 md:p-8 rounded-2xl border border-slate-100 dark:border-slate-800">
                         <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Managed Properties</h2>
-                            <Link to="/landlord/properties" className="text-sm font-semibold text-brand-ink hover:underline">Manage All</Link>
+                            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Managed properties</h2>
+                            <Link to="/landlord/properties" className="text-sm font-semibold text-brand-ink hover:underline">Manage all</Link>
                         </div>
                         <div className="space-y-4">
                             {profileData.properties.map((property) => (
@@ -448,7 +448,7 @@ export default function LandlordProfile() {
                     {/* Reviews */}
                     <div className="bg-white dark:bg-canvas-dark p-6 md:p-8 rounded-2xl border border-slate-100 dark:border-slate-800">
                         <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Reviews & Ratings</h2>
+                            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Reviews & ratings</h2>
                             <span className="text-sm text-slate-500 dark:text-slate-400">{profileData.reviews.total} Total Reviews</span>
                         </div>
                         <div className="flex flex-col md:flex-row gap-8 items-center">
@@ -460,7 +460,7 @@ export default function LandlordProfile() {
                                     ))}
                                     <span className="material-symbols-outlined text-slate-300 dark:text-slate-700" style={{ fontVariationSettings: "'FILL' 1" }}>star_half</span>
                                 </div>
-                                <p className="text-xs text-slate-500 dark:text-slate-400">Overall Rating</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400">Overall rating</p>
                             </div>
                             <div className="flex-1 w-full space-y-2">
                                 {profileData.reviews.breakdown.map((item) => (
@@ -483,7 +483,7 @@ export default function LandlordProfile() {
                         </button>
                         <button className="px-6 py-3 rounded-xl bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm transition-all flex items-center gap-2">
                             <span className="material-symbols-outlined text-[20px]">save</span>
-                            Save Changes
+                            Save changes
                         </button>
                     </div>
                 </div>

@@ -56,7 +56,7 @@ export default function DocumentViewerModal({ isOpen, onClose, document }: Docum
                     <button
                         onClick={onClose}
                         className="size-10 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-colors text-slate-500 dark:text-slate-400"
-                        title="Close Preview"
+                        title="Close preview"
                     >
                         <span className="material-symbols-outlined text-[24px]">close</span>
                     </button>
@@ -65,11 +65,11 @@ export default function DocumentViewerModal({ isOpen, onClose, document }: Docum
                 {/* Toolbar */}
                 <div className="bg-white dark:bg-canvas-dark h-14 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 shrink-0 z-20 relative">
                     <div className="flex items-center gap-1">
-                        <button className="flex items-center justify-center size-9 rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 transition-colors" title="Toggle Sidebar">
+                        <button className="flex items-center justify-center size-9 rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 transition-colors" title="Toggle sidebar">
                             <span className="material-symbols-outlined text-[20px]">thumbnail_bar</span>
                         </button>
                         <div className="h-5 w-px bg-slate-200 dark:bg-slate-700 mx-2"></div>
-                        <button className="flex items-center justify-center size-9 rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 transition-colors" title="Fit to Width">
+                        <button className="flex items-center justify-center size-9 rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 transition-colors" title="Fit to width">
                             <span className="material-symbols-outlined text-[20px]">fit_width</span>
                         </button>
                     </div>
@@ -134,7 +134,7 @@ export default function DocumentViewerModal({ isOpen, onClose, document }: Docum
 
                         <div className="space-y-8 font-serif text-lg leading-relaxed text-slate-800 text-justify">
                             <p>
-                                <span className="font-bold uppercase tracking-wide">This Lease Agreement</span> (the "Agreement") is made and entered into this 1st day of December, 2023, by and between:
+                                <span className="font-bold uppercase tracking-wide">This lease agreement</span> (the "Agreement") is made and entered into this 1st day of December, 2023, by and between:
                             </p>
 
                             <div className="grid grid-cols-2 gap-8 my-8">
@@ -204,7 +204,7 @@ export default function DocumentViewerModal({ isOpen, onClose, document }: Docum
                                 </>
                             )}
                             <button className="flex-1 md:flex-none bg-brand-ink hover:bg-[#0e64bd] text-on-brand px-8 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 w-full md:w-auto">
-                                <span>Proceed to Sign</span>
+                                <span>Proceed to sign</span>
                                 <span className="material-symbols-outlined text-[20px]">ink_pen</span>
                             </button>
                         </div>

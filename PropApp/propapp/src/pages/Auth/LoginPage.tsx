@@ -40,7 +40,7 @@ export default function LoginPage() {
 
     return (
         <div className="w-full max-w-md bg-white/10 dark:bg-surface-dark/60 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col items-center">
-            <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-2">Welcome Back</h1>
+            <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-2">Welcome back</h1>
             <p className="text-slate-200 dark:text-slate-300 text-sm mb-8 font-normal">
                 Log in to your account to continue
             </p>
@@ -118,7 +118,7 @@ export default function LoginPage() {
                     </div>
                     <div className="text-sm">
                         <Link className="font-medium text-sky hover:text-sky/80 transition-colors" to="/auth/forgot-password">
-                            Forgot Password?
+                            Forgot password?
                         </Link>
                     </div>
                 </div>
@@ -135,7 +135,7 @@ export default function LoginPage() {
                             Logging in...
                         </>
                     ) : (
-                        'Log In'
+                        'Log in'
                     )}
                 </button>
             </form>
@@ -143,7 +143,7 @@ export default function LoginPage() {
             <p className="mt-8 text-sm text-slate-300">
                 Don't have an account?{' '}
                 <Link className="text-sky hover:text-sky/80 font-bold hover:underline transition-all" to="/auth/signup/step1">
-                    Sign Up
+                    Sign up
                 </Link>
             </p>
         </div>

@@ -76,7 +76,7 @@ export default function AgentJobBoard() {
     }
 
     const filters: { key: FilterType; label: string }[] = [
-        { key: 'all', label: 'All Jobs' },
+        { key: 'all', label: 'All jobs' },
         { key: 'viewing', label: 'Viewings' },
         { key: 'inspection', label: 'Inspections' },
         { key: 'verification', label: 'Verifications' },
@@ -103,7 +103,7 @@ export default function AgentJobBoard() {
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
                     <div>
                         <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                            Agent Job Board
+                            Agent job board
                         </h1>
                         <p className="text-slate-800 dark:text-slate-400 mt-2 text-lg">
                             Find and accept property service jobs in your area.
@@ -145,7 +145,7 @@ export default function AgentJobBoard() {
                         <div className="flex items-center justify-between mb-2">
                             <span className="material-symbols-outlined text-green-500 text-[24px]">payments</span>
                         </div>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Total Earned</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Total earned</p>
                         <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white">
                             {formatCurrency(earnings?.totalEarned || 0)}
                         </h3>
@@ -182,7 +182,7 @@ export default function AgentJobBoard() {
                         <div className="flex items-center justify-between mb-2">
                             <span className="material-symbols-outlined text-purple-500 text-[24px]">work</span>
                         </div>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Available Jobs</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Available jobs</p>
                         <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white">
                             {jobs.length}
                             <span className="text-sm font-normal text-slate-500 dark:text-slate-400 ml-1">open</span>
@@ -296,7 +296,7 @@ export default function AgentJobBoard() {
                 {/* Load More */}
                 <div className="mt-10 flex justify-center">
                     <button className="px-8 py-3 rounded-xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                        Load More Jobs
+                        Load more jobs
                     </button>
                 </div>
             </div>
@@ -312,7 +312,7 @@ export default function AgentJobBoard() {
                 onClose={() => setIsSuccessOpen(false)}
                 title="Job accepted"
                 description="You've been added to this job. Check your schedule for details and head to the location at the scheduled time."
-                buttonText="View My Jobs"
+                buttonText="View my jobs"
                 icon="work"
             />
         </div >

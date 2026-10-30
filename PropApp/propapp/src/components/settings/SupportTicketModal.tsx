@@ -36,7 +36,7 @@ export default function SupportTicketModal({ isOpen, onClose, onSubmit }: Suppor
                     {/* Header */}
                     <div className="flex items-center justify-between mb-6">
                         <div>
-                            <h3 className="text-xl font-bold text-slate-900 dark:text-white">Submit a Support Ticket</h3>
+                            <h3 className="text-xl font-bold text-slate-900 dark:text-white">Submit a support ticket</h3>
                             <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Describe your issue and we'll get back to you shortly.</p>
                         </div>
                         <button
@@ -60,7 +60,7 @@ export default function SupportTicketModal({ isOpen, onClose, onSubmit }: Suppor
                                 />
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Email Address</label>
+                                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Email address</label>
                                 <input
                                     className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 cursor-not-allowed shadow-sm text-sm py-2.5"
                                     readOnly
@@ -86,10 +86,10 @@ export default function SupportTicketModal({ isOpen, onClose, onSubmit }: Suppor
                                     className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm text-sm py-2.5 focus:ring-brand focus:border-brand"
                                 >
                                     <option value="">Select a topic...</option>
-                                    <option value="billing">Billing Issue</option>
-                                    <option value="technical">Technical Problem</option>
-                                    <option value="listing">Property Listing Inquiry</option>
-                                    <option value="access">Account Access</option>
+                                    <option value="billing">Billing issue</option>
+                                    <option value="technical">Technical problem</option>
+                                    <option value="listing">Property listing inquiry</option>
+                                    <option value="access">Account access</option>
                                     <option value="other">Other</option>
                                 </select>
                             </div>
@@ -172,7 +172,7 @@ export default function SupportTicketModal({ isOpen, onClose, onSubmit }: Suppor
                                 type="submit"
                                 className="px-5 py-2.5 rounded-lg text-sm font-semibold text-on-brand bg-brand-ink hover:bg-brand-ink/90 transition-all cursor-pointer"
                             >
-                                Submit Ticket
+                                Submit ticket
                             </button>
                         </div>
                     </form>

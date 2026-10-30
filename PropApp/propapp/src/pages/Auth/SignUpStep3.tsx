@@ -92,7 +92,7 @@ export default function SignUpStep3() {
                 </span>
             </div>
 
-            <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-2 text-center">Tell Us Your Role</h1>
+            <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-2 text-center">Tell us your role</h1>
             <p className="text-slate-300 text-sm md:text-base mb-8 text-center font-normal">
                 Select the option that best describes you to personalize your experience.
             </p>
@@ -145,7 +145,7 @@ export default function SignUpStep3() {
                                 className="block w-full rounded-xl border-white/10 bg-white/5 px-4 py-3.5 text-white placeholder-slate-300 focus:border-brand focus:ring-brand sm:text-sm shadow-sm transition-colors"
                                 id="firstname"
                                 name="firstname"
-                                placeholder="First Name"
+                                placeholder="First name"
                                 type="text"
                                 required
                                 value={firstName}
@@ -158,7 +158,7 @@ export default function SignUpStep3() {
                                 className="block w-full rounded-xl border-white/10 bg-white/5 px-4 py-3.5 text-white placeholder-slate-300 focus:border-brand focus:ring-brand sm:text-sm shadow-sm transition-colors"
                                 id="lastname"
                                 name="lastname"
-                                placeholder="Last Name"
+                                placeholder="Last name"
                                 type="text"
                                 required
                                 value={lastName}
@@ -182,7 +182,7 @@ export default function SignUpStep3() {
                         </>
                     ) : (
                         <>
-                            Finish Setup
+                            Finish setup
                             <span className="material-symbols-outlined text-xl">check</span>
                         </>
                     )}

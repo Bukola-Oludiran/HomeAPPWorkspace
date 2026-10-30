@@ -14,10 +14,10 @@ export default function SignUpStep4Agent() {
     const [customSpecialties, setCustomSpecialties] = useState<SpecialtyOption[]>([]);
 
     const defaultSpecialtyOptions: SpecialtyOption[] = [
-        { id: 'spec-res-sales', value: 'residential-sales', label: 'Residential Sales' },
-        { id: 'spec-comm-lease', value: 'commercial-leasing', label: 'Commercial Leasing' },
-        { id: 'spec-prop-mgmt', value: 'property-mgmt', label: 'Property Management' },
-        { id: 'spec-maintenance', value: 'maintenance', label: 'Property Maintenance' }
+        { id: 'spec-res-sales', value: 'residential-sales', label: 'Residential sales' },
+        { id: 'spec-comm-lease', value: 'commercial-leasing', label: 'Commercial leasing' },
+        { id: 'spec-prop-mgmt', value: 'property-mgmt', label: 'Property management' },
+        { id: 'spec-maintenance', value: 'maintenance', label: 'Property maintenance' }
     ];
 
     // Combine default and custom options
@@ -56,7 +56,7 @@ export default function SignUpStep4Agent() {
                 </span>
             </div>
 
-            <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-2 text-center">Build Your Agent Profile</h1>
+            <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-2 text-center">Build your agent profile</h1>
             <p className="text-slate-300 text-sm md:text-base mb-8 text-center font-normal">
                 Tell us about your services to help clients find the right match.
             </p>
@@ -87,7 +87,7 @@ export default function SignUpStep4Agent() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     {/* Primary Service Area */}
                     <div className="space-y-1.5">
-                        <label className="block text-sm font-semibold text-slate-200" htmlFor="service-area">Primary Service Area</label>
+                        <label className="block text-sm font-semibold text-slate-200" htmlFor="service-area">Primary service area</label>
                         <div className="relative">
                             <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300">
                                 <span className="material-symbols-outlined text-[20px]">location_on</span>
@@ -104,7 +104,7 @@ export default function SignUpStep4Agent() {
 
                     {/* Years of Experience */}
                     <div className="space-y-1.5">
-                        <label className="block text-sm font-semibold text-slate-200" htmlFor="experience">Years of Experience</label>
+                        <label className="block text-sm font-semibold text-slate-200" htmlFor="experience">Years of experience</label>
                         <div className="relative">
                             <select
                                 className="block w-full pl-4 pr-10 py-3.5 rounded-xl border-white/10 bg-white/5 text-white focus:border-brand focus:ring-brand sm:text-sm shadow-sm transition-colors appearance-none"
@@ -145,7 +145,7 @@ export default function SignUpStep4Agent() {
                             type="button"
                         >
                             <span className="material-symbols-outlined text-[16px]">upload_file</span>
-                            Upload Doc
+                            Upload doc
                         </button>
                     </div>
                 </div>
@@ -156,7 +156,7 @@ export default function SignUpStep4Agent() {
                         to="/agent/jobs"
                         className="w-full py-3.5 px-4 rounded-xl bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-lg transition-all flex items-center justify-center gap-2"
                     >
-                        Go to Dashboard
+                        Go to dashboard
                         <span className="material-symbols-outlined text-xl">arrow_forward</span>
                     </Link>
                 </div>

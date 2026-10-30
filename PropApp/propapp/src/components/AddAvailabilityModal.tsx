@@ -76,7 +76,7 @@ export default function AddAvailabilityModal({ isOpen, onClose, onSave }: AddAva
                         <div className="size-10 bg-brand/10 rounded-full flex items-center justify-center">
                             <span className="material-symbols-outlined text-brand-ink">event_available</span>
                         </div>
-                        <h2 className="text-lg font-bold text-slate-900 dark:text-white">Add Availability</h2>
+                        <h2 className="text-lg font-bold text-slate-900 dark:text-white">Add availability</h2>
                     </div>
                     <button
                         onClick={onClose}
@@ -107,7 +107,7 @@ export default function AddAvailabilityModal({ isOpen, onClose, onSave }: AddAva
                     <div className="grid grid-cols-2 gap-4 mb-5">
                         <div>
                             <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 block">
-                                Start Time
+                                Start time
                             </label>
                             <input
                                 type="time"
@@ -118,7 +118,7 @@ export default function AddAvailabilityModal({ isOpen, onClose, onSave }: AddAva
                         </div>
                         <div>
                             <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 block">
-                                End Time
+                                End time
                             </label>
                             <input
                                 type="time"
@@ -198,7 +198,7 @@ export default function AddAvailabilityModal({ isOpen, onClose, onSave }: AddAva
                         ) : (
                             <>
                                 <span className="material-symbols-outlined text-[18px]">add</span>
-                                Add Availability
+                                Add availability
                             </>
                         )}
                     </button>

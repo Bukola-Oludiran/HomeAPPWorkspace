@@ -167,14 +167,14 @@ export default function AgentTransactions() {
             <div className="mb-6">
                 <Link to="/agent/earnings" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-brand-ink transition-colors">
                     <span className="material-symbols-outlined text-[20px]">arrow_back</span>
-                    Back to Earnings Dashboard
+                    Back to earnings dashboard
                 </Link>
             </div>
 
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
                 <div>
-                    <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">All Transaction History</h1>
+                    <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">All transaction history</h1>
                     <p className="text-slate-800 dark:text-slate-400 mt-2 text-lg">View, search, and manage your complete earnings records.</p>
                 </div>
                 <div className="flex gap-3 items-center">
@@ -183,7 +183,7 @@ export default function AgentTransactions() {
                         className="px-5 py-2.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-white font-bold text-sm transition-all flex items-center gap-2"
                     >
                         <span className="material-symbols-outlined text-[20px]">download</span>
-                        Export History
+                        Export history
                     </button>
                 </div>
             </div>
@@ -199,7 +199,7 @@ export default function AgentTransactions() {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4">
                         <div className="lg:col-span-4 relative">
-                            <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Search Transactions</label>
+                            <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Search transactions</label>
                             <SearchInput
                                 placeholder="e.g. Commission, Bonus, Invoice #..."
                                 value={searchQuery}
@@ -210,7 +210,7 @@ export default function AgentTransactions() {
                         <div className="lg:col-span-2">
                             <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Property</label>
                             <select className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/50 focus:border-brand">
-                                <option>All Properties</option>
+                                <option>All properties</option>
                                 <option>Sunset Apartments, Unit 4B</option>
                                 <option>Modern Oakwood Estate</option>
                                 <option>Lakeview Condo, Unit 12A</option>
@@ -219,7 +219,7 @@ export default function AgentTransactions() {
                         <div className="lg:col-span-2">
                             <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Type</label>
                             <select className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/50 focus:border-brand">
-                                <option>All Types</option>
+                                <option>All types</option>
                                 <option>Commission</option>
                                 <option>Bonus</option>
                                 <option>Withdrawal</option>
@@ -247,8 +247,8 @@ export default function AgentTransactions() {
                             <tr>
                                 <th className="px-6 py-4">Description / ID</th>
                                 <th className="px-6 py-4">Property</th>
-                                <th className="px-6 py-4">Date & Time</th>
-                                <th className="px-6 py-4">Payment Method</th>
+                                <th className="px-6 py-4">Date & time</th>
+                                <th className="px-6 py-4">Payment method</th>
                                 <th className="px-6 py-4">Status</th>
                                 <th className="px-6 py-4 text-right">Amount</th>
                                 <th className="px-6 py-4 text-center">Action</th>
@@ -286,7 +286,7 @@ export default function AgentTransactions() {
                                                 onClick={() => window.location.reload()}
                                                 className="px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                                             >
-                                                Try Again
+                                                Try again
                                             </button>
                                         </div>
                                     </td>
@@ -332,7 +332,7 @@ export default function AgentTransactions() {
                                         <p className="font-bold text-slate-900 dark:text-white">{tx.amount}</p>
                                     </td>
                                     <td className="px-6 py-4 text-center">
-                                        <button className="p-2 text-slate-500 dark:text-slate-400 hover:text-brand-ink hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors" title={tx.status === 'Failed' ? 'Retry / View Details' : 'View Receipt'}>
+                                        <button className="p-2 text-slate-500 dark:text-slate-400 hover:text-brand-ink hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors" title={tx.status === 'Failed' ? 'Retry / View Details' : 'View receipt'}>
                                             <span className="material-symbols-outlined text-[20px]">
                                                 {tx.status === 'Failed' ? 'refresh' : tx.status === 'Pending' ? 'visibility' : 'receipt_long'}
                                             </span>

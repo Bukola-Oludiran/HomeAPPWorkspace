@@ -30,7 +30,7 @@ export default function MakePaymentModal({ isOpen, onClose, onSuccess, paymentFo
 
     const paymentOptions = [
         { value: 'Monthly Rent - Nov', label: 'Monthly Rent - Nov' },
-        { value: 'Electricity Bill', label: 'Electricity Bill' },
+        { value: 'Electricity Bill', label: 'Electricity bill' },
         { value: 'AC Maintenance', label: 'AC Maintenance' },
         { value: 'Other', label: 'Other' },
     ];
@@ -44,7 +44,7 @@ export default function MakePaymentModal({ isOpen, onClose, onSuccess, paymentFo
                     {/* Header */}
                     <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-white dark:bg-canvas-dark">
                         <div>
-                            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Make Payment</h2>
+                            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Make payment</h2>
                             <p className="text-sm text-slate-500 dark:text-slate-400">Secure transaction for your property</p>
                         </div>
                         <button onClick={onClose} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full text-slate-500 dark:text-slate-400 transition-colors">
@@ -57,7 +57,7 @@ export default function MakePaymentModal({ isOpen, onClose, onSuccess, paymentFo
                         {/* Payment For & Amount */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Payment For</label>
+                                <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Payment for</label>
                                 <div className="relative">
                                     <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-500 dark:text-slate-400">home</span>
                                     <select
@@ -89,7 +89,7 @@ export default function MakePaymentModal({ isOpen, onClose, onSuccess, paymentFo
                         {/* Payment Methods */}
                         <div className="space-y-3">
                             <div className="flex items-center justify-between">
-                                <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Select Payment Method</label>
+                                <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Select payment method</label>
                                 <button className="text-xs font-bold text-brand-ink hover:text-brand-ink/80 flex items-center gap-1">
                                     <span className="material-symbols-outlined text-[14px]">add</span> Add New
                                 </button>
@@ -137,7 +137,7 @@ export default function MakePaymentModal({ isOpen, onClose, onSuccess, paymentFo
 
                         {/* Transaction Summary */}
                         <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4 border border-slate-200 dark:border-slate-700">
-                            <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-3">Transaction Summary</h4>
+                            <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-3">Transaction summary</h4>
                             <div className="flex justify-between items-center mb-2">
                                 <span className="text-sm text-slate-600 dark:text-slate-400">Payment for</span>
                                 <span className="text-sm font-bold text-slate-900 dark:text-white">{selectedPaymentFor}</span>
@@ -150,7 +150,7 @@ export default function MakePaymentModal({ isOpen, onClose, onSuccess, paymentFo
                             </div>
                             <div className="border-t border-slate-200 dark:border-slate-700 my-2"></div>
                             <div className="flex justify-between items-center">
-                                <span className="text-base font-bold text-slate-900 dark:text-white">Total Amount</span>
+                                <span className="text-base font-bold text-slate-900 dark:text-white">Total amount</span>
                                 <span className="text-xl font-extrabold text-brand-ink">₦{paymentAmount}</span>
                             </div>
                         </div>

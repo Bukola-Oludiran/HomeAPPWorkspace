@@ -80,12 +80,12 @@ export default function AgentEarnings() {
     return (
         <PageContainer>
             <PageHeader
-                title="Earnings Dashboard"
+                title="Earnings dashboard"
                 subtitle="Track your income, manage payouts, and view history."
                 actions={
                     <button className="px-5 py-2.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-white font-bold text-sm transition-all flex items-center gap-2">
                         <span className="material-symbols-outlined text-[20px]">download</span>
-                        Export Report
+                        Export report
                     </button>
                 }
             />
@@ -117,7 +117,7 @@ export default function AgentEarnings() {
                         <span className="material-symbols-outlined text-[100px] text-green-600">account_balance_wallet</span>
                     </div>
                     <div>
-                        <p className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Available Balance</p>
+                        <p className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Available balance</p>
                         <h3 className="text-4xl font-extrabold text-slate-900 dark:text-white mt-2">
                             {formatCurrency(earnings?.availableBalance || 0)}
                         </h3>
@@ -136,7 +136,7 @@ export default function AgentEarnings() {
                         <span className="material-symbols-outlined text-[100px] text-orange-500">pending</span>
                     </div>
                     <div>
-                        <p className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Pending Payouts</p>
+                        <p className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Pending payouts</p>
                         <h3 className="text-4xl font-extrabold text-slate-900 dark:text-white mt-2">
                             {formatCurrency(earnings?.pendingBalance || 0)}
                         </h3>
@@ -153,7 +153,7 @@ export default function AgentEarnings() {
                         <span className="material-symbols-outlined text-[100px] text-brand-ink">savings</span>
                     </div>
                     <div>
-                        <p className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Total Earnings</p>
+                        <p className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Total earnings</p>
                         <h3 className="text-4xl font-extrabold text-slate-900 dark:text-white mt-2">
                             {formatCurrency(earnings?.totalEarned || 0)}
                         </h3>
@@ -180,10 +180,10 @@ export default function AgentEarnings() {
                                     onChange={(e) => setDateFilter(e.target.value)}
                                     className="pl-10 pr-8 py-2 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-brand/50 cursor-pointer appearance-none"
                                 >
-                                    <option value="this-month">This Month</option>
-                                    <option value="last-month">Last Month</option>
+                                    <option value="this-month">This month</option>
+                                    <option value="last-month">Last month</option>
                                     <option value="last-3-months">Last 3 Months</option>
-                                    <option value="this-year">This Year</option>
+                                    <option value="this-year">This year</option>
                                 </select>
                             </div>
                             <div className="relative">
@@ -193,7 +193,7 @@ export default function AgentEarnings() {
                                     onChange={(e) => setStatusFilter(e.target.value)}
                                     className="pl-10 pr-8 py-2 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-brand/50 cursor-pointer appearance-none"
                                 >
-                                    <option value="all">All Status</option>
+                                    <option value="all">All status</option>
                                     <option value="completed">Completed</option>
                                     <option value="pending">Pending</option>
                                     <option value="failed">Failed</option>
@@ -215,8 +215,8 @@ export default function AgentEarnings() {
                     {/* Payout History Table */}
                     <SectionCard padding="none">
                         <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
-                            <h3 className="font-bold text-lg text-slate-900 dark:text-white">Payout History</h3>
-                            <Link to="/agent/transactions" className="text-sm text-brand-ink font-bold hover:underline">View All</Link>
+                            <h3 className="font-bold text-lg text-slate-900 dark:text-white">Payout history</h3>
+                            <Link to="/agent/transactions" className="text-sm text-brand-ink font-bold hover:underline">View all</Link>
                         </div>
                         <div className="overflow-x-auto">
                             <table className="w-full text-left border-collapse">
@@ -301,15 +301,15 @@ export default function AgentEarnings() {
                         <div className="relative z-10">
                             <div className="flex justify-between items-start mb-8">
                                 <span className="material-symbols-outlined text-3xl text-white/80">contactless</span>
-                                <span className="font-mono text-white/50 text-sm">Agent Wallet</span>
+                                <span className="font-mono text-white/50 text-sm">Agent wallet</span>
                             </div>
                             <div className="mb-6">
-                                <p className="text-slate-500 dark:text-slate-400 text-sm mb-1">Total Balance</p>
+                                <p className="text-slate-500 dark:text-slate-400 text-sm mb-1">Total balance</p>
                                 <h2 className="text-3xl font-extrabold tracking-tight">{formatCurrency(totalBalance)}</h2>
                             </div>
                             <div className="flex justify-between items-end">
                                 <div className="flex flex-col">
-                                    <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider">Account Holder</span>
+                                    <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider">Account holder</span>
                                     <span className="font-medium text-sm">{accountHolderName}</span>
                                 </div>
                                 <div className="flex flex-col items-end">
@@ -322,7 +322,7 @@ export default function AgentEarnings() {
 
                     {/* Quick Actions */}
                     <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-200 dark:border-slate-800">
-                        <h3 className="font-bold text-slate-900 dark:text-white mb-4">Quick Actions</h3>
+                        <h3 className="font-bold text-slate-900 dark:text-white mb-4">Quick actions</h3>
                         <div className="grid grid-cols-2 gap-3">
                             <button className="flex flex-col items-center justify-center p-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-brand/50 hover:bg-white dark:hover:bg-slate-700/80 transition-all group">
                                 <div className="size-10 rounded-full bg-brand/10 text-brand-ink flex items-center justify-center mb-2 group-hover:bg-brand group-hover:text-white transition-colors">
@@ -334,7 +334,7 @@ export default function AgentEarnings() {
                                 <div className="size-10 rounded-full bg-purple-50 dark:bg-purple-900/20 text-purple-600 flex items-center justify-center mb-2 group-hover:bg-purple-600 group-hover:text-white transition-colors">
                                     <span className="material-symbols-outlined text-[20px]">add_card</span>
                                 </div>
-                                <span className="text-sm font-bold text-slate-700 dark:text-slate-300">Top Up</span>
+                                <span className="text-sm font-bold text-slate-700 dark:text-slate-300">Top up</span>
                             </button>
                         </div>
                     </div>
@@ -342,10 +342,10 @@ export default function AgentEarnings() {
                     {/* Payout Methods */}
                     <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-200 dark:border-slate-800 flex-1">
                         <div className="flex justify-between items-center mb-4">
-                            <h3 className="font-bold text-slate-900 dark:text-white">Payout Methods</h3>
+                            <h3 className="font-bold text-slate-900 dark:text-white">Payout methods</h3>
                             <button className="text-xs font-bold text-brand-ink hover:underline flex items-center">
                                 <span className="material-symbols-outlined text-[16px]">add</span>
-                                Add New
+                                Add new
                             </button>
                         </div>
                         <div className="space-y-3">

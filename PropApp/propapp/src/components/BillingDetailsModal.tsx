@@ -71,7 +71,7 @@ export default function BillingDetailsModal({ isOpen, onClose }: BillingDetailsM
                     {/* Header */}
                     <div className="p-6 border-b border-slate-100 dark:border-slate-700 flex justify-between items-start bg-slate-50/50 dark:bg-slate-800/50">
                         <div>
-                            <h3 className="text-xl font-bold text-slate-900 dark:text-white">Billing Statements</h3>
+                            <h3 className="text-xl font-bold text-slate-900 dark:text-white">Billing statements</h3>
                             <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
                                 View and download your payment history and invoices.
                             </p>
@@ -105,7 +105,7 @@ export default function BillingDetailsModal({ isOpen, onClose }: BillingDetailsM
                                 onChange={(e) => setSelectedPeriod(e.target.value)}
                                 className="pl-3 pr-8 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-brand/50 cursor-pointer appearance-none outline-none"
                             >
-                                <option value="all">All Periods</option>
+                                <option value="all">All periods</option>
                                 <option value="monthly">Monthly</option>
                                 <option value="quarterly">Quarterly</option>
                             </select>

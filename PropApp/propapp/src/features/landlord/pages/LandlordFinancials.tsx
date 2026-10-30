@@ -152,7 +152,7 @@ export default function LandlordFinancials() {
     return (
         <PageContainer>
             <PageHeader
-                title="Financial Overview"
+                title="Financial overview"
                 subtitle="Track revenue, expenses, and cash flow across your portfolio."
                 actions={
                     <>
@@ -199,7 +199,7 @@ export default function LandlordFinancials() {
                 <StatsCard
                     icon="payments"
                     iconColor="blue"
-                    label="Total Revenue"
+                    label="Total revenue"
                     value={isLoading ? '...' : formatCurrency(totalRevenue)}
                     animateValue={!isLoading}
                     numericValue={totalRevenue}
@@ -210,7 +210,7 @@ export default function LandlordFinancials() {
                 <StatsCard
                     icon="request_quote"
                     iconColor="red"
-                    label="Total Expenses"
+                    label="Total expenses"
                     value={isLoading ? '...' : formatCurrency(totalExpenses)}
                     animateValue={!isLoading}
                     numericValue={totalExpenses}
@@ -221,7 +221,7 @@ export default function LandlordFinancials() {
                 <StatsCard
                     icon="account_balance_wallet"
                     iconColor="emerald"
-                    label="Net Operating Income"
+                    label="Net operating income"
                     value={isLoading ? '...' : formatCurrency(netOperatingIncome)}
                     animateValue={!isLoading}
                     numericValue={netOperatingIncome}
@@ -232,7 +232,7 @@ export default function LandlordFinancials() {
                 <StatsCard
                     icon="savings"
                     iconColor="purple"
-                    label="Available Balance"
+                    label="Available balance"
                     value={isLoading ? '...' : formatCurrency(cashFlow)}
                     animateValue={!isLoading}
                     numericValue={cashFlow}
@@ -246,7 +246,7 @@ export default function LandlordFinancials() {
                 {/* Revenue Sources */}
                 <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800">
                     <div className="flex justify-between items-center mb-6">
-                        <h3 className="text-lg font-bold text-slate-900 dark:text-white">Revenue Sources</h3>
+                        <h3 className="text-lg font-bold text-slate-900 dark:text-white">Revenue sources</h3>
                         <button className="text-slate-500 dark:text-slate-400 hover:text-brand-ink transition-colors">
                             <span className="material-symbols-outlined">more_horiz</span>
                         </button>
@@ -291,7 +291,7 @@ export default function LandlordFinancials() {
                     </div>
                     {/* Top Performing Properties */}
                     <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
-                        <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-4">Top Performing Properties</h4>
+                        <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-4">Top performing properties</h4>
                         <div className="space-y-4">
                             {revenueByProperty.length > 0 ? revenueByProperty.slice(0, 3).map((p) => (
                                 <div key={p.propertyId} className="flex items-center justify-between text-sm">
@@ -308,7 +308,7 @@ export default function LandlordFinancials() {
                 {/* Expense Categories */}
                 <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800">
                     <div className="flex justify-between items-center mb-6">
-                        <h3 className="text-lg font-bold text-slate-900 dark:text-white">Expense Categories</h3>
+                        <h3 className="text-lg font-bold text-slate-900 dark:text-white">Expense categories</h3>
                         <button className="text-slate-500 dark:text-slate-400 hover:text-brand-ink transition-colors">
                             <span className="material-symbols-outlined">more_horiz</span>
                         </button>
@@ -325,8 +325,8 @@ export default function LandlordFinancials() {
             <div className="flex flex-col gap-6">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div className="flex items-center gap-4">
-                        <h2 className="text-xl font-bold text-slate-900 dark:text-white">Transaction History</h2>
-                        <Link to="/landlord/transactions" className="text-sm text-brand-ink font-bold hover:underline">View All</Link>
+                        <h2 className="text-xl font-bold text-slate-900 dark:text-white">Transaction history</h2>
+                        <Link to="/landlord/transactions" className="text-sm text-brand-ink font-bold hover:underline">View all</Link>
                     </div>
                     <div className="flex flex-wrap gap-2">
                         {/* Search */}
@@ -342,7 +342,7 @@ export default function LandlordFinancials() {
                             value={propertyFilter}
                             onChange={(e) => setPropertyFilter(e.target.value)}
                         >
-                            <option value="all">All Properties</option>
+                            <option value="all">All properties</option>
                             {allProperties.map(p => (
                                 <option key={p.propertyId} value={p.propertyName}>{p.propertyName}</option>
                             ))}
@@ -353,7 +353,7 @@ export default function LandlordFinancials() {
                             value={categoryFilter}
                             onChange={(e) => setCategoryFilter(e.target.value)}
                         >
-                            <option value="all">All Categories</option>
+                            <option value="all">All categories</option>
                             {revenueTypeEntries.map(([type]) => (
                                 <option key={type} value={type.toLowerCase()}>{type.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase())}</option>
                             ))}

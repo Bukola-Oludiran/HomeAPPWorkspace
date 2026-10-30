@@ -145,7 +145,7 @@ export default function AgentProfile() {
     return (
         <PageContainer maxWidth="lg">
             <PageHeader
-                title="Agent Profile"
+                title="Agent profile"
                 subtitle="Manage your public presence, certifications, and settings."
                 actions={
                     <>
@@ -157,7 +157,7 @@ export default function AgentProfile() {
                             disabled={saving}
                             className="px-5 py-2.5 rounded-lg bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {saving ? 'Saving...' : 'Save Changes'}
+                            {saving ? 'Saving...' : 'Save changes'}
                         </button>
                     </>
                 }
@@ -193,7 +193,7 @@ export default function AgentProfile() {
                         {isVerified && (
                             <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 rounded-full text-xs font-bold uppercase tracking-wider mb-6">
                                 <span className="material-symbols-outlined text-[16px]">verified</span>
-                                Verified Agent
+                                Verified agent
                             </div>
                         )}
                         <div className="grid grid-cols-2 gap-4 border-t border-slate-100 dark:border-slate-800 pt-6">
@@ -208,7 +208,7 @@ export default function AgentProfile() {
                                 <div className="flex items-center justify-center gap-1 text-slate-700 dark:text-white mb-1">
                                     <span className="font-bold text-xl">{jobsDone}</span>
                                 </div>
-                                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wide">Jobs Done</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wide">Jobs done</p>
                             </div>
                         </div>
                     </div>
@@ -216,13 +216,13 @@ export default function AgentProfile() {
                     {/* Account Settings */}
                     <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
                         <div className="p-4 border-b border-slate-100 dark:border-slate-700 font-bold text-slate-900 dark:text-white">
-                            Account Settings
+                            Account settings
                         </div>
                         <div className="flex flex-col">
                             <button className="flex items-center justify-between px-4 py-3 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-slate-600 dark:text-slate-300 text-sm group">
                                 <div className="flex items-center gap-3">
                                     <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 group-hover:text-brand-ink transition-colors">lock</span>
-                                    Change Password
+                                    Change password
                                 </div>
                                 <span className="material-symbols-outlined text-[18px] text-slate-500 dark:text-slate-400">chevron_right</span>
                             </button>
@@ -236,7 +236,7 @@ export default function AgentProfile() {
                             <button className="flex items-center justify-between px-4 py-3 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-slate-600 dark:text-slate-300 text-sm group">
                                 <div className="flex items-center gap-3">
                                     <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 group-hover:text-brand-ink transition-colors">shield</span>
-                                    Privacy & Security
+                                    Privacy & security
                                 </div>
                                 <span className="material-symbols-outlined text-[18px] text-slate-500 dark:text-slate-400">chevron_right</span>
                             </button>
@@ -253,7 +253,7 @@ export default function AgentProfile() {
                             <h4 className="text-2xl font-bold mb-1">{walletBalance}</h4>
                             <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Available for withdrawal</p>
                             <button className="inline-flex items-center gap-2 text-brand-ink font-bold text-sm hover:text-brand-ink/80 transition-colors">
-                                Manage Payment Methods
+                                Manage payment methods
                                 <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
                             </button>
                         </div>
@@ -269,13 +269,13 @@ export default function AgentProfile() {
                                 <span className="material-symbols-outlined">person</span>
                             </div>
                             <div>
-                                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Personal Information</h3>
+                                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Personal information</h3>
                                 <p className="text-sm text-slate-500 dark:text-slate-400">Update your contact details and public bio.</p>
                             </div>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-1.5">
-                                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Full Name</label>
+                                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Full name</label>
                                 <input
                                     className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all text-sm font-medium outline-none"
                                     type="text"
@@ -284,7 +284,7 @@ export default function AgentProfile() {
                                 />
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Professional Title</label>
+                                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Professional title</label>
                                 <input
                                     className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all text-sm font-medium outline-none"
                                     type="text"
@@ -293,7 +293,7 @@ export default function AgentProfile() {
                                 />
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Email Address</label>
+                                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Email address</label>
                                 <input
                                     className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all text-sm font-medium outline-none"
                                     type="email"
@@ -302,7 +302,7 @@ export default function AgentProfile() {
                                 />
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Phone Number</label>
+                                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Phone number</label>
                                 <input
                                     className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all text-sm font-medium outline-none"
                                     type="tel"
@@ -320,7 +320,7 @@ export default function AgentProfile() {
                                 <span className="material-symbols-outlined">map</span>
                             </div>
                             <div>
-                                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Service Area</h3>
+                                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Service area</h3>
                                 <p className="text-sm text-slate-500 dark:text-slate-400">Define where you want to receive job alerts.</p>
                             </div>
                         </div>
@@ -335,11 +335,11 @@ export default function AgentProfile() {
                                 </span>
                             </div>
                             <button className="absolute bottom-3 right-3 bg-white dark:bg-slate-700 text-slate-900 dark:text-white text-xs font-bold px-3 py-2 rounded-lg shadow-sm hover:shadow-md transition-all">
-                                Adjust on Map
+                                Adjust on map
                             </button>
                         </div>
                         <div className="space-y-1.5">
-                            <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Primary Locations</label>
+                            <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Primary locations</label>
                             <div className="flex flex-wrap gap-2 p-2 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
                                 {locations.map((loc) => (
                                     <div key={loc} className="flex items-center gap-1 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 px-3 py-1.5 rounded-lg">
@@ -378,7 +378,7 @@ export default function AgentProfile() {
                             </div>
                             <button className="text-brand-ink font-bold text-sm flex items-center gap-1 hover:bg-blue-50 dark:hover:bg-brand/10 px-3 py-1.5 rounded-lg transition-colors">
                                 <span className="material-symbols-outlined text-[18px]">add</span>
-                                Add New
+                                Add new
                             </button>
                         </div>
                         <div className="space-y-4">
@@ -420,7 +420,7 @@ export default function AgentProfile() {
                                 <span className="material-symbols-outlined">reviews</span>
                             </div>
                             <div>
-                                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Recent Reviews</h3>
+                                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Recent reviews</h3>
                                 <p className="text-sm text-slate-500 dark:text-slate-400">What clients are saying about your work.</p>
                             </div>
                         </div>
@@ -459,7 +459,7 @@ export default function AgentProfile() {
                 isOpen={locationToRemove !== null}
                 onClose={() => setLocationToRemove(null)}
                 onConfirm={() => { if (locationToRemove) handleRemoveLocation(locationToRemove); }}
-                title="Remove Service Area?"
+                title="Remove service area?"
                 description={`Are you sure you want to remove "${locationToRemove}" from your service areas? You can add it back later.`}
                 confirmText="Remove"
                 cancelText="Cancel"
@@ -472,7 +472,7 @@ export default function AgentProfile() {
                 isOpen={certToDelete !== null}
                 onClose={() => setCertToDelete(null)}
                 onConfirm={handleDeleteCertification}
-                title="Delete Certification?"
+                title="Delete certification?"
                 description={`Are you sure you want to delete "${certToDelete?.name}"? This will remove it from your public profile.`}
                 confirmText="Delete"
                 cancelText="Cancel"

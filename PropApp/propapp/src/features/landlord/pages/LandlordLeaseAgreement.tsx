@@ -24,15 +24,15 @@ function getLeaseStatusColor(status: string): string {
 
 // Static data (no API backing for these)
 const payments = [
-    { id: 1, date: 'Dec 1, 2024', description: 'Monthly Rent', amount: '$4,800.00', status: 'Upcoming', statusColor: 'bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400' },
-    { id: 2, date: 'Nov 1, 2024', description: 'Monthly Rent', amount: '$4,800.00', status: 'Paid', statusColor: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400', icon: 'check_circle' },
-    { id: 3, date: 'Oct 1, 2024', description: 'Monthly Rent', amount: '$4,800.00', status: 'Paid', statusColor: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400', icon: 'check_circle' },
+    { id: 1, date: 'Dec 1, 2024', description: 'Monthly rent', amount: '$4,800.00', status: 'Upcoming', statusColor: 'bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400' },
+    { id: 2, date: 'Nov 1, 2024', description: 'Monthly rent', amount: '$4,800.00', status: 'Paid', statusColor: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400', icon: 'check_circle' },
+    { id: 3, date: 'Oct 1, 2024', description: 'Monthly rent', amount: '$4,800.00', status: 'Paid', statusColor: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400', icon: 'check_circle' },
 ];
 
 const clauses = [
-    { id: 1, icon: 'pets', title: 'Pet Policy Addendum', description: 'Permits 1 dog under 40lbs. Non-refundable fee of $250 applied.' },
-    { id: 2, icon: 'build', title: 'Maintenance Responsibilities', description: 'Tenant responsible for lawn care and minor repairs under $50.' },
-    { id: 3, icon: 'smoking_rooms', title: 'No Smoking Clause', description: 'Strict no-smoking policy within the premises and 20ft perimeter.' },
+    { id: 1, icon: 'pets', title: 'Pet policy addendum', description: 'Permits 1 dog under 40lbs. Non-refundable fee of $250 applied.' },
+    { id: 2, icon: 'build', title: 'Maintenance responsibilities', description: 'Tenant responsible for lawn care and minor repairs under $50.' },
+    { id: 3, icon: 'smoking_rooms', title: 'No smoking clause', description: 'Strict no-smoking policy within the premises and 20ft perimeter.' },
 ];
 
 export default function LandlordLeaseAgreement() {
@@ -75,7 +75,7 @@ export default function LandlordLeaseAgreement() {
             <div className="flex flex-col items-center justify-center min-h-screen gap-4">
                 <span className="material-symbols-outlined text-5xl text-slate-300">error</span>
                 <p className="text-slate-500 dark:text-slate-400 font-medium">Lease not found</p>
-                <Link to="/landlord/dashboard" className="text-brand-ink font-bold hover:underline">Back to Dashboard</Link>
+                <Link to="/landlord/dashboard" className="text-brand-ink font-bold hover:underline">Back to dashboard</Link>
             </div>
         );
     }
@@ -119,7 +119,7 @@ export default function LandlordLeaseAgreement() {
                         </span>
                         <span className="text-white/80 text-sm font-medium">#{lease.id.slice(0, 12).toUpperCase()}</span>
                     </div>
-                    <h1 className="text-2xl md:text-3xl font-extrabold text-white leading-tight">Lease Agreement</h1>
+                    <h1 className="text-2xl md:text-3xl font-extrabold text-white leading-tight">Lease agreement</h1>
                     <p className="text-white/90 font-medium">{propertyName}, {propertyAddress}</p>
                 </div>
             </div>
@@ -129,7 +129,7 @@ export default function LandlordLeaseAgreement() {
                 {/* Stats Grid */}
                 <section className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
-                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Monthly Rent</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Monthly rent</span>
                         <div className="flex items-baseline gap-1">
                             <span className="text-2xl font-bold text-slate-900 dark:text-white">{formatCurrency(lease.monthlyRent)}</span>
                             <span className="text-xs text-slate-500 dark:text-slate-400">/mo</span>
@@ -139,17 +139,17 @@ export default function LandlordLeaseAgreement() {
                         </div>
                     </div>
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
-                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Security Deposit</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Security deposit</span>
                         <span className="text-2xl font-bold text-slate-900 dark:text-white">{formatCurrency(lease.securityDeposit)}</span>
                         <span className="text-xs text-slate-500 dark:text-slate-400">Held in escrow</span>
                     </div>
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
-                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Lease Start</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Lease start</span>
                         <span className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">{leaseStartFormatted}</span>
                         <span className="text-xs text-slate-500 dark:text-slate-400">{lease.status === 'ACTIVE' ? 'Active' : statusLabel}</span>
                     </div>
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
-                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Lease End</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Lease end</span>
                         <span className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">{leaseEndFormatted}</span>
                         <span className={`text-xs font-medium ${daysRemaining <= 60 ? 'text-orange-500' : 'text-slate-500 dark:text-slate-400'}`}>{daysRemaining <= 60 ? 'Expiring soon' : `${daysRemaining} days remaining`}</span>
                     </div>
@@ -163,7 +163,7 @@ export default function LandlordLeaseAgreement() {
                             <div className="p-4 md:p-6 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
                                 <h3 className="font-bold text-lg text-slate-900 dark:text-white flex items-center gap-2">
                                     <span className="material-symbols-outlined text-brand-ink">description</span>
-                                    Lease Document
+                                    Lease document
                                 </h3>
                                 <div className="flex gap-2">
                                     <button className="text-sm font-semibold text-brand-ink hover:bg-blue-50 dark:hover:bg-brand/10 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1">
@@ -197,14 +197,14 @@ export default function LandlordLeaseAgreement() {
                                     </div>
                                 </div>
                                 <div className="absolute inset-0 flex items-center justify-center bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <span className="bg-white/90 dark:bg-black/80 backdrop-blur text-slate-900 dark:text-white px-4 py-2 rounded-lg font-bold shadow-lg">Click to Preview</span>
+                                    <span className="bg-white/90 dark:bg-black/80 backdrop-blur text-slate-900 dark:text-white px-4 py-2 rounded-lg font-bold shadow-lg">Click to preview</span>
                                 </div>
                             </div>
                         </div>
 
                         {/* Clauses & Addendums */}
                         <div>
-                            <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-4">Clauses & Addendums</h3>
+                            <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-4">Clauses & addendums</h3>
                             <div className="space-y-3">
                                 {clauses.map((clause) => (
                                     <div key={clause.id} className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex items-start gap-3">
@@ -222,15 +222,15 @@ export default function LandlordLeaseAgreement() {
                         {/* Payment Schedule */}
                         <div>
                             <div className="flex items-center justify-between mb-4">
-                                <h3 className="font-bold text-lg text-slate-900 dark:text-white">Payment Schedule</h3>
-                                <button className="text-sm text-brand-ink font-semibold hover:underline">View Full Ledger</button>
+                                <h3 className="font-bold text-lg text-slate-900 dark:text-white">Payment schedule</h3>
+                                <button className="text-sm text-brand-ink font-semibold hover:underline">View full ledger</button>
                             </div>
                             <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-sm text-left">
                                         <thead className="bg-slate-50 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 font-semibold border-b border-slate-200 dark:border-slate-700">
                                             <tr>
-                                                <th className="px-6 py-3 whitespace-nowrap">Due Date</th>
+                                                <th className="px-6 py-3 whitespace-nowrap">Due date</th>
                                                 <th className="px-6 py-3 whitespace-nowrap">Description</th>
                                                 <th className="px-6 py-3 whitespace-nowrap">Amount</th>
                                                 <th className="px-6 py-3 text-right whitespace-nowrap">Status</th>
@@ -275,7 +275,7 @@ export default function LandlordLeaseAgreement() {
                             </Link>
                             <div className="mt-6 pt-6 border-t border-slate-100 dark:border-slate-700 flex gap-2">
                                 <button className="flex-1 py-2 rounded-lg border border-slate-300 dark:border-slate-600 font-semibold text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">Message</button>
-                                <Link to={`/landlord/tenants/${lease.tenantId}/profile`} className="flex-1 py-2 rounded-lg border border-slate-300 dark:border-slate-600 font-semibold text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-center">View Profile</Link>
+                                <Link to={`/landlord/tenants/${lease.tenantId}/profile`} className="flex-1 py-2 rounded-lg border border-slate-300 dark:border-slate-600 font-semibold text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-center">View profile</Link>
                             </div>
                         </div>
 
@@ -301,7 +301,7 @@ export default function LandlordLeaseAgreement() {
                                 <div className="size-8 rounded-full bg-brand-ink flex items-center justify-center text-on-brand">
                                     <span className="material-symbols-outlined text-[18px]">tips_and_updates</span>
                                 </div>
-                                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Renewal Insight</h3>
+                                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Renewal insight</h3>
                             </div>
                             <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">
                                 This lease expires in <strong className="text-slate-900 dark:text-white">{daysRemaining} days</strong>. Based on payment history and market rates, consider offering a renewal to {tenantName}.
@@ -310,7 +310,7 @@ export default function LandlordLeaseAgreement() {
                                 onClick={() => setIsRenewalModalOpen(true)}
                                 className="w-full py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 font-semibold text-sm text-brand-ink hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
                             >
-                                Draft Renewal Offer
+                                Draft renewal offer
                             </button>
                         </div>
                     </div>
@@ -322,7 +322,7 @@ export default function LandlordLeaseAgreement() {
                 <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
                     <div className="hidden md:flex items-center gap-4">
                         <div>
-                            <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-0.5">Lease Status</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-0.5">Lease status</p>
                             <div className="flex items-center gap-2">
                                 <span className="size-2.5 rounded-full bg-green-500 animate-pulse"></span>
                                 <span className="font-bold text-slate-900 dark:text-white">{statusLabel}</span>
@@ -330,7 +330,7 @@ export default function LandlordLeaseAgreement() {
                         </div>
                         <div className="h-8 w-px bg-slate-200 dark:bg-slate-700 mx-2"></div>
                         <div>
-                            <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-0.5">Days Remaining</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-0.5">Days remaining</p>
                             <span className="font-bold text-slate-900 dark:text-white">{daysRemaining} Days</span>
                         </div>
                     </div>
@@ -340,21 +340,21 @@ export default function LandlordLeaseAgreement() {
                             className="flex-1 md:flex-none px-5 py-3.5 rounded-xl border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-white font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors whitespace-nowrap flex items-center justify-center gap-2"
                         >
                             <span className="material-symbols-outlined text-[20px]">edit_document</span>
-                            Edit Terms
+                            Edit terms
                         </Link>
                         <button
                             onClick={() => setIsVacateModalOpen(true)}
                             className="flex-1 md:flex-none px-5 py-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 text-red-600 hover:border-red-100 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors whitespace-nowrap flex items-center justify-center gap-2"
                         >
                             <span className="material-symbols-outlined text-[20px]">block</span>
-                            Notice to Vacate
+                            Notice to vacate
                         </button>
                         <button
                             onClick={() => setIsRenewalModalOpen(true)}
                             className="flex-1 md:flex-none px-8 py-3.5 rounded-xl bg-brand-ink text-on-brand font-bold hover:bg-[#0e64bd] transition-colors whitespace-nowrap flex items-center justify-center gap-2"
                         >
                             <span className="material-symbols-outlined text-[20px]">send</span>
-                            Send Renewal Offer
+                            Send renewal offer
                         </button>
                     </div>
                 </div>
@@ -365,7 +365,7 @@ export default function LandlordLeaseAgreement() {
                 isOpen={isDocumentModalOpen}
                 onClose={() => setIsDocumentModalOpen(false)}
                 document={{
-                    title: 'Lease Agreement',
+                    title: 'Lease agreement',
                     type: 'pdf',
                     property: propertyName,
                     modifiedTime: leaseStartFormatted,
@@ -389,7 +389,7 @@ export default function LandlordLeaseAgreement() {
                 isOpen={isVacateModalOpen}
                 onClose={() => setIsVacateModalOpen(false)}
                 onConfirm={() => console.log('Notice to vacate sent')}
-                title="Send Notice to Vacate?"
+                title="Send notice to vacate?"
                 description="This will notify the tenant that they must vacate the property. This action cannot be undone and may have legal implications."
                 confirmText="Send Notice"
                 cancelText="Cancel"

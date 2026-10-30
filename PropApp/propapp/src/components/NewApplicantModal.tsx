@@ -145,7 +145,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                     </h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-1.5">
-                                            <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Full Name</label>
+                                            <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Full name</label>
                                             <input
                                                 className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all placeholder:text-slate-400"
                                                 placeholder="e.g. John Doe"
@@ -156,7 +156,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                             />
                                         </div>
                                         <div className="space-y-1.5">
-                                            <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Date of Birth</label>
+                                            <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Date of birth</label>
                                             <input
                                                 className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all"
                                                 type="date"
@@ -166,7 +166,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                             />
                                         </div>
                                         <div className="space-y-1.5">
-                                            <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Email Address</label>
+                                            <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Email address</label>
                                             <input
                                                 className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all placeholder:text-slate-400"
                                                 placeholder="john@example.com"
@@ -177,7 +177,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                             />
                                         </div>
                                         <div className="space-y-1.5">
-                                            <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Phone Number</label>
+                                            <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Phone number</label>
                                             <input
                                                 className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all placeholder:text-slate-400"
                                                 placeholder="(555) 123-4567"
@@ -207,7 +207,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                                         <span className="material-symbols-outlined text-[20px]">verified_user</span>
                                                     </div>
                                                     <div className="flex-1 min-w-0">
-                                                        <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 truncate">Use Identity Service</p>
+                                                        <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 truncate">Use identity service</p>
                                                         <p className="text-xs text-slate-500 dark:text-slate-400 truncate">Connect via SecureID</p>
                                                     </div>
                                                     <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 group-hover:text-brand-ink text-[18px]">arrow_forward</span>
@@ -226,7 +226,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                     </h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-5">
                                         <div className="md:col-span-2 space-y-1.5">
-                                            <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Current Street Address</label>
+                                            <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Current street address</label>
                                             <input
                                                 className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all placeholder:text-slate-400"
                                                 placeholder="123 Main St, Apt 4B"
@@ -256,7 +256,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                                     value={formData.state}
                                                     onChange={handleInputChange}
                                                 >
-                                                    <option disabled value="">Select State</option>
+                                                    <option disabled value="">Select state</option>
                                                     <option>NY</option>
                                                     <option>CA</option>
                                                     <option>TX</option>
@@ -265,7 +265,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                                 </select>
                                             </div>
                                             <div className="space-y-1.5">
-                                                <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Zip Code</label>
+                                                <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Zip code</label>
                                                 <input
                                                     className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all placeholder:text-slate-400"
                                                     placeholder="10001"
@@ -288,7 +288,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                     </h3>
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                         <div className="md:col-span-2 space-y-1.5">
-                                            <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Employer Name</label>
+                                            <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Employer name</label>
                                             <input
                                                 className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all placeholder:text-slate-400"
                                                 placeholder="Company Inc."
@@ -299,7 +299,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                             />
                                         </div>
                                         <div className="space-y-1.5">
-                                            <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Annual Income</label>
+                                            <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Annual income</label>
                                             <div className="relative">
                                                 <span className="absolute left-3 top-2.5 text-slate-500 dark:text-slate-400 font-bold">₦</span>
                                                 <input
@@ -313,7 +313,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                             </div>
                                         </div>
                                         <div className="md:col-span-3 space-y-1.5">
-                                            <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Job Title</label>
+                                            <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Job title</label>
                                             <input
                                                 className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all placeholder:text-slate-400"
                                                 placeholder="e.g. Software Engineer"
@@ -361,7 +361,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                     </div>
                                     <div className="flex gap-3">
                                         <select className="px-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-brand/20 focus:border-brand cursor-pointer">
-                                            <option>All Statuses</option>
+                                            <option>All statuses</option>
                                             <option>Vacant</option>
                                             <option>Occupied</option>
                                             <option>Maintenance</option>
@@ -433,7 +433,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                         onClick={handleNextStep}
                                         className="px-6 py-2.5 rounded-lg bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm transition-all flex items-center gap-2"
                                     >
-                                        Create Applicant Profile
+                                        Create applicant profile
                                     </button>
                                 </div>
                             </>
@@ -450,7 +450,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                     disabled={!selectedProperty || submitting}
                                     className="px-6 py-2.5 rounded-lg bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                    {submitting ? 'Sending Invitation…' : 'Send Invitation'} <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                                    {submitting ? 'Sending Invitation…' : 'Send invitation'} <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
                                 </button>
                             </>
                         )}

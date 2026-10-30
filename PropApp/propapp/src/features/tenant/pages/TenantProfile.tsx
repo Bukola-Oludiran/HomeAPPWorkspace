@@ -15,10 +15,10 @@ interface ApplicationSummary {
 }
 
 const menuItems = [
-    { id: 'personal', icon: 'person', label: 'Personal Information' },
-    { id: 'security', icon: 'lock', label: 'Password & Security' },
-    { id: 'notifications', icon: 'notifications', label: 'Notification Preferences' },
-    { id: 'privacy', icon: 'shield', label: 'Privacy Settings' },
+    { id: 'personal', icon: 'person', label: 'Personal information' },
+    { id: 'security', icon: 'lock', label: 'Password & security' },
+    { id: 'notifications', icon: 'notifications', label: 'Notification preferences' },
+    { id: 'privacy', icon: 'shield', label: 'Privacy settings' },
 ];
 
 export default function TenantProfile() {
@@ -124,7 +124,7 @@ export default function TenantProfile() {
     return (
         <PageContainer>
             <PageHeader
-                title="Tenant Profile"
+                title="Tenant profile"
                 subtitle="Manage your personal details, verification status, and preferences."
             />
 
@@ -154,7 +154,7 @@ export default function TenantProfile() {
                         {isVerified && (
                             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-xs font-bold border border-green-100 dark:border-green-800">
                                 <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
-                                Identity Verified
+                                Identity verified
                             </div>
                         )}
                     </div>
@@ -187,7 +187,7 @@ export default function TenantProfile() {
                             </div>
                             <h4 className="font-bold text-lg leading-tight mb-2">Increase approval odds?</h4>
                             <p className="text-sm text-blue-100 mb-4">Let AI review your profile completeness and suggest improvements.</p>
-                            <button className="w-full py-2 bg-white text-brand-ink font-bold text-sm rounded-lg hover:bg-blue-50 transition-colors text-center shadow-md">Run Profile Check</button>
+                            <button className="w-full py-2 bg-white text-brand-ink font-bold text-sm rounded-lg hover:bg-blue-50 transition-colors text-center shadow-md">Run profile check</button>
                         </div>
                     </div>
                 </div>
@@ -199,13 +199,13 @@ export default function TenantProfile() {
                         <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-100 dark:border-slate-800">
                             <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                                 <span className="material-symbols-outlined text-brand-ink">badge</span>
-                                Personal & Contact Information
+                                Personal & contact information
                             </h3>
                             <button className="text-sm text-brand-ink font-semibold hover:underline">Edit</button>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Full Name</label>
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Full name</label>
                                 <input
                                     className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all font-medium"
                                     type="text"
@@ -214,7 +214,7 @@ export default function TenantProfile() {
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Date of Birth</label>
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Date of birth</label>
                                 <input
                                     className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all font-medium"
                                     type="date"
@@ -223,7 +223,7 @@ export default function TenantProfile() {
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Email Address</label>
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Email address</label>
                                 <input
                                     className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all font-medium"
                                     type="email"
@@ -232,7 +232,7 @@ export default function TenantProfile() {
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Phone Number</label>
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Phone number</label>
                                 <input
                                     className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all font-medium"
                                     type="tel"
@@ -248,16 +248,16 @@ export default function TenantProfile() {
                         <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 pb-4 border-b border-slate-100 dark:border-slate-800 gap-4">
                             <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                                 <span className="material-symbols-outlined text-brand-ink">work</span>
-                                Employment & Financial
+                                Employment & financial
                             </h3>
                             <Link to="/tenant/payments" className="text-xs font-bold text-brand-ink hover:underline flex items-center gap-1 px-3 py-1.5 bg-brand/5 rounded-lg">
                                 <span className="material-symbols-outlined text-[16px]">credit_card</span>
-                                Manage Payment Methods
+                                Manage payment methods
                             </Link>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div className="md:col-span-2">
-                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Current Employer</label>
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Current employer</label>
                                 <input
                                     className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all font-medium"
                                     type="text"
@@ -266,7 +266,7 @@ export default function TenantProfile() {
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Job Title</label>
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Job title</label>
                                 <input
                                     className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all font-medium"
                                     type="text"
@@ -275,7 +275,7 @@ export default function TenantProfile() {
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Annual Income</label>
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Annual income</label>
                                 <div className="relative">
                                     <span className="absolute left-4 top-2.5 text-slate-500 dark:text-slate-400 font-bold">₦</span>
                                     <input
@@ -307,7 +307,7 @@ export default function TenantProfile() {
                                             onChange={(e) => handleInputChange('emailNotifications', e.target.checked)}
                                             className="w-5 h-5 text-brand-ink bg-slate-100 border-slate-300 rounded focus:ring-brand focus:ring-2"
                                         />
-                                        <span className="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-brand-ink transition-colors">Email Notifications</span>
+                                        <span className="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-brand-ink transition-colors">Email notifications</span>
                                     </label>
                                     <label className="flex items-center gap-3 p-4 border border-slate-200 dark:border-slate-700 rounded-xl cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex-1 group">
                                         <input
@@ -316,17 +316,17 @@ export default function TenantProfile() {
                                             onChange={(e) => handleInputChange('pushAlerts', e.target.checked)}
                                             className="w-5 h-5 text-brand-ink bg-slate-100 border-slate-300 rounded focus:ring-brand focus:ring-2"
                                         />
-                                        <span className="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-brand-ink transition-colors">App Push Alerts</span>
+                                        <span className="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-brand-ink transition-colors">App push alerts</span>
                                     </label>
                                 </div>
                             </div>
 
                             {/* Property Search Defaults */}
                             <div>
-                                <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-3">Property Search Defaults</h4>
+                                <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-3">Property search defaults</h4>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                     <div>
-                                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Desired Bedrooms</label>
+                                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Desired bedrooms</label>
                                         <div className="relative">
                                             <select
                                                 value={formData.bedrooms}
@@ -342,7 +342,7 @@ export default function TenantProfile() {
                                         </div>
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Max Rent Budget</label>
+                                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Max rent budget</label>
                                         <div className="relative">
                                             <span className="absolute left-4 top-2.5 text-slate-500 dark:text-slate-400 font-bold">₦</span>
                                             <input
@@ -371,7 +371,7 @@ export default function TenantProfile() {
                     <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 p-6">
                         <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-4">
                             <span className="material-symbols-outlined text-brand-ink">history</span>
-                            Application History Summary
+                            Application history summary
                         </h3>
                         {loading ? (
                             <div className="text-center py-4 text-slate-500 dark:text-slate-400">Loading applications...</div>
@@ -397,7 +397,7 @@ export default function TenantProfile() {
                             ))
                         )}
                         <Link to="/tenant/applications" className="block text-center text-sm font-bold text-brand-ink mt-4 hover:underline">
-                            View All Applications
+                            View all applications
                         </Link>
                     </div>
                 </div>
@@ -415,7 +415,7 @@ export default function TenantProfile() {
                         className="px-8 py-3 rounded-xl bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         <span className="material-symbols-outlined text-[18px]">{saving ? 'sync' : 'save'}</span>
-                        {saving ? 'Saving...' : 'Save Changes'}
+                        {saving ? 'Saving...' : 'Save changes'}
                     </button>
                 </div>
             </div>

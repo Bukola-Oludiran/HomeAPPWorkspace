@@ -211,7 +211,7 @@ export default function TenantApplications() {
             <PageContainer maxWidth="lg">
                 <div className="mb-8">
                     <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                        Applications Tracker
+                        Applications tracker
                     </h1>
                     <p className="text-slate-800 dark:text-slate-400 mt-2 text-lg">Loading...</p>
                 </div>
@@ -239,7 +239,7 @@ export default function TenantApplications() {
             <PageContainer maxWidth="lg">
                 <div className="mb-8">
                     <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                        Applications Tracker
+                        Applications tracker
                     </h1>
                 </div>
                 <div className="p-12 bg-red-50 dark:bg-red-900/20 rounded-2xl text-center">
@@ -262,7 +262,7 @@ export default function TenantApplications() {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
                 <div>
                     <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                        Applications Tracker
+                        Applications tracker
                     </h1>
                     <p className="text-slate-800 dark:text-slate-400 mt-2 text-lg">
                         Manage and track the status of your rental applications.
@@ -387,7 +387,7 @@ export default function TenantApplications() {
                                         {app.status}
                                     </span>
                                     <div className="text-right">
-                                        <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">Last Updated</p>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">Last updated</p>
                                         <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">{app.lastUpdated}</p>
                                     </div>
                                 </div>
@@ -408,14 +408,14 @@ export default function TenantApplications() {
                                             }}
                                             className="flex-1 md:flex-none px-4 py-2 rounded-lg text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 font-bold text-sm transition-colors border border-transparent hover:border-red-100 dark:hover:border-red-900/30"
                                         >
-                                            Withdraw Application
+                                            Withdraw application
                                         </button>
                                     )}
                                     <Link
                                         to={`/tenant/applications/${app.id}`}
                                         className="flex-1 md:flex-none px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-center"
                                     >
-                                        View Details
+                                        View details
                                     </Link>
                                     {app.primaryAction && (
                                         <button
@@ -442,7 +442,7 @@ export default function TenantApplications() {
             {/* Load More Button */}
             <div className="flex justify-center mt-12">
                 <button className="px-6 py-3 rounded-xl bg-white dark:bg-canvas-dark border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-2">
-                    Load More Applications
+                    Load more applications
                     <span className="material-symbols-outlined">expand_more</span>
                 </button>
             </div>

@@ -89,7 +89,7 @@ function transformIncomingProperty(property: PropertySummary): IncomingProperty 
         status: statusInfo.label,
         statusColor: statusInfo.color,
         progress: 30, // Default progress for drafts
-        progressLabel: 'Onboarding Progress',
+        progressLabel: 'Onboarding progress',
         progressColor: 'bg-orange-500',
         closingDate: 'Docs Pending',
         image: property.primaryImage || PLACEHOLDER_IMAGE,
@@ -442,12 +442,12 @@ export default function LandlordProperties() {
                         <FilterDropdown
                             label="Filter"
                             options={[
-                                { id: 'all', label: 'All Properties' },
+                                { id: 'all', label: 'All properties' },
                                 { id: 'Rented', label: 'Rented' },
                                 { id: 'Active', label: 'Active' },
                                 { id: 'Maintenance', label: 'Maintenance' },
                                 { id: 'Vacant', label: 'Vacant' },
-                                { id: 'Under Contract', label: 'Under Contract' },
+                                { id: 'Under Contract', label: 'Under contract' },
                                 { id: 'Onboarding', label: 'Onboarding' },
                             ]}
                             selected={propertyFilter === 'all' ? [] : [propertyFilter]}
@@ -480,7 +480,7 @@ export default function LandlordProperties() {
             <section className="mb-10">
                 <div className="flex items-center justify-between mb-6">
                     <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                        Rented Properties
+                        Rented properties
                         <span className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-semibold px-2.5 py-0.5 rounded-full">{filteredRented.length}</span>
                     </h2>
                 </div>
@@ -505,7 +505,7 @@ export default function LandlordProperties() {
             <section className="mb-10">
                 <div className="flex items-center justify-between mb-6">
                     <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                        Properties For Sale
+                        Properties for sale
                         <span className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-semibold px-2.5 py-0.5 rounded-full">{filteredForSale.length}</span>
                     </h2>
                 </div>
@@ -530,7 +530,7 @@ export default function LandlordProperties() {
             <section className="mb-12">
                 <div className="flex items-center justify-between mb-6">
                     <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                        Vacant Properties
+                        Vacant properties
                         <span className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-semibold px-2.5 py-0.5 rounded-full">{filteredVacant.length}</span>
                     </h2>
                 </div>
@@ -555,7 +555,7 @@ export default function LandlordProperties() {
             <section>
                 <div className="flex items-center justify-between mb-6">
                     <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                        Incoming Properties
+                        Incoming properties
                         <span className="bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">{filteredIncoming.length} Processing</span>
                     </h2>
                 </div>

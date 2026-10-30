@@ -60,7 +60,7 @@ export default function ContactAgentModal({ isOpen, onClose, agent, property }: 
             <div className="relative bg-white dark:bg-surface-dark rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-in zoom-in-95 fade-in duration-200">
                 {/* Header */}
                 <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                    <h2 className="text-lg font-bold text-slate-900 dark:text-white">Contact Agent</h2>
+                    <h2 className="text-lg font-bold text-slate-900 dark:text-white">Contact agent</h2>
                     <button
                         onClick={onClose}
                         className="size-8 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 transition-colors"
@@ -149,7 +149,7 @@ export default function ContactAgentModal({ isOpen, onClose, agent, property }: 
                             <div className="grid grid-cols-2 gap-4 mb-4 animate-in slide-in-from-top-2 fade-in duration-200">
                                 <div>
                                     <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5 block">
-                                        Phone Number
+                                        Phone number
                                     </label>
                                     <input
                                         type="tel"
@@ -161,7 +161,7 @@ export default function ContactAgentModal({ isOpen, onClose, agent, property }: 
                                 </div>
                                 <div>
                                     <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5 block">
-                                        Preferred Time
+                                        Preferred time
                                     </label>
                                     <select
                                         value={preferredTime}
@@ -199,7 +199,7 @@ export default function ContactAgentModal({ isOpen, onClose, agent, property }: 
                                 ) : (
                                     <>
                                         <span className="material-symbols-outlined text-[18px]">send</span>
-                                        Send Message
+                                        Send message
                                     </>
                                 )}
                             </button>

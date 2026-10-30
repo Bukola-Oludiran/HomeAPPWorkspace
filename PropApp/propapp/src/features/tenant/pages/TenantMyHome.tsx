@@ -74,8 +74,8 @@ interface HomeData {
 // Default home data (fallback)
 const defaultHomeData: HomeData = {
     property: {
-        name: 'No Property',
-        location: 'Not Available',
+        name: 'No property',
+        location: 'Not available',
         beds: 0,
         baths: 0,
         sqft: '0',
@@ -215,7 +215,7 @@ export default function TenantMyHome() {
                     className="absolute bottom-6 right-6 px-4 py-2 bg-white/90 dark:bg-black/60 backdrop-blur-md rounded-lg text-sm font-semibold flex items-center gap-2 hover:bg-white dark:hover:bg-black/80 transition-colors shadow-sm text-slate-900 dark:text-white pointer-events-auto opacity-0 group-hover:opacity-100"
                 >
                     <span className="material-symbols-outlined text-[18px]">grid_view</span>
-                    View Gallery
+                    View gallery
                 </button>
             </div>
 
@@ -264,7 +264,7 @@ export default function TenantMyHome() {
                                             verified_user
                                         </span>
                                         <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
-                                            Verified Property
+                                            Verified property
                                         </span>
                                     </div>
                                 )}
@@ -272,7 +272,7 @@ export default function TenantMyHome() {
                         </div>
                         <div className="flex flex-col md:items-end p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700 w-full md:w-auto min-w-[200px]">
                             <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1">
-                                Monthly Rent
+                                Monthly rent
                             </span>
                             <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white">
                                 {homeData.property.rent}
@@ -281,7 +281,7 @@ export default function TenantMyHome() {
                             <div className="flex items-center gap-2 mt-2">
                                 <span className="size-2 rounded-full bg-green-500"></span>
                                 <span className="text-xs font-medium text-green-600 dark:text-green-400">
-                                    Lease Active
+                                    Lease active
                                 </span>
                             </div>
                         </div>
@@ -301,14 +301,14 @@ export default function TenantMyHome() {
                                     <h3 className="text-lg font-bold text-slate-900 dark:text-white">Payments</h3>
                                 </div>
                                 <Link to="/tenant/payments" className="text-sm font-semibold text-brand-ink hover:text-[#0e64bd]">
-                                    View History
+                                    View history
                                 </Link>
                             </div>
                             <div className="p-6">
                                 <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center justify-between mb-6">
                                     <div>
                                         <p className="text-sm text-slate-500 dark:text-slate-400 mb-1">
-                                            Next Payment Due
+                                            Next payment due
                                         </p>
                                         <div className="flex items-baseline gap-2">
                                             <span className="text-3xl font-bold text-slate-900 dark:text-white">
@@ -324,7 +324,7 @@ export default function TenantMyHome() {
                                         className="w-full sm:w-auto px-6 py-3 bg-brand-ink hover:bg-[#0e64bd] text-on-brand font-bold rounded-xl transition-all flex items-center justify-center gap-2"
                                     >
                                         <span className="material-symbols-outlined">credit_card</span>
-                                        Pay Rent
+                                        Pay rent
                                     </button>
                                 </div>
                                 <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4 flex items-center justify-between border border-slate-100 dark:border-slate-700">
@@ -354,12 +354,12 @@ export default function TenantMyHome() {
                                     <div className="p-2 bg-purple-50 dark:bg-purple-900/20 rounded-lg text-purple-600 dark:text-purple-400">
                                         <span className="material-symbols-outlined">description</span>
                                     </div>
-                                    <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-brand-ink transition-colors">Lease Details</h3>
+                                    <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-brand-ink transition-colors">Lease details</h3>
                                     <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 group-hover:text-brand-ink transition-colors text-[18px]">chevron_right</span>
                                 </Link>
                                 <div className="flex items-center gap-3">
                                     <Link to="/tenant/lease-details" className="text-sm font-semibold text-brand-ink hover:underline hidden sm:block">
-                                        View Full Details
+                                        View full details
                                     </Link>
                                     <button className="text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-brand-ink flex items-center gap-1">
                                         <span className="material-symbols-outlined text-[18px]">download</span> PDF
@@ -370,7 +370,7 @@ export default function TenantMyHome() {
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                                     <div>
                                         <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">
-                                            Start Date
+                                            Start date
                                         </p>
                                         <p className="font-semibold text-slate-900 dark:text-white">
                                             {homeData.lease.startDate}
@@ -378,7 +378,7 @@ export default function TenantMyHome() {
                                     </div>
                                     <div>
                                         <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">
-                                            End Date
+                                            End date
                                         </p>
                                         <p className="font-semibold text-slate-900 dark:text-white">
                                             {homeData.lease.endDate}
@@ -408,7 +408,7 @@ export default function TenantMyHome() {
                                                     </h4>
                                                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-bold uppercase tracking-wide border border-green-200 dark:border-green-800">
                                                         <span className="size-1.5 rounded-full bg-green-500 animate-pulse"></span>
-                                                        Offer Received
+                                                        Offer received
                                                     </span>
                                                 </div>
                                                 <p className="text-xs text-slate-600 dark:text-slate-400">
@@ -424,7 +424,7 @@ export default function TenantMyHome() {
                                             onClick={() => setIsLeaseRenewalModalOpen(true)}
                                             className="shrink-0 w-full sm:w-auto px-5 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-bold rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2 shadow-sm"
                                         >
-                                            Respond to Offer
+                                            Respond to offer
                                         </button>
                                     </div>
                                 )}
@@ -433,7 +433,7 @@ export default function TenantMyHome() {
                                     <span className="material-symbols-outlined text-brand-ink mt-0.5">info</span>
                                     <div>
                                         <h4 className="font-bold text-sm text-slate-900 dark:text-white">
-                                            Renewal Options Available
+                                            Renewal options available
                                         </h4>
                                         <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
                                             You are eligible to renew your lease starting July 1, 2024. Ask the AI
@@ -458,7 +458,7 @@ export default function TenantMyHome() {
                                     className="px-4 py-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-bold rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2"
                                 >
                                     <span className="material-symbols-outlined text-[18px]">add</span>
-                                    New Request
+                                    New request
                                 </button>
                             </div>
                             <div className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -548,7 +548,7 @@ export default function TenantMyHome() {
                             {/* Property Manager Card */}
                             <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6">
                                 <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4">
-                                    Property Manager
+                                    Property manager
                                 </h4>
                                 <Link to="/landlord-profile/1" className="flex items-center gap-4 mb-6 group cursor-pointer">
                                     <div className="relative">
@@ -584,7 +584,7 @@ export default function TenantMyHome() {
                                 </div>
                                 <Link to="/tenant/messages" className="w-full py-3 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2 mb-3">
                                     <span className="material-symbols-outlined text-[18px]">chat_bubble</span>
-                                    Message Manager
+                                    Message manager
                                 </Link>
                                 <div className="text-center text-xs text-slate-500 dark:text-slate-400">
                                     Usually responds within 1 hour
@@ -596,7 +596,7 @@ export default function TenantMyHome() {
                                 <div className="flex items-center gap-2 mb-3">
                                     <span className="material-symbols-outlined text-brand-ink">forum</span>
                                     <h4 className="font-bold text-slate-900 dark:text-white text-sm">
-                                        Property Insights
+                                        Property insights
                                     </h4>
                                 </div>
                                 <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">

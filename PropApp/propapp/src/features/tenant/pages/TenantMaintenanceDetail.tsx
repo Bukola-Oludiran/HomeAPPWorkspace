@@ -57,7 +57,7 @@ function getCategoryInfo(category: MaintenanceCategory): { label: string; icon: 
         HVAC: { label: 'HVAC', icon: 'hvac' },
         APPLIANCE: { label: 'Appliance', icon: 'kitchen' },
         STRUCTURAL: { label: 'Structural', icon: 'foundation' },
-        PEST_CONTROL: { label: 'Pest Control', icon: 'pest_control' },
+        PEST_CONTROL: { label: 'Pest control', icon: 'pest_control' },
         CLEANING: { label: 'Cleaning', icon: 'cleaning_services' },
         SECURITY: { label: 'Security', icon: 'lock_open' },
         OTHER: { label: 'Other', icon: 'build' },
@@ -83,8 +83,8 @@ function getStatusInfo(status: MaintenanceStatus): { label: string; color: strin
         PENDING: { label: 'Pending', color: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-800/50' },
         ACKNOWLEDGED: { label: 'Scheduled', color: 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 border-purple-200 dark:border-purple-800/50' },
         ASSIGNED: { label: 'Assigned', color: 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 border-purple-200 dark:border-purple-800/50' },
-        IN_PROGRESS: { label: 'In Progress', color: 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-800/50' },
-        ON_HOLD: { label: 'On Hold', color: 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800/50' },
+        IN_PROGRESS: { label: 'In progress', color: 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-800/50' },
+        ON_HOLD: { label: 'On hold', color: 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800/50' },
         COMPLETED: { label: 'Completed', color: 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 border-green-200 dark:border-green-800/50' },
         CANCELLED: { label: 'Cancelled', color: 'bg-gray-100 dark:bg-gray-900/30 text-gray-700 dark:text-gray-400 border-gray-200 dark:border-gray-800/50' },
     };
@@ -108,7 +108,7 @@ function generateTimeline(request: MaintenanceRequest): UIMaintenanceRequest['ti
     // Always add the submission event
     timeline.push({
         date: formatDateTime(request.createdAt),
-        title: 'Request Submitted',
+        title: 'Request submitted',
         description: 'You submitted a new maintenance request.',
         icon: 'send',
         iconColor: 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400',
@@ -118,7 +118,7 @@ function generateTimeline(request: MaintenanceRequest): UIMaintenanceRequest['ti
     if (request.status === 'ACKNOWLEDGED' || request.status === 'IN_PROGRESS' || request.status === 'COMPLETED') {
         timeline.unshift({
             date: formatDateTime(request.updatedAt),
-            title: 'Request Reviewed',
+            title: 'Request reviewed',
             description: 'Property manager reviewed the request and assigned it to a vendor.',
             icon: 'assignment_turned_in',
             iconColor: 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400',
@@ -128,7 +128,7 @@ function generateTimeline(request: MaintenanceRequest): UIMaintenanceRequest['ti
     if (request.status === 'IN_PROGRESS' || request.status === 'COMPLETED') {
         timeline.unshift({
             date: formatDateTime(request.updatedAt),
-            title: 'Maintenance In Progress',
+            title: 'Maintenance in progress',
             description: 'Technician is working on the issue.',
             icon: 'build',
             iconColor: 'bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400',
@@ -138,7 +138,7 @@ function generateTimeline(request: MaintenanceRequest): UIMaintenanceRequest['ti
     if (request.status === 'COMPLETED' && request.completedAt) {
         timeline.unshift({
             date: formatDateTime(request.completedAt),
-            title: 'Maintenance Completed',
+            title: 'Maintenance completed',
             description: 'The maintenance work has been completed.',
             icon: 'check_circle',
             iconColor: 'bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400',
@@ -148,7 +148,7 @@ function generateTimeline(request: MaintenanceRequest): UIMaintenanceRequest['ti
     if (request.status === 'CANCELLED') {
         timeline.unshift({
             date: formatDateTime(request.updatedAt),
-            title: 'Request Cancelled',
+            title: 'Request cancelled',
             description: 'This maintenance request has been cancelled.',
             icon: 'cancel',
             iconColor: 'bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400',
@@ -283,7 +283,7 @@ export default function TenantMaintenanceDetail() {
                             onClick={() => window.location.reload()}
                             className="px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-sm font-bold text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                         >
-                            Try Again
+                            Try again
                         </button>
                     </div>
                 </div>
@@ -297,7 +297,7 @@ export default function TenantMaintenanceDetail() {
                 isOpen={showCancelModal}
                 onClose={() => setShowCancelModal(false)}
                 onConfirm={() => console.log('Request cancelled')}
-                title="Cancel Maintenance Request?"
+                title="Cancel maintenance request?"
                 description="Are you sure you want to cancel this maintenance request? The vendor will be notified and any scheduled visit will be cancelled."
                 confirmText="Cancel Request"
                 icon="cancel"
@@ -306,7 +306,7 @@ export default function TenantMaintenanceDetail() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                 <div>
                     <div className="flex items-center gap-2 mb-2 text-slate-500 dark:text-slate-400 text-sm font-medium">
-                        <Link to="/tenant/my-home" className="hover:text-brand-ink transition-colors">My Home</Link>
+                        <Link to="/tenant/my-home" className="hover:text-brand-ink transition-colors">My home</Link>
                         <span className="material-symbols-outlined text-[16px]">chevron_right</span>
                         <span className="hover:text-brand-ink transition-colors cursor-pointer">Maintenance</span>
                         <span className="material-symbols-outlined text-[16px]">chevron_right</span>
@@ -325,7 +325,7 @@ export default function TenantMaintenanceDetail() {
                 <div className="flex gap-3">
                     <button className="px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-canvas-dark hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-white font-bold text-sm transition-all flex items-center gap-2">
                         <span className="material-symbols-outlined text-[18px]">upload_file</span>
-                        Add Files
+                        Add files
                     </button>
                     <button className="px-4 py-2.5 rounded-lg bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm transition-all flex items-center gap-2">
                         <span className="material-symbols-outlined text-[18px]">chat_bubble</span>
@@ -342,11 +342,11 @@ export default function TenantMaintenanceDetail() {
                     <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800">
                         <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
                             <span className="material-symbols-outlined text-brand-ink">description</span>
-                            Request Details
+                            Request details
                         </h2>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 text-sm">
                             <div>
-                                <span className="block text-slate-500 dark:text-slate-400 font-medium text-xs uppercase tracking-wide mb-1">Date Submitted</span>
+                                <span className="block text-slate-500 dark:text-slate-400 font-medium text-xs uppercase tracking-wide mb-1">Date submitted</span>
                                 <span className="font-bold text-slate-900 dark:text-white">{requestData.dateSubmitted}</span>
                             </div>
                             <div>
@@ -372,7 +372,7 @@ export default function TenantMaintenanceDetail() {
                             </p>
                         </div>
                         <div>
-                            <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-3">Attached Media</h3>
+                            <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-3">Attached media</h3>
                             <div className="flex gap-4 overflow-x-auto pb-2">
                                 {requestData.images.length > 0 ? (
                                     requestData.images.map((image, index) => (
@@ -390,7 +390,7 @@ export default function TenantMaintenanceDetail() {
                                 )}
                                 <button className="w-32 h-24 rounded-lg border-2 border-dashed border-slate-300 dark:border-slate-600 flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 hover:text-brand-ink hover:border-brand hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all gap-1">
                                     <span className="material-symbols-outlined text-[20px]">add</span>
-                                    <span className="text-xs font-bold uppercase">Add More</span>
+                                    <span className="text-xs font-bold uppercase">Add more</span>
                                 </button>
                             </div>
                         </div>
@@ -400,7 +400,7 @@ export default function TenantMaintenanceDetail() {
                     <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800">
                         <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
                             <span className="material-symbols-outlined text-brand-ink">history</span>
-                            Activity Timeline
+                            Activity timeline
                         </h2>
                         <ol className="relative border-l-2 border-slate-200 dark:border-slate-700 ml-3 space-y-8">
                             {requestData.timeline.map((event, index) => (
@@ -422,7 +422,7 @@ export default function TenantMaintenanceDetail() {
                     <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800 flex flex-col">
                         <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
                             <span className="material-symbols-outlined text-brand-ink">forum</span>
-                            Communication Log
+                            Communication log
                         </h2>
                         <div className="space-y-4 mb-6 max-h-[400px] overflow-y-auto pr-2">
                             {requestData.messages.map((msg) => (
@@ -501,14 +501,14 @@ export default function TenantMaintenanceDetail() {
                                 to="/tenant/my-home"
                                 className="w-full py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors block text-center"
                             >
-                                View Property Details
+                                View property details
                             </Link>
                         </div>
                     </div>
 
                     {/* Assigned Vendor */}
                     <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-100 dark:border-slate-800">
-                        <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-4">Assigned Vendor</h3>
+                        <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-4">Assigned vendor</h3>
                         {requestData.vendor ? (
                             <>
                                 <div className="flex items-center gap-3 mb-4">
@@ -535,7 +535,7 @@ export default function TenantMaintenanceDetail() {
                             <p className="text-sm text-slate-500 dark:text-slate-400">No vendor assigned yet</p>
                         )}
                         <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
-                            <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-3">Property Manager</h3>
+                            <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-3">Property manager</h3>
                             {requestData.manager ? (
                                 <div className="flex items-center gap-3">
                                     <div className="size-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 text-xs font-bold">
@@ -566,7 +566,7 @@ export default function TenantMaintenanceDetail() {
                                 className="w-full py-2.5 px-4 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/10 text-red-600 dark:text-red-400 border border-transparent hover:border-red-200 dark:hover:border-red-800/30 text-sm font-medium transition-colors flex items-center justify-center gap-2 cursor-pointer"
                             >
                                 <span className="material-symbols-outlined text-[18px]">cancel</span>
-                                Cancel Request
+                                Cancel request
                             </button>
                         </div>
                     </div>

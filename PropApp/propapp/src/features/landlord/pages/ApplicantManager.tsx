@@ -109,7 +109,7 @@ function mapStatus(status: string): string {
 
 // Transform API application to UI format
 function transformApplicant(app: RentalApplication): UIApplicant {
-    const name = app.tenant ? `${app.tenant.firstName} ${app.tenant.lastName}` : 'Unknown Applicant';
+    const name = app.tenant ? `${app.tenant.firstName} ${app.tenant.lastName}` : 'Unknown applicant';
     const displayStatus = mapStatus(app.status);
     const style = getStatusStyle(displayStatus);
 
@@ -222,13 +222,13 @@ export default function ApplicantManager() {
                 isOpen={showRejectModal}
                 onClose={() => setShowRejectModal(false)}
                 onConfirm={() => console.log(`Applicant ${selectedApplicant} rejected`)}
-                title="Reject Application?"
+                title="Reject application?"
                 description={`Are you sure you want to reject this application? They will be notified and removed from consideration.`}
                 confirmText="Reject Application"
                 icon="block"
             />
             <PageHeader
-                title="Applicant Manager"
+                title="Applicant manager"
                 subtitle="Review applications, verify backgrounds, and select your next tenant."
                 actions={
                     <>
@@ -254,7 +254,7 @@ export default function ApplicantManager() {
                             apartment
                         </span>
                         <select className="w-full pl-10 pr-8 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-medium focus:ring-brand focus:border-brand text-slate-900 dark:text-white cursor-pointer appearance-none">
-                            <option>All Properties</option>
+                            <option>All properties</option>
                             <option>5500 Highland Park</option>
                             <option>1243 Oakwood Avenue</option>
                             <option>Downtown Loft</option>
@@ -302,7 +302,7 @@ export default function ApplicantManager() {
                         {showPropertyDropdown && (
                             <div className="absolute right-0 top-full mt-2 w-56 bg-white dark:bg-[#1e293b] rounded-lg border border-slate-200 dark:border-slate-700 shadow-xl z-50 py-1">
                                 <div className="px-3 py-2 border-b border-slate-100 dark:border-slate-700">
-                                    <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Filter by Property</p>
+                                    <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Filter by property</p>
                                 </div>
                                 {uniqueProperties.map((property) => (
                                     <button
@@ -400,7 +400,7 @@ export default function ApplicantManager() {
                                     {applicant.creditScore && (
                                         <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
                                             <p className="text-xs uppercase tracking-wider font-bold text-slate-500 dark:text-slate-400 mb-1">
-                                                Credit Score
+                                                Credit score
                                             </p>
                                             <div className="flex items-center gap-2">
                                                 <span
@@ -451,7 +451,7 @@ export default function ApplicantManager() {
                                     {applicant.rentCoverage && (
                                         <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
                                             <p className="text-xs uppercase tracking-wider font-bold text-slate-500 dark:text-slate-400 mb-1">
-                                                Rent Coverage
+                                                Rent coverage
                                             </p>
                                             <div className="flex items-center gap-2">
                                                 <span className="material-symbols-outlined text-blue-500 text-[20px]">
@@ -488,7 +488,7 @@ export default function ApplicantManager() {
                                                     verified
                                                 </span>
                                                 <span className="text-xs font-bold text-slate-700 dark:text-slate-300">
-                                                    Background Check Completed
+                                                    Background check completed
                                                 </span>
                                             </div>
                                             <p className="text-xs text-slate-500 dark:text-slate-400">{applicant.backgroundResult}</p>
@@ -531,13 +531,13 @@ export default function ApplicantManager() {
                                     to={`/landlord/tenants/${applicant.id}`}
                                     className="w-full py-2.5 bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm rounded-lg transition-colors flex items-center justify-center gap-2"
                                 >
-                                    Review Application
+                                    Review application
                                 </Link>
                             )}
                             {applicant.actions.includes('background-check') && (
                                 <div className="flex gap-3">
                                     <button className="flex-1 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-700 dark:text-slate-300 font-bold text-xs rounded-lg transition-colors">
-                                        Run Background Check
+                                        Run background check
                                     </button>
                                 </div>
                             )}
@@ -561,7 +561,7 @@ export default function ApplicantManager() {
                                         to={`/landlord/tenants/${applicant.id}/profile`}
                                         className="w-full py-2 bg-transparent text-slate-500 dark:text-slate-400 hover:text-brand-ink font-semibold text-xs rounded-lg transition-colors"
                                     >
-                                        View Full Profile
+                                        View full profile
                                     </Link>
                                 </>
                             )}
@@ -580,7 +580,7 @@ export default function ApplicantManager() {
                             )}
                             {applicant.actions.includes('request-docs') && (
                                 <button className="w-full py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-brand hover:text-brand-ink font-bold text-sm rounded-lg transition-colors flex items-center justify-center gap-2">
-                                    Request Documents
+                                    Request documents
                                 </button>
                             )}
                         </div>

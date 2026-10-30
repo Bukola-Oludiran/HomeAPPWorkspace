@@ -90,7 +90,7 @@ export default function TenantPublicProfile() {
                 <div className="text-center">
                     <span className="material-symbols-outlined text-4xl text-slate-500 dark:text-slate-400 mb-4">error_outline</span>
                     <p className="text-slate-600 dark:text-slate-400">{error || 'Profile not found'}</p>
-                    <Link to="/" className="text-brand-ink font-semibold mt-4 inline-block hover:underline">Go Home</Link>
+                    <Link to="/" className="text-brand-ink font-semibold mt-4 inline-block hover:underline">Go home</Link>
                 </div>
             </div>
         );
@@ -121,9 +121,9 @@ export default function TenantPublicProfile() {
                             <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-2 font-medium">
                                 <Link to="#" className="hover:text-brand-ink">Community</Link>
                                 <span className="material-symbols-outlined text-[14px]">chevron_right</span>
-                                <span>Member Profile</span>
+                                <span>Member profile</span>
                             </div>
-                            <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Public Profile</h1>
+                            <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Public profile</h1>
                             <p className="text-slate-500 dark:text-slate-400 mt-2 text-lg">View public details and community contributions.</p>
                         </div>
                     </div>
@@ -194,7 +194,7 @@ export default function TenantPublicProfile() {
                                             <span className="material-symbols-outlined">bedroom_parent</span>
                                         </div>
                                         <div>
-                                            <span className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Unit Type</span>
+                                            <span className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Unit type</span>
                                             <span className="text-sm font-semibold text-slate-900 dark:text-white">{tenant.lookingFor.unitType}</span>
                                         </div>
                                     </div>
@@ -203,7 +203,7 @@ export default function TenantPublicProfile() {
                                             <span className="material-symbols-outlined">location_on</span>
                                         </div>
                                         <div>
-                                            <span className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Preferred Area</span>
+                                            <span className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Preferred area</span>
                                             <span className="text-sm font-semibold text-slate-900 dark:text-white">{tenant.lookingFor.area}</span>
                                         </div>
                                     </div>
@@ -212,7 +212,7 @@ export default function TenantPublicProfile() {
                                             <span className="material-symbols-outlined">pool</span>
                                         </div>
                                         <div>
-                                            <span className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Desired Amenities</span>
+                                            <span className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Desired amenities</span>
                                             <span className="text-sm font-semibold text-slate-900 dark:text-white">{tenant.lookingFor.amenities}</span>
                                         </div>
                                     </div>
@@ -257,7 +257,7 @@ export default function TenantPublicProfile() {
                                     ))}
                                 </div>
                                 <button className="w-full mt-6 py-2 text-sm text-brand-ink font-bold hover:bg-brand/5 rounded-lg transition-colors">
-                                    View All Contributions
+                                    View all contributions
                                 </button>
                             </div>
                         </div>
@@ -285,7 +285,7 @@ export default function TenantPublicProfile() {
                                 </div>
                                 <div>
                                     <h3 className="text-sm font-bold text-slate-900 dark:text-white">Community Assistant</h3>
-                                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">Public Insights</p>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">Public insights</p>
                                 </div>
                             </div>
                             <button onClick={() => setShowAIChat(false)} className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
@@ -305,10 +305,10 @@ export default function TenantPublicProfile() {
                                 <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2 uppercase tracking-wide px-1">Suggested actions</p>
                                 <div className="flex flex-wrap gap-2">
                                     <button className="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors">
-                                        Find Local Hiking Groups
+                                        Find local hiking groups
                                     </button>
                                     <button className="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors">
-                                        Show Community Guidelines
+                                        Show community guidelines
                                     </button>
                                 </div>
                             </div>
@@ -333,7 +333,7 @@ export default function TenantPublicProfile() {
                     </div>
                     <div className="flex flex-col items-start">
                         <span className="text-sm font-bold leading-none">AI Assistant</span>
-                        <span className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-tight mt-0.5">Explore Community</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-tight mt-0.5">Explore community</span>
                     </div>
                 </button>
             </div>

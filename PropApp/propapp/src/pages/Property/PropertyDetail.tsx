@@ -135,7 +135,7 @@ export default function PropertyDetail() {
                 <div className="text-center">
                     <span className="material-symbols-outlined text-6xl text-red-400 mb-4">error</span>
                     <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-                        {error?.error?.code === 'RES_002' ? 'Property Not Found' : 'Something went wrong'}
+                        {error?.error?.code === 'RES_002' ? 'Property not found' : 'Something went wrong'}
                     </h3>
                     <p className="text-slate-500 dark:text-slate-400 mb-4">
                         {error?.error?.message || 'Failed to load property details'}
@@ -144,7 +144,7 @@ export default function PropertyDetail() {
                         to="/search"
                         className="px-6 py-2 bg-brand-ink text-on-brand rounded-lg font-semibold hover:bg-brand-ink/90 inline-block"
                     >
-                        Back to Search
+                        Back to search
                     </Link>
                 </div>
             </div>
@@ -287,7 +287,7 @@ export default function PropertyDetail() {
                                             <span className="material-symbols-outlined text-green-500 text-[18px] icon-filled">
                                                 check_circle
                                             </span>
-                                            Title Clear
+                                            Title clear
                                         </div>
                                         <div className="flex items-center gap-1.5 text-sm font-medium text-slate-600 dark:text-slate-400">
                                             <span className="material-symbols-outlined text-green-500 text-[18px] icon-filled">
@@ -325,7 +325,7 @@ export default function PropertyDetail() {
                                 <span className="text-xl font-bold text-slate-900 dark:text-white">
                                     {sqft}
                                 </span>
-                                <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Sq Ft</span>
+                                <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Sq ft</span>
                             </div>
                             <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 flex flex-col items-center justify-center text-center gap-1">
                                 <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[24px]">
@@ -334,7 +334,7 @@ export default function PropertyDetail() {
                                 <span className="text-xl font-bold text-slate-900 dark:text-white">
                                     {property.yearBuilt || 'N/A'}
                                 </span>
-                                <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Year Built</span>
+                                <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Year built</span>
                             </div>
                         </div>
 
@@ -386,7 +386,7 @@ export default function PropertyDetail() {
                                     <div className="size-4 bg-brand rounded-full border-2 border-white shadow-lg"></div>
                                 </div>
                                 <button className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white dark:bg-slate-800 px-4 py-2 rounded-full shadow-lg text-sm font-semibold transition-transform">
-                                    Explore Map
+                                    Explore map
                                 </button>
                             </div>
                             <p className="mt-3 text-slate-500 dark:text-slate-400 text-sm">
@@ -412,7 +412,7 @@ export default function PropertyDetail() {
                                         <h4 className="font-bold text-lg text-slate-900 dark:text-white">
                                             {[property.owner?.firstName, property.owner?.lastName].filter(Boolean).join(' ') || 'Property Owner'}
                                         </h4>
-                                        <p className="text-slate-500 dark:text-slate-400 text-sm">Property Owner</p>
+                                        <p className="text-slate-500 dark:text-slate-400 text-sm">Property owner</p>
                                         {property.owner?.verificationLevel && property.owner.verificationLevel !== 'UNVERIFIED' && (
                                             <div className="flex items-center gap-1 text-xs font-semibold text-brand-ink mt-1">
                                                 <span className="material-symbols-outlined text-[14px] icon-filled">
@@ -424,7 +424,7 @@ export default function PropertyDetail() {
                                     </div>
                                 </div>
                                 <button className="w-full py-3 rounded-xl border border-slate-200 dark:border-slate-600 font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors mb-3">
-                                    Message Host
+                                    Message host
                                 </button>
                                 <div className="text-center text-xs text-slate-500 dark:text-slate-400">
                                     Contact for more info
@@ -475,7 +475,7 @@ export default function PropertyDetail() {
                             onClick={() => setShowViewingModal(true)}
                             className="flex-1 md:flex-none px-6 py-3.5 rounded-xl border-2 border-brand text-brand-ink font-bold hover:bg-blue-50 dark:hover:bg-brand/10 transition-colors whitespace-nowrap"
                         >
-                            Schedule Viewing
+                            Schedule viewing
                         </button>
                         <button
                             onClick={() => setShowBuyModal(true)}
@@ -551,7 +551,7 @@ export default function PropertyDetail() {
                 agent={{
                     id: property.owner.id,
                     name: [property.owner?.firstName, property.owner?.lastName].filter(Boolean).join(' ') || 'Property Agent',
-                    title: 'Property Owner',
+                    title: 'Property owner',
                     image: property.owner?.avatarUrl || 'https://placehold.co/64x64?text=Agent',
                 }}
                 property={{

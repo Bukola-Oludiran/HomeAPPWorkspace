@@ -21,7 +21,7 @@ export default function EnterRecoveryCodePage() {
                 </div>
             </div>
 
-            <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-3 text-center">Enter Recovery Code</h1>
+            <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-3 text-center">Enter recovery code</h1>
             <p className="text-slate-200 dark:text-slate-300 text-sm mb-8 font-normal text-center leading-relaxed">
                 Enter one of your 8-digit recovery codes to log in.
             </p>
@@ -34,7 +34,7 @@ export default function EnterRecoveryCodePage() {
                             <span className="material-symbols-outlined text-slate-300 group-focus-within:text-slate-300 transition-colors">lock_open</span>
                         </div>
                         <input
-                            aria-label="Recovery Code"
+                            aria-label="Recovery code"
                             className="w-full py-4 pl-12 pr-4 rounded-xl bg-white/5 hover:bg-white/10 border border-slate-600/30 focus:border-slate-500/50 focus:bg-white/10 text-white placeholder-slate-500 outline-none transition-all text-lg tracking-[0.2em] font-medium text-center shadow-inner focus:ring-2 focus:ring-brand"
                             maxLength={8}
                             placeholder="XXXXXXXX"
@@ -54,7 +54,7 @@ export default function EnterRecoveryCodePage() {
                     to="/auth/2fa/recovery-success"
                     className="w-full py-4 px-5 rounded-xl bg-brand-ink hover:bg-brand-ink/90 border border-transparent text-on-brand font-bold text-sm transition-all transform active:scale-[0.98] flex items-center justify-center"
                 >
-                    Verify Code
+                    Verify code
                 </Link>
             </div>
 

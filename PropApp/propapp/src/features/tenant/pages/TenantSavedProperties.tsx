@@ -57,7 +57,7 @@ function transformSavedProperty(property: PropertySummary): UISavedProperty {
         baths: `${property.bathrooms ?? 0} Bath${(property.bathrooms ?? 0) > 1 ? 's' : ''}`,
         sqft: property.squareFeet ? `${property.squareFeet.toLocaleString()} sqft` : 'N/A',
         isVerified: property.isVerified,
-        availability: property.status === 'ACTIVE' ? 'Available Now' : 'Not Available',
+        availability: property.status === 'ACTIVE' ? 'Available Now' : 'Not available',
     };
 }
 
@@ -130,7 +130,7 @@ export default function TenantSavedProperties() {
             <PageContainer maxWidth="lg">
                 <div className="mb-8">
                     <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                        Saved Properties
+                        Saved properties
                     </h1>
                     <p className="text-slate-800 dark:text-slate-400 mt-2 text-lg">Loading...</p>
                 </div>
@@ -155,7 +155,7 @@ export default function TenantSavedProperties() {
             <PageContainer maxWidth="lg">
                 <div className="mb-8">
                     <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                        Saved Properties
+                        Saved properties
                     </h1>
                 </div>
                 <div className="p-12 bg-red-50 dark:bg-red-900/20 rounded-2xl text-center">
@@ -178,7 +178,7 @@ export default function TenantSavedProperties() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
                 <div>
                     <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                        Saved Properties
+                        Saved properties
                     </h1>
                     <p className="text-slate-800 dark:text-slate-400 mt-2 text-lg">
                         You have {filteredProperties.length} saved homes.
@@ -315,7 +315,7 @@ export default function TenantSavedProperties() {
                                             to={`/property/${property.id}`}
                                             className="flex-1 py-1.5 bg-brand/10 hover:bg-brand/20 text-brand-ink rounded-lg font-semibold text-sm transition-colors text-center"
                                         >
-                                            View Details
+                                            View details
                                         </Link>
                                         <button className="p-1.5 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-500 dark:text-slate-400 hover:text-brand-ink hover:border-brand transition-colors" title="Share">
                                             <span className="material-symbols-outlined text-[18px]">share</span>
@@ -344,7 +344,7 @@ export default function TenantSavedProperties() {
                                 <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Looking for more?</h3>
                                 <p className="text-slate-500 dark:text-slate-400 mb-6 text-sm max-w-[200px] mx-auto">Continue your search to find the perfect verified rental property.</p>
                                 <span className="px-5 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-brand-ink text-sm font-bold hover:shadow-md transition-all">
-                                    Explore Properties
+                                    Explore properties
                                 </span>
                             </div>
                         </Link>
@@ -412,7 +412,7 @@ export default function TenantSavedProperties() {
                                             to={`/property/${property.id}`}
                                             className="px-4 py-2 bg-brand-ink hover:bg-brand-ink/90 text-on-brand rounded-lg text-sm font-bold transition-colors"
                                         >
-                                            View Details
+                                            View details
                                         </Link>
                                         <div className="flex items-center gap-1">
                                             <button className="p-2 text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors" title="Share">
@@ -446,7 +446,7 @@ export default function TenantSavedProperties() {
                                 </div>
                             </div>
                             <span className="px-5 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-brand-ink text-sm font-bold hover:shadow-md transition-all whitespace-nowrap">
-                                Explore Properties
+                                Explore properties
                             </span>
                         </Link>
                     </AnimatedGroup>

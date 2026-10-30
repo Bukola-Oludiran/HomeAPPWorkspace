@@ -42,7 +42,7 @@ export default function TwoFactorAuthPage() {
                     <p className="text-sm text-slate-300">
                         Didn't receive a code?{' '}
                         <a className="text-sky hover:text-sky/80 font-bold ml-1 transition-colors hover:underline" href="#">
-                            Resend Code
+                            Resend code
                         </a>
                         <span className="ml-1 text-slate-300 font-mono">(0:28)</span>
                     </p>
@@ -75,7 +75,7 @@ export default function TwoFactorAuthPage() {
                     className="text-slate-300 hover:text-white text-sm font-medium flex items-center gap-1.5 transition-colors group"
                 >
                     <span className="material-symbols-outlined text-[18px] group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
-                    Back to Login
+                    Back to login
                 </Link>
             </div>
         </div>

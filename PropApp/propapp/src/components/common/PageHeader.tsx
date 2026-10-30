@@ -21,7 +21,7 @@ interface PageHeaderProps {
  * <PageHeader 
  *   title="Dashboard"
  *   subtitle="Welcome back. Here's what's happening today."
- *   actions={<Button>Add New</Button>}
+ *   actions={<Button>Add new</Button>}
  *   breadcrumb={[{ label: "Home", href: "/" }, { label: "Dashboard" }]}
  * />
  */

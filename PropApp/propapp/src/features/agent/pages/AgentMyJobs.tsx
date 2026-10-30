@@ -76,7 +76,7 @@ export default function AgentMyJobs() {
     return (
         <PageContainer>
             <PageHeader
-                title="My Jobs"
+                title="My jobs"
                 subtitle="Manage your schedule, track progress, and update job status."
                 actions={
                     <div className="flex flex-col sm:flex-row gap-4">
@@ -88,7 +88,7 @@ export default function AgentMyJobs() {
                                     : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white'
                                     }`}
                             >
-                                All Jobs
+                                All jobs
                             </button>
                             <button
                                 onClick={() => setActiveTab('Accepted')}
@@ -97,7 +97,7 @@ export default function AgentMyJobs() {
                                     : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white'
                                     }`}
                             >
-                                In Progress
+                                In progress
                             </button>
                             <button
                                 onClick={() => setActiveTab('Completed')}
@@ -220,7 +220,7 @@ export default function AgentMyJobs() {
                                 {isAccepted && (
                                     <>
                                         <div className="flex gap-1">
-                                            <button className="p-2.5 text-slate-800 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" title="Call Client">
+                                            <button className="p-2.5 text-slate-800 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" title="Call client">
                                                 <span className="material-symbols-outlined">call</span>
                                             </button>
                                             <button className="p-2.5 text-slate-800 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" title="Message">
@@ -255,7 +255,7 @@ export default function AgentMyJobs() {
                                             to={`/agent/my-jobs/${job.id}`}
                                             className="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white text-sm font-bold rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
                                         >
-                                            View Details
+                                            View details
                                         </Link>
                                     </>
                                 )}
@@ -279,7 +279,7 @@ export default function AgentMyJobs() {
                         icon="work_off"
                         title="No jobs found"
                         description="Try adjusting your filters or browse the job board for new opportunities."
-                        action={{ label: "Browse Job Board", href: "/agent/jobs" }}
+                        action={{ label: "Browse job board", href: "/agent/jobs" }}
                         className="col-span-full"
                     />
                 )}

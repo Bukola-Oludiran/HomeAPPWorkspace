@@ -134,10 +134,10 @@ export default function TenantTransactions() {
     return (
         <PageContainer>
             <PageHeader
-                title="All Transaction History"
+                title="All transaction history"
                 subtitle="View, search, and manage your complete payment records."
                 breadcrumb={[
-                    { label: 'Payment Dashboard', href: '/tenant/dashboard' },
+                    { label: 'Payment dashboard', href: '/tenant/dashboard' },
                     { label: 'Transactions' }
                 ]}
                 actions={
@@ -159,7 +159,7 @@ export default function TenantTransactions() {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4">
                         <div className="lg:col-span-4 relative">
-                            <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Search Transactions</label>
+                            <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Search transactions</label>
                             <SearchInput
                                 placeholder="e.g. Rent, Deposit, Invoice #..."
                                 value={searchQuery}
@@ -170,7 +170,7 @@ export default function TenantTransactions() {
                         <div className="lg:col-span-2">
                             <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Property</label>
                             <select className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/50 focus:border-brand">
-                                <option>All Properties</option>
+                                <option>All properties</option>
                                 <option>Sunset Apartments, Unit 4B</option>
                                 <option>Application: Lakeview Condo</option>
                             </select>
@@ -178,12 +178,12 @@ export default function TenantTransactions() {
                         <div className="lg:col-span-2">
                             <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Type</label>
                             <select className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/50 focus:border-brand">
-                                <option>All Types</option>
-                                <option>Monthly Rent</option>
+                                <option>All types</option>
+                                <option>Monthly rent</option>
                                 <option>Utilities</option>
-                                <option>Security Deposit</option>
-                                <option>Application Fee</option>
-                                <option>Late Fee</option>
+                                <option>Security deposit</option>
+                                <option>Application fee</option>
+                                <option>Late fee</option>
                             </select>
                         </div>
                         <div className="lg:col-span-1">
@@ -207,8 +207,8 @@ export default function TenantTransactions() {
                             <tr>
                                 <th className="px-6 py-4">Description / ID</th>
                                 <th className="px-6 py-4">Property</th>
-                                <th className="px-6 py-4">Date & Time</th>
-                                <th className="px-6 py-4">Payment Method</th>
+                                <th className="px-6 py-4">Date & time</th>
+                                <th className="px-6 py-4">Payment method</th>
                                 <th className="px-6 py-4">Status</th>
                                 <th className="px-6 py-4 text-right">Amount</th>
                                 <th className="px-6 py-4 text-center">Action</th>
@@ -246,7 +246,7 @@ export default function TenantTransactions() {
                                                 onClick={() => window.location.reload()}
                                                 className="px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                                             >
-                                                Try Again
+                                                Try again
                                             </button>
                                         </div>
                                     </td>
@@ -292,7 +292,7 @@ export default function TenantTransactions() {
                                         <p className="font-bold text-slate-900 dark:text-white">{tx.amount}</p>
                                     </td>
                                     <td className="px-6 py-4 text-center">
-                                        <button className="p-2 text-slate-500 dark:text-slate-400 hover:text-brand-ink hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors" title={tx.status === 'Failed' ? 'Retry / View Details' : 'View Receipt'}>
+                                        <button className="p-2 text-slate-500 dark:text-slate-400 hover:text-brand-ink hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors" title={tx.status === 'Failed' ? 'Retry / View Details' : 'View receipt'}>
                                             <span className="material-symbols-outlined text-[20px]">
                                                 {tx.status === 'Failed' ? 'refresh' : tx.status === 'Pending' ? 'visibility' : 'receipt_long'}
                                             </span>
@@ -352,7 +352,7 @@ export default function TenantTransactions() {
                                 </div>
                                 <div>
                                     <h3 className="text-sm font-bold text-slate-900 dark:text-white">Tenant Assistant</h3>
-                                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">Finance & History</p>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">Finance & history</p>
                                 </div>
                             </div>
                             <button onClick={() => setShowAIChat(false)} className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
@@ -372,13 +372,13 @@ export default function TenantTransactions() {
                                 <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2 uppercase tracking-wide px-1">Suggested actions</p>
                                 <div className="flex flex-wrap gap-2">
                                     <button className="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors">
-                                        Find Oct Rent Receipt
+                                        Find Oct rent receipt
                                     </button>
                                     <button className="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors">
-                                        Explain Utility Charges
+                                        Explain utility charges
                                     </button>
                                     <button className="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors">
-                                        Filter by Failed Payments
+                                        Filter by failed payments
                                     </button>
                                 </div>
                             </div>

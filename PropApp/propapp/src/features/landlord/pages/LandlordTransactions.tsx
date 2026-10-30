@@ -183,7 +183,7 @@ export default function LandlordTransactions() {
         <PageContainer>
             {/* Back Link */}
             <PageHeader
-                title="Transaction History"
+                title="Transaction history"
                 subtitle="Track all income, fees, and financial activity across your properties."
                 breadcrumb={[
                     { label: 'Dashboard', href: '/landlord/dashboard' },
@@ -204,15 +204,15 @@ export default function LandlordTransactions() {
                     <p className="text-2xl font-extrabold text-green-600">{isLoading ? '...' : formatCurrency(totalIncome)}</p>
                 </div>
                 <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
-                    <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Pending Payments</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Pending payments</p>
                     <p className="text-2xl font-extrabold text-orange-600">{isLoading ? '...' : formatCurrency(pendingAmount)}</p>
                 </div>
                 <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
-                    <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Fees & Deductions</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Fees & deductions</p>
                     <p className="text-2xl font-extrabold text-red-500">{isLoading ? '...' : formatCurrency(deductions)}</p>
                 </div>
                 <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
-                    <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Net Revenue</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Net revenue</p>
                     <p className="text-2xl font-extrabold text-brand-ink">{isLoading ? '...' : formatCurrency(netRevenue)}</p>
                 </div>
             </div>
@@ -228,7 +228,7 @@ export default function LandlordTransactions() {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4">
                         <div className="lg:col-span-4 relative">
-                            <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Search Transactions</label>
+                            <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Search transactions</label>
                             <SearchInput
                                 placeholder="e.g. Tenant name, Invoice #..."
                                 value={searchQuery}
@@ -239,7 +239,7 @@ export default function LandlordTransactions() {
                         <div className="lg:col-span-2">
                             <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Property</label>
                             <select className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/50 focus:border-brand">
-                                <option>All Properties</option>
+                                <option>All properties</option>
                                 <option>Modern Oakwood Estate</option>
                                 <option>Downtown Loft, Unit 8A</option>
                                 <option>Riverside Condo</option>
@@ -248,11 +248,11 @@ export default function LandlordTransactions() {
                         <div className="lg:col-span-2">
                             <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Type</label>
                             <select className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/50 focus:border-brand">
-                                <option>All Types</option>
-                                <option>Rent Income</option>
-                                <option>Late Fees</option>
-                                <option>Security Deposits</option>
-                                <option>Service Fees</option>
+                                <option>All types</option>
+                                <option>Rent income</option>
+                                <option>Late fees</option>
+                                <option>Security deposits</option>
+                                <option>Service fees</option>
                             </select>
                         </div>
                         <div className="lg:col-span-1">
@@ -327,7 +327,7 @@ export default function LandlordTransactions() {
                                         <p className={`font-bold ${tx.amount.startsWith('+') ? 'text-green-600' : 'text-red-500'}`}>{tx.amount}</p>
                                     </td>
                                     <td className="px-6 py-4 text-center">
-                                        <button className="p-2 text-slate-500 dark:text-slate-400 hover:text-brand-ink hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors" title="View Receipt">
+                                        <button className="p-2 text-slate-500 dark:text-slate-400 hover:text-brand-ink hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors" title="View receipt">
                                             <span className="material-symbols-outlined text-[20px]">receipt_long</span>
                                         </button>
                                     </td>
@@ -370,7 +370,7 @@ export default function LandlordTransactions() {
                                 </div>
                                 <div>
                                     <h3 className="text-sm font-bold text-slate-900 dark:text-white">Finance Assistant</h3>
-                                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">Property Income</p>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">Property income</p>
                                 </div>
                             </div>
                             <button onClick={() => setShowAIChat(false)} className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
@@ -390,13 +390,13 @@ export default function LandlordTransactions() {
                                 <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2 uppercase tracking-wide px-1">Suggested actions</p>
                                 <div className="flex flex-wrap gap-2">
                                     <button className="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors">
-                                        Monthly Income Report
+                                        Monthly income report
                                     </button>
                                     <button className="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors">
-                                        Show Pending Payments
+                                        Show pending payments
                                     </button>
                                     <button className="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors">
-                                        Tax Summary
+                                        Tax summary
                                     </button>
                                 </div>
                             </div>

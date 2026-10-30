@@ -18,7 +18,7 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
                 <div className="relative w-full max-w-2xl transform rounded-2xl bg-white dark:bg-surface-dark shadow-2xl transition-all flex flex-col max-h-[90vh]">
                     {/* Header */}
                     <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 px-6 py-5">
-                        <h3 className="text-xl font-bold text-slate-900 dark:text-white">Add New Payment Method</h3>
+                        <h3 className="text-xl font-bold text-slate-900 dark:text-white">Add new payment method</h3>
                         <button
                             onClick={onClose}
                             className="text-slate-500 dark:text-slate-400 hover:text-slate-500 dark:hover:text-slate-300 transition-colors p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
@@ -49,14 +49,14 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
                                     }`}
                             >
                                 <span className="material-symbols-outlined text-[20px]">account_balance</span>
-                                Bank Account
+                                Bank account
                             </button>
                         </div>
 
                         {activeTab === 'card' ? (
                             <form className="space-y-6">
                                 <div>
-                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Card Number</label>
+                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Card number</label>
                                     <div className="relative">
                                         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400">
                                             <span className="material-symbols-outlined text-[20px]">credit_card</span>
@@ -75,7 +75,7 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
-                                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Expiration Date</label>
+                                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Expiration date</label>
                                         <input
                                             className="w-full px-4 py-3 rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:border-brand focus:ring-brand sm:text-sm font-medium placeholder-slate-400"
                                             placeholder="MM / YY"
@@ -98,7 +98,7 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Cardholder Name</label>
+                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Cardholder name</label>
                                     <input
                                         className="w-full px-4 py-3 rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:border-brand focus:ring-brand sm:text-sm font-medium placeholder-slate-400"
                                         placeholder="Full name as on card"
@@ -124,7 +124,7 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
                                 <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 rounded-xl p-4 flex gap-3 mt-4">
                                     <span className="material-symbols-outlined text-blue-600 dark:text-blue-400 text-[20px] shrink-0">verified_user</span>
                                     <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                                        <span className="font-bold block mb-0.5 text-blue-700 dark:text-blue-300">Secure Payment</span>
+                                        <span className="font-bold block mb-0.5 text-blue-700 dark:text-blue-300">Secure payment</span>
                                         Your payment details are encrypted using 256-bit SSL. We are PCI DSS compliant and never store your full card number.
                                     </p>
                                 </div>
@@ -132,7 +132,7 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
                         ) : (
                             <form className="space-y-6">
                                 <div>
-                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Bank Name</label>
+                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Bank name</label>
                                     <input
                                         className="w-full px-4 py-3 rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:border-brand focus:ring-brand sm:text-sm font-medium placeholder-slate-400"
                                         placeholder="Enter your bank name"
@@ -140,7 +140,7 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Account Number</label>
+                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Account number</label>
                                     <input
                                         className="w-full px-4 py-3 rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:border-brand focus:ring-brand sm:text-sm font-medium placeholder-slate-400"
                                         placeholder="Enter your account number"
@@ -148,7 +148,7 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Routing Number</label>
+                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Routing number</label>
                                     <input
                                         className="w-full px-4 py-3 rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:border-brand focus:ring-brand sm:text-sm font-medium placeholder-slate-400"
                                         placeholder="Enter routing number"

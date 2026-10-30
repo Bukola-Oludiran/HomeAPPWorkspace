@@ -22,7 +22,7 @@ export default function SignUpStep4Landlord() {
                 </span>
             </div>
 
-            <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-2 text-center">Start Managing Your Portfolio</h1>
+            <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-2 text-center">Start managing your portfolio</h1>
             <p className="text-slate-300 text-sm md:text-base mb-8 text-center font-normal">
                 Help us tailor your dashboard by sharing a few details about your properties.
             </p>
@@ -88,8 +88,8 @@ export default function SignUpStep4Landlord() {
                         <label className="text-sm font-semibold text-slate-200">Your role</label>
                         <div className="flex flex-col gap-2">
                             {[
-                                { value: 'owner', label: 'Property Owner' },
-                                { value: 'manager', label: 'Property Manager' }
+                                { value: 'owner', label: 'Property owner' },
+                                { value: 'manager', label: 'Property manager' }
                             ].map((option) => (
                                 <label key={option.value} className="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-white/5 transition-colors">
                                     <input
@@ -138,7 +138,7 @@ export default function SignUpStep4Landlord() {
                     </div>
                     <div className="grid grid-cols-3 gap-3">
                         {[
-                            { value: 'chat', icon: 'chat', label: 'App Chat' },
+                            { value: 'chat', icon: 'chat', label: 'App chat' },
                             { value: 'email', icon: 'mail', label: 'Email' },
                             { value: 'phone', icon: 'phone_in_talk', label: 'Phone' }
                         ].map((option) => (
@@ -170,7 +170,7 @@ export default function SignUpStep4Landlord() {
                         to="/landlord/dashboard"
                         className="w-full py-3.5 px-4 rounded-xl bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-lg transition-all flex items-center justify-center gap-2"
                     >
-                        Finish Setup
+                        Finish setup
                         <span className="material-symbols-outlined text-xl">arrow_forward</span>
                     </Link>
                 </div>

@@ -325,7 +325,7 @@ export default function UnifiedNavbar() {
                                     >
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">home</span>
-                                            Back to Home
+                                            Back to home
                                         </div>
                                     </Link>
                                 )}
@@ -356,7 +356,7 @@ export default function UnifiedNavbar() {
                                 <button className="w-full text-left block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand-ink">
                                     <div className="flex items-center gap-2">
                                         <span className="material-symbols-outlined text-lg">logout</span>
-                                        Sign Out
+                                        Sign out
                                     </div>
                                 </button>
                             </div>

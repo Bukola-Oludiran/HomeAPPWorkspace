@@ -71,7 +71,7 @@ export default function ShareModal({ isOpen, onClose, title, url }: ShareModalPr
                     {/* Copy Link */}
                     <div className="mb-6">
                         <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2 block">
-                            Copy Link
+                            Copy link
                         </label>
                         <div className="flex gap-2">
                             <input

@@ -132,7 +132,7 @@ export default function NotificationPreferencesModal({ isOpen, onClose }: Notifi
                         <div className="size-10 bg-brand/10 rounded-full flex items-center justify-center">
                             <span className="material-symbols-outlined text-brand-ink">notifications</span>
                         </div>
-                        <h2 className="text-lg font-bold text-slate-900 dark:text-white">Notification Preferences</h2>
+                        <h2 className="text-lg font-bold text-slate-900 dark:text-white">Notification preferences</h2>
                     </div>
                     <button
                         onClick={onClose}

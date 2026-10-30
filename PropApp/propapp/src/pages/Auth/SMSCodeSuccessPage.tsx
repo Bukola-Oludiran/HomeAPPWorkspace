@@ -37,7 +37,7 @@ export default function SMSCodeSuccessPage() {
                     to="/tenant/dashboard"
                     className="w-full py-4 px-5 rounded-xl bg-brand-ink hover:bg-brand-ink/90 border border-transparent text-on-brand font-bold text-sm transition-all transform active:scale-[0.98] flex items-center justify-center"
                 >
-                    Continue to Dashboard
+                    Continue to dashboard
                 </Link>
             </div>
         </div>

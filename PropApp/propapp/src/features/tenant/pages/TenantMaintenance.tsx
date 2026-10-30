@@ -43,7 +43,7 @@ function getCategoryStyle(category: MaintenanceCategory): { icon: string; bg: st
         HVAC: { icon: 'hvac', bg: 'bg-purple-100 dark:bg-purple-900/30', color: 'text-purple-600 dark:text-purple-400', label: 'HVAC' },
         APPLIANCE: { icon: 'kitchen', bg: 'bg-blue-100 dark:bg-blue-900/30', color: 'text-blue-600 dark:text-blue-400', label: 'Appliance' },
         STRUCTURAL: { icon: 'foundation', bg: 'bg-slate-100 dark:bg-slate-900/30', color: 'text-slate-600 dark:text-slate-400', label: 'Structural' },
-        PEST_CONTROL: { icon: 'pest_control', bg: 'bg-orange-100 dark:bg-orange-900/30', color: 'text-orange-600 dark:text-orange-400', label: 'Pest Control' },
+        PEST_CONTROL: { icon: 'pest_control', bg: 'bg-orange-100 dark:bg-orange-900/30', color: 'text-orange-600 dark:text-orange-400', label: 'Pest control' },
         CLEANING: { icon: 'cleaning_services', bg: 'bg-cyan-100 dark:bg-cyan-900/30', color: 'text-cyan-600 dark:text-cyan-400', label: 'Cleaning' },
         SECURITY: { icon: 'lock_open', bg: 'bg-red-100 dark:bg-red-900/30', color: 'text-red-600 dark:text-red-400', label: 'Security' },
         OTHER: { icon: 'build', bg: 'bg-gray-100 dark:bg-gray-900/30', color: 'text-gray-600 dark:text-gray-400', label: 'Other' },
@@ -69,8 +69,8 @@ function getStatusStyle(status: MaintenanceStatus): { label: string; bg: string;
         PENDING: { label: 'Pending', bg: 'bg-blue-100 dark:bg-blue-900/30', color: 'text-blue-700 dark:text-blue-400', border: 'border-blue-200 dark:border-blue-800/50', isCompleted: false },
         ACKNOWLEDGED: { label: 'Scheduled', bg: 'bg-purple-100 dark:bg-purple-900/30', color: 'text-purple-700 dark:text-purple-400', border: 'border-purple-200 dark:border-purple-800/50', isCompleted: false },
         ASSIGNED: { label: 'Assigned', bg: 'bg-purple-100 dark:bg-purple-900/30', color: 'text-purple-700 dark:text-purple-400', border: 'border-purple-200 dark:border-purple-800/50', isCompleted: false },
-        IN_PROGRESS: { label: 'In Progress', bg: 'bg-amber-100 dark:bg-amber-900/30', color: 'text-amber-700 dark:text-amber-400', border: 'border-amber-200 dark:border-amber-800/50', isCompleted: false },
-        ON_HOLD: { label: 'On Hold', bg: 'bg-yellow-100 dark:bg-yellow-900/30', color: 'text-yellow-700 dark:text-yellow-400', border: 'border-yellow-200 dark:border-yellow-800/50', isCompleted: false },
+        IN_PROGRESS: { label: 'In progress', bg: 'bg-amber-100 dark:bg-amber-900/30', color: 'text-amber-700 dark:text-amber-400', border: 'border-amber-200 dark:border-amber-800/50', isCompleted: false },
+        ON_HOLD: { label: 'On hold', bg: 'bg-yellow-100 dark:bg-yellow-900/30', color: 'text-yellow-700 dark:text-yellow-400', border: 'border-yellow-200 dark:border-yellow-800/50', isCompleted: false },
         COMPLETED: { label: 'Completed', bg: 'bg-green-100 dark:bg-green-900/30', color: 'text-green-700 dark:text-green-400', border: 'border-green-200 dark:border-green-800/50', isCompleted: true },
         CANCELLED: { label: 'Cancelled', bg: 'bg-gray-100 dark:bg-gray-900/30', color: 'text-gray-700 dark:text-gray-400', border: 'border-gray-200 dark:border-gray-800/50', isCompleted: true },
     };
@@ -232,10 +232,10 @@ export default function TenantMaintenance() {
     return (
         <PageContainer>
             <PageHeader
-                title="Maintenance Requests"
+                title="Maintenance requests"
                 subtitle="View and manage support tickets for your properties."
                 breadcrumb={[
-                    { label: 'My Home', href: '/tenant/my-home' },
+                    { label: 'My home', href: '/tenant/my-home' },
                     { label: 'Maintenance' }
                 ]}
                 actions={
@@ -244,7 +244,7 @@ export default function TenantMaintenance() {
                         className="px-5 py-3 rounded-lg bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm transition-all flex items-center gap-2 group"
                     >
                         <span className="material-symbols-outlined text-[20px] group-hover:rotate-90 transition-transform">add</span>
-                        New Request
+                        New request
                     </button>
                 }
             />
@@ -268,9 +268,9 @@ export default function TenantMaintenance() {
                             onChange={(e) => setStatusFilter(e.target.value)}
                             className="w-full pl-3 pr-10 py-2.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand appearance-none cursor-pointer font-medium hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                         >
-                            <option value="all">All Statuses</option>
+                            <option value="all">All statuses</option>
                             <option value="submitted">Submitted</option>
-                            <option value="in-progress">In Progress</option>
+                            <option value="in-progress">In progress</option>
                             <option value="scheduled">Scheduled</option>
                             <option value="completed">Completed</option>
                             <option value="canceled">Canceled</option>
@@ -283,7 +283,7 @@ export default function TenantMaintenance() {
                             onChange={(e) => setUrgencyFilter(e.target.value)}
                             className="w-full pl-3 pr-10 py-2.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand appearance-none cursor-pointer font-medium hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                         >
-                            <option value="all">Any Urgency</option>
+                            <option value="all">Any urgency</option>
                             <option value="low">Low</option>
                             <option value="medium">Medium</option>
                             <option value="high">High</option>
@@ -297,9 +297,9 @@ export default function TenantMaintenance() {
                             onChange={(e) => setSortOrder(e.target.value)}
                             className="w-full pl-3 pr-10 py-2.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand appearance-none cursor-pointer font-medium hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                         >
-                            <option value="newest">Newest First</option>
-                            <option value="oldest">Oldest First</option>
-                            <option value="updated">Last Updated</option>
+                            <option value="newest">Newest first</option>
+                            <option value="oldest">Oldest first</option>
+                            <option value="updated">Last updated</option>
                         </select>
                         <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 pointer-events-none text-[20px]">sort</span>
                     </div>
@@ -312,9 +312,9 @@ export default function TenantMaintenance() {
                     <table className="w-full text-left border-collapse min-w-[900px]">
                         <thead>
                             <tr className="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
-                                <th className="p-5 pl-6 w-[35%]">Request Details</th>
+                                <th className="p-5 pl-6 w-[35%]">Request details</th>
                                 <th className="p-5 w-[20%]">Property</th>
-                                <th className="p-5 w-[15%]">Date Submitted</th>
+                                <th className="p-5 w-[15%]">Date submitted</th>
                                 <th className="p-5 w-[10%]">Urgency</th>
                                 <th className="p-5 w-[10%]">Status</th>
                                 <th className="p-5 pr-6 w-[10%] text-right">Actions</th>
@@ -362,7 +362,7 @@ export default function TenantMaintenance() {
                                                 onClick={() => window.location.reload()}
                                                 className="px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                                             >
-                                                Try Again
+                                                Try again
                                             </button>
                                         </div>
                                     </td>
@@ -377,7 +377,7 @@ export default function TenantMaintenance() {
                                                 onClick={() => setIsMaintenanceModalOpen(true)}
                                                 className="px-4 py-2 rounded-lg bg-brand-ink text-xs font-bold text-on-brand hover:bg-brand-ink/90 transition-colors"
                                             >
-                                                Submit New Request
+                                                Submit new request
                                             </button>
                                         </div>
                                     </td>
@@ -455,11 +455,11 @@ export default function TenantMaintenance() {
                                                     to={`/tenant/maintenance/${request.id}`}
                                                     className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
                                                 >
-                                                    View Log
+                                                    View log
                                                 </Link>
                                             ) : (
                                                 <>
-                                                    <button className="size-8 flex items-center justify-center rounded-lg hover:bg-brand/10 text-slate-500 dark:text-slate-400 hover:text-brand-ink transition-colors" title="Message Landlord">
+                                                    <button className="size-8 flex items-center justify-center rounded-lg hover:bg-brand/10 text-slate-500 dark:text-slate-400 hover:text-brand-ink transition-colors" title="Message landlord">
                                                         <span className="material-symbols-outlined text-[18px]">chat</span>
                                                     </button>
                                                     <Link

@@ -254,7 +254,7 @@ export default function LandlordAlertCenter() {
         return (
             <PageContainer>
                 <PageHeader
-                    title="Alert Center"
+                    title="Alert center"
                     subtitle="Manage notifications and urgent tasks across your portfolio."
                 />
                 <div className="flex flex-col gap-4">
@@ -280,7 +280,7 @@ export default function LandlordAlertCenter() {
         return (
             <PageContainer>
                 <PageHeader
-                    title="Alert Center"
+                    title="Alert center"
                     subtitle="Manage notifications and urgent tasks across your portfolio."
                 />
                 <div className="p-12 bg-red-50 dark:bg-red-900/20 rounded-2xl text-center">
@@ -300,11 +300,11 @@ export default function LandlordAlertCenter() {
     return (
         <PageContainer>
             <PageHeader
-                title="Alert Center"
+                title="Alert center"
                 subtitle="Manage notifications and urgent tasks across your portfolio."
                 breadcrumb={[
                     { label: 'Dashboard', href: '/landlord/dashboard' },
-                    { label: 'Alert Center' }
+                    { label: 'Alert center' }
                 ]}
                 actions={
                     <>
@@ -331,7 +331,7 @@ export default function LandlordAlertCenter() {
                                 onChange={(e) => setTypeFilter(e.target.value)}
                                 className="pl-3 pr-8 py-2 text-sm bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-brand focus:border-brand text-slate-900 dark:text-white cursor-pointer min-w-[140px]"
                             >
-                                <option value="all">All Types</option>
+                                <option value="all">All types</option>
                                 <option value="maintenance">Maintenance</option>
                                 <option value="verification">Verification</option>
                                 <option value="financial">Financial</option>
@@ -344,7 +344,7 @@ export default function LandlordAlertCenter() {
                                 onChange={(e) => setUrgencyFilter(e.target.value)}
                                 className="pl-3 pr-8 py-2 text-sm bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-brand focus:border-brand text-slate-900 dark:text-white cursor-pointer min-w-[120px]"
                             >
-                                <option value="all">Any Urgency</option>
+                                <option value="all">Any urgency</option>
                                 <option value="high">High</option>
                                 <option value="medium">Medium</option>
                                 <option value="low">Low</option>
@@ -370,7 +370,7 @@ export default function LandlordAlertCenter() {
                         disabled={selectedAlerts.length === 0}
                     >
                         <span className="material-symbols-outlined text-[18px] text-slate-800 dark:text-slate-400">archive</span>
-                        Archive Selected
+                        Archive selected
                     </button>
                 </div>
                 <div className="relative w-full xl:w-auto min-w-[300px]">

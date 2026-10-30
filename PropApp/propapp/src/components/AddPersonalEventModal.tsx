@@ -56,7 +56,7 @@ export default function AddPersonalEventModal({
                     {/* Header */}
                     <div className="px-6 py-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
                         <div>
-                            <h3 className="text-xl font-bold text-slate-900 dark:text-white">Add Personal Event</h3>
+                            <h3 className="text-xl font-bold text-slate-900 dark:text-white">Add personal event</h3>
                             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Schedule time for yourself or blocked slots.</p>
                         </div>
                         <button
@@ -71,7 +71,7 @@ export default function AddPersonalEventModal({
                     <div className="p-6 overflow-y-auto">
                         {/* Event Title */}
                         <div className="mb-5">
-                            <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">Event Title</label>
+                            <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">Event title</label>
                             <div className="relative">
                                 <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400">event</span>
                                 <input
@@ -233,7 +233,7 @@ export default function AddPersonalEventModal({
                             className="px-6 py-2.5 rounded-xl bg-brand-ink text-on-brand font-bold text-sm hover:bg-brand-ink/90 transition-all flex items-center gap-2"
                         >
                             <span className="material-symbols-outlined text-[18px]">check</span>
-                            Save Event
+                            Save event
                         </button>
                     </div>
                 </div>

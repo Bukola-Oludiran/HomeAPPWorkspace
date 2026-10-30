@@ -44,7 +44,7 @@ export default function Setup2FAModal({ isOpen, onClose, onSuccess }: Setup2FAMo
                                 <span className="material-symbols-outlined">arrow_back</span>
                             </button>
                             <div>
-                                <h2 className="text-xl font-bold text-slate-900 dark:text-white">Set Up Authenticator App</h2>
+                                <h2 className="text-xl font-bold text-slate-900 dark:text-white">Set up Authenticator app</h2>
                                 <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Add a new device for 2-step verification.</p>
                             </div>
                         </div>
@@ -87,7 +87,7 @@ export default function Setup2FAModal({ isOpen, onClose, onSuccess }: Setup2FAMo
                                         </p>
                                         <div className="w-full max-w-sm">
                                             <div className="relative">
-                                                <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5 text-left uppercase tracking-wider">Manual Entry Key</label>
+                                                <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5 text-left uppercase tracking-wider">Manual entry key</label>
                                                 <div className="flex">
                                                     <code className="flex-1 p-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-l-lg text-sm font-mono text-slate-700 dark:text-slate-300 tracking-wider overflow-hidden text-ellipsis whitespace-nowrap">
                                                         JBSW Y3DP EHPK 3PXP

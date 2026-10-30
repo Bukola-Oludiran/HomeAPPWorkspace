@@ -56,7 +56,7 @@ export default function WithdrawApplicationModal({
 
                         {/* Title */}
                         <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-                            Withdraw Application?
+                            Withdraw application?
                         </h3>
 
                         {/* Description */}

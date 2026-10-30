@@ -4,7 +4,7 @@ export default function TwoFactorMethodsPage() {
     const methods = [
         {
             icon: 'verified_user',
-            title: 'Authenticator App',
+            title: 'Authenticator app',
             subtitle: 'Use a generated code from your app',
             to: '/auth/2fa'
         },
@@ -16,13 +16,13 @@ export default function TwoFactorMethodsPage() {
         },
         {
             icon: 'usb',
-            title: 'Security Key',
+            title: 'Security key',
             subtitle: 'Use your physical security key',
             to: '/auth/2fa/security-key'
         },
         {
             icon: 'key',
-            title: 'Recovery Code',
+            title: 'Recovery code',
             subtitle: 'Use a saved emergency code',
             to: '/auth/2fa/recovery'
         },
@@ -77,7 +77,7 @@ export default function TwoFactorMethodsPage() {
                     className="text-slate-300 hover:text-white text-sm font-medium flex items-center gap-1.5 transition-colors group"
                 >
                     <span className="material-symbols-outlined text-[18px] group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
-                    Back to Verification
+                    Back to verification
                 </Link>
             </div>
         </div>

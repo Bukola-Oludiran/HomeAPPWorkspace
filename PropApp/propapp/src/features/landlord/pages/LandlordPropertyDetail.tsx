@@ -65,9 +65,9 @@ interface UIPropertyData {
 // Format currency
 // Get verification label
 function getVerificationLabel(tier?: VerificationTier): string {
-    if (!tier) return 'Not Verified';
+    if (!tier) return 'Not verified';
     const labels: Record<VerificationTier, string> = {
-        UNVERIFIED: 'Not Verified',
+        UNVERIFIED: 'Not verified',
         BRONZE: 'Bronze Verified',
         SILVER: 'Silver Verified',
         GOLD: 'Gold Verified',
@@ -153,26 +153,26 @@ function transformToUIProperty(
             {
                 icon: 'trending_up',
                 iconColor: 'text-green-500',
-                title: 'Market Analysis:',
+                title: 'Market analysis:',
                 text: marketComparison?.recommendation?.potentialImpact
                     || 'Market data will be available soon.',
             },
             {
                 icon: 'calendar_clock',
                 iconColor: 'text-blue-500',
-                title: 'Listing Status:',
+                title: 'Listing status:',
                 text: `This property has been online for ${getDaysOnline(property.createdAt)} days.`,
             },
             {
                 icon: 'home_repair_service',
                 iconColor: 'text-orange-500',
-                title: 'Preventative Maintenance:',
+                title: 'Preventative maintenance:',
                 text: 'Schedule regular maintenance checks to keep the property in top condition.',
             },
         ],
         tasks: [
-            { id: 1, title: 'Review Listing Details', due: 'Recommended' },
-            { id: 2, title: 'Update Photos', due: 'Optional' },
+            { id: 1, title: 'Review listing details', due: 'Recommended' },
+            { id: 2, title: 'Update photos', due: 'Optional' },
         ],
         galleryImages,
     };
@@ -290,7 +290,7 @@ export default function LandlordPropertyDetail() {
                         onClick={() => window.location.reload()}
                         className="px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-sm font-bold text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                     >
-                        Try Again
+                        Try again
                     </button>
                 </div>
             </div>
@@ -355,10 +355,10 @@ export default function LandlordPropertyDetail() {
                                                 className="inline-flex items-center justify-center gap-2 rounded-lg bg-orange-600 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-orange-600/20 transition-all hover:bg-orange-700 hover:shadow-orange-600/30"
                                             >
                                                 <span className="material-symbols-outlined text-[20px]">verified_user</span>
-                                                Go to Verification Hub
+                                                Go to verification hub
                                             </Link>
                                             <button className="inline-flex items-center justify-center gap-2 rounded-lg border border-orange-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 transition-colors hover:bg-orange-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700">
-                                                Remind Me Later
+                                                Remind me later
                                             </button>
                                         </div>
                                     </div>
@@ -391,7 +391,7 @@ export default function LandlordPropertyDetail() {
                                 </div>
                                 <div className="flex flex-col items-start md:items-end p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
                                     <p className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wide mb-1">
-                                        Target Rent
+                                        Target rent
                                     </p>
                                     <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white">
                                         {property.targetRent}
@@ -433,7 +433,7 @@ export default function LandlordPropertyDetail() {
                                     to="/landlord/verification"
                                     className="flex items-center gap-1 text-sm font-bold text-brand-ink hover:text-[#0e64bd] transition-colors px-3 py-1.5 rounded-lg hover:bg-blue-50 dark:hover:bg-brand/10"
                                 >
-                                    Open Verification Hub
+                                    Open verification hub
                                     <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
                                 </Link>
                                 <div className="h-4 w-px bg-slate-300 dark:bg-slate-700 mx-2 hidden sm:block"></div>
@@ -441,7 +441,7 @@ export default function LandlordPropertyDetail() {
                                     <span className="material-symbols-outlined text-green-500 text-[18px] icon-filled">
                                         check_circle
                                     </span>
-                                    Inspection Passed
+                                    Inspection passed
                                 </div>
                             </div>
                         </div>
@@ -449,7 +449,7 @@ export default function LandlordPropertyDetail() {
                         {/* Performance Metrics */}
                         <div className="mb-8">
                             <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4">
-                                Performance Metrics
+                                Performance metrics
                             </h3>
                             <AnimatedGroup className="grid grid-cols-2 md:grid-cols-4 gap-4" stagger={0.1}>
                                 <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
@@ -516,10 +516,10 @@ export default function LandlordPropertyDetail() {
                                 <div className="flex items-center justify-between mb-4">
                                     <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                                         <span className="material-symbols-outlined">person</span>
-                                        Current Tenant Information
+                                        Current tenant information
                                     </h3>
                                     <span className="px-2 py-1 bg-yellow-100 text-yellow-700 text-xs font-bold rounded uppercase">
-                                        Lease Ending
+                                        Lease ending
                                     </span>
                                 </div>
                                 <div className="flex flex-col md:flex-row gap-6">
@@ -535,25 +535,25 @@ export default function LandlordPropertyDetail() {
                                     </Link>
                                     <div className="h-px md:h-auto w-full md:w-px bg-slate-200 dark:bg-slate-700"></div>
                                     <div className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm">
-                                        <span className="text-slate-500 dark:text-slate-400">Lease Ends:</span>
+                                        <span className="text-slate-500 dark:text-slate-400">Lease ends:</span>
                                         <span className="font-medium text-slate-900 dark:text-white">
                                             {property.tenant.leaseEnd}
                                         </span>
-                                        <span className="text-slate-500 dark:text-slate-400">Payment Status:</span>
+                                        <span className="text-slate-500 dark:text-slate-400">Payment status:</span>
                                         <span className="font-medium text-green-600 flex items-center gap-1">
                                             <span className="material-symbols-outlined text-[16px] icon-filled">
                                                 check_circle
                                             </span>
                                             {property.tenant.paymentStatus}
                                         </span>
-                                        <span className="text-slate-500 dark:text-slate-400">Monthly Rent:</span>
+                                        <span className="text-slate-500 dark:text-slate-400">Monthly rent:</span>
                                         <span className="font-medium text-slate-900 dark:text-white">
                                             {property.tenant.monthlyRent}
                                         </span>
                                     </div>
                                     <div className="flex-1 flex md:justify-end items-center">
                                         <Link to="/landlord/leases/1" className="text-brand-ink font-semibold text-sm hover:underline">
-                                            View Lease Details
+                                            View lease details
                                         </Link>
                                     </div>
                                 </div>
@@ -563,7 +563,7 @@ export default function LandlordPropertyDetail() {
                                 <div className="flex items-center justify-between mb-4">
                                     <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                                         <span className="material-symbols-outlined">person</span>
-                                        Current Tenant Information
+                                        Current tenant information
                                     </h3>
                                 </div>
                                 <p className="text-sm text-slate-500 dark:text-slate-400">No tenant currently assigned to this property.</p>
@@ -593,7 +593,7 @@ export default function LandlordPropertyDetail() {
                                 <span className="text-lg font-bold text-slate-900 dark:text-white">
                                     {property.sqft}
                                 </span>
-                                <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Sq Ft</span>
+                                <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Sq ft</span>
                             </div>
                             <div className="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-100 dark:border-slate-700 flex flex-col items-center justify-center text-center gap-1">
                                 <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[20px]">
@@ -610,7 +610,7 @@ export default function LandlordPropertyDetail() {
                         <div className="mb-10">
                             <div className="flex items-center justify-between mb-4">
                                 <h3 className="text-xl font-bold text-slate-900 dark:text-white">
-                                    Listing Description
+                                    Listing description
                                 </h3>
                                 <button className="text-brand-ink text-sm font-semibold flex items-center gap-1 hover:underline">
                                     <span className="material-symbols-outlined text-[16px]">edit</span> Edit Text
@@ -628,7 +628,7 @@ export default function LandlordPropertyDetail() {
                                     <span className="material-symbols-outlined text-[18px]">psychology</span>
                                 </div>
                                 <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-                                    Management Insights
+                                    Management insights
                                 </h3>
                             </div>
                             <ul className="space-y-3">
@@ -662,7 +662,7 @@ export default function LandlordPropertyDetail() {
                                 <div className="space-y-4">
                                     <div>
                                         <div className="flex justify-between text-sm mb-1">
-                                            <span className="text-slate-500 dark:text-slate-400">Gross Revenue</span>
+                                            <span className="text-slate-500 dark:text-slate-400">Gross revenue</span>
                                             <span className="font-bold text-slate-900 dark:text-white">
                                                 {property.financials.grossRevenue}
                                             </span>
@@ -692,7 +692,7 @@ export default function LandlordPropertyDetail() {
                                 <div className="mt-6 pt-6 border-t border-slate-100 dark:border-slate-700">
                                     <div className="flex justify-between items-center mb-4">
                                         <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
-                                            Net Operating Income
+                                            Net operating income
                                         </span>
                                         <span className="text-xl font-bold text-brand-ink">
                                             {property.financials.noi}
@@ -700,7 +700,7 @@ export default function LandlordPropertyDetail() {
                                     </div>
                                     <button className="w-full py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 font-semibold text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center justify-center gap-2">
                                         <span className="material-symbols-outlined text-[18px]">finance</span>
-                                        View Full Report
+                                        View full report
                                     </button>
                                 </div>
                             </div>
@@ -708,7 +708,7 @@ export default function LandlordPropertyDetail() {
                             {/* Upcoming Tasks */}
                             <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6">
                                 <h4 className="font-bold text-lg text-slate-900 dark:text-white mb-4">
-                                    Upcoming Tasks
+                                    Upcoming tasks
                                 </h4>
                                 <ul className="space-y-4">
                                     {property.tasks.map((task) => (
@@ -756,7 +756,7 @@ export default function LandlordPropertyDetail() {
                     <div className="hidden md:flex items-center gap-4">
                         <div>
                             <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-0.5">
-                                Listing Status
+                                Listing status
                             </p>
                             <div className="flex items-center gap-2">
                                 <span className="size-2.5 rounded-full bg-green-500 animate-pulse"></span>
@@ -766,7 +766,7 @@ export default function LandlordPropertyDetail() {
                         <div className="h-8 w-px bg-slate-200 dark:bg-slate-700 mx-2"></div>
                         <div>
                             <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-0.5">
-                                Applicant Queue
+                                Applicant queue
                             </p>
                             <div className="flex items-center gap-2">
                                 <span className="font-bold text-slate-900 dark:text-white">
@@ -781,7 +781,7 @@ export default function LandlordPropertyDetail() {
                             className="flex-1 md:flex-none px-5 py-3.5 rounded-xl border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-white font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors whitespace-nowrap flex items-center justify-center gap-2"
                         >
                             <span className="material-symbols-outlined text-[20px]">edit</span>
-                            Edit Listing
+                            Edit listing
                         </Link>
                         <button
                             onClick={() => setIsMaintenanceModalOpen(true)}

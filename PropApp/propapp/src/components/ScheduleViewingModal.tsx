@@ -74,7 +74,7 @@ export default function ScheduleViewingModal({ isOpen, onClose, property }: Sche
                     {/* Header */}
                     <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-canvas-dark sticky top-0 z-10">
                         <div>
-                            <h2 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">Schedule a Viewing</h2>
+                            <h2 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">Schedule a viewing</h2>
                             <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-1">
                                 <span className="material-symbols-outlined text-[16px]">location_on</span>
                                 {property.address}
@@ -110,7 +110,7 @@ export default function ScheduleViewingModal({ isOpen, onClose, property }: Sche
                                         <p className="text-xs text-slate-500 dark:text-slate-400">{agent.role} • Usually responds in {agent.responseTime}</p>
                                     </div>
                                     <div className="ml-auto text-xs font-medium px-2 py-1 bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 rounded-md">
-                                        High Availability
+                                        High availability
                                     </div>
                                 </div>
 
@@ -119,7 +119,7 @@ export default function ScheduleViewingModal({ isOpen, onClose, property }: Sche
                                     <div className="flex items-center justify-between mb-4">
                                         <h3 className="font-bold text-slate-900 dark:text-white flex items-center gap-2">
                                             <span className="size-6 rounded-full bg-brand/10 text-brand-ink flex items-center justify-center text-xs font-bold">1</span>
-                                            Select Date
+                                            Select date
                                         </h3>
                                         <div className="flex gap-1">
                                             <button className="size-8 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400">
@@ -199,11 +199,11 @@ export default function ScheduleViewingModal({ isOpen, onClose, property }: Sche
                             <div className="lg:col-span-5 p-6 md:p-8 flex flex-col h-full bg-white dark:bg-canvas-dark">
                                 <h3 className="font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
                                     <span className="size-6 rounded-full bg-brand/10 text-brand-ink flex items-center justify-center text-xs font-bold">3</span>
-                                    Your Details
+                                    Your details
                                 </h3>
                                 <form className="space-y-4 flex-1">
                                     <div>
-                                        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 uppercase tracking-wide">Full Name</label>
+                                        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 uppercase tracking-wide">Full name</label>
                                         <input
                                             className="w-full rounded-xl border-slate-300 dark:border-slate-700 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:border-brand focus:ring-brand/20 text-sm py-2.5"
                                             type="text"
@@ -232,7 +232,7 @@ export default function ScheduleViewingModal({ isOpen, onClose, property }: Sche
                                         </div>
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2 mt-4 uppercase tracking-wide">Preferred Contact Method</label>
+                                        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2 mt-4 uppercase tracking-wide">Preferred contact method</label>
                                         <div className="flex gap-4">
                                             {['email', 'phone', 'sms'].map((method) => (
                                                 <label key={method} className="flex items-center gap-2 cursor-pointer group">
@@ -264,7 +264,7 @@ export default function ScheduleViewingModal({ isOpen, onClose, property }: Sche
 
                                 {/* Booking Summary */}
                                 <div className="mt-8 bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4 border border-slate-100 dark:border-slate-700">
-                                    <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">Booking Summary</h4>
+                                    <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">Booking summary</h4>
                                     <div className="flex items-start gap-3 mb-3">
                                         <div className="bg-white dark:bg-slate-800 p-2 rounded-lg border border-slate-200 dark:border-slate-700">
                                             <span className="material-symbols-outlined text-brand-ink">calendar_month</span>
@@ -297,7 +297,7 @@ export default function ScheduleViewingModal({ isOpen, onClose, property }: Sche
                                         onClick={onClose}
                                         className="flex-[2] py-3.5 rounded-xl bg-brand-ink text-on-brand font-bold hover:bg-[#0e64bd] transition-colors flex items-center justify-center gap-2"
                                     >
-                                        Confirm Booking
+                                        Confirm booking
                                         <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
                                     </button>
                                 </div>

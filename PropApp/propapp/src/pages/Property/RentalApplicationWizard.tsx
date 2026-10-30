@@ -145,16 +145,16 @@ export default function RentalApplicationWizard() {
                                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                                     <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                                         <span className="material-symbols-outlined text-brand-ink">badge</span>
-                                        Applicant Information
+                                        Applicant information
                                     </h2>
                                     <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-brand text-brand-ink text-sm font-semibold hover:bg-blue-50 dark:hover:bg-brand/10 transition-colors">
                                         <span className="material-symbols-outlined text-[18px]">cloud_download</span>
-                                        Link Saved Tenant Profile
+                                        Link saved tenant profile
                                     </button>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
-                                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Full Name</label>
+                                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Full name</label>
                                         <div className="relative group">
                                             <input
                                                 className="w-full bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-600 rounded-xl px-4 py-3 text-slate-600 dark:text-slate-300 font-medium cursor-not-allowed focus:ring-0 focus:border-slate-200"
@@ -166,7 +166,7 @@ export default function RentalApplicationWizard() {
                                         </div>
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Email Address</label>
+                                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Email address</label>
                                         <div className="relative group">
                                             <input
                                                 className="w-full bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-600 rounded-xl px-4 py-3 text-slate-600 dark:text-slate-300 font-medium cursor-not-allowed focus:ring-0 focus:border-slate-200"
@@ -178,7 +178,7 @@ export default function RentalApplicationWizard() {
                                         </div>
                                     </div>
                                     <div className="md:col-span-2">
-                                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Phone Number</label>
+                                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Phone number</label>
                                         <div className="relative group">
                                             <input
                                                 className="w-full bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-600 rounded-xl px-4 py-3 text-slate-600 dark:text-slate-300 font-medium cursor-not-allowed focus:ring-0 focus:border-slate-200"
@@ -190,7 +190,7 @@ export default function RentalApplicationWizard() {
                                         </div>
                                         <p className="mt-3 text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
                                             <span className="material-symbols-outlined text-[16px] text-brand-ink" style={{ fontVariationSettings: "'FILL' 1" }}>info</span>
-                                            These details are verified and linked to your main profile. <Link to="/tenant/profile" className="text-brand-ink hover:underline font-semibold">Edit in Profile Settings</Link>
+                                            These details are verified and linked to your main profile. <Link to="/tenant/profile" className="text-brand-ink hover:underline font-semibold">Edit in profile settings</Link>
                                         </p>
                                     </div>
                                 </div>
@@ -201,11 +201,11 @@ export default function RentalApplicationWizard() {
                         <section className="bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-8 border border-slate-200 dark:border-slate-700">
                             <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-6">
                                 <span className="material-symbols-outlined text-brand-ink">calendar_clock</span>
-                                Desired Lease Terms
+                                Desired lease terms
                             </h2>
                             <div className="space-y-6">
                                 <div>
-                                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">Lease Duration</label>
+                                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">Lease duration</label>
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                         {[
                                             { value: '12', label: '12 Months', sublabel: 'Standard Lease', icon: 'event_note' },
@@ -250,11 +250,11 @@ export default function RentalApplicationWizard() {
                         <section className="bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-8 border border-slate-200 dark:border-slate-700">
                             <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-6">
                                 <span className="material-symbols-outlined text-brand-ink">family_restroom</span>
-                                Household Details
+                                Household details
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div>
-                                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">Number of Occupants</label>
+                                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">Number of occupants</label>
                                     <div className="flex items-center">
                                         <button
                                             className="size-11 rounded-l-xl bg-slate-100 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 transition-colors"
@@ -321,7 +321,7 @@ export default function RentalApplicationWizard() {
                                 </div>
                             </div>
                             <div className="relative z-10 flex-1">
-                                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Upcoming Requirements</h3>
+                                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Upcoming requirements</h3>
                                 <p className="text-sm text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
                                     To ensure a smooth verification process, please have the following documents ready for the next steps. <span className="font-semibold text-slate-900 dark:text-white">You do not need to upload them right now.</span>
                                 </p>
@@ -347,11 +347,11 @@ export default function RentalApplicationWizard() {
                         <section className="bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-8 border border-slate-200 dark:border-slate-700">
                             <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-6">
                                 <span className="material-symbols-outlined text-brand-ink">work</span>
-                                Employment Information
+                                Employment information
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Employer Name</label>
+                                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Employer name</label>
                                     <input
                                         className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-transparent font-medium"
                                         type="text"
@@ -361,7 +361,7 @@ export default function RentalApplicationWizard() {
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Monthly Income</label>
+                                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Monthly income</label>
                                     <div className="relative">
                                         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 font-bold">₦</span>
                                         <input
@@ -380,11 +380,11 @@ export default function RentalApplicationWizard() {
                         <section className="bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-8 border border-slate-200 dark:border-slate-700">
                             <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-6">
                                 <span className="material-symbols-outlined text-brand-ink">home</span>
-                                Rental History
+                                Rental history
                             </h2>
                             <div className="space-y-6">
                                 <div>
-                                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Current Address</label>
+                                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Current address</label>
                                     <input
                                         className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-transparent font-medium"
                                         type="text"
@@ -394,7 +394,7 @@ export default function RentalApplicationWizard() {
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Reason for Moving</label>
+                                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Reason for moving</label>
                                     <textarea
                                         className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-transparent font-medium resize-none"
                                         rows={3}
@@ -415,7 +415,7 @@ export default function RentalApplicationWizard() {
                         <section className="bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-8 border border-slate-200 dark:border-slate-700">
                             <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-6">
                                 <span className="material-symbols-outlined text-brand-ink">upload_file</span>
-                                Required Documents
+                                Required documents
                             </h2>
                             <div className="space-y-4">
                                 {[
@@ -445,7 +445,7 @@ export default function RentalApplicationWizard() {
                         <section className="bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-8 border border-slate-200 dark:border-slate-700">
                             <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-6">
                                 <span className="material-symbols-outlined text-brand-ink">verified_user</span>
-                                Background Check Authorization
+                                Background check authorization
                             </h2>
                             <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-4 mb-4">
                                 <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">
@@ -454,7 +454,7 @@ export default function RentalApplicationWizard() {
                                 <label className="flex items-start gap-3 cursor-pointer">
                                     <input type="checkbox" className="mt-1 w-5 h-5 rounded border-slate-300 text-brand-ink focus:ring-brand" />
                                     <span className="text-sm text-slate-700 dark:text-slate-300 font-medium">
-                                        I authorize background check and agree to the <Link to="#" className="text-brand-ink hover:underline">Terms & Conditions</Link>
+                                        I authorize background check and agree to the <Link to="#" className="text-brand-ink hover:underline">Terms & conditions</Link>
                                     </span>
                                 </label>
                             </div>
@@ -469,12 +469,12 @@ export default function RentalApplicationWizard() {
                         <section className="bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-8 border border-slate-200 dark:border-slate-700">
                             <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-6">
                                 <span className="material-symbols-outlined text-brand-ink">checklist</span>
-                                Review Your Application
+                                Review your application
                             </h2>
                             <div className="space-y-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-4">
-                                        <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Lease Duration</h4>
+                                        <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Lease duration</h4>
                                         <p className="text-lg font-bold text-slate-900 dark:text-white">
                                             {formData.leaseDuration === '12' ? '12 Months' : formData.leaseDuration === '6' ? '6 Months' : 'Month-to-Month'}
                                         </p>
@@ -502,7 +502,7 @@ export default function RentalApplicationWizard() {
                                     <span className="material-symbols-outlined text-2xl">payments</span>
                                 </div>
                                 <div className="flex-1">
-                                    <h3 className="font-bold text-slate-900 dark:text-white mb-1">Application Fee</h3>
+                                    <h3 className="font-bold text-slate-900 dark:text-white mb-1">Application fee</h3>
                                     <p className="text-sm text-slate-600 dark:text-slate-300 mb-2">Non-refundable processing fee</p>
                                     <p className="text-2xl font-extrabold text-green-600">$35.00</p>
                                 </div>
@@ -536,12 +536,12 @@ export default function RentalApplicationWizard() {
                             <span className="material-symbols-outlined">arrow_back</span>
                         </Link>
                         <div className="hidden md:block">
-                            <p className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">Application In Progress</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">Application in progress</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-4">
                         <button className="text-sm font-bold text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white transition-colors">
-                            Save & Exit
+                            Save & exit
                         </button>
                     </div>
                 </div>
@@ -597,7 +597,7 @@ export default function RentalApplicationWizard() {
                                             disabled={submitting}
                                             className="px-6 md:px-8 py-3 rounded-xl bg-green-600 text-white font-bold hover:bg-green-700 transition-colors shadow-lg shadow-green-600/25 flex items-center gap-2 disabled:opacity-60"
                                         >
-                                            <span className="material-symbols-outlined text-[18px]">{submitting ? 'hourglass_empty' : 'send'}</span> {submitting ? 'Submitting...' : 'Submit Application'}
+                                            <span className="material-symbols-outlined text-[18px]">{submitting ? 'hourglass_empty' : 'send'}</span> {submitting ? 'Submitting...' : 'Submit application'}
                                         </button>
                                     </MagneticButton>
                                 )}
@@ -611,7 +611,7 @@ export default function RentalApplicationWizard() {
                             {/* Property Card */}
                             <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden hover:shadow-md transition-shadow">
                                 <div className="bg-slate-50 dark:bg-slate-900/50 p-4 border-b border-slate-100 dark:border-slate-700">
-                                    <h3 className="font-bold text-sm text-slate-500 dark:text-slate-400 uppercase tracking-wide">Applying For</h3>
+                                    <h3 className="font-bold text-sm text-slate-500 dark:text-slate-400 uppercase tracking-wide">Applying for</h3>
                                 </div>
                                 <div className="p-4 flex gap-4 items-start">
                                     <div className="w-24 h-24 rounded-lg bg-slate-200 overflow-hidden shrink-0">
@@ -635,11 +635,11 @@ export default function RentalApplicationWizard() {
                                         </div>
                                         <div className="text-center border-l border-slate-100 dark:border-slate-700">
                                             <span className="block font-bold text-slate-900 dark:text-white">{propertyData.sqft}</span>
-                                            <span className="text-xs text-slate-500 dark:text-slate-400 uppercase">Sq Ft</span>
+                                            <span className="text-xs text-slate-500 dark:text-slate-400 uppercase">Sq ft</span>
                                         </div>
                                     </div>
                                     <div className="mt-2 pt-3 border-t border-slate-100 dark:border-slate-700 flex justify-between items-center">
-                                        <span className="text-sm font-medium text-slate-600 dark:text-slate-400">Monthly Rent</span>
+                                        <span className="text-sm font-medium text-slate-600 dark:text-slate-400">Monthly rent</span>
                                         <span className="text-xl font-extrabold text-brand-ink">{propertyData.rent}</span>
                                     </div>
                                 </div>
@@ -649,7 +649,7 @@ export default function RentalApplicationWizard() {
                             <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-5">
                                 <div className="flex items-center gap-3 mb-2">
                                     <span className="material-symbols-outlined text-green-500">gpp_good</span>
-                                    <h4 className="font-bold text-slate-900 dark:text-white text-sm">Secure Application</h4>
+                                    <h4 className="font-bold text-slate-900 dark:text-white text-sm">Secure application</h4>
                                 </div>
                                 <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mb-3">
                                     Your data is encrypted and securely transmitted. We only share details with verified landlords once you approve.
@@ -692,7 +692,7 @@ export default function RentalApplicationWizard() {
                 }}
                 title="Application submitted"
                 description="Your rental application has been received. The landlord will review it and get back to you within 2-3 business days."
-                buttonText="View My Applications"
+                buttonText="View my applications"
                 icon="send"
             />
         </div>

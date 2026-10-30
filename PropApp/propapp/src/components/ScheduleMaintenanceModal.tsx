@@ -36,7 +36,7 @@ export default function ScheduleMaintenanceModal({
                     {/* Header */}
                     <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 px-6 py-4 bg-white dark:bg-canvas-dark">
                         <div>
-                            <h3 className="text-xl font-bold text-slate-900 dark:text-white" id="modal-title">Schedule Maintenance</h3>
+                            <h3 className="text-xl font-bold text-slate-900 dark:text-white" id="modal-title">Schedule maintenance</h3>
                             <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5 flex items-center gap-1">
                                 <span className="material-symbols-outlined text-[16px]">location_on</span>
                                 {propertyAddress}
@@ -57,19 +57,19 @@ export default function ScheduleMaintenanceModal({
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {/* Maintenance Type */}
                                 <div className="space-y-2">
-                                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300">Maintenance Type</label>
+                                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300">Maintenance type</label>
                                     <div className="relative">
                                         <select
                                             className="w-full appearance-none rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-3 pr-10 text-slate-900 dark:text-white focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand text-sm font-medium"
                                             value={maintenanceType}
                                             onChange={(e) => setMaintenanceType(e.target.value)}
                                         >
-                                            <option>General Repair</option>
+                                            <option>General repair</option>
                                             <option>Plumbing</option>
                                             <option>Electrical</option>
                                             <option>HVAC</option>
-                                            <option>Appliance Issue</option>
-                                            <option>Pest Control</option>
+                                            <option>Appliance issue</option>
+                                            <option>Pest control</option>
                                         </select>
                                         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500 dark:text-slate-400">
                                             <span className="material-symbols-outlined text-[20px]">expand_more</span>
@@ -111,7 +111,7 @@ export default function ScheduleMaintenanceModal({
 
                             {/* Description of Issue */}
                             <div className="space-y-2">
-                                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300">Description of Issue</label>
+                                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300">Description of issue</label>
                                 <textarea
                                     className="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-3 text-slate-900 dark:text-white placeholder-slate-400 focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand text-sm"
                                     placeholder="Please provide details about the problem..."
@@ -124,11 +124,11 @@ export default function ScheduleMaintenanceModal({
                             {/* Date and Time Slot */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
-                                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300">Preferred Date</label>
+                                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300">Preferred date</label>
                                     <input className="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-3 text-slate-900 dark:text-white focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand text-sm font-medium h-[48px]" type="date" />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300">Time Slot</label>
+                                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300">Time slot</label>
                                     <div className="relative">
                                         <select className="w-full appearance-none rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-3 pr-10 text-slate-900 dark:text-white focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand text-sm font-medium">
                                             <option>Anytime (8am - 6pm)</option>
@@ -145,7 +145,7 @@ export default function ScheduleMaintenanceModal({
 
                             {/* Access Instructions */}
                             <div className="space-y-2">
-                                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300">Access Instructions</label>
+                                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300">Access instructions</label>
                                 <textarea
                                     className="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-3 text-slate-900 dark:text-white placeholder-slate-400 focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand text-sm"
                                     placeholder="e.g. Gate code is #1234, Key in lockbox..."
@@ -177,7 +177,7 @@ export default function ScheduleMaintenanceModal({
                             {/* Contact Info */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
-                                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300">Contact Person</label>
+                                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300">Contact person</label>
                                     <div className="relative">
                                         <input
                                             className="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-3 pl-10 text-slate-900 dark:text-white focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand text-sm font-medium"
@@ -191,7 +191,7 @@ export default function ScheduleMaintenanceModal({
                                     </div>
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300">Phone Number</label>
+                                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300">Phone number</label>
                                     <div className="relative">
                                         <input
                                             className="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-3 pl-10 text-slate-900 dark:text-white focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand text-sm font-medium"
@@ -223,7 +223,7 @@ export default function ScheduleMaintenanceModal({
                             onClick={handleSubmit}
                         >
                             <span className="material-symbols-outlined text-[20px]">send</span>
-                            Schedule Request
+                            Schedule request
                         </button>
                     </div>
                 </div>

@@ -70,7 +70,7 @@ export default function RejectOfferModal({
                                 <span className="material-symbols-outlined">close</span>
                             </div>
                             <div>
-                                <h2 className="text-xl font-bold text-slate-900 dark:text-white">Decline Renewal Offer</h2>
+                                <h2 className="text-xl font-bold text-slate-900 dark:text-white">Decline renewal offer</h2>
                                 <p className="text-sm text-slate-500 dark:text-slate-400">{property.address}</p>
                             </div>
                         </div>
@@ -135,7 +135,7 @@ export default function RejectOfferModal({
                         {selectedReason === 'other' && (
                             <div>
                                 <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
-                                    Additional Comments
+                                    Additional comments
                                 </label>
                                 <textarea
                                     className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-transparent outline-none transition-all placeholder-slate-400 resize-none"
@@ -154,7 +154,7 @@ export default function RejectOfferModal({
                             onClick={onClose}
                             className="flex-1 py-3 px-4 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-xl font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
                         >
-                            Go Back
+                            Go back
                         </button>
                         <button
                             onClick={handleConfirm}
@@ -169,7 +169,7 @@ export default function RejectOfferModal({
                             ) : (
                                 <>
                                     <span className="material-symbols-outlined text-[18px]">cancel</span>
-                                    Confirm Decline
+                                    Confirm decline
                                 </>
                             )}
                         </button>

@@ -66,7 +66,7 @@ export default function ForgotPasswordPage() {
                     className="flex items-center gap-2 text-sm text-slate-300 hover:text-white transition-colors mt-2 group"
                 >
                     <span className="material-symbols-outlined text-[18px] group-hover:-translate-x-1 transition-transform">arrow_back</span>
-                    Back to Login
+                    Back to login
                 </Link>
             </div>
         );
@@ -77,7 +77,7 @@ export default function ForgotPasswordPage() {
             <div className="mb-6 bg-white/10 p-4 rounded-full border border-white/10">
                 <span className="material-symbols-outlined text-4xl text-sky">lock_reset</span>
             </div>
-            <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-3 text-center">Reset Password</h1>
+            <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-3 text-center">Reset password</h1>
             <p className="text-slate-200 dark:text-slate-300 text-sm mb-8 font-normal text-center leading-relaxed">
                 Enter your registered email address below, and we'll send you a link to reset your password.
             </p>
@@ -122,7 +122,7 @@ export default function ForgotPasswordPage() {
                         </>
                     ) : (
                         <>
-                            Send Reset Link
+                            Send reset link
                             <span className="material-symbols-outlined text-sm">arrow_forward</span>
                         </>
                     )}
@@ -135,7 +135,7 @@ export default function ForgotPasswordPage() {
                     className="flex items-center gap-2 text-sm text-slate-300 hover:text-white transition-colors group"
                 >
                     <span className="material-symbols-outlined text-[18px] group-hover:-translate-x-1 transition-transform">arrow_back</span>
-                    Back to Login
+                    Back to login
                 </Link>
             </div>
         </div>

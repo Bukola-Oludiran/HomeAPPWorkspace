@@ -101,7 +101,7 @@ export default function LandlordEditListing() {
                 isOpen={showDeleteModal}
                 onClose={() => setShowDeleteModal(false)}
                 onConfirm={handleDelete}
-                title="Delete Listing?"
+                title="Delete listing?"
                 description="Are you sure you want to permanently delete this listing? All associated data including photos, applications, and analytics will be lost forever."
                 confirmText={isDeleting ? 'Deleting...' : 'Delete Listing'}
                 icon="delete"
@@ -116,7 +116,7 @@ export default function LandlordEditListing() {
                         >
                             <span className="material-symbols-outlined">arrow_back</span>
                         </Link>
-                        <h1 className="text-xl font-bold text-slate-900 dark:text-white">Edit Listing</h1>
+                        <h1 className="text-xl font-bold text-slate-900 dark:text-white">Edit listing</h1>
                     </div>
                     <div className="flex items-center gap-3">
                         <button
@@ -124,7 +124,7 @@ export default function LandlordEditListing() {
                             className="px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors flex items-center gap-2 cursor-pointer"
                         >
                             <span className="material-symbols-outlined text-[18px]">delete</span>
-                            Delete Listing
+                            Delete listing
                         </button>
                         <div className="h-6 w-px bg-slate-200 dark:bg-slate-700"></div>
                         <Link
@@ -138,7 +138,7 @@ export default function LandlordEditListing() {
                             disabled={isSaving}
                             className="px-5 py-2.5 rounded-lg bg-brand-ink text-on-brand font-semibold hover:bg-[#0e64bd] transition-colors disabled:opacity-50"
                         >
-                            {isSaving ? 'Saving...' : 'Save Changes'}
+                            {isSaving ? 'Saving...' : 'Save changes'}
                         </button>
                     </div>
                 </div>
@@ -151,11 +151,11 @@ export default function LandlordEditListing() {
                         <div className="size-10 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center">
                             <span className="material-symbols-outlined text-brand-ink text-[22px]">apartment</span>
                         </div>
-                        <h2 className="text-xl font-bold text-slate-900 dark:text-white">Basic Property Information</h2>
+                        <h2 className="text-xl font-bold text-slate-900 dark:text-white">Basic property information</h2>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="col-span-1 md:col-span-2">
-                            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Property Title</label>
+                            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Property title</label>
                             <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-brand focus:ring-brand px-4 py-3" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
                         </div>
                         <div className="col-span-1 md:col-span-2">
@@ -166,16 +166,16 @@ export default function LandlordEditListing() {
                             </div>
                         </div>
                         <div>
-                            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Property Type</label>
+                            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Property type</label>
                             <select className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-brand focus:ring-brand px-4 py-3">
-                                <option selected>Single Family Home</option>
+                                <option selected>Single family home</option>
                                 <option>Apartment</option>
                                 <option>Condo</option>
                                 <option>Townhouse</option>
                             </select>
                         </div>
                         <div>
-                            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Year Built</label>
+                            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Year built</label>
                             <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-brand focus:ring-brand px-4 py-3" type="number" defaultValue="2021" />
                         </div>
                         <div className="grid grid-cols-3 gap-4 col-span-1 md:col-span-2">
@@ -204,7 +204,7 @@ export default function LandlordEditListing() {
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Square Footage</label>
+                                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Square footage</label>
                                 <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-brand focus:ring-brand px-4 py-3" type="number" value={squareFeet} onChange={(e) => setSquareMeters(parseInt(e.target.value) || 0)} />
                             </div>
                         </div>
@@ -222,7 +222,7 @@ export default function LandlordEditListing() {
                         </div>
                         <button className="text-brand-ink font-semibold text-sm hover:underline flex items-center gap-1">
                             <span className="material-symbols-outlined text-[18px]">add_photo_alternate</span>
-                            Add Photos
+                            Add photos
                         </button>
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -294,7 +294,7 @@ export default function LandlordEditListing() {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Monthly Rent</label>
+                            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Monthly rent</label>
                             <div className="relative">
                                 <span className="absolute left-4 top-3.5 text-slate-500 dark:text-slate-400 font-bold">₦</span>
                                 <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-brand focus:ring-brand pl-8 pr-4 py-3 font-bold text-lg" type="text" value={price} onChange={(e) => setPrice(e.target.value)} />
@@ -302,7 +302,7 @@ export default function LandlordEditListing() {
                             </div>
                         </div>
                         <div>
-                            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Security Deposit</label>
+                            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Security deposit</label>
                             <div className="relative">
                                 <span className="absolute left-4 top-3.5 text-slate-500 dark:text-slate-400 font-bold">₦</span>
                                 <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-brand focus:ring-brand pl-8 pr-4 py-3 font-bold text-lg" type="text" defaultValue="4,800" />
@@ -310,7 +310,7 @@ export default function LandlordEditListing() {
                             </div>
                         </div>
                         <div>
-                            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Lease Duration</label>
+                            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Lease duration</label>
                             <select className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-brand focus:ring-brand px-4 py-3">
                                 <option selected>12 Months</option>
                                 <option>6 Months</option>
@@ -320,14 +320,14 @@ export default function LandlordEditListing() {
                             </select>
                         </div>
                         <div>
-                            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Available Date</label>
+                            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Available date</label>
                             <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-brand focus:ring-brand px-4 py-3" type="date" defaultValue="2024-12-01" />
                         </div>
                         <div className="col-span-1 md:col-span-2">
                             <div className="flex items-start gap-3 p-4 bg-blue-50 dark:bg-blue-900/10 rounded-xl border border-blue-100 dark:border-blue-800">
                                 <span className="material-symbols-outlined text-brand-ink mt-0.5">info</span>
                                 <div className="text-sm text-slate-700 dark:text-slate-300">
-                                    <p className="font-bold text-slate-900 dark:text-white mb-1">Market Insight</p>
+                                    <p className="font-bold text-slate-900 dark:text-white mb-1">Market insight</p>
                                     <p>Properties similar to yours in <strong>78704</strong> are currently renting for <strong>$4,500 - $5,100</strong>. Your price is competitive.</p>
                                 </div>
                             </div>
@@ -342,7 +342,7 @@ export default function LandlordEditListing() {
                             <div className="size-10 rounded-full bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center">
                                 <span className="material-symbols-outlined text-orange-600 text-[22px]">description</span>
                             </div>
-                            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Listing Description</h2>
+                            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Listing description</h2>
                         </div>
                         <button className="flex items-center gap-2 px-3 py-1.5 bg-brand-ink hover:from-[#0e64bd] hover:to-blue-600 text-on-brand text-sm font-bold rounded-lg shadow-md transition-all">
                             <span className="material-symbols-outlined text-[18px]">forum</span>
@@ -368,12 +368,12 @@ export default function LandlordEditListing() {
                         <div className="size-10 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
                             <span className="material-symbols-outlined text-slate-600 dark:text-slate-300 text-[22px]">settings</span>
                         </div>
-                        <h2 className="text-xl font-bold text-slate-900 dark:text-white">Publication Settings</h2>
+                        <h2 className="text-xl font-bold text-slate-900 dark:text-white">Publication settings</h2>
                     </div>
                     <div className="space-y-6">
                         <div className="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand/50 transition-colors cursor-pointer bg-slate-50/50 dark:bg-slate-900/50">
                             <div>
-                                <h3 className="font-bold text-slate-900 dark:text-white mb-1">Listing Visibility</h3>
+                                <h3 className="font-bold text-slate-900 dark:text-white mb-1">Listing visibility</h3>
                                 <p className="text-sm text-slate-500 dark:text-slate-400">Control whether your property is visible to prospective tenants.</p>
                             </div>
                             <div className="flex items-center gap-3">
@@ -391,14 +391,14 @@ export default function LandlordEditListing() {
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Show Contact Phone</label>
+                                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Show contact phone</label>
                                 <select className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-brand focus:ring-brand px-4 py-3">
                                     <option selected>Yes, show my number</option>
                                     <option>No, use in-app messaging only</option>
                                 </select>
                             </div>
                             <div>
-                                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Allow Instant Booking for Tours</label>
+                                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Allow instant booking for tours</label>
                                 <div className="flex items-center gap-4 mt-3">
                                     <label className="flex items-center cursor-pointer">
                                         <input defaultChecked className="form-radio text-brand-ink focus:ring-brand size-5 border-slate-300" name="tours" type="radio" />

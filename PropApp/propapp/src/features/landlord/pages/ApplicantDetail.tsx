@@ -108,12 +108,12 @@ export default function ApplicantDetail() {
             <div className="flex flex-col items-center justify-center min-h-screen gap-4">
                 <span className="material-symbols-outlined text-5xl text-slate-300">error</span>
                 <p className="text-slate-500 dark:text-slate-400 font-medium">{error || 'Applicant not found'}</p>
-                <Link to="/landlord/tenants" className="text-brand-ink font-bold hover:underline">Back to Applications</Link>
+                <Link to="/landlord/tenants" className="text-brand-ink font-bold hover:underline">Back to applications</Link>
             </div>
         );
     }
 
-    const applicantName = `${applicant.tenant?.firstName || ''} ${applicant.tenant?.lastName || ''}`.trim() || 'Unknown Applicant';
+    const applicantName = `${applicant.tenant?.firstName || ''} ${applicant.tenant?.lastName || ''}`.trim() || 'Unknown applicant';
     const initials = applicantName.split(' ').map(n => n[0]).join('').toUpperCase();
     const statusStyles = getStatusStyles(applicant.status);
     const submittedDate = new Date(applicant.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -127,7 +127,7 @@ export default function ApplicantDetail() {
                 isOpen={showRejectModal}
                 onClose={() => setShowRejectModal(false)}
                 onConfirm={handleReject}
-                title="Reject Application?"
+                title="Reject application?"
                 description={`Are you sure you want to reject ${applicantName}'s application? They will be notified and removed from consideration for this property.`}
                 confirmText="Reject Application"
                 icon="block"
@@ -138,7 +138,7 @@ export default function ApplicantDetail() {
                     <Link to="/landlord/dashboard" className="flex items-center h-8">
                         <Logo />
                     </Link>
-                    <span className="bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs px-2 py-1 rounded font-medium ml-2">Landlord Portal</span>
+                    <span className="bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs px-2 py-1 rounded font-medium ml-2">Landlord portal</span>
                 </div>
                 <div className="flex flex-1 justify-end gap-8">
                     <div className="hidden md:flex items-center gap-9">
@@ -218,7 +218,7 @@ export default function ApplicantDetail() {
                                             {initials}
                                         </div>
                                         <div>
-                                            <h3 className="text-lg font-bold text-slate-900 dark:text-white">Applicant Summary</h3>
+                                            <h3 className="text-lg font-bold text-slate-900 dark:text-white">Applicant summary</h3>
                                             <p className="text-sm text-slate-500 dark:text-slate-400">{formatEmploymentStatus(applicant.employmentStatus)} • {applicant.tenant?.email || ''}</p>
                                         </div>
                                     </div>
@@ -234,7 +234,7 @@ export default function ApplicantDetail() {
                                         </div>
                                     </div>
                                     <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
-                                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Monthly Income</p>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Monthly income</p>
                                         <div className="flex items-center gap-2">
                                             <span className="text-xl font-extrabold text-slate-900 dark:text-white">{formatCurrency(applicant.monthlyIncome)}</span>
                                         </div>
@@ -260,7 +260,7 @@ export default function ApplicantDetail() {
                                 <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-canvas-dark">
                                     <div className="flex items-center gap-2">
                                         <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">policy</span>
-                                        <h3 className="font-bold text-slate-900 dark:text-white">Background Screening</h3>
+                                        <h3 className="font-bold text-slate-900 dark:text-white">Background screening</h3>
                                     </div>
                                     <span className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 px-2.5 py-0.5 rounded-full text-xs font-bold border border-green-200 dark:border-green-800">
                                         Completed Oct 25
@@ -273,7 +273,7 @@ export default function ApplicantDetail() {
                                                 <span className="material-symbols-outlined text-lg">check</span>
                                             </div>
                                             <div>
-                                                <p className="text-sm font-bold text-slate-900 dark:text-white">Criminal History</p>
+                                                <p className="text-sm font-bold text-slate-900 dark:text-white">Criminal history</p>
                                                 <p className="text-xs text-slate-500 dark:text-slate-400">No records found</p>
                                             </div>
                                         </div>
@@ -282,7 +282,7 @@ export default function ApplicantDetail() {
                                                 <span className="material-symbols-outlined text-lg">check</span>
                                             </div>
                                             <div>
-                                                <p className="text-sm font-bold text-slate-900 dark:text-white">Eviction History</p>
+                                                <p className="text-sm font-bold text-slate-900 dark:text-white">Eviction history</p>
                                                 <p className="text-xs text-slate-500 dark:text-slate-400">No records found</p>
                                             </div>
                                         </div>
@@ -291,14 +291,14 @@ export default function ApplicantDetail() {
                                                 <span className="material-symbols-outlined text-lg">warning</span>
                                             </div>
                                             <div>
-                                                <p className="text-sm font-bold text-slate-900 dark:text-white">Reference Check</p>
-                                                <p className="text-xs text-slate-500 dark:text-slate-400">Action Required</p>
+                                                <p className="text-sm font-bold text-slate-900 dark:text-white">Reference check</p>
+                                                <p className="text-xs text-slate-500 dark:text-slate-400">Action required</p>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-4 pt-4 border-t border-slate-100 dark:border-slate-800">
                                         <button className="text-brand-ink text-sm font-bold hover:underline flex items-center gap-1">
-                                            View Detailed Report
+                                            View detailed report
                                         </button>
                                         <button className="text-slate-500 dark:text-slate-400 text-sm font-medium hover:text-slate-700 dark:hover:text-slate-300 flex items-center gap-1">
                                             Download PDF <span className="material-symbols-outlined text-sm">download</span>
@@ -312,7 +312,7 @@ export default function ApplicantDetail() {
                                 <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-canvas-dark">
                                     <div className="flex items-center gap-2">
                                         <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">folder_open</span>
-                                        <h3 className="font-bold text-slate-900 dark:text-white">Submitted Documents</h3>
+                                        <h3 className="font-bold text-slate-900 dark:text-white">Submitted documents</h3>
                                     </div>
                                     <button className="text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center gap-1">
                                         <span className="material-symbols-outlined text-[16px]">add</span> Request Missing
@@ -354,7 +354,7 @@ export default function ApplicantDetail() {
                                                 <p className="text-sm font-bold text-slate-900 dark:text-white truncate">Drivers_License_Front.jpg</p>
                                                 <p className="text-xs text-red-500 font-medium">Flagged: Blurry image</p>
                                             </div>
-                                            <button className="text-xs font-bold text-brand-ink hover:underline whitespace-nowrap">Resend Request</button>
+                                            <button className="text-xs font-bold text-brand-ink hover:underline whitespace-nowrap">Resend request</button>
                                         </div>
                                     </div>
                                 </div>
@@ -364,7 +364,7 @@ export default function ApplicantDetail() {
                             <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden">
                                 <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2 bg-slate-50/50 dark:bg-canvas-dark">
                                     <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">lock</span>
-                                    <h3 className="font-bold text-slate-900 dark:text-white">Internal Notes</h3>
+                                    <h3 className="font-bold text-slate-900 dark:text-white">Internal notes</h3>
                                     <span className="text-xs text-slate-500 dark:text-slate-400 font-normal ml-auto">Visible only to team</span>
                                 </div>
                                 <div className="p-6">
@@ -427,25 +427,25 @@ export default function ApplicantDetail() {
 
                             {/* Quick Actions */}
                             <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 p-5">
-                                <h3 className="font-bold text-slate-900 dark:text-white mb-4 text-sm uppercase tracking-wider opacity-70">Quick Actions</h3>
+                                <h3 className="font-bold text-slate-900 dark:text-white mb-4 text-sm uppercase tracking-wider opacity-70">Quick actions</h3>
                                 <div className="flex flex-col gap-2.5">
                                     <button className="w-full text-left px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand hover:bg-slate-50 dark:hover:bg-slate-800 transition-all flex items-center gap-3 group">
                                         <div className="size-8 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-500 flex items-center justify-center group-hover:text-brand-ink transition-colors">
                                             <span className="material-symbols-outlined text-lg">mail</span>
                                         </div>
-                                        <span className="font-bold text-sm text-slate-700 dark:text-slate-200 group-hover:text-brand-ink">Send Message</span>
+                                        <span className="font-bold text-sm text-slate-700 dark:text-slate-200 group-hover:text-brand-ink">Send message</span>
                                     </button>
                                     <button className="w-full text-left px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand hover:bg-slate-50 dark:hover:bg-slate-800 transition-all flex items-center gap-3 group">
                                         <div className="size-8 rounded-lg bg-purple-50 dark:bg-purple-900/20 text-purple-500 flex items-center justify-center group-hover:text-brand-ink transition-colors">
                                             <span className="material-symbols-outlined text-lg">calendar_month</span>
                                         </div>
-                                        <span className="font-bold text-sm text-slate-700 dark:text-slate-200 group-hover:text-brand-ink">Schedule Interview</span>
+                                        <span className="font-bold text-sm text-slate-700 dark:text-slate-200 group-hover:text-brand-ink">Schedule interview</span>
                                     </button>
                                     <button className="w-full text-left px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand hover:bg-slate-50 dark:hover:bg-slate-800 transition-all flex items-center gap-3 group">
                                         <div className="size-8 rounded-lg bg-orange-50 dark:bg-orange-900/20 text-orange-500 flex items-center justify-center group-hover:text-brand-ink transition-colors">
                                             <span className="material-symbols-outlined text-lg">history_edu</span>
                                         </div>
-                                        <span className="font-bold text-sm text-slate-700 dark:text-slate-200 group-hover:text-brand-ink">Draft Lease</span>
+                                        <span className="font-bold text-sm text-slate-700 dark:text-slate-200 group-hover:text-brand-ink">Draft lease</span>
                                     </button>
                                 </div>
                             </div>
@@ -458,14 +458,14 @@ export default function ApplicantDetail() {
                                         <div className="relative pl-6">
                                             <div className="absolute -left-[9px] top-0 size-4 bg-amber-500 rounded-full border-4 border-white dark:border-canvas-dark"></div>
                                             <p className="text-xs text-slate-500 dark:text-slate-400 font-mono mb-0.5">{new Date(applicant.updatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
-                                            <h4 className="text-sm font-bold text-slate-900 dark:text-white">Last Updated</h4>
+                                            <h4 className="text-sm font-bold text-slate-900 dark:text-white">Last updated</h4>
                                             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Application status changed to {statusStyles.label}.</p>
                                         </div>
                                     )}
                                     <div className="relative pl-6">
                                         <div className="absolute -left-[9px] top-0 size-4 bg-slate-300 dark:bg-slate-600 rounded-full border-4 border-white dark:border-canvas-dark"></div>
                                         <p className="text-xs text-slate-500 dark:text-slate-400 font-mono mb-0.5">{new Date(applicant.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
-                                        <h4 className="text-sm font-bold text-slate-900 dark:text-white">Application Received</h4>
+                                        <h4 className="text-sm font-bold text-slate-900 dark:text-white">Application received</h4>
                                         <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{applicantName} submitted application.</p>
                                     </div>
                                 </div>
@@ -478,7 +478,7 @@ export default function ApplicantDetail() {
                                         <span className="material-symbols-outlined text-yellow-300">lightbulb</span>
                                         <span className="text-xs font-bold uppercase tracking-wider opacity-80">AI Insight</span>
                                     </div>
-                                    <h4 className="font-bold text-sm leading-tight mb-2">Analyze Applicant Risk</h4>
+                                    <h4 className="font-bold text-sm leading-tight mb-2">Analyze applicant risk</h4>
                                     <p className="text-xs text-blue-100 mb-3">Ask Keystead to summarize financial health or compare with other applicants.</p>
                                     <button
                                         onClick={() => setShowAIChat(true)}
@@ -533,7 +533,7 @@ export default function ApplicantDetail() {
                                 </button>
                                 <button className="text-left p-3 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-brand/50 transition-colors text-sm text-slate-700 dark:text-slate-300 flex items-center gap-2">
                                     <span className="material-symbols-outlined text-brand-ink text-lg">gavel</span>
-                                    Generate Lease Agreement
+                                    Generate lease agreement
                                 </button>
                             </div>
                             <div className="relative mt-2">

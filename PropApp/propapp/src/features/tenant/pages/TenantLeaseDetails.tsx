@@ -61,7 +61,7 @@ const defaultLeaseData: LeaseData = {
     leaseId: 'N/A',
     status: 'Unknown',
     property: {
-        address: 'No Property',
+        address: 'No property',
         city: 'N/A',
         image: 'https://via.placeholder.com/800x600?text=No+Property',
     },
@@ -73,9 +73,9 @@ const defaultLeaseData: LeaseData = {
     daysUntilExpiry: 0,
     paymentStatus: 'Unknown',
     clauses: [
-        { id: 1, title: 'Pet Policy Addendum', icon: 'pets', description: 'Policy details not available.' },
-        { id: 2, title: 'Maintenance Responsibilities', icon: 'build', description: 'Details not available.' },
-        { id: 3, title: 'No Smoking Clause', icon: 'smoking_rooms', description: 'Details not available.' },
+        { id: 1, title: 'Pet policy addendum', icon: 'pets', description: 'Policy details not available.' },
+        { id: 2, title: 'Maintenance responsibilities', icon: 'build', description: 'Details not available.' },
+        { id: 3, title: 'No smoking clause', icon: 'smoking_rooms', description: 'Details not available.' },
     ],
     paymentSchedule: [],
     landlord: {
@@ -182,11 +182,11 @@ export default function TenantLeaseDetails() {
                 <div className="absolute bottom-6 left-4 md:left-8 text-white max-w-[1200px] w-full mx-auto px-4 md:px-0">
                     <div className="flex items-center gap-2 mb-2">
                         <span className="px-2.5 py-1 bg-green-500/90 text-white text-xs font-bold uppercase tracking-wider rounded-md backdrop-blur-sm">
-                            Active Lease
+                            Active lease
                         </span>
                         <span className="text-white/80 text-sm font-medium">#{leaseData.leaseId}</span>
                     </div>
-                    <h1 className="text-2xl md:text-3xl font-extrabold text-white leading-tight">My Lease Agreement</h1>
+                    <h1 className="text-2xl md:text-3xl font-extrabold text-white leading-tight">My lease agreement</h1>
                     <p className="text-white/90 font-medium">{leaseData.property.address}, {leaseData.property.city}</p>
                 </div>
                 {/* Download button on hero */}
@@ -202,7 +202,7 @@ export default function TenantLeaseDetails() {
                 {/* Stats Grid */}
                 <section className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
-                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Monthly Rent</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Monthly rent</span>
                         <div className="flex items-baseline gap-1">
                             <span className="text-2xl font-bold text-slate-900 dark:text-white">{formatCurrency(leaseData.monthlyRent)}</span>
                             <span className="text-xs text-slate-500 dark:text-slate-400">/mo</span>
@@ -213,17 +213,17 @@ export default function TenantLeaseDetails() {
                         </div>
                     </div>
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
-                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Security Deposit</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Security deposit</span>
                         <span className="text-2xl font-bold text-slate-900 dark:text-white">{formatCurrency(leaseData.securityDeposit)}</span>
                         <span className="text-xs text-slate-500 dark:text-slate-400">Held in escrow</span>
                     </div>
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
-                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Lease Start</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Lease start</span>
                         <span className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">{leaseData.startDate}</span>
                         <span className="text-xs text-slate-500 dark:text-slate-400">{leaseData.term} term</span>
                     </div>
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
-                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Lease End</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Lease end</span>
                         <span className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">{leaseData.endDate}</span>
                         <span className="text-xs text-orange-500 font-medium">Expiring soon</span>
                     </div>
@@ -238,7 +238,7 @@ export default function TenantLeaseDetails() {
                             <div className="p-4 md:p-6 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
                                 <h3 className="font-bold text-lg text-slate-900 dark:text-white flex items-center gap-2">
                                     <span className="material-symbols-outlined text-brand-ink">description</span>
-                                    Lease Document
+                                    Lease document
                                 </h3>
                                 <div className="flex gap-2">
                                     <button className="text-sm font-semibold text-brand-ink hover:bg-blue-50 dark:hover:bg-brand/10 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1">
@@ -273,7 +273,7 @@ export default function TenantLeaseDetails() {
                                 </div>
                                 <div className="absolute inset-0 flex items-center justify-center bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity">
                                     <span className="bg-white/90 dark:bg-black/80 backdrop-blur text-slate-900 dark:text-white px-4 py-2 rounded-lg font-bold shadow-lg">
-                                        Click to Preview
+                                        Click to preview
                                     </span>
                                 </div>
                             </div>
@@ -299,9 +299,9 @@ export default function TenantLeaseDetails() {
                         {/* Payment Schedule */}
                         <div>
                             <div className="flex items-center justify-between mb-4">
-                                <h3 className="font-bold text-lg text-slate-900 dark:text-white">Payment Schedule</h3>
+                                <h3 className="font-bold text-lg text-slate-900 dark:text-white">Payment schedule</h3>
                                 <Link to="/tenant/payments" className="text-sm text-brand-ink font-semibold hover:underline">
-                                    View Full Ledger
+                                    View full ledger
                                 </Link>
                             </div>
                             <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
@@ -309,7 +309,7 @@ export default function TenantLeaseDetails() {
                                     <table className="w-full text-sm text-left">
                                         <thead className="bg-slate-50 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 font-semibold border-b border-slate-200 dark:border-slate-700">
                                             <tr>
-                                                <th className="px-6 py-3 whitespace-nowrap">Due Date</th>
+                                                <th className="px-6 py-3 whitespace-nowrap">Due date</th>
                                                 <th className="px-6 py-3 whitespace-nowrap">Description</th>
                                                 <th className="px-6 py-3 whitespace-nowrap">Amount</th>
                                                 <th className="px-6 py-3 text-right whitespace-nowrap">Status</th>
@@ -388,7 +388,7 @@ export default function TenantLeaseDetails() {
                         <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6">
                             <h4 className="font-bold text-lg text-slate-900 dark:text-white mb-4 flex items-center gap-2">
                                 <span className="material-symbols-outlined text-brand-ink">person</span>
-                                My Info
+                                My info
                             </h4>
                             <div className="flex items-center gap-4 mb-4">
                                 <div className="size-12 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400 overflow-hidden">
@@ -410,7 +410,7 @@ export default function TenantLeaseDetails() {
                                 </div>
                             </div>
                             <button className="mt-4 w-full py-2 rounded-lg border border-slate-300 dark:border-slate-600 font-semibold text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
-                                Update Profile
+                                Update profile
                             </button>
                         </div>
 
@@ -420,13 +420,13 @@ export default function TenantLeaseDetails() {
                                 <div className="size-8 rounded-full bg-brand-ink flex items-center justify-center text-on-brand">
                                     <span className="material-symbols-outlined text-[18px]">tips_and_updates</span>
                                 </div>
-                                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Renewal Insight</h3>
+                                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Renewal insight</h3>
                             </div>
                             <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">
                                 Your lease expires in <strong className="text-slate-900 dark:text-white">{leaseData.daysUntilExpiry} days</strong>. Renewing early often locks in better rates.
                             </p>
                             <button className="w-full py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 font-semibold text-sm text-brand-ink hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
-                                Explore Renewal Options
+                                Explore renewal options
                             </button>
                         </div>
                     </div>
@@ -460,7 +460,7 @@ export default function TenantLeaseDetails() {
                 <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
                     <div className="hidden md:flex items-center gap-4">
                         <div>
-                            <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-0.5">Lease Status</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-0.5">Lease status</p>
                             <div className="flex items-center gap-2">
                                 <span className="size-2.5 rounded-full bg-green-500 animate-pulse"></span>
                                 <span className="font-bold text-slate-900 dark:text-white">Active</span>
@@ -468,25 +468,25 @@ export default function TenantLeaseDetails() {
                         </div>
                         <div className="h-8 w-px bg-slate-200 dark:bg-slate-700 mx-2"></div>
                         <div>
-                            <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-0.5">Next Payment</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-0.5">Next payment</p>
                             <span className="font-bold text-slate-900 dark:text-white">Dec 1, 2024</span>
                         </div>
                     </div>
                     <div className="flex-1 md:flex-none flex gap-3 w-full md:w-auto overflow-x-auto">
                         <button className="flex-1 md:flex-none px-5 py-3.5 rounded-xl border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-white font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors whitespace-nowrap flex items-center justify-center gap-2">
                             <span className="material-symbols-outlined text-[20px]">build</span>
-                            Maintenance Request
+                            Maintenance request
                         </button>
                         <button className="flex-1 md:flex-none px-5 py-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white hover:border-blue-200 hover:bg-blue-50 dark:hover:bg-blue-900/10 transition-colors whitespace-nowrap flex items-center justify-center gap-2">
                             <span className="material-symbols-outlined text-[20px]">autorenew</span>
-                            Initiate Renewal
+                            Initiate renewal
                         </button>
                         <button
                             onClick={() => setIsPaymentModalOpen(true)}
                             className="flex-1 md:flex-none px-8 py-3.5 rounded-xl bg-green-600 text-white font-bold hover:bg-green-700 transition-colors shadow-lg shadow-green-600/25 whitespace-nowrap flex items-center justify-center gap-2"
                         >
                             <span className="material-symbols-outlined text-[20px]">payments</span>
-                            Pay Rent Now
+                            Pay rent now
                         </button>
                     </div>
                 </div>
@@ -501,7 +501,7 @@ export default function TenantLeaseDetails() {
                 isOpen={isDocumentModalOpen}
                 onClose={() => setIsDocumentModalOpen(false)}
                 document={{
-                    title: 'Lease Agreement',
+                    title: 'Lease agreement',
                     type: 'pdf',
                     property: leaseData.property.address,
                     modifiedTime: leaseData.startDate,

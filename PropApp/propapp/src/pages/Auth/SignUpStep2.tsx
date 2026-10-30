@@ -72,7 +72,7 @@ export default function SignUpStep2() {
                 </span>
             </div>
 
-            <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-2 text-center">Verify Your Email</h1>
+            <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-2 text-center">Verify your email</h1>
             <p className="text-slate-300 text-sm md:text-base mb-8 text-center font-normal leading-relaxed">
                 We've sent a 6-digit code to <strong className="text-white font-semibold">{registrationState.email || 'your email'}</strong>.<br />Please enter it below.
             </p>

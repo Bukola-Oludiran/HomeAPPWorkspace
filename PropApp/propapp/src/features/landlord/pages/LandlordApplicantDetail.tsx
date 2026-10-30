@@ -129,7 +129,7 @@ function transformApplicant(app: RentalApplication): UIApplicantData {
 
     return {
         id: app.id,
-        name: app.tenant ? `${app.tenant.firstName} ${app.tenant.lastName}` : 'Unknown Applicant',
+        name: app.tenant ? `${app.tenant.firstName} ${app.tenant.lastName}` : 'Unknown applicant',
         initials: getInitials(app.tenant?.firstName, app.tenant?.lastName),
         status: statusInfo.label,
         statusColor: statusInfo.color,
@@ -161,7 +161,7 @@ function transformApplicant(app: RentalApplication): UIApplicantData {
             {
                 id: 1,
                 date: formatTimelineDate(app.createdAt),
-                title: 'Application Received',
+                title: 'Application received',
                 description: 'Applicant submitted form.',
                 color: 'bg-slate-300 dark:bg-slate-600',
             },
@@ -262,7 +262,7 @@ export default function LandlordApplicantDetail() {
                             onClick={() => window.location.reload()}
                             className="px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-sm font-bold text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                         >
-                            Try Again
+                            Try again
                         </button>
                     </div>
                 </div>
@@ -276,7 +276,7 @@ export default function LandlordApplicantDetail() {
                 isOpen={showRejectModal}
                 onClose={() => setShowRejectModal(false)}
                 onConfirm={rejectApplicant}
-                title="Reject Application?"
+                title="Reject application?"
                 description={`Are you sure you want to reject ${applicantData.name}'s application? They will be notified and removed from consideration for this property.`}
                 confirmText="Reject Application"
                 icon="block"
@@ -332,7 +332,7 @@ export default function LandlordApplicantDetail() {
                                     {applicantData.initials}
                                 </div>
                                 <div>
-                                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">Applicant Summary</h3>
+                                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">Applicant summary</h3>
                                     <p className="text-sm text-slate-500 dark:text-slate-400">{applicantData.occupation}</p>
                                 </div>
                             </div>
@@ -342,18 +342,18 @@ export default function LandlordApplicantDetail() {
                         </div>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                             <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
-                                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Credit Score</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Credit score</p>
                                 <div className="flex items-center gap-2">
                                     <span className="text-xl font-extrabold text-green-600 dark:text-green-400">{applicantData.creditScore}</span>
                                     <span className="text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 px-1.5 py-0.5 rounded font-bold">{applicantData.creditRating}</span>
                                 </div>
                             </div>
                             <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
-                                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Monthly Income</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Monthly income</p>
                                 <span className="text-xl font-extrabold text-slate-900 dark:text-white">{applicantData.monthlyIncome}</span>
                             </div>
                             <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
-                                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Rent Coverage</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Rent coverage</p>
                                 <div className="flex items-center gap-2">
                                     <span className="text-xl font-extrabold text-slate-900 dark:text-white">{applicantData.rentCoverage}</span>
                                     <span className="text-xs text-slate-500 dark:text-slate-400">Rent</span>
@@ -374,7 +374,7 @@ export default function LandlordApplicantDetail() {
                         <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-canvas-dark">
                             <div className="flex items-center gap-2">
                                 <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">policy</span>
-                                <h3 className="font-bold text-slate-900 dark:text-white">Background Screening</h3>
+                                <h3 className="font-bold text-slate-900 dark:text-white">Background screening</h3>
                             </div>
                             <span className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 px-2.5 py-0.5 rounded-full text-xs font-bold border border-green-200 dark:border-green-800">
                                 Completed {applicantData.screening.completedDate}
@@ -387,7 +387,7 @@ export default function LandlordApplicantDetail() {
                                         <span className="material-symbols-outlined text-lg">{applicantData.screening.criminal.status === 'pass' ? 'check' : 'warning'}</span>
                                     </div>
                                     <div>
-                                        <p className="text-sm font-bold text-slate-900 dark:text-white">Criminal History</p>
+                                        <p className="text-sm font-bold text-slate-900 dark:text-white">Criminal history</p>
                                         <p className="text-xs text-slate-500 dark:text-slate-400">{applicantData.screening.criminal.text}</p>
                                     </div>
                                 </div>
@@ -396,7 +396,7 @@ export default function LandlordApplicantDetail() {
                                         <span className="material-symbols-outlined text-lg">{applicantData.screening.eviction.status === 'pass' ? 'check' : 'warning'}</span>
                                     </div>
                                     <div>
-                                        <p className="text-sm font-bold text-slate-900 dark:text-white">Eviction History</p>
+                                        <p className="text-sm font-bold text-slate-900 dark:text-white">Eviction history</p>
                                         <p className="text-xs text-slate-500 dark:text-slate-400">{applicantData.screening.eviction.text}</p>
                                     </div>
                                 </div>
@@ -405,14 +405,14 @@ export default function LandlordApplicantDetail() {
                                         <span className="material-symbols-outlined text-lg">{applicantData.screening.reference.status === 'pass' ? 'check' : 'warning'}</span>
                                     </div>
                                     <div>
-                                        <p className="text-sm font-bold text-slate-900 dark:text-white">Reference Check</p>
+                                        <p className="text-sm font-bold text-slate-900 dark:text-white">Reference check</p>
                                         <p className="text-xs text-slate-500 dark:text-slate-400">{applicantData.screening.reference.text}</p>
                                     </div>
                                 </div>
                             </div>
                             <div className="flex items-center gap-4 pt-4 border-t border-slate-100 dark:border-slate-800">
                                 <button className="text-brand-ink text-sm font-bold hover:underline flex items-center gap-1">
-                                    View Detailed Report
+                                    View detailed report
                                 </button>
                                 <button className="text-slate-500 dark:text-slate-400 text-sm font-medium hover:text-slate-700 dark:hover:text-slate-300 flex items-center gap-1">
                                     Download PDF <span className="material-symbols-outlined text-sm">download</span>
@@ -426,7 +426,7 @@ export default function LandlordApplicantDetail() {
                         <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-canvas-dark">
                             <div className="flex items-center gap-2">
                                 <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">folder_open</span>
-                                <h3 className="font-bold text-slate-900 dark:text-white">Submitted Documents</h3>
+                                <h3 className="font-bold text-slate-900 dark:text-white">Submitted documents</h3>
                             </div>
                             <button className="text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center gap-1">
                                 <span className="material-symbols-outlined text-[16px]">add</span> Request Missing
@@ -454,7 +454,7 @@ export default function LandlordApplicantDetail() {
                                             )}
                                         </div>
                                         {doc.status === 'flagged' ? (
-                                            <button className="text-xs font-bold text-brand-ink hover:underline whitespace-nowrap">Resend Request</button>
+                                            <button className="text-xs font-bold text-brand-ink hover:underline whitespace-nowrap">Resend request</button>
                                         ) : (
                                             <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                                 <button className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-500 dark:text-slate-400 hover:text-brand-ink">
@@ -475,7 +475,7 @@ export default function LandlordApplicantDetail() {
                     <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden">
                         <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2 bg-slate-50/50 dark:bg-canvas-dark">
                             <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">lock</span>
-                            <h3 className="font-bold text-slate-900 dark:text-white">Internal Notes</h3>
+                            <h3 className="font-bold text-slate-900 dark:text-white">Internal notes</h3>
                             <span className="text-xs text-slate-500 dark:text-slate-400 font-normal ml-auto">Visible only to team</span>
                         </div>
                         <div className="p-6">
@@ -526,11 +526,11 @@ export default function LandlordApplicantDetail() {
                         </div>
                         <div className="p-4 grid grid-cols-2 divide-x divide-slate-100 dark:divide-slate-800">
                             <div className="text-center px-2">
-                                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold">Monthly Rent</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold">Monthly rent</p>
                                 <p className="text-base font-bold text-slate-900 dark:text-white">{applicantData.property.rent}</p>
                             </div>
                             <div className="text-center px-2">
-                                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold">Lease Term</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold">Lease term</p>
                                 <p className="text-base font-bold text-slate-900 dark:text-white">{applicantData.property.leaseTerm}</p>
                             </div>
                         </div>
@@ -538,25 +538,25 @@ export default function LandlordApplicantDetail() {
 
                     {/* Quick Actions */}
                     <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 p-5">
-                        <h3 className="font-bold text-slate-900 dark:text-white mb-4 text-sm uppercase tracking-wider opacity-70">Quick Actions</h3>
+                        <h3 className="font-bold text-slate-900 dark:text-white mb-4 text-sm uppercase tracking-wider opacity-70">Quick actions</h3>
                         <div className="flex flex-col gap-2.5">
                             <button className="w-full text-left px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand hover:bg-slate-50 dark:hover:bg-slate-800 transition-all flex items-center gap-3 group">
                                 <div className="size-8 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-500 flex items-center justify-center group-hover:text-brand-ink transition-colors">
                                     <span className="material-symbols-outlined text-lg">mail</span>
                                 </div>
-                                <span className="font-bold text-sm text-slate-700 dark:text-slate-200 group-hover:text-brand-ink">Send Message</span>
+                                <span className="font-bold text-sm text-slate-700 dark:text-slate-200 group-hover:text-brand-ink">Send message</span>
                             </button>
                             <button className="w-full text-left px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand hover:bg-slate-50 dark:hover:bg-slate-800 transition-all flex items-center gap-3 group">
                                 <div className="size-8 rounded-lg bg-purple-50 dark:bg-purple-900/20 text-purple-500 flex items-center justify-center group-hover:text-brand-ink transition-colors">
                                     <span className="material-symbols-outlined text-lg">calendar_month</span>
                                 </div>
-                                <span className="font-bold text-sm text-slate-700 dark:text-slate-200 group-hover:text-brand-ink">Schedule Interview</span>
+                                <span className="font-bold text-sm text-slate-700 dark:text-slate-200 group-hover:text-brand-ink">Schedule interview</span>
                             </button>
                             <button className="w-full text-left px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand hover:bg-slate-50 dark:hover:bg-slate-800 transition-all flex items-center gap-3 group">
                                 <div className="size-8 rounded-lg bg-orange-50 dark:bg-orange-900/20 text-orange-500 flex items-center justify-center group-hover:text-brand-ink transition-colors">
                                     <span className="material-symbols-outlined text-lg">history_edu</span>
                                 </div>
-                                <span className="font-bold text-sm text-slate-700 dark:text-slate-200 group-hover:text-brand-ink">Draft Lease</span>
+                                <span className="font-bold text-sm text-slate-700 dark:text-slate-200 group-hover:text-brand-ink">Draft lease</span>
                             </button>
                         </div>
                     </div>
@@ -583,7 +583,7 @@ export default function LandlordApplicantDetail() {
                                 <span className="material-symbols-outlined text-yellow-300">lightbulb</span>
                                 <span className="text-xs font-bold uppercase tracking-wider opacity-80">AI Insight</span>
                             </div>
-                            <h4 className="font-bold text-sm leading-tight mb-2">Analyze Applicant Risk</h4>
+                            <h4 className="font-bold text-sm leading-tight mb-2">Analyze applicant risk</h4>
                             <p className="text-xs text-blue-100 mb-3">Ask Keystead to summarize financial health or compare with other applicants.</p>
                             <button className="cursor-pointer inline-block w-full py-2 bg-white/20 hover:bg-white/30 border border-white/30 text-white font-bold text-xs rounded-lg transition-colors text-center">Ask Assistant</button>
                         </div>

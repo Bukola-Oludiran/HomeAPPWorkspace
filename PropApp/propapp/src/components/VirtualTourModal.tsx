@@ -59,7 +59,7 @@ export default function VirtualTourModal({ isOpen, onClose, property, agent }: V
                             <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-black/80 text-white text-xs rounded opacity-0 group-hover/hotspot:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Kitchen</div>
                         </div>
                         <div className="absolute top-[55%] right-[25%] size-8 rounded-full bg-white/20 border-2 border-white hover:bg-white/40 cursor-pointer transition-colors shadow-lg shadow-black/20 group/hotspot">
-                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-black/80 text-white text-xs rounded opacity-0 group-hover/hotspot:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Living Area</div>
+                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-black/80 text-white text-xs rounded opacity-0 group-hover/hotspot:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Living area</div>
                         </div>
 
                         {/* Bottom Controls */}
@@ -67,7 +67,7 @@ export default function VirtualTourModal({ isOpen, onClose, property, agent }: V
                             <button
                                 onClick={() => setActiveView('dollhouse')}
                                 className={`p-2 md:p-2.5 rounded-full transition-colors relative group ${activeView === 'dollhouse' ? 'text-white bg-white/30' : 'text-white/90 hover:text-white hover:bg-white/20'}`}
-                                title="Dollhouse View"
+                                title="Dollhouse view"
                             >
                                 <span className="material-symbols-outlined text-[20px] md:text-[24px]">holiday_village</span>
                                 <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Dollhouse</span>
@@ -75,17 +75,17 @@ export default function VirtualTourModal({ isOpen, onClose, property, agent }: V
                             <button
                                 onClick={() => setActiveView('floorplan')}
                                 className={`p-2 md:p-2.5 rounded-full transition-colors relative group ${activeView === 'floorplan' ? 'text-white bg-white/30' : 'text-white/90 hover:text-white hover:bg-white/20'}`}
-                                title="Floor Plan"
+                                title="Floor plan"
                             >
                                 <span className="material-symbols-outlined text-[20px] md:text-[24px]">layers</span>
-                                <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Floor Plan</span>
+                                <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Floor plan</span>
                             </button>
                             <button className="p-2 md:p-2.5 text-white/90 hover:text-white hover:bg-white/20 rounded-full transition-colors relative group" title="Measurement">
                                 <span className="material-symbols-outlined text-[20px] md:text-[24px]">straighten</span>
                                 <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Measure</span>
                             </button>
                             <div className="w-px h-6 bg-white/20 mx-1"></div>
-                            <button className="p-2 md:p-2.5 text-white/90 hover:text-white hover:bg-white/20 rounded-full transition-colors relative group" title="Share Tour">
+                            <button className="p-2 md:p-2.5 text-white/90 hover:text-white hover:bg-white/20 rounded-full transition-colors relative group" title="Share tour">
                                 <span className="material-symbols-outlined text-[20px] md:text-[24px]">share</span>
                                 <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Share</span>
                             </button>
@@ -104,7 +104,7 @@ export default function VirtualTourModal({ isOpen, onClose, property, agent }: V
                                     src={agent.image}
                                 />
                                 <div className="flex flex-col">
-                                    <span className="text-xs uppercase font-bold text-slate-500 dark:text-slate-400 tracking-wider">Listing Agent</span>
+                                    <span className="text-xs uppercase font-bold text-slate-500 dark:text-slate-400 tracking-wider">Listing agent</span>
                                     <span className="text-sm font-bold text-slate-900 dark:text-white leading-none">{agent.name}</span>
                                 </div>
                             </div>

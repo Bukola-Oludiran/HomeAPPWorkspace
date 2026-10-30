@@ -71,7 +71,7 @@ export default function MaintenanceRequestModal({
                                 <span className="material-symbols-outlined text-[20px]">forum</span>
                             </div>
                             <div>
-                                <h3 className="text-sm font-bold text-slate-900 dark:text-white">Maintenance Request</h3>
+                                <h3 className="text-sm font-bold text-slate-900 dark:text-white">Maintenance request</h3>
                                 <div className="flex items-center gap-1.5">
                                     <span className="size-1.5 rounded-full bg-green-500 animate-pulse"></span>
                                     <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">AI Assisted Flow</p>
@@ -168,7 +168,7 @@ export default function MaintenanceRequestModal({
                                     <div className="size-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
                                         <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 group-hover:text-brand-ink">add_a_photo</span>
                                     </div>
-                                    <span className="text-sm font-bold text-slate-600 dark:text-slate-300 group-hover:text-brand-ink">Add Photos</span>
+                                    <span className="text-sm font-bold text-slate-600 dark:text-slate-300 group-hover:text-brand-ink">Add photos</span>
                                     <span className="text-xs text-slate-500 dark:text-slate-400 mt-1">or drag and drop here</span>
                                 </button>
                             </div>

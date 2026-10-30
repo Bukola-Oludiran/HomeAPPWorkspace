@@ -85,7 +85,7 @@ export default function SignLeaseRenewalModal({
                                 <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>ink_pen</span>
                             </div>
                             <div>
-                                <h2 className="text-xl font-bold text-slate-900 dark:text-white">Sign Lease Renewal</h2>
+                                <h2 className="text-xl font-bold text-slate-900 dark:text-white">Sign lease renewal</h2>
                                 <p className="text-xs text-slate-500 dark:text-slate-400">Step 2 of 2 • {property.address}</p>
                             </div>
                         </div>
@@ -124,7 +124,7 @@ export default function SignLeaseRenewalModal({
                                     <div className="border-b-2 border-slate-900 pb-4 mb-8 flex justify-between items-end">
                                         <div>
                                             <h1 className="text-2xl font-serif font-bold text-slate-900 mb-2">RESIDENTIAL LEASE RENEWAL</h1>
-                                            <p className="uppercase tracking-widest font-bold text-slate-500 dark:text-slate-400">Agreement Extension</p>
+                                            <p className="uppercase tracking-widest font-bold text-slate-500 dark:text-slate-400">Agreement extension</p>
                                         </div>
                                         <div className="text-right">
                                             <p className="font-bold">Date: Oct 10, 2023</p>
@@ -161,7 +161,7 @@ export default function SignLeaseRenewalModal({
                                         <p className="text-slate-500 dark:text-slate-400 italic">... [Document continues for 13 more pages] ...</p>
                                     </div>
                                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.03] rotate-45">
-                                        <span className="text-[120px] font-black uppercase">Official Copy</span>
+                                        <span className="text-[120px] font-black uppercase">Official copy</span>
                                     </div>
                                 </div>
                             </div>
@@ -203,7 +203,7 @@ export default function SignLeaseRenewalModal({
 
                                     {/* Full Name Input */}
                                     <div>
-                                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Full Legal Name</label>
+                                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Full legal name</label>
                                         <input
                                             className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-transparent outline-none transition-all placeholder-slate-400"
                                             placeholder="e.g. Alex Morgan"
@@ -215,7 +215,7 @@ export default function SignLeaseRenewalModal({
 
                                     {/* Signature Preview */}
                                     <div>
-                                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Signature Preview</label>
+                                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Signature preview</label>
                                         <div className="h-32 bg-yellow-50 dark:bg-yellow-900/10 border-2 border-dashed border-yellow-200 dark:border-yellow-900/40 rounded-xl flex items-center justify-center relative overflow-hidden group">
                                             <p
                                                 className="text-5xl text-slate-800 dark:text-slate-200 relative z-10 transform -rotate-2"
@@ -274,7 +274,7 @@ export default function SignLeaseRenewalModal({
                                         onClick={onClose}
                                         className="flex-1 py-3 px-4 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-xl font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
                                     >
-                                        Go Back
+                                        Go back
                                     </button>
                                     <button
                                         onClick={handleSign}
@@ -288,7 +288,7 @@ export default function SignLeaseRenewalModal({
                                             </>
                                         ) : (
                                             <>
-                                                <span>Digitally Sign & Accept</span>
+                                                <span>Digitally sign & accept</span>
                                                 <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
                                             </>
                                         )}

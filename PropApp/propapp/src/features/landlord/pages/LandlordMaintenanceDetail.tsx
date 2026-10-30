@@ -72,9 +72,9 @@ function getCategoryIcon(category: MaintenanceCategory): string {
 // Priority/urgency mapping
 function getUrgencyInfo(priority: MaintenancePriority): { label: string; color: string } {
     const mapping: Record<MaintenancePriority, { label: string; color: string }> = {
-        LOW: { label: 'Low Priority', color: 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-600' },
-        MEDIUM: { label: 'Medium Priority', color: 'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300 border-orange-200 dark:border-orange-800' },
-        HIGH: { label: 'High Urgency', color: 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300 border-red-200 dark:border-red-800' },
+        LOW: { label: 'Low priority', color: 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-600' },
+        MEDIUM: { label: 'Medium priority', color: 'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300 border-orange-200 dark:border-orange-800' },
+        HIGH: { label: 'High urgency', color: 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300 border-red-200 dark:border-red-800' },
         EMERGENCY: { label: 'Emergency', color: 'bg-red-200 text-red-800 dark:bg-red-900/60 dark:text-red-200 border-red-300 dark:border-red-700' },
     };
     return mapping[priority] || { label: priority, color: 'bg-orange-100 text-orange-700' };
@@ -85,10 +85,10 @@ function getStatusInfo(status: MaintenanceStatus): { label: string; color: strin
     const mapping: Record<MaintenanceStatus, { label: string; color: string }> = {
         SUBMITTED: { label: 'New', color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 border-blue-200 dark:border-blue-800' },
         PENDING: { label: 'Pending', color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 border-blue-200 dark:border-blue-800' },
-        ACKNOWLEDGED: { label: 'In Review', color: 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300 border-purple-200 dark:border-purple-800' },
+        ACKNOWLEDGED: { label: 'In review', color: 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300 border-purple-200 dark:border-purple-800' },
         ASSIGNED: { label: 'Assigned', color: 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300 border-purple-200 dark:border-purple-800' },
-        IN_PROGRESS: { label: 'In Progress', color: 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300 border-amber-200 dark:border-amber-800' },
-        ON_HOLD: { label: 'On Hold', color: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-300 border-yellow-200 dark:border-yellow-800' },
+        IN_PROGRESS: { label: 'In progress', color: 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300 border-amber-200 dark:border-amber-800' },
+        ON_HOLD: { label: 'On hold', color: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-300 border-yellow-200 dark:border-yellow-800' },
         COMPLETED: { label: 'Resolved', color: 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300 border-green-200 dark:border-green-800' },
         CANCELLED: { label: 'Cancelled', color: 'bg-gray-100 text-gray-700 dark:bg-gray-900/40 dark:text-gray-300 border-gray-200 dark:border-gray-800' },
     };
@@ -124,7 +124,7 @@ function generateTimeline(request: MaintenanceRequest): UIMaintenanceRequest['ti
         timeline.push({
             id: idCounter++,
             time: formatDateTime(request.completedAt),
-            title: 'Request Resolved',
+            title: 'Request resolved',
             description: 'The maintenance work has been completed.',
             color: 'bg-green-500',
         });
@@ -134,7 +134,7 @@ function generateTimeline(request: MaintenanceRequest): UIMaintenanceRequest['ti
         timeline.push({
             id: idCounter++,
             time: formatDateTime(request.updatedAt),
-            title: 'Maintenance In Progress',
+            title: 'Maintenance in progress',
             description: 'Work is being performed on this request.',
             color: 'bg-amber-500',
         });
@@ -144,7 +144,7 @@ function generateTimeline(request: MaintenanceRequest): UIMaintenanceRequest['ti
         timeline.push({
             id: idCounter++,
             time: formatDateTime(request.updatedAt),
-            title: 'Vendor Assigned',
+            title: 'Vendor assigned',
             description: `${request.assignedAgent.firstName} ${request.assignedAgent.lastName} has been assigned to this request.`,
             color: 'bg-blue-500',
         });
@@ -154,7 +154,7 @@ function generateTimeline(request: MaintenanceRequest): UIMaintenanceRequest['ti
         timeline.push({
             id: idCounter++,
             time: formatDateTime(request.updatedAt),
-            title: 'Viewed by Landlord',
+            title: 'Viewed by landlord',
             description: "Status changed from 'New' to 'In Review'.",
             color: 'bg-slate-300 dark:bg-slate-600',
         });
@@ -164,7 +164,7 @@ function generateTimeline(request: MaintenanceRequest): UIMaintenanceRequest['ti
     timeline.push({
         id: idCounter++,
         time: formatDateTime(request.createdAt),
-        title: 'Request Submitted',
+        title: 'Request submitted',
         description: 'Tenant submitted a new maintenance request.',
         color: 'bg-slate-300 dark:bg-slate-600',
     });
@@ -304,7 +304,7 @@ export default function LandlordMaintenanceDetail() {
                             onClick={() => window.location.reload()}
                             className="px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-sm font-bold text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                         >
-                            Try Again
+                            Try again
                         </button>
                     </div>
                 </div>
@@ -346,7 +346,7 @@ export default function LandlordMaintenanceDetail() {
                 <div className="flex gap-3">
                     <button className="px-4 py-2.5 rounded-lg border border-red-200 dark:border-red-900/50 text-red-600 dark:text-red-400 font-semibold text-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors flex items-center gap-2 bg-slate-50">
                         <span className="material-symbols-outlined text-[20px]">cancel</span>
-                        Cancel Request
+                        Cancel request
                     </button>
                     <button className="px-5 py-2.5 rounded-lg bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm transition-all flex items-center gap-2">
                         <span className="material-symbols-outlined text-[20px]">check_circle</span>
@@ -380,7 +380,7 @@ export default function LandlordMaintenanceDetail() {
                                 </div>
                             </div>
                             <div className="p-6">
-                                <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-3">Tenant Details</h3>
+                                <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-3">Tenant details</h3>
                                 {maintenanceRequest.tenant ? (
                                     <>
                                         <div className="flex items-center gap-3 mb-4">
@@ -391,7 +391,7 @@ export default function LandlordMaintenanceDetail() {
                                                 <h4 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
                                                     {maintenanceRequest.tenant.name}
                                                     {maintenanceRequest.tenant.verified && (
-                                                        <span className="material-symbols-outlined text-blue-500 text-[16px]" title="Verified Tenant">verified</span>
+                                                        <span className="material-symbols-outlined text-blue-500 text-[16px]" title="Verified tenant">verified</span>
                                                     )}
                                                 </h4>
                                                 <p className="text-xs text-slate-500 dark:text-slate-400">Lease ends {maintenanceRequest.tenant.leaseEnd}</p>
@@ -417,14 +417,14 @@ export default function LandlordMaintenanceDetail() {
                     <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 p-6">
                         <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
                             <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">description</span>
-                            Request Details
+                            Request details
                         </h3>
                         <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl mb-6">
                             <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
                                 {maintenanceRequest.description}
                             </p>
                         </div>
-                        <h4 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-3">Attached Media</h4>
+                        <h4 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-3">Attached media</h4>
                         <div className="flex gap-4 overflow-x-auto pb-2">
                             <div className="relative group w-32 h-32 rounded-lg bg-slate-100 dark:bg-slate-800 overflow-hidden shrink-0 border border-slate-200 dark:border-slate-700">
                                 <div className="w-full h-full flex items-center justify-center text-slate-500 dark:text-slate-400 bg-slate-200 dark:bg-slate-700">
@@ -451,9 +451,9 @@ export default function LandlordMaintenanceDetail() {
                         <div className="flex items-center justify-between mb-6">
                             <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                                 <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">history</span>
-                                Activity Timeline
+                                Activity timeline
                             </h3>
-                            <button className="text-xs font-bold text-brand-ink hover:underline">Add Note</button>
+                            <button className="text-xs font-bold text-brand-ink hover:underline">Add note</button>
                         </div>
                         <div className="relative pl-6 border-l-2 border-slate-100 dark:border-slate-800 space-y-8">
                             {maintenanceRequest.timeline.map((item) => (
@@ -473,7 +473,7 @@ export default function LandlordMaintenanceDetail() {
                     <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 p-6">
                         <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
                             <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">forum</span>
-                            Communication Log
+                            Communication log
                         </h3>
                         <div className="space-y-6 max-h-[400px] overflow-y-auto custom-scrollbar pr-2">
                             {maintenanceRequest.messages.map((msg) => (
@@ -518,11 +518,11 @@ export default function LandlordMaintenanceDetail() {
                             <div className="flex gap-4 mt-2 px-1">
                                 <label className="flex items-center gap-2 cursor-pointer">
                                     <input type="radio" name="msg-type" defaultChecked className="text-brand-ink focus:ring-brand" />
-                                    <span className="text-xs text-slate-600 dark:text-slate-400 font-medium">Message Tenant</span>
+                                    <span className="text-xs text-slate-600 dark:text-slate-400 font-medium">Message tenant</span>
                                 </label>
                                 <label className="flex items-center gap-2 cursor-pointer">
                                     <input type="radio" name="msg-type" className="text-amber-500 focus:ring-amber-500" />
-                                    <span className="text-xs text-slate-600 dark:text-slate-400 font-medium">Internal Note</span>
+                                    <span className="text-xs text-slate-600 dark:text-slate-400 font-medium">Internal note</span>
                                 </label>
                             </div>
                         </div>
@@ -536,15 +536,15 @@ export default function LandlordMaintenanceDetail() {
                         <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-4">Actions</h3>
                         <div className="flex flex-col gap-3">
                             <button className="w-full py-3 px-4 bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm rounded-xl transition-all flex items-center justify-between group">
-                                Schedule Maintenance
+                                Schedule maintenance
                                 <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">calendar_clock</span>
                             </button>
                             <button className="w-full py-3 px-4 bg-slate-50 dark:bg-surface-dark border border-slate-200 dark:border-slate-700 hover:border-brand hover:text-brand-ink text-slate-800 dark:text-slate-300 font-bold text-sm rounded-xl transition-all flex items-center justify-between">
-                                Send Update to Tenant
+                                Send update to tenant
                                 <span className="material-symbols-outlined text-slate-800 dark:text-slate-400">send</span>
                             </button>
                             <button className="w-full py-3 px-4 bg-slate-50 dark:bg-surface-dark border border-slate-200 dark:border-slate-700 hover:border-amber-500 hover:text-amber-600 text-slate-800 dark:text-slate-300 font-bold text-sm rounded-xl transition-all flex items-center justify-between">
-                                Report Issue with Vendor
+                                Report issue with vendor
                                 <span className="material-symbols-outlined text-slate-800 dark:text-slate-400">flag</span>
                             </button>
                         </div>
@@ -553,7 +553,7 @@ export default function LandlordMaintenanceDetail() {
                         {/* Assigned Vendor */}
                         <div>
                             <div className="flex items-center justify-between mb-3">
-                                <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Assigned Vendor</h3>
+                                <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Assigned vendor</h3>
                                 <button className="text-xs font-bold text-brand-ink hover:underline">
                                     {maintenanceRequest.vendor ? 'Change' : 'Assign'}
                                 </button>
@@ -579,7 +579,7 @@ export default function LandlordMaintenanceDetail() {
                                                 Contact
                                             </button>
                                             <button className="flex-1 py-1.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg text-xs font-bold text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
-                                                View Profile
+                                                View profile
                                             </button>
                                         </div>
                                     </div>
@@ -595,7 +595,7 @@ export default function LandlordMaintenanceDetail() {
                                     <span className="material-symbols-outlined text-3xl text-slate-300 dark:text-slate-600 mb-2">person_add</span>
                                     <p className="text-sm text-slate-500 dark:text-slate-400">No vendor assigned yet</p>
                                     <button className="mt-3 px-4 py-2 bg-brand-ink hover:bg-brand-ink/90 text-on-brand text-xs font-bold rounded-lg transition-colors">
-                                        Assign Vendor
+                                        Assign vendor
                                     </button>
                                 </div>
                             )}
@@ -605,11 +605,11 @@ export default function LandlordMaintenanceDetail() {
                     {/* Estimated Cost */}
                     <div className="bg-gradient-to-br from-slate-800 to-slate-900 dark:from-slate-700 dark:to-slate-800 rounded-2xl p-5 text-white shadow-lg relative overflow-hidden">
                         <div className="relative z-10">
-                            <h4 className="font-bold text-base mb-1">Estimated Cost</h4>
+                            <h4 className="font-bold text-base mb-1">Estimated cost</h4>
                             <p className="text-xs text-slate-300 mb-3">Based on similar repairs in Austin, TX.</p>
                             <h3 className="text-2xl font-bold mb-4">{maintenanceRequest.estimatedCost}</h3>
                             <button className="w-full py-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/10 text-white font-bold text-xs rounded-lg transition-colors">
-                                View Cost Breakdown
+                                View cost breakdown
                             </button>
                         </div>
                     </div>

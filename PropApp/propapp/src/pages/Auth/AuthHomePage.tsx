@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 export default function AuthHomePage() {
     return (
         <div className="w-full max-w-md bg-white/10 dark:bg-surface-dark/40 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col items-center text-center">
-            <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-2">Welcome Home</h1>
+            <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-2">Welcome home</h1>
             <p className="text-slate-200 dark:text-slate-300 text-base md:text-lg mb-8 font-normal">
                 Your journey to finding the perfect property starts here.
             </p>
@@ -13,13 +13,13 @@ export default function AuthHomePage() {
                     to="/auth/login"
                     className="w-full py-3.5 px-4 rounded-xl bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-lg transition-all flex items-center justify-center"
                 >
-                    Log In
+                    Log in
                 </Link>
                 <Link
                     to="/auth/signup/step1"
                     className="w-full py-3.5 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-semibold text-lg backdrop-blur-sm transition-all flex items-center justify-center"
                 >
-                    Sign Up
+                    Sign up
                 </Link>
             </div>
 
@@ -51,9 +51,9 @@ export default function AuthHomePage() {
 
             <p className="mt-8 text-xs text-slate-300">
                 By continuing, you agree to our{' '}
-                <a className="text-sky hover:text-sky/80 underline" href="#">Terms of Service</a>
+                <a className="text-sky hover:text-sky/80 underline" href="#">Terms of service</a>
                 {' '}and{' '}
-                <a className="text-sky hover:text-sky/80 underline" href="#">Privacy Policy</a>.
+                <a className="text-sky hover:text-sky/80 underline" href="#">Privacy policy</a>.
             </p>
         </div>
     );

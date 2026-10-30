@@ -62,7 +62,7 @@ export default function TenantDashboardPage() {
     return (
         <PageContainer>
             <PageHeader
-                title="Tenant Dashboard"
+                title="Tenant dashboard"
                 subtitle={`Welcome back, ${userName}. Here's your rental overview.`}
                 actions={
                     <>
@@ -107,7 +107,7 @@ export default function TenantDashboardPage() {
                 <StatsCard
                     icon="calendar_today"
                     iconColor="blue"
-                    label="Next Rent Payment"
+                    label="Next rent payment"
                     value={formatCurrency(dashboardData.nextPayment.amount)}
                     animateValue
                     numericValue={dashboardData.nextPayment.amount}
@@ -120,7 +120,7 @@ export default function TenantDashboardPage() {
                 <StatsCard
                     icon="contract"
                     iconColor="purple"
-                    label="Lease Status"
+                    label="Lease status"
                     value={dashboardData.lease.remaining}
                     badge={{ text: dashboardData.lease.status, variant: dashboardData.lease.status === 'Active' ? 'success' : 'warning' }}
                     subtext={`Ends: ${formatDate(dashboardData.lease.endDate)}`}
@@ -130,7 +130,7 @@ export default function TenantDashboardPage() {
                 <StatsCard
                     icon="home_repair_service"
                     iconColor="amber"
-                    label="Maintenance Requests"
+                    label="Maintenance requests"
                     value={`${dashboardData.maintenanceRequests} Open`}
                     subtext="Active maintenance items"
                 />
@@ -154,9 +154,9 @@ export default function TenantDashboardPage() {
                 <div className="xl:col-span-2 flex flex-col gap-6">
                     {/* Current Rental */}
                     <div className="flex items-center justify-between">
-                        <h2 className="text-xl font-bold text-slate-900 dark:text-white">My Current Rental</h2>
+                        <h2 className="text-xl font-bold text-slate-900 dark:text-white">My current rental</h2>
                         <Link to="/tenant/lease-details" className="text-sm text-brand-ink font-semibold hover:underline">
-                            View Lease Details
+                            View lease details
                         </Link>
                     </div>
                     {dashboardData.property ? (
@@ -171,7 +171,7 @@ export default function TenantDashboardPage() {
                                 <span className="material-symbols-outlined text-[14px] text-green-500">
                                     check_circle
                                 </span>
-                                Verified Listing
+                                Verified listing
                             </div>
                         </div>
                         <div className="p-6">
@@ -194,7 +194,7 @@ export default function TenantDashboardPage() {
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-slate-100 dark:border-slate-800">
                                 <div>
                                     <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide mb-1">
-                                        Monthly Rent
+                                        Monthly rent
                                     </p>
                                     <p className="text-xl font-bold text-slate-900 dark:text-white">
                                         {formatCurrency(dashboardData.property.monthlyRent)}
@@ -205,7 +205,7 @@ export default function TenantDashboardPage() {
                                 </div>
                                 <div>
                                     <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide mb-1">
-                                        Lease Period
+                                        Lease period
                                     </p>
                                     <p className="text-lg font-bold text-slate-900 dark:text-white">
                                         {formatDate(dashboardData.property.leaseStart)} - {formatDate(dashboardData.property.leaseEnd)}
@@ -213,7 +213,7 @@ export default function TenantDashboardPage() {
                                 </div>
                                 <div>
                                     <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide mb-1">
-                                        Property Manager
+                                        Property manager
                                     </p>
                                     <div className="flex items-center gap-2 mt-1">
                                         {dashboardData.property.landlordAvatar ? (
@@ -238,16 +238,16 @@ export default function TenantDashboardPage() {
                             <span className="material-symbols-outlined text-4xl text-slate-300 mb-2">home</span>
                             <p className="text-slate-500 dark:text-slate-400">No active rental</p>
                             <Link to="/search" className="mt-4 inline-block px-4 py-2 bg-brand-ink text-on-brand rounded-lg hover:bg-brand-ink/90">
-                                Browse Properties
+                                Browse properties
                             </Link>
                         </SectionCard>
                     )}
 
                     {/* Saved Properties */}
                     <div className="flex items-center justify-between mt-4">
-                        <h2 className="text-xl font-bold text-slate-900 dark:text-white">Saved Properties</h2>
+                        <h2 className="text-xl font-bold text-slate-900 dark:text-white">Saved properties</h2>
                         <Link to="/tenant/saved" className="text-sm text-brand-ink font-semibold hover:underline">
-                            View All
+                            View all
                         </Link>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -281,7 +281,7 @@ export default function TenantDashboardPage() {
                                 <span className="material-symbols-outlined">add</span>
                             </div>
                             <div className="flex-1 flex flex-col justify-center">
-                                <h4 className="font-bold text-slate-900 dark:text-white text-sm">Browse More</h4>
+                                <h4 className="font-bold text-slate-900 dark:text-white text-sm">Browse more</h4>
                                 <p className="text-xs text-slate-500 dark:text-slate-400">
                                     Find your next dream home
                                 </p>
@@ -293,7 +293,7 @@ export default function TenantDashboardPage() {
                 {/* Sidebar */}
                 <div className="flex flex-col gap-6">
                     {/* Maintenance Log */}
-                    <h2 className="text-xl font-bold text-slate-900 dark:text-white">Maintenance Log</h2>
+                    <h2 className="text-xl font-bold text-slate-900 dark:text-white">Maintenance log</h2>
                     <SectionCard padding="sm" className="flex flex-col gap-4">
                         {dashboardData.maintenanceLog.map((item, index) => (
                             <Link
@@ -330,7 +330,7 @@ export default function TenantDashboardPage() {
                             to="/tenant/maintenance"
                             className="w-full py-2 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-center block"
                         >
-                            View All Requests
+                            View all requests
                         </Link>
                     </SectionCard>
 
@@ -363,7 +363,7 @@ export default function TenantDashboardPage() {
                                             to="/tenant/lease-details"
                                             className="flex-1 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg text-xs font-bold transition-colors text-center"
                                         >
-                                            View Lease
+                                            View lease
                                         </Link>
                                         <button
                                             onClick={() => setIsSignLeaseModalOpen(true)}
@@ -376,7 +376,7 @@ export default function TenantDashboardPage() {
                             </div>
                         ))}
                         <button className="w-full py-2 bg-brand/10 hover:bg-brand/20 text-brand-ink rounded-lg text-xs font-bold transition-colors">
-                            Check Status
+                            Check status
                         </button>
                     </SectionCard>
 

@@ -13,13 +13,13 @@ import { formatCurrency as formatPrice } from '@/lib/format';
 function getListingTypeInfo(listingType: ListingType): { label: string; color: string; priceUnit?: string } {
     switch (listingType) {
         case 'SALE':
-            return { label: 'For Sale', color: 'bg-green-100 text-green-700' };
+            return { label: 'For sale', color: 'bg-green-100 text-green-700' };
         case 'RENT':
-            return { label: 'For Rent', color: 'bg-blue-100 text-blue-700', priceUnit: '/mo' };
+            return { label: 'For rent', color: 'bg-blue-100 text-blue-700', priceUnit: '/mo' };
         case 'SHORT_LET':
             return { label: 'Short-let', color: 'bg-purple-100 text-purple-700', priceUnit: '/night' };
         default:
-            return { label: 'For Sale', color: 'bg-green-100 text-green-700' };
+            return { label: 'For sale', color: 'bg-green-100 text-green-700' };
     }
 }
 
@@ -216,7 +216,7 @@ export default function HomePage() {
                         <div className="flex items-center justify-between mb-8">
                             <div>
                                 <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">
-                                    Featured Verified Properties
+                                    Featured verified properties
                                 </h2>
                                 <p className="text-slate-500 dark:text-slate-400 mt-1">
                                     Hand-picked properties with verified ownership status.
@@ -254,7 +254,7 @@ export default function HomePage() {
                                         onClick={() => window.location.reload()}
                                         className="mt-4 px-4 py-2 bg-brand-ink text-on-brand rounded-lg hover:bg-brand-ink/90"
                                     >
-                                        Try Again
+                                        Try again
                                     </button>
                                 </div>
                             ) : featuredProperties.length === 0 ? (
@@ -357,10 +357,10 @@ export default function HomePage() {
                     <p>© {new Date().getFullYear()} Keystead. All rights reserved.</p>
                     <div className="flex gap-4 mt-2 md:mt-0">
                         <Link to="/privacy" className="hover:text-brand-ink transition-colors">
-                            Privacy Policy
+                            Privacy policy
                         </Link>
                         <Link to="/terms" className="hover:text-brand-ink transition-colors">
-                            Terms of Service
+                            Terms of service
                         </Link>
                         <Link to="/support" className="hover:text-brand-ink transition-colors">
                             Support

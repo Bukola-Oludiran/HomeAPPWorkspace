@@ -6,7 +6,7 @@ import { formatCurrency } from '@/lib/format';
 // Step components
 const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormData: React.Dispatch<React.SetStateAction<WizardFormData>> }) => {
     const amenities = [
-        { id: 'ac', icon: 'ac_unit', label: 'Air Conditioning' },
+        { id: 'ac', icon: 'ac_unit', label: 'Air conditioning' },
         { id: 'washer', icon: 'local_laundry_service', label: 'Washer/Dryer' },
         { id: 'parking', icon: 'directions_car', label: 'Parking' },
         { id: 'gym', icon: 'fitness_center', label: 'Gym' },
@@ -49,7 +49,7 @@ const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormD
             {/* Form Fields */}
             <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-8">
                 <div className="md:col-span-8">
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Listing Title</label>
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Listing title</label>
                     <input
                         className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white focus:border-brand focus:ring-brand h-12 px-4 shadow-sm"
                         placeholder="e.g. Spacious Downtown Loft with City Views"
@@ -59,7 +59,7 @@ const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormD
                     />
                 </div>
                 <div className="md:col-span-4">
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Property Type</label>
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Property type</label>
                     <select
                         className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white focus:border-brand focus:ring-brand h-12 px-4 shadow-sm"
                         value={formData.propertyType}
@@ -111,7 +111,7 @@ const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormD
                     </div>
                 </div>
                 <div className="md:col-span-3">
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Sq Ft</label>
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Sq ft</label>
                     <input
                         className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white focus:border-brand focus:ring-brand h-12 px-4 shadow-sm"
                         placeholder="0"
@@ -121,7 +121,7 @@ const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormD
                     />
                 </div>
                 <div className="md:col-span-3">
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Monthly Rent</label>
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Monthly rent</label>
                     <div className="relative">
                         <span className="absolute left-4 top-3.5 text-slate-500 dark:text-slate-400 font-bold">₦</span>
                         <input
@@ -180,7 +180,7 @@ const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormD
                         <div>
                             <h4 className="font-extrabold text-slate-900 dark:text-white text-lg flex flex-wrap items-center gap-2">
                                 Boost your listing
-                                <span className="px-2 py-0.5 rounded-md bg-gradient-to-r from-yellow-300 to-amber-400 text-white text-xs uppercase font-black tracking-wider shadow-sm">Gold Badge</span>
+                                <span className="px-2 py-0.5 rounded-md bg-gradient-to-r from-yellow-300 to-amber-400 text-white text-xs uppercase font-black tracking-wider shadow-sm">Gold badge</span>
                             </h4>
                             <p className="text-sm text-slate-600 dark:text-slate-300 mt-1">Upload your Certificate of Occupancy (C of O) now to get verified status immediately.</p>
                         </div>
@@ -246,7 +246,7 @@ const StepTwo = () => {
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                             {photo.isCover && (
-                                <span className="absolute top-3 left-3 bg-brand-ink text-on-brand text-xs uppercase font-bold px-2 py-1 rounded z-10">Cover Photo</span>
+                                <span className="absolute top-3 left-3 bg-brand-ink text-on-brand text-xs uppercase font-bold px-2 py-1 rounded z-10">Cover photo</span>
                             )}
                             <button className="absolute top-2 right-2 p-1.5 bg-white/90 dark:bg-slate-900/90 text-slate-500 dark:text-slate-400 hover:text-red-500 rounded-lg hover:bg-white dark:hover:bg-slate-800 transition-colors opacity-0 group-hover:opacity-100 shadow-sm z-10">
                                 <span className="material-symbols-outlined text-[18px]">delete</span>
@@ -300,8 +300,8 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
     const amenitiesWithDesc = [
         { id: 'electricity', label: '24/7 Electricity', desc: 'Reliable power supply' },
         { id: 'security', label: 'Security', desc: 'Gated security and CCTV' },
-        { id: 'pool', label: 'Swimming Pool', desc: 'Shared or private pool' },
-        { id: 'parking', label: 'Parking Space', desc: 'Designated parking areas' },
+        { id: 'pool', label: 'Swimming pool', desc: 'Shared or private pool' },
+        { id: 'parking', label: 'Parking space', desc: 'Designated parking areas' },
         { id: 'gym', label: 'Gym', desc: 'Fitness center access' },
         { id: 'internet', label: 'Internet', desc: 'Fiber optics or WiFi' },
     ];
@@ -313,7 +313,7 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
                 <div className="bg-white dark:bg-[#1e293b] rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8">
                     <div className="flex items-center gap-3 mb-6 border-b border-slate-100 dark:border-slate-700 pb-4">
                         <span className="material-symbols-outlined text-brand-ink text-2xl">payments</span>
-                        <h3 className="text-xl font-bold text-slate-900 dark:text-white">Pricing & Lease Terms</h3>
+                        <h3 className="text-xl font-bold text-slate-900 dark:text-white">Pricing & lease terms</h3>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div>
@@ -329,7 +329,7 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
                             </select>
                         </div>
                         <div>
-                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Rental Price</label>
+                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Rental price</label>
                             <div className="relative">
                                 <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-500 dark:text-slate-400 font-bold">₦</span>
                                 <input
@@ -343,7 +343,7 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
                         </div>
                     </div>
                     <div className="mb-6">
-                        <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Lease Duration</label>
+                        <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Lease duration</label>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                             {leaseDurations.map((duration) => (
                                 <label key={duration} className="cursor-pointer relative">
@@ -377,7 +377,7 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
                     <div className="flex items-center justify-between gap-3 mb-6 border-b border-slate-100 dark:border-slate-700 pb-4">
                         <div className="flex items-center gap-3">
                             <span className="material-symbols-outlined text-brand-ink text-2xl">info</span>
-                            <h3 className="text-xl font-bold text-slate-900 dark:text-white">Property Details</h3>
+                            <h3 className="text-xl font-bold text-slate-900 dark:text-white">Property details</h3>
                         </div>
                         <div className="bg-blue-50 dark:bg-blue-900/20 text-brand-ink text-xs font-bold px-2 py-1 rounded flex items-center gap-1">
                             <span className="material-symbols-outlined text-[14px]">forum</span>
@@ -461,14 +461,14 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Furnishing State</label>
+                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Furnishing state</label>
                             <select
                                 className="w-full bg-slate-50 dark:bg-canvas-dark border border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-2 focus:ring-brand/20 focus:border-brand text-slate-900 dark:text-white outline-none font-medium"
                                 value={formData.furnishing}
                                 onChange={(e) => setFormData({ ...formData, furnishing: e.target.value })}
                             >
                                 <option value="">Select option</option>
-                                <option value="furnished">Fully Furnished</option>
+                                <option value="furnished">Fully furnished</option>
                                 <option value="semi-furnished">Semi-Furnished</option>
                                 <option value="unfurnished">Unfurnished</option>
                             </select>
@@ -520,7 +520,7 @@ const StepFour = () => (
     <div className="bg-white dark:bg-[#1e293b] rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8">
         <div className="flex items-center gap-3 mb-6 border-b border-slate-100 dark:border-slate-700 pb-4">
             <span className="material-symbols-outlined text-brand-ink text-2xl">description</span>
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white">Property Description</h3>
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white">Property description</h3>
         </div>
         <div className="mb-6">
             <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Description</label>
@@ -544,7 +544,7 @@ const StepFour = () => (
                 />
             </div>
             <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Application Deadline</label>
+                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Application deadline</label>
                 <input
                     type="date"
                     className="w-full bg-slate-50 dark:bg-canvas-dark border border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-2 focus:ring-brand/20 focus:border-brand text-slate-900 dark:text-white outline-none font-medium"
@@ -701,11 +701,11 @@ export default function PropertyWizard() {
     }
 
     const stepTitles = [
-        { title: 'List Your Property', subtitle: "Let's start with the basics." },
-        { title: 'Upload Property Photos', subtitle: 'Showcase your property with high-quality images.' },
-        { title: 'Pricing & Details', subtitle: "Set your property's pricing structure and key features." },
-        { title: 'Property Description', subtitle: 'Add details to attract the right tenants.' },
-        { title: 'Review & Publish', subtitle: 'Review your listing before going live.' },
+        { title: 'List your property', subtitle: "Let's start with the basics." },
+        { title: 'Upload property photos', subtitle: 'Showcase your property with high-quality images.' },
+        { title: 'Pricing & details', subtitle: "Set your property's pricing structure and key features." },
+        { title: 'Property description', subtitle: 'Add details to attract the right tenants.' },
+        { title: 'Review & publish', subtitle: 'Review your listing before going live.' },
     ];
 
     const renderStep = () => {
@@ -763,7 +763,7 @@ export default function PropertyWizard() {
                             disabled={isSaving}
                             className="w-full md:w-auto px-6 py-3 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors disabled:opacity-50"
                         >
-                            {isSaving ? 'Saving...' : 'Save Draft'}
+                            {isSaving ? 'Saving...' : 'Save draft'}
                         </button>
                         {currentStep < totalSteps ? (
                             <button
@@ -778,7 +778,7 @@ export default function PropertyWizard() {
                                 disabled={isPublishing}
                                 className="w-full md:w-auto bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-bold text-sm shadow-lg shadow-green-600/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                             >
-                                <span className="material-symbols-outlined text-[18px]">publish</span> {isPublishing ? 'Publishing...' : 'Publish Listing'}
+                                <span className="material-symbols-outlined text-[18px]">publish</span> {isPublishing ? 'Publishing...' : 'Publish listing'}
                             </button>
                         )}
                     </div>

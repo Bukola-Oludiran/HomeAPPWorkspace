@@ -292,7 +292,7 @@ export default function AgentSchedule() {
     return (
         <PageContainer maxWidth="2xl">
             <PageHeader
-                title="My Schedule"
+                title="My schedule"
                 subtitle="Manage your upcoming jobs and appointments."
                 actions={
                     <>
@@ -331,7 +331,7 @@ export default function AgentSchedule() {
                             className="px-5 py-2.5 rounded-lg bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm transition-all flex items-center gap-2"
                         >
                             <span className="material-symbols-outlined text-[20px]">add</span>
-                            Add Personal Event
+                            Add personal event
                         </button>
                     </>
                 }
@@ -463,7 +463,7 @@ export default function AgentSchedule() {
                                         <span className="material-symbols-outlined">event</span>
                                     </div>
                                     <div>
-                                        <h4 className="text-sm font-bold text-slate-900 dark:text-white">Date & Time</h4>
+                                        <h4 className="text-sm font-bold text-slate-900 dark:text-white">Date & time</h4>
                                         <p className="text-sm text-slate-500 dark:text-slate-400">{selectedJob.date}</p>
                                         <p className="text-sm text-brand-ink font-semibold">{selectedJob.time}</p>
                                     </div>
@@ -503,7 +503,7 @@ export default function AgentSchedule() {
                                         <span className="material-symbols-outlined">payments</span>
                                     </div>
                                     <div>
-                                        <h4 className="text-sm font-bold text-slate-900 dark:text-white">Estimated Payout</h4>
+                                        <h4 className="text-sm font-bold text-slate-900 dark:text-white">Estimated payout</h4>
                                         <p className="text-lg font-extrabold text-green-600">{selectedJob.payout}</p>
                                     </div>
                                 </div>
@@ -513,7 +513,7 @@ export default function AgentSchedule() {
                         <div className="p-5 border-t border-slate-200 dark:border-slate-800 space-y-3 bg-slate-50 dark:bg-[#151f2a]">
                             <button className="w-full bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold py-3 rounded-xl transition-all text-sm flex items-center justify-center gap-2">
                                 <span className="material-symbols-outlined">play_arrow</span>
-                                Start Job
+                                Start job
                             </button>
                             <div>
                                 <button
@@ -529,14 +529,14 @@ export default function AgentSchedule() {
                                 className="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-2.5 rounded-lg transition-all text-xs flex items-center justify-center gap-2"
                             >
                                 <span className="material-symbols-outlined text-[18px]">event_available</span>
-                                Add Availability
+                                Add availability
                             </button>
                         </div>
                     </div>
 
                     {/* Upcoming Jobs */}
                     <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-5 flex-1 overflow-hidden flex flex-col">
-                        <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-4">Upcoming Next</h3>
+                        <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-4">Upcoming next</h3>
                         <div className="flex-1 overflow-y-auto space-y-3">
                             {upcomingJobs.length === 0 && !isLoading ? (
                                 <div className="flex flex-col items-center justify-center py-8 text-center">

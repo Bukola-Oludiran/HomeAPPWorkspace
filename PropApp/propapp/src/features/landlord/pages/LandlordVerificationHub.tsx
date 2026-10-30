@@ -57,7 +57,7 @@ export default function LandlordVerificationHub() {
                 const steps: VerificationStep[] = [
                     {
                         id: 1,
-                        title: 'Identity Verification',
+                        title: 'Identity verification',
                         level: 'Account Level',
                         status: vs.identityVerified ? 'completed' : 'pending',
                         description: vs.identityVerified ? 'Identity verified' : 'Please complete identity verification',
@@ -65,7 +65,7 @@ export default function LandlordVerificationHub() {
                     },
                     {
                         id: 2,
-                        title: 'Landlord Address Proof',
+                        title: 'Landlord address proof',
                         level: 'Account Level',
                         status: vs.addressVerified ? 'completed' : (vs.identityVerified ? 'pending' : 'locked'),
                         description: vs.addressVerified ? 'Address verified' : 'Upload a utility bill or official document',
@@ -83,7 +83,7 @@ export default function LandlordVerificationHub() {
                     },
                     {
                         id: 4,
-                        title: 'Physical Property Audit',
+                        title: 'Physical property audit',
                         level: 'Property Level',
                         status: 'locked',
                         description: 'Unlocks after C of O verification is approved for this unit',
@@ -127,10 +127,10 @@ export default function LandlordVerificationHub() {
                 console.error('Failed to load verification data:', err);
                 // Set default steps on error
                 setVerificationSteps([
-                    { id: 1, title: 'Identity Verification', level: 'Account Level', status: 'pending', description: 'Please complete identity verification', icon: 'verified_user' },
-                    { id: 2, title: 'Landlord Address Proof', level: 'Account Level', status: 'locked', description: 'Upload a utility bill or official document', icon: 'home' },
+                    { id: 1, title: 'Identity verification', level: 'Account Level', status: 'pending', description: 'Please complete identity verification', icon: 'verified_user' },
+                    { id: 2, title: 'Landlord address proof', level: 'Account Level', status: 'locked', description: 'Upload a utility bill or official document', icon: 'home' },
                     { id: 3, title: 'Certificate of Occupancy (C of O)', level: 'Property Level', status: 'locked', description: 'Unlocks after address verification', icon: 'description' },
-                    { id: 4, title: 'Physical Property Audit', level: 'Property Level', status: 'locked', description: 'Unlocks after C of O verification', icon: 'search' },
+                    { id: 4, title: 'Physical property audit', level: 'Property Level', status: 'locked', description: 'Unlocks after C of O verification', icon: 'search' },
                 ]);
             } finally {
                 setLoading(false);
@@ -200,10 +200,10 @@ export default function LandlordVerificationHub() {
     const nextTier = tierIndex < tierOrder.length - 1 ? tierOrder[tierIndex + 1] : null;
 
     const tierConfig: Record<string, { label: string; icon: string; bgClass: string; iconBg: string; textColor: string; iconColor: string; checkColor: string }> = {
-        BRONZE: { label: 'Bronze Property', icon: 'workspace_premium', bgClass: 'bg-orange-50 border-orange-100 dark:bg-orange-900/20 dark:border-orange-900/30', iconBg: 'bg-white dark:bg-orange-900/40 border-orange-100 dark:border-orange-800/50', textColor: 'text-orange-600 dark:text-orange-400', iconColor: 'text-orange-600 dark:text-orange-400', checkColor: 'text-orange-300 dark:text-orange-800' },
-        SILVER: { label: 'Silver Property', icon: 'military_tech', bgClass: 'bg-slate-50 border-slate-200 dark:bg-slate-800/40 dark:border-slate-700', iconBg: 'bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600', textColor: 'text-slate-500 dark:text-slate-400', iconColor: 'text-slate-500 dark:text-slate-400', checkColor: 'text-slate-300 dark:text-slate-600' },
-        GOLD: { label: 'Gold Property', icon: 'emoji_events', bgClass: 'bg-yellow-50 border-yellow-100 dark:bg-yellow-900/20 dark:border-yellow-900/30', iconBg: 'bg-white dark:bg-yellow-900/40 border-yellow-100 dark:border-yellow-800/50', textColor: 'text-yellow-600 dark:text-yellow-500', iconColor: 'text-yellow-600 dark:text-yellow-500', checkColor: 'text-yellow-300 dark:text-yellow-800' },
-        PLATINUM: { label: 'Platinum Property', icon: 'diamond', bgClass: 'bg-indigo-50 border-indigo-100 dark:bg-indigo-900/20 dark:border-indigo-900/30', iconBg: 'bg-white dark:bg-indigo-900/40 border-indigo-100 dark:border-indigo-800/50', textColor: 'text-indigo-600 dark:text-indigo-400', iconColor: 'text-indigo-600 dark:text-indigo-400', checkColor: 'text-indigo-300 dark:text-indigo-800' },
+        BRONZE: { label: 'Bronze property', icon: 'workspace_premium', bgClass: 'bg-orange-50 border-orange-100 dark:bg-orange-900/20 dark:border-orange-900/30', iconBg: 'bg-white dark:bg-orange-900/40 border-orange-100 dark:border-orange-800/50', textColor: 'text-orange-600 dark:text-orange-400', iconColor: 'text-orange-600 dark:text-orange-400', checkColor: 'text-orange-300 dark:text-orange-800' },
+        SILVER: { label: 'Silver property', icon: 'military_tech', bgClass: 'bg-slate-50 border-slate-200 dark:bg-slate-800/40 dark:border-slate-700', iconBg: 'bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600', textColor: 'text-slate-500 dark:text-slate-400', iconColor: 'text-slate-500 dark:text-slate-400', checkColor: 'text-slate-300 dark:text-slate-600' },
+        GOLD: { label: 'Gold property', icon: 'emoji_events', bgClass: 'bg-yellow-50 border-yellow-100 dark:bg-yellow-900/20 dark:border-yellow-900/30', iconBg: 'bg-white dark:bg-yellow-900/40 border-yellow-100 dark:border-yellow-800/50', textColor: 'text-yellow-600 dark:text-yellow-500', iconColor: 'text-yellow-600 dark:text-yellow-500', checkColor: 'text-yellow-300 dark:text-yellow-800' },
+        PLATINUM: { label: 'Platinum property', icon: 'diamond', bgClass: 'bg-indigo-50 border-indigo-100 dark:bg-indigo-900/20 dark:border-indigo-900/30', iconBg: 'bg-white dark:bg-indigo-900/40 border-indigo-100 dark:border-indigo-800/50', textColor: 'text-indigo-600 dark:text-indigo-400', iconColor: 'text-indigo-600 dark:text-indigo-400', checkColor: 'text-indigo-300 dark:text-indigo-800' },
     };
     const currentTierConfig = tierConfig[currentTier.toUpperCase()] || tierConfig.BRONZE;
     const nextTierConfig = nextTier ? tierConfig[nextTier] : null;
@@ -231,7 +231,7 @@ export default function LandlordVerificationHub() {
                             </span>
                         </div>
                         <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                            Verification Hub
+                            Verification hub
                         </h1>
                         <p className="text-slate-800 dark:text-slate-400 mt-2 text-lg">
                             Manage compliance documents for your properties to unlock tiers.
@@ -240,7 +240,7 @@ export default function LandlordVerificationHub() {
                     <div className="flex gap-3">
                         <button className="px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold text-sm bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 transition-colors flex items-center gap-2">
                             <span className="material-symbols-outlined text-[20px]">help</span>
-                            Help Center
+                            Help center
                         </button>
                     </div>
                 </div>
@@ -272,7 +272,7 @@ export default function LandlordVerificationHub() {
 
                         {/* Status Card */}
                         <div className="bg-white dark:bg-canvas-dark rounded-2xl p-8 border border-slate-200 dark:border-slate-800 flex flex-col items-center text-center relative overflow-hidden">
-                            <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Property Status</h2>
+                            <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Property status</h2>
 
                             {/* Progress Circle */}
                             <div className="relative size-48 mb-8">
@@ -312,7 +312,7 @@ export default function LandlordVerificationHub() {
                                             <span className="material-symbols-outlined text-[20px]">{currentTierConfig.icon}</span>
                                         </div>
                                         <div className="text-left">
-                                            <p className={`text-xs ${currentTierConfig.textColor} font-bold uppercase tracking-wider mb-0.5`}>Current Tier</p>
+                                            <p className={`text-xs ${currentTierConfig.textColor} font-bold uppercase tracking-wider mb-0.5`}>Current tier</p>
                                             <p className="font-bold text-slate-900 dark:text-white text-sm">{currentTierConfig.label}</p>
                                         </div>
                                     </div>
@@ -325,7 +325,7 @@ export default function LandlordVerificationHub() {
                                             <span className="material-symbols-outlined text-[20px]">{nextTierConfig.icon}</span>
                                         </div>
                                         <div className="text-left">
-                                            <p className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider mb-0.5">Next Tier</p>
+                                            <p className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider mb-0.5">Next tier</p>
                                             <p className="font-bold text-slate-900 dark:text-white text-sm">{nextTierConfig.label}</p>
                                         </div>
                                     </div>
@@ -338,8 +338,8 @@ export default function LandlordVerificationHub() {
                                             <span className="material-symbols-outlined text-[20px]">verified</span>
                                         </div>
                                         <div className="text-left">
-                                            <p className={`text-xs ${currentTierConfig.textColor} font-bold uppercase tracking-wider mb-0.5`}>Max Tier</p>
-                                            <p className="font-bold text-slate-900 dark:text-white text-sm">Fully Verified</p>
+                                            <p className={`text-xs ${currentTierConfig.textColor} font-bold uppercase tracking-wider mb-0.5`}>Max tier</p>
+                                            <p className="font-bold text-slate-900 dark:text-white text-sm">Fully verified</p>
                                         </div>
                                     </div>
                                     <span className={`material-symbols-outlined ${currentTierConfig.checkColor}`}>check_circle</span>
@@ -367,7 +367,7 @@ export default function LandlordVerificationHub() {
                             {/* Header */}
                             <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/30">
                                 <div>
-                                    <h2 className="text-lg font-bold text-slate-900 dark:text-white">Verification Steps</h2>
+                                    <h2 className="text-lg font-bold text-slate-900 dark:text-white">Verification steps</h2>
                                     <p className="text-sm text-slate-500 dark:text-slate-400">
                                         Requirements for <span className="font-bold text-slate-700 dark:text-slate-200">{selectedProperty.name}</span>.
                                     </p>
@@ -432,7 +432,7 @@ export default function LandlordVerificationHub() {
                                                         Ensure the address matches: <strong className="text-slate-700 dark:text-slate-300">{selectedProperty.address}</strong>
                                                     </p>
                                                     <button className="px-5 py-2.5 bg-brand-ink hover:bg-brand-ink/90 text-on-brand text-sm font-bold rounded-lg transition-all active:scale-95">
-                                                        Select Document
+                                                        Select document
                                                     </button>
                                                 </div>
                                                 <div className="mt-4 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">

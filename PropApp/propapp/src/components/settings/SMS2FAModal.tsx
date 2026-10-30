@@ -69,7 +69,7 @@ export default function SMS2FAModal({ isOpen, onClose, onSuccess }: SMS2FAModalP
 
                         {/* Phone Input */}
                         <div className="space-y-3">
-                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">Mobile Phone Number</label>
+                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">Mobile phone number</label>
                             <div className="flex gap-3">
                                 <div className="relative w-32 flex-shrink-0">
                                     <select

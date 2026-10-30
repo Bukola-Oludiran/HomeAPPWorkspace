@@ -95,7 +95,7 @@ export default function LandlordPublicProfile() {
                 <div className="text-center">
                     <span className="material-symbols-outlined text-4xl text-slate-500 dark:text-slate-400 mb-4">error_outline</span>
                     <p className="text-slate-600 dark:text-slate-400">{error || 'Profile not found'}</p>
-                    <Link to="/" className="text-brand-ink font-semibold mt-4 inline-block hover:underline">Go Home</Link>
+                    <Link to="/" className="text-brand-ink font-semibold mt-4 inline-block hover:underline">Go home</Link>
                 </div>
             </div>
         );
@@ -112,7 +112,7 @@ export default function LandlordPublicProfile() {
                 </div>
                 <div className="flex flex-1 justify-end gap-8">
                     <div className="hidden md:flex items-center gap-9">
-                        <Link to="/search" className="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-brand-ink transition-colors">Find a Home</Link>
+                        <Link to="/search" className="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-brand-ink transition-colors">Find a home</Link>
                     </div>
                 </div>
             </header>
@@ -125,7 +125,7 @@ export default function LandlordPublicProfile() {
                         <span className="material-symbols-outlined text-[14px]">chevron_right</span>
                         <span className="text-slate-900 dark:text-white font-medium">Profile</span>
                     </div>
-                    <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-8">Landlord Profile</h1>
+                    <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-8">Landlord profile</h1>
 
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                         {/* Left Column */}
@@ -140,7 +140,7 @@ export default function LandlordPublicProfile() {
                                 <div className="flex items-center gap-2 justify-center">
                                     <h2 className="text-xl font-bold text-slate-900 dark:text-white">{landlord.name}</h2>
                                     {landlord.verified && (
-                                        <span className="material-symbols-outlined icon-filled text-brand-ink text-xl" title="Identity Verified">verified</span>
+                                        <span className="material-symbols-outlined icon-filled text-brand-ink text-xl" title="Identity verified">verified</span>
                                     )}
                                 </div>
                                 <p className="text-sm text-slate-500 dark:text-slate-400">Landlord since {landlord.memberSince}</p>
@@ -165,8 +165,8 @@ export default function LandlordPublicProfile() {
                             {/* Verification Status */}
                             <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-100 dark:border-slate-800">
                                 <div className="flex items-center justify-between mb-4">
-                                    <h3 className="font-bold text-slate-900 dark:text-white">Verification Status</h3>
-                                    <span className="text-xs font-medium text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 px-2 py-1 rounded-full">Good Standing</span>
+                                    <h3 className="font-bold text-slate-900 dark:text-white">Verification status</h3>
+                                    <span className="text-xs font-medium text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 px-2 py-1 rounded-full">Good standing</span>
                                 </div>
                                 <div className="space-y-3">
                                     {landlord.verificationItems.map((item, index) => (
@@ -192,24 +192,24 @@ export default function LandlordPublicProfile() {
 
                             {/* Contact Info */}
                             <div className="bg-white dark:bg-canvas-dark p-6 md:p-8 rounded-2xl border border-slate-100 dark:border-slate-800">
-                                <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Contact Information</h2>
+                                <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Contact information</h2>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-1">
-                                        <p className="text-xs uppercase tracking-wide font-semibold text-slate-500 dark:text-slate-400">Email Address</p>
+                                        <p className="text-xs uppercase tracking-wide font-semibold text-slate-500 dark:text-slate-400">Email address</p>
                                         <div className="flex items-center gap-2 text-slate-900 dark:text-white font-medium">
                                             <span className="material-symbols-outlined text-[18px] text-brand-ink">mail</span>
                                             {landlord.email}
                                         </div>
                                     </div>
                                     <div className="space-y-1">
-                                        <p className="text-xs uppercase tracking-wide font-semibold text-slate-500 dark:text-slate-400">Phone Number</p>
+                                        <p className="text-xs uppercase tracking-wide font-semibold text-slate-500 dark:text-slate-400">Phone number</p>
                                         <div className="flex items-center gap-2 text-slate-900 dark:text-white font-medium">
                                             <span className="material-symbols-outlined text-[18px] text-brand-ink">call</span>
                                             {landlord.phone}
                                         </div>
                                     </div>
                                     <div className="space-y-1">
-                                        <p className="text-xs uppercase tracking-wide font-semibold text-slate-500 dark:text-slate-400">Office Location</p>
+                                        <p className="text-xs uppercase tracking-wide font-semibold text-slate-500 dark:text-slate-400">Office location</p>
                                         <div className="flex items-center gap-2 text-slate-900 dark:text-white font-medium">
                                             <span className="material-symbols-outlined text-[18px] text-brand-ink">location_on</span>
                                             {landlord.location}
@@ -228,8 +228,8 @@ export default function LandlordPublicProfile() {
                             {/* Active Listings */}
                             <div className="bg-white dark:bg-canvas-dark p-6 md:p-8 rounded-2xl border border-slate-100 dark:border-slate-800">
                                 <div className="flex items-center justify-between mb-6">
-                                    <h2 className="text-xl font-bold text-slate-900 dark:text-white">Active Listings</h2>
-                                    <Link to="/search" className="text-sm font-semibold text-brand-ink hover:underline">View All Properties</Link>
+                                    <h2 className="text-xl font-bold text-slate-900 dark:text-white">Active listings</h2>
+                                    <Link to="/search" className="text-sm font-semibold text-brand-ink hover:underline">View all properties</Link>
                                 </div>
                                 <div className="space-y-4">
                                     {landlord.listings.map((listing) => (
@@ -256,7 +256,7 @@ export default function LandlordPublicProfile() {
                             {/* Reviews */}
                             <div className="bg-white dark:bg-canvas-dark p-6 md:p-8 rounded-2xl border border-slate-100 dark:border-slate-800">
                                 <div className="flex items-center justify-between mb-6">
-                                    <h2 className="text-xl font-bold text-slate-900 dark:text-white">Reviews & Ratings</h2>
+                                    <h2 className="text-xl font-bold text-slate-900 dark:text-white">Reviews & ratings</h2>
                                     <span className="text-sm text-slate-500 dark:text-slate-400">{landlord.reviews.total} Total Reviews</span>
                                 </div>
                                 <div className="flex flex-col md:flex-row gap-8 items-center pb-6">
@@ -268,7 +268,7 @@ export default function LandlordPublicProfile() {
                                             ))}
                                             <span className="material-symbols-outlined icon-filled text-slate-300 dark:text-slate-700">star_half</span>
                                         </div>
-                                        <p className="text-xs text-slate-500 dark:text-slate-400">Overall Rating</p>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400">Overall rating</p>
                                     </div>
                                     <div className="flex-1 w-full space-y-2">
                                         {landlord.reviews.breakdown.map((item) => (
@@ -288,7 +288,7 @@ export default function LandlordPublicProfile() {
                                     </div>
                                     <button className="w-full md:w-auto px-8 py-3.5 rounded-xl bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm transition-all flex items-center justify-center gap-2 transform active:scale-95">
                                         <span className="material-symbols-outlined text-[20px]">chat</span>
-                                        Contact Landlord
+                                        Contact landlord
                                     </button>
                                 </div>
                             </div>

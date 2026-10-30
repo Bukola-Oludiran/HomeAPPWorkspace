@@ -18,7 +18,7 @@ const propertyTypeMap: Record<string, PropertyType> = {
 
 // Map backend ListingType to UI display
 const listingTypeDisplay: Record<ListingType, { label: string; color: string }> = {
-    'SALE': { label: 'For Sale', color: 'bg-green-100 text-green-700' },
+    'SALE': { label: 'For sale', color: 'bg-green-100 text-green-700' },
     'RENT': { label: 'Rent', color: 'bg-blue-100 text-blue-700' },
     'SHORT_LET': { label: 'Short-let', color: 'bg-purple-100 text-purple-700' },
 };
@@ -97,9 +97,9 @@ const amenitiesList = [
     { id: 'pool', label: 'Pool', icon: 'pool' },
     { id: 'gym', label: 'Gym/Fitness', icon: 'fitness_center' },
     { id: 'parking', label: 'Parking', icon: 'local_parking' },
-    { id: 'ac', label: 'Air Conditioning', icon: 'ac_unit' },
+    { id: 'ac', label: 'Air conditioning', icon: 'ac_unit' },
     { id: 'laundry', label: 'In-unit Laundry', icon: 'local_laundry_service' },
-    { id: 'pets', label: 'Pet Friendly', icon: 'pets' },
+    { id: 'pets', label: 'Pet friendly', icon: 'pets' },
     { id: 'balcony', label: 'Balcony', icon: 'balcony' },
     { id: 'security', label: '24/7 Security', icon: 'security' },
 ];
@@ -351,7 +351,7 @@ export default function SearchPage() {
                                     >
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">dashboard</span>
-                                            Landlord Dashboard
+                                            Landlord dashboard
                                         </div>
                                     </Link>
                                     <Link
@@ -360,7 +360,7 @@ export default function SearchPage() {
                                     >
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">vpn_key</span>
-                                            Tenant Dashboard
+                                            Tenant dashboard
                                         </div>
                                     </Link>
                                     <Link
@@ -369,7 +369,7 @@ export default function SearchPage() {
                                     >
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">support_agent</span>
-                                            Agent Dashboard
+                                            Agent dashboard
                                         </div>
                                     </Link>
                                     <hr className="my-1 border-slate-200 dark:border-slate-700" />
@@ -379,13 +379,13 @@ export default function SearchPage() {
                                     >
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">settings</span>
-                                            Account Settings
+                                            Account settings
                                         </div>
                                     </Link>
                                     <button className="w-full text-left block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand-ink">
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">logout</span>
-                                            Sign Out
+                                            Sign out
                                         </div>
                                     </button>
                                 </div>
@@ -415,10 +415,10 @@ export default function SearchPage() {
                             </button>
                             {showPriceDropdown && (
                                 <div className="absolute top-full left-0 mt-2 w-72 bg-white dark:bg-surface-dark rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 p-5 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                                    <h4 className="font-bold text-slate-900 dark:text-white mb-4">Price Range</h4>
+                                    <h4 className="font-bold text-slate-900 dark:text-white mb-4">Price range</h4>
                                     <div className="flex gap-3 mb-4">
                                         <div className="flex-1">
-                                            <label className="text-xs text-slate-500 dark:text-slate-400 mb-1 block">Min Price</label>
+                                            <label className="text-xs text-slate-500 dark:text-slate-400 mb-1 block">Min price</label>
                                             <div className="relative">
                                                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400">₦</span>
                                                 <input
@@ -432,7 +432,7 @@ export default function SearchPage() {
                                         </div>
                                         <div className="flex items-end pb-2.5 text-slate-500 dark:text-slate-400">—</div>
                                         <div className="flex-1">
-                                            <label className="text-xs text-slate-500 dark:text-slate-400 mb-1 block">Max Price</label>
+                                            <label className="text-xs text-slate-500 dark:text-slate-400 mb-1 block">Max price</label>
                                             <div className="relative">
                                                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400">₦</span>
                                                 <input
@@ -493,7 +493,7 @@ export default function SearchPage() {
                             </button>
                             {showTypeDropdown && (
                                 <div className="absolute top-full left-0 mt-2 w-56 bg-white dark:bg-surface-dark rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 p-4 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                                    <h4 className="font-bold text-slate-900 dark:text-white mb-3">Property Type</h4>
+                                    <h4 className="font-bold text-slate-900 dark:text-white mb-3">Property type</h4>
                                     <div className="space-y-2 max-h-60 overflow-y-auto">
                                         {propertyTypes.map((type) => (
                                             <label
@@ -617,7 +617,7 @@ export default function SearchPage() {
                             <span className={`material-symbols-outlined text-[18px] ${verifiedOnly ? 'icon-filled' : ''}`}>
                                 verified
                             </span>
-                            Verified Only
+                            Verified only
                         </button>
 
                         {/* More Filters */}
@@ -630,7 +630,7 @@ export default function SearchPage() {
                                     }`}
                             >
                                 <span className="material-symbols-outlined text-[18px]">tune</span>
-                                More Filters
+                                More filters
                                 {getActiveFilterCount() > 0 && (
                                     <span className="size-5 bg-brand-ink text-on-brand text-xs font-bold rounded-full flex items-center justify-center">
                                         {getActiveFilterCount()}
@@ -640,12 +640,12 @@ export default function SearchPage() {
                             {showMoreFilters && (
                                 <div className="absolute top-full right-0 mt-2 w-[360px] bg-white dark:bg-surface-dark rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 p-5 z-50 animate-in fade-in slide-in-from-top-2 duration-200 max-h-[70vh] overflow-y-auto">
                                     <div className="flex items-center justify-between mb-4">
-                                        <h4 className="text-lg font-bold text-slate-900 dark:text-white">More Filters</h4>
+                                        <h4 className="text-lg font-bold text-slate-900 dark:text-white">More filters</h4>
                                         <button
                                             onClick={clearAllFilters}
                                             className="text-sm font-semibold text-brand-ink hover:underline"
                                         >
-                                            Clear All
+                                            Clear all
                                         </button>
                                     </div>
 
@@ -653,7 +653,7 @@ export default function SearchPage() {
                                     <div className="mb-6">
                                         <h5 className="font-semibold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
                                             <span className="material-symbols-outlined text-[18px] text-slate-500 dark:text-slate-400">square_foot</span>
-                                            Square Footage
+                                            Square footage
                                         </h5>
                                         <div className="flex gap-3">
                                             <div className="flex-1">
@@ -682,7 +682,7 @@ export default function SearchPage() {
                                     <div className="mb-6">
                                         <h5 className="font-semibold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
                                             <span className="material-symbols-outlined text-[18px] text-slate-500 dark:text-slate-400">calendar_month</span>
-                                            Year Built
+                                            Year built
                                         </h5>
                                         <div className="flex gap-3">
                                             <div className="flex-1">
@@ -741,7 +741,7 @@ export default function SearchPage() {
                                             onClick={() => setShowMoreFilters(false)}
                                             className="flex-1 py-2.5 bg-brand-ink text-on-brand text-sm font-bold rounded-lg hover:bg-brand-ink/90 transition-colors"
                                         >
-                                            Show Results
+                                            Show results
                                         </button>
                                     </div>
                                 </div>
@@ -818,7 +818,7 @@ export default function SearchPage() {
                                     onClick={() => fetchProperties(1)}
                                     className="px-6 py-2 bg-brand-ink text-on-brand rounded-lg font-semibold hover:bg-brand-ink/90"
                                 >
-                                    Try Again
+                                    Try again
                                 </button>
                             </div>
                         )}
@@ -965,7 +965,7 @@ export default function SearchPage() {
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 text-center">
                         <div className="bg-white dark:bg-surface-dark rounded-2xl shadow-2xl p-8 border border-slate-200 dark:border-slate-700">
                             <span className="material-symbols-outlined text-6xl text-brand-ink mb-4">map</span>
-                            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Map View Coming Soon</h3>
+                            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Map view coming soon</h3>
                             <p className="text-slate-500 dark:text-slate-400 mb-4">
                                 {properties.length} properties available in this area
                             </p>
@@ -973,7 +973,7 @@ export default function SearchPage() {
                                 onClick={() => setViewMode('grid')}
                                 className="px-6 py-2 bg-brand-ink text-on-brand rounded-lg font-semibold hover:bg-brand-ink/90 transition-colors"
                             >
-                                View in Grid
+                                View in grid
                             </button>
                         </div>
                     </div>

@@ -42,7 +42,7 @@ export default function DraftRenewalOfferModal({
                             {/* Header */}
                             <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 dark:border-slate-700">
                                 <div>
-                                    <h3 className="text-xl font-bold leading-6 text-slate-900 dark:text-white" id="modal-title">Draft Renewal Offer</h3>
+                                    <h3 className="text-xl font-bold leading-6 text-slate-900 dark:text-white" id="modal-title">Draft renewal offer</h3>
                                     <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">For Lease {leaseId} <span className="mx-1.5 text-slate-300 dark:text-slate-600">•</span> {propertyAddress}</p>
                                 </div>
                                 <button
@@ -64,7 +64,7 @@ export default function DraftRenewalOfferModal({
                                             <span className="material-symbols-outlined text-[18px]">history</span>
                                         </div>
                                         <div>
-                                            <p className="text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">Current Rent</p>
+                                            <p className="text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">Current rent</p>
                                             <p className="font-bold text-slate-900 dark:text-white">{currentRent}/mo</p>
                                         </div>
                                     </div>
@@ -85,7 +85,7 @@ export default function DraftRenewalOfferModal({
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
                                         <label className="block text-sm font-bold text-slate-900 dark:text-white" htmlFor="rent">
-                                            New Monthly Rent
+                                            New monthly rent
                                         </label>
                                         <div className="relative">
                                             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
@@ -111,7 +111,7 @@ export default function DraftRenewalOfferModal({
                                     </div>
                                     <div className="space-y-2">
                                         <label className="block text-sm font-bold text-slate-900 dark:text-white" htmlFor="date">
-                                            New Lease Start Date
+                                            New lease start date
                                         </label>
                                         <div className="relative">
                                             <input
@@ -128,7 +128,7 @@ export default function DraftRenewalOfferModal({
 
                                 {/* Lease Duration */}
                                 <div className="space-y-3">
-                                    <label className="block text-sm font-bold text-slate-900 dark:text-white">New Lease Duration</label>
+                                    <label className="block text-sm font-bold text-slate-900 dark:text-white">New lease duration</label>
                                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                         <label className={`cursor-pointer group relative flex flex-col items-start p-4 rounded-xl border-2 transition-all ${duration === '12' ? 'border-brand bg-brand/5 dark:bg-brand/10' : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-600'}`}>
                                             <input className="sr-only" name="duration" type="radio" value="12" checked={duration === '12'} onChange={() => setDuration('12')} />
@@ -136,7 +136,7 @@ export default function DraftRenewalOfferModal({
                                                 <span className={`font-bold text-sm ${duration === '12' ? 'text-brand-ink' : 'text-slate-700 dark:text-slate-200'}`}>12 Months</span>
                                                 <span className={`size-4 rounded-full border ${duration === '12' ? 'border-[5px] border-brand bg-white dark:bg-slate-900' : 'border border-slate-300 dark:border-slate-600 bg-transparent'}`}></span>
                                             </div>
-                                            <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Standard Term</span>
+                                            <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Standard term</span>
                                         </label>
                                         <label className={`cursor-pointer group relative flex flex-col items-start p-4 rounded-xl border-2 transition-all ${duration === '6' ? 'border-brand bg-brand/5 dark:bg-brand/10' : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-600'}`}>
                                             <input className="sr-only" name="duration" type="radio" value="6" checked={duration === '6'} onChange={() => setDuration('6')} />
@@ -144,7 +144,7 @@ export default function DraftRenewalOfferModal({
                                                 <span className={`font-bold text-sm ${duration === '6' ? 'text-brand-ink' : 'text-slate-700 dark:text-slate-200'}`}>6 Months</span>
                                                 <span className={`size-4 rounded-full border ${duration === '6' ? 'border-[5px] border-brand bg-white dark:bg-slate-900' : 'border border-slate-300 dark:border-slate-600 bg-transparent'}`}></span>
                                             </div>
-                                            <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Short Term</span>
+                                            <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Short term</span>
                                         </label>
                                         <label className={`cursor-pointer group relative flex flex-col items-start p-4 rounded-xl border-2 transition-all ${duration === 'mtm' ? 'border-brand bg-brand/5 dark:bg-brand/10' : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-600'}`}>
                                             <input className="sr-only" name="duration" type="radio" value="mtm" checked={duration === 'mtm'} onChange={() => setDuration('mtm')} />
@@ -184,7 +184,7 @@ export default function DraftRenewalOfferModal({
                             <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-4 px-6 py-5 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-700 rounded-b-2xl">
                                 <button className="group flex items-center gap-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-brand-ink dark:hover:text-brand-ink transition-colors" type="button">
                                     <span className="material-symbols-outlined text-[20px] text-slate-500 dark:text-slate-400 group-hover:text-brand-ink transition-colors">visibility</span>
-                                    Preview Document
+                                    Preview document
                                 </button>
                                 <div className="flex items-center gap-3 w-full sm:w-auto">
                                     <button
@@ -200,7 +200,7 @@ export default function DraftRenewalOfferModal({
                                         onClick={handleSubmit}
                                     >
                                         <span className="material-symbols-outlined text-[18px]">send</span>
-                                        Send Offer
+                                        Send offer
                                     </button>
                                 </div>
                             </div>

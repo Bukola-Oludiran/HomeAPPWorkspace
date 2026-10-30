@@ -284,26 +284,26 @@ export default function AIChatPage() {
                                     <Link to="/landlord/dashboard" className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand-ink">
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">dashboard</span>
-                                            Landlord Dashboard
+                                            Landlord dashboard
                                         </div>
                                     </Link>
                                     <Link to="/tenant/dashboard" className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand-ink">
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">vpn_key</span>
-                                            Tenant Dashboard
+                                            Tenant dashboard
                                         </div>
                                     </Link>
                                     <Link to="/agent/jobs" className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand-ink">
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">support_agent</span>
-                                            Agent Dashboard
+                                            Agent dashboard
                                         </div>
                                     </Link>
                                     <hr className="my-1 border-slate-200 dark:border-slate-700" />
                                     <Link to="/settings" className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand-ink">
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">settings</span>
-                                            Account Settings
+                                            Account settings
                                         </div>
                                     </Link>
                                 </div>
@@ -319,7 +319,7 @@ export default function AIChatPage() {
                     {showSidebar && (
                         <aside className="hidden md:flex w-80 flex-col bg-white dark:bg-surface-dark rounded-3xl shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden shrink-0 animate-fade-in-up">
                             <div className="px-5 py-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between shrink-0 bg-white dark:bg-surface-dark z-10">
-                                <h2 className="font-bold text-slate-900 dark:text-white text-lg">Chat History</h2>
+                                <h2 className="font-bold text-slate-900 dark:text-white text-lg">Chat history</h2>
                                 <div className="flex items-center gap-1">
                                     <button
                                         onClick={handleNewChat}
@@ -331,7 +331,7 @@ export default function AIChatPage() {
                                     <button
                                         onClick={() => setShowSidebar(false)}
                                         className="size-8 flex items-center justify-center rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
-                                        title="Close Sidebar"
+                                        title="Close sidebar"
                                     >
                                         <span className="material-symbols-outlined text-xl">close</span>
                                     </button>
@@ -423,7 +423,7 @@ export default function AIChatPage() {
                                     ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white'
                                     : 'bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white shadow-sm border border-slate-200 dark:border-slate-700'
                             }`}
-                            title="Toggle Sidebar"
+                            title="Toggle sidebar"
                         >
                             <span className="material-symbols-outlined">menu</span>
                         </button>

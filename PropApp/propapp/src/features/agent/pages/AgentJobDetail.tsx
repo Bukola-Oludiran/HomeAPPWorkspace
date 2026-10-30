@@ -9,7 +9,7 @@ import { formatCurrency } from '@/lib/format';
 function getStatusStyles(status: string) {
     switch (status) {
         case 'Accepted':
-            return { bg: 'bg-amber-100 dark:bg-amber-900/30', color: 'text-amber-700 dark:text-amber-500', border: 'border-amber-200 dark:border-amber-800', label: 'In Progress', icon: 'sync', animate: true };
+            return { bg: 'bg-amber-100 dark:bg-amber-900/30', color: 'text-amber-700 dark:text-amber-500', border: 'border-amber-200 dark:border-amber-800', label: 'In progress', icon: 'sync', animate: true };
         case 'Completed':
             return { bg: 'bg-green-100 dark:bg-green-900/30', color: 'text-green-700 dark:text-green-500', border: 'border-green-200 dark:border-green-800', label: 'Completed', icon: 'check_circle', animate: false };
         case 'Cancelled':
@@ -96,7 +96,7 @@ export default function AgentJobDetail() {
                 <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
                     <span className="material-symbols-outlined text-5xl text-slate-300">error</span>
                     <p className="text-slate-500 dark:text-slate-400 font-medium">{error || 'Job not found'}</p>
-                    <Link to="/agent/my-jobs" className="text-brand-ink font-bold hover:underline">Back to My Jobs</Link>
+                    <Link to="/agent/my-jobs" className="text-brand-ink font-bold hover:underline">Back to my jobs</Link>
                 </div>
             </PageContainer>
         );
@@ -118,7 +118,7 @@ export default function AgentJobDetail() {
                     className="inline-flex items-center gap-2 text-sm font-medium text-slate-800 dark:text-slate-400 hover:text-brand-ink transition-colors"
                 >
                     <span className="material-symbols-outlined text-lg text-slate-800 dark:text-slate-400">arrow_back</span>
-                    Back to My Jobs
+                    Back to my jobs
                 </Link>
             </div>
 
@@ -140,7 +140,7 @@ export default function AgentJobDetail() {
                     </h1>
                 </div>
                 <div className="flex flex-col items-end">
-                    <p className="text-sm text-slate-800 dark:text-slate-400 mb-1 font-medium">Total Payment</p>
+                    <p className="text-sm text-slate-800 dark:text-slate-400 mb-1 font-medium">Total payment</p>
                     <span className="text-3xl font-extrabold text-brand-ink">{formatCurrency(job.earnings)}</span>
                     <p className="text-xs text-slate-800 mt-1">Payment released upon completion</p>
                 </div>
@@ -153,11 +153,11 @@ export default function AgentJobDetail() {
                     {/* Mobile Actions */}
                     {job.status === 'Accepted' && (
                         <div className="lg:hidden bg-white dark:bg-canvas-dark rounded-2xl border border-amber-200 dark:border-amber-900/50 p-6">
-                            <h3 className="font-bold text-slate-900 dark:text-white mb-4">Job Actions</h3>
+                            <h3 className="font-bold text-slate-900 dark:text-white mb-4">Job actions</h3>
                             <div className="flex gap-3">
                                 <button className="flex-1 px-5 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white text-sm font-bold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center justify-center gap-2">
                                     <span className="material-symbols-outlined text-amber-500">warning</span>
-                                    Report Issue
+                                    Report issue
                                 </button>
                                 <button
                                     onClick={handleCompleteJob}
@@ -175,7 +175,7 @@ export default function AgentJobDetail() {
                     <section className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6">
                         <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
                             <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">description</span>
-                            Job Description
+                            Job description
                         </h2>
                         <div className="prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-300">
                             <p className="mb-4">{job.description || 'No description provided.'}</p>
@@ -189,7 +189,7 @@ export default function AgentJobDetail() {
                     {job.status === 'Accepted' && (
                         <div className="hidden lg:block bg-white dark:bg-canvas-dark rounded-2xl border border-amber-200 dark:border-amber-900/50 p-6 relative overflow-hidden">
                             <div className="absolute top-0 left-0 w-full h-1 bg-amber-500"></div>
-                            <h3 className="font-bold text-slate-900 dark:text-white mb-4">Current Actions</h3>
+                            <h3 className="font-bold text-slate-900 dark:text-white mb-4">Current actions</h3>
                             <div className="space-y-3">
                                 <button
                                     onClick={handleCompleteJob}
@@ -201,7 +201,7 @@ export default function AgentJobDetail() {
                                 </button>
                                 <button className="w-full px-5 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white text-sm font-bold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center justify-center gap-2">
                                     <span className="material-symbols-outlined text-amber-500">warning</span>
-                                    Report an Issue
+                                    Report an issue
                                 </button>
                             </div>
                         </div>
@@ -225,7 +225,7 @@ export default function AgentJobDetail() {
                         </div>
                         <button className="w-full py-2.5 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-bold text-slate-800 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center justify-center gap-2">
                             <span className="material-symbols-outlined text-[18px] text-slate-800 dark:text-slate-400">calendar_clock</span>
-                            Request Reschedule
+                            Request reschedule
                         </button>
                     </div>
 
@@ -233,7 +233,7 @@ export default function AgentJobDetail() {
                     <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6">
                         <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
                             <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">location_on</span>
-                            Property Details
+                            Property details
                         </h3>
                         <p className="font-bold text-slate-900 dark:text-white mb-1">{job.property}</p>
                         <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{job.city}</p>
@@ -243,7 +243,7 @@ export default function AgentJobDetail() {
                     <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6">
                         <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
                             <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">person</span>
-                            Client Details
+                            Client details
                         </h3>
                         <div className="flex items-center gap-4 mb-6">
                             <div className="size-12 rounded-full bg-brand-ink flex items-center justify-center text-on-brand font-bold text-lg">
@@ -278,7 +278,7 @@ export default function AgentJobDetail() {
                 }}
                 title="Job completed"
                 description="Your job has been marked as complete. Payment will be released within 24-48 hours."
-                buttonText="Back to My Jobs"
+                buttonText="Back to my jobs"
                 icon="check_circle"
             />
         </PageContainer>

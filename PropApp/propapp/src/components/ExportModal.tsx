@@ -127,7 +127,7 @@ export default function ExportModal({ isOpen, onClose, dataType = 'data', onExpo
                             {/* Format Selection */}
                             <div className="mb-6">
                                 <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3 block">
-                                    Export Format
+                                    Export format
                                 </label>
                                 <div className="grid grid-cols-3 gap-3">
                                     {formatOptions.map((option) => (
@@ -155,14 +155,14 @@ export default function ExportModal({ isOpen, onClose, dataType = 'data', onExpo
                             {/* Date Range */}
                             <div className="mb-5">
                                 <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3 block">
-                                    Date Range
+                                    Date range
                                 </label>
                                 <div className="flex flex-wrap gap-2 mb-4">
                                     {[
-                                        { id: 'all', label: 'All Time' },
-                                        { id: 'month', label: 'This Month' },
-                                        { id: 'quarter', label: 'This Quarter' },
-                                        { id: 'year', label: 'This Year' },
+                                        { id: 'all', label: 'All time' },
+                                        { id: 'month', label: 'This month' },
+                                        { id: 'quarter', label: 'This quarter' },
+                                        { id: 'year', label: 'This year' },
                                         { id: 'custom', label: 'Custom' },
                                     ].map((opt) => (
                                         <button
@@ -181,7 +181,7 @@ export default function ExportModal({ isOpen, onClose, dataType = 'data', onExpo
                                 {preset === 'custom' && (
                                     <div className="grid grid-cols-2 gap-3 animate-in slide-in-from-top-2 fade-in duration-200">
                                         <div>
-                                            <label className="text-xs text-slate-500 dark:text-slate-400 mb-1 block">Start Date</label>
+                                            <label className="text-xs text-slate-500 dark:text-slate-400 mb-1 block">Start date</label>
                                             <input
                                                 type="date"
                                                 value={dateRange.start}
@@ -190,7 +190,7 @@ export default function ExportModal({ isOpen, onClose, dataType = 'data', onExpo
                                             />
                                         </div>
                                         <div>
-                                            <label className="text-xs text-slate-500 dark:text-slate-400 mb-1 block">End Date</label>
+                                            <label className="text-xs text-slate-500 dark:text-slate-400 mb-1 block">End date</label>
                                             <input
                                                 type="date"
                                                 value={dateRange.end}
