@@ -16,7 +16,7 @@ export function ConfirmationCard({ props, onAction }: Props) {
         <div
             className={`rounded-2xl border-2 ${RISK_BORDER[props.riskLevel]} bg-white p-4 shadow-sm`}
         >
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
                 {props.title}
             </h3>
             <p className="mt-2 text-sm text-slate-900">{props.humanSummary}</p>
@@ -24,7 +24,7 @@ export function ConfirmationCard({ props, onAction }: Props) {
                 <button
                     type="button"
                     onClick={() => onAction(props.cancelAction.id)}
-                    className="rounded-full px-3 py-1.5 text-sm text-slate-500 hover:text-slate-900"
+                    className="rounded-full px-3 py-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900"
                 >
                     {props.cancelAction.label}
                 </button>

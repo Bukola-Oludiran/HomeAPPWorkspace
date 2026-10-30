@@ -395,7 +395,7 @@ export default function LandlordPropertyDetail() {
                                     </p>
                                     <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white">
                                         {property.targetRent}
-                                        <span className="text-lg font-medium text-slate-500">/mo</span>
+                                        <span className="text-lg font-medium text-slate-500 dark:text-slate-400">/mo</span>
                                     </h2>
                                     <p className="text-green-600 dark:text-green-400 text-sm font-semibold flex items-center mt-1">
                                         <span className="material-symbols-outlined text-[16px] mr-0.5">
@@ -448,13 +448,13 @@ export default function LandlordPropertyDetail() {
 
                         {/* Performance Metrics */}
                         <div className="mb-8">
-                            <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4">
+                            <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4">
                                 Performance Metrics
                             </h3>
                             <AnimatedGroup className="grid grid-cols-2 md:grid-cols-4 gap-4" stagger={0.1}>
                                 <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
                                     <div className="flex items-center justify-between">
-                                        <span className="text-xs text-slate-500 font-medium">Total Views (30d)</span>
+                                        <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Total Views (30d)</span>
                                         <span className="material-symbols-outlined text-blue-500 text-[20px]">
                                             visibility
                                         </span>
@@ -471,7 +471,7 @@ export default function LandlordPropertyDetail() {
                                 </div>
                                 <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1 ring-2 ring-brand/10">
                                     <div className="flex items-center justify-between">
-                                        <span className="text-xs text-slate-500 font-medium">Applicants</span>
+                                        <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Applicants</span>
                                         <span className="material-symbols-outlined text-brand-ink text-[20px]">
                                             group
                                         </span>
@@ -485,7 +485,7 @@ export default function LandlordPropertyDetail() {
                                 </div>
                                 <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
                                     <div className="flex items-center justify-between">
-                                        <span className="text-xs text-slate-500 font-medium">Maintenance</span>
+                                        <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Maintenance</span>
                                         <span className="material-symbols-outlined text-orange-500 text-[20px]">
                                             build
                                         </span>
@@ -493,11 +493,11 @@ export default function LandlordPropertyDetail() {
                                     <span className="text-2xl font-bold text-slate-900 dark:text-white">
                                         {property.metrics.maintenance}
                                     </span>
-                                    <span className="text-xs text-slate-400 font-medium">All systems operational</span>
+                                    <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">All systems operational</span>
                                 </div>
                                 <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
                                     <div className="flex items-center justify-between">
-                                        <span className="text-xs text-slate-500 font-medium">Est. Yield</span>
+                                        <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Est. Yield</span>
                                         <span className="material-symbols-outlined text-green-500 text-[20px]">
                                             payments
                                         </span>
@@ -505,7 +505,7 @@ export default function LandlordPropertyDetail() {
                                     <span className="text-2xl font-bold text-slate-900 dark:text-white">
                                         {property.metrics.yield}
                                     </span>
-                                    <span className="text-xs text-slate-400 font-medium">Based on asking</span>
+                                    <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Based on asking</span>
                                 </div>
                             </AnimatedGroup>
                         </div>
@@ -524,29 +524,29 @@ export default function LandlordPropertyDetail() {
                                 </div>
                                 <div className="flex flex-col md:flex-row gap-6">
                                     <Link to="/landlord/tenants/1/profile" className="flex items-center gap-4 group cursor-pointer">
-                                        <div className="size-12 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-500 group-hover:ring-2 group-hover:ring-brand transition-all">
+                                        <div className="size-12 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400 group-hover:ring-2 group-hover:ring-brand transition-all">
                                             <span className="material-symbols-outlined">face</span>
                                         </div>
                                         <div>
                                             <p className="font-bold text-slate-900 dark:text-white group-hover:text-brand-ink transition-colors">{property.tenant.name}</p>
-                                            <p className="text-sm text-slate-500">Occupants since {property.tenant.since}</p>
+                                            <p className="text-sm text-slate-500 dark:text-slate-400">Occupants since {property.tenant.since}</p>
                                         </div>
-                                        <span className="material-symbols-outlined text-slate-400 group-hover:text-brand-ink transition-colors text-[18px]">chevron_right</span>
+                                        <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 group-hover:text-brand-ink transition-colors text-[18px]">chevron_right</span>
                                     </Link>
                                     <div className="h-px md:h-auto w-full md:w-px bg-slate-200 dark:bg-slate-700"></div>
                                     <div className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm">
-                                        <span className="text-slate-500">Lease Ends:</span>
+                                        <span className="text-slate-500 dark:text-slate-400">Lease Ends:</span>
                                         <span className="font-medium text-slate-900 dark:text-white">
                                             {property.tenant.leaseEnd}
                                         </span>
-                                        <span className="text-slate-500">Payment Status:</span>
+                                        <span className="text-slate-500 dark:text-slate-400">Payment Status:</span>
                                         <span className="font-medium text-green-600 flex items-center gap-1">
                                             <span className="material-symbols-outlined text-[16px] icon-filled">
                                                 check_circle
                                             </span>
                                             {property.tenant.paymentStatus}
                                         </span>
-                                        <span className="text-slate-500">Monthly Rent:</span>
+                                        <span className="text-slate-500 dark:text-slate-400">Monthly Rent:</span>
                                         <span className="font-medium text-slate-900 dark:text-white">
                                             {property.tenant.monthlyRent}
                                         </span>
@@ -573,36 +573,36 @@ export default function LandlordPropertyDetail() {
                         {/* Property Stats */}
                         <AnimatedGroup className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8" stagger={0.1}>
                             <div className="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-100 dark:border-slate-700 flex flex-col items-center justify-center text-center gap-1">
-                                <span className="material-symbols-outlined text-slate-400 text-[20px]">bed</span>
+                                <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[20px]">bed</span>
                                 <span className="text-lg font-bold text-slate-900 dark:text-white">
                                     {property.beds}
                                 </span>
-                                <span className="text-xs text-slate-500 uppercase tracking-wide">Beds</span>
+                                <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Beds</span>
                             </div>
                             <div className="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-100 dark:border-slate-700 flex flex-col items-center justify-center text-center gap-1">
-                                <span className="material-symbols-outlined text-slate-400 text-[20px]">bathtub</span>
+                                <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[20px]">bathtub</span>
                                 <span className="text-lg font-bold text-slate-900 dark:text-white">
                                     {property.baths}
                                 </span>
-                                <span className="text-xs text-slate-500 uppercase tracking-wide">Baths</span>
+                                <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Baths</span>
                             </div>
                             <div className="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-100 dark:border-slate-700 flex flex-col items-center justify-center text-center gap-1">
-                                <span className="material-symbols-outlined text-slate-400 text-[20px]">
+                                <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[20px]">
                                     square_foot
                                 </span>
                                 <span className="text-lg font-bold text-slate-900 dark:text-white">
                                     {property.sqft}
                                 </span>
-                                <span className="text-xs text-slate-500 uppercase tracking-wide">Sq Ft</span>
+                                <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Sq Ft</span>
                             </div>
                             <div className="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-100 dark:border-slate-700 flex flex-col items-center justify-center text-center gap-1">
-                                <span className="material-symbols-outlined text-slate-400 text-[20px]">
+                                <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[20px]">
                                     calendar_month
                                 </span>
                                 <span className="text-lg font-bold text-slate-900 dark:text-white">
                                     {property.yearBuilt}
                                 </span>
-                                <span className="text-xs text-slate-500 uppercase tracking-wide">Built</span>
+                                <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Built</span>
                             </div>
                         </AnimatedGroup>
 
@@ -662,7 +662,7 @@ export default function LandlordPropertyDetail() {
                                 <div className="space-y-4">
                                     <div>
                                         <div className="flex justify-between text-sm mb-1">
-                                            <span className="text-slate-500">Gross Revenue</span>
+                                            <span className="text-slate-500 dark:text-slate-400">Gross Revenue</span>
                                             <span className="font-bold text-slate-900 dark:text-white">
                                                 {property.financials.grossRevenue}
                                             </span>
@@ -676,7 +676,7 @@ export default function LandlordPropertyDetail() {
                                     </div>
                                     <div>
                                         <div className="flex justify-between text-sm mb-1">
-                                            <span className="text-slate-500">Expenses</span>
+                                            <span className="text-slate-500 dark:text-slate-400">Expenses</span>
                                             <span className="font-bold text-slate-900 dark:text-white">
                                                 {property.financials.expenses}
                                             </span>
@@ -716,7 +716,7 @@ export default function LandlordPropertyDetail() {
                                             <div className="mt-0.5 size-5 rounded-full border-2 border-slate-300 hover:border-brand cursor-pointer flex-shrink-0"></div>
                                             <div className="text-sm">
                                                 <p className="font-medium text-slate-900 dark:text-white">{task.title}</p>
-                                                <p className="text-slate-500 text-xs">{task.due}</p>
+                                                <p className="text-slate-500 dark:text-slate-400 text-xs">{task.due}</p>
                                             </div>
                                         </li>
                                     ))}
@@ -755,7 +755,7 @@ export default function LandlordPropertyDetail() {
                 <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
                     <div className="hidden md:flex items-center gap-4">
                         <div>
-                            <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-0.5">
+                            <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-0.5">
                                 Listing Status
                             </p>
                             <div className="flex items-center gap-2">
@@ -765,7 +765,7 @@ export default function LandlordPropertyDetail() {
                         </div>
                         <div className="h-8 w-px bg-slate-200 dark:bg-slate-700 mx-2"></div>
                         <div>
-                            <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-0.5">
+                            <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-0.5">
                                 Applicant Queue
                             </p>
                             <div className="flex items-center gap-2">

@@ -89,7 +89,7 @@ export default function LandlordEditListing() {
             <div className="flex items-center justify-center min-h-screen">
                 <div className="flex flex-col items-center gap-3">
                     <div className="size-10 border-4 border-brand border-t-transparent rounded-full animate-spin"></div>
-                    <p className="text-slate-500 font-medium">Loading property...</p>
+                    <p className="text-slate-500 dark:text-slate-400 font-medium">Loading property...</p>
                 </div>
             </div>
         );
@@ -161,7 +161,7 @@ export default function LandlordEditListing() {
                         <div className="col-span-1 md:col-span-2">
                             <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Address</label>
                             <div className="relative">
-                                <span className="absolute left-4 top-3.5 material-symbols-outlined text-slate-400 text-[20px]">location_on</span>
+                                <span className="absolute left-4 top-3.5 material-symbols-outlined text-slate-500 dark:text-slate-400 text-[20px]">location_on</span>
                                 <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-brand focus:ring-brand pl-11 pr-4 py-3" type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
                             </div>
                         </div>
@@ -182,11 +182,11 @@ export default function LandlordEditListing() {
                             <div>
                                 <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Bedrooms</label>
                                 <div className="relative">
-                                    <button className="absolute left-3 top-3 text-slate-400 hover:text-brand-ink transition-colors">
+                                    <button className="absolute left-3 top-3 text-slate-500 dark:text-slate-400 hover:text-brand-ink transition-colors">
                                         <span className="material-symbols-outlined text-[18px]">remove</span>
                                     </button>
                                     <input className="w-full text-center rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-brand focus:ring-brand px-8 py-3" type="number" value={bedrooms} onChange={(e) => setBedrooms(parseInt(e.target.value) || 0)} />
-                                    <button className="absolute right-3 top-3 text-slate-400 hover:text-brand-ink transition-colors">
+                                    <button className="absolute right-3 top-3 text-slate-500 dark:text-slate-400 hover:text-brand-ink transition-colors">
                                         <span className="material-symbols-outlined text-[18px]">add</span>
                                     </button>
                                 </div>
@@ -194,11 +194,11 @@ export default function LandlordEditListing() {
                             <div>
                                 <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Bathrooms</label>
                                 <div className="relative">
-                                    <button className="absolute left-3 top-3 text-slate-400 hover:text-brand-ink transition-colors">
+                                    <button className="absolute left-3 top-3 text-slate-500 dark:text-slate-400 hover:text-brand-ink transition-colors">
                                         <span className="material-symbols-outlined text-[18px]">remove</span>
                                     </button>
                                     <input className="w-full text-center rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-brand focus:ring-brand px-8 py-3" type="number" value={bathrooms} onChange={(e) => setBathrooms(parseInt(e.target.value) || 0)} />
-                                    <button className="absolute right-3 top-3 text-slate-400 hover:text-brand-ink transition-colors">
+                                    <button className="absolute right-3 top-3 text-slate-500 dark:text-slate-400 hover:text-brand-ink transition-colors">
                                         <span className="material-symbols-outlined text-[18px]">add</span>
                                     </button>
                                 </div>
@@ -239,7 +239,7 @@ export default function LandlordEditListing() {
                             </div>
                         </div>
                         <div className="relative group rounded-xl overflow-hidden aspect-video bg-slate-100 dark:bg-slate-700">
-                            <div className="absolute inset-0 flex items-center justify-center text-slate-400">
+                            <div className="absolute inset-0 flex items-center justify-center text-slate-500 dark:text-slate-400">
                                 <span className="material-symbols-outlined text-[40px]">chair</span>
                             </div>
                             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
@@ -252,7 +252,7 @@ export default function LandlordEditListing() {
                             </div>
                         </div>
                         <div className="relative group rounded-xl overflow-hidden aspect-video bg-slate-100 dark:bg-slate-700">
-                            <div className="absolute inset-0 flex items-center justify-center text-slate-400">
+                            <div className="absolute inset-0 flex items-center justify-center text-slate-500 dark:text-slate-400">
                                 <span className="material-symbols-outlined text-[40px]">kitchen</span>
                             </div>
                             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
@@ -265,7 +265,7 @@ export default function LandlordEditListing() {
                             </div>
                         </div>
                         <div className="relative group rounded-xl overflow-hidden aspect-video bg-slate-100 dark:bg-slate-700">
-                            <div className="absolute inset-0 flex items-center justify-center text-slate-400">
+                            <div className="absolute inset-0 flex items-center justify-center text-slate-500 dark:text-slate-400">
                                 <span className="material-symbols-outlined text-[40px]">bathtub</span>
                             </div>
                             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
@@ -277,7 +277,7 @@ export default function LandlordEditListing() {
                                 </button>
                             </div>
                         </div>
-                        <div className="relative rounded-xl overflow-hidden aspect-video border-2 border-dashed border-slate-300 dark:border-slate-600 flex flex-col items-center justify-center text-slate-400 hover:border-brand hover:text-brand-ink hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-all cursor-pointer">
+                        <div className="relative rounded-xl overflow-hidden aspect-video border-2 border-dashed border-slate-300 dark:border-slate-600 flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 hover:border-brand hover:text-brand-ink hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-all cursor-pointer">
                             <span className="material-symbols-outlined text-[32px] mb-1">add</span>
                             <span className="text-xs font-semibold">Upload</span>
                         </div>
@@ -296,17 +296,17 @@ export default function LandlordEditListing() {
                         <div>
                             <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Monthly Rent</label>
                             <div className="relative">
-                                <span className="absolute left-4 top-3.5 text-slate-500 font-bold">₦</span>
+                                <span className="absolute left-4 top-3.5 text-slate-500 dark:text-slate-400 font-bold">₦</span>
                                 <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-brand focus:ring-brand pl-8 pr-4 py-3 font-bold text-lg" type="text" value={price} onChange={(e) => setPrice(e.target.value)} />
-                                <span className="absolute right-4 top-3.5 text-slate-400 text-sm">/mo</span>
+                                <span className="absolute right-4 top-3.5 text-slate-500 dark:text-slate-400 text-sm">/mo</span>
                             </div>
                         </div>
                         <div>
                             <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Security Deposit</label>
                             <div className="relative">
-                                <span className="absolute left-4 top-3.5 text-slate-500 font-bold">₦</span>
+                                <span className="absolute left-4 top-3.5 text-slate-500 dark:text-slate-400 font-bold">₦</span>
                                 <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-brand focus:ring-brand pl-8 pr-4 py-3 font-bold text-lg" type="text" defaultValue="4,800" />
-                                <span className="absolute right-4 top-3.5 text-slate-400 text-sm">USD</span>
+                                <span className="absolute right-4 top-3.5 text-slate-500 dark:text-slate-400 text-sm">USD</span>
                             </div>
                         </div>
                         <div>
@@ -356,7 +356,7 @@ export default function LandlordEditListing() {
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                         />
-                        <div className="absolute bottom-3 right-3 text-xs text-slate-400">
+                        <div className="absolute bottom-3 right-3 text-xs text-slate-500 dark:text-slate-400">
                             {description.length} / 2000 characters
                         </div>
                     </div>
@@ -374,10 +374,10 @@ export default function LandlordEditListing() {
                         <div className="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand/50 transition-colors cursor-pointer bg-slate-50/50 dark:bg-slate-900/50">
                             <div>
                                 <h3 className="font-bold text-slate-900 dark:text-white mb-1">Listing Visibility</h3>
-                                <p className="text-sm text-slate-500">Control whether your property is visible to prospective tenants.</p>
+                                <p className="text-sm text-slate-500 dark:text-slate-400">Control whether your property is visible to prospective tenants.</p>
                             </div>
                             <div className="flex items-center gap-3">
-                                <span className={`text-sm font-bold ${isPublished ? 'text-green-600' : 'text-slate-500'}`}>
+                                <span className={`text-sm font-bold ${isPublished ? 'text-green-600' : 'text-slate-500 dark:text-slate-400'}`}>
                                     {isPublished ? 'Published' : 'Draft'}
                                 </span>
                                 <div

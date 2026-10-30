@@ -83,7 +83,7 @@ export default function AgentJobDetail() {
                 <div className="flex items-center justify-center min-h-[400px]">
                     <div className="flex flex-col items-center gap-3">
                         <div className="size-10 border-4 border-brand border-t-transparent rounded-full animate-spin"></div>
-                        <p className="text-slate-500 font-medium">Loading job details...</p>
+                        <p className="text-slate-500 dark:text-slate-400 font-medium">Loading job details...</p>
                     </div>
                 </div>
             </PageContainer>
@@ -95,7 +95,7 @@ export default function AgentJobDetail() {
             <PageContainer>
                 <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
                     <span className="material-symbols-outlined text-5xl text-slate-300">error</span>
-                    <p className="text-slate-500 font-medium">{error || 'Job not found'}</p>
+                    <p className="text-slate-500 dark:text-slate-400 font-medium">{error || 'Job not found'}</p>
                     <Link to="/agent/my-jobs" className="text-brand-ink font-bold hover:underline">Back to My Jobs</Link>
                 </div>
             </PageContainer>
@@ -174,7 +174,7 @@ export default function AgentJobDetail() {
                     {/* Job Description */}
                     <section className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6">
                         <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                            <span className="material-symbols-outlined text-slate-400">description</span>
+                            <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">description</span>
                             Job Description
                         </h2>
                         <div className="prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-300">
@@ -210,12 +210,12 @@ export default function AgentJobDetail() {
                     {/* Schedule */}
                     <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6">
                         <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                            <span className="material-symbols-outlined text-slate-400">schedule</span>
+                            <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">schedule</span>
                             Schedule
                         </h3>
                         <div className="flex items-center gap-4 mb-6">
                             <div className="flex flex-col items-center justify-center bg-slate-100 dark:bg-slate-800 rounded-lg p-3 w-16">
-                                <span className="text-xs font-bold text-slate-500 uppercase">{scheduleMonth}</span>
+                                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">{scheduleMonth}</span>
                                 <span className="text-xl font-extrabold text-slate-900 dark:text-white">{scheduleDay}</span>
                             </div>
                             <div>
@@ -232,7 +232,7 @@ export default function AgentJobDetail() {
                     {/* Property Details */}
                     <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6">
                         <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                            <span className="material-symbols-outlined text-slate-400">location_on</span>
+                            <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">location_on</span>
                             Property Details
                         </h3>
                         <p className="font-bold text-slate-900 dark:text-white mb-1">{job.property}</p>
@@ -242,7 +242,7 @@ export default function AgentJobDetail() {
                     {/* Client Details */}
                     <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6">
                         <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                            <span className="material-symbols-outlined text-slate-400">person</span>
+                            <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">person</span>
                             Client Details
                         </h3>
                         <div className="flex items-center gap-4 mb-6">

@@ -18,7 +18,7 @@ function timeAgo(iso: string): string {
 export function NotificationList({ props, onAction }: Props) {
     if (props.items.length === 0) {
         return (
-            <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-4 text-sm text-slate-500">
+            <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-4 text-sm text-slate-500 dark:text-slate-400">
                 You’re all caught up.
             </div>
         );
@@ -31,7 +31,7 @@ export function NotificationList({ props, onAction }: Props) {
                     <button
                         type="button"
                         onClick={() => onAction('mark_all_read')}
-                        className="rounded-full px-2 py-0.5 text-xs text-slate-500 hover:text-slate-900"
+                        className="rounded-full px-2 py-0.5 text-xs text-slate-500 dark:text-slate-400 hover:text-slate-900"
                     >
                         Mark all read · {props.unreadCount}
                     </button>
@@ -55,7 +55,7 @@ export function NotificationList({ props, onAction }: Props) {
                             <p className="text-sm font-medium text-slate-900">{n.title}</p>
                             <p className="line-clamp-2 text-xs text-slate-600">{n.body}</p>
                         </div>
-                        <time className="text-xs text-slate-400">{timeAgo(n.createdAt)}</time>
+                        <time className="text-xs text-slate-500 dark:text-slate-400">{timeAgo(n.createdAt)}</time>
                     </li>
                 ))}
             </ul>

@@ -303,38 +303,38 @@ export default function PropertyDetail() {
                         {/* Property Stats */}
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                             <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 flex flex-col items-center justify-center text-center gap-1">
-                                <span className="material-symbols-outlined text-slate-400 text-[24px]">bed</span>
+                                <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[24px]">bed</span>
                                 <span className="text-xl font-bold text-slate-900 dark:text-white">
                                     {property.bedrooms}
                                 </span>
-                                <span className="text-xs text-slate-500 uppercase tracking-wide">Bedrooms</span>
+                                <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Bedrooms</span>
                             </div>
                             <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 flex flex-col items-center justify-center text-center gap-1">
-                                <span className="material-symbols-outlined text-slate-400 text-[24px]">
+                                <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[24px]">
                                     bathtub
                                 </span>
                                 <span className="text-xl font-bold text-slate-900 dark:text-white">
                                     {property.bathrooms}
                                 </span>
-                                <span className="text-xs text-slate-500 uppercase tracking-wide">Bathrooms</span>
+                                <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Bathrooms</span>
                             </div>
                             <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 flex flex-col items-center justify-center text-center gap-1">
-                                <span className="material-symbols-outlined text-slate-400 text-[24px]">
+                                <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[24px]">
                                     square_foot
                                 </span>
                                 <span className="text-xl font-bold text-slate-900 dark:text-white">
                                     {sqft}
                                 </span>
-                                <span className="text-xs text-slate-500 uppercase tracking-wide">Sq Ft</span>
+                                <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Sq Ft</span>
                             </div>
                             <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 flex flex-col items-center justify-center text-center gap-1">
-                                <span className="material-symbols-outlined text-slate-400 text-[24px]">
+                                <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[24px]">
                                     calendar_month
                                 </span>
                                 <span className="text-xl font-bold text-slate-900 dark:text-white">
                                     {property.yearBuilt || 'N/A'}
                                 </span>
-                                <span className="text-xs text-slate-500 uppercase tracking-wide">Year Built</span>
+                                <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Year Built</span>
                             </div>
                         </div>
 
@@ -378,7 +378,7 @@ export default function PropertyDetail() {
                             <div className="w-full h-64 rounded-xl bg-slate-200 dark:bg-slate-700 relative overflow-hidden group cursor-pointer">
                                 <div className="absolute inset-0 flex items-center justify-center bg-slate-300 dark:bg-slate-600">
                                     <div className="absolute top-0 left-0 right-0 h-full w-full opacity-30 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:16px_16px]"></div>
-                                    <span className="material-symbols-outlined text-6xl text-slate-400 dark:text-slate-500">
+                                    <span className="material-symbols-outlined text-6xl text-slate-500 dark:text-slate-500">
                                         map
                                     </span>
                                 </div>
@@ -412,7 +412,7 @@ export default function PropertyDetail() {
                                         <h4 className="font-bold text-lg text-slate-900 dark:text-white">
                                             {[property.owner?.firstName, property.owner?.lastName].filter(Boolean).join(' ') || 'Property Owner'}
                                         </h4>
-                                        <p className="text-slate-500 text-sm">Property Owner</p>
+                                        <p className="text-slate-500 dark:text-slate-400 text-sm">Property Owner</p>
                                         {property.owner?.verificationLevel && property.owner.verificationLevel !== 'UNVERIFIED' && (
                                             <div className="flex items-center gap-1 text-xs font-semibold text-brand-ink mt-1">
                                                 <span className="material-symbols-outlined text-[14px] icon-filled">
@@ -426,7 +426,7 @@ export default function PropertyDetail() {
                                 <button className="w-full py-3 rounded-xl border border-slate-200 dark:border-slate-600 font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors mb-3">
                                     Message Host
                                 </button>
-                                <div className="text-center text-xs text-slate-400">
+                                <div className="text-center text-xs text-slate-500 dark:text-slate-400">
                                     Contact for more info
                                 </div>
                             </div>
@@ -461,7 +461,7 @@ export default function PropertyDetail() {
             <div className="fixed bottom-0 left-0 w-full z-20 bg-white dark:bg-canvas-dark border-t border-slate-200 dark:border-slate-800 p-4 md:px-8 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
                 <div className="max-w-[1200px] mx-auto flex items-center justify-between gap-4">
                     <div className="hidden md:block">
-                        <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-0.5">
+                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-0.5">
                             Price
                         </p>
                         <div className="flex items-baseline gap-2">

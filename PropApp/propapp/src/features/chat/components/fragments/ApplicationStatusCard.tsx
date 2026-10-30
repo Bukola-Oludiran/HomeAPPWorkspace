@@ -6,7 +6,7 @@ const STATUS_COLOR: Record<string, string> = {
     UNDER_REVIEW: 'bg-sky-100 text-sky-800',
     APPROVED: 'bg-emerald-100 text-emerald-700',
     REJECTED: 'bg-red-100 text-red-700',
-    WITHDRAWN: 'bg-slate-100 text-slate-500',
+    WITHDRAWN: 'bg-slate-100 text-slate-500 dark:text-slate-400',
     LEASE_OFFERED: 'bg-violet-100 text-violet-700',
 };
 
@@ -23,7 +23,7 @@ export function ApplicationStatusCard({ props, onAction }: Props) {
                     <h3 className="truncate text-sm font-semibold text-slate-900">
                         {props.propertyTitle}
                     </h3>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
                         Submitted {new Date(props.submittedAt).toLocaleDateString()}
                         {props.landlordName ? ` · ${props.landlordName}` : ''}
                     </p>

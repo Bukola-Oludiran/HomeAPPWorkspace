@@ -250,7 +250,7 @@ export default function ApplicantManager() {
                 <div className="flex flex-col sm:flex-row w-full lg:w-auto gap-4 items-center">
                     {/* Property Selector */}
                     <div className="relative w-full sm:w-64">
-                        <span className="material-symbols-outlined absolute left-3 top-2.5 text-slate-400 text-[20px]">
+                        <span className="material-symbols-outlined absolute left-3 top-2.5 text-slate-500 dark:text-slate-400 text-[20px]">
                             apartment
                         </span>
                         <select className="w-full pl-10 pr-8 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-medium focus:ring-brand focus:border-brand text-slate-900 dark:text-white cursor-pointer appearance-none">
@@ -259,7 +259,7 @@ export default function ApplicantManager() {
                             <option>1243 Oakwood Avenue</option>
                             <option>Downtown Loft</option>
                         </select>
-                        <span className="material-symbols-outlined absolute right-3 top-2.5 text-slate-400 text-[20px] pointer-events-none">
+                        <span className="material-symbols-outlined absolute right-3 top-2.5 text-slate-500 dark:text-slate-400 text-[20px] pointer-events-none">
                             expand_more
                         </span>
                     </div>
@@ -302,7 +302,7 @@ export default function ApplicantManager() {
                         {showPropertyDropdown && (
                             <div className="absolute right-0 top-full mt-2 w-56 bg-white dark:bg-[#1e293b] rounded-lg border border-slate-200 dark:border-slate-700 shadow-xl z-50 py-1">
                                 <div className="px-3 py-2 border-b border-slate-100 dark:border-slate-700">
-                                    <p className="text-xs font-bold text-slate-500 uppercase tracking-wide">Filter by Property</p>
+                                    <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Filter by Property</p>
                                 </div>
                                 {uniqueProperties.map((property) => (
                                     <button
@@ -399,7 +399,7 @@ export default function ApplicantManager() {
                                     {/* Credit Score */}
                                     {applicant.creditScore && (
                                         <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
-                                            <p className="text-xs uppercase tracking-wider font-bold text-slate-400 mb-1">
+                                            <p className="text-xs uppercase tracking-wider font-bold text-slate-500 dark:text-slate-400 mb-1">
                                                 Credit Score
                                             </p>
                                             <div className="flex items-center gap-2">
@@ -418,7 +418,7 @@ export default function ApplicantManager() {
                                     {/* Monthly Income or Move-in Date or Rent Coverage */}
                                     {applicant.monthlyIncome && (
                                         <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
-                                            <p className="text-xs uppercase tracking-wider font-bold text-slate-400 mb-1">
+                                            <p className="text-xs uppercase tracking-wider font-bold text-slate-500 dark:text-slate-400 mb-1">
                                                 Monthly Inc.
                                             </p>
                                             <div className="flex items-center gap-2">
@@ -434,11 +434,11 @@ export default function ApplicantManager() {
 
                                     {applicant.moveInDate && (
                                         <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
-                                            <p className="text-xs uppercase tracking-wider font-bold text-slate-400 mb-1">
+                                            <p className="text-xs uppercase tracking-wider font-bold text-slate-500 dark:text-slate-400 mb-1">
                                                 Move-in Date
                                             </p>
                                             <div className="flex items-center gap-2">
-                                                <span className="material-symbols-outlined text-slate-500 text-[20px]">
+                                                <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[20px]">
                                                     calendar_month
                                                 </span>
                                                 <span className="font-bold text-slate-900 dark:text-white">
@@ -450,7 +450,7 @@ export default function ApplicantManager() {
 
                                     {applicant.rentCoverage && (
                                         <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
-                                            <p className="text-xs uppercase tracking-wider font-bold text-slate-400 mb-1">
+                                            <p className="text-xs uppercase tracking-wider font-bold text-slate-500 dark:text-slate-400 mb-1">
                                                 Rent Coverage
                                             </p>
                                             <div className="flex items-center gap-2">
@@ -467,11 +467,11 @@ export default function ApplicantManager() {
                                     {/* Employment or Background Check or Missing Docs or Pet */}
                                     {applicant.employment && (
                                         <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700 col-span-2">
-                                            <p className="text-xs uppercase tracking-wider font-bold text-slate-400 mb-1">
+                                            <p className="text-xs uppercase tracking-wider font-bold text-slate-500 dark:text-slate-400 mb-1">
                                                 Employment
                                             </p>
                                             <div className="flex items-center gap-2">
-                                                <span className="material-symbols-outlined text-slate-500 text-[20px]">
+                                                <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[20px]">
                                                     work
                                                 </span>
                                                 <span className="font-semibold text-slate-700 dark:text-slate-200 text-sm">
@@ -491,7 +491,7 @@ export default function ApplicantManager() {
                                                     Background Check Completed
                                                 </span>
                                             </div>
-                                            <p className="text-xs text-slate-500">{applicant.backgroundResult}</p>
+                                            <p className="text-xs text-slate-500 dark:text-slate-400">{applicant.backgroundResult}</p>
                                         </div>
                                     )}
 
@@ -511,7 +511,7 @@ export default function ApplicantManager() {
                                     {applicant.pet && (
                                         <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700 col-span-2">
                                             <div className="flex items-center gap-2">
-                                                <span className="material-symbols-outlined text-slate-500 text-[18px]">
+                                                <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[18px]">
                                                     pets
                                                 </span>
                                                 <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">
@@ -574,7 +574,7 @@ export default function ApplicantManager() {
                                 </Link>
                             )}
                             {applicant.actions.includes('reopen') && (
-                                <button className="w-full py-2 bg-transparent text-slate-400 dark:text-slate-500 hover:text-slate-600 font-bold text-xs rounded-lg transition-colors flex items-center justify-center gap-2">
+                                <button className="w-full py-2 bg-transparent text-slate-500 dark:text-slate-500 hover:text-slate-600 font-bold text-xs rounded-lg transition-colors flex items-center justify-center gap-2">
                                     Re-open Application
                                 </button>
                             )}

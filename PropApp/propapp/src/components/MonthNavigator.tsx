@@ -58,7 +58,7 @@ export default function MonthNavigator({
                 <button
                     onClick={goToPreviousMonth}
                     disabled={isPrevDisabled}
-                    className="p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                    className="p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                 >
                     <span className="material-symbols-outlined text-[18px]">chevron_left</span>
                 </button>
@@ -70,7 +70,7 @@ export default function MonthNavigator({
                 <button
                     onClick={goToNextMonth}
                     disabled={isNextDisabled}
-                    className="p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                    className="p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                 >
                     <span className="material-symbols-outlined text-[18px]">chevron_right</span>
                 </button>
@@ -84,7 +84,7 @@ export default function MonthNavigator({
                 <button
                     onClick={goToPreviousMonth}
                     disabled={isPrevDisabled}
-                    className="size-7 rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-slate-700 text-slate-500 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                    className="size-7 rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                 >
                     <span className="material-symbols-outlined text-[18px]">chevron_left</span>
                 </button>
@@ -96,7 +96,7 @@ export default function MonthNavigator({
                 <button
                     onClick={goToNextMonth}
                     disabled={isNextDisabled}
-                    className="size-7 rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-slate-700 text-slate-500 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                    className="size-7 rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                 >
                     <span className="material-symbols-outlined text-[18px]">chevron_right</span>
                 </button>

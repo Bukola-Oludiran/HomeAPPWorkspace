@@ -83,7 +83,7 @@ export default function FavoriteButton({
     const variantClasses = {
         default: `bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md ${isFavorited
                 ? 'text-red-500'
-                : 'text-slate-400 hover:text-red-400'
+                : 'text-slate-500 dark:text-slate-400 hover:text-red-400'
             }`,
         overlay: `bg-white/60 dark:bg-black/40 backdrop-blur-sm hover:bg-white dark:hover:bg-black ${isFavorited
                 ? 'text-red-500'
@@ -91,7 +91,7 @@ export default function FavoriteButton({
             }`,
         outline: `border-2 ${isFavorited
                 ? 'border-red-500 text-red-500'
-                : 'border-slate-200 dark:border-slate-700 text-slate-400 hover:text-red-400 hover:border-red-400'
+                : 'border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-red-400 hover:border-red-400'
             }`,
     };
 

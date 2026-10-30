@@ -268,7 +268,7 @@ export default function TenantDashboardPage() {
                                     <p className="text-xs text-slate-500 dark:text-slate-400">{property.city}</p>
                                     <p className="text-sm font-bold text-brand-ink mt-2">
                                         {property.price}
-                                        <span className="text-slate-400 font-normal text-xs">/mo</span>
+                                        <span className="text-slate-500 dark:text-slate-400 font-normal text-xs">/mo</span>
                                     </p>
                                 </div>
                             </div>
@@ -277,7 +277,7 @@ export default function TenantDashboardPage() {
                             to="/search"
                             className="bg-white dark:bg-canvas-dark p-3 rounded-xl border border-slate-100 dark:border-slate-800 flex gap-3 cursor-pointer hover:border-brand/50 transition-colors"
                         >
-                            <div className="w-20 h-20 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400">
+                            <div className="w-20 h-20 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
                                 <span className="material-symbols-outlined">add</span>
                             </div>
                             <div className="flex-1 flex flex-col justify-center">

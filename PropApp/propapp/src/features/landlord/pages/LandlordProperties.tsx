@@ -200,11 +200,11 @@ function PropertyCardGrid({ property, isIncoming = false }: PropertyCardGridProp
                             <div className={`${incomingProp.progressColor} h-2 rounded-full`} style={{ width: `${incomingProp.progress}%` }}></div>
                         </div>
                         <div className="flex justify-between text-xs mb-4">
-                            <span className="text-slate-500 font-medium">{incomingProp.progressLabel}</span>
+                            <span className="text-slate-500 dark:text-slate-400 font-medium">{incomingProp.progressLabel}</span>
                             <span className={`${incomingProp.progressColor === 'bg-purple-600' ? 'text-purple-600' : 'text-orange-600'} font-bold`}>{incomingProp.progress}%</span>
                         </div>
                         <div className="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                            <span className="text-xs font-medium text-slate-500">{incomingProp.closingDate.includes('Docs') ? incomingProp.closingDate : `Closing: ${incomingProp.closingDate}`}</span>
+                            <span className="text-xs font-medium text-slate-500 dark:text-slate-400">{incomingProp.closingDate.includes('Docs') ? incomingProp.closingDate : `Closing: ${incomingProp.closingDate}`}</span>
                             <button onClick={(e) => { e.preventDefault(); e.stopPropagation(); navigate('/landlord/verification'); }} className={`flex items-center gap-1.5 text-xs font-bold ${incomingProp.progressColor === 'bg-purple-600' ? 'text-purple-600 hover:text-purple-700 bg-purple-50 dark:bg-purple-900/20' : 'text-orange-600 hover:text-orange-700 bg-orange-50 dark:bg-orange-900/20'} transition-colors px-3 py-1.5 rounded-full`}>
                                 <span className="material-symbols-outlined text-[16px]">verified_user</span> Verify Status
                             </button>
@@ -225,7 +225,7 @@ function PropertyCardGrid({ property, isIncoming = false }: PropertyCardGridProp
                         </div>
                         <div className="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
                             <div>
-                                <p className="text-lg font-bold text-slate-900 dark:text-white">{regularProp.price}<span className="text-xs font-normal text-slate-400">{regularProp.priceType}</span></p>
+                                <p className="text-lg font-bold text-slate-900 dark:text-white">{regularProp.price}<span className="text-xs font-normal text-slate-500 dark:text-slate-400">{regularProp.priceType}</span></p>
                             </div>
                             <button onClick={(e) => { e.preventDefault(); e.stopPropagation(); navigate('/landlord/verification'); }} className="flex items-center gap-1.5 text-xs font-bold text-brand-ink hover:text-brand-ink/80 transition-colors bg-blue-50 dark:bg-blue-900/20 px-3 py-1.5 rounded-full">
                                 <span className="material-symbols-outlined text-[16px]">verified_user</span> Verify Status
@@ -290,7 +290,7 @@ function PropertyCardList({ property, isIncoming = false, verifyColor = 'primary
                     {isIncoming ? (
                         <div className="w-full max-w-md">
                             <div className="flex justify-between items-center mb-1.5">
-                                <span className="text-xs font-bold text-slate-500 uppercase tracking-wide">{incomingProp.progressLabel}</span>
+                                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">{incomingProp.progressLabel}</span>
                                 <span className={`text-sm font-bold ${incomingProp.progressColor === 'bg-purple-600' ? 'text-purple-600' : 'text-orange-600'}`}>{incomingProp.progress}%</span>
                             </div>
                             <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
@@ -312,11 +312,11 @@ function PropertyCardList({ property, isIncoming = false, verifyColor = 'primary
                 <div className="flex flex-row md:flex-col justify-between items-center md:items-end md:justify-center border-t md:border-t-0 md:border-l border-slate-100 dark:border-slate-800 pt-4 md:pt-0 md:pl-4 min-w-[160px] gap-3">
                     <div className="text-right">
                         {isIncoming ? (
-                            <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full mb-1">
+                            <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full mb-1">
                                 <span className="material-symbols-outlined text-[16px]">{incomingProp.closingDate.includes('Docs') ? 'pending_actions' : 'event'}</span> {incomingProp.closingDate.includes('Docs') ? incomingProp.closingDate : `Closing: ${incomingProp.closingDate}`}
                             </div>
                         ) : (
-                            <p className="text-lg font-bold text-slate-900 dark:text-white">{regularProp.price}<span className="text-xs font-normal text-slate-400">{regularProp.priceType}</span></p>
+                            <p className="text-lg font-bold text-slate-900 dark:text-white">{regularProp.price}<span className="text-xs font-normal text-slate-500 dark:text-slate-400">{regularProp.priceType}</span></p>
                         )}
                     </div>
                     <div className="flex gap-2">

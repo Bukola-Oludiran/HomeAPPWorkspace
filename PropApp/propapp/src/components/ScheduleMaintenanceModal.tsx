@@ -43,7 +43,7 @@ export default function ScheduleMaintenanceModal({
                             </p>
                         </div>
                         <button
-                            className="rounded-full p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-500 dark:hover:bg-slate-800 dark:hover:text-slate-300 transition-colors focus:outline-none"
+                            className="rounded-full p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 hover:text-slate-500 dark:hover:bg-slate-800 dark:hover:text-slate-300 transition-colors focus:outline-none"
                             type="button"
                             onClick={onClose}
                         >
@@ -71,7 +71,7 @@ export default function ScheduleMaintenanceModal({
                                             <option>Appliance Issue</option>
                                             <option>Pest Control</option>
                                         </select>
-                                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
+                                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500 dark:text-slate-400">
                                             <span className="material-symbols-outlined text-[20px]">expand_more</span>
                                         </div>
                                     </div>
@@ -136,7 +136,7 @@ export default function ScheduleMaintenanceModal({
                                             <option>Afternoon (12pm - 4pm)</option>
                                             <option>Evening (4pm - 8pm)</option>
                                         </select>
-                                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
+                                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500 dark:text-slate-400">
                                             <span className="material-symbols-outlined text-[20px]">schedule</span>
                                         </div>
                                     </div>
@@ -168,7 +168,7 @@ export default function ScheduleMaintenanceModal({
                                         <option>GreenThumb Landscaping (Rated 4.5)</option>
                                         <option value="unassigned">Unassigned (Open for Bids)</option>
                                     </select>
-                                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
+                                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500 dark:text-slate-400">
                                         <span className="material-symbols-outlined text-[20px]">engineering</span>
                                     </div>
                                 </div>
@@ -185,7 +185,7 @@ export default function ScheduleMaintenanceModal({
                                             value={contactPerson}
                                             onChange={(e) => setContactPerson(e.target.value)}
                                         />
-                                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center px-3 text-slate-400">
+                                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center px-3 text-slate-500 dark:text-slate-400">
                                             <span className="material-symbols-outlined text-[20px]">person</span>
                                         </div>
                                     </div>
@@ -199,7 +199,7 @@ export default function ScheduleMaintenanceModal({
                                             value={phoneNumber}
                                             onChange={(e) => setPhoneNumber(e.target.value)}
                                         />
-                                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center px-3 text-slate-400">
+                                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center px-3 text-slate-500 dark:text-slate-400">
                                             <span className="material-symbols-outlined text-[20px]">phone</span>
                                         </div>
                                     </div>

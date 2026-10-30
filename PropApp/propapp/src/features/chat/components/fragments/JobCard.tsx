@@ -23,7 +23,7 @@ export function JobCard({ props, onAction }: Props) {
                         {props.jobType.replace(/_/g, ' ')}
                     </h3>
                     {props.propertyTitle ? (
-                        <p className="truncate text-xs text-slate-500">{props.propertyTitle}</p>
+                        <p className="truncate text-xs text-slate-500 dark:text-slate-400">{props.propertyTitle}</p>
                     ) : null}
                 </div>
                 <span
@@ -37,7 +37,7 @@ export function JobCard({ props, onAction }: Props) {
             <dl className="mt-2 grid grid-cols-2 gap-y-1 text-sm">
                 {props.scheduledAt ? (
                     <>
-                        <dt className="text-slate-500">Scheduled</dt>
+                        <dt className="text-slate-500 dark:text-slate-400">Scheduled</dt>
                         <dd className="text-right">
                             {new Date(props.scheduledAt).toLocaleString()}
                         </dd>
@@ -45,7 +45,7 @@ export function JobCard({ props, onAction }: Props) {
                 ) : null}
                 {props.payout ? (
                     <>
-                        <dt className="text-slate-500">Payout</dt>
+                        <dt className="text-slate-500 dark:text-slate-400">Payout</dt>
                         <dd className="text-right font-semibold tabular-nums">
                             ${props.payout.amount.toLocaleString()}
                         </dd>

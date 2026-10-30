@@ -80,7 +80,7 @@ export default function AddAvailabilityModal({ isOpen, onClose, onSave }: AddAva
                     </div>
                     <button
                         onClick={onClose}
-                        className="size-8 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-500 transition-colors"
+                        className="size-8 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 transition-colors"
                     >
                         <span className="material-symbols-outlined">close</span>
                     </button>
@@ -133,12 +133,12 @@ export default function AddAvailabilityModal({ isOpen, onClose, onSave }: AddAva
                     <div className="mb-5">
                         <label className="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer hover:border-brand/30 transition-colors">
                             <div className="flex items-center gap-3">
-                                <span className="material-symbols-outlined text-slate-400">repeat</span>
+                                <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">repeat</span>
                                 <div>
                                     <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                                         Repeat weekly
                                     </p>
-                                    <p className="text-xs text-slate-500">
+                                    <p className="text-xs text-slate-500 dark:text-slate-400">
                                         Set as recurring availability
                                     </p>
                                 </div>

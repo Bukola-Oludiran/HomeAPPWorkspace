@@ -81,7 +81,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                                 ? 'bg-green-500 text-white shadow-sm'
                                 : currentStep === step
                                     ? 'bg-brand-ink text-on-brand ring-4 ring-white dark:ring-slate-900'
-                                    : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border-2 border-white dark:border-slate-900'
+                                    : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-500 border-2 border-white dark:border-slate-900'
                                 }`}
                         >
                             {currentStep > step ? (
@@ -95,7 +95,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                                 ? 'text-green-600 dark:text-green-500'
                                 : currentStep === step
                                     ? 'text-brand-ink'
-                                    : 'text-slate-400 dark:text-slate-500'
+                                    : 'text-slate-500 dark:text-slate-500'
                                 }`}
                         >
                             {step === 1 ? 'Offer Details' : step === 2 ? 'Your Info' : 'Review'}
@@ -123,7 +123,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                     </span>
                 </div>
                 <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg font-bold">₦</span>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 text-lg font-bold">₦</span>
                     <input
                         className="w-full pl-8 pr-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-lg font-bold text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-transparent outline-none transition-all placeholder-slate-300"
                         type="text"
@@ -131,7 +131,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                         onChange={(e) => setOfferDetails({ ...offerDetails, offerAmount: e.target.value })}
                     />
                 </div>
-                <p className="mt-2 text-xs text-slate-500 flex items-center gap-1">
+                <p className="mt-2 text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1">
                     <span className="material-symbols-outlined text-[14px]">trending_up</span>
                     Market Insight: Most offers in this neighborhood are 2-3% above listing.
                 </p>
@@ -140,12 +140,12 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
             {/* Terms & Contingencies */}
             <div className="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700">
                 <h3 className="text-base font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                    <span className="material-symbols-outlined text-slate-400 text-lg">gavel</span>
+                    <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-lg">gavel</span>
                     Terms & Contingencies
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                     <div>
-                        <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5">Offer Expiration Date</label>
+                        <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">Offer Expiration Date</label>
                         <input
                             className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand outline-none"
                             type="date"
@@ -154,7 +154,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                         />
                     </div>
                     <div>
-                        <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5">Time</label>
+                        <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">Time</label>
                         <input
                             className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand outline-none"
                             type="time"
@@ -163,7 +163,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                         />
                     </div>
                 </div>
-                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">Select Contingencies</label>
+                <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-3">Select Contingencies</label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {contingencyOptions.map((option) => (
                         <label
@@ -181,7 +181,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                             />
                             <div>
                                 <span className="block text-sm font-bold text-slate-900 dark:text-white group-hover:text-brand-ink transition-colors">{option.label}</span>
-                                <span className="block text-xs text-slate-500">{option.description}</span>
+                                <span className="block text-xs text-slate-500 dark:text-slate-400">{option.description}</span>
                             </div>
                         </label>
                     ))}
@@ -192,7 +192,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
             <div className="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700">
                 <div className="flex items-center justify-between mb-4">
                     <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                        <span className="material-symbols-outlined text-slate-400 text-lg">upload_file</span>
+                        <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-lg">upload_file</span>
                         Proof of Funds / Pre-Approval
                     </h3>
                     <span className="text-xs text-orange-600 bg-orange-100 dark:bg-orange-900/30 dark:text-orange-400 px-2 py-0.5 rounded font-bold">REQUIRED</span>
@@ -202,7 +202,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                         <span className="material-symbols-outlined text-brand-ink text-2xl">cloud_upload</span>
                     </div>
                     <p className="text-sm font-medium text-slate-900 dark:text-white group-hover:text-brand-ink transition-colors">Click to upload or drag and drop</p>
-                    <p className="text-xs text-slate-500 mt-1">PDF, JPG or PNG (max. 10MB)</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">PDF, JPG or PNG (max. 10MB)</p>
                 </div>
             </div>
         </div>
@@ -217,7 +217,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                         <span className="material-symbols-outlined">description</span>
                     </div>
                     <div>
-                        <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Offer Summary</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Offer Summary</p>
                         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-semibold text-slate-900 dark:text-white">
                             <span>₦{offerDetails.offerAmount}</span>
                             <span className="text-slate-300">•</span>
@@ -232,7 +232,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
             <div className="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
                     <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                        <span className="material-symbols-outlined text-slate-400">person</span>
+                        <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">person</span>
                         Buyer Contact Information
                     </h3>
                     <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-brand-ink dark:text-blue-400 border border-blue-100 dark:border-blue-800/50 self-start sm:self-auto">
@@ -248,24 +248,24 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="md:col-span-2">
-                        <label className="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Full Legal Name</label>
+                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">Full Legal Name</label>
                         <div className="relative">
                             <input className="w-full pl-4 pr-10 py-3 bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-600 dark:text-slate-400 cursor-not-allowed outline-none font-medium" readOnly value={buyerInfo.fullName} />
-                            <span className="absolute inset-y-0 right-0 pr-3 flex items-center"><span className="material-symbols-outlined text-slate-400 text-sm">lock</span></span>
+                            <span className="absolute inset-y-0 right-0 pr-3 flex items-center"><span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-sm">lock</span></span>
                         </div>
                     </div>
                     <div>
-                        <label className="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Email Address</label>
+                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">Email Address</label>
                         <div className="relative">
                             <input className="w-full pl-4 pr-10 py-3 bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-600 dark:text-slate-400 cursor-not-allowed outline-none font-medium" readOnly value={buyerInfo.email} />
-                            <span className="absolute inset-y-0 right-0 pr-3 flex items-center"><span className="material-symbols-outlined text-slate-400 text-sm">lock</span></span>
+                            <span className="absolute inset-y-0 right-0 pr-3 flex items-center"><span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-sm">lock</span></span>
                         </div>
                     </div>
                     <div>
-                        <label className="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Phone Number</label>
+                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">Phone Number</label>
                         <div className="relative">
                             <input className="w-full pl-4 pr-10 py-3 bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-600 dark:text-slate-400 cursor-not-allowed outline-none font-medium" readOnly value={buyerInfo.phone} />
-                            <span className="absolute inset-y-0 right-0 pr-3 flex items-center"><span className="material-symbols-outlined text-slate-400 text-sm">lock</span></span>
+                            <span className="absolute inset-y-0 right-0 pr-3 flex items-center"><span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-sm">lock</span></span>
                         </div>
                     </div>
                 </div>
@@ -274,12 +274,12 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
             {/* Current Address */}
             <div className="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700">
                 <h3 className="text-base font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                    <span className="material-symbols-outlined text-slate-400">home</span>
+                    <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">home</span>
                     Current Residential Address
                 </h3>
                 <div className="space-y-4">
                     <div>
-                        <label className="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Street Address</label>
+                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">Street Address</label>
                         <input
                             className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand outline-none placeholder-slate-400"
                             placeholder="e.g. 123 Main St"
@@ -288,7 +288,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                         />
                     </div>
                     <div>
-                        <label className="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Apartment, suite, etc. (optional)</label>
+                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">Apartment, suite, etc. (optional)</label>
                         <input
                             className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand outline-none placeholder-slate-400"
                             placeholder="e.g. Apt 4B"
@@ -298,15 +298,15 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                         <div className="col-span-2 md:col-span-1">
-                            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">City</label>
+                            <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">City</label>
                             <input className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand outline-none placeholder-slate-400" placeholder="City" value={buyerInfo.city} onChange={(e) => setBuyerInfo({ ...buyerInfo, city: e.target.value })} />
                         </div>
                         <div>
-                            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">State</label>
+                            <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">State</label>
                             <input className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand outline-none placeholder-slate-400" placeholder="State" value={buyerInfo.state} onChange={(e) => setBuyerInfo({ ...buyerInfo, state: e.target.value })} />
                         </div>
                         <div>
-                            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Zip Code</label>
+                            <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">Zip Code</label>
                             <input className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand outline-none placeholder-slate-400" placeholder="Zip" value={buyerInfo.zipCode} onChange={(e) => setBuyerInfo({ ...buyerInfo, zipCode: e.target.value })} />
                         </div>
                     </div>
@@ -321,22 +321,22 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
             <div className="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 border-b border-slate-100 dark:border-slate-700 pb-4">
                     <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                        <span className="material-symbols-outlined text-slate-400">description</span>
+                        <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">description</span>
                         Offer Details Summary
                     </h3>
                     <button onClick={() => setCurrentStep(1)} className="text-brand-ink text-sm font-bold hover:underline">Edit</button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-8">
                     <div>
-                        <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Offer Price</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Offer Price</p>
                         <p className="text-lg font-bold text-slate-900 dark:text-white">₦{offerDetails.offerAmount}</p>
                     </div>
                     <div>
-                        <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Earnest Money</p>
-                        <p className="text-base font-medium text-slate-900 dark:text-white">{formatCurrency(earnestMoney)} <span className="text-slate-400 text-sm font-normal">(1%)</span></p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Earnest Money</p>
+                        <p className="text-base font-medium text-slate-900 dark:text-white">{formatCurrency(earnestMoney)} <span className="text-slate-500 dark:text-slate-400 text-sm font-normal">(1%)</span></p>
                     </div>
                     <div className="md:col-span-2">
-                        <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Selected Contingencies</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Selected Contingencies</p>
                         <div className="flex flex-wrap gap-2 mt-1">
                             {offerDetails.contingencies.map((c) => (
                                 <span key={c} className="px-2.5 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded text-sm font-medium border border-blue-100 dark:border-blue-800">
@@ -346,11 +346,11 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                         </div>
                     </div>
                     <div>
-                        <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Expiration Date</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Expiration Date</p>
                         <p className="text-sm font-medium text-slate-900 dark:text-white">{offerDetails.expirationDate || 'Not set'}</p>
                     </div>
                     <div>
-                        <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Proposed Closing</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Proposed Closing</p>
                         <p className="text-sm font-medium text-slate-900 dark:text-white">30 Days</p>
                     </div>
                 </div>
@@ -360,26 +360,26 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
             <div className="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 border-b border-slate-100 dark:border-slate-700 pb-4">
                     <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                        <span className="material-symbols-outlined text-slate-400">person</span>
+                        <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">person</span>
                         Buyer Contact Information
                     </h3>
                     <button onClick={() => setCurrentStep(2)} className="text-brand-ink text-sm font-bold hover:underline">Edit</button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-8">
                     <div className="md:col-span-2">
-                        <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Full Legal Name</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Full Legal Name</p>
                         <p className="text-sm font-medium text-slate-900 dark:text-white">{buyerInfo.fullName}</p>
                     </div>
                     <div>
-                        <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Email Address</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Email Address</p>
                         <p className="text-sm font-medium text-slate-900 dark:text-white">{buyerInfo.email}</p>
                     </div>
                     <div>
-                        <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Phone Number</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Phone Number</p>
                         <p className="text-sm font-medium text-slate-900 dark:text-white">{buyerInfo.phone}</p>
                     </div>
                     <div className="md:col-span-2">
-                        <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Current Residential Address</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Current Residential Address</p>
                         <p className="text-sm font-medium text-slate-900 dark:text-white">
                             {buyerInfo.streetAddress ? `${buyerInfo.streetAddress}${buyerInfo.apartment ? `, ${buyerInfo.apartment}` : ''}, ${buyerInfo.city}, ${buyerInfo.state} ${buyerInfo.zipCode}` : 'Not provided'}
                         </p>
@@ -421,14 +421,14 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                     </p>
                     <div className="space-y-3 py-4 border-t border-slate-100 dark:border-slate-700">
                         <div className="flex justify-between text-sm">
-                            <span className="text-slate-500">Listing Price</span>
+                            <span className="text-slate-500 dark:text-slate-400">Listing Price</span>
                             <span className="font-medium text-slate-900 dark:text-white line-through decoration-slate-400 decoration-2">{formatCurrency(property.listingPrice)}</span>
                         </div>
                         <div className="flex justify-between text-sm items-center">
                             <span className="text-brand-ink font-bold">Your Offer</span>
                             <span className="font-bold text-lg text-brand-ink bg-blue-50 dark:bg-blue-900/30 px-2 rounded">₦{offerDetails.offerAmount}</span>
                         </div>
-                        <div className="flex justify-between text-xs text-slate-400 mt-2">
+                        <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400 mt-2">
                             <span>Est. Earnest Money (1%)</span>
                             <span>{formatCurrency(earnestMoney)}</span>
                         </div>
@@ -473,7 +473,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                             </div>
                             <button
                                 onClick={onClose}
-                                className="text-slate-400 hover:text-slate-500 transition-colors p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full"
+                                className="text-slate-500 dark:text-slate-400 hover:text-slate-500 transition-colors p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full"
                             >
                                 <span className="material-symbols-outlined">close</span>
                             </button>

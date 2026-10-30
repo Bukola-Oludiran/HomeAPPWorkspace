@@ -26,7 +26,7 @@ export function FinancialSummaryChart({ props }: Props) {
         <article className="rounded-2xl border border-slate-200 bg-white p-4">
             <header className="flex items-baseline justify-between">
                 <h3 className="text-sm font-semibold text-slate-900">Financial summary</h3>
-                <span className="text-xs text-slate-500">{props.period}</span>
+                <span className="text-xs text-slate-500 dark:text-slate-400">{props.period}</span>
             </header>
             <svg viewBox={`0 0 ${W} ${H}`} className="mt-3 w-full" preserveAspectRatio="none">
                 {props.series.map((s, i) => {
@@ -58,7 +58,7 @@ export function FinancialSummaryChart({ props }: Props) {
             <ul className="mt-3 grid grid-cols-2 gap-y-1 text-xs">
                 {props.totals.map((t) => (
                     <li key={t.label} className="flex items-center justify-between">
-                        <span className="text-slate-500">{t.label}</span>
+                        <span className="text-slate-500 dark:text-slate-400">{t.label}</span>
                         <span className="font-semibold tabular-nums text-slate-900">
                             ${t.value.amount.toLocaleString()}
                         </span>

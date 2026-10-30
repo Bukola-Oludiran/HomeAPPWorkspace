@@ -16,13 +16,13 @@ export function PaymentSummaryCard({ props, onAction }: Props) {
                 ${props.amount.amount.toLocaleString()}
             </p>
             <dl className="mt-2 grid grid-cols-2 gap-y-1 text-sm">
-                <dt className="text-slate-500">For</dt>
+                <dt className="text-slate-500 dark:text-slate-400">For</dt>
                 <dd className="text-right text-slate-900">{props.purpose}</dd>
-                <dt className="text-slate-500">To</dt>
+                <dt className="text-slate-500 dark:text-slate-400">To</dt>
                 <dd className="truncate text-right text-slate-900">{props.recipientName}</dd>
                 {props.dueDate ? (
                     <>
-                        <dt className="text-slate-500">Due</dt>
+                        <dt className="text-slate-500 dark:text-slate-400">Due</dt>
                         <dd className="text-right text-slate-900">
                             {new Date(props.dueDate).toLocaleDateString()}
                         </dd>

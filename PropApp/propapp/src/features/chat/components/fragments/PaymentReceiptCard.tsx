@@ -18,15 +18,15 @@ export function PaymentReceiptCard({ props }: Props) {
                 ${props.amount.amount.toLocaleString()}
             </p>
             <dl className="mt-2 grid grid-cols-2 gap-y-1 text-sm">
-                <dt className="text-slate-500">For</dt>
+                <dt className="text-slate-500 dark:text-slate-400">For</dt>
                 <dd className="text-right text-slate-900">{props.purpose}</dd>
-                <dt className="text-slate-500">To</dt>
+                <dt className="text-slate-500 dark:text-slate-400">To</dt>
                 <dd className="truncate text-right text-slate-900">{props.recipientName}</dd>
-                <dt className="text-slate-500">Paid</dt>
+                <dt className="text-slate-500 dark:text-slate-400">Paid</dt>
                 <dd className="text-right text-slate-900">
                     {new Date(props.paidAt).toLocaleString()}
                 </dd>
-                <dt className="text-slate-500">Ref</dt>
+                <dt className="text-slate-500 dark:text-slate-400">Ref</dt>
                 <dd className="truncate text-right font-mono text-xs text-slate-700">
                     {props.reference}
                 </dd>

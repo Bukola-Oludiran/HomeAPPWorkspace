@@ -127,7 +127,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                         </div>
                         <button
                             onClick={onClose}
-                            className="p-2 -mr-2 text-slate-400 hover:text-slate-500 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors"
+                            className="p-2 -mr-2 text-slate-500 dark:text-slate-400 hover:text-slate-500 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors"
                         >
                             <span className="material-symbols-outlined">close</span>
                         </button>
@@ -193,7 +193,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                                 <div className="relative group">
                                                     <input accept="image/*,application/pdf" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" type="file" />
                                                     <div className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-dashed border-slate-300 dark:border-slate-600 rounded-lg flex items-center gap-3 group-hover:border-brand group-hover:bg-blue-50/30 dark:group-hover:bg-blue-900/20 transition-all">
-                                                        <div className="size-10 flex items-center justify-center bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-400 group-hover:text-brand-ink transition-colors">
+                                                        <div className="size-10 flex items-center justify-center bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 group-hover:text-brand-ink transition-colors">
                                                             <span className="material-symbols-outlined text-[20px]">cloud_upload</span>
                                                         </div>
                                                         <div className="flex-1 min-w-0">
@@ -210,7 +210,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                                         <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 truncate">Use Identity Service</p>
                                                         <p className="text-xs text-slate-500 dark:text-slate-400 truncate">Connect via SecureID</p>
                                                     </div>
-                                                    <span className="material-symbols-outlined text-slate-400 group-hover:text-brand-ink text-[18px]">arrow_forward</span>
+                                                    <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 group-hover:text-brand-ink text-[18px]">arrow_forward</span>
                                                 </button>
                                             </div>
                                         </div>
@@ -301,7 +301,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                         <div className="space-y-1.5">
                                             <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Annual Income</label>
                                             <div className="relative">
-                                                <span className="absolute left-3 top-2.5 text-slate-400 font-bold">₦</span>
+                                                <span className="absolute left-3 top-2.5 text-slate-500 dark:text-slate-400 font-bold">₦</span>
                                                 <input
                                                     className="w-full pl-7 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all placeholder:text-slate-400"
                                                     placeholder="0.00"
@@ -339,11 +339,11 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                         </button>
                                     </div>
                                     <div className="p-6 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-dashed border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center text-center gap-2">
-                                        <div className="size-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 mb-1">
+                                        <div className="size-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 mb-1">
                                             <span className="material-symbols-outlined text-[20px]">person_add</span>
                                         </div>
                                         <p className="text-sm font-medium text-slate-500 dark:text-slate-400">No references added yet.</p>
-                                        <p className="text-xs text-slate-400 dark:text-slate-500">Adding references helps speed up the approval process.</p>
+                                        <p className="text-xs text-slate-500 dark:text-slate-500">Adding references helps speed up the approval process.</p>
                                     </div>
                                 </section>
                             </form>
@@ -352,7 +352,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                 {/* Search and Filter */}
                                 <div className="flex flex-col sm:flex-row gap-4 mb-6">
                                     <div className="relative flex-1">
-                                        <span className="material-symbols-outlined absolute left-3 top-3 text-slate-400 text-[20px]">search</span>
+                                        <span className="material-symbols-outlined absolute left-3 top-3 text-slate-500 dark:text-slate-400 text-[20px]">search</span>
                                         <input
                                             className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all text-slate-900 dark:text-white"
                                             placeholder="Search address, city, or zip code..."
@@ -386,7 +386,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                                 )}
                                                 <div className="flex justify-between items-start mb-3">
                                                     <div className="flex items-center gap-3">
-                                                        <div className={`size-10 rounded-lg flex items-center justify-center ${selectedProperty === property.id ? 'bg-blue-50 dark:bg-blue-900/30 text-brand-ink' : 'bg-slate-50 dark:bg-slate-800 text-slate-500'}`}>
+                                                        <div className={`size-10 rounded-lg flex items-center justify-center ${selectedProperty === property.id ? 'bg-blue-50 dark:bg-blue-900/30 text-brand-ink' : 'bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400'}`}>
                                                             <span className="material-symbols-outlined">{property.icon}</span>
                                                         </div>
                                                         <div>
@@ -406,7 +406,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                                     <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[16px]">square_foot</span> {property.sqft} sqft</span>
                                                 </div>
                                                 <div className="mt-auto pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                                                    <span className="text-sm font-bold text-slate-900 dark:text-white">{property.rent}<span className="text-xs font-normal text-slate-500">/mo</span></span>
+                                                    <span className="text-sm font-bold text-slate-900 dark:text-white">{property.rent}<span className="text-xs font-normal text-slate-500 dark:text-slate-400">/mo</span></span>
                                                     <span className={`px-2 py-1 rounded text-xs font-bold uppercase tracking-wide ${getStatusColor(property.status)}`}>{property.statusLabel}</span>
                                                 </div>
                                             </div>

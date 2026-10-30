@@ -220,7 +220,7 @@ export default function TenantPayments() {
                             {formatCurrency(stats.lastPayment)}
                         </h3>
                     </div>
-                    <div className="mt-6 flex items-center gap-2 text-sm font-medium text-slate-500">
+                    <div className="mt-6 flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400">
                         <span className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-2 py-0.5 rounded-full flex items-center gap-1">
                             <span className="material-symbols-outlined text-[16px]">done</span>
                             Paid
@@ -254,7 +254,7 @@ export default function TenantPayments() {
                     <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="font-bold text-lg text-slate-900 dark:text-white">Payment Activity</h3>
-                            <div className="flex items-center gap-2 text-xs text-slate-500">
+                            <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
                                 <span>Less</span>
                                 <div className="flex gap-1">
                                     <div className="size-3 rounded-sm bg-slate-100 dark:bg-slate-800"></div>
@@ -266,7 +266,7 @@ export default function TenantPayments() {
                             </div>
                         </div>
                         <div className="flex flex-col gap-2 overflow-x-auto pb-2">
-                            <div className="flex justify-between text-xs text-slate-400 font-medium px-1">
+                            <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400 font-medium px-1">
                                 <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span>
                             </div>
                             <div className="grid grid-cols-12 gap-1 h-[80px]">
@@ -299,7 +299,7 @@ export default function TenantPayments() {
                     <div className="bg-white dark:bg-canvas-dark p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
                         <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
                             <div className="relative">
-                                <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[20px]">calendar_month</span>
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-500 dark:text-slate-400 text-[20px]">calendar_month</span>
                                 <select
                                     value={yearFilter}
                                     onChange={(e) => setYearFilter(e.target.value)}
@@ -311,7 +311,7 @@ export default function TenantPayments() {
                                 </select>
                             </div>
                             <div className="relative">
-                                <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[20px]">filter_list</span>
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-500 dark:text-slate-400 text-[20px]">filter_list</span>
                                 <select
                                     value={statusFilter}
                                     onChange={(e) => setStatusFilter(e.target.value)}
@@ -326,7 +326,7 @@ export default function TenantPayments() {
                         </div>
                         <div className="flex items-center gap-2 w-full md:w-auto">
                             <div className="relative w-full">
-                                <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[20px]">search</span>
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-500 dark:text-slate-400 text-[20px]">search</span>
                                 <input
                                     className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-brand/50"
                                     placeholder="Search payments..."
@@ -363,13 +363,13 @@ export default function TenantPayments() {
                                                     </div>
                                                     <div>
                                                         <p className="text-sm font-bold text-slate-900 dark:text-white">{item.title}</p>
-                                                        <p className="text-xs text-slate-500">{item.description}</p>
+                                                        <p className="text-xs text-slate-500 dark:text-slate-400">{item.description}</p>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">
                                                 {item.date}<br />
-                                                <span className="text-xs text-slate-400">{item.time}</span>
+                                                <span className="text-xs text-slate-500 dark:text-slate-400">{item.time}</span>
                                             </td>
                                             <td className="px-6 py-4">
                                                 <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border ${item.statusColor}`}>
@@ -381,7 +381,7 @@ export default function TenantPayments() {
                                                 <p className="font-bold text-slate-900 dark:text-white">{item.amount}</p>
                                             </td>
                                             <td className="px-6 py-4 text-right">
-                                                <button className="p-2 text-slate-400 hover:text-brand-ink hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors">
+                                                <button className="p-2 text-slate-500 dark:text-slate-400 hover:text-brand-ink hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors">
                                                     <span className="material-symbols-outlined text-[20px]">receipt_long</span>
                                                 </button>
                                             </td>
@@ -391,7 +391,7 @@ export default function TenantPayments() {
                             </table>
                         </div>
                         <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/20 flex justify-center">
-                            <button className="text-sm font-bold text-slate-500 hover:text-brand-ink transition-colors flex items-center gap-2">
+                            <button className="text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-brand-ink transition-colors flex items-center gap-2">
                                 Load more transactions
                                 <span className="material-symbols-outlined text-[16px]">expand_more</span>
                             </button>
@@ -413,9 +413,9 @@ export default function TenantPayments() {
                                 </div>
                             </div>
                             <div className="mb-6">
-                                <p className="text-slate-400 text-sm mb-1">Next Payment Due</p>
+                                <p className="text-slate-500 dark:text-slate-400 text-sm mb-1">Next Payment Due</p>
                                 <h2 className="text-3xl font-extrabold tracking-tight">{formatCurrency(stats.upcomingDue)}</h2>
-                                <p className="text-sm text-slate-400 mt-1">{stats.upcomingDue > 0 ? 'Awaiting Payment' : 'No Pending Payments'}</p>
+                                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{stats.upcomingDue > 0 ? 'Awaiting Payment' : 'No Pending Payments'}</p>
                             </div>
                             <MagneticButton>
                                 <button
@@ -452,7 +452,7 @@ export default function TenantPayments() {
                                 onClick={() => setIsBillingModalOpen(true)}
                                 className="col-span-2 flex items-center justify-center gap-2 p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-brand/50 hover:bg-white dark:hover:bg-slate-700/80 transition-all group"
                             >
-                                <span className="material-symbols-outlined text-slate-500 text-[20px] group-hover:text-brand-ink transition-colors">description</span>
+                                <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[20px] group-hover:text-brand-ink transition-colors">description</span>
                                 <span className="text-sm font-bold text-slate-700 dark:text-slate-300">View Billing Statements</span>
                             </button>
                         </div>
@@ -481,7 +481,7 @@ export default function TenantPayments() {
                                     </div>
                                     <div className="flex-1">
                                         <p className="text-sm font-bold text-slate-900 dark:text-white">{method.name}</p>
-                                        <p className="text-xs text-slate-500">**** {method.lastFour} {method.isPrimary && '(Primary)'}</p>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400">**** {method.lastFour} {method.isPrimary && '(Primary)'}</p>
                                     </div>
                                     {method.isPrimary && (
                                         <div className="text-green-600 dark:text-green-400">

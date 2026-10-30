@@ -76,7 +76,7 @@ export default function RejectOfferModal({
                         </div>
                         <button
                             onClick={onClose}
-                            className="p-2 text-slate-400 hover:text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors"
+                            className="p-2 text-slate-500 dark:text-slate-400 hover:text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors"
                         >
                             <span className="material-symbols-outlined">close</span>
                         </button>
@@ -98,7 +98,7 @@ export default function RejectOfferModal({
 
                         {/* Reason Selection */}
                         <div>
-                            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">
+                            <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
                                 Please tell us why (optional)
                             </label>
                             <div className="space-y-2">
@@ -113,7 +113,7 @@ export default function RejectOfferModal({
                                     >
                                         <span className={`material-symbols-outlined ${selectedReason === reasonOption.id
                                             ? 'text-brand-ink'
-                                            : 'text-slate-400'
+                                            : 'text-slate-500 dark:text-slate-400'
                                             }`}>
                                             {reasonOption.icon}
                                         </span>
@@ -134,7 +134,7 @@ export default function RejectOfferModal({
                         {/* Additional Comments */}
                         {selectedReason === 'other' && (
                             <div>
-                                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
                                     Additional Comments
                                 </label>
                                 <textarea

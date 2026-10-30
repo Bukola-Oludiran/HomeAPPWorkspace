@@ -63,7 +63,7 @@ export default function ContactAgentModal({ isOpen, onClose, agent, property }: 
                     <h2 className="text-lg font-bold text-slate-900 dark:text-white">Contact Agent</h2>
                     <button
                         onClick={onClose}
-                        className="size-8 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-500 transition-colors"
+                        className="size-8 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 transition-colors"
                     >
                         <span className="material-symbols-outlined">close</span>
                     </button>

@@ -113,7 +113,7 @@ export default function AgentPublicProfile() {
         return (
             <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex items-center justify-center">
                 <div className="text-center">
-                    <span className="material-symbols-outlined text-4xl text-slate-400 mb-4">error_outline</span>
+                    <span className="material-symbols-outlined text-4xl text-slate-500 dark:text-slate-400 mb-4">error_outline</span>
                     <p className="text-slate-600 dark:text-slate-400">{error || 'Profile not found'}</p>
                     <Link to="/" className="text-brand-ink font-semibold mt-4 inline-block hover:underline">Go Home</Link>
                 </div>
@@ -202,13 +202,13 @@ export default function AgentPublicProfile() {
                                             <span className="font-bold text-xl">{agent.rating}</span>
                                             <span className="material-symbols-outlined text-[20px] icon-filled">star</span>
                                         </div>
-                                        <p className="text-xs text-slate-400 uppercase font-bold tracking-wide">Rating</p>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wide">Rating</p>
                                     </div>
                                     <div className="text-center border-l border-slate-100 dark:border-slate-800">
                                         <div className="flex items-center justify-center gap-1 text-slate-700 dark:text-white mb-1">
                                             <span className="font-bold text-xl">{agent.jobsDone}</span>
                                         </div>
-                                        <p className="text-xs text-slate-400 uppercase font-bold tracking-wide">Jobs Done</p>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wide">Jobs Done</p>
                                     </div>
                                 </div>
                             </div>
@@ -293,7 +293,7 @@ export default function AgentPublicProfile() {
                                                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Issuing Authority: {cert.issuer}</p>
                                                 <div className="flex items-center gap-2 mt-2">
                                                     <span className="text-xs font-bold bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-2 py-0.5 rounded-full">{cert.status}</span>
-                                                    <span className="text-xs text-slate-400">Exp: {cert.expiry}</span>
+                                                    <span className="text-xs text-slate-500 dark:text-slate-400">Exp: {cert.expiry}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -325,7 +325,7 @@ export default function AgentPublicProfile() {
                                     <div className="flex flex-wrap gap-2">
                                         {agent.serviceAreas.map((area, index) => (
                                             <div key={index} className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-lg">
-                                                <span className="material-symbols-outlined text-[16px] text-slate-400">near_me</span>
+                                                <span className="material-symbols-outlined text-[16px] text-slate-500 dark:text-slate-400">near_me</span>
                                                 <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{area}</span>
                                             </div>
                                         ))}
@@ -346,8 +346,8 @@ export default function AgentPublicProfile() {
                                         </div>
                                     </div>
                                     <div className="text-right hidden md:block">
-                                        <div className="text-2xl font-bold text-slate-900 dark:text-white">{agent.rating}<span className="text-slate-400 text-lg font-normal">/5</span></div>
-                                        <p className="text-xs text-slate-500">Based on {agent.jobsDone} reviews</p>
+                                        <div className="text-2xl font-bold text-slate-900 dark:text-white">{agent.rating}<span className="text-slate-500 dark:text-slate-400 text-lg font-normal">/5</span></div>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400">Based on {agent.jobsDone} reviews</p>
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -358,7 +358,7 @@ export default function AgentPublicProfile() {
                                                     <div className={`size-8 rounded-full ${review.color} flex items-center justify-center font-bold text-xs`}>{review.initials}</div>
                                                     <span className="text-sm font-bold text-slate-900 dark:text-white">{review.name}</span>
                                                 </div>
-                                                <span className="text-xs text-slate-400">{review.date}</span>
+                                                <span className="text-xs text-slate-500 dark:text-slate-400">{review.date}</span>
                                             </div>
                                             <div className="flex items-center gap-1 mb-2 text-yellow-500">
                                                 {renderStars(review.rating)}
@@ -396,7 +396,7 @@ export default function AgentPublicProfile() {
                                     <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">Assistant</p>
                                 </div>
                             </div>
-                            <button onClick={() => setShowAIChat(false)} className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+                            <button onClick={() => setShowAIChat(false)} className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
                                 <span className="material-symbols-outlined text-[20px]">close</span>
                             </button>
                         </div>
@@ -410,7 +410,7 @@ export default function AgentPublicProfile() {
                                 </div>
                             </div>
                             <div className="mt-auto">
-                                <p className="text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide px-1">Suggested questions</p>
+                                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2 uppercase tracking-wide px-1">Suggested questions</p>
                                 <div className="flex flex-wrap gap-2">
                                     <button className="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors">
                                         Compare ratings

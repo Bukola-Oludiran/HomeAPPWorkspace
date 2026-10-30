@@ -149,7 +149,7 @@ export default function HomePage() {
                         <div className="w-full max-w-3xl bg-white dark:bg-surface-dark p-2 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] dark:shadow-black/30 border border-slate-100 dark:border-slate-800">
                             <div className="flex flex-col md:flex-row gap-2">
                                 <div className="flex-1 flex items-center bg-slate-50 dark:bg-slate-800/50 rounded-xl px-4 h-14 md:h-16">
-                                    <span className="material-symbols-outlined text-slate-400 mr-3">search</span>
+                                    <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 mr-3">search</span>
                                     <input
                                         className="flex-1 bg-transparent border-none outline-none focus:ring-0 text-slate-900 dark:text-white placeholder:text-slate-400 text-base md:text-lg w-full p-0"
                                         placeholder="Search by location, price, or property type..."
@@ -248,7 +248,7 @@ export default function HomePage() {
                             ) : error ? (
                                 // Error state
                                 <div className="col-span-full text-center py-12">
-                                    <span className="material-symbols-outlined text-4xl text-slate-400 mb-2">error</span>
+                                    <span className="material-symbols-outlined text-4xl text-slate-500 dark:text-slate-400 mb-2">error</span>
                                     <p className="text-slate-500 dark:text-slate-400">{error}</p>
                                     <button
                                         onClick={() => window.location.reload()}
@@ -260,7 +260,7 @@ export default function HomePage() {
                             ) : featuredProperties.length === 0 ? (
                                 // Empty state
                                 <div className="col-span-full text-center py-12">
-                                    <span className="material-symbols-outlined text-4xl text-slate-400 mb-2">home</span>
+                                    <span className="material-symbols-outlined text-4xl text-slate-500 dark:text-slate-400 mb-2">home</span>
                                     <p className="text-slate-500 dark:text-slate-400">No featured properties available</p>
                                 </div>
                             ) : (
@@ -299,7 +299,7 @@ export default function HomePage() {
                                                         <p className="text-xl font-bold text-slate-900 dark:text-white">
                                                             {formatPrice(property.price, 'CAD')}
                                                             {listingInfo.priceUnit && (
-                                                                <span className="text-sm font-normal text-slate-500">
+                                                                <span className="text-sm font-normal text-slate-500 dark:text-slate-400">
                                                                     {listingInfo.priceUnit}
                                                                 </span>
                                                             )}

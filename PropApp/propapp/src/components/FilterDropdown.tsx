@@ -110,7 +110,7 @@ export default function FilterDropdown({
                                     </span>
                                 )}
                                 {option.icon && (
-                                    <span className="material-symbols-outlined text-[18px] text-slate-400">
+                                    <span className="material-symbols-outlined text-[18px] text-slate-500 dark:text-slate-400">
                                         {option.icon}
                                     </span>
                                 )}
@@ -126,7 +126,7 @@ export default function FilterDropdown({
                         <div className="border-t border-slate-100 dark:border-slate-800 mt-2 pt-2 px-4">
                             <button
                                 onClick={clearAll}
-                                className="text-xs font-semibold text-slate-500 hover:text-brand-ink transition-colors"
+                                className="text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-brand-ink transition-colors"
                             >
                                 Clear all
                             </button>

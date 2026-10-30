@@ -163,7 +163,7 @@ export default function TenantLeaseDetails() {
             <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex items-center justify-center">
                 <div className="flex flex-col items-center gap-3">
                     <div className="size-8 border-3 border-brand border-t-transparent rounded-full animate-spin"></div>
-                    <span className="text-sm text-slate-500">Loading lease details...</span>
+                    <span className="text-sm text-slate-500 dark:text-slate-400">Loading lease details...</span>
                 </div>
             </div>
         );
@@ -202,10 +202,10 @@ export default function TenantLeaseDetails() {
                 {/* Stats Grid */}
                 <section className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
-                        <span className="text-xs text-slate-500 font-bold uppercase tracking-wide">Monthly Rent</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Monthly Rent</span>
                         <div className="flex items-baseline gap-1">
                             <span className="text-2xl font-bold text-slate-900 dark:text-white">{formatCurrency(leaseData.monthlyRent)}</span>
-                            <span className="text-xs text-slate-500">/mo</span>
+                            <span className="text-xs text-slate-500 dark:text-slate-400">/mo</span>
                         </div>
                         <div className="mt-1 flex items-center text-xs text-green-600 font-medium bg-green-50 dark:bg-green-900/20 w-fit px-1.5 py-0.5 rounded">
                             <span className="material-symbols-outlined text-[14px] mr-1">check_circle</span>
@@ -213,17 +213,17 @@ export default function TenantLeaseDetails() {
                         </div>
                     </div>
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
-                        <span className="text-xs text-slate-500 font-bold uppercase tracking-wide">Security Deposit</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Security Deposit</span>
                         <span className="text-2xl font-bold text-slate-900 dark:text-white">{formatCurrency(leaseData.securityDeposit)}</span>
-                        <span className="text-xs text-slate-500">Held in escrow</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400">Held in escrow</span>
                     </div>
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
-                        <span className="text-xs text-slate-500 font-bold uppercase tracking-wide">Lease Start</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Lease Start</span>
                         <span className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">{leaseData.startDate}</span>
-                        <span className="text-xs text-slate-500">{leaseData.term} term</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400">{leaseData.term} term</span>
                     </div>
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
-                        <span className="text-xs text-slate-500 font-bold uppercase tracking-wide">Lease End</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Lease End</span>
                         <span className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">{leaseData.endDate}</span>
                         <span className="text-xs text-orange-500 font-medium">Expiring soon</span>
                     </div>
@@ -285,10 +285,10 @@ export default function TenantLeaseDetails() {
                             <div className="space-y-3">
                                 {leaseData.clauses.map((clause) => (
                                     <div key={clause.id} className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex items-start gap-3">
-                                        <span className="material-symbols-outlined text-slate-400 mt-0.5">{clause.icon}</span>
+                                        <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 mt-0.5">{clause.icon}</span>
                                         <div>
                                             <h4 className="font-bold text-slate-900 dark:text-white text-sm">{clause.title}</h4>
-                                            <p className="text-sm text-slate-500 mt-1">{clause.description}</p>
+                                            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{clause.description}</p>
                                         </div>
                                         <button className="ml-auto text-brand-ink text-sm font-semibold hover:underline">View</button>
                                     </div>
@@ -307,7 +307,7 @@ export default function TenantLeaseDetails() {
                             <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-sm text-left">
-                                        <thead className="bg-slate-50 dark:bg-slate-700/50 text-slate-500 font-semibold border-b border-slate-200 dark:border-slate-700">
+                                        <thead className="bg-slate-50 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 font-semibold border-b border-slate-200 dark:border-slate-700">
                                             <tr>
                                                 <th className="px-6 py-3 whitespace-nowrap">Due Date</th>
                                                 <th className="px-6 py-3 whitespace-nowrap">Description</th>
@@ -347,7 +347,7 @@ export default function TenantLeaseDetails() {
                         {/* Landlord / Agent */}
                         <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6">
                             <h4 className="font-bold text-lg text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                                <span className="material-symbols-outlined text-slate-500">real_estate_agent</span>
+                                <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">real_estate_agent</span>
                                 Landlord / Agent
                             </h4>
                             <div className="flex items-center gap-3 mb-4">
@@ -356,7 +356,7 @@ export default function TenantLeaseDetails() {
                                 </div>
                                 <div>
                                     <p className="font-bold text-slate-900 dark:text-white">{leaseData.landlord.name}</p>
-                                    <p className="text-xs text-slate-500 uppercase tracking-wide">{leaseData.landlord.role}</p>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">{leaseData.landlord.role}</p>
                                 </div>
                             </div>
                             <div className="space-y-3 text-sm">
@@ -391,12 +391,12 @@ export default function TenantLeaseDetails() {
                                 My Info
                             </h4>
                             <div className="flex items-center gap-4 mb-4">
-                                <div className="size-12 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-500 overflow-hidden">
+                                <div className="size-12 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400 overflow-hidden">
                                     <span className="material-symbols-outlined text-[28px]">face</span>
                                 </div>
                                 <div>
                                     <p className="font-bold text-slate-900 dark:text-white text-base">{leaseData.tenant.name}</p>
-                                    <p className="text-xs text-slate-500">{leaseData.tenant.role}</p>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400">{leaseData.tenant.role}</p>
                                 </div>
                             </div>
                             <div className="space-y-2 text-sm border-t border-slate-100 dark:border-slate-700 pt-4">
@@ -460,7 +460,7 @@ export default function TenantLeaseDetails() {
                 <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
                     <div className="hidden md:flex items-center gap-4">
                         <div>
-                            <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-0.5">Lease Status</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-0.5">Lease Status</p>
                             <div className="flex items-center gap-2">
                                 <span className="size-2.5 rounded-full bg-green-500 animate-pulse"></span>
                                 <span className="font-bold text-slate-900 dark:text-white">Active</span>
@@ -468,7 +468,7 @@ export default function TenantLeaseDetails() {
                         </div>
                         <div className="h-8 w-px bg-slate-200 dark:bg-slate-700 mx-2"></div>
                         <div>
-                            <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-0.5">Next Payment</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-0.5">Next Payment</p>
                             <span className="font-bold text-slate-900 dark:text-white">Dec 1, 2024</span>
                         </div>
                     </div>

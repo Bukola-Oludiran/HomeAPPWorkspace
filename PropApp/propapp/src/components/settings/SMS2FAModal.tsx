@@ -46,7 +46,7 @@ export default function SMS2FAModal({ isOpen, onClose, onSuccess }: SMS2FAModalP
                         <h3 className="text-lg font-bold text-slate-900 dark:text-white">Set Up SMS Two-Factor Authentication</h3>
                         <button
                             onClick={onClose}
-                            className="text-slate-400 hover:text-slate-500 dark:hover:text-slate-300 transition-colors p-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer"
+                            className="text-slate-500 dark:text-slate-400 hover:text-slate-500 dark:hover:text-slate-300 transition-colors p-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer"
                         >
                             <span className="material-symbols-outlined">close</span>
                         </button>
@@ -82,7 +82,7 @@ export default function SMS2FAModal({ isOpen, onClose, onSuccess }: SMS2FAModalP
                                         <option>NG +234</option>
                                         <option>CA +1</option>
                                     </select>
-                                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+                                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500 dark:text-slate-400">
                                         <span className="material-symbols-outlined text-sm">expand_more</span>
                                     </div>
                                 </div>
@@ -102,7 +102,7 @@ export default function SMS2FAModal({ isOpen, onClose, onSuccess }: SMS2FAModalP
                                 <div className="w-full border-t border-slate-200 dark:border-slate-700"></div>
                             </div>
                             <div className="relative flex justify-center">
-                                <span className="bg-white dark:bg-[#1e293b] px-3 text-xs text-slate-400 uppercase tracking-wider font-semibold">Verification</span>
+                                <span className="bg-white dark:bg-[#1e293b] px-3 text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider font-semibold">Verification</span>
                             </div>
                         </div>
 
@@ -137,7 +137,7 @@ export default function SMS2FAModal({ isOpen, onClose, onSuccess }: SMS2FAModalP
 
                         {/* Help */}
                         <div className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-4 flex items-start gap-3 border border-slate-100 dark:border-slate-700/50">
-                            <span className="material-symbols-outlined text-slate-400 text-lg mt-0.5">help</span>
+                            <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-lg mt-0.5">help</span>
                             <div className="text-sm text-slate-600 dark:text-slate-400 leading-snug">
                                 <p className="font-medium text-slate-900 dark:text-slate-200 mb-0.5">Having trouble?</p>
                                 Check if your phone blocks unknown numbers or <button className="text-brand-ink hover:underline font-medium cursor-pointer">contact support</button> for manual verification.

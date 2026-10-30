@@ -29,7 +29,7 @@ export function VerificationStatusCard({ props, onAction }: Props) {
             </header>
             {props.stepsComplete.length > 0 ? (
                 <div className="mt-3">
-                    <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+                    <p className="text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">
                         Completed
                     </p>
                     <ul className="mt-1 space-y-1 text-sm text-slate-700">
@@ -44,7 +44,7 @@ export function VerificationStatusCard({ props, onAction }: Props) {
             ) : null}
             {props.stepsPending.length > 0 ? (
                 <div className="mt-3">
-                    <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+                    <p className="text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">
                         Outstanding
                     </p>
                     <ul className="mt-1 space-y-1 text-sm text-slate-700">

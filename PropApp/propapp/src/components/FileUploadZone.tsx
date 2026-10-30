@@ -141,14 +141,14 @@ export default function FileUploadZone({
 
                 <div className={`size-12 rounded-full flex items-center justify-center mb-3 transition-colors ${isDragging
                         ? 'bg-brand/10 text-brand-ink'
-                        : 'bg-slate-100 dark:bg-slate-800 text-slate-400'
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
                     }`}>
                     <span className="material-symbols-outlined text-2xl">cloud_upload</span>
                 </div>
 
                 <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">{label}</p>
-                <p className="text-xs text-slate-500 text-center">{description}</p>
-                <p className="text-xs text-slate-400 mt-1">
+                <p className="text-xs text-slate-500 dark:text-slate-400 text-center">{description}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                     Max {formatFileSize(maxSize)} per file • Up to {maxFiles} files
                 </p>
             </div>
@@ -178,7 +178,7 @@ export default function FileUploadZone({
                                 />
                             ) : (
                                 <div className="size-10 bg-slate-100 dark:bg-slate-700 rounded-lg flex items-center justify-center">
-                                    <span className="material-symbols-outlined text-slate-400">
+                                    <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">
                                         {getFileIcon(file.type)}
                                     </span>
                                 </div>
@@ -189,7 +189,7 @@ export default function FileUploadZone({
                                 <p className="text-sm font-medium text-slate-700 dark:text-slate-300 truncate">
                                     {file.name}
                                 </p>
-                                <p className="text-xs text-slate-500">
+                                <p className="text-xs text-slate-500 dark:text-slate-400">
                                     {formatFileSize(file.size)}
                                 </p>
                             </div>
@@ -200,7 +200,7 @@ export default function FileUploadZone({
                                     e.stopPropagation();
                                     removeFile(file.id);
                                 }}
-                                className="size-8 rounded-full flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors opacity-0 group-hover:opacity-100"
+                                className="size-8 rounded-full flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors opacity-0 group-hover:opacity-100"
                             >
                                 <span className="material-symbols-outlined text-[18px]">close</span>
                             </button>

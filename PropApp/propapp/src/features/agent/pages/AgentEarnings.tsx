@@ -141,7 +141,7 @@ export default function AgentEarnings() {
                             {formatCurrency(earnings?.pendingBalance || 0)}
                         </h3>
                     </div>
-                    <div className="mt-6 flex items-center gap-2 text-sm font-medium text-slate-500">
+                    <div className="mt-6 flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400">
                         <span className="material-symbols-outlined text-[18px] text-orange-500">info</span>
                         <span>Clearance expected in 24 hrs</span>
                     </div>
@@ -158,7 +158,7 @@ export default function AgentEarnings() {
                             {formatCurrency(earnings?.totalEarned || 0)}
                         </h3>
                     </div>
-                    <div className="mt-6 flex items-center gap-2 text-sm font-medium text-slate-500">
+                    <div className="mt-6 flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400">
                         <span className="material-symbols-outlined text-[18px] text-brand-ink">trending_up</span>
                         <span>Withdrawn: {formatCurrency(earnings?.totalWithdrawn || 0)}</span>
                     </div>
@@ -174,7 +174,7 @@ export default function AgentEarnings() {
                     <div className="bg-white dark:bg-canvas-dark p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
                         <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
                             <div className="relative">
-                                <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[20px]">calendar_month</span>
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-500 dark:text-slate-400 text-[20px]">calendar_month</span>
                                 <select
                                     value={dateFilter}
                                     onChange={(e) => setDateFilter(e.target.value)}
@@ -187,7 +187,7 @@ export default function AgentEarnings() {
                                 </select>
                             </div>
                             <div className="relative">
-                                <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[20px]">filter_list</span>
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-500 dark:text-slate-400 text-[20px]">filter_list</span>
                                 <select
                                     value={statusFilter}
                                     onChange={(e) => setStatusFilter(e.target.value)}
@@ -202,7 +202,7 @@ export default function AgentEarnings() {
                         </div>
                         <div className="flex items-center gap-2 w-full md:w-auto">
                             <div className="relative w-full">
-                                <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[20px]">search</span>
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-500 dark:text-slate-400 text-[20px]">search</span>
                                 <input
                                     className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-brand/50"
                                     placeholder="Search transactions..."
@@ -252,7 +252,7 @@ export default function AgentEarnings() {
                                                                 <p className="text-sm font-bold text-slate-900 dark:text-white">
                                                                     {payout.description || 'Payout'}
                                                                 </p>
-                                                                <p className="text-xs text-slate-500">
+                                                                <p className="text-xs text-slate-500 dark:text-slate-400">
                                                                     Ref: {payout.reference || payout.id.slice(0, 8)}
                                                                 </p>
                                                             </div>
@@ -260,7 +260,7 @@ export default function AgentEarnings() {
                                                     </td>
                                                     <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">
                                                         {date}<br />
-                                                        <span className="text-xs text-slate-400">{time}</span>
+                                                        <span className="text-xs text-slate-500 dark:text-slate-400">{time}</span>
                                                     </td>
                                                     <td className="px-6 py-4">
                                                         <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border ${styles.color}`}>
@@ -272,7 +272,7 @@ export default function AgentEarnings() {
                                                         <p className="font-bold text-slate-900 dark:text-white">+ {formatCurrency(payout.amount)}</p>
                                                     </td>
                                                     <td className="px-6 py-4 text-right">
-                                                        <button className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-brand-ink hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors">
+                                                        <button className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-brand-ink hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors">
                                                             <span className="material-symbols-outlined text-[20px]">visibility</span>
                                                         </button>
                                                     </td>
@@ -284,7 +284,7 @@ export default function AgentEarnings() {
                             </table>
                         </div>
                         <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/20 flex justify-center">
-                            <button className="text-sm font-bold text-slate-500 bg-slate-50 dark:bg-slate-800 hover:text-brand-ink transition-colors flex items-center gap-2 px-3 py-1.5 rounded-lg">
+                            <button className="text-sm font-bold text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800 hover:text-brand-ink transition-colors flex items-center gap-2 px-3 py-1.5 rounded-lg">
                                 Load more transactions
                                 <span className="material-symbols-outlined text-[16px]">expand_more</span>
                             </button>
@@ -304,16 +304,16 @@ export default function AgentEarnings() {
                                 <span className="font-mono text-white/50 text-sm">Agent Wallet</span>
                             </div>
                             <div className="mb-6">
-                                <p className="text-slate-400 text-sm mb-1">Total Balance</p>
+                                <p className="text-slate-500 dark:text-slate-400 text-sm mb-1">Total Balance</p>
                                 <h2 className="text-3xl font-extrabold tracking-tight">{formatCurrency(totalBalance)}</h2>
                             </div>
                             <div className="flex justify-between items-end">
                                 <div className="flex flex-col">
-                                    <span className="text-xs text-slate-400 uppercase tracking-wider">Account Holder</span>
+                                    <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider">Account Holder</span>
                                     <span className="font-medium text-sm">{accountHolderName}</span>
                                 </div>
                                 <div className="flex flex-col items-end">
-                                    <span className="text-xs text-slate-400 uppercase tracking-wider">Status</span>
+                                    <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider">Status</span>
                                     <span className="font-medium text-sm">Active</span>
                                 </div>
                             </div>
@@ -350,7 +350,7 @@ export default function AgentEarnings() {
                         </div>
                         <div className="space-y-3">
                             {bankAccounts.length === 0 ? (
-                                <div className="text-center py-4 text-slate-500 text-sm">
+                                <div className="text-center py-4 text-slate-500 dark:text-slate-400 text-sm">
                                     No payout methods added yet
                                 </div>
                             ) : (
@@ -367,7 +367,7 @@ export default function AgentEarnings() {
                                         </div>
                                         <div className="flex-1">
                                             <p className="text-sm font-bold text-slate-900 dark:text-white">{account.bankName}</p>
-                                            <p className="text-xs text-slate-500">**** {account.accountNumber.slice(-4)}</p>
+                                            <p className="text-xs text-slate-500 dark:text-slate-400">**** {account.accountNumber.slice(-4)}</p>
                                         </div>
                                         {account.isDefault && (
                                             <div className="text-green-600 dark:text-green-400">

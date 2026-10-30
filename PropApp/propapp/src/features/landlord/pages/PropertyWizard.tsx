@@ -74,7 +74,7 @@ const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormD
                 <div className="md:col-span-12">
                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Address</label>
                     <div className="relative">
-                        <span className="absolute left-4 top-3.5 text-slate-400 material-symbols-outlined text-[20px]">location_on</span>
+                        <span className="absolute left-4 top-3.5 text-slate-500 dark:text-slate-400 material-symbols-outlined text-[20px]">location_on</span>
                         <input
                             className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white focus:border-brand focus:ring-brand h-12 pl-11 pr-4 shadow-sm"
                             placeholder="Enter property address"
@@ -94,7 +94,7 @@ const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormD
                             value={formData.beds}
                             onChange={(e) => setFormData({ ...formData, beds: e.target.value })}
                         />
-                        <span className="absolute right-4 top-3.5 text-slate-400 text-xs font-bold pointer-events-none">BDS</span>
+                        <span className="absolute right-4 top-3.5 text-slate-500 dark:text-slate-400 text-xs font-bold pointer-events-none">BDS</span>
                     </div>
                 </div>
                 <div className="md:col-span-3">
@@ -107,7 +107,7 @@ const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormD
                             value={formData.baths}
                             onChange={(e) => setFormData({ ...formData, baths: e.target.value })}
                         />
-                        <span className="absolute right-4 top-3.5 text-slate-400 text-xs font-bold pointer-events-none">BA</span>
+                        <span className="absolute right-4 top-3.5 text-slate-500 dark:text-slate-400 text-xs font-bold pointer-events-none">BA</span>
                     </div>
                 </div>
                 <div className="md:col-span-3">
@@ -123,7 +123,7 @@ const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormD
                 <div className="md:col-span-3">
                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Monthly Rent</label>
                     <div className="relative">
-                        <span className="absolute left-4 top-3.5 text-slate-500 font-bold">₦</span>
+                        <span className="absolute left-4 top-3.5 text-slate-500 dark:text-slate-400 font-bold">₦</span>
                         <input
                             className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white focus:border-brand focus:ring-brand h-12 pl-8 pr-4 shadow-sm"
                             placeholder="0.00"
@@ -232,7 +232,7 @@ const StepTwo = () => {
                     <h3 className="font-bold text-lg text-slate-900 dark:text-white flex items-center gap-2">
                         Uploaded Photos <span className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs px-2 py-0.5 rounded-full">{photos.length}</span>
                     </h3>
-                    <p className="text-xs font-medium text-slate-500 flex items-center gap-1">
+                    <p className="text-xs font-medium text-slate-500 dark:text-slate-400 flex items-center gap-1">
                         <span className="material-symbols-outlined text-[16px]">drag_indicator</span> Drag to reorder
                     </p>
                 </div>
@@ -248,7 +248,7 @@ const StepTwo = () => {
                             {photo.isCover && (
                                 <span className="absolute top-3 left-3 bg-brand-ink text-on-brand text-xs uppercase font-bold px-2 py-1 rounded z-10">Cover Photo</span>
                             )}
-                            <button className="absolute top-2 right-2 p-1.5 bg-white/90 dark:bg-slate-900/90 text-slate-400 hover:text-red-500 rounded-lg hover:bg-white dark:hover:bg-slate-800 transition-colors opacity-0 group-hover:opacity-100 shadow-sm z-10">
+                            <button className="absolute top-2 right-2 p-1.5 bg-white/90 dark:bg-slate-900/90 text-slate-500 dark:text-slate-400 hover:text-red-500 rounded-lg hover:bg-white dark:hover:bg-slate-800 transition-colors opacity-0 group-hover:opacity-100 shadow-sm z-10">
                                 <span className="material-symbols-outlined text-[18px]">delete</span>
                             </button>
                             {!photo.isCover && (
@@ -331,7 +331,7 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
                         <div>
                             <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Rental Price</label>
                             <div className="relative">
-                                <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-500 font-bold">₦</span>
+                                <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-500 dark:text-slate-400 font-bold">₦</span>
                                 <input
                                     className="w-full bg-slate-50 dark:bg-canvas-dark border border-slate-200 dark:border-slate-700 rounded-lg py-3 pl-8 pr-4 focus:ring-2 focus:ring-brand/20 focus:border-brand text-slate-900 dark:text-white outline-none font-medium"
                                     placeholder="0.00"
@@ -505,7 +505,7 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
                                 </div>
                                 <div>
                                     <span className="block text-sm font-bold text-slate-700 dark:text-slate-300 group-hover:text-brand-ink transition-colors">{amenity.label}</span>
-                                    <span className="text-xs text-slate-500">{amenity.desc}</span>
+                                    <span className="text-xs text-slate-500 dark:text-slate-400">{amenity.desc}</span>
                                 </div>
                             </label>
                         ))}
@@ -532,7 +532,7 @@ const StepFour = () => (
                 <button className="text-brand-ink text-sm font-bold flex items-center gap-1 hover:underline">
                     <span className="material-symbols-outlined text-[18px]">forum</span> Improve with AI
                 </button>
-                <span className="text-xs text-slate-400">0/2000 characters</span>
+                <span className="text-xs text-slate-500 dark:text-slate-400">0/2000 characters</span>
             </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -57,7 +57,7 @@ export default function ReviewModal({ isOpen, onClose, recipient, context }: Rev
                     <h2 className="text-lg font-bold text-slate-900 dark:text-white">Write a Review</h2>
                     <button
                         onClick={onClose}
-                        className="size-8 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-500 transition-colors"
+                        className="size-8 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 transition-colors"
                     >
                         <span className="material-symbols-outlined">close</span>
                     </button>
@@ -86,7 +86,7 @@ export default function ReviewModal({ isOpen, onClose, recipient, context }: Rev
                                 />
                             ) : (
                                 <div className="size-14 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center">
-                                    <span className="material-symbols-outlined text-2xl text-slate-400">
+                                    <span className="material-symbols-outlined text-2xl text-slate-500 dark:text-slate-400">
                                         {recipient.type === 'property' ? 'home' : 'person'}
                                     </span>
                                 </div>
@@ -135,7 +135,7 @@ export default function ReviewModal({ isOpen, onClose, recipient, context }: Rev
                         {/* Review Text */}
                         <div className="mb-6">
                             <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5 block">
-                                Your Review <span className="font-normal text-slate-400">(optional)</span>
+                                Your Review <span className="font-normal text-slate-500 dark:text-slate-400">(optional)</span>
                             </label>
                             <textarea
                                 value={review}
@@ -144,7 +144,7 @@ export default function ReviewModal({ isOpen, onClose, recipient, context }: Rev
                                 rows={4}
                                 className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-brand/20 focus:border-brand transition-colors resize-none"
                             />
-                            <p className="text-xs text-slate-400 mt-1 text-right">{review.length}/500</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 text-right">{review.length}/500</p>
                         </div>
 
                         {/* Actions */}

@@ -104,7 +104,7 @@ function getAlertTypeStyles(type: AlertType): {
         default:
             return {
                 icon: 'info',
-                iconBg: 'bg-slate-100 dark:bg-slate-800 text-slate-500',
+                iconBg: 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400',
                 barColor: 'bg-slate-300',
                 uiType: 'other',
             };
@@ -365,7 +365,7 @@ export default function LandlordAlertCenter() {
                     </div>
                     <div className="h-8 w-px bg-slate-200 dark:bg-slate-700 hidden md:block mx-1"></div>
                     <button
-                        className={`text-slate-400 dark:text-slate-500 text-sm font-medium flex items-center gap-1 ${selectedAlerts.length === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:text-slate-600 dark:hover:text-slate-300'
+                        className={`text-slate-500 dark:text-slate-500 text-sm font-medium flex items-center gap-1 ${selectedAlerts.length === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:text-slate-600 dark:hover:text-slate-300'
                             }`}
                         disabled={selectedAlerts.length === 0}
                     >
@@ -374,7 +374,7 @@ export default function LandlordAlertCenter() {
                     </button>
                 </div>
                 <div className="relative w-full xl:w-auto min-w-[300px]">
-                    <span className="material-symbols-outlined absolute left-3 top-2.5 text-slate-400 text-[20px]">search</span>
+                    <span className="material-symbols-outlined absolute left-3 top-2.5 text-slate-500 dark:text-slate-400 text-[20px]">search</span>
                     <input
                         type="text"
                         value={searchQuery}

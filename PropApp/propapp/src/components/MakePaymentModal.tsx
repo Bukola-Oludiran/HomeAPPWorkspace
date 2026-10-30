@@ -47,7 +47,7 @@ export default function MakePaymentModal({ isOpen, onClose, onSuccess, paymentFo
                             <h2 className="text-xl font-bold text-slate-900 dark:text-white">Make Payment</h2>
                             <p className="text-sm text-slate-500 dark:text-slate-400">Secure transaction for your property</p>
                         </div>
-                        <button onClick={onClose} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full text-slate-400 transition-colors">
+                        <button onClick={onClose} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full text-slate-500 dark:text-slate-400 transition-colors">
                             <span className="material-symbols-outlined">close</span>
                         </button>
                     </div>
@@ -59,7 +59,7 @@ export default function MakePaymentModal({ isOpen, onClose, onSuccess, paymentFo
                             <div className="space-y-1.5">
                                 <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Payment For</label>
                                 <div className="relative">
-                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">home</span>
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-500 dark:text-slate-400">home</span>
                                     <select
                                         value={selectedPaymentFor}
                                         onChange={(e) => setSelectedPaymentFor(e.target.value)}
@@ -69,13 +69,13 @@ export default function MakePaymentModal({ isOpen, onClose, onSuccess, paymentFo
                                             <option key={option.value} value={option.value}>{option.label}</option>
                                         ))}
                                     </select>
-                                    <span className="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 pointer-events-none">expand_more</span>
+                                    <span className="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-500 dark:text-slate-400 pointer-events-none">expand_more</span>
                                 </div>
                             </div>
                             <div className="space-y-1.5">
                                 <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Amount ($)</label>
                                 <div className="relative">
-                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-slate-400">₦</span>
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-slate-500 dark:text-slate-400">₦</span>
                                     <input
                                         type="text"
                                         value={paymentAmount}

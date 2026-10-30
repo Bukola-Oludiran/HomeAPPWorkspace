@@ -64,7 +64,7 @@ export default function LandlordLeaseAgreement() {
             <div className="flex items-center justify-center min-h-screen">
                 <div className="flex flex-col items-center gap-3">
                     <div className="size-10 border-4 border-brand border-t-transparent rounded-full animate-spin"></div>
-                    <p className="text-slate-500 font-medium">Loading lease agreement...</p>
+                    <p className="text-slate-500 dark:text-slate-400 font-medium">Loading lease agreement...</p>
                 </div>
             </div>
         );
@@ -74,7 +74,7 @@ export default function LandlordLeaseAgreement() {
         return (
             <div className="flex flex-col items-center justify-center min-h-screen gap-4">
                 <span className="material-symbols-outlined text-5xl text-slate-300">error</span>
-                <p className="text-slate-500 font-medium">Lease not found</p>
+                <p className="text-slate-500 dark:text-slate-400 font-medium">Lease not found</p>
                 <Link to="/landlord/dashboard" className="text-brand-ink font-bold hover:underline">Back to Dashboard</Link>
             </div>
         );
@@ -108,7 +108,7 @@ export default function LandlordLeaseAgreement() {
                     />
                 ) : (
                     <div className="w-full h-full bg-slate-300 dark:bg-slate-700 flex items-center justify-center">
-                        <span className="material-symbols-outlined text-6xl text-slate-400">apartment</span>
+                        <span className="material-symbols-outlined text-6xl text-slate-500 dark:text-slate-400">apartment</span>
                     </div>
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
@@ -129,29 +129,29 @@ export default function LandlordLeaseAgreement() {
                 {/* Stats Grid */}
                 <section className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
-                        <span className="text-xs text-slate-500 font-bold uppercase tracking-wide">Monthly Rent</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Monthly Rent</span>
                         <div className="flex items-baseline gap-1">
                             <span className="text-2xl font-bold text-slate-900 dark:text-white">{formatCurrency(lease.monthlyRent)}</span>
-                            <span className="text-xs text-slate-500">/mo</span>
+                            <span className="text-xs text-slate-500 dark:text-slate-400">/mo</span>
                         </div>
                         <div className="mt-1 flex items-center text-xs text-green-600 font-medium bg-green-50 dark:bg-green-900/20 w-fit px-1.5 py-0.5 rounded">
                             <span className="material-symbols-outlined text-[14px] mr-1">check_circle</span> Paid
                         </div>
                     </div>
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
-                        <span className="text-xs text-slate-500 font-bold uppercase tracking-wide">Security Deposit</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Security Deposit</span>
                         <span className="text-2xl font-bold text-slate-900 dark:text-white">{formatCurrency(lease.securityDeposit)}</span>
-                        <span className="text-xs text-slate-500">Held in escrow</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400">Held in escrow</span>
                     </div>
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
-                        <span className="text-xs text-slate-500 font-bold uppercase tracking-wide">Lease Start</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Lease Start</span>
                         <span className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">{leaseStartFormatted}</span>
-                        <span className="text-xs text-slate-500">{lease.status === 'ACTIVE' ? 'Active' : statusLabel}</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400">{lease.status === 'ACTIVE' ? 'Active' : statusLabel}</span>
                     </div>
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
-                        <span className="text-xs text-slate-500 font-bold uppercase tracking-wide">Lease End</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Lease End</span>
                         <span className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">{leaseEndFormatted}</span>
-                        <span className={`text-xs font-medium ${daysRemaining <= 60 ? 'text-orange-500' : 'text-slate-500'}`}>{daysRemaining <= 60 ? 'Expiring soon' : `${daysRemaining} days remaining`}</span>
+                        <span className={`text-xs font-medium ${daysRemaining <= 60 ? 'text-orange-500' : 'text-slate-500 dark:text-slate-400'}`}>{daysRemaining <= 60 ? 'Expiring soon' : `${daysRemaining} days remaining`}</span>
                     </div>
                 </section>
 
@@ -208,10 +208,10 @@ export default function LandlordLeaseAgreement() {
                             <div className="space-y-3">
                                 {clauses.map((clause) => (
                                     <div key={clause.id} className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex items-start gap-3">
-                                        <span className="material-symbols-outlined text-slate-400 mt-0.5">{clause.icon}</span>
+                                        <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 mt-0.5">{clause.icon}</span>
                                         <div>
                                             <h4 className="font-bold text-slate-900 dark:text-white text-sm">{clause.title}</h4>
-                                            <p className="text-sm text-slate-500 mt-1">{clause.description}</p>
+                                            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{clause.description}</p>
                                         </div>
                                         <button className="ml-auto text-brand-ink text-sm font-semibold hover:underline">View</button>
                                     </div>
@@ -228,7 +228,7 @@ export default function LandlordLeaseAgreement() {
                             <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-sm text-left">
-                                        <thead className="bg-slate-50 dark:bg-slate-700/50 text-slate-500 font-semibold border-b border-slate-200 dark:border-slate-700">
+                                        <thead className="bg-slate-50 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 font-semibold border-b border-slate-200 dark:border-slate-700">
                                             <tr>
                                                 <th className="px-6 py-3 whitespace-nowrap">Due Date</th>
                                                 <th className="px-6 py-3 whitespace-nowrap">Description</th>
@@ -265,12 +265,12 @@ export default function LandlordLeaseAgreement() {
                                 <span className="material-symbols-outlined text-brand-ink">group</span> Tenant Information
                             </h4>
                             <Link to={`/landlord/tenants/${lease.tenantId}/profile`} className="flex items-center gap-4 mb-6 group cursor-pointer">
-                                <div className="size-14 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-500 overflow-hidden group-hover:ring-2 group-hover:ring-brand transition-all font-bold text-lg">
+                                <div className="size-14 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400 overflow-hidden group-hover:ring-2 group-hover:ring-brand transition-all font-bold text-lg">
                                     {tenantInitials}
                                 </div>
                                 <div>
                                     <p className="font-bold text-slate-900 dark:text-white text-lg group-hover:text-brand-ink transition-colors">{tenantName}</p>
-                                    <p className="text-sm text-slate-500">Tenant</p>
+                                    <p className="text-sm text-slate-500 dark:text-slate-400">Tenant</p>
                                 </div>
                             </Link>
                             <div className="mt-6 pt-6 border-t border-slate-100 dark:border-slate-700 flex gap-2">
@@ -282,7 +282,7 @@ export default function LandlordLeaseAgreement() {
                         {/* Landlord / Agent */}
                         <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6">
                             <h4 className="font-bold text-lg text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                                <span className="material-symbols-outlined text-slate-500">real_estate_agent</span> Landlord / Agent
+                                <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">real_estate_agent</span> Landlord / Agent
                             </h4>
                             <div className="flex items-center gap-3 mb-4">
                                 <div className="size-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold">
@@ -290,7 +290,7 @@ export default function LandlordLeaseAgreement() {
                                 </div>
                                 <div>
                                     <p className="font-bold text-slate-900 dark:text-white">{landlordName}</p>
-                                    <p className="text-xs text-slate-500 uppercase tracking-wide">Landlord</p>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Landlord</p>
                                 </div>
                             </div>
                         </div>
@@ -322,7 +322,7 @@ export default function LandlordLeaseAgreement() {
                 <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
                     <div className="hidden md:flex items-center gap-4">
                         <div>
-                            <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-0.5">Lease Status</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-0.5">Lease Status</p>
                             <div className="flex items-center gap-2">
                                 <span className="size-2.5 rounded-full bg-green-500 animate-pulse"></span>
                                 <span className="font-bold text-slate-900 dark:text-white">{statusLabel}</span>
@@ -330,7 +330,7 @@ export default function LandlordLeaseAgreement() {
                         </div>
                         <div className="h-8 w-px bg-slate-200 dark:bg-slate-700 mx-2"></div>
                         <div>
-                            <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-0.5">Days Remaining</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-0.5">Days Remaining</p>
                             <span className="font-bold text-slate-900 dark:text-white">{daysRemaining} Days</span>
                         </div>
                     </div>

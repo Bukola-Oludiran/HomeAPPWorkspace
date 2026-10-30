@@ -9,7 +9,7 @@ interface Props {
 export function PropertyGrid({ props, onAction }: Props) {
     if (props.items.length === 0) {
         return (
-            <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-4 text-sm text-slate-500">
+            <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-4 text-sm text-slate-500 dark:text-slate-400">
                 {props.note ?? 'No properties.'}
             </div>
         );
@@ -20,7 +20,7 @@ export function PropertyGrid({ props, onAction }: Props) {
                 <PropertyCard key={p.propertyId} props={p} onAction={onAction} />
             ))}
             {typeof props.total === 'number' && props.total > props.items.length ? (
-                <p className="col-span-full text-center text-xs text-slate-500">
+                <p className="col-span-full text-center text-xs text-slate-500 dark:text-slate-400">
                     Showing {props.items.length} of {props.total}.
                 </p>
             ) : null}

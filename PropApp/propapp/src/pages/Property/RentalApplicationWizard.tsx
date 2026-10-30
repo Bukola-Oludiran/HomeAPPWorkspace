@@ -154,7 +154,7 @@ export default function RentalApplicationWizard() {
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
-                                        <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Full Name</label>
+                                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Full Name</label>
                                         <div className="relative group">
                                             <input
                                                 className="w-full bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-600 rounded-xl px-4 py-3 text-slate-600 dark:text-slate-300 font-medium cursor-not-allowed focus:ring-0 focus:border-slate-200"
@@ -162,11 +162,11 @@ export default function RentalApplicationWizard() {
                                                 type="text"
                                                 value={applicantData.name}
                                             />
-                                            <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-[18px] group-hover:text-brand-ink transition-colors">lock</span>
+                                            <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 text-[18px] group-hover:text-brand-ink transition-colors">lock</span>
                                         </div>
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Email Address</label>
+                                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Email Address</label>
                                         <div className="relative group">
                                             <input
                                                 className="w-full bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-600 rounded-xl px-4 py-3 text-slate-600 dark:text-slate-300 font-medium cursor-not-allowed focus:ring-0 focus:border-slate-200"
@@ -174,11 +174,11 @@ export default function RentalApplicationWizard() {
                                                 type="email"
                                                 value={applicantData.email}
                                             />
-                                            <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-[18px] group-hover:text-brand-ink transition-colors">lock</span>
+                                            <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 text-[18px] group-hover:text-brand-ink transition-colors">lock</span>
                                         </div>
                                     </div>
                                     <div className="md:col-span-2">
-                                        <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Phone Number</label>
+                                        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Phone Number</label>
                                         <div className="relative group">
                                             <input
                                                 className="w-full bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-600 rounded-xl px-4 py-3 text-slate-600 dark:text-slate-300 font-medium cursor-not-allowed focus:ring-0 focus:border-slate-200"
@@ -186,9 +186,9 @@ export default function RentalApplicationWizard() {
                                                 type="tel"
                                                 value={applicantData.phone}
                                             />
-                                            <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-[18px] group-hover:text-brand-ink transition-colors">lock</span>
+                                            <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 text-[18px] group-hover:text-brand-ink transition-colors">lock</span>
                                         </div>
-                                        <p className="mt-3 text-xs text-slate-400 flex items-center gap-1.5">
+                                        <p className="mt-3 text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
                                             <span className="material-symbols-outlined text-[16px] text-brand-ink" style={{ fontVariationSettings: "'FILL' 1" }}>info</span>
                                             These details are verified and linked to your main profile. <Link to="/tenant/profile" className="text-brand-ink hover:underline font-semibold">Edit in Profile Settings</Link>
                                         </p>
@@ -221,11 +221,11 @@ export default function RentalApplicationWizard() {
                                                     onChange={() => setFormData({ ...formData, leaseDuration: option.value })}
                                                 />
                                                 <div className="h-full rounded-xl border-2 border-slate-200 dark:border-slate-600 p-4 text-center hover:border-brand peer-checked:border-brand peer-checked:bg-blue-50 dark:peer-checked:bg-brand/10 transition-all shadow-sm">
-                                                    <div className="mb-1 text-slate-400 group-hover:text-brand-ink peer-checked:text-brand-ink transition-colors">
+                                                    <div className="mb-1 text-slate-500 dark:text-slate-400 group-hover:text-brand-ink peer-checked:text-brand-ink transition-colors">
                                                         <span className="material-symbols-outlined">{option.icon}</span>
                                                     </div>
                                                     <span className="block font-bold text-slate-900 dark:text-white">{option.label}</span>
-                                                    <span className="text-xs text-slate-500">{option.sublabel}</span>
+                                                    <span className="text-xs text-slate-500 dark:text-slate-400">{option.sublabel}</span>
                                                 </div>
                                             </label>
                                         ))}
@@ -234,7 +234,7 @@ export default function RentalApplicationWizard() {
                                 <div>
                                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">Preferred Move-in Date</label>
                                     <div className="relative max-w-sm">
-                                        <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">calendar_month</span>
+                                        <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400">calendar_month</span>
                                         <input
                                             className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-xl pl-12 pr-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-transparent font-medium"
                                             type="date"
@@ -278,7 +278,7 @@ export default function RentalApplicationWizard() {
                                             <span className="material-symbols-outlined">add</span>
                                         </button>
                                     </div>
-                                    <p className="mt-2 text-xs text-slate-500">Total adults and children living in the unit.</p>
+                                    <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">Total adults and children living in the unit.</p>
                                 </div>
                                 <div>
                                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">Do you have pets?</label>
@@ -363,7 +363,7 @@ export default function RentalApplicationWizard() {
                                 <div>
                                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Monthly Income</label>
                                     <div className="relative">
-                                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 font-bold">₦</span>
+                                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 font-bold">₦</span>
                                         <input
                                             className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-xl pl-8 pr-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-transparent font-medium"
                                             type="number"
@@ -425,7 +425,7 @@ export default function RentalApplicationWizard() {
                                 ].map((doc) => (
                                     <div key={doc.name} className="border-2 border-dashed border-slate-200 dark:border-slate-600 rounded-xl p-5 hover:border-brand transition-colors group cursor-pointer">
                                         <div className="flex items-start gap-4">
-                                            <div className="size-12 rounded-xl bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400 group-hover:text-brand-ink transition-colors">
+                                            <div className="size-12 rounded-xl bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400 group-hover:text-brand-ink transition-colors">
                                                 <span className="material-symbols-outlined text-2xl">{doc.icon}</span>
                                             </div>
                                             <div className="flex-1">
@@ -474,21 +474,21 @@ export default function RentalApplicationWizard() {
                             <div className="space-y-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-4">
-                                        <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Lease Duration</h4>
+                                        <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Lease Duration</h4>
                                         <p className="text-lg font-bold text-slate-900 dark:text-white">
                                             {formData.leaseDuration === '12' ? '12 Months' : formData.leaseDuration === '6' ? '6 Months' : 'Month-to-Month'}
                                         </p>
                                     </div>
                                     <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-4">
-                                        <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Move-in Date</h4>
+                                        <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Move-in Date</h4>
                                         <p className="text-lg font-bold text-slate-900 dark:text-white">{formData.moveInDate || 'Not specified'}</p>
                                     </div>
                                     <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-4">
-                                        <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Occupants</h4>
+                                        <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Occupants</h4>
                                         <p className="text-lg font-bold text-slate-900 dark:text-white">{formData.occupants}</p>
                                     </div>
                                     <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-4">
-                                        <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Pets</h4>
+                                        <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Pets</h4>
                                         <p className="text-lg font-bold text-slate-900 dark:text-white">{formData.hasPets ? 'Yes' : 'No'}</p>
                                     </div>
                                 </div>
@@ -611,7 +611,7 @@ export default function RentalApplicationWizard() {
                             {/* Property Card */}
                             <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden hover:shadow-md transition-shadow">
                                 <div className="bg-slate-50 dark:bg-slate-900/50 p-4 border-b border-slate-100 dark:border-slate-700">
-                                    <h3 className="font-bold text-sm text-slate-500 uppercase tracking-wide">Applying For</h3>
+                                    <h3 className="font-bold text-sm text-slate-500 dark:text-slate-400 uppercase tracking-wide">Applying For</h3>
                                 </div>
                                 <div className="p-4 flex gap-4 items-start">
                                     <div className="w-24 h-24 rounded-lg bg-slate-200 overflow-hidden shrink-0">
@@ -627,15 +627,15 @@ export default function RentalApplicationWizard() {
                                     <div className="grid grid-cols-3 gap-2 py-3 border-t border-slate-100 dark:border-slate-700">
                                         <div className="text-center">
                                             <span className="block font-bold text-slate-900 dark:text-white">{propertyData.beds}</span>
-                                            <span className="text-xs text-slate-500 uppercase">Beds</span>
+                                            <span className="text-xs text-slate-500 dark:text-slate-400 uppercase">Beds</span>
                                         </div>
                                         <div className="text-center border-l border-slate-100 dark:border-slate-700">
                                             <span className="block font-bold text-slate-900 dark:text-white">{propertyData.baths}</span>
-                                            <span className="text-xs text-slate-500 uppercase">Baths</span>
+                                            <span className="text-xs text-slate-500 dark:text-slate-400 uppercase">Baths</span>
                                         </div>
                                         <div className="text-center border-l border-slate-100 dark:border-slate-700">
                                             <span className="block font-bold text-slate-900 dark:text-white">{propertyData.sqft}</span>
-                                            <span className="text-xs text-slate-500 uppercase">Sq Ft</span>
+                                            <span className="text-xs text-slate-500 dark:text-slate-400 uppercase">Sq Ft</span>
                                         </div>
                                     </div>
                                     <div className="mt-2 pt-3 border-t border-slate-100 dark:border-slate-700 flex justify-between items-center">
@@ -655,7 +655,7 @@ export default function RentalApplicationWizard() {
                                     Your data is encrypted and securely transmitted. We only share details with verified landlords once you approve.
                                 </p>
                                 <div className="w-full bg-slate-100 dark:bg-slate-700 rounded-lg p-2 flex items-center justify-center">
-                                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">256-bit Encryption</span>
+                                    <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">256-bit Encryption</span>
                                 </div>
                             </div>
                         </div>

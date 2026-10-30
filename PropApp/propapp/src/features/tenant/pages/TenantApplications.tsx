@@ -92,7 +92,7 @@ function getStatusStyles(status: ApplicationStatus): {
                 color: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border-slate-200 dark:border-slate-700',
                 dotColor: 'bg-slate-500',
                 icon: 'cancel',
-                iconColor: 'text-slate-400',
+                iconColor: 'text-slate-500 dark:text-slate-400',
                 message: 'Application declined by landlord',
                 primaryAction: null,
                 showWithdraw: false,
@@ -104,7 +104,7 @@ function getStatusStyles(status: ApplicationStatus): {
                 color: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border-slate-200 dark:border-slate-700',
                 dotColor: 'bg-slate-500',
                 icon: 'undo',
-                iconColor: 'text-slate-400',
+                iconColor: 'text-slate-500 dark:text-slate-400',
                 message: 'Application withdrawn',
                 primaryAction: null,
                 showWithdraw: false,
@@ -116,7 +116,7 @@ function getStatusStyles(status: ApplicationStatus): {
                 color: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border-slate-200 dark:border-slate-700',
                 dotColor: 'bg-slate-500',
                 icon: 'info',
-                iconColor: 'text-slate-400',
+                iconColor: 'text-slate-500 dark:text-slate-400',
                 message: 'Processing',
                 primaryAction: null,
                 showWithdraw: false,
@@ -368,15 +368,15 @@ export default function TenantApplications() {
                                     </p>
                                     <div className="flex flex-wrap gap-4 mt-3 text-sm text-slate-700 dark:text-slate-300">
                                         <span className="flex items-center gap-1">
-                                            <span className="material-symbols-outlined text-[18px] text-slate-400">bed</span>
+                                            <span className="material-symbols-outlined text-[18px] text-slate-500 dark:text-slate-400">bed</span>
                                             {app.beds} {typeof app.beds === 'number' ? 'Beds' : ''}
                                         </span>
                                         <span className="flex items-center gap-1">
-                                            <span className="material-symbols-outlined text-[18px] text-slate-400">bathtub</span>
+                                            <span className="material-symbols-outlined text-[18px] text-slate-500 dark:text-slate-400">bathtub</span>
                                             {app.baths} Baths
                                         </span>
                                         <span className="flex items-center gap-1">
-                                            <span className="material-symbols-outlined text-[18px] text-slate-400">square_foot</span>
+                                            <span className="material-symbols-outlined text-[18px] text-slate-500 dark:text-slate-400">square_foot</span>
                                             {app.sqft} sqft
                                         </span>
                                         <span className="font-bold text-brand-ink ml-2">{app.price}</span>
@@ -387,7 +387,7 @@ export default function TenantApplications() {
                                         {app.status}
                                     </span>
                                     <div className="text-right">
-                                        <p className="text-xs text-slate-400 font-medium uppercase tracking-wide">Last Updated</p>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">Last Updated</p>
                                         <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">{app.lastUpdated}</p>
                                     </div>
                                 </div>

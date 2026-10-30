@@ -55,7 +55,7 @@ export default function ShareModal({ isOpen, onClose, title, url }: ShareModalPr
                     <h2 className="text-lg font-bold text-slate-900 dark:text-white">Share</h2>
                     <button
                         onClick={onClose}
-                        className="size-8 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-500 transition-colors"
+                        className="size-8 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 transition-colors"
                     >
                         <span className="material-symbols-outlined">close</span>
                     </button>
@@ -70,7 +70,7 @@ export default function ShareModal({ isOpen, onClose, title, url }: ShareModalPr
 
                     {/* Copy Link */}
                     <div className="mb-6">
-                        <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2 block">
+                        <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2 block">
                             Copy Link
                         </label>
                         <div className="flex gap-2">
@@ -97,7 +97,7 @@ export default function ShareModal({ isOpen, onClose, title, url }: ShareModalPr
 
                     {/* Social Sharing */}
                     <div>
-                        <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3 block">
+                        <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-3 block">
                             Share via
                         </label>
                         <div className="grid grid-cols-5 gap-3">

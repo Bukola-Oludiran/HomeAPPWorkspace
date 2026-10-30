@@ -324,13 +324,13 @@ export default function AIChatPage() {
                                     <button
                                         onClick={handleNewChat}
                                         title="New conversation"
-                                        className="size-8 flex items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+                                        className="size-8 flex items-center justify-center rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
                                     >
                                         <span className="material-symbols-outlined text-xl">edit_square</span>
                                     </button>
                                     <button
                                         onClick={() => setShowSidebar(false)}
-                                        className="size-8 flex items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+                                        className="size-8 flex items-center justify-center rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
                                         title="Close Sidebar"
                                     >
                                         <span className="material-symbols-outlined text-xl">close</span>
@@ -339,13 +339,13 @@ export default function AIChatPage() {
                             </div>
                             <div className="flex-1 overflow-y-auto custom-scrollbar p-3">
                                 {groups.length === 0 ? (
-                                    <div className="px-3 py-12 text-center text-sm text-slate-400">
+                                    <div className="px-3 py-12 text-center text-sm text-slate-500 dark:text-slate-400">
                                         No conversations yet. Send a message to start.
                                     </div>
                                 ) : (
                                     groups.map((g) => (
                                         <div className="mb-6" key={g.label}>
-                                            <h3 className="px-3 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+                                            <h3 className="px-3 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
                                                 {g.label}
                                             </h3>
                                             <div className="space-y-1">
@@ -371,7 +371,7 @@ export default function AIChatPage() {
                                                                 </span>
                                                                 <span
                                                                     className={`text-xs whitespace-nowrap ${
-                                                                        active ? 'opacity-80' : 'text-slate-400'
+                                                                        active ? 'opacity-80' : 'text-slate-500 dark:text-slate-400'
                                                                     }`}
                                                                 >
                                                                     {relativeTime(chatRow.lastMessageAt)}
@@ -461,7 +461,7 @@ export default function AIChatPage() {
                                                 onClick={() =>
                                                     sendConfirmation(state.pendingConfirmation!.toolCallId, false)
                                                 }
-                                                className="rounded-full px-3 py-1.5 text-sm text-slate-500 hover:text-slate-900 dark:hover:text-white"
+                                                className="rounded-full px-3 py-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                                             >
                                                 Cancel
                                             </button>
@@ -570,7 +570,7 @@ function EmptyState({ title, firstName, placeholder, suggestions, onSuggestion, 
                 {firstName ? `, ${firstName}` : ''}
             </h2>
             {seed ? (
-                <p className="mt-2 text-sm text-slate-500">
+                <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
                     Context:{' '}
                     {Object.entries(seed)
                         .filter(([, v]) => v)
@@ -578,7 +578,7 @@ function EmptyState({ title, firstName, placeholder, suggestions, onSuggestion, 
                         .join(', ')}
                 </p>
             ) : (
-                <p className="mt-2 text-sm text-slate-500 max-w-md text-center">{placeholder}</p>
+                <p className="mt-2 text-sm text-slate-500 dark:text-slate-400 max-w-md text-center">{placeholder}</p>
             )}
             {suggestions.length > 0 ? (
                 <div className="mt-6 flex flex-wrap justify-center gap-2 max-w-xl">
@@ -646,7 +646,7 @@ function UserBubble({ text, createdAt }: { text: string; createdAt: string }) {
                 <div className="bg-brand-ink text-on-brand rounded-2xl rounded-tr-sm px-5 py-3.5 shadow-md">
                     <p className="text-sm md:text-base leading-relaxed whitespace-pre-wrap">{text}</p>
                 </div>
-                <span className="text-xs text-slate-400 mr-1">
+                <span className="text-xs text-slate-500 dark:text-slate-400 mr-1">
                     {new Date(createdAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}
                 </span>
             </div>
@@ -700,7 +700,7 @@ function AssistantBlock({ items, onFragmentAction }: AssistantBlockProps) {
                     return null;
                 })}
                 {lastAt ? (
-                    <span className="text-xs text-slate-400 ml-1 mt-1">
+                    <span className="text-xs text-slate-500 dark:text-slate-400 ml-1 mt-1">
                         Keystead Assistant ·{' '}
                         {new Date(lastAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}
                     </span>

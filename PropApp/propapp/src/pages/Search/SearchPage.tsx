@@ -306,7 +306,7 @@ export default function SearchPage() {
                             }}
                         >
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <span className="material-symbols-outlined text-slate-400">search</span>
+                                <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">search</span>
                             </div>
                             <input
                                 className="block w-full pl-10 pr-12 py-2.5 bg-slate-100 dark:bg-slate-800 border-none rounded-full text-sm md:text-base text-slate-900 dark:text-white placeholder:text-slate-500 focus:ring-2 focus:ring-brand focus:bg-white dark:focus:bg-slate-900 transition-all shadow-inner"
@@ -418,9 +418,9 @@ export default function SearchPage() {
                                     <h4 className="font-bold text-slate-900 dark:text-white mb-4">Price Range</h4>
                                     <div className="flex gap-3 mb-4">
                                         <div className="flex-1">
-                                            <label className="text-xs text-slate-500 mb-1 block">Min Price</label>
+                                            <label className="text-xs text-slate-500 dark:text-slate-400 mb-1 block">Min Price</label>
                                             <div className="relative">
-                                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">₦</span>
+                                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400">₦</span>
                                                 <input
                                                     type="text"
                                                     placeholder="0"
@@ -430,11 +430,11 @@ export default function SearchPage() {
                                                 />
                                             </div>
                                         </div>
-                                        <div className="flex items-end pb-2.5 text-slate-400">—</div>
+                                        <div className="flex items-end pb-2.5 text-slate-500 dark:text-slate-400">—</div>
                                         <div className="flex-1">
-                                            <label className="text-xs text-slate-500 mb-1 block">Max Price</label>
+                                            <label className="text-xs text-slate-500 dark:text-slate-400 mb-1 block">Max Price</label>
                                             <div className="relative">
-                                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">₦</span>
+                                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400">₦</span>
                                                 <input
                                                     type="text"
                                                     placeholder="Any"
@@ -549,7 +549,7 @@ export default function SearchPage() {
                                     {/* Bedrooms */}
                                     <div className="mb-5">
                                         <h4 className="font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
-                                            <span className="material-symbols-outlined text-[18px] text-slate-400">bed</span>
+                                            <span className="material-symbols-outlined text-[18px] text-slate-500 dark:text-slate-400">bed</span>
                                             Bedrooms
                                         </h4>
                                         <div className="flex gap-2">
@@ -570,7 +570,7 @@ export default function SearchPage() {
                                     {/* Bathrooms */}
                                     <div className="mb-4">
                                         <h4 className="font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
-                                            <span className="material-symbols-outlined text-[18px] text-slate-400">bathtub</span>
+                                            <span className="material-symbols-outlined text-[18px] text-slate-500 dark:text-slate-400">bathtub</span>
                                             Bathrooms
                                         </h4>
                                         <div className="flex gap-2">
@@ -652,7 +652,7 @@ export default function SearchPage() {
                                     {/* Square Footage */}
                                     <div className="mb-6">
                                         <h5 className="font-semibold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
-                                            <span className="material-symbols-outlined text-[18px] text-slate-400">square_foot</span>
+                                            <span className="material-symbols-outlined text-[18px] text-slate-500 dark:text-slate-400">square_foot</span>
                                             Square Footage
                                         </h5>
                                         <div className="flex gap-3">
@@ -665,7 +665,7 @@ export default function SearchPage() {
                                                     className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-brand/20 focus:border-brand"
                                                 />
                                             </div>
-                                            <span className="flex items-center text-slate-400">—</span>
+                                            <span className="flex items-center text-slate-500 dark:text-slate-400">—</span>
                                             <div className="flex-1">
                                                 <input
                                                     type="text"
@@ -681,7 +681,7 @@ export default function SearchPage() {
                                     {/* Year Built */}
                                     <div className="mb-6">
                                         <h5 className="font-semibold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
-                                            <span className="material-symbols-outlined text-[18px] text-slate-400">calendar_month</span>
+                                            <span className="material-symbols-outlined text-[18px] text-slate-500 dark:text-slate-400">calendar_month</span>
                                             Year Built
                                         </h5>
                                         <div className="flex gap-3">
@@ -694,7 +694,7 @@ export default function SearchPage() {
                                                     className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-brand/20 focus:border-brand"
                                                 />
                                             </div>
-                                            <span className="flex items-center text-slate-400">—</span>
+                                            <span className="flex items-center text-slate-500 dark:text-slate-400">—</span>
                                             <div className="flex-1">
                                                 <input
                                                     type="text"
@@ -710,7 +710,7 @@ export default function SearchPage() {
                                     {/* Amenities */}
                                     <div className="mb-4">
                                         <h5 className="font-semibold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
-                                            <span className="material-symbols-outlined text-[18px] text-slate-400">check_circle</span>
+                                            <span className="material-symbols-outlined text-[18px] text-slate-500 dark:text-slate-400">check_circle</span>
                                             Amenities
                                         </h5>
                                         <div className="grid grid-cols-2 gap-2">
@@ -875,10 +875,10 @@ export default function SearchPage() {
                                                     <p className="text-xl font-bold text-slate-900 dark:text-white">
                                                         {formatPriceFull(property.price)}
                                                         {property.listingType === 'RENT' && (
-                                                            <span className="text-sm font-normal text-slate-500 ml-1">/mo</span>
+                                                            <span className="text-sm font-normal text-slate-500 dark:text-slate-400 ml-1">/mo</span>
                                                         )}
                                                         {property.listingType === 'SHORT_LET' && (
-                                                            <span className="text-sm font-normal text-slate-500 ml-1">/night</span>
+                                                            <span className="text-sm font-normal text-slate-500 dark:text-slate-400 ml-1">/night</span>
                                                         )}
                                                     </p>
                                                     <span

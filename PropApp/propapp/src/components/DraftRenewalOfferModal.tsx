@@ -46,7 +46,7 @@ export default function DraftRenewalOfferModal({
                                     <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">For Lease {leaseId} <span className="mx-1.5 text-slate-300 dark:text-slate-600">•</span> {propertyAddress}</p>
                                 </div>
                                 <button
-                                    className="rounded-lg p-2 text-slate-400 hover:text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 dark:hover:text-slate-300 transition-colors focus:outline-none"
+                                    className="rounded-lg p-2 text-slate-500 dark:text-slate-400 hover:text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 dark:hover:text-slate-300 transition-colors focus:outline-none"
                                     type="button"
                                     onClick={onClose}
                                 >
@@ -89,7 +89,7 @@ export default function DraftRenewalOfferModal({
                                         </label>
                                         <div className="relative">
                                             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
-                                                <span className="text-slate-500 font-medium">₦</span>
+                                                <span className="text-slate-500 dark:text-slate-400 font-medium">₦</span>
                                             </div>
                                             <input
                                                 className="block w-full rounded-xl border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 py-3 pl-8 pr-12 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-brand focus:border-brand sm:text-sm sm:leading-6 font-semibold shadow-sm"
@@ -101,7 +101,7 @@ export default function DraftRenewalOfferModal({
                                                 onChange={(e) => setNewRent(e.target.value)}
                                             />
                                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                                                <span className="text-slate-400 text-xs font-medium">USD</span>
+                                                <span className="text-slate-500 dark:text-slate-400 text-xs font-medium">USD</span>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-1.5 mt-1.5">
@@ -160,7 +160,7 @@ export default function DraftRenewalOfferModal({
                                 {/* Additional Terms */}
                                 <div className="space-y-2">
                                     <div className="flex items-center justify-between">
-                                        <label className="block text-sm font-bold text-slate-900 dark:text-white" htmlFor="terms">Additional Terms / Changes <span className="text-slate-400 font-normal ml-1">(Optional)</span></label>
+                                        <label className="block text-sm font-bold text-slate-900 dark:text-white" htmlFor="terms">Additional Terms / Changes <span className="text-slate-500 dark:text-slate-400 font-normal ml-1">(Optional)</span></label>
                                         <button className="text-xs font-semibold text-brand-ink hover:text-[#0e64bd] flex items-center gap-1 transition-colors">
                                             <span className="material-symbols-outlined text-[14px]">magic_button</span>
                                             AI Enhancement
@@ -183,7 +183,7 @@ export default function DraftRenewalOfferModal({
                             {/* Footer */}
                             <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-4 px-6 py-5 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-700 rounded-b-2xl">
                                 <button className="group flex items-center gap-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-brand-ink dark:hover:text-brand-ink transition-colors" type="button">
-                                    <span className="material-symbols-outlined text-[20px] text-slate-400 group-hover:text-brand-ink transition-colors">visibility</span>
+                                    <span className="material-symbols-outlined text-[20px] text-slate-500 dark:text-slate-400 group-hover:text-brand-ink transition-colors">visibility</span>
                                     Preview Document
                                 </button>
                                 <div className="flex items-center gap-3 w-full sm:w-auto">

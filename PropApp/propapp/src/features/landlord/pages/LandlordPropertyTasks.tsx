@@ -29,7 +29,7 @@ function getStatusBadge(status: string) {
         case 'IN_PROGRESS': return { label: 'In Progress', className: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400 border-purple-200 dark:border-purple-800' };
         case 'COMPLETED': return { label: 'Completed', className: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800' };
         case 'CANCELLED': return { label: 'Cancelled', className: 'bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400 border-slate-200 dark:border-slate-700' };
-        default: return { label: status, className: 'bg-slate-100 text-slate-500 border-slate-200' };
+        default: return { label: status, className: 'bg-slate-100 text-slate-500 dark:text-slate-400 border-slate-200' };
     }
 }
 
@@ -39,7 +39,7 @@ function getPriorityBadge(priority: string) {
         case 'HIGH': return { label: 'High', className: 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/10' };
         case 'MEDIUM': return { label: 'Medium', className: 'text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/10' };
         case 'LOW': return { label: 'Low', className: 'text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800' };
-        default: return { label: priority, className: 'text-slate-500 bg-slate-100' };
+        default: return { label: priority, className: 'text-slate-500 dark:text-slate-400 bg-slate-100' };
     }
 }
 
@@ -73,7 +73,7 @@ export default function LandlordPropertyTasks() {
             <div className="flex items-center justify-center min-h-screen">
                 <div className="flex flex-col items-center gap-3">
                     <div className="size-10 border-4 border-brand border-t-transparent rounded-full animate-spin"></div>
-                    <p className="text-slate-500 font-medium">Loading tasks...</p>
+                    <p className="text-slate-500 dark:text-slate-400 font-medium">Loading tasks...</p>
                 </div>
             </div>
         );
@@ -135,7 +135,7 @@ export default function LandlordPropertyTasks() {
                                 <span className="material-symbols-outlined">assignment</span>
                             </div>
                             <div>
-                                <p className="text-xs text-slate-500 uppercase font-bold tracking-wide">Total Tasks</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wide">Total Tasks</p>
                                 <p className="text-xl font-bold text-slate-900 dark:text-white">{totalTasks}</p>
                             </div>
                         </div>
@@ -144,7 +144,7 @@ export default function LandlordPropertyTasks() {
                                 <span className="material-symbols-outlined">warning</span>
                             </div>
                             <div>
-                                <p className="text-xs text-slate-500 uppercase font-bold tracking-wide">In Progress</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wide">In Progress</p>
                                 <p className="text-xl font-bold text-red-600 dark:text-red-400">{inProgressTasks}</p>
                             </div>
                         </div>
@@ -153,7 +153,7 @@ export default function LandlordPropertyTasks() {
                                 <span className="material-symbols-outlined">schedule</span>
                             </div>
                             <div>
-                                <p className="text-xs text-slate-500 uppercase font-bold tracking-wide">Pending</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wide">Pending</p>
                                 <p className="text-xl font-bold text-slate-900 dark:text-white">{pendingTasks}</p>
                             </div>
                         </div>
@@ -162,7 +162,7 @@ export default function LandlordPropertyTasks() {
                                 <span className="material-symbols-outlined">check_circle</span>
                             </div>
                             <div>
-                                <p className="text-xs text-slate-500 uppercase font-bold tracking-wide">Completed</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wide">Completed</p>
                                 <p className="text-xl font-bold text-slate-900 dark:text-white">{completedTasks}</p>
                             </div>
                         </div>
@@ -172,7 +172,7 @@ export default function LandlordPropertyTasks() {
                 {/* Filters */}
                 <div className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 mb-6 flex flex-col md:flex-row gap-4 justify-between items-center">
                     <div className="relative w-full md:w-96">
-                        <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+                        <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400">search</span>
                         <input
                             className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-brand focus:border-transparent outline-none text-slate-900 dark:text-white"
                             placeholder="Search tasks by name, assignee..."
@@ -181,19 +181,19 @@ export default function LandlordPropertyTasks() {
                     </div>
                     <div className="flex items-center gap-3 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
                         <div className="flex items-center gap-2 px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg cursor-pointer min-w-max">
-                            <span className="material-symbols-outlined text-slate-500 text-[18px]">filter_list</span>
+                            <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[18px]">filter_list</span>
                             <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Status: All</span>
-                            <span className="material-symbols-outlined text-slate-400 text-[18px]">arrow_drop_down</span>
+                            <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[18px]">arrow_drop_down</span>
                         </div>
                         <div className="flex items-center gap-2 px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg cursor-pointer min-w-max">
-                            <span className="material-symbols-outlined text-slate-500 text-[18px]">priority_high</span>
+                            <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[18px]">priority_high</span>
                             <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Priority: All</span>
-                            <span className="material-symbols-outlined text-slate-400 text-[18px]">arrow_drop_down</span>
+                            <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[18px]">arrow_drop_down</span>
                         </div>
                         <div className="flex items-center gap-2 px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg cursor-pointer min-w-max">
-                            <span className="material-symbols-outlined text-slate-500 text-[18px]">category</span>
+                            <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[18px]">category</span>
                             <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Type: All</span>
-                            <span className="material-symbols-outlined text-slate-400 text-[18px]">arrow_drop_down</span>
+                            <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[18px]">arrow_drop_down</span>
                         </div>
                     </div>
                 </div>
@@ -204,12 +204,12 @@ export default function LandlordPropertyTasks() {
                         <table className="w-full text-left border-collapse">
                             <thead>
                                 <tr className="bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700">
-                                    <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Task Details</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Due Date</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Priority</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Assigned To</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Actions</th>
+                                    <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Task Details</th>
+                                    <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Due Date</th>
+                                    <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Status</th>
+                                    <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Priority</th>
+                                    <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Assigned To</th>
+                                    <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-right">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
@@ -218,7 +218,7 @@ export default function LandlordPropertyTasks() {
                                         <td colSpan={6} className="px-6 py-12 text-center">
                                             <div className="flex flex-col items-center gap-2">
                                                 <span className="material-symbols-outlined text-4xl text-slate-300">assignment</span>
-                                                <p className="text-slate-500 font-medium">No tasks found</p>
+                                                <p className="text-slate-500 dark:text-slate-400 font-medium">No tasks found</p>
                                             </div>
                                         </td>
                                     </tr>
@@ -246,12 +246,12 @@ export default function LandlordPropertyTasks() {
                                             >
                                                 <td className="px-6 py-4">
                                                     <div className="flex items-start gap-3">
-                                                        <div className={`mt-0.5 p-1.5 rounded ${isCompleted ? 'bg-slate-100 dark:bg-slate-800 text-slate-500' : categoryColor}`}>
+                                                        <div className={`mt-0.5 p-1.5 rounded ${isCompleted ? 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400' : categoryColor}`}>
                                                             <span className="material-symbols-outlined text-[18px]">{categoryIcon}</span>
                                                         </div>
                                                         <div>
                                                             <p className={`font-bold text-slate-900 dark:text-white ${isCompleted ? 'line-through decoration-slate-400' : ''}`}>{task.title}</p>
-                                                            <p className="text-xs text-slate-500">{task.category.replace(/_/g, ' ').toLowerCase().replace(/^\w/, c => c.toUpperCase())}</p>
+                                                            <p className="text-xs text-slate-500 dark:text-slate-400">{task.category.replace(/_/g, ' ').toLowerCase().replace(/^\w/, c => c.toUpperCase())}</p>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -289,10 +289,10 @@ export default function LandlordPropertyTasks() {
                                                             <button className="text-xs text-brand-ink font-bold hover:underline">View Details</button>
                                                         ) : (
                                                             <>
-                                                                <button className="size-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:border-brand hover:text-brand-ink text-slate-400 transition-colors" title="Mark Complete">
+                                                                <button className="size-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:border-brand hover:text-brand-ink text-slate-500 dark:text-slate-400 transition-colors" title="Mark Complete">
                                                                     <span className="material-symbols-outlined text-[18px]">check</span>
                                                                 </button>
-                                                                <button className="size-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:border-brand hover:text-brand-ink text-slate-400 transition-colors" title="Edit Task">
+                                                                <button className="size-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:border-brand hover:text-brand-ink text-slate-500 dark:text-slate-400 transition-colors" title="Edit Task">
                                                                     <span className="material-symbols-outlined text-[18px]">edit</span>
                                                                 </button>
                                                             </>
@@ -309,7 +309,7 @@ export default function LandlordPropertyTasks() {
 
                     {/* Pagination */}
                     <div className="px-6 py-4 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between bg-slate-50 dark:bg-slate-900/50">
-                        <p className="text-sm text-slate-500">Showing <span className="font-bold text-slate-900 dark:text-white">{tasks.length > 0 ? `1-${tasks.length}` : '0'}</span> of <span className="font-bold text-slate-900 dark:text-white">{totalTasks}</span> tasks</p>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">Showing <span className="font-bold text-slate-900 dark:text-white">{tasks.length > 0 ? `1-${tasks.length}` : '0'}</span> of <span className="font-bold text-slate-900 dark:text-white">{totalTasks}</span> tasks</p>
                         <div className="flex gap-2">
                             <button className="px-3 py-1 rounded border border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-400 text-sm hover:bg-white dark:hover:bg-slate-800 disabled:opacity-50" disabled>Previous</button>
                             <button className="px-3 py-1 rounded border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white text-sm hover:bg-white dark:hover:bg-slate-800 font-medium">Next</button>

@@ -338,7 +338,7 @@ export default function TenantProfile() {
                                                 <option>2 Bedrooms</option>
                                                 <option>3+ Bedrooms</option>
                                             </select>
-                                            <span className="material-symbols-outlined absolute right-4 top-2.5 text-slate-400 pointer-events-none">expand_more</span>
+                                            <span className="material-symbols-outlined absolute right-4 top-2.5 text-slate-500 dark:text-slate-400 pointer-events-none">expand_more</span>
                                         </div>
                                     </div>
                                     <div>
@@ -374,9 +374,9 @@ export default function TenantProfile() {
                             Application History Summary
                         </h3>
                         {loading ? (
-                            <div className="text-center py-4 text-slate-500">Loading applications...</div>
+                            <div className="text-center py-4 text-slate-500 dark:text-slate-400">Loading applications...</div>
                         ) : applications.length === 0 ? (
-                            <div className="text-center py-4 text-slate-500">No applications yet</div>
+                            <div className="text-center py-4 text-slate-500 dark:text-slate-400">No applications yet</div>
                         ) : (
                             applications.map((app) => (
                                 <div key={app.id} className="flex items-center gap-4 bg-slate-50 dark:bg-slate-800/30 p-4 rounded-xl border border-slate-100 dark:border-slate-700/50 mb-2">
@@ -390,7 +390,7 @@ export default function TenantProfile() {
                                     <span className="px-2 py-1 bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 text-xs font-bold rounded-full border border-blue-200 dark:border-blue-800">
                                         {app.status}
                                     </span>
-                                    <Link to="/tenant/applications" className="text-slate-400 hover:text-brand-ink transition-colors">
+                                    <Link to="/tenant/applications" className="text-slate-500 dark:text-slate-400 hover:text-brand-ink transition-colors">
                                         <span className="material-symbols-outlined">chevron_right</span>
                                     </Link>
                                 </div>

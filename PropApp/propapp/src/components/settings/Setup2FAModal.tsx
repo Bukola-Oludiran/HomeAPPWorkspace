@@ -39,7 +39,7 @@ export default function Setup2FAModal({ isOpen, onClose, onSuccess }: Setup2FAMo
                         <div className="flex items-center gap-3">
                             <button
                                 onClick={onClose}
-                                className="p-1 -ml-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors rounded-full cursor-pointer"
+                                className="p-1 -ml-2 text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors rounded-full cursor-pointer"
                             >
                                 <span className="material-symbols-outlined">arrow_back</span>
                             </button>
@@ -50,7 +50,7 @@ export default function Setup2FAModal({ isOpen, onClose, onSuccess }: Setup2FAMo
                         </div>
                         <button
                             onClick={onClose}
-                            className="p-2 text-slate-400 hover:text-slate-500 dark:hover:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                            className="p-2 text-slate-500 dark:text-slate-400 hover:text-slate-500 dark:hover:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                         >
                             <span className="material-symbols-outlined">close</span>
                         </button>
@@ -79,7 +79,7 @@ export default function Setup2FAModal({ isOpen, onClose, onSuccess }: Setup2FAMo
                                         <div className="bg-white p-2 rounded-lg border border-slate-100 mb-4">
                                             {/* Placeholder QR Code */}
                                             <div className="size-40 bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
-                                                <span className="material-symbols-outlined text-6xl text-slate-400">qr_code_2</span>
+                                                <span className="material-symbols-outlined text-6xl text-slate-500 dark:text-slate-400">qr_code_2</span>
                                             </div>
                                         </div>
                                         <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">

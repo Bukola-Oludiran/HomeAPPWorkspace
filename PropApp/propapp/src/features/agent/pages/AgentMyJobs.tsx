@@ -262,8 +262,8 @@ export default function AgentMyJobs() {
 
                                 {isCancelled && (
                                     <>
-                                        <span className="text-xs text-slate-400 italic">Job cancelled</span>
-                                        <button className="px-4 py-2 text-slate-500 hover:text-slate-700 text-sm font-bold rounded-lg transition-colors">
+                                        <span className="text-xs text-slate-500 dark:text-slate-400 italic">Job cancelled</span>
+                                        <button className="px-4 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-700 text-sm font-bold rounded-lg transition-colors">
                                             Archive
                                         </button>
                                     </>

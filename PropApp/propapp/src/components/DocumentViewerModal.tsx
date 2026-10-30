@@ -84,7 +84,7 @@ export default function DocumentViewerModal({ isOpen, onClose, document }: Docum
                             <span className="material-symbols-outlined text-[18px]">chevron_left</span>
                         </button>
                         <div className="px-4 text-sm font-semibold text-slate-700 dark:text-slate-200 tabular-nums">
-                            {currentPage} <span className="text-slate-400 font-normal mx-1">/</span> {totalPages}
+                            {currentPage} <span className="text-slate-500 dark:text-slate-400 font-normal mx-1">/</span> {totalPages}
                         </div>
                         <button
                             onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
@@ -128,7 +128,7 @@ export default function DocumentViewerModal({ isOpen, onClose, document }: Docum
                             </div>
                             <div className="text-right">
                                 <p className="font-bold text-slate-900">No. 2023-8492</p>
-                                <p className="text-sm text-slate-500 mt-1">Date: Dec 1, 2023</p>
+                                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Date: Dec 1, 2023</p>
                             </div>
                         </div>
 
@@ -139,12 +139,12 @@ export default function DocumentViewerModal({ isOpen, onClose, document }: Docum
 
                             <div className="grid grid-cols-2 gap-8 my-8">
                                 <div className="bg-slate-50 p-4 border border-slate-200">
-                                    <p className="text-xs font-sans font-bold text-slate-400 uppercase mb-1">Landlord</p>
+                                    <p className="text-xs font-sans font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Landlord</p>
                                     <p className="font-bold text-slate-900">Oakwood Management Group</p>
                                     <p className="text-sm text-slate-600">400 Management Way, Austin TX</p>
                                 </div>
                                 <div className="bg-slate-50 p-4 border border-slate-200">
-                                    <p className="text-xs font-sans font-bold text-slate-400 uppercase mb-1">Tenant</p>
+                                    <p className="text-xs font-sans font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Tenant</p>
                                     <p className="font-bold text-slate-900">Mark Anderson</p>
                                     <p className="text-sm text-slate-600">Current Address: 1243 Oakwood Ave</p>
                                 </div>
@@ -173,7 +173,7 @@ export default function DocumentViewerModal({ isOpen, onClose, document }: Docum
                         </div>
 
                         {/* Page Footer */}
-                        <div className="absolute bottom-12 left-12 right-12 flex justify-between items-center text-xs font-sans text-slate-400 border-t border-slate-200 pt-4">
+                        <div className="absolute bottom-12 left-12 right-12 flex justify-between items-center text-xs font-sans text-slate-500 dark:text-slate-400 border-t border-slate-200 pt-4">
                             <span>Initials: ________ / ________</span>
                             <span>Page {currentPage} of {totalPages}</span>
                         </div>
@@ -197,7 +197,7 @@ export default function DocumentViewerModal({ isOpen, onClose, document }: Docum
                             {document.status && (
                                 <>
                                     <div className="hidden lg:block text-right">
-                                        <p className="text-xs font-bold text-slate-500 uppercase tracking-wide">Status</p>
+                                        <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Status</p>
                                         <p className="text-sm font-bold text-slate-900 dark:text-white">{document.status}</p>
                                     </div>
                                     <div className="h-8 w-px bg-slate-200 dark:bg-slate-700 hidden lg:block"></div>

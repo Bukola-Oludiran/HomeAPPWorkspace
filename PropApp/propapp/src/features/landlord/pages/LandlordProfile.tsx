@@ -437,7 +437,7 @@ export default function LandlordProfile() {
                                             {property.status}
                                         </span>
                                     </div>
-                                    <span className="p-2 text-slate-400 hover:text-brand-ink transition-colors">
+                                    <span className="p-2 text-slate-500 dark:text-slate-400 hover:text-brand-ink transition-colors">
                                         <span className="material-symbols-outlined">chevron_right</span>
                                     </span>
                                 </Link>
@@ -449,7 +449,7 @@ export default function LandlordProfile() {
                     <div className="bg-white dark:bg-canvas-dark p-6 md:p-8 rounded-2xl border border-slate-100 dark:border-slate-800">
                         <div className="flex items-center justify-between mb-6">
                             <h2 className="text-xl font-bold text-slate-900 dark:text-white">Reviews & Ratings</h2>
-                            <span className="text-sm text-slate-500">{profileData.reviews.total} Total Reviews</span>
+                            <span className="text-sm text-slate-500 dark:text-slate-400">{profileData.reviews.total} Total Reviews</span>
                         </div>
                         <div className="flex flex-col md:flex-row gap-8 items-center">
                             <div className="text-center md:text-left shrink-0">
@@ -469,7 +469,7 @@ export default function LandlordProfile() {
                                         <div className="flex-1 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                                             <div className="h-full bg-amber-400" style={{ width: `${item.percentage}%` }}></div>
                                         </div>
-                                        <span className="w-6 text-right text-slate-500">{item.count}</span>
+                                        <span className="w-6 text-right text-slate-500 dark:text-slate-400">{item.count}</span>
                                     </div>
                                 ))}
                             </div>

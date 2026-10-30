@@ -88,7 +88,7 @@ export default function TenantPublicProfile() {
         return (
             <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex items-center justify-center">
                 <div className="text-center">
-                    <span className="material-symbols-outlined text-4xl text-slate-400 mb-4">error_outline</span>
+                    <span className="material-symbols-outlined text-4xl text-slate-500 dark:text-slate-400 mb-4">error_outline</span>
                     <p className="text-slate-600 dark:text-slate-400">{error || 'Profile not found'}</p>
                     <Link to="/" className="text-brand-ink font-semibold mt-4 inline-block hover:underline">Go Home</Link>
                 </div>
@@ -170,7 +170,7 @@ export default function TenantPublicProfile() {
                                 <p className="text-slate-600 dark:text-slate-300 leading-relaxed">{tenant.about}</p>
                                 <div className="mt-6">
                                     <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
-                                        <span className="material-symbols-outlined text-slate-400 text-[18px]">interests</span> Interests & Lifestyle
+                                        <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[18px]">interests</span> Interests & Lifestyle
                                     </h4>
                                     <div className="flex flex-wrap gap-2">
                                         {tenant.interests.map((interest, index) => (
@@ -190,29 +190,29 @@ export default function TenantPublicProfile() {
                                 </div>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div className="flex items-center gap-3">
-                                        <div className="size-10 rounded-lg bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-500">
+                                        <div className="size-10 rounded-lg bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
                                             <span className="material-symbols-outlined">bedroom_parent</span>
                                         </div>
                                         <div>
-                                            <span className="block text-xs font-bold text-slate-400 uppercase">Unit Type</span>
+                                            <span className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Unit Type</span>
                                             <span className="text-sm font-semibold text-slate-900 dark:text-white">{tenant.lookingFor.unitType}</span>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-3">
-                                        <div className="size-10 rounded-lg bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-500">
+                                        <div className="size-10 rounded-lg bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
                                             <span className="material-symbols-outlined">location_on</span>
                                         </div>
                                         <div>
-                                            <span className="block text-xs font-bold text-slate-400 uppercase">Preferred Area</span>
+                                            <span className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Preferred Area</span>
                                             <span className="text-sm font-semibold text-slate-900 dark:text-white">{tenant.lookingFor.area}</span>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-3">
-                                        <div className="size-10 rounded-lg bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-500">
+                                        <div className="size-10 rounded-lg bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
                                             <span className="material-symbols-outlined">pool</span>
                                         </div>
                                         <div>
-                                            <span className="block text-xs font-bold text-slate-400 uppercase">Desired Amenities</span>
+                                            <span className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Desired Amenities</span>
                                             <span className="text-sm font-semibold text-slate-900 dark:text-white">{tenant.lookingFor.amenities}</span>
                                         </div>
                                     </div>
@@ -225,7 +225,7 @@ export default function TenantPublicProfile() {
                                     <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                                         <span className="material-symbols-outlined text-brand-ink">forum</span> Community Contributions
                                     </h3>
-                                    <span className="text-xs font-semibold text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded">Last active {tenant.lastActive}</span>
+                                    <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded">Last active {tenant.lastActive}</span>
                                 </div>
                                 <div className="flex flex-col gap-4">
                                     {tenant.contributions.map((contribution, index) => (
@@ -245,11 +245,11 @@ export default function TenantPublicProfile() {
                                                                     <span key={i} className={`material-symbols-outlined icon-filled ${i <= (contribution.rating ?? 0) ? '' : 'text-slate-300'}`}>star</span>
                                                                 ))}
                                                             </div>
-                                                            <span className="text-xs text-slate-400">• {contribution.time}</span>
+                                                            <span className="text-xs text-slate-500 dark:text-slate-400">• {contribution.time}</span>
                                                         </div>
                                                     )}
                                                     {!contribution.rating && (
-                                                        <span className="text-xs text-slate-400 block mt-1">{contribution.time}</span>
+                                                        <span className="text-xs text-slate-500 dark:text-slate-400 block mt-1">{contribution.time}</span>
                                                     )}
                                                 </div>
                                             </div>
@@ -288,7 +288,7 @@ export default function TenantPublicProfile() {
                                     <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">Public Insights</p>
                                 </div>
                             </div>
-                            <button onClick={() => setShowAIChat(false)} className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+                            <button onClick={() => setShowAIChat(false)} className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
                                 <span className="material-symbols-outlined text-[20px]">close</span>
                             </button>
                         </div>
@@ -302,7 +302,7 @@ export default function TenantPublicProfile() {
                                 </div>
                             </div>
                             <div className="mt-auto">
-                                <p className="text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide px-1">Suggested actions</p>
+                                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2 uppercase tracking-wide px-1">Suggested actions</p>
                                 <div className="flex flex-wrap gap-2">
                                     <button className="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors">
                                         Find Local Hiking Groups

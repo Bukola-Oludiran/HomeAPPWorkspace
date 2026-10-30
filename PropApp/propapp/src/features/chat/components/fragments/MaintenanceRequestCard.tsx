@@ -23,11 +23,11 @@ export function MaintenanceRequestCard({ props, onAction }: Props) {
                 />
                 <div className="flex-1">
                     <h3 className="text-sm font-semibold">{props.propertyTitle}</h3>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
                         {props.category ?? 'Maintenance'} · {props.priority} · {props.status}
                     </p>
                 </div>
-                <time className="text-xs text-slate-400">
+                <time className="text-xs text-slate-500 dark:text-slate-400">
                     {new Date(props.createdAt).toLocaleDateString()}
                 </time>
             </header>
@@ -35,7 +35,7 @@ export function MaintenanceRequestCard({ props, onAction }: Props) {
                 <p className="mt-2 line-clamp-3 text-sm text-slate-700">{props.description}</p>
             ) : null}
             {props.assignedAgentName ? (
-                <p className="mt-1 text-xs text-slate-500">Assigned to {props.assignedAgentName}</p>
+                <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">Assigned to {props.assignedAgentName}</p>
             ) : null}
             <FragmentActions
                 actions={props.actions}

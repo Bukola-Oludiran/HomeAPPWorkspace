@@ -65,13 +65,13 @@ export default function NotificationsDropdown({ isOpen, onClose }: Notifications
             </div>
             {error && <p role="alert" className="p-4 text-sm text-red-600">{error}</p>}
             <div className="max-h-[400px] overflow-y-auto">
-                {!notifications.length ? <p className="py-12 text-center text-sm text-slate-500">No notifications</p> : notifications.map(notification => (
+                {!notifications.length ? <p className="py-12 text-center text-sm text-slate-500 dark:text-slate-400">No notifications</p> : notifications.map(notification => (
                     <Link key={notification.id} to={typeof notification.data?.link === 'string' ? notification.data.link : '#'} onClick={() => { void markRead(notification.id); onClose(); }} className={`flex gap-3 p-4 border-b border-slate-100 dark:border-slate-800 ${notification.isRead ? '' : 'bg-blue-50/50 dark:bg-blue-900/10'}`}>
                         <span className="material-symbols-outlined text-brand-ink">{iconFor(notification.type)}</span>
                         <span className="min-w-0">
                             <strong className="block text-sm text-slate-900 dark:text-white">{notification.title}</strong>
                             <span className="block text-xs text-slate-600 dark:text-slate-400">{notification.body}</span>
-                            <span className="block mt-1 text-xs text-slate-400">{new Date(notification.createdAt).toLocaleString()}</span>
+                            <span className="block mt-1 text-xs text-slate-500 dark:text-slate-400">{new Date(notification.createdAt).toLocaleString()}</span>
                         </span>
                     </Link>
                 ))}

@@ -351,7 +351,7 @@ export default function AgentSchedule() {
                             />
                         </div>
                         <div className="flex items-center gap-3">
-                            <span className="text-sm font-medium text-slate-500">Filter:</span>
+                            <span className="text-sm font-medium text-slate-500 dark:text-slate-400">Filter:</span>
                             <div className="flex gap-2">
                                 <div className="flex items-center gap-1.5 px-2 py-1 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 rounded text-xs font-bold border border-green-200 dark:border-green-800/30">
                                     <div className="size-2 rounded-full bg-green-500"></div>
@@ -372,7 +372,7 @@ export default function AgentSchedule() {
                     {/* Day Headers */}
                     <div className="grid grid-cols-7 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
                         {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-                            <div key={day} className="py-3 text-center text-xs font-semibold uppercase text-slate-500 tracking-wide">
+                            <div key={day} className="py-3 text-center text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 tracking-wide">
                                 {day}
                             </div>
                         ))}
@@ -384,7 +384,7 @@ export default function AgentSchedule() {
                             <div className="absolute inset-0 bg-white/80 dark:bg-canvas-dark/80 flex items-center justify-center z-10">
                                 <div className="flex flex-col items-center gap-3">
                                     <div className="size-8 border-3 border-brand border-t-transparent rounded-full animate-spin"></div>
-                                    <span className="text-sm text-slate-500">Loading schedule...</span>
+                                    <span className="text-sm text-slate-500 dark:text-slate-400">Loading schedule...</span>
                                 </div>
                             </div>
                         )}
@@ -418,7 +418,7 @@ export default function AgentSchedule() {
                                         <div className="absolute inset-0 border-2 border-brand pointer-events-none"></div>
                                     </>
                                 ) : (
-                                    <span className={`text-sm font-medium ml-1 ${dayData.isCurrentMonth ? 'text-slate-900 dark:text-slate-300' : 'text-slate-400'}`}>
+                                    <span className={`text-sm font-medium ml-1 ${dayData.isCurrentMonth ? 'text-slate-900 dark:text-slate-300' : 'text-slate-500 dark:text-slate-400'}`}>
                                         {dayData.day}
                                     </span>
                                 )}
@@ -450,7 +450,7 @@ export default function AgentSchedule() {
                                         {selectedJob.type}
                                     </span>
                                 </div>
-                                <span className="text-xs font-bold text-slate-400">#{selectedJob.id}</span>
+                                <span className="text-xs font-bold text-slate-500 dark:text-slate-400">#{selectedJob.id}</span>
                             </div>
                             <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-1">{selectedJob.title}</h3>
                             <p className="text-slate-500 dark:text-slate-400 text-sm">{selectedJob.location}</p>
@@ -536,7 +536,7 @@ export default function AgentSchedule() {
 
                     {/* Upcoming Jobs */}
                     <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-5 flex-1 overflow-hidden flex flex-col">
-                        <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wide mb-4">Upcoming Next</h3>
+                        <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-4">Upcoming Next</h3>
                         <div className="flex-1 overflow-y-auto space-y-3">
                             {upcomingJobs.length === 0 && !isLoading ? (
                                 <div className="flex flex-col items-center justify-center py-8 text-center">
@@ -559,7 +559,7 @@ export default function AgentSchedule() {
                                                 {job.time} • {job.location}
                                             </p>
                                         </div>
-                                        <span className="material-symbols-outlined text-slate-400 text-[20px]">chevron_right</span>
+                                        <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[20px]">chevron_right</span>
                                     </div>
                                 ))
                             )}

@@ -385,10 +385,10 @@ export default function TenantMaintenanceDetail() {
                                     ))
                                 ) : (
                                     <div className="relative w-32 h-24 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center">
-                                        <span className="material-symbols-outlined text-slate-400">image</span>
+                                        <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">image</span>
                                     </div>
                                 )}
-                                <button className="w-32 h-24 rounded-lg border-2 border-dashed border-slate-300 dark:border-slate-600 flex flex-col items-center justify-center text-slate-500 hover:text-brand-ink hover:border-brand hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all gap-1">
+                                <button className="w-32 h-24 rounded-lg border-2 border-dashed border-slate-300 dark:border-slate-600 flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 hover:text-brand-ink hover:border-brand hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all gap-1">
                                     <span className="material-symbols-outlined text-[20px]">add</span>
                                     <span className="text-xs font-bold uppercase">Add More</span>
                                 </button>
@@ -409,7 +409,7 @@ export default function TenantMaintenanceDetail() {
                                         <span className="material-symbols-outlined text-[18px]">{event.icon}</span>
                                     </span>
                                     <h3 className="flex items-center mb-1 text-sm font-bold text-slate-900 dark:text-white">{event.title}</h3>
-                                    <time className="block mb-2 text-xs font-normal leading-none text-slate-400">{event.date}</time>
+                                    <time className="block mb-2 text-xs font-normal leading-none text-slate-500 dark:text-slate-400">{event.date}</time>
                                     <p className="text-sm font-normal text-slate-600 dark:text-slate-300 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-700/50">
                                         {event.description}
                                     </p>
@@ -454,7 +454,7 @@ export default function TenantMaintenanceDetail() {
                                             )}
                                             {msg.message}
                                         </div>
-                                        <div className={`text-xs text-slate-400 mt-1 ${msg.from === 'user' ? 'pr-1' : 'pl-1'}`}>
+                                        <div className={`text-xs text-slate-500 dark:text-slate-400 mt-1 ${msg.from === 'user' ? 'pr-1' : 'pl-1'}`}>
                                             {msg.from === 'manager' ? `${msg.name} • ` : msg.from === 'vendor' ? 'System Update • ' : 'You • '}
                                             {msg.time}
                                         </div>
@@ -494,7 +494,7 @@ export default function TenantMaintenanceDetail() {
                         </div>
                         <div className="p-4">
                             <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 mb-3">
-                                <span className="material-symbols-outlined text-slate-400 text-[18px]">location_on</span>
+                                <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[18px]">location_on</span>
                                 <span>{requestData.property.address}</span>
                             </div>
                             <Link
@@ -508,7 +508,7 @@ export default function TenantMaintenanceDetail() {
 
                     {/* Assigned Vendor */}
                     <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-100 dark:border-slate-800">
-                        <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-4">Assigned Vendor</h3>
+                        <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-4">Assigned Vendor</h3>
                         {requestData.vendor ? (
                             <>
                                 <div className="flex items-center gap-3 mb-4">
@@ -535,7 +535,7 @@ export default function TenantMaintenanceDetail() {
                             <p className="text-sm text-slate-500 dark:text-slate-400">No vendor assigned yet</p>
                         )}
                         <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
-                            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-3">Property Manager</h3>
+                            <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-3">Property Manager</h3>
                             {requestData.manager ? (
                                 <div className="flex items-center gap-3">
                                     <div className="size-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 text-xs font-bold">

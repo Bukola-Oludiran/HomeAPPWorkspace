@@ -356,7 +356,7 @@ export default function LandlordApplicantDetail() {
                                 <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Rent Coverage</p>
                                 <div className="flex items-center gap-2">
                                     <span className="text-xl font-extrabold text-slate-900 dark:text-white">{applicantData.rentCoverage}</span>
-                                    <span className="text-xs text-slate-400">Rent</span>
+                                    <span className="text-xs text-slate-500 dark:text-slate-400">Rent</span>
                                 </div>
                             </div>
                             <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
@@ -373,7 +373,7 @@ export default function LandlordApplicantDetail() {
                     <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden">
                         <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-canvas-dark">
                             <div className="flex items-center gap-2">
-                                <span className="material-symbols-outlined text-slate-400">policy</span>
+                                <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">policy</span>
                                 <h3 className="font-bold text-slate-900 dark:text-white">Background Screening</h3>
                             </div>
                             <span className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 px-2.5 py-0.5 rounded-full text-xs font-bold border border-green-200 dark:border-green-800">
@@ -414,7 +414,7 @@ export default function LandlordApplicantDetail() {
                                 <button className="text-brand-ink text-sm font-bold hover:underline flex items-center gap-1">
                                     View Detailed Report
                                 </button>
-                                <button className="text-slate-500 text-sm font-medium hover:text-slate-700 dark:hover:text-slate-300 flex items-center gap-1">
+                                <button className="text-slate-500 dark:text-slate-400 text-sm font-medium hover:text-slate-700 dark:hover:text-slate-300 flex items-center gap-1">
                                     Download PDF <span className="material-symbols-outlined text-sm">download</span>
                                 </button>
                             </div>
@@ -425,7 +425,7 @@ export default function LandlordApplicantDetail() {
                     <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden">
                         <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-canvas-dark">
                             <div className="flex items-center gap-2">
-                                <span className="material-symbols-outlined text-slate-400">folder_open</span>
+                                <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">folder_open</span>
                                 <h3 className="font-bold text-slate-900 dark:text-white">Submitted Documents</h3>
                             </div>
                             <button className="text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center gap-1">
@@ -442,7 +442,7 @@ export default function LandlordApplicantDetail() {
                                             : 'border-slate-200 dark:border-slate-700 hover:border-brand/50'
                                             }`}
                                     >
-                                        <div className={`size-10 rounded-lg flex items-center justify-center shrink-0 ${doc.status === 'flagged' ? 'bg-slate-100 dark:bg-slate-800 text-slate-500' : 'bg-blue-50 dark:bg-blue-900/20 text-blue-500'}`}>
+                                        <div className={`size-10 rounded-lg flex items-center justify-center shrink-0 ${doc.status === 'flagged' ? 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400' : 'bg-blue-50 dark:bg-blue-900/20 text-blue-500'}`}>
                                             <span className="material-symbols-outlined">{doc.icon}</span>
                                         </div>
                                         <div className="flex-1 min-w-0">
@@ -457,10 +457,10 @@ export default function LandlordApplicantDetail() {
                                             <button className="text-xs font-bold text-brand-ink hover:underline whitespace-nowrap">Resend Request</button>
                                         ) : (
                                             <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <button className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-400 hover:text-brand-ink">
+                                                <button className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-500 dark:text-slate-400 hover:text-brand-ink">
                                                     <span className="material-symbols-outlined text-lg">visibility</span>
                                                 </button>
-                                                <button className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-400 hover:text-brand-ink">
+                                                <button className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-500 dark:text-slate-400 hover:text-brand-ink">
                                                     <span className="material-symbols-outlined text-lg">download</span>
                                                 </button>
                                             </div>
@@ -474,9 +474,9 @@ export default function LandlordApplicantDetail() {
                     {/* Internal Notes */}
                     <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden">
                         <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2 bg-slate-50/50 dark:bg-canvas-dark">
-                            <span className="material-symbols-outlined text-slate-400">lock</span>
+                            <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">lock</span>
                             <h3 className="font-bold text-slate-900 dark:text-white">Internal Notes</h3>
-                            <span className="text-xs text-slate-400 font-normal ml-auto">Visible only to team</span>
+                            <span className="text-xs text-slate-500 dark:text-slate-400 font-normal ml-auto">Visible only to team</span>
                         </div>
                         <div className="p-6">
                             <div className="space-y-4 mb-6">
@@ -487,7 +487,7 @@ export default function LandlordApplicantDetail() {
                                             <div className="bg-slate-50 dark:bg-slate-800 p-3 rounded-xl rounded-tl-none text-sm text-slate-700 dark:text-slate-300">
                                                 {note.message}
                                             </div>
-                                            <p className="text-xs text-slate-400 mt-1 pl-1">{note.time}</p>
+                                            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 pl-1">{note.time}</p>
                                         </div>
                                     </div>
                                 ))}
@@ -526,11 +526,11 @@ export default function LandlordApplicantDetail() {
                         </div>
                         <div className="p-4 grid grid-cols-2 divide-x divide-slate-100 dark:divide-slate-800">
                             <div className="text-center px-2">
-                                <p className="text-xs text-slate-500 uppercase font-bold">Monthly Rent</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold">Monthly Rent</p>
                                 <p className="text-base font-bold text-slate-900 dark:text-white">{applicantData.property.rent}</p>
                             </div>
                             <div className="text-center px-2">
-                                <p className="text-xs text-slate-500 uppercase font-bold">Lease Term</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold">Lease Term</p>
                                 <p className="text-base font-bold text-slate-900 dark:text-white">{applicantData.property.leaseTerm}</p>
                             </div>
                         </div>
@@ -568,7 +568,7 @@ export default function LandlordApplicantDetail() {
                             {applicantData.timeline.map((event) => (
                                 <div key={event.id} className="relative pl-6">
                                     <div className={`absolute -left-[9px] top-0 size-4 ${event.color} rounded-full border-4 border-white dark:border-canvas-dark`}></div>
-                                    <p className="text-xs text-slate-400 font-mono mb-0.5">{event.date}</p>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 font-mono mb-0.5">{event.date}</p>
                                     <h4 className="text-sm font-bold text-slate-900 dark:text-white">{event.title}</h4>
                                     <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{event.description}</p>
                                 </div>

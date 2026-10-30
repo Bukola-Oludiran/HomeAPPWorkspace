@@ -32,17 +32,17 @@ export function PropertyComparison({ props, onAction }: Props) {
                             />
                         ) : null}
                         <h3 className="truncate text-sm font-semibold">{p.title}</h3>
-                        <p className="text-xs text-slate-500">{p.city}</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">{p.city}</p>
                         <dl className="mt-2 grid grid-cols-2 gap-y-0.5 text-xs">
-                            <dt className="text-slate-500">Price</dt>
+                            <dt className="text-slate-500 dark:text-slate-400">Price</dt>
                             <dd className="text-right font-semibold tabular-nums">
                                 ${p.price.amount.toLocaleString()}
                             </dd>
-                            <dt className="text-slate-500">Beds</dt>
+                            <dt className="text-slate-500 dark:text-slate-400">Beds</dt>
                             <dd className="text-right">{p.bedrooms ?? '—'}</dd>
-                            <dt className="text-slate-500">Baths</dt>
+                            <dt className="text-slate-500 dark:text-slate-400">Baths</dt>
                             <dd className="text-right">{p.bathrooms ?? '—'}</dd>
-                            <dt className="text-slate-500">Type</dt>
+                            <dt className="text-slate-500 dark:text-slate-400">Type</dt>
                             <dd className="text-right">{p.propertyType}</dd>
                         </dl>
                         <div className="mt-auto pt-2">

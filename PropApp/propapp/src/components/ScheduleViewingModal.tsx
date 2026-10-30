@@ -122,11 +122,11 @@ export default function ScheduleViewingModal({ isOpen, onClose, property }: Sche
                                             Select Date
                                         </h3>
                                         <div className="flex gap-1">
-                                            <button className="size-8 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center text-slate-500">
+                                            <button className="size-8 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400">
                                                 <span className="material-symbols-outlined text-[18px]">chevron_left</span>
                                             </button>
                                             <span className="text-sm font-semibold py-1.5">October 2023</span>
-                                            <button className="size-8 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center text-slate-500">
+                                            <button className="size-8 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400">
                                                 <span className="material-symbols-outlined text-[18px]">chevron_right</span>
                                             </button>
                                         </div>
@@ -134,7 +134,7 @@ export default function ScheduleViewingModal({ isOpen, onClose, property }: Sche
                                     <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4">
                                         <div className="grid grid-cols-7 gap-1 text-center mb-2">
                                             {weekDays.map((day) => (
-                                                <span key={day} className="text-xs font-semibold text-slate-400 uppercase">{day}</span>
+                                                <span key={day} className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">{day}</span>
                                             ))}
                                         </div>
                                         <div className="grid grid-cols-7 gap-2">
@@ -173,7 +173,7 @@ export default function ScheduleViewingModal({ isOpen, onClose, property }: Sche
                                 <div>
                                     <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
                                         <span className="size-6 rounded-full bg-brand/10 text-brand-ink flex items-center justify-center text-xs font-bold">2</span>
-                                        Select Time <span className="text-xs font-normal text-slate-500 ml-1">(Sat, Oct {selectedDate})</span>
+                                        Select Time <span className="text-xs font-normal text-slate-500 dark:text-slate-400 ml-1">(Sat, Oct {selectedDate})</span>
                                     </h3>
                                     <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
                                         {timeSlots.map((slot) => (
@@ -182,7 +182,7 @@ export default function ScheduleViewingModal({ isOpen, onClose, property }: Sche
                                                 onClick={() => slot.available && setSelectedTime(slot.time)}
                                                 disabled={!slot.available}
                                                 className={`py-2.5 px-3 rounded-lg border text-sm font-medium transition-colors ${!slot.available
-                                                    ? 'border-slate-200 dark:border-slate-700 text-slate-400 cursor-not-allowed bg-slate-50 dark:bg-slate-800/50'
+                                                    ? 'border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 cursor-not-allowed bg-slate-50 dark:bg-slate-800/50'
                                                     : selectedTime === slot.time
                                                         ? 'bg-brand/10 border-brand text-brand-ink font-bold shadow-sm ring-1 ring-brand/20'
                                                         : 'border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-brand hover:text-brand-ink bg-white dark:bg-slate-800'
@@ -264,14 +264,14 @@ export default function ScheduleViewingModal({ isOpen, onClose, property }: Sche
 
                                 {/* Booking Summary */}
                                 <div className="mt-8 bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4 border border-slate-100 dark:border-slate-700">
-                                    <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Booking Summary</h4>
+                                    <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">Booking Summary</h4>
                                     <div className="flex items-start gap-3 mb-3">
                                         <div className="bg-white dark:bg-slate-800 p-2 rounded-lg border border-slate-200 dark:border-slate-700">
                                             <span className="material-symbols-outlined text-brand-ink">calendar_month</span>
                                         </div>
                                         <div>
                                             <p className="font-bold text-slate-900 dark:text-white">Sat, Oct {selectedDate}</p>
-                                            <p className="text-sm text-slate-500">{selectedTime} - {selectedTime.includes('30') ? `${parseInt(selectedTime) + 1}:00 ${selectedTime.includes('AM') ? 'AM' : 'PM'}` : `${selectedTime.replace(':00', ':30')}`}</p>
+                                            <p className="text-sm text-slate-500 dark:text-slate-400">{selectedTime} - {selectedTime.includes('30') ? `${parseInt(selectedTime) + 1}:00 ${selectedTime.includes('AM') ? 'AM' : 'PM'}` : `${selectedTime.replace(':00', ':30')}`}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-start gap-3">
@@ -280,7 +280,7 @@ export default function ScheduleViewingModal({ isOpen, onClose, property }: Sche
                                         </div>
                                         <div>
                                             <p className="font-bold text-slate-900 dark:text-white">In-Person Viewing</p>
-                                            <p className="text-sm text-slate-500">{property.address.split(',')[0]}</p>
+                                            <p className="text-sm text-slate-500 dark:text-slate-400">{property.address.split(',')[0]}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -301,7 +301,7 @@ export default function ScheduleViewingModal({ isOpen, onClose, property }: Sche
                                         <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
                                     </button>
                                 </div>
-                                <p className="text-center text-xs text-slate-400 mt-4">
+                                <p className="text-center text-xs text-slate-500 dark:text-slate-400 mt-4">
                                     By confirming, you agree to our Terms of Service.
                                 </p>
                             </div>

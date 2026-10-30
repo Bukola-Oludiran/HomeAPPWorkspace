@@ -43,7 +43,7 @@ export default function TenantProfileLandlordView() {
                 <div className="flex items-center justify-center min-h-[60vh]">
                     <div className="flex flex-col items-center gap-3">
                         <div className="size-10 border-4 border-brand border-t-transparent rounded-full animate-spin"></div>
-                        <p className="text-slate-500 font-medium">Loading tenant profile...</p>
+                        <p className="text-slate-500 dark:text-slate-400 font-medium">Loading tenant profile...</p>
                     </div>
                 </div>
             </PageContainer>
@@ -125,7 +125,7 @@ export default function TenantProfileLandlordView() {
                             <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                                 <span className="material-symbols-outlined text-brand-ink">history</span> Application History
                             </h3>
-                            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">1 Active Application</span>
+                            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">1 Active Application</span>
                         </div>
                         <div className="flex flex-col gap-3">
                             <div className="flex flex-col md:flex-row md:items-center gap-4 bg-indigo-50/50 dark:bg-indigo-900/10 p-5 rounded-xl border border-indigo-100 dark:border-indigo-900/30">
@@ -141,7 +141,7 @@ export default function TenantProfileLandlordView() {
                                 </div>
                                 <div className="flex flex-row md:flex-col items-center md:items-end gap-3 md:gap-1">
                                     <div className="text-right">
-                                        <span className="block text-xs text-slate-400 font-medium uppercase">Status</span>
+                                        <span className="block text-xs text-slate-500 dark:text-slate-400 font-medium uppercase">Status</span>
                                         <span className="text-sm font-bold text-blue-600 dark:text-blue-400">Review Pending</span>
                                     </div>
                                 </div>
@@ -168,30 +168,30 @@ export default function TenantProfileLandlordView() {
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                             <div>
-                                <label className="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase mb-1">Full Name</label>
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-500 uppercase mb-1">Full Name</label>
                                 <div className="text-base font-semibold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 px-4 py-3 rounded-xl border border-transparent dark:border-slate-800">
                                     {tenantName}
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase mb-1">Date of Birth</label>
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-500 uppercase mb-1">Date of Birth</label>
                                 <div className="text-base font-semibold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 px-4 py-3 rounded-xl border border-transparent dark:border-slate-800 flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-slate-400 text-lg">calendar_today</span>
-                                    August 15, 1995 <span className="text-sm font-normal text-slate-500">(29 yrs)</span>
+                                    <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-lg">calendar_today</span>
+                                    August 15, 1995 <span className="text-sm font-normal text-slate-500 dark:text-slate-400">(29 yrs)</span>
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase mb-1">Email Address</label>
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-500 uppercase mb-1">Email Address</label>
                                 <div className="text-base font-semibold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 px-4 py-3 rounded-xl border border-transparent dark:border-slate-800 flex items-center justify-between group cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
                                     <span>sarah.johnson@example.com</span>
-                                    <span className="material-symbols-outlined text-slate-400 text-sm opacity-0 group-hover:opacity-100">content_copy</span>
+                                    <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-sm opacity-0 group-hover:opacity-100">content_copy</span>
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase mb-1">Phone Number</label>
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-500 uppercase mb-1">Phone Number</label>
                                 <div className="text-base font-semibold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 px-4 py-3 rounded-xl border border-transparent dark:border-slate-800 flex items-center justify-between group cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
                                     <span>(555) 123-4567</span>
-                                    <span className="material-symbols-outlined text-slate-400 text-sm opacity-0 group-hover:opacity-100">call</span>
+                                    <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-sm opacity-0 group-hover:opacity-100">call</span>
                                 </div>
                             </div>
                         </div>
@@ -206,29 +206,29 @@ export default function TenantProfileLandlordView() {
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div className="md:col-span-2">
-                                <label className="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase mb-1">Current Employer</label>
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-500 uppercase mb-1">Current Employer</label>
                                 <div className="text-base font-semibold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 px-4 py-3 rounded-xl border border-transparent dark:border-slate-800">
                                     Tech Solutions Inc.
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase mb-1">Job Title</label>
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-500 uppercase mb-1">Job Title</label>
                                 <div className="text-base font-semibold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 px-4 py-3 rounded-xl border border-transparent dark:border-slate-800">
                                     Senior UX Designer
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase mb-1">Annual Income</label>
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-500 uppercase mb-1">Annual Income</label>
                                 <div className="text-base font-bold text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-900/10 px-4 py-3 rounded-xl border border-green-100 dark:border-green-900/30 flex items-center gap-2">
                                     <span className="material-symbols-outlined text-[18px]">payments</span> 95,000
                                 </div>
                             </div>
                             <div className="md:col-span-2">
-                                <label className="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase mb-1">Proof of Income</label>
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-500 uppercase mb-1">Proof of Income</label>
                                 <div className="flex items-center gap-2 text-sm text-brand-ink font-medium bg-brand/5 px-4 py-3 rounded-xl border border-brand/10 cursor-pointer hover:bg-brand/10 transition-colors">
                                     <span className="material-symbols-outlined text-[18px]">description</span>
                                     <span>paystub_sep_2024.pdf</span>
-                                    <span className="ml-auto text-xs text-slate-400">Uploaded Sep 28</span>
+                                    <span className="ml-auto text-xs text-slate-500 dark:text-slate-400">Uploaded Sep 28</span>
                                 </div>
                             </div>
                         </div>
@@ -262,7 +262,7 @@ export default function TenantProfileLandlordView() {
                                     <span className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold rounded-lg border border-slate-200 dark:border-slate-700">In-unit Laundry</span>
                                 </div>
                                 <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
-                                    <div className="flex items-center gap-2 text-sm text-slate-500">
+                                    <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                                         <span className="material-symbols-outlined text-[18px]">mark_email_read</span>
                                         Tenant prefers <strong>Email Notifications</strong>
                                     </div>
@@ -300,7 +300,7 @@ export default function TenantProfileLandlordView() {
                                     <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">AI Insights</p>
                                 </div>
                             </div>
-                            <button onClick={() => setShowAIChat(false)} className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+                            <button onClick={() => setShowAIChat(false)} className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
                                 <span className="material-symbols-outlined text-[20px]">close</span>
                             </button>
                         </div>

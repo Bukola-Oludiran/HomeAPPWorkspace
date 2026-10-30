@@ -97,7 +97,7 @@ export default function ApplicantDetail() {
             <div className="flex items-center justify-center min-h-screen">
                 <div className="flex flex-col items-center gap-3">
                     <div className="size-10 border-4 border-brand border-t-transparent rounded-full animate-spin"></div>
-                    <p className="text-slate-500 font-medium">Loading applicant details...</p>
+                    <p className="text-slate-500 dark:text-slate-400 font-medium">Loading applicant details...</p>
                 </div>
             </div>
         );
@@ -107,7 +107,7 @@ export default function ApplicantDetail() {
         return (
             <div className="flex flex-col items-center justify-center min-h-screen gap-4">
                 <span className="material-symbols-outlined text-5xl text-slate-300">error</span>
-                <p className="text-slate-500 font-medium">{error || 'Applicant not found'}</p>
+                <p className="text-slate-500 dark:text-slate-400 font-medium">{error || 'Applicant not found'}</p>
                 <Link to="/landlord/tenants" className="text-brand-ink font-bold hover:underline">Back to Applications</Link>
             </div>
         );
@@ -259,7 +259,7 @@ export default function ApplicantDetail() {
                             <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden">
                                 <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-canvas-dark">
                                     <div className="flex items-center gap-2">
-                                        <span className="material-symbols-outlined text-slate-400">policy</span>
+                                        <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">policy</span>
                                         <h3 className="font-bold text-slate-900 dark:text-white">Background Screening</h3>
                                     </div>
                                     <span className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 px-2.5 py-0.5 rounded-full text-xs font-bold border border-green-200 dark:border-green-800">
@@ -300,7 +300,7 @@ export default function ApplicantDetail() {
                                         <button className="text-brand-ink text-sm font-bold hover:underline flex items-center gap-1">
                                             View Detailed Report
                                         </button>
-                                        <button className="text-slate-500 text-sm font-medium hover:text-slate-700 dark:hover:text-slate-300 flex items-center gap-1">
+                                        <button className="text-slate-500 dark:text-slate-400 text-sm font-medium hover:text-slate-700 dark:hover:text-slate-300 flex items-center gap-1">
                                             Download PDF <span className="material-symbols-outlined text-sm">download</span>
                                         </button>
                                     </div>
@@ -311,7 +311,7 @@ export default function ApplicantDetail() {
                             <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden">
                                 <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-canvas-dark">
                                     <div className="flex items-center gap-2">
-                                        <span className="material-symbols-outlined text-slate-400">folder_open</span>
+                                        <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">folder_open</span>
                                         <h3 className="font-bold text-slate-900 dark:text-white">Submitted Documents</h3>
                                     </div>
                                     <button className="text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center gap-1">
@@ -329,8 +329,8 @@ export default function ApplicantDetail() {
                                                 <p className="text-xs text-slate-500 dark:text-slate-400">Uploaded 2 days ago</p>
                                             </div>
                                             <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <button className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-400 hover:text-brand-ink"><span className="material-symbols-outlined text-lg">visibility</span></button>
-                                                <button className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-400 hover:text-brand-ink"><span className="material-symbols-outlined text-lg">download</span></button>
+                                                <button className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-500 dark:text-slate-400 hover:text-brand-ink"><span className="material-symbols-outlined text-lg">visibility</span></button>
+                                                <button className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-500 dark:text-slate-400 hover:text-brand-ink"><span className="material-symbols-outlined text-lg">download</span></button>
                                             </div>
                                         </div>
                                         <div className="border border-slate-200 dark:border-slate-700 rounded-lg p-3 flex items-center gap-3 hover:border-brand/50 transition-colors group">
@@ -342,12 +342,12 @@ export default function ApplicantDetail() {
                                                 <p className="text-xs text-slate-500 dark:text-slate-400">Uploaded 2 days ago</p>
                                             </div>
                                             <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <button className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-400 hover:text-brand-ink"><span className="material-symbols-outlined text-lg">visibility</span></button>
-                                                <button className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-400 hover:text-brand-ink"><span className="material-symbols-outlined text-lg">download</span></button>
+                                                <button className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-500 dark:text-slate-400 hover:text-brand-ink"><span className="material-symbols-outlined text-lg">visibility</span></button>
+                                                <button className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-500 dark:text-slate-400 hover:text-brand-ink"><span className="material-symbols-outlined text-lg">download</span></button>
                                             </div>
                                         </div>
                                         <div className="border border-red-300 dark:border-red-800 bg-red-50/30 dark:bg-red-900/10 rounded-lg p-3 flex items-center gap-3 relative">
-                                            <div className="size-10 bg-slate-100 dark:bg-slate-800 rounded-lg flex items-center justify-center text-slate-500 shrink-0">
+                                            <div className="size-10 bg-slate-100 dark:bg-slate-800 rounded-lg flex items-center justify-center text-slate-500 dark:text-slate-400 shrink-0">
                                                 <span className="material-symbols-outlined">id_card</span>
                                             </div>
                                             <div className="flex-1 min-w-0">
@@ -363,9 +363,9 @@ export default function ApplicantDetail() {
                             {/* Internal Notes */}
                             <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden">
                                 <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2 bg-slate-50/50 dark:bg-canvas-dark">
-                                    <span className="material-symbols-outlined text-slate-400">lock</span>
+                                    <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">lock</span>
                                     <h3 className="font-bold text-slate-900 dark:text-white">Internal Notes</h3>
-                                    <span className="text-xs text-slate-400 font-normal ml-auto">Visible only to team</span>
+                                    <span className="text-xs text-slate-500 dark:text-slate-400 font-normal ml-auto">Visible only to team</span>
                                 </div>
                                 <div className="p-6">
                                     <div className="space-y-4 mb-6">
@@ -375,7 +375,7 @@ export default function ApplicantDetail() {
                                                 <div className="bg-slate-50 dark:bg-slate-800 p-3 rounded-xl rounded-tl-none text-sm text-slate-700 dark:text-slate-300">
                                                     Called references. Previous landlord (Mike) spoke highly of her. Confirmed timely payments for 3 years.
                                                 </div>
-                                                <p className="text-xs text-slate-400 mt-1 pl-1">Today, 10:30 AM</p>
+                                                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 pl-1">Today, 10:30 AM</p>
                                             </div>
                                         </div>
                                     </div>
@@ -404,7 +404,7 @@ export default function ApplicantDetail() {
                                         <img alt="Property" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src={applicant.property.primaryImage} />
                                     ) : (
                                         <div className="w-full h-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
-                                            <span className="material-symbols-outlined text-4xl text-slate-400">apartment</span>
+                                            <span className="material-symbols-outlined text-4xl text-slate-500 dark:text-slate-400">apartment</span>
                                         </div>
                                     )}
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
@@ -415,11 +415,11 @@ export default function ApplicantDetail() {
                                 </div>
                                 <div className="p-4 grid grid-cols-2 divide-x divide-slate-100 dark:divide-slate-800">
                                     <div className="text-center px-2">
-                                        <p className="text-xs text-slate-500 uppercase font-bold">Price</p>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold">Price</p>
                                         <p className="text-base font-bold text-slate-900 dark:text-white">{applicant.property ? formatCurrency(applicant.property.price) : 'N/A'}</p>
                                     </div>
                                     <div className="text-center px-2">
-                                        <p className="text-xs text-slate-500 uppercase font-bold">Type</p>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold">Type</p>
                                         <p className="text-base font-bold text-slate-900 dark:text-white">{applicant.property?.propertyType || 'N/A'}</p>
                                     </div>
                                 </div>
@@ -457,14 +457,14 @@ export default function ApplicantDetail() {
                                     {applicant.updatedAt !== applicant.createdAt && (
                                         <div className="relative pl-6">
                                             <div className="absolute -left-[9px] top-0 size-4 bg-amber-500 rounded-full border-4 border-white dark:border-canvas-dark"></div>
-                                            <p className="text-xs text-slate-400 font-mono mb-0.5">{new Date(applicant.updatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
+                                            <p className="text-xs text-slate-500 dark:text-slate-400 font-mono mb-0.5">{new Date(applicant.updatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
                                             <h4 className="text-sm font-bold text-slate-900 dark:text-white">Last Updated</h4>
                                             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Application status changed to {statusStyles.label}.</p>
                                         </div>
                                     )}
                                     <div className="relative pl-6">
                                         <div className="absolute -left-[9px] top-0 size-4 bg-slate-300 dark:bg-slate-600 rounded-full border-4 border-white dark:border-canvas-dark"></div>
-                                        <p className="text-xs text-slate-400 font-mono mb-0.5">{new Date(applicant.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400 font-mono mb-0.5">{new Date(applicant.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
                                         <h4 className="text-sm font-bold text-slate-900 dark:text-white">Application Received</h4>
                                         <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{applicantName} submitted application.</p>
                                     </div>
@@ -511,7 +511,7 @@ export default function ApplicantDetail() {
                                     </div>
                                 </div>
                             </div>
-                            <button onClick={() => setShowAIChat(false)} className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+                            <button onClick={() => setShowAIChat(false)} className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
                                 <span className="material-symbols-outlined text-[20px]">close</span>
                             </button>
                         </div>

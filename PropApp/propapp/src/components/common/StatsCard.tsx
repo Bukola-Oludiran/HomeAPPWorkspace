@@ -107,7 +107,7 @@ const StatsCard: React.FC<StatsCardProps> = ({
             <div>
                 <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">{label}</p>
                 <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">{renderValue()}</h3>
-                {subtext && <p className="text-xs text-slate-400 mt-1">{subtext}</p>}
+                {subtext && <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{subtext}</p>}
             </div>
         </div>
     );

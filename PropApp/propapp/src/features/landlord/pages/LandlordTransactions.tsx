@@ -200,19 +200,19 @@ export default function LandlordTransactions() {
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                 <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
-                    <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Total Income (Month)</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Total Income (Month)</p>
                     <p className="text-2xl font-extrabold text-green-600">{isLoading ? '...' : formatCurrency(totalIncome)}</p>
                 </div>
                 <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
-                    <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Pending Payments</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Pending Payments</p>
                     <p className="text-2xl font-extrabold text-orange-600">{isLoading ? '...' : formatCurrency(pendingAmount)}</p>
                 </div>
                 <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
-                    <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Fees & Deductions</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Fees & Deductions</p>
                     <p className="text-2xl font-extrabold text-red-500">{isLoading ? '...' : formatCurrency(deductions)}</p>
                 </div>
                 <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
-                    <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Net Revenue</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Net Revenue</p>
                     <p className="text-2xl font-extrabold text-brand-ink">{isLoading ? '...' : formatCurrency(netRevenue)}</p>
                 </div>
             </div>
@@ -228,7 +228,7 @@ export default function LandlordTransactions() {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4">
                         <div className="lg:col-span-4 relative">
-                            <label className="block text-xs font-medium text-slate-500 mb-1">Search Transactions</label>
+                            <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Search Transactions</label>
                             <SearchInput
                                 placeholder="e.g. Tenant name, Invoice #..."
                                 value={searchQuery}
@@ -237,7 +237,7 @@ export default function LandlordTransactions() {
                         </div>
                         <DateRangeFilter className="lg:col-span-3" />
                         <div className="lg:col-span-2">
-                            <label className="block text-xs font-medium text-slate-500 mb-1">Property</label>
+                            <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Property</label>
                             <select className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/50 focus:border-brand">
                                 <option>All Properties</option>
                                 <option>Modern Oakwood Estate</option>
@@ -246,7 +246,7 @@ export default function LandlordTransactions() {
                             </select>
                         </div>
                         <div className="lg:col-span-2">
-                            <label className="block text-xs font-medium text-slate-500 mb-1">Type</label>
+                            <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Type</label>
                             <select className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/50 focus:border-brand">
                                 <option>All Types</option>
                                 <option>Rent Income</option>
@@ -256,7 +256,7 @@ export default function LandlordTransactions() {
                             </select>
                         </div>
                         <div className="lg:col-span-1">
-                            <label className="block text-xs font-medium text-slate-500 mb-1">Status</label>
+                            <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Status</label>
                             <select className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/50 focus:border-brand">
                                 <option>All</option>
                                 <option>Received</option>
@@ -293,7 +293,7 @@ export default function LandlordTransactions() {
                             )}
                             {!error && filteredTransactions.length === 0 && !isLoading && (
                                 <tr>
-                                    <td colSpan={7} className="px-6 py-8 text-center text-slate-500">
+                                    <td colSpan={7} className="px-6 py-8 text-center text-slate-500 dark:text-slate-400">
                                         No transactions found
                                     </td>
                                 </tr>
@@ -307,7 +307,7 @@ export default function LandlordTransactions() {
                                             </div>
                                             <div>
                                                 <p className="text-sm font-bold text-slate-900 dark:text-white">{tx.description}</p>
-                                                <p className="text-xs text-slate-500">Ref: #{tx.id}</p>
+                                                <p className="text-xs text-slate-500 dark:text-slate-400">Ref: #{tx.id}</p>
                                             </div>
                                         </div>
                                     </td>
@@ -318,7 +318,7 @@ export default function LandlordTransactions() {
                                         {tx.property}
                                     </td>
                                     <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
-                                        {tx.date} <br /> <span className="text-xs text-slate-400">{tx.time}</span>
+                                        {tx.date} <br /> <span className="text-xs text-slate-500 dark:text-slate-400">{tx.time}</span>
                                     </td>
                                     <td className="px-6 py-4">
                                         <StatusBadge status={tx.status} variant={statusToVariant[tx.status] || 'neutral'} />
@@ -327,7 +327,7 @@ export default function LandlordTransactions() {
                                         <p className={`font-bold ${tx.amount.startsWith('+') ? 'text-green-600' : 'text-red-500'}`}>{tx.amount}</p>
                                     </td>
                                     <td className="px-6 py-4 text-center">
-                                        <button className="p-2 text-slate-400 hover:text-brand-ink hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors" title="View Receipt">
+                                        <button className="p-2 text-slate-500 dark:text-slate-400 hover:text-brand-ink hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors" title="View Receipt">
                                             <span className="material-symbols-outlined text-[20px]">receipt_long</span>
                                         </button>
                                     </td>
@@ -344,14 +344,14 @@ export default function LandlordTransactions() {
                         <button
                             onClick={() => setPage(p => Math.max(1, p - 1))}
                             disabled={page === 1}
-                            className={`px-3 py-1 text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded transition-colors ${page === 1 ? 'text-slate-400 opacity-50 cursor-not-allowed' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'}`}
+                            className={`px-3 py-1 text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded transition-colors ${page === 1 ? 'text-slate-500 dark:text-slate-400 opacity-50 cursor-not-allowed' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'}`}
                         >
                             Previous
                         </button>
                         <button
                             onClick={() => setPage(p => p + 1)}
                             disabled={page * limit >= totalCount}
-                            className={`px-3 py-1 text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded transition-colors ${page * limit >= totalCount ? 'text-slate-400 opacity-50 cursor-not-allowed' : 'text-brand-ink hover:bg-slate-50 dark:hover:bg-slate-700'}`}
+                            className={`px-3 py-1 text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded transition-colors ${page * limit >= totalCount ? 'text-slate-500 dark:text-slate-400 opacity-50 cursor-not-allowed' : 'text-brand-ink hover:bg-slate-50 dark:hover:bg-slate-700'}`}
                         >
                             Next
                         </button>
@@ -373,7 +373,7 @@ export default function LandlordTransactions() {
                                     <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">Property Income</p>
                                 </div>
                             </div>
-                            <button onClick={() => setShowAIChat(false)} className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+                            <button onClick={() => setShowAIChat(false)} className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
                                 <span className="material-symbols-outlined text-[20px]">close</span>
                             </button>
                         </div>
@@ -387,7 +387,7 @@ export default function LandlordTransactions() {
                                 </div>
                             </div>
                             <div className="mt-auto">
-                                <p className="text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide px-1">Suggested actions</p>
+                                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2 uppercase tracking-wide px-1">Suggested actions</p>
                                 <div className="flex flex-wrap gap-2">
                                     <button className="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors">
                                         Monthly Income Report

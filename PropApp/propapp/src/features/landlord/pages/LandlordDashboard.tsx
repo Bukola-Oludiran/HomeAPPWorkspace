@@ -37,7 +37,7 @@ function getPaymentStatusColor(status?: string): string {
     if (lower.includes('paid') || lower.includes('on time') || lower.includes('occupied')) return 'text-green-600';
     if (lower.includes('overdue') || lower.includes('late')) return 'text-red-600';
     if (lower.includes('pending') || lower.includes('vacant')) return 'text-amber-600';
-    return 'text-slate-500';
+    return 'text-slate-500 dark:text-slate-400';
 }
 
 // Helper to get alert icon and colors
@@ -279,14 +279,14 @@ export default function LandlordDashboardPage() {
                                 </div>
                                 <div className="text-right shrink-0 w-full sm:w-auto mt-2 sm:mt-0 flex flex-row sm:flex-col justify-between items-center sm:items-end">
                                     <div>
-                                        <p className="text-lg font-bold text-slate-900 dark:text-white">{formatCurrency(property.monthlyRent ?? property.price)}<span className="text-xs font-normal text-slate-400">{property.monthlyRent != null ? '/mo' : (property.priceUnit ?? '')}</span></p>
+                                        <p className="text-lg font-bold text-slate-900 dark:text-white">{formatCurrency(property.monthlyRent ?? property.price)}<span className="text-xs font-normal text-slate-500 dark:text-slate-400">{property.monthlyRent != null ? '/mo' : (property.priceUnit ?? '')}</span></p>
                                         <p className={`text-xs ${getPaymentStatusColor(property.occupancyStatus ?? property.paymentStatus)} font-medium`}>{property.occupancyStatus ?? property.paymentStatus ?? ''}</p>
                                     </div>
-                                    <button className="sm:hidden p-2 bg-slate-50 dark:bg-slate-800 text-slate-400" onClick={(e) => e.preventDefault()}>
+                                    <button className="sm:hidden p-2 bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400" onClick={(e) => e.preventDefault()}>
                                         <span className="material-symbols-outlined">more_vert</span>
                                     </button>
                                 </div>
-                                <button className="hidden sm:block p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200" onClick={(e) => e.preventDefault()}>
+                                <button className="hidden sm:block p-2 bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-200" onClick={(e) => e.preventDefault()}>
                                     <span className="material-symbols-outlined">more_vert</span>
                                 </button>
                             </Link>

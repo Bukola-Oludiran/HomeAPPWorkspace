@@ -247,7 +247,7 @@ export default function LandlordFinancials() {
                 <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800">
                     <div className="flex justify-between items-center mb-6">
                         <h3 className="text-lg font-bold text-slate-900 dark:text-white">Revenue Sources</h3>
-                        <button className="text-slate-400 hover:text-brand-ink transition-colors">
+                        <button className="text-slate-500 dark:text-slate-400 hover:text-brand-ink transition-colors">
                             <span className="material-symbols-outlined">more_horiz</span>
                         </button>
                     </div>
@@ -256,7 +256,7 @@ export default function LandlordFinancials() {
                         <div className="relative size-40 shrink-0">
                             <div className="size-full rounded-full" style={{ background: `conic-gradient(var(--color-brand) 0% ${rentPercent}%, #e2e8f0 ${rentPercent}% 100%)` }}></div>
                             <div className="absolute inset-4 bg-white dark:bg-canvas-dark rounded-full flex flex-col items-center justify-center">
-                                <span className="text-xs text-slate-500">Total</span>
+                                <span className="text-xs text-slate-500 dark:text-slate-400">Total</span>
                                 <span className="text-xl font-bold text-slate-900 dark:text-white">{isLoading ? '...' : formatCurrency(totalRevenue)}</span>
                             </div>
                         </div>
@@ -283,7 +283,7 @@ export default function LandlordFinancials() {
                                 <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
                                     <div className="bg-slate-300 dark:bg-slate-600 h-2 rounded-full" style={{ width: `${100 - rentPercent}%` }}></div>
                                 </div>
-                                <p className="text-xs text-slate-400 pl-5">
+                                <p className="text-xs text-slate-500 dark:text-slate-400 pl-5">
                                     {revenueTypeEntries.filter(([t]) => t !== 'RENT_PAYMENT').map(([t]) => t.replace(/_/g, ' ').toLowerCase()).join(', ') || 'Deposits, fees, and other income'}
                                 </p>
                             </div>
@@ -291,7 +291,7 @@ export default function LandlordFinancials() {
                     </div>
                     {/* Top Performing Properties */}
                     <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
-                        <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-4">Top Performing Properties</h4>
+                        <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-4">Top Performing Properties</h4>
                         <div className="space-y-4">
                             {revenueByProperty.length > 0 ? revenueByProperty.slice(0, 3).map((p) => (
                                 <div key={p.propertyId} className="flex items-center justify-between text-sm">
@@ -299,7 +299,7 @@ export default function LandlordFinancials() {
                                     <span className="font-bold text-slate-900 dark:text-white">{formatCurrency(p.revenue)}</span>
                                 </div>
                             )) : (
-                                <p className="text-sm text-slate-400">No revenue data yet</p>
+                                <p className="text-sm text-slate-500 dark:text-slate-400">No revenue data yet</p>
                             )}
                         </div>
                     </div>
@@ -309,14 +309,14 @@ export default function LandlordFinancials() {
                 <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800">
                     <div className="flex justify-between items-center mb-6">
                         <h3 className="text-lg font-bold text-slate-900 dark:text-white">Expense Categories</h3>
-                        <button className="text-slate-400 hover:text-brand-ink transition-colors">
+                        <button className="text-slate-500 dark:text-slate-400 hover:text-brand-ink transition-colors">
                             <span className="material-symbols-outlined">more_horiz</span>
                         </button>
                     </div>
                     <div className="flex flex-col items-center justify-center py-12 text-center">
                         <span className="material-symbols-outlined text-[48px] text-slate-300 dark:text-slate-600 mb-4">receipt_long</span>
                         <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">No expense data available</p>
-                        <p className="text-xs text-slate-400 dark:text-slate-500">Expense tracking will appear here once the backend supports expense categorization.</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-500">Expense tracking will appear here once the backend supports expense categorization.</p>
                     </div>
                 </div>
             </div>
@@ -390,7 +390,7 @@ export default function LandlordFinancials() {
                                 )}
                                 {!error && filteredTransactions.length === 0 && !isLoading && (
                                     <tr>
-                                        <td colSpan={7} className="px-6 py-8 text-center text-slate-500">
+                                        <td colSpan={7} className="px-6 py-8 text-center text-slate-500 dark:text-slate-400">
                                             No transactions found
                                         </td>
                                     </tr>
@@ -410,11 +410,11 @@ export default function LandlordFinancials() {
                                             {transaction.status === 'completed' ? (
                                                 <span className="material-symbols-outlined text-green-500 text-[20px]" title="Completed">check_circle</span>
                                             ) : (
-                                                <span className="material-symbols-outlined text-slate-400 text-[20px]" title="Pending">pending</span>
+                                                <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[20px]" title="Pending">pending</span>
                                             )}
                                         </td>
                                         <td className="px-6 py-4 text-right">
-                                            <button className="text-slate-400 hover:text-brand-ink opacity-0 group-hover:opacity-100 transition-all">
+                                            <button className="text-slate-500 dark:text-slate-400 hover:text-brand-ink opacity-0 group-hover:opacity-100 transition-all">
                                                 <span className="material-symbols-outlined">visibility</span>
                                             </button>
                                         </td>
@@ -427,7 +427,7 @@ export default function LandlordFinancials() {
                     <div className="px-6 py-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
                         <p className="text-sm text-slate-500 dark:text-slate-400">Showing {filteredTransactions.length} transactions</p>
                         <div className="flex gap-2">
-                            <button className="p-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 disabled:opacity-50">
+                            <button className="p-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 disabled:opacity-50">
                                 <span className="material-symbols-outlined text-[20px]">chevron_left</span>
                             </button>
                             <button className="p-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-brand-ink dark:hover:text-brand-ink">

@@ -41,7 +41,7 @@ export default function SupportTicketModal({ isOpen, onClose, onSubmit }: Suppor
                         </div>
                         <button
                             onClick={onClose}
-                            className="text-slate-400 hover:text-slate-500 dark:hover:text-slate-300 transition-colors p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg cursor-pointer"
+                            className="text-slate-500 dark:text-slate-400 hover:text-slate-500 dark:hover:text-slate-300 transition-colors p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg cursor-pointer"
                         >
                             <span className="material-symbols-outlined">close</span>
                         </button>
@@ -144,7 +144,7 @@ export default function SupportTicketModal({ isOpen, onClose, onSubmit }: Suppor
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value.slice(0, 1000))}
                             ></textarea>
-                            <p className="text-xs text-slate-400 text-right">{description.length}/1000 characters</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 text-right">{description.length}/1000 characters</p>
                         </div>
 
                         {/* Attachments */}
@@ -152,10 +152,10 @@ export default function SupportTicketModal({ isOpen, onClose, onSubmit }: Suppor
                             <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Attachments (Optional)</label>
                             <div className="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl p-6 flex flex-col items-center justify-center text-center hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer group">
                                 <div className="bg-slate-100 dark:bg-slate-800 p-3 rounded-full mb-3 group-hover:scale-110 transition-transform">
-                                    <span className="material-symbols-outlined text-slate-400">cloud_upload</span>
+                                    <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">cloud_upload</span>
                                 </div>
                                 <p className="text-sm text-slate-600 dark:text-slate-300 font-medium">Click to upload or drag and drop</p>
-                                <p className="text-xs text-slate-400 mt-1">SVG, PNG, JPG or PDF (max. 10MB)</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">SVG, PNG, JPG or PDF (max. 10MB)</p>
                             </div>
                         </div>
 

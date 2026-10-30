@@ -106,7 +106,7 @@ export default function TenantMessages() {
                     <div className="p-5 border-b border-slate-100 dark:border-slate-800">
                         <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight">Messages</h1>
                         <div className="relative group">
-                            <span className="material-symbols-outlined absolute left-3 top-2.5 text-slate-400 group-focus-within:text-brand-ink transition-colors">search</span>
+                            <span className="material-symbols-outlined absolute left-3 top-2.5 text-slate-500 dark:text-slate-400 group-focus-within:text-brand-ink transition-colors">search</span>
                             <input
                                 className="w-full bg-slate-50 dark:bg-[#1e293b] border border-slate-200 dark:border-slate-700 rounded-xl py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-brand/20 focus:border-brand text-slate-900 dark:text-white placeholder:text-slate-400 transition-all"
                                 placeholder="Search conversations..."
@@ -122,7 +122,7 @@ export default function TenantMessages() {
                                 <div className="size-8 border-4 border-brand border-t-transparent rounded-full animate-spin"></div>
                             </div>
                         ) : filteredConversations.length === 0 ? (
-                            <div className="flex flex-col items-center justify-center py-12 text-slate-400">
+                            <div className="flex flex-col items-center justify-center py-12 text-slate-500 dark:text-slate-400">
                                 <span className="material-symbols-outlined text-4xl mb-2">chat</span>
                                 <p className="text-sm font-medium">No conversations yet</p>
                             </div>
@@ -154,7 +154,7 @@ export default function TenantMessages() {
                                                 <div className="flex-1 min-w-0">
                                                     <div className="flex justify-between items-baseline mb-1">
                                                         <h3 className="font-bold text-slate-900 dark:text-white text-sm truncate">{other.firstName} {other.lastName}</h3>
-                                                        <span className={`text-xs whitespace-nowrap ${hasUnread ? 'text-brand-ink font-bold' : 'text-slate-500 font-medium'}`}>
+                                                        <span className={`text-xs whitespace-nowrap ${hasUnread ? 'text-brand-ink font-bold' : 'text-slate-500 dark:text-slate-400 font-medium'}`}>
                                                             {conv.lastMessage ? formatMessageTime(conv.lastMessage.createdAt) : ''}
                                                         </span>
                                                     </div>
@@ -211,10 +211,10 @@ export default function TenantMessages() {
                                     })()}
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <button className="p-2 text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" title="View Profile">
+                                    <button className="p-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" title="View Profile">
                                         <span className="material-symbols-outlined">info</span>
                                     </button>
-                                    <button className="p-2 text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" title="Settings">
+                                    <button className="p-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" title="Settings">
                                         <span className="material-symbols-outlined">more_vert</span>
                                     </button>
                                 </div>
@@ -227,7 +227,7 @@ export default function TenantMessages() {
                                         <div className="size-8 border-4 border-brand border-t-transparent rounded-full animate-spin"></div>
                                     </div>
                                 ) : messages.length === 0 ? (
-                                    <div className="flex flex-col items-center justify-center flex-1 text-slate-400">
+                                    <div className="flex flex-col items-center justify-center flex-1 text-slate-500 dark:text-slate-400">
                                         <span className="material-symbols-outlined text-4xl mb-2">chat_bubble_outline</span>
                                         <p className="text-sm font-medium">No messages yet.</p>
                                     </div>
@@ -244,7 +244,7 @@ export default function TenantMessages() {
                                                         </div>
                                                     ) : (
                                                         <div className="size-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center shrink-0 mt-1 overflow-hidden">
-                                                            <span className="material-symbols-outlined text-slate-500 text-sm">person</span>
+                                                            <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-sm">person</span>
                                                         </div>
                                                     )}
                                                     <div className={`flex flex-col gap-1 ${isMe ? 'items-end' : ''}`}>
@@ -256,7 +256,7 @@ export default function TenantMessages() {
                                                                 {msg.content}
                                                             </p>
                                                         </div>
-                                                        <span className={`text-xs text-slate-400 font-medium ${isMe ? 'mr-1' : 'ml-1'}`}>
+                                                        <span className={`text-xs text-slate-500 dark:text-slate-400 font-medium ${isMe ? 'mr-1' : 'ml-1'}`}>
                                                             {formatMessageTime(msg.createdAt)}
                                                         </span>
                                                     </div>
@@ -271,7 +271,7 @@ export default function TenantMessages() {
                             {/* Message Input */}
                             <div className="p-4 bg-white dark:bg-canvas-dark border-t border-slate-200 dark:border-slate-800 z-20">
                                 <div className="max-w-4xl mx-auto relative flex gap-3 items-end">
-                                    <button className="p-3 text-slate-400 hover:text-brand-ink hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-colors shrink-0" title="Attach file">
+                                    <button className="p-3 text-slate-500 dark:text-slate-400 hover:text-brand-ink hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-colors shrink-0" title="Attach file">
                                         <span className="material-symbols-outlined">attach_file</span>
                                     </button>
                                     <div className="flex-1 bg-slate-50 dark:bg-[#1e293b] border border-slate-200 dark:border-slate-700 rounded-xl focus-within:ring-2 focus-within:ring-brand/20 focus-within:border-brand transition-all flex items-center">
@@ -288,7 +288,7 @@ export default function TenantMessages() {
                                                 }
                                             }}
                                         />
-                                        <button className="mr-2 p-2 text-slate-400 hover:text-brand-ink transition-colors rounded-lg">
+                                        <button className="mr-2 p-2 text-slate-500 dark:text-slate-400 hover:text-brand-ink transition-colors rounded-lg">
                                             <span className="material-symbols-outlined text-[20px]">mood</span>
                                         </button>
                                     </div>
@@ -303,7 +303,7 @@ export default function TenantMessages() {
                             </div>
                         </>
                     ) : (
-                        <div className="flex-1 flex flex-col items-center justify-center text-slate-400">
+                        <div className="flex-1 flex flex-col items-center justify-center text-slate-500 dark:text-slate-400">
                             <span className="material-symbols-outlined text-6xl mb-3">forum</span>
                             <p className="text-lg font-medium">Select a conversation</p>
                             <p className="text-sm">Choose from your existing conversations to start messaging</p>
@@ -329,7 +329,7 @@ export default function TenantMessages() {
                             </div>
                             <button
                                 onClick={() => setIsAiOpen(false)}
-                                className="cursor-pointer p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+                                className="cursor-pointer p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
                             >
                                 <span className="material-symbols-outlined text-[20px]">close</span>
                             </button>
@@ -344,7 +344,7 @@ export default function TenantMessages() {
                                 </div>
                             </div>
                             <div className="mt-auto">
-                                <p className="text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide px-1">Suggested actions</p>
+                                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2 uppercase tracking-wide px-1">Suggested actions</p>
                                 <div className="flex flex-wrap gap-2">
                                     <button className="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors flex items-center gap-1">
                                         <span className="material-symbols-outlined text-[14px] text-brand-ink">summarize</span> Summarize chat

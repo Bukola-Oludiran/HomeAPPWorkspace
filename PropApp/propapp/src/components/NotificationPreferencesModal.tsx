@@ -136,7 +136,7 @@ export default function NotificationPreferencesModal({ isOpen, onClose }: Notifi
                     </div>
                     <button
                         onClick={onClose}
-                        className="size-8 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-500 transition-colors"
+                        className="size-8 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 transition-colors"
                     >
                         <span className="material-symbols-outlined">close</span>
                     </button>
@@ -146,7 +146,7 @@ export default function NotificationPreferencesModal({ isOpen, onClose }: Notifi
                 <div className="p-6 overflow-y-auto flex-1">
                     {error && <p role="alert" className="mb-4 text-sm text-red-600">{error}</p>}
                     {/* Channel Headers */}
-                    <div className="flex items-center justify-end gap-6 mb-4 text-xs font-semibold text-slate-500 uppercase tracking-wide pr-2">
+                    <div className="flex items-center justify-end gap-6 mb-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide pr-2">
                         <span className="w-12 text-center">Email</span>
                         <span className="w-12 text-center">Push</span>
                         <span className="w-12 text-center">SMS</span>
@@ -169,7 +169,7 @@ export default function NotificationPreferencesModal({ isOpen, onClose }: Notifi
                                         <p className="font-semibold text-sm text-slate-900 dark:text-white">
                                             {category.name}
                                         </p>
-                                        <p className="text-xs text-slate-500 truncate">
+                                        <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
                                             {category.description}
                                         </p>
                                     </div>
@@ -181,7 +181,7 @@ export default function NotificationPreferencesModal({ isOpen, onClose }: Notifi
                                                 onClick={() => togglePreference(category.id, type)}
                                                 className={`size-6 rounded-md flex items-center justify-center transition-all ${category[type]
                                                         ? 'bg-brand-ink text-on-brand'
-                                                        : 'bg-slate-100 dark:bg-slate-800 text-slate-400'
+                                                        : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
                                                     }`}
                                             >
                                                 <span className="material-symbols-outlined text-[16px]">
@@ -206,7 +206,7 @@ export default function NotificationPreferencesModal({ isOpen, onClose }: Notifi
                         <span className="text-slate-300">|</span>
                         <button
                             onClick={() => setCategories(prev => prev.map(c => ({ ...c, email: false, push: false, sms: false })))}
-                            className="text-xs font-semibold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
+                            className="text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300"
                         >
                             Disable all
                         </button>

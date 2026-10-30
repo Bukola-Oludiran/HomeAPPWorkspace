@@ -198,7 +198,7 @@ export default function SettingsPage() {
 
                         {navItems.map((group) => (
                             <div key={group.section} className="space-y-2">
-                                <h3 className="px-3 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">{group.section}</h3>
+                                <h3 className="px-3 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">{group.section}</h3>
                                 <nav className="space-y-1">
                                     {group.items.map((item) => (
                                         <button
@@ -294,7 +294,7 @@ function ProfileContent() {
             <div className="flex items-center justify-center min-h-[400px]">
                 <div className="flex flex-col items-center gap-3">
                     <div className="size-10 border-4 border-brand border-t-transparent rounded-full animate-spin"></div>
-                    <p className="text-slate-500 font-medium">Loading profile...</p>
+                    <p className="text-slate-500 dark:text-slate-400 font-medium">Loading profile...</p>
                 </div>
             </div>
         );
@@ -366,17 +366,17 @@ function ProfileContent() {
                     <div className="col-span-1 md:col-span-2">
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" htmlFor="email">Email Address</label>
                         <div className="relative">
-                            <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                            <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500 dark:text-slate-400">
                                 <span className="material-symbols-outlined text-[20px]">mail</span>
                             </span>
                             <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white pl-10 shadow-sm focus:border-brand focus:ring-brand sm:text-sm" id="email" name="email" type="email" defaultValue={user?.email || ''} />
                         </div>
-                        <p className="mt-1.5 text-xs text-slate-500">This is the email you use to log in.</p>
+                        <p className="mt-1.5 text-xs text-slate-500 dark:text-slate-400">This is the email you use to log in.</p>
                     </div>
                     <div className="col-span-1 md:col-span-2">
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" htmlFor="phone">Phone Number</label>
                         <div className="relative">
-                            <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                            <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500 dark:text-slate-400">
                                 <span className="material-symbols-outlined text-[20px]">call</span>
                             </span>
                             <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white pl-10 shadow-sm focus:border-brand focus:ring-brand sm:text-sm" id="phone" name="phone" type="tel" defaultValue={user?.phone || ''} />
@@ -498,7 +498,7 @@ function SecurityContent() {
                             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                                 <tr>
                                     <td className="px-4 py-3 text-slate-900 dark:text-white flex items-center gap-2">
-                                        <span className="material-symbols-outlined text-slate-400 text-lg">laptop_mac</span>
+                                        <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-lg">laptop_mac</span>
                                         Chrome on macOS
                                     </td>
                                     <td className="px-4 py-3 text-slate-500 dark:text-slate-400">San Francisco, US</td>
@@ -508,7 +508,7 @@ function SecurityContent() {
                                 </tr>
                                 <tr>
                                     <td className="px-4 py-3 text-slate-900 dark:text-white flex items-center gap-2">
-                                        <span className="material-symbols-outlined text-slate-400 text-lg">smartphone</span>
+                                        <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-lg">smartphone</span>
                                         App on iPhone 13
                                     </td>
                                     <td className="px-4 py-3 text-slate-500 dark:text-slate-400">San Francisco, US</td>
@@ -659,7 +659,7 @@ function PaymentMethodsContent() {
                     </div>
                     <div className="flex items-center gap-2">
                         <span className="text-xs text-green-600 dark:text-green-400 font-medium">Default</span>
-                        <button className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                        <button className="p-2 text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                             <span className="material-symbols-outlined text-[18px]">more_vert</span>
                         </button>
                     </div>
@@ -674,7 +674,7 @@ function PaymentMethodsContent() {
                             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Chase Bank</p>
                         </div>
                     </div>
-                    <button className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                    <button className="p-2 text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                         <span className="material-symbols-outlined text-[18px]">more_vert</span>
                     </button>
                 </div>
@@ -869,7 +869,7 @@ function TenantProfileContent() {
                     <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-lg w-full max-h-[80vh] overflow-hidden shadow-xl" onClick={e => e.stopPropagation()}>
                         <div className="p-6 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
                             <h3 className="text-lg font-bold text-slate-900 dark:text-white">Rental History</h3>
-                            <button onClick={() => setShowHistoryModal(false)} className="text-slate-400 hover:text-slate-600 cursor-pointer">
+                            <button onClick={() => setShowHistoryModal(false)} className="text-slate-500 dark:text-slate-400 hover:text-slate-600 cursor-pointer">
                                 <span className="material-symbols-outlined">close</span>
                             </button>
                         </div>
@@ -893,7 +893,7 @@ function TenantProfileContent() {
                     <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-lg w-full max-h-[80vh] overflow-hidden shadow-xl" onClick={e => e.stopPropagation()}>
                         <div className="p-6 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
                             <h3 className="text-lg font-bold text-slate-900 dark:text-white">Manage Documents</h3>
-                            <button onClick={() => setShowDocumentsModal(false)} className="text-slate-400 hover:text-slate-600 cursor-pointer">
+                            <button onClick={() => setShowDocumentsModal(false)} className="text-slate-500 dark:text-slate-400 hover:text-slate-600 cursor-pointer">
                                 <span className="material-symbols-outlined">close</span>
                             </button>
                         </div>
@@ -942,7 +942,7 @@ function TenantProfileContent() {
                 {/* Personal Details */}
                 <section>
                     <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                        <span className="material-symbols-outlined text-slate-400">badge</span> Personal Details
+                        <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">badge</span> Personal Details
                     </h3>
                     <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-6">
                         <div className="relative group">
@@ -973,7 +973,7 @@ function TenantProfileContent() {
                 {/* Application Preferences */}
                 <section>
                     <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                        <span className="material-symbols-outlined text-slate-400">tune</span> Application Preferences
+                        <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">tune</span> Application Preferences
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
@@ -988,7 +988,7 @@ function TenantProfileContent() {
                         <div>
                             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Monthly Budget (Max)</label>
                             <div className="relative">
-                                <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">₦</span>
+                                <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500 dark:text-slate-400">₦</span>
                                 <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white pl-7 shadow-sm focus:border-brand focus:ring-brand sm:text-sm" type="number" defaultValue={tenantProfile?.preferences?.monthlyBudgetMax || ''} />
                             </div>
                         </div>
@@ -1021,7 +1021,7 @@ function TenantProfileContent() {
                 {/* Rental History Summary */}
                 <section>
                     <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                        <span className="material-symbols-outlined text-slate-400">history</span> Rental History Summary
+                        <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">history</span> Rental History Summary
                     </h3>
                     <div className="bg-blue-50 dark:bg-slate-800/50 border border-blue-100 dark:border-slate-700 rounded-xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                         <div className="flex items-start gap-4">
@@ -1045,7 +1045,7 @@ function TenantProfileContent() {
                 <section>
                     <div className="flex justify-between items-center mb-4">
                         <h3 className="text-base font-semibold text-slate-900 dark:text-white flex items-center gap-2">
-                            <span className="material-symbols-outlined text-slate-400">folder_shared</span> Linked Documents
+                            <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">folder_shared</span> Linked Documents
                         </h3>
                         <button onClick={() => setShowDocumentsModal(true)} className="text-xs font-semibold text-brand-ink hover:underline cursor-pointer">Manage Tenant Documents</button>
                     </div>
@@ -1060,7 +1060,7 @@ function TenantProfileContent() {
                                     <p className="text-xs text-green-600 dark:text-green-400">Verified on Oct 12, 2023</p>
                                 </div>
                             </div>
-                            <span className="material-symbols-outlined text-slate-400 text-[20px]">check_circle</span>
+                            <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[20px]">check_circle</span>
                         </div>
                         <div className="flex items-center justify-between p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
                             <div className="flex items-center gap-3">
@@ -1082,7 +1082,7 @@ function TenantProfileContent() {
                 {/* Privacy Settings */}
                 <section>
                     <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                        <span className="material-symbols-outlined text-slate-400">lock</span> Tenant Privacy Settings
+                        <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">lock</span> Tenant Privacy Settings
                     </h3>
                     <div className="space-y-4">
                         <ToggleSetting title="Allow landlords to search my profile" description="Your profile will appear in tenant search results." defaultChecked={false} />
@@ -1120,7 +1120,7 @@ function LandlordProfileContent() {
             <div className="flex items-center justify-center min-h-[400px]">
                 <div className="flex flex-col items-center gap-3">
                     <div className="size-10 border-4 border-brand border-t-transparent rounded-full animate-spin"></div>
-                    <p className="text-slate-500 font-medium">Loading landlord profile...</p>
+                    <p className="text-slate-500 dark:text-slate-400 font-medium">Loading landlord profile...</p>
                 </div>
             </div>
         );
@@ -1255,7 +1255,7 @@ function LandlordProfileContent() {
                 {/* Public Profile Visibility */}
                 <div>
                     <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                        <span className="material-symbols-outlined text-slate-400">visibility</span>
+                        <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">visibility</span>
                         Public Profile Visibility
                     </h3>
                     <div className="space-y-4">
@@ -1372,7 +1372,7 @@ function AgentProfileContent() {
                     <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 shadow-xl" onClick={e => e.stopPropagation()}>
                         <div className="flex justify-between items-center mb-6">
                             <h3 className="text-lg font-bold text-slate-900 dark:text-white">Add Certification</h3>
-                            <button onClick={() => setShowCertModal(false)} className="text-slate-400 hover:text-slate-600 cursor-pointer">
+                            <button onClick={() => setShowCertModal(false)} className="text-slate-500 dark:text-slate-400 hover:text-slate-600 cursor-pointer">
                                 <span className="material-symbols-outlined">close</span>
                             </button>
                         </div>
@@ -1430,7 +1430,7 @@ function AgentProfileContent() {
                     <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-lg w-full max-h-[80vh] overflow-hidden shadow-xl" onClick={e => e.stopPropagation()}>
                         <div className="p-6 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
                             <h3 className="text-lg font-bold text-slate-900 dark:text-white">All Reviews</h3>
-                            <button onClick={() => setShowReviewsModal(false)} className="text-slate-400 hover:text-slate-600 cursor-pointer">
+                            <button onClick={() => setShowReviewsModal(false)} className="text-slate-500 dark:text-slate-400 hover:text-slate-600 cursor-pointer">
                                 <span className="material-symbols-outlined">close</span>
                             </button>
                         </div>
@@ -1444,7 +1444,7 @@ function AgentProfileContent() {
                                                 <span key={i} className="material-symbols-outlined text-[14px] icon-filled">star</span>
                                             ))}
                                         </div>
-                                        <span className="text-xs text-slate-500">{review.date}</span>
+                                        <span className="text-xs text-slate-500 dark:text-slate-400">{review.date}</span>
                                     </div>
                                     <p className="text-sm text-slate-600 dark:text-slate-400">{review.text}</p>
                                 </div>
@@ -1522,7 +1522,7 @@ function AgentProfileContent() {
                                     <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{cert.issuer} • Exp: {cert.expiry}</p>
                                 </div>
                                 <div className="relative">
-                                    <button onClick={() => setCertMenuOpen(certMenuOpen === cert.id ? null : cert.id)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer">
+                                    <button onClick={() => setCertMenuOpen(certMenuOpen === cert.id ? null : cert.id)} className="text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer">
                                         <span className="material-symbols-outlined">more_vert</span>
                                     </button>
                                     {certMenuOpen === cert.id && (
@@ -1564,7 +1564,7 @@ function AgentProfileContent() {
                                         </button>
                                     </span>
                                 ))}
-                                <button onClick={() => setShowAddAreaModal(true)} className="inline-flex items-center gap-1 px-3 py-1 rounded-full border border-dashed border-slate-300 dark:border-slate-600 text-slate-500 hover:text-brand-ink hover:border-brand transition-colors text-sm cursor-pointer">
+                                <button onClick={() => setShowAddAreaModal(true)} className="inline-flex items-center gap-1 px-3 py-1 rounded-full border border-dashed border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:text-brand-ink hover:border-brand transition-colors text-sm cursor-pointer">
                                     <span className="material-symbols-outlined text-[14px]">add</span> Add Area
                                 </button>
                             </div>

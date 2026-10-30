@@ -252,7 +252,7 @@ export default function TenantMaintenance() {
             {/* Search and Filters */}
             <div className="bg-white dark:bg-canvas-dark p-4 rounded-2xl border border-slate-100 dark:border-slate-800 mb-6 flex flex-col lg:flex-row gap-4 items-center">
                 <div className="relative flex-1 w-full">
-                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400">search</span>
                     <input
                         type="text"
                         value={searchQuery}
@@ -275,7 +275,7 @@ export default function TenantMaintenance() {
                             <option value="completed">Completed</option>
                             <option value="canceled">Canceled</option>
                         </select>
-                        <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[20px]">expand_more</span>
+                        <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 pointer-events-none text-[20px]">expand_more</span>
                     </div>
                     <div className="relative min-w-[140px]">
                         <select
@@ -289,7 +289,7 @@ export default function TenantMaintenance() {
                             <option value="high">High</option>
                             <option value="critical">Critical</option>
                         </select>
-                        <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[20px]">expand_more</span>
+                        <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 pointer-events-none text-[20px]">expand_more</span>
                     </div>
                     <div className="relative min-w-[160px]">
                         <select
@@ -301,7 +301,7 @@ export default function TenantMaintenance() {
                             <option value="oldest">Oldest First</option>
                             <option value="updated">Last Updated</option>
                         </select>
-                        <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[20px]">sort</span>
+                        <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 pointer-events-none text-[20px]">sort</span>
                     </div>
                 </div>
             </div>
@@ -401,8 +401,8 @@ export default function TenantMaintenance() {
                                                 </p>
                                                 {request.hasPhotos && (
                                                     <div className="flex items-center gap-1 mt-1.5">
-                                                        <span className="material-symbols-outlined text-[14px] text-slate-400">image</span>
-                                                        <span className="text-xs font-medium text-slate-400">{request.photoCount} photos attached</span>
+                                                        <span className="material-symbols-outlined text-[14px] text-slate-500 dark:text-slate-400">image</span>
+                                                        <span className="text-xs font-medium text-slate-500 dark:text-slate-400">{request.photoCount} photos attached</span>
                                                     </div>
                                                 )}
                                             </div>
@@ -415,7 +415,7 @@ export default function TenantMaintenance() {
                                     <td className="p-5">
                                         <div className="text-sm font-medium text-slate-700 dark:text-slate-300">{request.dateSubmitted}</div>
                                         {request.timeSubmitted && (
-                                            <div className="text-xs text-slate-400 mt-0.5">{request.timeSubmitted}</div>
+                                            <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{request.timeSubmitted}</div>
                                         )}
                                     </td>
                                     <td className="p-5">
@@ -459,7 +459,7 @@ export default function TenantMaintenance() {
                                                 </Link>
                                             ) : (
                                                 <>
-                                                    <button className="size-8 flex items-center justify-center rounded-lg hover:bg-brand/10 text-slate-400 hover:text-brand-ink transition-colors" title="Message Landlord">
+                                                    <button className="size-8 flex items-center justify-center rounded-lg hover:bg-brand/10 text-slate-500 dark:text-slate-400 hover:text-brand-ink transition-colors" title="Message Landlord">
                                                         <span className="material-symbols-outlined text-[18px]">chat</span>
                                                     </button>
                                                     <Link
@@ -495,7 +495,7 @@ export default function TenantMaintenance() {
                             disabled={page === 1 || isLoading}
                             className={`px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-bold transition-all ${
                                 page === 1 || isLoading
-                                    ? 'text-slate-400 dark:text-slate-500 cursor-not-allowed opacity-50'
+                                    ? 'text-slate-500 dark:text-slate-500 cursor-not-allowed opacity-50'
                                     : 'text-slate-700 dark:text-white hover:bg-white dark:hover:bg-slate-700 hover:shadow-sm'
                             }`}
                         >
@@ -506,7 +506,7 @@ export default function TenantMaintenance() {
                             disabled={page >= totalPages || isLoading}
                             className={`px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-bold transition-all ${
                                 page >= totalPages || isLoading
-                                    ? 'text-slate-400 dark:text-slate-500 cursor-not-allowed opacity-50'
+                                    ? 'text-slate-500 dark:text-slate-500 cursor-not-allowed opacity-50'
                                     : 'text-slate-700 dark:text-white hover:bg-white dark:hover:bg-slate-700 hover:shadow-sm'
                             }`}
                         >

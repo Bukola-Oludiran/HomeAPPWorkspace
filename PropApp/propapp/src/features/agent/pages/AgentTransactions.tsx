@@ -165,7 +165,7 @@ export default function AgentTransactions() {
         <PageContainer>
             {/* Back Link */}
             <div className="mb-6">
-                <Link to="/agent/earnings" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-brand-ink transition-colors">
+                <Link to="/agent/earnings" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-brand-ink transition-colors">
                     <span className="material-symbols-outlined text-[20px]">arrow_back</span>
                     Back to Earnings Dashboard
                 </Link>
@@ -199,7 +199,7 @@ export default function AgentTransactions() {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4">
                         <div className="lg:col-span-4 relative">
-                            <label className="block text-xs font-medium text-slate-500 mb-1">Search Transactions</label>
+                            <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Search Transactions</label>
                             <SearchInput
                                 placeholder="e.g. Commission, Bonus, Invoice #..."
                                 value={searchQuery}
@@ -208,7 +208,7 @@ export default function AgentTransactions() {
                         </div>
                         <DateRangeFilter className="lg:col-span-3" />
                         <div className="lg:col-span-2">
-                            <label className="block text-xs font-medium text-slate-500 mb-1">Property</label>
+                            <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Property</label>
                             <select className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/50 focus:border-brand">
                                 <option>All Properties</option>
                                 <option>Sunset Apartments, Unit 4B</option>
@@ -217,7 +217,7 @@ export default function AgentTransactions() {
                             </select>
                         </div>
                         <div className="lg:col-span-2">
-                            <label className="block text-xs font-medium text-slate-500 mb-1">Type</label>
+                            <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Type</label>
                             <select className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/50 focus:border-brand">
                                 <option>All Types</option>
                                 <option>Commission</option>
@@ -227,7 +227,7 @@ export default function AgentTransactions() {
                             </select>
                         </div>
                         <div className="lg:col-span-1">
-                            <label className="block text-xs font-medium text-slate-500 mb-1">Status</label>
+                            <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Status</label>
                             <select className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/50 focus:border-brand">
                                 <option>All</option>
                                 <option>Paid</option>
@@ -309,7 +309,7 @@ export default function AgentTransactions() {
                                             </div>
                                             <div>
                                                 <p className="text-sm font-bold text-slate-900 dark:text-white">{tx.description}</p>
-                                                <p className="text-xs text-slate-500">Ref: #{tx.id}</p>
+                                                <p className="text-xs text-slate-500 dark:text-slate-400">Ref: #{tx.id}</p>
                                             </div>
                                         </div>
                                     </td>
@@ -317,11 +317,11 @@ export default function AgentTransactions() {
                                         {tx.property}
                                     </td>
                                     <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
-                                        {tx.date} <br /> <span className="text-xs text-slate-400">{tx.time}</span>
+                                        {tx.date} <br /> <span className="text-xs text-slate-500 dark:text-slate-400">{tx.time}</span>
                                     </td>
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-2">
-                                            <span className="material-symbols-outlined text-slate-400">{tx.methodIcon}</span>
+                                            <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">{tx.methodIcon}</span>
                                             <span className="text-sm text-slate-700 dark:text-slate-300">{tx.method}</span>
                                         </div>
                                     </td>
@@ -332,7 +332,7 @@ export default function AgentTransactions() {
                                         <p className="font-bold text-slate-900 dark:text-white">{tx.amount}</p>
                                     </td>
                                     <td className="px-6 py-4 text-center">
-                                        <button className="p-2 text-slate-400 hover:text-brand-ink hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors" title={tx.status === 'Failed' ? 'Retry / View Details' : 'View Receipt'}>
+                                        <button className="p-2 text-slate-500 dark:text-slate-400 hover:text-brand-ink hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors" title={tx.status === 'Failed' ? 'Retry / View Details' : 'View Receipt'}>
                                             <span className="material-symbols-outlined text-[20px]">
                                                 {tx.status === 'Failed' ? 'refresh' : tx.status === 'Pending' ? 'visibility' : 'receipt_long'}
                                             </span>
@@ -398,7 +398,7 @@ export default function AgentTransactions() {
                             </div>
                             <button
                                 onClick={() => setShowAIChat(false)}
-                                className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors text-slate-400"
+                                className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors text-slate-500 dark:text-slate-400"
                             >
                                 <span className="material-symbols-outlined">close</span>
                             </button>

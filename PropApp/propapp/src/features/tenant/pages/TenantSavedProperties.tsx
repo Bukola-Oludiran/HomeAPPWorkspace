@@ -193,7 +193,7 @@ export default function TenantSavedProperties() {
                         >
                             <span className="material-symbols-outlined text-[18px]">tune</span>
                             Type: {typeFilter === 'all' ? 'All' : typeFilter}
-                            <span className="material-symbols-outlined text-[18px] text-slate-400">expand_more</span>
+                            <span className="material-symbols-outlined text-[18px] text-slate-500 dark:text-slate-400">expand_more</span>
                         </button>
                         {showTypeDropdown && (
                             <div className="absolute left-0 top-full mt-2 w-44 bg-white dark:bg-[#1e293b] rounded-lg border border-slate-200 dark:border-slate-700 shadow-xl z-50 py-1">
@@ -223,7 +223,7 @@ export default function TenantSavedProperties() {
                         >
                             <span className="material-symbols-outlined text-[18px]">sort</span>
                             Sort: {sortBy === 'price-low' ? 'Price (Low to High)' : sortBy === 'price-high' ? 'Price (High to Low)' : 'Newest'}
-                            <span className="material-symbols-outlined text-[18px] text-slate-400">expand_more</span>
+                            <span className="material-symbols-outlined text-[18px] text-slate-500 dark:text-slate-400">expand_more</span>
                         </button>
                         {showSortDropdown && (
                             <div className="absolute left-0 top-full mt-2 w-48 bg-white dark:bg-[#1e293b] rounded-lg border border-slate-200 dark:border-slate-700 shadow-xl z-50 py-1">
@@ -297,15 +297,15 @@ export default function TenantSavedProperties() {
                                     {/* Property Specs */}
                                     <div className="flex items-center justify-between text-sm text-slate-700 dark:text-slate-300 font-medium py-2 border-t border-slate-100 dark:border-slate-800 w-full mb-2">
                                         <div className="flex items-center gap-1">
-                                            <span className="material-symbols-outlined text-slate-400 text-[16px]">bed</span>
+                                            <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[16px]">bed</span>
                                             <span>{property.beds}</span>
                                         </div>
                                         <div className="flex items-center gap-1">
-                                            <span className="material-symbols-outlined text-slate-400 text-[16px]">bathtub</span>
+                                            <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[16px]">bathtub</span>
                                             <span>{property.baths}</span>
                                         </div>
                                         <div className="flex items-center gap-1">
-                                            <span className="material-symbols-outlined text-slate-400 text-[16px]">square_foot</span>
+                                            <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[16px]">square_foot</span>
                                             <span>{property.sqft}</span>
                                         </div>
                                     </div>
@@ -317,12 +317,12 @@ export default function TenantSavedProperties() {
                                         >
                                             View Details
                                         </Link>
-                                        <button className="p-1.5 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-500 hover:text-brand-ink hover:border-brand transition-colors" title="Share">
+                                        <button className="p-1.5 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-500 dark:text-slate-400 hover:text-brand-ink hover:border-brand transition-colors" title="Share">
                                             <span className="material-symbols-outlined text-[18px]">share</span>
                                         </button>
                                         <button
                                             onClick={() => handleRemove(property.id)}
-                                            className="p-1.5 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-500 hover:text-red-600 hover:border-red-200 transition-colors"
+                                            className="p-1.5 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-500 dark:text-slate-400 hover:text-red-600 hover:border-red-200 transition-colors"
                                             title="Remove"
                                         >
                                             <span className="material-symbols-outlined text-[18px]">delete</span>
@@ -337,7 +337,7 @@ export default function TenantSavedProperties() {
                             to="/search"
                             className="group bg-slate-50 dark:bg-canvas-dark/50 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-brand/50 transition-all duration-300 flex flex-col items-center justify-center p-8 gap-4 min-h-[380px] h-full"
                         >
-                            <div className="size-16 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 group-hover:scale-110 transition-transform shrink-0">
+                            <div className="size-16 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 group-hover:scale-110 transition-transform shrink-0">
                                 <span className="material-symbols-outlined text-3xl">add_home</span>
                             </div>
                             <div className="text-center">
@@ -387,15 +387,15 @@ export default function TenantSavedProperties() {
                                     {/* Property Specs - Pill Style */}
                                     <div className="flex flex-wrap items-center gap-4 md:gap-6 text-sm text-slate-700 dark:text-slate-300 font-medium">
                                         <div className="flex items-center gap-1.5 bg-slate-50 dark:bg-slate-800/50 px-2.5 py-1.5 rounded-lg border border-slate-100 dark:border-slate-800">
-                                            <span className="material-symbols-outlined text-slate-400 text-[18px]">bed</span>
+                                            <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[18px]">bed</span>
                                             <span>{property.beds}</span>
                                         </div>
                                         <div className="flex items-center gap-1.5 bg-slate-50 dark:bg-slate-800/50 px-2.5 py-1.5 rounded-lg border border-slate-100 dark:border-slate-800">
-                                            <span className="material-symbols-outlined text-slate-400 text-[18px]">bathtub</span>
+                                            <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[18px]">bathtub</span>
                                             <span>{property.baths}</span>
                                         </div>
                                         <div className="flex items-center gap-1.5 bg-slate-50 dark:bg-slate-800/50 px-2.5 py-1.5 rounded-lg border border-slate-100 dark:border-slate-800">
-                                            <span className="material-symbols-outlined text-slate-400 text-[18px]">square_foot</span>
+                                            <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[18px]">square_foot</span>
                                             <span>{property.sqft}</span>
                                         </div>
                                     </div>
@@ -415,12 +415,12 @@ export default function TenantSavedProperties() {
                                             View Details
                                         </Link>
                                         <div className="flex items-center gap-1">
-                                            <button className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors" title="Share">
+                                            <button className="p-2 text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors" title="Share">
                                                 <span className="material-symbols-outlined text-[20px]">share</span>
                                             </button>
                                             <button
                                                 onClick={() => handleRemove(property.id)}
-                                                className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                                                className="p-2 text-slate-500 dark:text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
                                                 title="Remove"
                                             >
                                                 <span className="material-symbols-outlined text-[20px]">delete</span>
@@ -437,7 +437,7 @@ export default function TenantSavedProperties() {
                             className="group bg-slate-50 dark:bg-canvas-dark/50 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-brand/50 transition-all duration-300 flex flex-col md:flex-row items-center justify-between p-6 gap-6"
                         >
                             <div className="flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
-                                <div className="size-16 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 group-hover:scale-110 transition-transform shrink-0">
+                                <div className="size-16 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 group-hover:scale-110 transition-transform shrink-0">
                                     <span className="material-symbols-outlined text-3xl">add_home</span>
                                 </div>
                                 <div>

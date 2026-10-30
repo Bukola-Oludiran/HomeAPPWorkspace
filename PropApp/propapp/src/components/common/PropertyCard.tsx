@@ -93,7 +93,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
                         onClick={(e) => { e.preventDefault(); onFavoriteToggle?.(); }}
                         className="absolute top-3 left-3 p-2 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-full shadow-md hover:bg-white dark:hover:bg-slate-700 transition-colors"
                     >
-                        <span className={`material-symbols-outlined text-[20px] ${isFavorited ? 'text-red-500' : 'text-slate-400'}`}>
+                        <span className={`material-symbols-outlined text-[20px] ${isFavorited ? 'text-red-500' : 'text-slate-500 dark:text-slate-400'}`}>
                             {isFavorited ? 'favorite' : 'favorite_border'}
                         </span>
                     </button>
@@ -132,7 +132,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
                     <div className="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800">
                         <p className="text-lg font-bold text-slate-900 dark:text-white">
                             {price}
-                            <span className="text-xs font-normal text-slate-400">{priceType}</span>
+                            <span className="text-xs font-normal text-slate-500 dark:text-slate-400">{priceType}</span>
                         </p>
                     </div>
                 )}
@@ -161,7 +161,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
                         onClick={(e) => { e.preventDefault(); onFavoriteToggle?.(); }}
                         className="absolute top-3 right-3 p-2 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-full shadow-md"
                     >
-                        <span className={`material-symbols-outlined text-[20px] ${isFavorited ? 'text-red-500' : 'text-slate-400'}`}>
+                        <span className={`material-symbols-outlined text-[20px] ${isFavorited ? 'text-red-500' : 'text-slate-500 dark:text-slate-400'}`}>
                             {isFavorited ? 'favorite' : 'favorite_border'}
                         </span>
                     </button>
@@ -197,7 +197,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
                 {price && (
                     <p className="text-lg font-bold text-slate-900 dark:text-white mt-2">
                         {price}
-                        <span className="text-xs font-normal text-slate-400">{priceType}</span>
+                        <span className="text-xs font-normal text-slate-500 dark:text-slate-400">{priceType}</span>
                     </p>
                 )}
             </div>
@@ -220,7 +220,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
                 {price && (
                     <p className="text-sm font-bold text-brand-ink mt-1">
                         {price}
-                        <span className="text-xs font-normal text-slate-400">{priceType}</span>
+                        <span className="text-xs font-normal text-slate-500 dark:text-slate-400">{priceType}</span>
                     </p>
                 )}
             </div>

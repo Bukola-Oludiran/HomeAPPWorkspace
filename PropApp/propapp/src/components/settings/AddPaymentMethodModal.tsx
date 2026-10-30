@@ -21,7 +21,7 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
                         <h3 className="text-xl font-bold text-slate-900 dark:text-white">Add New Payment Method</h3>
                         <button
                             onClick={onClose}
-                            className="text-slate-400 hover:text-slate-500 dark:hover:text-slate-300 transition-colors p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
+                            className="text-slate-500 dark:text-slate-400 hover:text-slate-500 dark:hover:text-slate-300 transition-colors p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
                         >
                             <span className="material-symbols-outlined">close</span>
                         </button>
@@ -58,7 +58,7 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
                                 <div>
                                     <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Card Number</label>
                                     <div className="relative">
-                                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+                                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400">
                                             <span className="material-symbols-outlined text-[20px]">credit_card</span>
                                         </span>
                                         <input
@@ -90,7 +90,7 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
                                                 placeholder="123"
                                                 type="text"
                                             />
-                                            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 cursor-help hover:text-brand-ink transition-colors" title="3 digits on back of card">
+                                            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 cursor-help hover:text-brand-ink transition-colors" title="3 digits on back of card">
                                                 <span className="material-symbols-outlined text-[20px]">help</span>
                                             </span>
                                         </div>

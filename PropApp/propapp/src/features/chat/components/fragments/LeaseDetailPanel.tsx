@@ -6,7 +6,7 @@ const STATUS_COLOR: Record<string, string> = {
     PENDING_SIGNATURES: 'bg-amber-100 text-amber-800',
     ACTIVE: 'bg-emerald-100 text-emerald-700',
     RENEWED: 'bg-sky-100 text-sky-700',
-    EXPIRED: 'bg-slate-200 text-slate-500',
+    EXPIRED: 'bg-slate-200 text-slate-500 dark:text-slate-400',
     TERMINATED: 'bg-red-100 text-red-700',
 };
 
@@ -23,7 +23,7 @@ export function LeaseDetailPanel({ props, onAction }: Props) {
             <header className="flex items-start justify-between gap-2">
                 <div>
                     <h3 className="text-base font-semibold">{props.propertyTitle}</h3>
-                    <p className="font-mono text-xs text-slate-400">
+                    <p className="font-mono text-xs text-slate-500 dark:text-slate-400">
                         lease · {props.leaseId.slice(0, 8)}…
                     </p>
                 </div>
@@ -38,19 +38,19 @@ export function LeaseDetailPanel({ props, onAction }: Props) {
             <dl className="mt-3 grid grid-cols-2 gap-y-2 text-sm">
                 {props.monthlyRent ? (
                     <>
-                        <dt className="text-slate-500">Monthly rent</dt>
+                        <dt className="text-slate-500 dark:text-slate-400">Monthly rent</dt>
                         <dd className="text-right font-semibold">
                             ${props.monthlyRent.amount.toLocaleString()}
                         </dd>
                     </>
                 ) : null}
-                <dt className="text-slate-500">Start</dt>
+                <dt className="text-slate-500 dark:text-slate-400">Start</dt>
                 <dd className="text-right">{fmtDate(props.startDate)}</dd>
-                <dt className="text-slate-500">End</dt>
+                <dt className="text-slate-500 dark:text-slate-400">End</dt>
                 <dd className="text-right">{fmtDate(props.endDate)}</dd>
                 {props.nextPaymentDue ? (
                     <>
-                        <dt className="text-slate-500">Next payment</dt>
+                        <dt className="text-slate-500 dark:text-slate-400">Next payment</dt>
                         <dd className="text-right">{fmtDate(props.nextPaymentDue)}</dd>
                     </>
                 ) : null}

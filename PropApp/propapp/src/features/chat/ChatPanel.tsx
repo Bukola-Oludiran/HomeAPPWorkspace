@@ -52,7 +52,7 @@ export function ChatPanel({ getJwt, placeholder }: ChatPanelProps) {
                 className="flex-1 space-y-3 overflow-y-auto bg-slate-50 p-4"
             >
                 {state.timeline.length === 0 ? (
-                    <div className="mt-8 text-center text-sm text-slate-400">
+                    <div className="mt-8 text-center text-sm text-slate-500 dark:text-slate-400">
                         {placeholder ?? 'Ask Keystead anything about your properties, leases, or payments.'}
                     </div>
                 ) : (
@@ -72,7 +72,7 @@ export function ChatPanel({ getJwt, placeholder }: ChatPanelProps) {
                                 onClick={() =>
                                     sendConfirmation(state.pendingConfirmation!.toolCallId, false)
                                 }
-                                className="rounded-full px-3 py-1.5 text-sm text-slate-500"
+                                className="rounded-full px-3 py-1.5 text-sm text-slate-500 dark:text-slate-400"
                             >
                                 Cancel
                             </button>

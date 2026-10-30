@@ -4,7 +4,7 @@ const KIND_CLASS: Record<FragmentAction['kind'], string> = {
     primary: 'bg-slate-900 text-white hover:bg-slate-800',
     secondary: 'bg-slate-100 text-slate-900 hover:bg-slate-200',
     danger: 'bg-red-600 text-white hover:bg-red-700',
-    subtle: 'text-slate-500 hover:text-slate-900',
+    subtle: 'text-slate-500 dark:text-slate-400 hover:text-slate-900',
 };
 
 interface Props {

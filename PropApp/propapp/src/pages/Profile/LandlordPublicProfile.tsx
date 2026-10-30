@@ -93,7 +93,7 @@ export default function LandlordPublicProfile() {
         return (
             <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex items-center justify-center">
                 <div className="text-center">
-                    <span className="material-symbols-outlined text-4xl text-slate-400 mb-4">error_outline</span>
+                    <span className="material-symbols-outlined text-4xl text-slate-500 dark:text-slate-400 mb-4">error_outline</span>
                     <p className="text-slate-600 dark:text-slate-400">{error || 'Profile not found'}</p>
                     <Link to="/" className="text-brand-ink font-semibold mt-4 inline-block hover:underline">Go Home</Link>
                 </div>
@@ -257,7 +257,7 @@ export default function LandlordPublicProfile() {
                             <div className="bg-white dark:bg-canvas-dark p-6 md:p-8 rounded-2xl border border-slate-100 dark:border-slate-800">
                                 <div className="flex items-center justify-between mb-6">
                                     <h2 className="text-xl font-bold text-slate-900 dark:text-white">Reviews & Ratings</h2>
-                                    <span className="text-sm text-slate-500">{landlord.reviews.total} Total Reviews</span>
+                                    <span className="text-sm text-slate-500 dark:text-slate-400">{landlord.reviews.total} Total Reviews</span>
                                 </div>
                                 <div className="flex flex-col md:flex-row gap-8 items-center pb-6">
                                     <div className="text-center md:text-left shrink-0">
@@ -277,7 +277,7 @@ export default function LandlordPublicProfile() {
                                                 <div className="flex-1 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                                                     <div className="h-full bg-amber-400" style={{ width: `${item.percentage}%` }}></div>
                                                 </div>
-                                                <span className="w-6 text-right text-slate-500">{item.count}</span>
+                                                <span className="w-6 text-right text-slate-500 dark:text-slate-400">{item.count}</span>
                                             </div>
                                         ))}
                                     </div>
@@ -311,7 +311,7 @@ export default function LandlordPublicProfile() {
                                     <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">Tenant Helper</p>
                                 </div>
                             </div>
-                            <button onClick={() => setShowAIChat(false)} className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+                            <button onClick={() => setShowAIChat(false)} className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
                                 <span className="material-symbols-outlined text-[20px]">close</span>
                             </button>
                         </div>
@@ -325,7 +325,7 @@ export default function LandlordPublicProfile() {
                                 </div>
                             </div>
                             <div className="mt-auto">
-                                <p className="text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide px-1">Suggested actions</p>
+                                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2 uppercase tracking-wide px-1">Suggested actions</p>
                                 <div className="flex flex-wrap gap-2">
                                     <button className="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors">
                                         Summarize reviews

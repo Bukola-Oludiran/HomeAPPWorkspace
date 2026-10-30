@@ -4,8 +4,8 @@ const STATUS_COLOR: Record<string, string> = {
     PENDING: 'text-amber-600',
     COMPLETED: 'text-emerald-700',
     FAILED: 'text-red-600',
-    REFUNDED: 'text-slate-500',
-    CANCELLED: 'text-slate-500',
+    REFUNDED: 'text-slate-500 dark:text-slate-400',
+    CANCELLED: 'text-slate-500 dark:text-slate-400',
 };
 
 interface Props {
@@ -16,7 +16,7 @@ interface Props {
 export function TransactionList({ props }: Props) {
     if (props.items.length === 0) {
         return (
-            <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-4 text-sm text-slate-500">
+            <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-4 text-sm text-slate-500 dark:text-slate-400">
                 No transactions yet.
             </div>
         );
@@ -29,10 +29,10 @@ export function TransactionList({ props }: Props) {
                         <p className="truncate text-sm font-medium text-slate-900">
                             {t.kind}
                             {t.counterpartyName ? (
-                                <span className="text-slate-500"> · {t.counterpartyName}</span>
+                                <span className="text-slate-500 dark:text-slate-400"> · {t.counterpartyName}</span>
                             ) : null}
                         </p>
-                        <p className="text-xs text-slate-500">
+                        <p className="text-xs text-slate-500 dark:text-slate-400">
                             {new Date(t.createdAt).toLocaleDateString()}
                         </p>
                     </div>
@@ -42,7 +42,7 @@ export function TransactionList({ props }: Props) {
                         </p>
                         <p
                             className={`text-xs ${
-                                STATUS_COLOR[t.status] ?? 'text-slate-500'
+                                STATUS_COLOR[t.status] ?? 'text-slate-500 dark:text-slate-400'
                             }`}
                         >
                             {t.status}
@@ -51,7 +51,7 @@ export function TransactionList({ props }: Props) {
                 </li>
             ))}
             {typeof props.total === 'number' && props.total > props.items.length ? (
-                <li className="px-4 py-2 text-center text-xs text-slate-400">
+                <li className="px-4 py-2 text-center text-xs text-slate-500 dark:text-slate-400">
                     Showing {props.items.length} of {props.total}.
                 </li>
             ) : null}

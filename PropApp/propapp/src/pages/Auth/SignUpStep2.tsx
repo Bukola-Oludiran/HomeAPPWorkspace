@@ -125,7 +125,7 @@ export default function SignUpStep2() {
                             type="button"
                             onClick={handleResend}
                             disabled={!canResend || isLoading}
-                            className={`font-semibold transition-colors ml-1 ${canResend ? 'text-sky hover:text-sky/80 cursor-pointer' : 'text-slate-500 cursor-not-allowed'}`}
+                            className={`font-semibold transition-colors ml-1 ${canResend ? 'text-sky hover:text-sky/80 cursor-pointer' : 'text-slate-500 dark:text-slate-400 cursor-not-allowed'}`}
                         >
                             Resend.
                         </button>

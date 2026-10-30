@@ -12,7 +12,7 @@ export function BankAccountCard({ props, onAction }: Props) {
             <header className="flex items-start justify-between gap-2">
                 <div className="min-w-0">
                     <h3 className="truncate text-sm font-semibold">{props.bankName}</h3>
-                    <p className="font-mono text-xs text-slate-500">
+                    <p className="font-mono text-xs text-slate-500 dark:text-slate-400">
                         {props.maskedAccountNumber}
                     </p>
                 </div>

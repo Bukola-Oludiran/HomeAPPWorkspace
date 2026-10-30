@@ -139,7 +139,7 @@ export default function AgentProfile() {
     };
 
     if (loading) {
-        return <PageContainer maxWidth="lg"><p className="py-16 text-center text-slate-500">Loading profile...</p></PageContainer>;
+        return <PageContainer maxWidth="lg"><p className="py-16 text-center text-slate-500 dark:text-slate-400">Loading profile...</p></PageContainer>;
     }
 
     return (
@@ -180,7 +180,7 @@ export default function AgentProfile() {
                                     />
                                 ) : (
                                     <div className="w-full h-full rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
-                                        <span className="material-symbols-outlined text-5xl text-slate-400">person</span>
+                                        <span className="material-symbols-outlined text-5xl text-slate-500 dark:text-slate-400">person</span>
                                     </div>
                                 )}
                                 <button className="absolute bottom-1 right-1 p-2 bg-slate-900 dark:bg-slate-700 text-white rounded-full hover:bg-brand transition-colors shadow-md">
@@ -202,13 +202,13 @@ export default function AgentProfile() {
                                     <span className="font-bold text-xl">{rating}</span>
                                     <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
                                 </div>
-                                <p className="text-xs text-slate-400 uppercase font-bold tracking-wide">Rating</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wide">Rating</p>
                             </div>
                             <div className="text-center border-l border-slate-100 dark:border-slate-800">
                                 <div className="flex items-center justify-center gap-1 text-slate-700 dark:text-white mb-1">
                                     <span className="font-bold text-xl">{jobsDone}</span>
                                 </div>
-                                <p className="text-xs text-slate-400 uppercase font-bold tracking-wide">Jobs Done</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wide">Jobs Done</p>
                             </div>
                         </div>
                     </div>
@@ -221,24 +221,24 @@ export default function AgentProfile() {
                         <div className="flex flex-col">
                             <button className="flex items-center justify-between px-4 py-3 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-slate-600 dark:text-slate-300 text-sm group">
                                 <div className="flex items-center gap-3">
-                                    <span className="material-symbols-outlined text-slate-400 group-hover:text-brand-ink transition-colors">lock</span>
+                                    <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 group-hover:text-brand-ink transition-colors">lock</span>
                                     Change Password
                                 </div>
-                                <span className="material-symbols-outlined text-[18px] text-slate-400">chevron_right</span>
+                                <span className="material-symbols-outlined text-[18px] text-slate-500 dark:text-slate-400">chevron_right</span>
                             </button>
                             <button className="flex items-center justify-between px-4 py-3 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-slate-600 dark:text-slate-300 text-sm group">
                                 <div className="flex items-center gap-3">
-                                    <span className="material-symbols-outlined text-slate-400 group-hover:text-brand-ink transition-colors">notifications</span>
+                                    <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 group-hover:text-brand-ink transition-colors">notifications</span>
                                     Notifications
                                 </div>
-                                <span className="material-symbols-outlined text-[18px] text-slate-400">chevron_right</span>
+                                <span className="material-symbols-outlined text-[18px] text-slate-500 dark:text-slate-400">chevron_right</span>
                             </button>
                             <button className="flex items-center justify-between px-4 py-3 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-slate-600 dark:text-slate-300 text-sm group">
                                 <div className="flex items-center gap-3">
-                                    <span className="material-symbols-outlined text-slate-400 group-hover:text-brand-ink transition-colors">shield</span>
+                                    <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 group-hover:text-brand-ink transition-colors">shield</span>
                                     Privacy & Security
                                 </div>
-                                <span className="material-symbols-outlined text-[18px] text-slate-400">chevron_right</span>
+                                <span className="material-symbols-outlined text-[18px] text-slate-500 dark:text-slate-400">chevron_right</span>
                             </button>
                         </div>
                     </div>
@@ -249,9 +249,9 @@ export default function AgentProfile() {
                             <span className="material-symbols-outlined text-[80px]">account_balance_wallet</span>
                         </div>
                         <div className="relative z-10">
-                            <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Wallet</p>
+                            <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Wallet</p>
                             <h4 className="text-2xl font-bold mb-1">{walletBalance}</h4>
-                            <p className="text-sm text-slate-400 mb-4">Available for withdrawal</p>
+                            <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Available for withdrawal</p>
                             <button className="inline-flex items-center gap-2 text-brand-ink font-bold text-sm hover:text-brand-ink/80 transition-colors">
                                 Manage Payment Methods
                                 <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
@@ -346,7 +346,7 @@ export default function AgentProfile() {
                                         <span className="text-sm font-medium">{loc}</span>
                                         <button
                                             onClick={() => setLocationToRemove(loc)}
-                                            className="text-slate-400 hover:text-red-500 transition-colors"
+                                            className="text-slate-500 dark:text-slate-400 hover:text-red-500 transition-colors"
                                         >
                                             <span className="material-symbols-outlined text-[16px]">close</span>
                                         </button>
@@ -383,7 +383,7 @@ export default function AgentProfile() {
                         </div>
                         <div className="space-y-4">
                             {certifications.length === 0 ? (
-                                <div className="text-center py-4 text-slate-500">No certifications added yet</div>
+                                <div className="text-center py-4 text-slate-500 dark:text-slate-400">No certifications added yet</div>
                             ) : (
                                 certifications.map((cert) => (
                                     <div key={cert.id} className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl">
@@ -397,12 +397,12 @@ export default function AgentProfile() {
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-2">
-                                            <button className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-all">
+                                            <button className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-all">
                                                 <span className="material-symbols-outlined text-[20px]">edit</span>
                                             </button>
                                             <button
                                                 onClick={() => setCertToDelete({ id: cert.id, name: cert.name })}
-                                                className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all"
+                                                className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all"
                                             >
                                                 <span className="material-symbols-outlined text-[20px]">delete</span>
                                             </button>
@@ -425,7 +425,7 @@ export default function AgentProfile() {
                             </div>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {reviews.length === 0 && <p className="text-sm text-slate-500">No reviews yet.</p>}
+                            {reviews.length === 0 && <p className="text-sm text-slate-500 dark:text-slate-400">No reviews yet.</p>}
                             {reviews.map((review) => (
                                 <div key={review.id} className="p-4 rounded-xl border border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/30">
                                     <div className="flex items-center gap-1 mb-2 text-yellow-500">
@@ -440,7 +440,7 @@ export default function AgentProfile() {
                                         ))}
                                     </div>
                                     <p className="text-sm text-slate-700 dark:text-slate-300 italic mb-3">{review.body || 'Rating submitted without a comment.'}</p>
-                                    <div className="flex items-center justify-between text-xs text-slate-400">
+                                    <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
                                         <span className="font-bold">{review.author.firstName} {review.author.lastName}</span>
                                         <span>{new Date(review.createdAt).toLocaleDateString()}</span>
                                     </div>

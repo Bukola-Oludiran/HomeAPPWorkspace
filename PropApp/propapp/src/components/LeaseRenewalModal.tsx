@@ -69,7 +69,7 @@ export default function LeaseRenewalModal({
                             <h2 className="text-xl font-bold text-slate-900 dark:text-white">Respond to Renewal Offer</h2>
                             <p className="text-sm text-slate-500 dark:text-slate-400">{property.address} • Lease Renewal</p>
                         </div>
-                        <button onClick={onClose} className="p-2 text-slate-400 hover:text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+                        <button onClick={onClose} className="p-2 text-slate-500 dark:text-slate-400 hover:text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
                             <span className="material-symbols-outlined">close</span>
                         </button>
                     </div>
@@ -91,41 +91,41 @@ export default function LeaseRenewalModal({
 
                         {/* Offer Summary Cards */}
                         <div>
-                            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">Offer Summary</h3>
+                            <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4">Offer Summary</h3>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 {/* New Rent */}
                                 <div className="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 relative overflow-hidden group">
                                     <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
                                         <span className="material-symbols-outlined text-4xl">payments</span>
                                     </div>
-                                    <p className="text-xs font-semibold text-slate-500 mb-2">New Monthly Rent</p>
+                                    <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2">New Monthly Rent</p>
                                     <div className="flex items-baseline gap-2 mb-2">
                                         <span className="text-2xl font-extrabold text-slate-900 dark:text-white">{formatCurrency(offer.newRent)}</span>
                                         <span className="inline-flex items-center text-xs font-bold text-red-600 bg-red-100 dark:bg-red-900/30 px-1.5 py-0.5 rounded">
                                             <span className="material-symbols-outlined text-[12px] mr-0.5">arrow_upward</span> +{rentIncrease}%
                                         </span>
                                     </div>
-                                    <p className="text-xs text-slate-500">Current: ${offer.currentRent.toLocaleString()}/mo</p>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400">Current: ${offer.currentRent.toLocaleString()}/mo</p>
                                 </div>
 
                                 {/* Lease Duration */}
                                 <div className="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 relative">
-                                    <p className="text-xs font-semibold text-slate-500 mb-2">Lease Duration</p>
+                                    <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2">Lease Duration</p>
                                     <div className="flex items-baseline gap-2 mb-2">
                                         <span className="text-2xl font-extrabold text-slate-900 dark:text-white">{offer.duration}</span>
-                                        <span className="inline-flex items-center text-xs font-bold text-slate-500 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded">Same</span>
+                                        <span className="inline-flex items-center text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded">Same</span>
                                     </div>
-                                    <p className="text-xs text-slate-500">End Date: {offer.endDate}</p>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400">End Date: {offer.endDate}</p>
                                 </div>
 
                                 {/* New Start Date */}
                                 <div className="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 relative">
-                                    <p className="text-xs font-semibold text-slate-500 mb-2">New Start Date</p>
+                                    <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2">New Start Date</p>
                                     <div className="flex items-baseline gap-2 mb-2">
                                         <span className="text-2xl font-extrabold text-slate-900 dark:text-white">{offer.startDate.split(',')[0]}</span>
                                         <span className="text-lg font-bold text-slate-900 dark:text-white">{offer.startDate.split(',')[1]?.trim() || '2024'}</span>
                                     </div>
-                                    <p className="text-xs text-slate-500">Seamless continuation</p>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400">Seamless continuation</p>
                                 </div>
                             </div>
                         </div>
@@ -134,7 +134,7 @@ export default function LeaseRenewalModal({
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             {/* Changes & Additional Terms */}
                             <div>
-                                <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">Changes & Additional Terms</h3>
+                                <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4">Changes & Additional Terms</h3>
                                 <div className="space-y-4">
                                     <div className="flex gap-3">
                                         <span className="material-symbols-outlined text-brand-ink shrink-0">info</span>
@@ -146,7 +146,7 @@ export default function LeaseRenewalModal({
                                         </div>
                                     </div>
                                     <div className="flex gap-3">
-                                        <span className="material-symbols-outlined text-slate-400 shrink-0">check_circle</span>
+                                        <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 shrink-0">check_circle</span>
                                         <div>
                                             <h4 className="text-sm font-bold text-slate-900 dark:text-white">Standard Clauses</h4>
                                             <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mt-1">
@@ -159,7 +159,7 @@ export default function LeaseRenewalModal({
 
                             {/* Official Document */}
                             <div>
-                                <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">Official Document</h3>
+                                <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4">Official Document</h3>
                                 <div className="border border-slate-200 dark:border-slate-800 rounded-xl p-4 bg-slate-50 dark:bg-slate-900/50 flex flex-col gap-4">
                                     <div className="flex items-center gap-3">
                                         <div className="size-12 rounded-lg bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-red-600 dark:text-red-400">
@@ -167,7 +167,7 @@ export default function LeaseRenewalModal({
                                         </div>
                                         <div className="flex-1">
                                             <h4 className="font-bold text-slate-900 dark:text-white text-sm">Lease_Renewal_2024.pdf</h4>
-                                            <p className="text-xs text-slate-500">14 Pages • 2.4 MB</p>
+                                            <p className="text-xs text-slate-500 dark:text-slate-400">14 Pages • 2.4 MB</p>
                                         </div>
                                     </div>
                                     <button
@@ -184,7 +184,7 @@ export default function LeaseRenewalModal({
 
                     {/* Footer */}
                     <div className="p-6 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <button className="text-sm font-bold text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 transition-colors flex items-center gap-2">
+                        <button className="text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors flex items-center gap-2">
                             <span className="material-symbols-outlined text-[18px]">help</span>
                             Need Help?
                         </button>

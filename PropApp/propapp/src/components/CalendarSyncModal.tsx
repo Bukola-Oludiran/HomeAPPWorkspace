@@ -87,7 +87,7 @@ export default function CalendarSyncModal({ isOpen, onClose }: CalendarSyncModal
                     </div>
                     <button
                         onClick={onClose}
-                        className="size-8 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-500 transition-colors"
+                        className="size-8 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 transition-colors"
                     >
                         <span className="material-symbols-outlined">close</span>
                     </button>
@@ -120,7 +120,7 @@ export default function CalendarSyncModal({ isOpen, onClose }: CalendarSyncModal
                                                 {calendar.name}
                                             </p>
                                             {calendar.email && (
-                                                <p className="text-xs text-slate-500">{calendar.email}</p>
+                                                <p className="text-xs text-slate-500 dark:text-slate-400">{calendar.email}</p>
                                             )}
                                         </div>
                                     </div>
@@ -161,7 +161,7 @@ export default function CalendarSyncModal({ isOpen, onClose }: CalendarSyncModal
 
                             {/* Sync Direction */}
                             <div className="mb-4">
-                                <p className="text-xs text-slate-500 mb-2">Sync Direction</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 mb-2">Sync Direction</p>
                                 <div className="flex gap-2">
                                     {[
                                         { value: 'both', label: 'Two-way', icon: 'sync_alt' },
@@ -186,7 +186,7 @@ export default function CalendarSyncModal({ isOpen, onClose }: CalendarSyncModal
                             {/* Sync All Events */}
                             <label className="flex items-center justify-between p-3 rounded-lg bg-slate-50 dark:bg-slate-800 cursor-pointer">
                                 <div className="flex items-center gap-3">
-                                    <span className="material-symbols-outlined text-slate-400">event</span>
+                                    <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">event</span>
                                     <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
                                         Sync all events
                                     </span>

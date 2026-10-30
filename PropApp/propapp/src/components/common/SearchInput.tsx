@@ -42,7 +42,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
 
     return (
         <div className={`relative ${className}`}>
-            <span className={`material-symbols-outlined absolute ${iconPositionClasses} text-slate-400 text-[20px] pointer-events-none transition-colors peer-focus:text-brand-ink`}>
+            <span className={`material-symbols-outlined absolute ${iconPositionClasses} text-slate-500 dark:text-slate-400 text-[20px] pointer-events-none transition-colors peer-focus:text-brand-ink`}>
                 search
             </span>
             <input

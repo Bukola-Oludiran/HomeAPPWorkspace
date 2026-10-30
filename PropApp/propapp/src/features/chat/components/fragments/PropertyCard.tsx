@@ -20,7 +20,7 @@ export function PropertyCard({ props, onAction }: Props) {
             <header className="flex items-start justify-between gap-2">
                 <div>
                     <h3 className="text-base font-semibold">{props.title}</h3>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
                         {props.city}
                         {props.area ? ` · ${props.area}` : ''} · {props.propertyType}
                     </p>
@@ -35,7 +35,7 @@ export function PropertyCard({ props, onAction }: Props) {
                 <span className="text-lg font-bold text-slate-900">
                     ${props.price.amount.toLocaleString()}
                 </span>
-                <span className="text-xs text-slate-500">
+                <span className="text-xs text-slate-500 dark:text-slate-400">
                     {props.bedrooms ?? '—'} bed · {props.bathrooms ?? '—'} bath · {props.listingType}
                 </span>
             </div>

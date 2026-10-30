@@ -61,7 +61,7 @@ export default function AddPersonalEventModal({
                         </div>
                         <button
                             onClick={onClose}
-                            className="size-8 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full cursor-pointer text-slate-500 transition-colors"
+                            className="size-8 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full cursor-pointer text-slate-500 dark:text-slate-400 transition-colors"
                         >
                             <span className="material-symbols-outlined">close</span>
                         </button>
@@ -73,7 +73,7 @@ export default function AddPersonalEventModal({
                         <div className="mb-5">
                             <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">Event Title</label>
                             <div className="relative">
-                                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">event</span>
+                                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400">event</span>
                                 <input
                                     className="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl py-2.5 pl-10 pr-4 text-slate-900 dark:text-white font-medium focus:ring-brand focus:border-brand transition-all placeholder:text-slate-400"
                                     placeholder="e.g., Dentist Appointment"
@@ -141,10 +141,10 @@ export default function AddPersonalEventModal({
                         {/* Location */}
                         <div className="mb-5">
                             <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">
-                                Location <span className="text-slate-400 font-normal normal-case opacity-70 ml-1">(Optional)</span>
+                                Location <span className="text-slate-500 dark:text-slate-400 font-normal normal-case opacity-70 ml-1">(Optional)</span>
                             </label>
                             <div className="relative">
-                                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">location_on</span>
+                                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400">location_on</span>
                                 <input
                                     className="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl py-2.5 pl-10 pr-4 text-slate-900 dark:text-white font-medium focus:ring-brand focus:border-brand transition-all placeholder:text-slate-400"
                                     placeholder="Add location"
@@ -160,7 +160,7 @@ export default function AddPersonalEventModal({
                             <div>
                                 <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">Reminder</label>
                                 <div className="relative">
-                                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">notifications</span>
+                                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400">notifications</span>
                                     <select
                                         className="w-full appearance-none bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl py-2.5 pl-10 pr-8 text-slate-900 dark:text-white font-medium focus:ring-brand focus:border-brand transition-all cursor-pointer"
                                         value={event.reminder}
@@ -171,7 +171,7 @@ export default function AddPersonalEventModal({
                                         <option>1 hour before</option>
                                         <option>1 day before</option>
                                     </select>
-                                    <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[20px]">expand_more</span>
+                                    <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 pointer-events-none text-[20px]">expand_more</span>
                                 </div>
                             </div>
                             <div>
@@ -208,7 +208,7 @@ export default function AddPersonalEventModal({
                         {/* Description */}
                         <div>
                             <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">
-                                Description <span className="text-slate-400 font-normal normal-case opacity-70 ml-1">(Optional)</span>
+                                Description <span className="text-slate-500 dark:text-slate-400 font-normal normal-case opacity-70 ml-1">(Optional)</span>
                             </label>
                             <textarea
                                 className="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl py-3 px-4 text-slate-900 dark:text-white font-medium focus:ring-brand focus:border-brand transition-all placeholder:text-slate-400 resize-none"

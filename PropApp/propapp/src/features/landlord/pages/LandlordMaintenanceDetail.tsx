@@ -416,7 +416,7 @@ export default function LandlordMaintenanceDetail() {
                     {/* Request Details */}
                     <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 p-6">
                         <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                            <span className="material-symbols-outlined text-slate-400">description</span>
+                            <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">description</span>
                             Request Details
                         </h3>
                         <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl mb-6">
@@ -427,7 +427,7 @@ export default function LandlordMaintenanceDetail() {
                         <h4 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-3">Attached Media</h4>
                         <div className="flex gap-4 overflow-x-auto pb-2">
                             <div className="relative group w-32 h-32 rounded-lg bg-slate-100 dark:bg-slate-800 overflow-hidden shrink-0 border border-slate-200 dark:border-slate-700">
-                                <div className="w-full h-full flex items-center justify-center text-slate-400 bg-slate-200 dark:bg-slate-700">
+                                <div className="w-full h-full flex items-center justify-center text-slate-500 dark:text-slate-400 bg-slate-200 dark:bg-slate-700">
                                     <span className="material-symbols-outlined">image</span>
                                 </div>
                                 <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
@@ -436,7 +436,7 @@ export default function LandlordMaintenanceDetail() {
                                 </div>
                             </div>
                             <div className="relative group w-32 h-32 rounded-lg bg-slate-100 dark:bg-slate-800 overflow-hidden shrink-0 border border-slate-200 dark:border-slate-700">
-                                <div className="w-full h-full flex items-center justify-center text-slate-400 bg-slate-200 dark:bg-slate-700">
+                                <div className="w-full h-full flex items-center justify-center text-slate-500 dark:text-slate-400 bg-slate-200 dark:bg-slate-700">
                                     <span className="material-symbols-outlined">videocam</span>
                                 </div>
                                 <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
@@ -450,7 +450,7 @@ export default function LandlordMaintenanceDetail() {
                     <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 p-6">
                         <div className="flex items-center justify-between mb-6">
                             <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                                <span className="material-symbols-outlined text-slate-400">history</span>
+                                <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">history</span>
                                 Activity Timeline
                             </h3>
                             <button className="text-xs font-bold text-brand-ink hover:underline">Add Note</button>
@@ -460,7 +460,7 @@ export default function LandlordMaintenanceDetail() {
                                 <div key={item.id} className="relative">
                                     <div className={`absolute -left-[31px] top-1 size-4 rounded-full ${item.color} border-4 border-white dark:border-canvas-dark`}></div>
                                     <div>
-                                        <p className="text-xs font-bold text-slate-400 mb-0.5">{item.time}</p>
+                                        <p className="text-xs font-bold text-slate-500 dark:text-slate-400 mb-0.5">{item.time}</p>
                                         <h4 className="text-sm font-bold text-slate-900 dark:text-white">{item.title}</h4>
                                         <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{item.description}</p>
                                     </div>
@@ -472,7 +472,7 @@ export default function LandlordMaintenanceDetail() {
                     {/* Communication Log */}
                     <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 p-6">
                         <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                            <span className="material-symbols-outlined text-slate-400">forum</span>
+                            <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">forum</span>
                             Communication Log
                         </h3>
                         <div className="space-y-6 max-h-[400px] overflow-y-auto custom-scrollbar pr-2">
@@ -495,7 +495,7 @@ export default function LandlordMaintenanceDetail() {
                                             <span className={`text-xs font-bold ${msg.from === 'landlord' ? 'text-brand-ink dark:text-blue-400' : 'text-slate-900 dark:text-white'}`}>
                                                 {msg.name}
                                             </span>
-                                            <span className="text-xs text-slate-400">{msg.time}</span>
+                                            <span className="text-xs text-slate-500 dark:text-slate-400">{msg.time}</span>
                                         </div>
                                         <p className={`text-sm ${msg.from === 'landlord' ? 'text-slate-800 dark:text-slate-200' : 'text-slate-600 dark:text-slate-300'}`}>
                                             {msg.text}
@@ -562,7 +562,7 @@ export default function LandlordMaintenanceDetail() {
                                 <>
                                     <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4 border border-slate-100 dark:border-slate-800">
                                         <div className="flex items-center gap-3 mb-3">
-                                            <div className="size-10 bg-white dark:bg-slate-700 rounded-lg flex items-center justify-center text-slate-500 shadow-sm">
+                                            <div className="size-10 bg-white dark:bg-slate-700 rounded-lg flex items-center justify-center text-slate-500 dark:text-slate-400 shadow-sm">
                                                 <span className="material-symbols-outlined">{maintenanceRequest.vendor.icon}</span>
                                             </div>
                                             <div>
@@ -570,7 +570,7 @@ export default function LandlordMaintenanceDetail() {
                                                 <div className="flex items-center gap-1">
                                                     <span className="material-symbols-outlined text-[14px] text-amber-400 icon-filled">star</span>
                                                     <span className="text-xs font-bold text-slate-700 dark:text-slate-300">{maintenanceRequest.vendor.rating}</span>
-                                                    <span className="text-xs text-slate-400">({maintenanceRequest.vendor.jobs} jobs)</span>
+                                                    <span className="text-xs text-slate-500 dark:text-slate-400">({maintenanceRequest.vendor.jobs} jobs)</span>
                                                 </div>
                                             </div>
                                         </div>

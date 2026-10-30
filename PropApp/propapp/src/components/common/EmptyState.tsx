@@ -34,11 +34,11 @@ const EmptyState: React.FC<EmptyStateProps> = ({
             className={`border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl p-6 flex flex-col items-center justify-center text-center ${className}`}
         >
             <div className="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-4">
-                <span className="material-symbols-outlined text-3xl text-slate-400">{icon}</span>
+                <span className="material-symbols-outlined text-3xl text-slate-500 dark:text-slate-400">{icon}</span>
             </div>
             <h3 className="text-lg font-bold text-slate-900 dark:text-white">{title}</h3>
             {description && (
-                <p className="text-slate-500 text-sm max-w-xs mx-auto mt-2">{description}</p>
+                <p className="text-slate-500 dark:text-slate-400 text-sm max-w-xs mx-auto mt-2">{description}</p>
             )}
             {action && (
                 action.href ? (

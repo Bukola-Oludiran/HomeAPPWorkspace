@@ -253,7 +253,7 @@ export default function LandlordVerificationHub() {
                         <div className="bg-white dark:bg-canvas-dark rounded-xl p-1 border border-slate-200 dark:border-slate-800">
                             <div className="relative group">
                                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                                    <span className="material-symbols-outlined text-slate-400 group-focus-within:text-brand-ink transition-colors">domain</span>
+                                    <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 group-focus-within:text-brand-ink transition-colors">domain</span>
                                 </div>
                                 <select
                                     value={selectedProperty.id}
@@ -264,7 +264,7 @@ export default function LandlordVerificationHub() {
                                         <option key={property.id} value={property.id}>{property.name}</option>
                                     ))}
                                 </select>
-                                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
+                                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500 dark:text-slate-400">
                                     <span className="material-symbols-outlined">expand_more</span>
                                 </div>
                             </div>
@@ -300,7 +300,7 @@ export default function LandlordVerificationHub() {
                                 </svg>
                                 <div className="absolute inset-0 flex flex-col items-center justify-center">
                                     <span className="text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">{progressPercent}%</span>
-                                    <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide mt-1">Verified</span>
+                                    <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mt-1">Verified</span>
                                 </div>
                             </div>
 
@@ -321,11 +321,11 @@ export default function LandlordVerificationHub() {
                                 {nextTierConfig ? (
                                 <div className="relative flex items-center justify-between p-3.5 rounded-xl border border-dashed border-slate-300 dark:border-slate-700 opacity-70 hover:opacity-100 transition-opacity cursor-help">
                                     <div className="flex items-center gap-3">
-                                        <div className="size-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400">
+                                        <div className="size-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
                                             <span className="material-symbols-outlined text-[20px]">{nextTierConfig.icon}</span>
                                         </div>
                                         <div className="text-left">
-                                            <p className="text-xs text-slate-500 font-bold uppercase tracking-wider mb-0.5">Next Tier</p>
+                                            <p className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider mb-0.5">Next Tier</p>
                                             <p className="font-bold text-slate-900 dark:text-white text-sm">{nextTierConfig.label}</p>
                                         </div>
                                     </div>
@@ -395,7 +395,7 @@ export default function LandlordVerificationHub() {
                                                     ? 'bg-green-100 dark:bg-green-900/30 text-green-600'
                                                     : step.status === 'pending'
                                                         ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-600 size-8 shadow-sm ring-4 ring-amber-50 dark:ring-amber-900/10'
-                                                        : 'bg-slate-200 dark:bg-slate-800 text-slate-400'
+                                                        : 'bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
                                                     }`}>
                                                     <span className={`material-symbols-outlined ${step.status === 'pending' ? 'text-[20px]' : 'text-[16px]'}`}>
                                                         {step.status === 'completed' ? 'check' : step.status === 'locked' ? 'lock' : 'schedule'}
@@ -406,15 +406,15 @@ export default function LandlordVerificationHub() {
                                                         <h4 className={`font-bold text-sm ${step.status === 'locked' ? 'text-slate-500 dark:text-slate-400' : 'text-slate-700 dark:text-slate-300'}`}>
                                                             {step.title}
                                                         </h4>
-                                                        <span className="px-1.5 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-500 text-xs uppercase font-bold rounded">
+                                                        <span className="px-1.5 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs uppercase font-bold rounded">
                                                             {step.level}
                                                         </span>
                                                     </div>
-                                                    <p className="text-xs text-slate-400 mt-1">{step.description}</p>
+                                                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{step.description}</p>
                                                 </div>
                                             </div>
                                             {step.status !== 'locked' && (
-                                                <button className="text-slate-400 hover:text-slate-600">
+                                                <button className="text-slate-500 dark:text-slate-400 hover:text-slate-600">
                                                     <span className="material-symbols-outlined">expand_more</span>
                                                 </button>
                                             )}
@@ -424,7 +424,7 @@ export default function LandlordVerificationHub() {
                                         {step.status === 'pending' && (
                                             <div className="ml-0 sm:ml-12 mt-6">
                                                 <div className="p-8 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-800/30 text-center hover:border-brand hover:bg-blue-50/50 dark:hover:bg-slate-800/60 transition-all cursor-pointer group">
-                                                    <div className="size-14 rounded-full bg-white dark:bg-slate-700 mx-auto flex items-center justify-center text-slate-400 group-hover:text-brand-ink group-hover:scale-110 transition-all duration-300 mb-4 border border-slate-100 dark:border-slate-600">
+                                                    <div className="size-14 rounded-full bg-white dark:bg-slate-700 mx-auto flex items-center justify-center text-slate-500 dark:text-slate-400 group-hover:text-brand-ink group-hover:scale-110 transition-all duration-300 mb-4 border border-slate-100 dark:border-slate-600">
                                                         <span className="material-symbols-outlined text-3xl">cloud_upload</span>
                                                     </div>
                                                     <h5 className="font-bold text-slate-900 dark:text-white mb-1">Click to upload C of O</h5>
@@ -435,7 +435,7 @@ export default function LandlordVerificationHub() {
                                                         Select Document
                                                     </button>
                                                 </div>
-                                                <div className="mt-4 flex items-center justify-between text-xs text-slate-400">
+                                                <div className="mt-4 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
                                                     <div className="flex items-center gap-2">
                                                         <span className="material-symbols-outlined text-[14px]">lock</span>
                                                         <span>Documents are securely linked to this listing</span>

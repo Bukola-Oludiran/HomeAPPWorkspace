@@ -32,7 +32,7 @@ const DateRangeFilter: React.FC<DateRangeFilterProps> = ({
     return (
         <div className={className}>
             {label && (
-                <label className="block text-xs font-medium text-slate-500 mb-1">{label}</label>
+                <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">{label}</label>
             )}
             <div className="flex items-center gap-2">
                 <input
@@ -41,7 +41,7 @@ const DateRangeFilter: React.FC<DateRangeFilterProps> = ({
                     value={startDate}
                     onChange={(e) => onStartDateChange?.(e.target.value)}
                 />
-                <span className="text-slate-400">-</span>
+                <span className="text-slate-500 dark:text-slate-400">-</span>
                 <input
                     type="date"
                     className={inputClasses}

@@ -104,7 +104,7 @@ export default function ExportModal({ isOpen, onClose, dataType = 'data', onExpo
                     </div>
                     <button
                         onClick={onClose}
-                        className="size-8 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-500 transition-colors"
+                        className="size-8 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 transition-colors"
                     >
                         <span className="material-symbols-outlined">close</span>
                     </button>
@@ -139,7 +139,7 @@ export default function ExportModal({ isOpen, onClose, dataType = 'data', onExpo
                                                     : 'border-slate-200 dark:border-slate-700 hover:border-slate-300'
                                                 }`}
                                         >
-                                            <span className={`material-symbols-outlined text-2xl ${format === option.id ? 'text-brand-ink' : 'text-slate-400'
+                                            <span className={`material-symbols-outlined text-2xl ${format === option.id ? 'text-brand-ink' : 'text-slate-500 dark:text-slate-400'
                                                 }`}>
                                                 {option.icon}
                                             </span>
@@ -181,7 +181,7 @@ export default function ExportModal({ isOpen, onClose, dataType = 'data', onExpo
                                 {preset === 'custom' && (
                                     <div className="grid grid-cols-2 gap-3 animate-in slide-in-from-top-2 fade-in duration-200">
                                         <div>
-                                            <label className="text-xs text-slate-500 mb-1 block">Start Date</label>
+                                            <label className="text-xs text-slate-500 dark:text-slate-400 mb-1 block">Start Date</label>
                                             <input
                                                 type="date"
                                                 value={dateRange.start}
@@ -190,7 +190,7 @@ export default function ExportModal({ isOpen, onClose, dataType = 'data', onExpo
                                             />
                                         </div>
                                         <div>
-                                            <label className="text-xs text-slate-500 mb-1 block">End Date</label>
+                                            <label className="text-xs text-slate-500 dark:text-slate-400 mb-1 block">End Date</label>
                                             <input
                                                 type="date"
                                                 value={dateRange.end}

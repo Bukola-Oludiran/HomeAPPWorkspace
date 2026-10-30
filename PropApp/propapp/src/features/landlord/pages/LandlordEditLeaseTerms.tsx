@@ -75,7 +75,7 @@ export default function LandlordEditLeaseTerms() {
             <div className="flex items-center justify-center min-h-screen">
                 <div className="flex flex-col items-center gap-3">
                     <div className="size-10 border-4 border-brand border-t-transparent rounded-full animate-spin"></div>
-                    <p className="text-slate-500 font-medium">Loading lease details...</p>
+                    <p className="text-slate-500 dark:text-slate-400 font-medium">Loading lease details...</p>
                 </div>
             </div>
         );
@@ -142,7 +142,7 @@ export default function LandlordEditLeaseTerms() {
                             <div className="space-y-1.5">
                                 <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Monthly Rent</label>
                                 <div className="relative">
-                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">₦</span>
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400">₦</span>
                                     <input
                                         className="w-full pl-8 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-brand transition-shadow font-medium"
                                         type="number"
@@ -150,12 +150,12 @@ export default function LandlordEditLeaseTerms() {
                                         onChange={(e) => setMonthlyRent(e.target.value)}
                                     />
                                 </div>
-                                <p className="text-xs text-slate-500">Current market avg: $4,950 - $5,200</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400">Current market avg: $4,950 - $5,200</p>
                             </div>
                             <div className="space-y-1.5">
                                 <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Security Deposit</label>
                                 <div className="relative">
-                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">₦</span>
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400">₦</span>
                                     <input
                                         className="w-full pl-8 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-brand transition-shadow font-medium"
                                         type="number"
@@ -223,7 +223,7 @@ export default function LandlordEditLeaseTerms() {
                             <div className="space-y-1.5 relative">
                                 <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
                                     Effective Date of Changes
-                                    <span className="material-symbols-outlined text-[16px] text-slate-400 cursor-help" title="When do these new terms apply?">help</span>
+                                    <span className="material-symbols-outlined text-[16px] text-slate-500 dark:text-slate-400 cursor-help" title="When do these new terms apply?">help</span>
                                 </label>
                                 <input
                                     className="w-full px-4 py-2.5 rounded-xl border border-brand dark:border-brand bg-blue-50/50 dark:bg-brand/5 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-brand transition-shadow"
@@ -249,43 +249,43 @@ export default function LandlordEditLeaseTerms() {
                         <div className="space-y-3">
                             {/* Pet Policy Addendum */}
                             <div className="group bg-slate-50 dark:bg-slate-700/30 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex items-start gap-4 transition-all hover:border-slate-300 dark:hover:border-slate-600">
-                                <div className="size-10 rounded-lg bg-white dark:bg-slate-800 flex items-center justify-center text-slate-500 shadow-sm shrink-0">
+                                <div className="size-10 rounded-lg bg-white dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 shadow-sm shrink-0">
                                     <span className="material-symbols-outlined">pets</span>
                                 </div>
                                 <div className="flex-1 min-w-0">
                                     <div className="flex items-center justify-between mb-1">
                                         <h4 className="font-bold text-slate-900 dark:text-white text-sm">Pet Policy Addendum</h4>
                                         <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-slate-500 hover:text-brand-ink transition-colors">
+                                            <button className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-slate-500 dark:text-slate-400 hover:text-brand-ink transition-colors">
                                                 <span className="material-symbols-outlined text-[18px]">edit</span>
                                             </button>
-                                            <button className="p-1 hover:bg-red-100 dark:hover:bg-red-900/30 rounded text-slate-500 hover:text-red-600 transition-colors">
+                                            <button className="p-1 hover:bg-red-100 dark:hover:bg-red-900/30 rounded text-slate-500 dark:text-slate-400 hover:text-red-600 transition-colors">
                                                 <span className="material-symbols-outlined text-[18px]">delete</span>
                                             </button>
                                         </div>
                                     </div>
-                                    <p className="text-sm text-slate-500 line-clamp-1">Permits 1 dog under 40lbs. Non-refundable fee of $250 applied.</p>
+                                    <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-1">Permits 1 dog under 40lbs. Non-refundable fee of $250 applied.</p>
                                 </div>
                             </div>
 
                             {/* No Smoking Clause */}
                             <div className="group bg-slate-50 dark:bg-slate-700/30 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex items-start gap-4 transition-all hover:border-slate-300 dark:hover:border-slate-600">
-                                <div className="size-10 rounded-lg bg-white dark:bg-slate-800 flex items-center justify-center text-slate-500 shadow-sm shrink-0">
+                                <div className="size-10 rounded-lg bg-white dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 shadow-sm shrink-0">
                                     <span className="material-symbols-outlined">smoking_rooms</span>
                                 </div>
                                 <div className="flex-1 min-w-0">
                                     <div className="flex items-center justify-between mb-1">
                                         <h4 className="font-bold text-slate-900 dark:text-white text-sm">No Smoking Clause</h4>
                                         <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-slate-500 hover:text-brand-ink transition-colors">
+                                            <button className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-slate-500 dark:text-slate-400 hover:text-brand-ink transition-colors">
                                                 <span className="material-symbols-outlined text-[18px]">edit</span>
                                             </button>
-                                            <button className="p-1 hover:bg-red-100 dark:hover:bg-red-900/30 rounded text-slate-500 hover:text-red-600 transition-colors">
+                                            <button className="p-1 hover:bg-red-100 dark:hover:bg-red-900/30 rounded text-slate-500 dark:text-slate-400 hover:text-red-600 transition-colors">
                                                 <span className="material-symbols-outlined text-[18px]">delete</span>
                                             </button>
                                         </div>
                                     </div>
-                                    <p className="text-sm text-slate-500 line-clamp-1">Strict no-smoking policy within the premises and 20ft perimeter.</p>
+                                    <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-1">Strict no-smoking policy within the premises and 20ft perimeter.</p>
                                 </div>
                             </div>
 

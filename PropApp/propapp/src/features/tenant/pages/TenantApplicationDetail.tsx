@@ -71,7 +71,7 @@ export default function TenantApplicationDetail() {
                 <div className="flex items-center justify-center min-h-[400px]">
                     <div className="flex flex-col items-center gap-3">
                         <div className="size-10 border-4 border-brand border-t-transparent rounded-full animate-spin"></div>
-                        <p className="text-slate-500 font-medium">Loading application...</p>
+                        <p className="text-slate-500 dark:text-slate-400 font-medium">Loading application...</p>
                     </div>
                 </div>
             </PageContainer>
@@ -83,7 +83,7 @@ export default function TenantApplicationDetail() {
             <PageContainer>
                 <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
                     <span className="material-symbols-outlined text-5xl text-slate-300">error</span>
-                    <p className="text-slate-500 font-medium">{error || 'Application not found'}</p>
+                    <p className="text-slate-500 dark:text-slate-400 font-medium">{error || 'Application not found'}</p>
                     <Link to="/tenant/applications" className="text-brand-ink font-bold hover:underline">Back to Applications</Link>
                 </div>
             </PageContainer>
@@ -159,7 +159,7 @@ export default function TenantApplicationDetail() {
                     {application.message && (
                         <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden">
                             <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2 bg-slate-50/50 dark:bg-canvas-dark">
-                                <span className="material-symbols-outlined text-slate-400">comment</span>
+                                <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">comment</span>
                                 <h3 className="font-bold text-slate-900 dark:text-white">Your Message</h3>
                             </div>
                             <div className="p-6">
@@ -174,7 +174,7 @@ export default function TenantApplicationDetail() {
                     <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden">
                         <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-canvas-dark">
                             <div className="flex items-center gap-2">
-                                <span className="material-symbols-outlined text-slate-400">description</span>
+                                <span className="material-symbols-outlined text-slate-500 dark:text-slate-400">description</span>
                                 <h3 className="font-bold text-slate-900 dark:text-white">Submitted Information</h3>
                             </div>
                         </div>
@@ -277,7 +277,7 @@ export default function TenantApplicationDetail() {
                         <div className="relative border-l-2 border-slate-100 dark:border-slate-800 ml-3 space-y-6">
                             <div className="relative pl-6">
                                 <div className="absolute -left-[9px] top-0 size-4 rounded-full border-4 border-white dark:border-canvas-dark bg-amber-500"></div>
-                                <p className="text-xs text-slate-400 font-mono mb-0.5">
+                                <p className="text-xs text-slate-500 dark:text-slate-400 font-mono mb-0.5">
                                     {new Date(application.updatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                                 </p>
                                 <h4 className="text-sm font-bold text-slate-900 dark:text-white">{statusStyles.label}</h4>
@@ -285,7 +285,7 @@ export default function TenantApplicationDetail() {
                             </div>
                             <div className="relative pl-6">
                                 <div className="absolute -left-[9px] top-0 size-4 rounded-full border-4 border-white dark:border-canvas-dark bg-slate-300 dark:bg-slate-600"></div>
-                                <p className="text-xs text-slate-400 font-mono mb-0.5">{submittedDate}</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 font-mono mb-0.5">{submittedDate}</p>
                                 <h4 className="text-sm font-bold text-slate-900 dark:text-white">Application Submitted</h4>
                                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">You completed the application form.</p>
                             </div>

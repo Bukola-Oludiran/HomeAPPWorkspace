@@ -25,7 +25,7 @@ export function MessageThreadPreview({ props, onAction }: Props) {
             <div className="flex-1 min-w-0">
                 <header className="flex items-baseline justify-between gap-2">
                     <h3 className="truncate text-sm font-semibold">{props.counterpartyName}</h3>
-                    <time className="text-xs text-slate-400">{timeAgo(props.lastMessageAt)}</time>
+                    <time className="text-xs text-slate-500 dark:text-slate-400">{timeAgo(props.lastMessageAt)}</time>
                 </header>
                 <p className="line-clamp-1 text-sm text-slate-600">{props.lastMessage}</p>
                 {props.unreadCount > 0 ? (

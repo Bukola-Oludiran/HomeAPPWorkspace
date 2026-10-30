@@ -78,7 +78,7 @@ export default function BillingDetailsModal({ isOpen, onClose }: BillingDetailsM
                         </div>
                         <button
                             onClick={onClose}
-                            className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+                            className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
                         >
                             <span className="material-symbols-outlined">close</span>
                         </button>
@@ -97,7 +97,7 @@ export default function BillingDetailsModal({ isOpen, onClose }: BillingDetailsM
                                     return <option key={year} value={year}>Year: {year}</option>;
                                 })}
                             </select>
-                            <span className="absolute right-2 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[18px] pointer-events-none">expand_more</span>
+                            <span className="absolute right-2 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-500 dark:text-slate-400 text-[18px] pointer-events-none">expand_more</span>
                         </div>
                         <div className="relative">
                             <select
@@ -109,14 +109,14 @@ export default function BillingDetailsModal({ isOpen, onClose }: BillingDetailsM
                                 <option value="monthly">Monthly</option>
                                 <option value="quarterly">Quarterly</option>
                             </select>
-                            <span className="absolute right-2 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[18px] pointer-events-none">expand_more</span>
+                            <span className="absolute right-2 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-500 dark:text-slate-400 text-[18px] pointer-events-none">expand_more</span>
                         </div>
                     </div>
 
                     {/* Statements List */}
                     <div className="overflow-y-auto flex-1">
                         {error && <p role="alert" className="p-4 text-sm text-red-600">{error}</p>}
-                        {!error && visibleStatements.length === 0 && <p className="p-8 text-center text-sm text-slate-500">No statements for this period.</p>}
+                        {!error && visibleStatements.length === 0 && <p className="p-8 text-center text-sm text-slate-500 dark:text-slate-400">No statements for this period.</p>}
                         {visibleStatements.map((statement) => (
                             <div
                                 key={statement.id}
@@ -132,7 +132,7 @@ export default function BillingDetailsModal({ isOpen, onClose }: BillingDetailsM
                                             <span className="text-xs text-slate-500 dark:text-slate-400 font-medium bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded text-nowrap">
                                                 {getTypeLabel(statement.type)}
                                             </span>
-                                            <span className="text-xs text-slate-400">• {statement.date}</span>
+                                            <span className="text-xs text-slate-500 dark:text-slate-400">• {statement.date}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -149,13 +149,13 @@ export default function BillingDetailsModal({ isOpen, onClose }: BillingDetailsM
                                     <div className="flex items-center gap-2">
                                         <button
                                             onClick={() => void integrationService.exportData({ dataset: 'transactions', format: 'pdf', start: `${statement.id}-01`, end: `${statement.id}-31` })}
-                                            className="p-2 text-slate-400 hover:text-brand-ink hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+                                            className="p-2 text-slate-500 dark:text-slate-400 hover:text-brand-ink hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
                                             title="View"
                                         >
                                             <span className="material-symbols-outlined text-[20px]">visibility</span>
                                         </button>
                                         <button
-                                            className="p-2 text-slate-400 hover:text-brand-ink hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+                                            className="p-2 text-slate-500 dark:text-slate-400 hover:text-brand-ink hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
                                             title="Download PDF"
                                         >
                                             <span className="material-symbols-outlined text-[20px]">download</span>

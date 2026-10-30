@@ -80,7 +80,7 @@ export default function MaintenanceRequestModal({
                         </div>
                         <button
                             onClick={onClose}
-                            className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+                            className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
                         >
                             <span className="material-symbols-outlined text-[20px]">close</span>
                         </button>
@@ -120,7 +120,7 @@ export default function MaintenanceRequestModal({
                                         <option>HVAC</option>
                                         <option>General</option>
                                     </select>
-                                    <span className="material-symbols-outlined absolute right-3 top-2.5 text-slate-400 pointer-events-none">expand_more</span>
+                                    <span className="material-symbols-outlined absolute right-3 top-2.5 text-slate-500 dark:text-slate-400 pointer-events-none">expand_more</span>
                                 </div>
                             </div>
 
@@ -164,12 +164,12 @@ export default function MaintenanceRequestModal({
                             {/* Photos Upload */}
                             <div>
                                 <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">Photos / Video</label>
-                                <button className="w-full border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-6 flex flex-col items-center justify-center text-slate-500 hover:border-brand hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all group">
+                                <button className="w-full border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-6 flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 hover:border-brand hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all group">
                                     <div className="size-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                                        <span className="material-symbols-outlined text-slate-400 group-hover:text-brand-ink">add_a_photo</span>
+                                        <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 group-hover:text-brand-ink">add_a_photo</span>
                                     </div>
                                     <span className="text-sm font-bold text-slate-600 dark:text-slate-300 group-hover:text-brand-ink">Add Photos</span>
-                                    <span className="text-xs text-slate-400 mt-1">or drag and drop here</span>
+                                    <span className="text-xs text-slate-500 dark:text-slate-400 mt-1">or drag and drop here</span>
                                 </button>
                             </div>
                         </div>
