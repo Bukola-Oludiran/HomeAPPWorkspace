@@ -56,7 +56,7 @@ export default function SMS2FAModal({ isOpen, onClose, onSuccess }: SMS2FAModalP
                     <div className="p-6 md:p-8 space-y-6">
                         {/* Info */}
                         <div className="flex gap-4">
-                            <div className="flex-shrink-0 size-10 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-brand">
+                            <div className="flex-shrink-0 size-10 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-brand-ink">
                                 <span className="material-symbols-outlined">sms</span>
                             </div>
                             <div>
@@ -129,7 +129,7 @@ export default function SMS2FAModal({ isOpen, onClose, onSuccess }: SMS2FAModalP
                                 </p>
                             </div>
                             <div className="flex items-center justify-center text-sm pt-2">
-                                <button className="font-medium text-brand hover:text-brand/80 flex items-center gap-1 cursor-pointer">
+                                <button className="font-medium text-brand-ink hover:text-brand-ink/80 flex items-center gap-1 cursor-pointer">
                                     Didn't receive code?
                                 </button>
                             </div>
@@ -140,7 +140,7 @@ export default function SMS2FAModal({ isOpen, onClose, onSuccess }: SMS2FAModalP
                             <span className="material-symbols-outlined text-slate-400 text-lg mt-0.5">help</span>
                             <div className="text-sm text-slate-600 dark:text-slate-400 leading-snug">
                                 <p className="font-medium text-slate-900 dark:text-slate-200 mb-0.5">Having trouble?</p>
-                                Check if your phone blocks unknown numbers or <button className="text-brand hover:underline font-medium cursor-pointer">contact support</button> for manual verification.
+                                Check if your phone blocks unknown numbers or <button className="text-brand-ink hover:underline font-medium cursor-pointer">contact support</button> for manual verification.
                             </div>
                         </div>
                     </div>
@@ -149,14 +149,14 @@ export default function SMS2FAModal({ isOpen, onClose, onSuccess }: SMS2FAModalP
                     <div className="px-6 py-5 bg-slate-50 dark:bg-[#15202b] border-t border-slate-100 dark:border-slate-700 flex justify-end gap-3 rounded-b-2xl">
                         <button
                             onClick={onClose}
-                            className="px-5 py-2.5 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-600 transition-all shadow-sm cursor-pointer"
+                            className="px-5 py-2.5 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-600 transition-all cursor-pointer"
                         >
                             Cancel
                         </button>
                         <button
                             onClick={handleVerify}
                             disabled={code.length !== 6}
-                            className={`px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-brand shadow-sm transition-all ${code.length === 6 ? 'hover:bg-brand/90 cursor-pointer' : 'opacity-50 cursor-not-allowed'
+                            className={`px-5 py-2.5 rounded-lg text-sm font-semibold text-on-brand bg-brand-ink transition-all ${code.length === 6 ? 'hover:bg-brand-ink/90 cursor-pointer' : 'opacity-50 cursor-not-allowed'
                                 }`}
                         >
                             Verify &amp; Enable SMS 2FA

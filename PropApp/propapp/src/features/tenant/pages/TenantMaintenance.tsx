@@ -241,7 +241,7 @@ export default function TenantMaintenance() {
                 actions={
                     <button
                         onClick={() => setIsMaintenanceModalOpen(true)}
-                        className="px-5 py-3 rounded-lg bg-brand hover:bg-brand/90 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2 group"
+                        className="px-5 py-3 rounded-lg bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm transition-all flex items-center gap-2 group"
                     >
                         <span className="material-symbols-outlined text-[20px] group-hover:rotate-90 transition-transform">add</span>
                         New Request
@@ -250,7 +250,7 @@ export default function TenantMaintenance() {
             />
 
             {/* Search and Filters */}
-            <div className="bg-white dark:bg-canvas-dark p-4 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm mb-6 flex flex-col lg:flex-row gap-4 items-center">
+            <div className="bg-white dark:bg-canvas-dark p-4 rounded-2xl border border-slate-100 dark:border-slate-800 mb-6 flex flex-col lg:flex-row gap-4 items-center">
                 <div className="relative flex-1 w-full">
                     <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
                     <input
@@ -375,7 +375,7 @@ export default function TenantMaintenance() {
                                             <p className="text-sm text-slate-500 dark:text-slate-400">No maintenance requests found</p>
                                             <button
                                                 onClick={() => setIsMaintenanceModalOpen(true)}
-                                                className="px-4 py-2 rounded-lg bg-brand text-xs font-bold text-white hover:bg-brand/90 transition-colors"
+                                                className="px-4 py-2 rounded-lg bg-brand-ink text-xs font-bold text-on-brand hover:bg-brand-ink/90 transition-colors"
                                             >
                                                 Submit New Request
                                             </button>
@@ -393,7 +393,7 @@ export default function TenantMaintenance() {
                                                 <span className="material-symbols-outlined">{request.categoryIcon}</span>
                                             </div>
                                             <div>
-                                                <h4 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-brand transition-colors">
+                                                <h4 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-brand-ink transition-colors">
                                                     {request.title}
                                                 </h4>
                                                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-1">
@@ -446,25 +446,25 @@ export default function TenantMaintenance() {
                                                     <button className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
                                                         Cancel
                                                     </button>
-                                                    <button className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors shadow-sm">
+                                                    <button className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                                                         Edit
                                                     </button>
                                                 </>
                                             ) : request.isCompleted ? (
                                                 <Link
                                                     to={`/tenant/maintenance/${request.id}`}
-                                                    className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors shadow-sm"
+                                                    className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
                                                 >
                                                     View Log
                                                 </Link>
                                             ) : (
                                                 <>
-                                                    <button className="size-8 flex items-center justify-center rounded-lg hover:bg-brand/10 text-slate-400 hover:text-brand transition-colors" title="Message Landlord">
+                                                    <button className="size-8 flex items-center justify-center rounded-lg hover:bg-brand/10 text-slate-400 hover:text-brand-ink transition-colors" title="Message Landlord">
                                                         <span className="material-symbols-outlined text-[18px]">chat</span>
                                                     </button>
                                                     <Link
                                                         to={`/tenant/maintenance/${request.id}`}
-                                                        className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors shadow-sm"
+                                                        className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
                                                     >
                                                         Details
                                                     </Link>

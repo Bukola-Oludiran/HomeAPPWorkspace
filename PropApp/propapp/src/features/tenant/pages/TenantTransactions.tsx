@@ -143,7 +143,7 @@ export default function TenantTransactions() {
                     { label: 'Transactions' }
                 ]}
                 actions={
-                    <button className="px-5 py-2.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-white font-bold text-sm transition-all flex items-center gap-2 shadow-sm">
+                    <button className="px-5 py-2.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-white font-bold text-sm transition-all flex items-center gap-2">
                         <span className="material-symbols-outlined text-[20px]">download</span>
                         Export History (CSV)
                     </button>
@@ -151,13 +151,13 @@ export default function TenantTransactions() {
             />
 
             {/* Filters */}
-            <div className="bg-white dark:bg-canvas-dark p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm mb-6">
+            <div className="bg-white dark:bg-canvas-dark p-5 rounded-xl border border-slate-200 dark:border-slate-800 mb-6">
                 <div className="flex flex-col gap-4">
                     <div className="flex items-center justify-between">
                         <h3 className="font-bold text-slate-700 dark:text-slate-200 text-sm uppercase tracking-wide flex items-center gap-2">
-                            <span className="material-symbols-outlined text-brand">tune</span> Filters
+                            <span className="material-symbols-outlined text-brand-ink">tune</span> Filters
                         </h3>
-                        <button className="text-xs font-semibold text-brand hover:underline">Clear all</button>
+                        <button className="text-xs font-semibold text-brand-ink hover:underline">Clear all</button>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4">
                         <div className="lg:col-span-4 relative">
@@ -294,7 +294,7 @@ export default function TenantTransactions() {
                                         <p className="font-bold text-slate-900 dark:text-white">{tx.amount}</p>
                                     </td>
                                     <td className="px-6 py-4 text-center">
-                                        <button className="p-2 text-slate-400 hover:text-brand hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors" title={tx.status === 'Failed' ? 'Retry / View Details' : 'View Receipt'}>
+                                        <button className="p-2 text-slate-400 hover:text-brand-ink hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors" title={tx.status === 'Failed' ? 'Retry / View Details' : 'View Receipt'}>
                                             <span className="material-symbols-outlined text-[20px]">
                                                 {tx.status === 'Failed' ? 'refresh' : tx.status === 'Pending' ? 'visibility' : 'receipt_long'}
                                             </span>
@@ -331,7 +331,7 @@ export default function TenantTransactions() {
                             className={`px-3 py-1 text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded transition-colors ${
                                 page >= totalPages || isLoading
                                     ? 'text-slate-500 dark:text-slate-400 opacity-50 cursor-not-allowed'
-                                    : 'text-brand hover:bg-slate-50 dark:hover:bg-slate-700'
+                                    : 'text-brand-ink hover:bg-slate-50 dark:hover:bg-slate-700'
                             }`}
                         >
                             Next
@@ -349,7 +349,7 @@ export default function TenantTransactions() {
                     <div className="flex flex-col w-[360px] md:w-[420px] bg-white dark:bg-[#1e293b] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
                         <div className="p-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-blue-50/50 dark:bg-[#1e293b]">
                             <div className="flex items-center gap-2">
-                                <div className="size-8 rounded-full bg-brand flex items-center justify-center text-white shadow-md">
+                                <div className="size-8 rounded-full bg-brand-ink flex items-center justify-center text-on-brand shadow-md">
                                     <span className="material-symbols-outlined text-[20px]">forum</span>
                                 </div>
                                 <div>
@@ -363,23 +363,23 @@ export default function TenantTransactions() {
                         </div>
                         <div className="flex-1 p-4 h-[300px] overflow-y-auto flex flex-col gap-4 bg-slate-50/50 dark:bg-canvas-dark/50">
                             <div className="flex gap-3">
-                                <div className="size-8 rounded-full bg-brand flex items-center justify-center text-white shrink-0 mt-1 shadow-sm">
+                                <div className="size-8 rounded-full bg-brand-ink flex items-center justify-center text-on-brand shrink-0 mt-1">
                                     <span className="material-symbols-outlined text-[16px]">forum</span>
                                 </div>
-                                <div className="bg-white dark:bg-[#1e293b] border border-slate-100 dark:border-slate-700 p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[85%]">
+                                <div className="bg-white dark:bg-[#1e293b] border border-slate-100 dark:border-slate-700 p-3 rounded-2xl rounded-tl-none max-w-[85%]">
                                     <p className="text-sm text-slate-700 dark:text-slate-300">I can help you review your transaction history. Are you looking for a specific receipt or need a breakdown of utility costs?</p>
                                 </div>
                             </div>
                             <div className="mt-auto">
                                 <p className="text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide px-1">Suggested actions</p>
                                 <div className="flex flex-wrap gap-2">
-                                    <button className="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors shadow-sm">
+                                    <button className="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors">
                                         Find Oct Rent Receipt
                                     </button>
-                                    <button className="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors shadow-sm">
+                                    <button className="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors">
                                         Explain Utility Charges
                                     </button>
-                                    <button className="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors shadow-sm">
+                                    <button className="text-xs bg-white dark:bg-[#1e293b] hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full transition-colors">
                                         Filter by Failed Payments
                                     </button>
                                 </div>
@@ -388,7 +388,7 @@ export default function TenantTransactions() {
                         <div className="p-3 border-t border-slate-100 dark:border-slate-700 bg-white dark:bg-[#1e293b]">
                             <div className="relative flex items-center">
                                 <input className="w-full pl-4 pr-12 py-3 bg-slate-50 dark:bg-canvas-dark border-none rounded-xl text-sm focus:ring-2 focus:ring-brand/20 text-slate-900 dark:text-white placeholder:text-slate-400 shadow-inner" placeholder="Ask about your payments..." type="text" />
-                                <button className="absolute right-2 p-1.5 bg-brand text-white rounded-lg hover:bg-brand/90 transition-colors shadow-md">
+                                <button className="absolute right-2 p-1.5 bg-brand-ink text-on-brand rounded-lg hover:bg-brand-ink/90 transition-colors shadow-md">
                                     <span className="material-symbols-outlined text-[18px]">arrow_upward</span>
                                 </button>
                             </div>
@@ -401,7 +401,7 @@ export default function TenantTransactions() {
                     onClick={() => setShowAIChat(!showAIChat)}
                     className={`group flex items-center gap-3 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white pl-1.5 pr-5 py-1.5 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 dark:border-slate-700 hover:shadow-[0_8px_30px_rgb(0,0,0,0.18)] transition-all duration-300 ${showAIChat ? 'hidden' : ''}`}
                 >
-                    <div className="size-10 rounded-full bg-brand flex items-center justify-center text-white shadow-md">
+                    <div className="size-10 rounded-full bg-brand-ink flex items-center justify-center text-on-brand shadow-md">
                         <span className="material-symbols-outlined">forum</span>
                     </div>
                     <div className="flex flex-col items-start">

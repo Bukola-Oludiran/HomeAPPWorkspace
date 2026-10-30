@@ -18,7 +18,7 @@ export default function EnterSMSCodePage() {
             {/* Icon */}
             <div className="mb-6 flex justify-center">
                 <div className="size-16 bg-white/10 rounded-full flex items-center justify-center border border-white/10 shadow-inner ring-1 ring-white/5">
-                    <span className="material-symbols-outlined text-brand text-3xl">sms</span>
+                    <span className="material-symbols-outlined text-sky text-3xl">sms</span>
                 </div>
             </div>
 
@@ -38,7 +38,7 @@ export default function EnterSMSCodePage() {
                         placeholder="000000"
                     />
                     <div className="mt-3 flex justify-end">
-                        <button className="text-xs text-brand hover:text-brand/80 font-medium transition-colors flex items-center gap-1">
+                        <button className="text-xs text-sky hover:text-sky/80 font-medium transition-colors flex items-center gap-1">
                             Resend Code (30s)
                         </button>
                     </div>
@@ -48,7 +48,7 @@ export default function EnterSMSCodePage() {
                 <div className="flex flex-col gap-3 pt-2">
                     <Link
                         to="/auth/2fa/sms-success"
-                        className="w-full py-3.5 px-5 rounded-xl bg-brand hover:bg-brand/90 text-white font-bold shadow-sm transition-all flex items-center justify-center gap-2"
+                        className="w-full py-3.5 px-5 rounded-xl bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold transition-all flex items-center justify-center gap-2"
                     >
                         <span>Verify Code</span>
                         <span className="material-symbols-outlined text-[20px]">check</span>

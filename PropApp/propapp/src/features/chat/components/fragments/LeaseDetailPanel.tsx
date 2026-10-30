@@ -19,7 +19,7 @@ export function LeaseDetailPanel({ props, onAction }: Props) {
     const fmtDate = (iso?: string) =>
         iso ? new Date(iso).toLocaleDateString(undefined, { dateStyle: 'medium' }) : '—';
     return (
-        <article className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+        <article className="rounded-2xl border border-slate-200 bg-white p-4">
             <header className="flex items-start justify-between gap-2">
                 <div>
                     <h3 className="text-base font-semibold">{props.propertyTitle}</h3>

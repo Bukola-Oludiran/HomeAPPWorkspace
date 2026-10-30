@@ -42,7 +42,7 @@ export default function PageHeader({ title, subtitle, actions, breadcrumb, class
                                 {item.href ? (
                                     <Link
                                         to={item.href}
-                                        className="hover:text-brand transition-colors"
+                                        className="hover:text-brand-ink transition-colors"
                                     >
                                         {item.label}
                                     </Link>

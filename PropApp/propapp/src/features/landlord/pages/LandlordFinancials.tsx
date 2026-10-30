@@ -192,7 +192,7 @@ export default function LandlordFinancials() {
                             </button>
                             <button
                                 onClick={() => setShowDocumentViewer(true)}
-                                className="px-4 py-2.5 rounded-lg bg-brand hover:bg-brand/90 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2"
+                                className="px-4 py-2.5 rounded-lg bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm transition-all flex items-center gap-2"
                             >
                                 <span className="material-symbols-outlined text-[20px]">picture_as_pdf</span> Report
                             </button>
@@ -252,10 +252,10 @@ export default function LandlordFinancials() {
             {/* Charts Section */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                 {/* Revenue Sources */}
-                <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+                <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800">
                     <div className="flex justify-between items-center mb-6">
                         <h3 className="text-lg font-bold text-slate-900 dark:text-white">Revenue Sources</h3>
-                        <button className="text-slate-400 hover:text-brand transition-colors">
+                        <button className="text-slate-400 hover:text-brand-ink transition-colors">
                             <span className="material-symbols-outlined">more_horiz</span>
                         </button>
                     </div>
@@ -314,10 +314,10 @@ export default function LandlordFinancials() {
                 </div>
 
                 {/* Expense Categories */}
-                <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+                <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800">
                     <div className="flex justify-between items-center mb-6">
                         <h3 className="text-lg font-bold text-slate-900 dark:text-white">Expense Categories</h3>
-                        <button className="text-slate-400 hover:text-brand transition-colors">
+                        <button className="text-slate-400 hover:text-brand-ink transition-colors">
                             <span className="material-symbols-outlined">more_horiz</span>
                         </button>
                     </div>
@@ -334,7 +334,7 @@ export default function LandlordFinancials() {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div className="flex items-center gap-4">
                         <h2 className="text-xl font-bold text-slate-900 dark:text-white">Transaction History</h2>
-                        <Link to="/landlord/transactions" className="text-sm text-brand font-bold hover:underline">View All</Link>
+                        <Link to="/landlord/transactions" className="text-sm text-brand-ink font-bold hover:underline">View All</Link>
                     </div>
                     <div className="flex flex-wrap gap-2">
                         {/* Search */}
@@ -367,7 +367,7 @@ export default function LandlordFinancials() {
                             ))}
                         </select>
                         {/* Date Button */}
-                        <button className="px-3 py-1.5 bg-white dark:bg-canvas-dark border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-300 hover:border-brand hover:text-brand transition-colors flex items-center gap-1 text-sm font-medium">
+                        <button className="px-3 py-1.5 bg-white dark:bg-canvas-dark border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-300 hover:border-brand hover:text-brand-ink transition-colors flex items-center gap-1 text-sm font-medium">
                             <span className="material-symbols-outlined text-[18px]">calendar_month</span> Date
                         </button>
                     </div>
@@ -422,7 +422,7 @@ export default function LandlordFinancials() {
                                             )}
                                         </td>
                                         <td className="px-6 py-4 text-right">
-                                            <button className="text-slate-400 hover:text-brand opacity-0 group-hover:opacity-100 transition-all">
+                                            <button className="text-slate-400 hover:text-brand-ink opacity-0 group-hover:opacity-100 transition-all">
                                                 <span className="material-symbols-outlined">visibility</span>
                                             </button>
                                         </td>
@@ -438,7 +438,7 @@ export default function LandlordFinancials() {
                             <button className="p-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 disabled:opacity-50">
                                 <span className="material-symbols-outlined text-[20px]">chevron_left</span>
                             </button>
-                            <button className="p-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-brand dark:hover:text-brand">
+                            <button className="p-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-brand-ink dark:hover:text-brand-ink">
                                 <span className="material-symbols-outlined text-[20px]">chevron_right</span>
                             </button>
                         </div>

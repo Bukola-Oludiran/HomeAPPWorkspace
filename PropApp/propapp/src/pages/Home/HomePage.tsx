@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import heroVideo from '@/assets/HeroSectionVideo.mp4';
 import FavoriteButton from '@/components/FavoriteButton';
 import VoiceInputButton from '@/components/VoiceInputButton';
+import Logo from '@/components/common/Logo';
 import { propertyService } from '@/lib/api/services/propertyService';
 import type { PropertySummary, ListingType } from '@/types/property';
 
@@ -118,13 +119,8 @@ export default function HomePage() {
     return (
         <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex flex-col text-slate-900 dark:text-white overflow-x-hidden relative">
             {/* Logo - positioned above everything */}
-            <div className="absolute top-6 left-6 md:left-10 z-40 flex items-center gap-3">
-                <div className="size-10 bg-brand rounded-xl flex items-center justify-center text-white shadow-sm">
-                    <span className="material-symbols-outlined">real_estate_agent</span>
-                </div>
-                <h2 className="hidden md:block text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">
-                    HomeAI
-                </h2>
+            <div className="absolute top-6 left-6 md:left-10 z-40 flex items-center h-10">
+                <Logo wordmark="md" />
             </div>
 
 
@@ -175,7 +171,7 @@ export default function HomePage() {
                                         size="sm"
                                     />
                                 </div>
-                                <button className="h-14 md:h-16 px-8 rounded-xl bg-brand hover:bg-brand/90 text-white font-bold text-lg shadow-sm transition-all flex items-center justify-center gap-2 w-full md:w-auto">
+                                <button className="h-14 md:h-16 px-8 rounded-xl bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-lg transition-all flex items-center justify-center gap-2 w-full md:w-auto">
                                     <span>Search</span>
                                 </button>
                             </div>
@@ -190,15 +186,15 @@ export default function HomePage() {
                                         onClick={() => setActiveCategory(category)}
                                         className={`whitespace-nowrap px-6 py-2.5 rounded-full font-semibold text-sm transition-all shadow-sm ${activeCategory === category
                                             ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-md'
-                                            : 'bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-brand hover:text-brand'
+                                            : 'bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-brand hover:text-brand-ink'
                                             }`}
                                     >
                                         {category}
                                     </button>
                                 ))}
                             </div>
-                            <div className="flex items-center gap-3 bg-white dark:bg-surface-dark px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 shadow-sm">
-                                <span className="material-symbols-outlined text-brand icon-filled">
+                            <div className="flex items-center gap-3 bg-white dark:bg-surface-dark px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700">
+                                <span className="material-symbols-outlined text-brand-ink icon-filled">
                                     forum
                                 </span>
                                 <div className="flex flex-col">
@@ -237,7 +233,7 @@ export default function HomePage() {
                             </div>
                             <Link
                                 to="/search"
-                                className="hidden md:flex items-center gap-1 text-brand font-bold hover:underline"
+                                className="hidden md:flex items-center gap-1 text-brand-ink font-bold hover:underline"
                             >
                                 View all{' '}
                                 <span className="material-symbols-outlined text-lg">arrow_forward</span>
@@ -265,7 +261,7 @@ export default function HomePage() {
                                     <p className="text-slate-500 dark:text-slate-400">{error}</p>
                                     <button
                                         onClick={() => window.location.reload()}
-                                        className="mt-4 px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand/90"
+                                        className="mt-4 px-4 py-2 bg-brand-ink text-on-brand rounded-lg hover:bg-brand-ink/90"
                                     >
                                         Try Again
                                     </button>
@@ -354,7 +350,7 @@ export default function HomePage() {
                         <div className="mt-8 flex md:hidden justify-center">
                             <Link
                                 to="/search"
-                                className="flex items-center gap-1 text-brand font-bold hover:underline"
+                                className="flex items-center gap-1 text-brand-ink font-bold hover:underline"
                             >
                                 View all properties{' '}
                                 <span className="material-symbols-outlined text-lg">arrow_forward</span>
@@ -367,15 +363,15 @@ export default function HomePage() {
             {/* Footer */}
             <footer className="bg-white dark:bg-canvas-dark border-t border-slate-200 dark:border-slate-800 py-6 px-4 md:px-10 lg:px-20 text-center">
                 <div className="flex flex-col md:flex-row items-center justify-between max-w-[1400px] mx-auto text-sm text-slate-500 dark:text-slate-400">
-                    <p>© {new Date().getFullYear()} HomeAI. All rights reserved.</p>
+                    <p>© {new Date().getFullYear()} Keystead. All rights reserved.</p>
                     <div className="flex gap-4 mt-2 md:mt-0">
-                        <Link to="/privacy" className="hover:text-brand transition-colors">
+                        <Link to="/privacy" className="hover:text-brand-ink transition-colors">
                             Privacy Policy
                         </Link>
-                        <Link to="/terms" className="hover:text-brand transition-colors">
+                        <Link to="/terms" className="hover:text-brand-ink transition-colors">
                             Terms of Service
                         </Link>
-                        <Link to="/support" className="hover:text-brand transition-colors">
+                        <Link to="/support" className="hover:text-brand-ink transition-colors">
                             Support
                         </Link>
                     </div>

@@ -81,7 +81,7 @@ export default function CalendarSyncModal({ isOpen, onClose }: CalendarSyncModal
                 <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <div className="size-10 bg-brand/10 rounded-full flex items-center justify-center">
-                            <span className="material-symbols-outlined text-brand">sync</span>
+                            <span className="material-symbols-outlined text-brand-ink">sync</span>
                         </div>
                         <h2 className="text-lg font-bold text-slate-900 dark:text-white">Sync Calendar</h2>
                     </div>
@@ -135,7 +135,7 @@ export default function CalendarSyncModal({ isOpen, onClose }: CalendarSyncModal
                                         <button
                                             onClick={() => handleConnect(calendar.id)}
                                             disabled={syncing === calendar.id}
-                                            className="text-xs font-semibold text-brand px-3 py-1.5 rounded-lg bg-brand/10 hover:bg-brand/20 transition-colors disabled:opacity-50 flex items-center gap-1"
+                                            className="text-xs font-semibold text-brand-ink px-3 py-1.5 rounded-lg bg-brand/10 hover:bg-brand/20 transition-colors disabled:opacity-50 flex items-center gap-1"
                                         >
                                             {syncing === calendar.id ? (
                                                 <>
@@ -172,7 +172,7 @@ export default function CalendarSyncModal({ isOpen, onClose }: CalendarSyncModal
                                             key={option.value}
                                             onClick={() => setSyncDirection(option.value as typeof syncDirection)}
                                             className={`flex-1 py-2 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors ${syncDirection === option.value
-                                                    ? 'bg-brand text-white'
+                                                    ? 'bg-brand-ink text-on-brand'
                                                     : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
                                                 }`}
                                         >
@@ -195,7 +195,7 @@ export default function CalendarSyncModal({ isOpen, onClose }: CalendarSyncModal
                                     type="checkbox"
                                     checked={syncAll}
                                     onChange={(e) => setSyncAll(e.target.checked)}
-                                    className="size-4 rounded border-slate-300 text-brand focus:ring-brand"
+                                    className="size-4 rounded border-slate-300 text-brand-ink focus:ring-brand"
                                 />
                             </label>
                         </div>
@@ -206,7 +206,7 @@ export default function CalendarSyncModal({ isOpen, onClose }: CalendarSyncModal
                 <div className="px-6 py-4 border-t border-slate-100 dark:border-slate-800 flex justify-end">
                     <button
                         onClick={onClose}
-                        className="px-6 py-2.5 rounded-xl bg-brand text-white font-bold text-sm hover:bg-brand/90 transition-colors shadow-sm"
+                        className="px-6 py-2.5 rounded-xl bg-brand-ink text-on-brand font-bold text-sm hover:bg-brand-ink/90 transition-colors"
                     >
                         Done
                     </button>

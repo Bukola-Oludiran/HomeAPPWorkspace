@@ -112,19 +112,19 @@ export default function RejectOfferModal({
                                             }`}
                                     >
                                         <span className={`material-symbols-outlined ${selectedReason === reasonOption.id
-                                            ? 'text-brand'
+                                            ? 'text-brand-ink'
                                             : 'text-slate-400'
                                             }`}>
                                             {reasonOption.icon}
                                         </span>
                                         <span className={`font-medium text-sm ${selectedReason === reasonOption.id
-                                            ? 'text-brand'
+                                            ? 'text-brand-ink'
                                             : 'text-slate-700 dark:text-slate-200'
                                             }`}>
                                             {reasonOption.label}
                                         </span>
                                         {selectedReason === reasonOption.id && (
-                                            <span className="material-symbols-outlined text-brand ml-auto">check_circle</span>
+                                            <span className="material-symbols-outlined text-brand-ink ml-auto">check_circle</span>
                                         )}
                                     </button>
                                 ))}

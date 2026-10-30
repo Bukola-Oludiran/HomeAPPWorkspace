@@ -16,7 +16,7 @@ interface Props {
 
 export function VerificationStatusCard({ props, onAction }: Props) {
     return (
-        <article className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+        <article className="rounded-2xl border border-slate-200 bg-white p-4">
             <header className="flex items-center justify-between">
                 <h3 className="text-sm font-semibold text-slate-900">Verification</h3>
                 <span

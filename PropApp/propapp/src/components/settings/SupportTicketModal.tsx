@@ -170,7 +170,7 @@ export default function SupportTicketModal({ isOpen, onClose, onSubmit }: Suppor
                             </button>
                             <button
                                 type="submit"
-                                className="px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-brand hover:bg-brand/90 shadow-sm transition-all cursor-pointer"
+                                className="px-5 py-2.5 rounded-lg text-sm font-semibold text-on-brand bg-brand-ink hover:bg-brand-ink/90 transition-all cursor-pointer"
                             >
                                 Submit Ticket
                             </button>

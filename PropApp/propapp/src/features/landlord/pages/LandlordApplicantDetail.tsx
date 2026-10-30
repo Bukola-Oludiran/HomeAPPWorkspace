@@ -306,7 +306,7 @@ export default function LandlordApplicantDetail() {
                         <span className="size-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
                         <p>Submitted: {applicantData.submittedDate}</p>
                         <span className="size-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
-                        <Link to="#" className="text-brand hover:underline">{applicantData.property.name}, {applicantData.property.location}</Link>
+                        <Link to="#" className="text-brand-ink hover:underline">{applicantData.property.name}, {applicantData.property.location}</Link>
                     </div>
                 </div>
                 <div className="flex gap-3">
@@ -316,7 +316,7 @@ export default function LandlordApplicantDetail() {
                     >
                         <span className="material-symbols-outlined text-[20px]">close</span> Reject
                     </button>
-                    <button className="px-5 py-2.5 rounded-lg bg-brand hover:bg-brand/90 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2">
+                    <button className="px-5 py-2.5 rounded-lg bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm transition-all flex items-center gap-2">
                         <span className="material-symbols-outlined text-[20px]">check</span> Approve Application
                     </button>
                 </div>
@@ -327,10 +327,10 @@ export default function LandlordApplicantDetail() {
                 {/* Left Column - Main Content */}
                 <div className="lg:col-span-2 flex flex-col gap-8">
                     {/* Applicant Summary */}
-                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 p-6">
                         <div className="flex justify-between items-start mb-6">
                             <div className="flex items-center gap-4">
-                                <div className="size-16 rounded-full bg-brand/10 dark:bg-brand/20 text-brand dark:text-blue-300 flex items-center justify-center text-xl font-bold border-2 border-white dark:border-slate-700 shadow-sm">
+                                <div className="size-16 rounded-full bg-brand/10 dark:bg-brand/20 text-brand-ink dark:text-blue-300 flex items-center justify-center text-xl font-bold border-2 border-white dark:border-slate-700 shadow-sm">
                                     {applicantData.initials}
                                 </div>
                                 <div>
@@ -338,7 +338,7 @@ export default function LandlordApplicantDetail() {
                                     <p className="text-sm text-slate-500 dark:text-slate-400">{applicantData.occupation}</p>
                                 </div>
                             </div>
-                            <Link to={`/landlord/tenants/${id}/profile`} className="text-brand text-sm font-bold hover:underline flex items-center gap-1">
+                            <Link to={`/landlord/tenants/${id}/profile`} className="text-brand-ink text-sm font-bold hover:underline flex items-center gap-1">
                                 View Full Profile <span className="material-symbols-outlined text-sm">open_in_new</span>
                             </Link>
                         </div>
@@ -372,7 +372,7 @@ export default function LandlordApplicantDetail() {
                     </div>
 
                     {/* Background Screening */}
-                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden">
                         <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-canvas-dark">
                             <div className="flex items-center gap-2">
                                 <span className="material-symbols-outlined text-slate-400">policy</span>
@@ -413,7 +413,7 @@ export default function LandlordApplicantDetail() {
                                 </div>
                             </div>
                             <div className="flex items-center gap-4 pt-4 border-t border-slate-100 dark:border-slate-800">
-                                <button className="text-brand text-sm font-bold hover:underline flex items-center gap-1">
+                                <button className="text-brand-ink text-sm font-bold hover:underline flex items-center gap-1">
                                     View Detailed Report
                                 </button>
                                 <button className="text-slate-500 text-sm font-medium hover:text-slate-700 dark:hover:text-slate-300 flex items-center gap-1">
@@ -424,7 +424,7 @@ export default function LandlordApplicantDetail() {
                     </div>
 
                     {/* Submitted Documents */}
-                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden">
                         <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-canvas-dark">
                             <div className="flex items-center gap-2">
                                 <span className="material-symbols-outlined text-slate-400">folder_open</span>
@@ -456,13 +456,13 @@ export default function LandlordApplicantDetail() {
                                             )}
                                         </div>
                                         {doc.status === 'flagged' ? (
-                                            <button className="text-xs font-bold text-brand hover:underline whitespace-nowrap">Resend Request</button>
+                                            <button className="text-xs font-bold text-brand-ink hover:underline whitespace-nowrap">Resend Request</button>
                                         ) : (
                                             <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <button className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-400 hover:text-brand">
+                                                <button className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-400 hover:text-brand-ink">
                                                     <span className="material-symbols-outlined text-lg">visibility</span>
                                                 </button>
-                                                <button className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-400 hover:text-brand">
+                                                <button className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-400 hover:text-brand-ink">
                                                     <span className="material-symbols-outlined text-lg">download</span>
                                                 </button>
                                             </div>
@@ -474,7 +474,7 @@ export default function LandlordApplicantDetail() {
                     </div>
 
                     {/* Internal Notes */}
-                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden">
                         <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2 bg-slate-50/50 dark:bg-canvas-dark">
                             <span className="material-symbols-outlined text-slate-400">lock</span>
                             <h3 className="font-bold text-slate-900 dark:text-white">Internal Notes</h3>
@@ -502,7 +502,7 @@ export default function LandlordApplicantDetail() {
                                     value={newNote}
                                     onChange={(e) => setNewNote(e.target.value)}
                                 />
-                                <button className="absolute right-2 bottom-2 p-1.5 bg-brand text-white rounded-lg hover:bg-brand/90 transition-colors shadow-sm">
+                                <button className="absolute right-2 bottom-2 p-1.5 bg-brand-ink text-on-brand rounded-lg hover:bg-brand-ink/90 transition-colors">
                                     <span className="material-symbols-outlined text-[18px]">send</span>
                                 </button>
                             </div>
@@ -513,7 +513,7 @@ export default function LandlordApplicantDetail() {
                 {/* Right Sidebar */}
                 <div className="flex flex-col gap-6">
                     {/* Property Card */}
-                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden group">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden group">
                         <div className="relative h-40 w-full overflow-hidden">
                             <img
                                 alt="Property"
@@ -539,32 +539,32 @@ export default function LandlordApplicantDetail() {
                     </div>
 
                     {/* Quick Actions */}
-                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-5">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 p-5">
                         <h3 className="font-bold text-slate-900 dark:text-white mb-4 text-sm uppercase tracking-wider opacity-70">Quick Actions</h3>
                         <div className="flex flex-col gap-2.5">
                             <button className="w-full text-left px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand hover:bg-slate-50 dark:hover:bg-slate-800 transition-all flex items-center gap-3 group">
-                                <div className="size-8 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-500 flex items-center justify-center group-hover:text-brand transition-colors">
+                                <div className="size-8 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-500 flex items-center justify-center group-hover:text-brand-ink transition-colors">
                                     <span className="material-symbols-outlined text-lg">mail</span>
                                 </div>
-                                <span className="font-bold text-sm text-slate-700 dark:text-slate-200 group-hover:text-brand">Send Message</span>
+                                <span className="font-bold text-sm text-slate-700 dark:text-slate-200 group-hover:text-brand-ink">Send Message</span>
                             </button>
                             <button className="w-full text-left px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand hover:bg-slate-50 dark:hover:bg-slate-800 transition-all flex items-center gap-3 group">
-                                <div className="size-8 rounded-lg bg-purple-50 dark:bg-purple-900/20 text-purple-500 flex items-center justify-center group-hover:text-brand transition-colors">
+                                <div className="size-8 rounded-lg bg-purple-50 dark:bg-purple-900/20 text-purple-500 flex items-center justify-center group-hover:text-brand-ink transition-colors">
                                     <span className="material-symbols-outlined text-lg">calendar_month</span>
                                 </div>
-                                <span className="font-bold text-sm text-slate-700 dark:text-slate-200 group-hover:text-brand">Schedule Interview</span>
+                                <span className="font-bold text-sm text-slate-700 dark:text-slate-200 group-hover:text-brand-ink">Schedule Interview</span>
                             </button>
                             <button className="w-full text-left px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand hover:bg-slate-50 dark:hover:bg-slate-800 transition-all flex items-center gap-3 group">
-                                <div className="size-8 rounded-lg bg-orange-50 dark:bg-orange-900/20 text-orange-500 flex items-center justify-center group-hover:text-brand transition-colors">
+                                <div className="size-8 rounded-lg bg-orange-50 dark:bg-orange-900/20 text-orange-500 flex items-center justify-center group-hover:text-brand-ink transition-colors">
                                     <span className="material-symbols-outlined text-lg">history_edu</span>
                                 </div>
-                                <span className="font-bold text-sm text-slate-700 dark:text-slate-200 group-hover:text-brand">Draft Lease</span>
+                                <span className="font-bold text-sm text-slate-700 dark:text-slate-200 group-hover:text-brand-ink">Draft Lease</span>
                             </button>
                         </div>
                     </div>
 
                     {/* Timeline */}
-                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 p-6">
                         <h3 className="font-bold text-slate-900 dark:text-white mb-5">Timeline</h3>
                         <div className="relative border-l-2 border-slate-100 dark:border-slate-800 ml-3 space-y-6">
                             {applicantData.timeline.map((event) => (
@@ -579,14 +579,14 @@ export default function LandlordApplicantDetail() {
                     </div>
 
                     {/* AI Insight */}
-                    <div className="bg-brand rounded-2xl p-5 text-white shadow-lg relative overflow-hidden">
+                    <div className="bg-brand-ink rounded-2xl p-5 text-on-brand shadow-lg relative overflow-hidden">
                         <div className="relative z-10">
                             <div className="flex items-center gap-2 mb-2">
                                 <span className="material-symbols-outlined text-yellow-300">lightbulb</span>
                                 <span className="text-xs font-bold uppercase tracking-wider opacity-80">AI Insight</span>
                             </div>
                             <h4 className="font-bold text-sm leading-tight mb-2">Analyze Applicant Risk</h4>
-                            <p className="text-xs text-blue-100 mb-3">Ask HomeAI to summarize financial health or compare with other applicants.</p>
+                            <p className="text-xs text-blue-100 mb-3">Ask Keystead to summarize financial health or compare with other applicants.</p>
                             <button className="cursor-pointer inline-block w-full py-2 bg-white/20 hover:bg-white/30 border border-white/30 text-white font-bold text-xs rounded-lg transition-colors text-center">Ask Assistant</button>
                         </div>
                     </div>

@@ -230,7 +230,7 @@ export default function TenantMyHome() {
             {/* Main Content */}
             <main className="w-full max-w-[1200px] mx-auto px-4 md:px-8 py-8 -mt-8 relative z-10">
                 {/* Property Info Card */}
-                <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 mb-8">
+                <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 mb-8">
                     <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
                         <div>
                             <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white mb-2 leading-tight">
@@ -300,15 +300,15 @@ export default function TenantMyHome() {
                     {/* Main Column */}
                     <div className="flex-1 min-w-0 space-y-8">
                         {/* Payments Section */}
-                        <section className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+                        <section className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
                             <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
                                 <div className="flex items-center gap-3">
-                                    <div className="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-brand">
+                                    <div className="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-brand-ink">
                                         <span className="material-symbols-outlined">payments</span>
                                     </div>
                                     <h3 className="text-lg font-bold text-slate-900 dark:text-white">Payments</h3>
                                 </div>
-                                <Link to="/tenant/payments" className="text-sm font-semibold text-brand hover:text-[#0e64bd]">
+                                <Link to="/tenant/payments" className="text-sm font-semibold text-brand-ink hover:text-[#0e64bd]">
                                     View History
                                 </Link>
                             </div>
@@ -329,7 +329,7 @@ export default function TenantMyHome() {
                                     </div>
                                     <button
                                         onClick={() => setIsPaymentModalOpen(true)}
-                                        className="w-full sm:w-auto px-6 py-3 bg-brand hover:bg-[#0e64bd] text-white font-bold rounded-xl transition-all shadow-sm flex items-center justify-center gap-2"
+                                        className="w-full sm:w-auto px-6 py-3 bg-brand-ink hover:bg-[#0e64bd] text-on-brand font-bold rounded-xl transition-all flex items-center justify-center gap-2"
                                     >
                                         <span className="material-symbols-outlined">credit_card</span>
                                         Pay Rent
@@ -356,20 +356,20 @@ export default function TenantMyHome() {
                         </section>
 
                         {/* Lease Details Section */}
-                        <section className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+                        <section className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
                             <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
                                 <Link to="/tenant/lease-details" className="flex items-center gap-3 group cursor-pointer">
                                     <div className="p-2 bg-purple-50 dark:bg-purple-900/20 rounded-lg text-purple-600 dark:text-purple-400">
                                         <span className="material-symbols-outlined">description</span>
                                     </div>
-                                    <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-brand transition-colors">Lease Details</h3>
-                                    <span className="material-symbols-outlined text-slate-400 group-hover:text-brand transition-colors text-[18px]">chevron_right</span>
+                                    <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-brand-ink transition-colors">Lease Details</h3>
+                                    <span className="material-symbols-outlined text-slate-400 group-hover:text-brand-ink transition-colors text-[18px]">chevron_right</span>
                                 </Link>
                                 <div className="flex items-center gap-3">
-                                    <Link to="/tenant/lease-details" className="text-sm font-semibold text-brand hover:underline hidden sm:block">
+                                    <Link to="/tenant/lease-details" className="text-sm font-semibold text-brand-ink hover:underline hidden sm:block">
                                         View Full Details
                                     </Link>
-                                    <button className="text-sm font-semibold text-slate-500 hover:text-brand flex items-center gap-1">
+                                    <button className="text-sm font-semibold text-slate-500 hover:text-brand-ink flex items-center gap-1">
                                         <span className="material-symbols-outlined text-[18px]">download</span> PDF
                                     </button>
                                 </div>
@@ -406,7 +406,7 @@ export default function TenantMyHome() {
                                 {homeData.lease.hasRenewalOffer && (
                                     <div className="mb-6 p-5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                                         <div className="flex items-start gap-4">
-                                            <div className="hidden sm:flex size-10 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 items-center justify-center text-green-600 dark:text-green-400 shadow-sm shrink-0">
+                                            <div className="hidden sm:flex size-10 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 items-center justify-center text-green-600 dark:text-green-400 shrink-0">
                                                 <span className="material-symbols-outlined icon-filled">handshake</span>
                                             </div>
                                             <div>
@@ -438,7 +438,7 @@ export default function TenantMyHome() {
                                 )}
 
                                 <div className="p-4 rounded-xl bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 flex items-start gap-3">
-                                    <span className="material-symbols-outlined text-brand mt-0.5">info</span>
+                                    <span className="material-symbols-outlined text-brand-ink mt-0.5">info</span>
                                     <div>
                                         <h4 className="font-bold text-sm text-slate-900 dark:text-white">
                                             Renewal Options Available
@@ -453,7 +453,7 @@ export default function TenantMyHome() {
                         </section>
 
                         {/* Maintenance Section */}
-                        <section className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+                        <section className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
                             <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
                                 <div className="flex items-center gap-3">
                                     <div className="p-2 bg-orange-50 dark:bg-orange-900/20 rounded-lg text-orange-600 dark:text-orange-400">
@@ -511,7 +511,7 @@ export default function TenantMyHome() {
                         </section>
 
                         {/* Documents Section */}
-                        <section className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+                        <section className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
                             <div className="p-6 border-b border-slate-100 dark:border-slate-800">
                                 <div className="flex items-center gap-3">
                                     <div className="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-600 dark:text-slate-300">
@@ -541,7 +541,7 @@ export default function TenantMyHome() {
                                                 {doc.type} • {doc.size}
                                             </p>
                                         </div>
-                                        <span className="material-symbols-outlined text-slate-400 group-hover:text-brand">
+                                        <span className="material-symbols-outlined text-slate-400 group-hover:text-brand-ink">
                                             open_in_new
                                         </span>
                                     </button>
@@ -554,7 +554,7 @@ export default function TenantMyHome() {
                     <div className="w-full lg:w-[360px] shrink-0">
                         <div className="sticky top-24 space-y-6">
                             {/* Property Manager Card */}
-                            <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm">
+                            <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6">
                                 <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">
                                     Property Manager
                                 </h4>
@@ -573,12 +573,12 @@ export default function TenantMyHome() {
                                         )}
                                     </div>
                                     <div>
-                                        <h4 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-brand transition-colors">
+                                        <h4 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-brand-ink transition-colors">
                                             {homeData.manager.name}
                                         </h4>
                                         <p className="text-slate-500 text-sm">{homeData.manager.company}</p>
                                     </div>
-                                    <span className="material-symbols-outlined text-slate-400 group-hover:text-brand transition-colors ml-auto">chevron_right</span>
+                                    <span className="material-symbols-outlined text-slate-400 group-hover:text-brand-ink transition-colors ml-auto">chevron_right</span>
                                 </Link>
                                 <div className="space-y-3 mb-6">
                                     <div className="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
@@ -602,7 +602,7 @@ export default function TenantMyHome() {
                             {/* Property Insights Card */}
                             <div className="bg-blue-50/50 dark:bg-slate-800 rounded-2xl border border-indigo-100 dark:border-slate-700 p-6">
                                 <div className="flex items-center gap-2 mb-3">
-                                    <span className="material-symbols-outlined text-brand">forum</span>
+                                    <span className="material-symbols-outlined text-brand-ink">forum</span>
                                     <h4 className="font-bold text-slate-900 dark:text-white text-sm">
                                         Property Insights
                                     </h4>
@@ -637,7 +637,7 @@ export default function TenantMyHome() {
                     <button className="size-10 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center transition-colors shrink-0 text-slate-600 dark:text-slate-300">
                         <span className="material-symbols-outlined">mic</span>
                     </button>
-                    <button className="size-10 rounded-full bg-brand hover:bg-[#0e64bd] flex items-center justify-center transition-colors shrink-0 shadow-sm text-white">
+                    <button className="size-10 rounded-full bg-brand-ink hover:bg-[#0e64bd] flex items-center justify-center transition-colors shrink-0 text-on-brand">
                         <span className="material-symbols-outlined">arrow_upward</span>
                     </button>
                 </div>

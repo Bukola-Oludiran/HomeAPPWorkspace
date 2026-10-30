@@ -127,7 +127,7 @@ export default function AddPersonalEventModal({
                         {/* All Day Toggle */}
                         <div className="flex items-center gap-2 mb-6 ml-1">
                             <input
-                                className="rounded border-slate-300 dark:border-slate-600 text-brand focus:ring-brand bg-slate-50 dark:bg-slate-800 size-4"
+                                className="rounded border-slate-300 dark:border-slate-600 text-brand-ink focus:ring-brand bg-slate-50 dark:bg-slate-800 size-4"
                                 id="all-day"
                                 type="checkbox"
                                 checked={event.allDay}
@@ -224,13 +224,13 @@ export default function AddPersonalEventModal({
                     <div className="px-6 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-[#151f2a] flex justify-end gap-3 rounded-b-2xl">
                         <button
                             onClick={onClose}
-                            className="px-5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-sm hover:bg-white dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-600 transition-all cursor-pointer bg-white dark:bg-transparent shadow-sm"
+                            className="px-5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-sm hover:bg-white dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-600 transition-all cursor-pointer bg-white dark:bg-transparent"
                         >
                             Cancel
                         </button>
                         <button
                             onClick={handleSave}
-                            className="px-6 py-2.5 rounded-xl bg-brand text-white font-bold text-sm hover:bg-brand/90 shadow-sm transition-all flex items-center gap-2"
+                            className="px-6 py-2.5 rounded-xl bg-brand-ink text-on-brand font-bold text-sm hover:bg-brand-ink/90 transition-all flex items-center gap-2"
                         >
                             <span className="material-symbols-outlined text-[18px]">check</span>
                             Save Event

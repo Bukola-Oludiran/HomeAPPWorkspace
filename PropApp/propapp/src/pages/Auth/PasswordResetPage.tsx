@@ -50,7 +50,7 @@ export default function PasswordResetPage() {
             <div className="w-full flex flex-col items-center">
                 {/* Icon */}
                 <div className="mb-6 bg-white/10 p-4 rounded-full border border-white/10">
-                    <span className="material-symbols-outlined text-4xl text-brand">lock_reset</span>
+                    <span className="material-symbols-outlined text-4xl text-sky">lock_reset</span>
                 </div>
 
                 <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-3 text-center">Set New Password</h1>
@@ -74,7 +74,7 @@ export default function PasswordResetPage() {
                         <label className="sr-only" htmlFor="new-password">New Password</label>
                         <div className="relative group">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <span className="material-symbols-outlined text-slate-300 text-[20px] group-focus-within:text-brand transition-colors">lock</span>
+                                <span className="material-symbols-outlined text-slate-300 text-[20px] group-focus-within:text-sky transition-colors">lock</span>
                             </div>
                             <input
                                 className="block w-full pl-10 pr-10 py-3.5 border border-white/10 dark:border-slate-600 rounded-xl bg-white/5 dark:bg-slate-900/50 text-white placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all sm:text-sm"
@@ -134,7 +134,7 @@ export default function PasswordResetPage() {
                     <div className="relative group">
                         <label className="sr-only" htmlFor="confirm-password">Confirm New Password</label>
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <span className="material-symbols-outlined text-slate-300 text-[20px] group-focus-within:text-brand transition-colors">key</span>
+                            <span className="material-symbols-outlined text-slate-300 text-[20px] group-focus-within:text-sky transition-colors">key</span>
                         </div>
                         <input
                             className={`block w-full pl-10 pr-10 py-3.5 border rounded-xl bg-white/5 dark:bg-slate-900/50 text-white placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all sm:text-sm ${confirmPassword && !passwordsMatch ? 'border-red-500/50' : 'border-white/10 dark:border-slate-600'
@@ -166,7 +166,7 @@ export default function PasswordResetPage() {
                     <button
                         type="submit"
                         disabled={isLoading || !isPasswordValid || !passwordsMatch}
-                        className="w-full py-3.5 px-4 mt-2 rounded-xl bg-brand hover:bg-brand/90 text-white font-bold text-lg shadow-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                        className="w-full py-3.5 px-4 mt-2 rounded-xl bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                     >
                         {isLoading ? (
                             <>

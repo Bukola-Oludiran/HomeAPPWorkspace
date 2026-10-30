@@ -84,13 +84,13 @@ export default function ShareModal({ isOpen, onClose, title, url }: ShareModalPr
                                 onClick={copyToClipboard}
                                 className={`px-4 py-2.5 rounded-lg font-semibold text-sm transition-all flex items-center gap-2 ${copied
                                         ? 'bg-green-500 text-white'
-                                        : 'bg-brand text-white hover:bg-brand/90'
+                                        : 'bg-brand-ink text-on-brand hover:bg-brand-ink/90'
                                     }`}
                             >
                                 <span className="material-symbols-outlined text-[18px]">
                                     {copied ? 'check' : 'content_copy'}
                                 </span>
-                                {copied ? 'Copied!' : 'Copy'}
+                                {copied ? 'Copied' : 'Copy'}
                             </button>
                         </div>
                     </div>

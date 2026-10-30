@@ -188,7 +188,7 @@ export default function TenantPayments() {
                 actions={
                     <button
                         onClick={() => setIsBillingModalOpen(true)}
-                        className="px-5 py-2.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-white font-bold text-sm transition-all flex items-center gap-2 shadow-sm"
+                        className="px-5 py-2.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-white font-bold text-sm transition-all flex items-center gap-2"
                     >
                         <span className="material-symbols-outlined text-[20px]">download</span>
                         Statement
@@ -199,7 +199,7 @@ export default function TenantPayments() {
             {/* Stats Cards */}
             <AnimatedGroup className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8" stagger={0.1}>
                 {/* Upcoming Due */}
-                <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between relative overflow-hidden group">
+                <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between relative overflow-hidden group">
                     <div className="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                         <span className="material-symbols-outlined text-[100px] text-orange-500">calendar_clock</span>
                     </div>
@@ -218,7 +218,7 @@ export default function TenantPayments() {
                 </div>
 
                 {/* Last Payment */}
-                <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between relative overflow-hidden group">
+                <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between relative overflow-hidden group">
                     <div className="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                         <span className="material-symbols-outlined text-[100px] text-green-600">check_circle</span>
                     </div>
@@ -238,9 +238,9 @@ export default function TenantPayments() {
                 </div>
 
                 {/* Total Paid (YTD) */}
-                <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between relative overflow-hidden group">
+                <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between relative overflow-hidden group">
                     <div className="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                        <span className="material-symbols-outlined text-[100px] text-brand">pie_chart</span>
+                        <span className="material-symbols-outlined text-[100px] text-brand-ink">pie_chart</span>
                     </div>
                     <div>
                         <p className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Total Paid (YTD)</p>
@@ -259,7 +259,7 @@ export default function TenantPayments() {
                 {/* Left Column - Transaction History */}
                 <div className="lg:col-span-2 flex flex-col gap-6">
                     {/* Payment Activity Heatmap */}
-                    <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="font-bold text-lg text-slate-900 dark:text-white">Payment Activity</h3>
                             <div className="flex items-center gap-2 text-xs text-slate-500">
@@ -304,7 +304,7 @@ export default function TenantPayments() {
                     </div>
 
                     {/* Filters */}
-                    <div className="bg-white dark:bg-canvas-dark p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div className="bg-white dark:bg-canvas-dark p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
                         <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
                             <div className="relative">
                                 <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[20px]">calendar_month</span>
@@ -348,7 +348,7 @@ export default function TenantPayments() {
                     <SectionCard padding="none">
                         <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
                             <h3 className="font-bold text-lg text-slate-900 dark:text-white">Transaction History</h3>
-                            <Link to="/tenant/transactions" className="text-sm text-brand font-bold hover:underline">View All</Link>
+                            <Link to="/tenant/transactions" className="text-sm text-brand-ink font-bold hover:underline">View All</Link>
                         </div>
                         <div className="overflow-x-auto">
                             <table className="w-full text-left border-collapse">
@@ -389,7 +389,7 @@ export default function TenantPayments() {
                                                 <p className="font-bold text-slate-900 dark:text-white">{item.amount}</p>
                                             </td>
                                             <td className="px-6 py-4 text-right">
-                                                <button className="p-2 text-slate-400 hover:text-brand hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors">
+                                                <button className="p-2 text-slate-400 hover:text-brand-ink hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors">
                                                     <span className="material-symbols-outlined text-[20px]">receipt_long</span>
                                                 </button>
                                             </td>
@@ -399,7 +399,7 @@ export default function TenantPayments() {
                             </table>
                         </div>
                         <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/20 flex justify-center">
-                            <button className="text-sm font-bold text-slate-500 hover:text-brand transition-colors flex items-center gap-2">
+                            <button className="text-sm font-bold text-slate-500 hover:text-brand-ink transition-colors flex items-center gap-2">
                                 Load more transactions
                                 <span className="material-symbols-outlined text-[16px]">expand_more</span>
                             </button>
@@ -428,7 +428,7 @@ export default function TenantPayments() {
                             <MagneticButton>
                                 <button
                                     onClick={() => setIsPaymentModalOpen(true)}
-                                    className="w-full py-3 rounded-xl bg-brand hover:bg-brand/90 text-white font-bold transition-colors shadow-sm flex items-center justify-center gap-2"
+                                    className="w-full py-3 rounded-xl bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold transition-colors flex items-center justify-center gap-2"
                                 >
                                     Pay Now
                                     <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
@@ -438,14 +438,14 @@ export default function TenantPayments() {
                     </div>
 
                     {/* Quick Actions */}
-                    <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-200 dark:border-slate-800">
                         <h3 className="font-bold text-slate-900 dark:text-white mb-4">Quick Actions</h3>
                         <div className="grid grid-cols-2 gap-3">
                             <button
                                 onClick={() => setIsPaymentModalOpen(true)}
                                 className="flex flex-col items-center justify-center p-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-brand/50 hover:bg-white dark:hover:bg-slate-700/80 transition-all group"
                             >
-                                <div className="size-10 rounded-full bg-brand/10 text-brand flex items-center justify-center mb-2 group-hover:bg-brand group-hover:text-white transition-colors">
+                                <div className="size-10 rounded-full bg-brand/10 text-brand-ink flex items-center justify-center mb-2 group-hover:bg-brand group-hover:text-white transition-colors">
                                     <span className="material-symbols-outlined text-[20px]">payments</span>
                                 </div>
                                 <span className="text-sm font-bold text-slate-700 dark:text-slate-300">Make Payment</span>
@@ -460,17 +460,17 @@ export default function TenantPayments() {
                                 onClick={() => setIsBillingModalOpen(true)}
                                 className="col-span-2 flex items-center justify-center gap-2 p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-brand/50 hover:bg-white dark:hover:bg-slate-700/80 transition-all group"
                             >
-                                <span className="material-symbols-outlined text-slate-500 text-[20px] group-hover:text-brand transition-colors">description</span>
+                                <span className="material-symbols-outlined text-slate-500 text-[20px] group-hover:text-brand-ink transition-colors">description</span>
                                 <span className="text-sm font-bold text-slate-700 dark:text-slate-300">View Billing Statements</span>
                             </button>
                         </div>
                     </div>
 
                     {/* Payment Methods */}
-                    <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex-1">
+                    <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-200 dark:border-slate-800 flex-1">
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="font-bold text-slate-900 dark:text-white">Payment Methods</h3>
-                            <button className="text-xs font-bold text-brand hover:underline flex items-center">
+                            <button className="text-xs font-bold text-brand-ink hover:underline flex items-center">
                                 <span className="material-symbols-outlined text-[16px]">add</span>
                                 Add New
                             </button>
@@ -514,7 +514,7 @@ export default function TenantPayments() {
             <SuccessCelebration
                 isOpen={isSuccessOpen}
                 onClose={() => setIsSuccessOpen(false)}
-                title="Payment Successful!"
+                title="Payment submitted"
                 description="Your rent payment has been processed. A confirmation receipt has been sent to your email."
                 buttonText="View Receipt"
                 icon="check_circle"

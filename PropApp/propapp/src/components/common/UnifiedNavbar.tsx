@@ -263,8 +263,8 @@ export default function UnifiedNavbar() {
                                 ? 'flex items-center justify-center size-9 sm:size-10 md:size-11 rounded-full'
                                 : 'px-2.5 sm:px-3 md:px-4 py-2 text-sm font-semibold rounded-full flex items-center justify-center gap-1.5'
                                 } transition-all ${isActive(item.path)
-                                    ? 'bg-brand text-white shadow-sm'
-                                    : 'text-slate-600 hover:text-brand hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white'
+                                    ? 'bg-brand-ink text-on-brand'
+                                    : 'text-slate-600 hover:text-brand-ink hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white'
                                 }`}
                             title={item.name}
                         >
@@ -287,7 +287,7 @@ export default function UnifiedNavbar() {
                     <div className="relative">
                         <button
                             onClick={() => setShowNotifications(!showNotifications)}
-                            className="flex items-center justify-center size-9 sm:size-10 md:size-11 rounded-full text-slate-500 hover:text-brand hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white transition-all relative"
+                            className="flex items-center justify-center size-9 sm:size-10 md:size-11 rounded-full text-slate-500 hover:text-brand-ink hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white transition-all relative"
                         >
                             <span className="material-symbols-outlined text-[20px] sm:text-[24px]">notifications</span>
                             {dashboardType !== 'home' && (
@@ -321,7 +321,7 @@ export default function UnifiedNavbar() {
                                     <Link
                                         to="/"
                                         onClick={() => setShowDropdown(false)}
-                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand"
+                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand-ink"
                                     >
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">home</span>
@@ -334,7 +334,7 @@ export default function UnifiedNavbar() {
                                         key={link.path}
                                         to={link.path}
                                         onClick={() => setShowDropdown(false)}
-                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand"
+                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand-ink"
                                     >
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">{link.icon}</span>
@@ -346,14 +346,14 @@ export default function UnifiedNavbar() {
                                 <Link
                                     to={profilePath}
                                     onClick={() => setShowDropdown(false)}
-                                    className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand"
+                                    className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand-ink"
                                 >
                                     <div className="flex items-center gap-2">
                                         <span className="material-symbols-outlined text-lg">{dashboardType === 'home' ? 'settings' : 'person'}</span>
                                         {dashboardType === 'home' ? 'Account Settings' : 'My Profile'}
                                     </div>
                                 </Link>
-                                <button className="w-full text-left block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand">
+                                <button className="w-full text-left block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand-ink">
                                     <div className="flex items-center gap-2">
                                         <span className="material-symbols-outlined text-lg">logout</span>
                                         Sign Out

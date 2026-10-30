@@ -19,7 +19,7 @@ interface AuthModalProps {
 
 export default function AuthModal({
     icon,
-    iconColor = 'text-brand',
+    iconColor = 'text-brand-ink',
     title,
     subtitle,
     children,
@@ -53,7 +53,7 @@ export default function AuthModal({
             {/* Step Badge */}
             {stepBadge && (
                 <div className="flex items-center gap-2 mb-6">
-                    <span className="px-3 py-1 rounded-full bg-brand/20 border border-brand/30 text-brand text-xs font-bold uppercase tracking-wider">
+                    <span className="px-3 py-1 rounded-full bg-brand/20 border border-brand/30 text-brand-ink text-xs font-bold uppercase tracking-wider">
                         {stepBadge}
                     </span>
                 </div>

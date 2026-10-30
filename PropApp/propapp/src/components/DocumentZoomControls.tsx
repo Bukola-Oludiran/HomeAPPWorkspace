@@ -68,7 +68,7 @@ export default function DocumentZoomControls({
     }
 
     return (
-        <div className="flex items-center gap-2 p-2 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+        <div className="flex items-center gap-2 p-2 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
             <button
                 onClick={zoomOut}
                 disabled={zoom <= minZoom}

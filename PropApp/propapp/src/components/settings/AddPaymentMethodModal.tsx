@@ -34,7 +34,7 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
                             <button
                                 onClick={() => setActiveTab('card')}
                                 className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-bold rounded-lg transition-all cursor-pointer ${activeTab === 'card'
-                                        ? 'bg-white dark:bg-slate-600 text-brand dark:text-white shadow-sm ring-1 ring-slate-200 dark:ring-slate-500'
+                                        ? 'bg-white dark:bg-slate-600 text-brand-ink dark:text-white shadow-sm ring-1 ring-slate-200 dark:ring-slate-500'
                                         : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-700/50'
                                     }`}
                             >
@@ -44,7 +44,7 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
                             <button
                                 onClick={() => setActiveTab('bank')}
                                 className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-bold rounded-lg transition-all cursor-pointer ${activeTab === 'bank'
-                                        ? 'bg-white dark:bg-slate-600 text-brand dark:text-white shadow-sm ring-1 ring-slate-200 dark:ring-slate-500'
+                                        ? 'bg-white dark:bg-slate-600 text-brand-ink dark:text-white shadow-sm ring-1 ring-slate-200 dark:ring-slate-500'
                                         : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-700/50'
                                     }`}
                             >
@@ -90,7 +90,7 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
                                                 placeholder="123"
                                                 type="text"
                                             />
-                                            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 cursor-help hover:text-brand transition-colors" title="3 digits on back of card">
+                                            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 cursor-help hover:text-brand-ink transition-colors" title="3 digits on back of card">
                                                 <span className="material-symbols-outlined text-[20px]">help</span>
                                             </span>
                                         </div>
@@ -108,13 +108,13 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
 
                                 <div className="space-y-3 pt-2">
                                     <label className="flex items-center gap-3 cursor-pointer group select-none">
-                                        <input defaultChecked className="w-5 h-5 text-brand border-slate-300 rounded focus:ring-brand dark:bg-slate-800 dark:border-slate-600 cursor-pointer" type="checkbox" />
+                                        <input defaultChecked className="w-5 h-5 text-brand-ink border-slate-300 rounded focus:ring-brand dark:bg-slate-800 dark:border-slate-600 cursor-pointer" type="checkbox" />
                                         <span className="text-sm text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">
                                             Use profile address as billing address
                                         </span>
                                     </label>
                                     <label className="flex items-center gap-3 cursor-pointer group select-none">
-                                        <input defaultChecked className="w-5 h-5 text-brand border-slate-300 rounded focus:ring-brand dark:bg-slate-800 dark:border-slate-600 cursor-pointer" type="checkbox" />
+                                        <input defaultChecked className="w-5 h-5 text-brand-ink border-slate-300 rounded focus:ring-brand dark:bg-slate-800 dark:border-slate-600 cursor-pointer" type="checkbox" />
                                         <span className="text-sm text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">
                                             Save card for future payments
                                         </span>
@@ -163,11 +163,11 @@ export default function AddPaymentMethodModal({ isOpen, onClose }: AddPaymentMet
                     <div className="border-t border-slate-100 dark:border-slate-700 px-6 py-5 flex items-center justify-end gap-3 rounded-b-2xl bg-slate-50 dark:bg-[#15202b]">
                         <button
                             onClick={onClose}
-                            className="px-5 py-2.5 rounded-xl text-sm font-bold text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-600 transition-all shadow-sm cursor-pointer"
+                            className="px-5 py-2.5 rounded-xl text-sm font-bold text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-600 transition-all cursor-pointer"
                         >
                             Cancel
                         </button>
-                        <button className="px-6 py-2.5 rounded-xl text-sm font-bold text-white bg-brand hover:bg-brand/90 shadow-sm transition-all flex items-center gap-2 cursor-pointer">
+                        <button className="px-6 py-2.5 rounded-xl text-sm font-bold text-on-brand bg-brand-ink hover:bg-brand-ink/90 transition-all flex items-center gap-2 cursor-pointer">
                             <span className="material-symbols-outlined text-[18px]">add</span>
                             {activeTab === 'card' ? 'Add Card' : 'Add Bank Account'}
                         </button>

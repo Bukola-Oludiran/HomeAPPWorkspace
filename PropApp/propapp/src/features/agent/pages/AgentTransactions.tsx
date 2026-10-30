@@ -167,7 +167,7 @@ export default function AgentTransactions() {
         <PageContainer>
             {/* Back Link */}
             <div className="mb-6">
-                <Link to="/agent/earnings" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-brand transition-colors">
+                <Link to="/agent/earnings" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-brand-ink transition-colors">
                     <span className="material-symbols-outlined text-[20px]">arrow_back</span>
                     Back to Earnings Dashboard
                 </Link>
@@ -182,7 +182,7 @@ export default function AgentTransactions() {
                 <div className="flex gap-3 items-center">
                     <button
                         onClick={() => setIsExportModalOpen(true)}
-                        className="px-5 py-2.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-white font-bold text-sm transition-all flex items-center gap-2 shadow-sm"
+                        className="px-5 py-2.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-white font-bold text-sm transition-all flex items-center gap-2"
                     >
                         <span className="material-symbols-outlined text-[20px]">download</span>
                         Export History
@@ -191,13 +191,13 @@ export default function AgentTransactions() {
             </div>
 
             {/* Filters */}
-            <div className="bg-white dark:bg-canvas-dark p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm mb-6">
+            <div className="bg-white dark:bg-canvas-dark p-5 rounded-xl border border-slate-200 dark:border-slate-800 mb-6">
                 <div className="flex flex-col gap-4">
                     <div className="flex items-center justify-between">
                         <h3 className="font-bold text-slate-700 dark:text-slate-200 text-sm uppercase tracking-wide flex items-center gap-2">
-                            <span className="material-symbols-outlined text-brand">tune</span> Filters
+                            <span className="material-symbols-outlined text-brand-ink">tune</span> Filters
                         </h3>
-                        <button className="text-xs font-semibold text-brand hover:underline">Clear all</button>
+                        <button className="text-xs font-semibold text-brand-ink hover:underline">Clear all</button>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4">
                         <div className="lg:col-span-4 relative">
@@ -334,7 +334,7 @@ export default function AgentTransactions() {
                                         <p className="font-bold text-slate-900 dark:text-white">{tx.amount}</p>
                                     </td>
                                     <td className="px-6 py-4 text-center">
-                                        <button className="p-2 text-slate-400 hover:text-brand hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors" title={tx.status === 'Failed' ? 'Retry / View Details' : 'View Receipt'}>
+                                        <button className="p-2 text-slate-400 hover:text-brand-ink hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors" title={tx.status === 'Failed' ? 'Retry / View Details' : 'View Receipt'}>
                                             <span className="material-symbols-outlined text-[20px]">
                                                 {tx.status === 'Failed' ? 'refresh' : tx.status === 'Pending' ? 'visibility' : 'receipt_long'}
                                             </span>
@@ -371,7 +371,7 @@ export default function AgentTransactions() {
                             className={`px-3 py-1 text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded transition-colors ${
                                 page >= totalPages || isLoading
                                     ? 'text-slate-500 dark:text-slate-400 opacity-50 cursor-not-allowed'
-                                    : 'text-brand hover:bg-slate-50 dark:hover:bg-slate-700'
+                                    : 'text-brand-ink hover:bg-slate-50 dark:hover:bg-slate-700'
                             }`}
                         >
                             Next
@@ -387,7 +387,7 @@ export default function AgentTransactions() {
                     <div className="flex flex-col w-[360px] md:w-[420px] bg-white dark:bg-[#1e293b] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
                         <div className="p-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-blue-50/50 dark:bg-[#1e293b]">
                             <div className="flex items-center gap-3">
-                                <div className="size-9 bg-brand rounded-full flex items-center justify-center text-white shadow-md">
+                                <div className="size-9 bg-brand-ink rounded-full flex items-center justify-center text-on-brand shadow-md">
                                     <span className="material-symbols-outlined text-lg">forum</span>
                                 </div>
                                 <div>
@@ -407,9 +407,9 @@ export default function AgentTransactions() {
                         </div>
                         <div className="p-4 bg-slate-50 dark:bg-slate-800/50 h-[250px] overflow-y-auto">
                             <div className="flex gap-3">
-                                <div className="size-7 bg-brand rounded-full flex items-center justify-center text-white text-xs shrink-0 shadow-sm font-bold">AI</div>
+                                <div className="size-7 bg-brand-ink rounded-full flex items-center justify-center text-on-brand text-xs shrink-0 font-bold">AI</div>
                                 <div className="bg-white dark:bg-[#1e293b] p-3 rounded-xl rounded-tl-none shadow-sm max-w-[85%]">
-                                    <p className="text-sm text-slate-700 dark:text-slate-300">Hello! I can help you analyze your earnings, find specific transactions, or generate reports. What would you like to know?</p>
+                                    <p className="text-sm text-slate-700 dark:text-slate-300">I can help you analyse your earnings, find specific transactions, or generate reports. What would you like to know?</p>
                                 </div>
                             </div>
                         </div>
@@ -420,7 +420,7 @@ export default function AgentTransactions() {
                                     placeholder="Ask about your earnings..."
                                     type="text"
                                 />
-                                <button className="absolute right-1.5 size-8 bg-brand rounded-full flex items-center justify-center text-white hover:bg-brand/90 transition-colors">
+                                <button className="absolute right-1.5 size-8 bg-brand-ink rounded-full flex items-center justify-center text-on-brand hover:bg-brand-ink/90 transition-colors">
                                     <span className="material-symbols-outlined text-lg">arrow_upward</span>
                                 </button>
                             </div>
@@ -432,7 +432,7 @@ export default function AgentTransactions() {
                     onClick={() => setShowAIChat(!showAIChat)}
                     className="cursor-pointer group flex items-center gap-3 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white pl-1.5 pr-5 py-1.5 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 dark:border-slate-700 hover:shadow-[0_8px_30px_rgb(0,0,0,0.18)] transition-all duration-300"
                 >
-                    <div className="size-10 rounded-full bg-brand flex items-center justify-center text-white shadow-md">
+                    <div className="size-10 rounded-full bg-brand-ink flex items-center justify-center text-on-brand shadow-md">
                         <span className="material-symbols-outlined">forum</span>
                     </div>
                     <div className="flex flex-col items-start">

@@ -25,7 +25,7 @@ interface SuccessCelebrationProps {
 const SuccessCelebration: React.FC<SuccessCelebrationProps> = ({
     isOpen,
     onClose,
-    title = 'Success!',
+    title = 'Done',
     description = 'Your action was completed successfully.',
     buttonText = 'Continue',
     icon = 'check_circle',
@@ -81,7 +81,7 @@ const SuccessCelebration: React.FC<SuccessCelebrationProps> = ({
             >
                 {/* Success Icon */}
                 <div className="mx-auto mb-6 size-16 bg-brand/10 dark:bg-brand/20 rounded-full flex items-center justify-center">
-                    <span className="material-symbols-outlined text-brand text-[36px]">
+                    <span className="material-symbols-outlined text-brand-ink text-[36px]">
                         {icon}
                     </span>
                 </div>
@@ -99,7 +99,7 @@ const SuccessCelebration: React.FC<SuccessCelebrationProps> = ({
                 {/* Continue Button */}
                 <button
                     onClick={onClose}
-                    className="w-full py-3 px-6 bg-brand hover:bg-brand/90 text-white font-bold rounded-xl shadow-sm transition-all"
+                    className="w-full py-3 px-6 bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold rounded-xl transition-all"
                 >
                     {buttonText}
                 </button>

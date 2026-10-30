@@ -3,46 +3,44 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Custom design tokens from DesignLanguage.md */
+/*
+ * Keystead design tokens (design system: Keystead, tokens.json v1).
+ * brand-blue is for the logo, large headlines and fills; anything small or clickable uses
+ * brand-ink, which passes contrast. Status colours mean status only and always travel with an icon.
+ */
 :root {
-  --primary: #137fec;
-  --primary-blue: #0052FF;
-  --bg-gray: #F4F6F8;
-  --bg-light: #f6f7f8;
-  --bg-dark: #101922;
-  --text-primary: #1A1A1A;
-  --spacing-m: 16px;
-  --radius-card: 12px;
+  --brand-ink: #0b65c2;
+  --on-brand: #ffffff;
+  --night: #101922;
+  --ink: #0f172a;
+  --border-strong: #d4d9df;
+  --verified: #0f7b4a;
+  --verified-bg: #e6f4ec;
+  --pending: #8a5a00;
+  --pending-bg: #fff4d6;
+  --alert: #b42318;
+  --alert-bg: #fdecea;
+  --neutral-bg: #eef0f2;
 
-  /* Verification Badge Colors */
-  --badge-bronze: #CD7F32;
-  --badge-silver: #A0AEC0;
-  --badge-gold: #F6AD55;
-  --badge-platinum: #4299E1;
-
-  /* Status Colors */
-  --success: #48BB78;
-  --warning: #ECC94B;
-  --error: #F56565;
-  --info: #4299E1;
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --radius: 10px;
+  --background: #f6f7f8;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  --primary: #0b65c2;
+  --primary-foreground: #ffffff;
+  --secondary: #eef0f2;
+  --secondary-foreground: #0f172a;
+  --muted: #eef0f2;
+  --muted-foreground: #5b6676;
+  --accent: #eef0f2;
+  --accent-foreground: #0f172a;
+  --destructive: #b42318;
+  --border: #e3e6ea;
+  --input: #d4d9df;
+  --ring: #0b65c2;
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -119,32 +117,44 @@ body {
 
 /* Tailwind theme extension */
 @theme {
-  /* Brand palette — use these instead of hex literals (bg-brand, text-brand/80, dark:bg-canvas-dark) */
+  /* Keystead palette — use these instead of hex literals.
+     brand: logo, big headlines, fills. brand-ink: buttons, links, small brand text.
+     sky: brand accent on dark grounds. canvas / surface-dark: page and card grounds. */
   --color-brand: #137fec;
+  --color-sky: #4da3ff;
   --color-canvas: #f6f7f8;
   --color-canvas-dark: #101922;
-  --color-surface-dark: #1a2632;
+  --color-surface-dark: #17212c;
 
-  --color-background-light: #f6f7f8;
-  --color-background-dark: #101922;
+  /* Secondary text: Keystead slate (5.4:1 on canvas) in place of Tailwind's slate-500 */
+  --color-slate-500: #5b6676;
 
-  --font-family-display: 'Manrope', 'Noto Sans', sans-serif;
+  --font-display: 'Manrope', 'Noto Sans', sans-serif;
 
-  --radius-DEFAULT: 0.5rem;
-  --radius-lg: 0.5rem;
-  --radius-xl: 0.75rem;
-  --radius-2xl: 1rem;
   --radius-full: 9999px;
 }
 
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  /* Keystead shape: lg = buttons and inputs (radius-md, 10px), xl = cards (radius-lg, 12px) */
+  --radius-sm: 4px;
+  --radius-md: 8px;
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-3xl: 24px;
+  --radius-4xl: 32px;
+  --color-brand-ink: var(--brand-ink);
+  --color-on-brand: var(--on-brand);
+  --color-night: var(--night);
+  --color-ink: var(--ink);
+  --color-border-strong: var(--border-strong);
+  --color-verified: var(--verified);
+  --color-verified-bg: var(--verified-bg);
+  --color-pending: var(--pending);
+  --color-pending-bg: var(--pending-bg);
+  --color-alert: var(--alert);
+  --color-alert-bg: var(--alert-bg);
+  --color-neutral-bg: var(--neutral-bg);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -179,24 +189,37 @@ body {
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: #137fec;
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --brand-ink: #4da3ff;
+  --on-brand: #101922;
+  --night: #1f2b38;
+  --ink: #e8edf2;
+  --border-strong: #3a4757;
+  --verified: #4cc38a;
+  --verified-bg: #12352a;
+  --pending: #f5c46b;
+  --pending-bg: #3a2d0f;
+  --alert: #ff8a80;
+  --alert-bg: #3d1716;
+  --neutral-bg: #232e3a;
+
+  --background: #101922;
+  --foreground: #e8edf2;
+  --card: #17212c;
+  --card-foreground: #e8edf2;
+  --popover: #17212c;
+  --popover-foreground: #e8edf2;
+  --primary: #4da3ff;
+  --primary-foreground: #101922;
+  --secondary: #232e3a;
+  --secondary-foreground: #e8edf2;
+  --muted: #232e3a;
+  --muted-foreground: #9aa3ad;
+  --accent: #232e3a;
+  --accent-foreground: #e8edf2;
+  --destructive: #ff8a80;
+  --border: #2a3542;
+  --input: #3a4757;
+  --ring: #4da3ff;
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);

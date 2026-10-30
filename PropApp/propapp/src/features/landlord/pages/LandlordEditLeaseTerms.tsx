@@ -120,7 +120,7 @@ export default function LandlordEditLeaseTerms() {
             {/* Main Form */}
             <main className="w-full max-w-[1000px] mx-auto px-4 md:px-8 py-8">
                 {/* Warning Banner */}
-                <div className="bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800 rounded-xl p-4 mb-8 flex gap-4 shadow-sm">
+                <div className="bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800 rounded-xl p-4 mb-8 flex gap-4">
                     <div className="size-10 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center shrink-0 text-amber-600 dark:text-amber-500">
                         <span className="material-symbols-outlined">warning</span>
                     </div>
@@ -134,9 +134,9 @@ export default function LandlordEditLeaseTerms() {
 
                 <form className="space-y-6">
                     {/* Financials & Duration Section */}
-                    <section className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm">
+                    <section className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6">
                         <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                            <span className="material-symbols-outlined text-brand">attach_money</span> Financials &amp; Duration
+                            <span className="material-symbols-outlined text-brand-ink">attach_money</span> Financials &amp; Duration
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-1.5">
@@ -169,25 +169,25 @@ export default function LandlordEditLeaseTerms() {
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                                     <label className="cursor-pointer">
                                         <input className="peer sr-only" name="duration" type="radio" value="mtm" checked={duration === 'mtm'} onChange={() => setDuration('mtm')} />
-                                        <div className="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 text-center font-medium peer-checked:border-brand peer-checked:bg-brand/5 peer-checked:text-brand transition-all hover:bg-slate-50 dark:hover:bg-slate-800">
+                                        <div className="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 text-center font-medium peer-checked:border-brand peer-checked:bg-brand/5 peer-checked:text-brand-ink transition-all hover:bg-slate-50 dark:hover:bg-slate-800">
                                             Month-to-Month
                                         </div>
                                     </label>
                                     <label className="cursor-pointer">
                                         <input className="peer sr-only" name="duration" type="radio" value="6" checked={duration === '6'} onChange={() => setDuration('6')} />
-                                        <div className="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 text-center font-medium peer-checked:border-brand peer-checked:bg-brand/5 peer-checked:text-brand transition-all hover:bg-slate-50 dark:hover:bg-slate-800">
+                                        <div className="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 text-center font-medium peer-checked:border-brand peer-checked:bg-brand/5 peer-checked:text-brand-ink transition-all hover:bg-slate-50 dark:hover:bg-slate-800">
                                             6 Months
                                         </div>
                                     </label>
                                     <label className="cursor-pointer">
                                         <input className="peer sr-only" name="duration" type="radio" value="12" checked={duration === '12'} onChange={() => setDuration('12')} />
-                                        <div className="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 text-center font-medium peer-checked:border-brand peer-checked:bg-brand/5 peer-checked:text-brand transition-all hover:bg-slate-50 dark:hover:bg-slate-800">
+                                        <div className="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 text-center font-medium peer-checked:border-brand peer-checked:bg-brand/5 peer-checked:text-brand-ink transition-all hover:bg-slate-50 dark:hover:bg-slate-800">
                                             12 Months
                                         </div>
                                     </label>
                                     <label className="cursor-pointer">
                                         <input className="peer sr-only" name="duration" type="radio" value="24" checked={duration === '24'} onChange={() => setDuration('24')} />
-                                        <div className="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 text-center font-medium peer-checked:border-brand peer-checked:bg-brand/5 peer-checked:text-brand transition-all hover:bg-slate-50 dark:hover:bg-slate-800">
+                                        <div className="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 text-center font-medium peer-checked:border-brand peer-checked:bg-brand/5 peer-checked:text-brand-ink transition-all hover:bg-slate-50 dark:hover:bg-slate-800">
                                             24 Months
                                         </div>
                                     </label>
@@ -197,9 +197,9 @@ export default function LandlordEditLeaseTerms() {
                     </section>
 
                     {/* Key Dates Section */}
-                    <section className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm">
+                    <section className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6">
                         <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                            <span className="material-symbols-outlined text-brand">calendar_month</span> Key Dates
+                            <span className="material-symbols-outlined text-brand-ink">calendar_month</span> Key Dates
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div className="space-y-1.5">
@@ -231,18 +231,18 @@ export default function LandlordEditLeaseTerms() {
                                     value={effectiveDate}
                                     onChange={(e) => setEffectiveDate(e.target.value)}
                                 />
-                                <span className="text-xs text-brand font-medium absolute -bottom-5 right-0">Changes apply next month</span>
+                                <span className="text-xs text-brand-ink font-medium absolute -bottom-5 right-0">Changes apply next month</span>
                             </div>
                         </div>
                     </section>
 
                     {/* Clauses & Addendums Section */}
-                    <section className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm">
+                    <section className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6">
                         <div className="flex items-center justify-between mb-6">
                             <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                                <span className="material-symbols-outlined text-brand">gavel</span> Clauses &amp; Addendums
+                                <span className="material-symbols-outlined text-brand-ink">gavel</span> Clauses &amp; Addendums
                             </h2>
-                            <button className="text-sm font-bold text-brand hover:bg-brand/10 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1" type="button">
+                            <button className="text-sm font-bold text-brand-ink hover:bg-brand/10 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1" type="button">
                                 <span className="material-symbols-outlined text-[18px]">add</span> Add Clause
                             </button>
                         </div>
@@ -256,7 +256,7 @@ export default function LandlordEditLeaseTerms() {
                                     <div className="flex items-center justify-between mb-1">
                                         <h4 className="font-bold text-slate-900 dark:text-white text-sm">Pet Policy Addendum</h4>
                                         <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-slate-500 hover:text-brand transition-colors">
+                                            <button className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-slate-500 hover:text-brand-ink transition-colors">
                                                 <span className="material-symbols-outlined text-[18px]">edit</span>
                                             </button>
                                             <button className="p-1 hover:bg-red-100 dark:hover:bg-red-900/30 rounded text-slate-500 hover:text-red-600 transition-colors">
@@ -277,7 +277,7 @@ export default function LandlordEditLeaseTerms() {
                                     <div className="flex items-center justify-between mb-1">
                                         <h4 className="font-bold text-slate-900 dark:text-white text-sm">No Smoking Clause</h4>
                                         <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-slate-500 hover:text-brand transition-colors">
+                                            <button className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-slate-500 hover:text-brand-ink transition-colors">
                                                 <span className="material-symbols-outlined text-[18px]">edit</span>
                                             </button>
                                             <button className="p-1 hover:bg-red-100 dark:hover:bg-red-900/30 rounded text-slate-500 hover:text-red-600 transition-colors">
@@ -328,7 +328,7 @@ export default function LandlordEditLeaseTerms() {
             {/* Fixed Bottom Action Bar */}
             <div className="fixed bottom-0 left-0 w-full z-20 bg-white dark:bg-canvas-dark border-t border-slate-200 dark:border-slate-800 p-4 md:px-8 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
                 <div className="max-w-[1000px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-                    <button className="hidden md:flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-brand transition-colors font-bold text-sm" type="button">
+                    <button className="hidden md:flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-brand-ink transition-colors font-bold text-sm" type="button">
                         <span className="material-symbols-outlined text-[20px]">visibility</span>
                         Preview Changes
                     </button>
@@ -342,7 +342,7 @@ export default function LandlordEditLeaseTerms() {
                         <button
                             onClick={handleSave}
                             disabled={isSaving}
-                            className="flex-1 md:flex-none px-8 py-3 rounded-xl bg-brand text-white font-bold hover:bg-[#0e64bd] transition-colors shadow-sm flex items-center justify-center gap-2 disabled:opacity-50"
+                            className="flex-1 md:flex-none px-8 py-3 rounded-xl bg-brand-ink text-on-brand font-bold hover:bg-[#0e64bd] transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
                         >
                             <span className="material-symbols-outlined text-[20px]">save</span>
                             {isSaving ? 'Saving...' : 'Save Changes'}

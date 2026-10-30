@@ -306,9 +306,9 @@ export default function TenantMaintenanceDetail() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                 <div>
                     <div className="flex items-center gap-2 mb-2 text-slate-500 dark:text-slate-400 text-sm font-medium">
-                        <Link to="/tenant/my-home" className="hover:text-brand transition-colors">My Home</Link>
+                        <Link to="/tenant/my-home" className="hover:text-brand-ink transition-colors">My Home</Link>
                         <span className="material-symbols-outlined text-[16px]">chevron_right</span>
-                        <span className="hover:text-brand transition-colors cursor-pointer">Maintenance</span>
+                        <span className="hover:text-brand-ink transition-colors cursor-pointer">Maintenance</span>
                         <span className="material-symbols-outlined text-[16px]">chevron_right</span>
                         <span className="text-slate-900 dark:text-white">{requestData.title} (#{requestData.id})</span>
                     </div>
@@ -323,11 +323,11 @@ export default function TenantMaintenanceDetail() {
                     </div>
                 </div>
                 <div className="flex gap-3">
-                    <button className="px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-canvas-dark hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2">
+                    <button className="px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-canvas-dark hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-white font-bold text-sm transition-all flex items-center gap-2">
                         <span className="material-symbols-outlined text-[18px]">upload_file</span>
                         Add Files
                     </button>
-                    <button className="px-4 py-2.5 rounded-lg bg-brand hover:bg-brand/90 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2">
+                    <button className="px-4 py-2.5 rounded-lg bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm transition-all flex items-center gap-2">
                         <span className="material-symbols-outlined text-[18px]">chat_bubble</span>
                         Update
                     </button>
@@ -339,9 +339,9 @@ export default function TenantMaintenanceDetail() {
                 {/* Left Column - Main Content */}
                 <div className="lg:col-span-2 space-y-6">
                     {/* Request Details */}
-                    <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+                    <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800">
                         <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                            <span className="material-symbols-outlined text-brand">description</span>
+                            <span className="material-symbols-outlined text-brand-ink">description</span>
                             Request Details
                         </h2>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 text-sm">
@@ -388,7 +388,7 @@ export default function TenantMaintenanceDetail() {
                                         <span className="material-symbols-outlined text-slate-400">image</span>
                                     </div>
                                 )}
-                                <button className="w-32 h-24 rounded-lg border-2 border-dashed border-slate-300 dark:border-slate-600 flex flex-col items-center justify-center text-slate-500 hover:text-brand hover:border-brand hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all gap-1">
+                                <button className="w-32 h-24 rounded-lg border-2 border-dashed border-slate-300 dark:border-slate-600 flex flex-col items-center justify-center text-slate-500 hover:text-brand-ink hover:border-brand hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all gap-1">
                                     <span className="material-symbols-outlined text-[20px]">add</span>
                                     <span className="text-xs font-bold uppercase">Add More</span>
                                 </button>
@@ -397,9 +397,9 @@ export default function TenantMaintenanceDetail() {
                     </div>
 
                     {/* Activity Timeline */}
-                    <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+                    <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800">
                         <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                            <span className="material-symbols-outlined text-brand">history</span>
+                            <span className="material-symbols-outlined text-brand-ink">history</span>
                             Activity Timeline
                         </h2>
                         <ol className="relative border-l-2 border-slate-200 dark:border-slate-700 ml-3 space-y-8">
@@ -419,9 +419,9 @@ export default function TenantMaintenanceDetail() {
                     </div>
 
                     {/* Communication Log */}
-                    <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col">
+                    <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800 flex flex-col">
                         <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                            <span className="material-symbols-outlined text-brand">forum</span>
+                            <span className="material-symbols-outlined text-brand-ink">forum</span>
                             Communication Log
                         </h2>
                         <div className="space-y-4 mb-6 max-h-[400px] overflow-y-auto pr-2">
@@ -433,7 +433,7 @@ export default function TenantMaintenanceDetail() {
                                         </div>
                                     )}
                                     {msg.from === 'user' && (
-                                        <div className="size-8 rounded-full bg-brand flex items-center justify-center text-white shrink-0">
+                                        <div className="size-8 rounded-full bg-brand-ink flex items-center justify-center text-on-brand shrink-0">
                                             <span className="material-symbols-outlined text-sm">face</span>
                                         </div>
                                     )}
@@ -469,7 +469,7 @@ export default function TenantMaintenanceDetail() {
                                 value={newMessage}
                                 onChange={(e) => setNewMessage(e.target.value)}
                             />
-                            <button className="absolute right-2 bottom-2 size-8 flex items-center justify-center bg-brand hover:bg-brand/90 text-white rounded-lg transition-colors">
+                            <button className="absolute right-2 bottom-2 size-8 flex items-center justify-center bg-brand-ink hover:bg-brand-ink/90 text-on-brand rounded-lg transition-colors">
                                 <span className="material-symbols-outlined text-[18px]">send</span>
                             </button>
                         </div>
@@ -479,7 +479,7 @@ export default function TenantMaintenanceDetail() {
                 {/* Right Column - Sidebar */}
                 <div className="space-y-6">
                     {/* Property Card */}
-                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden">
                         <div className="h-32 bg-slate-200 dark:bg-slate-700 relative">
                             <img
                                 alt="Property"
@@ -507,7 +507,7 @@ export default function TenantMaintenanceDetail() {
                     </div>
 
                     {/* Assigned Vendor */}
-                    <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+                    <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-100 dark:border-slate-800">
                         <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-4">Assigned Vendor</h3>
                         {requestData.vendor ? (
                             <>
@@ -521,7 +521,7 @@ export default function TenantMaintenanceDetail() {
                                     </div>
                                 </div>
                                 <div className="flex gap-2">
-                                    <button className="flex-1 py-2 bg-brand/10 hover:bg-brand/20 text-brand rounded-lg text-xs font-bold transition-colors flex items-center justify-center gap-1.5">
+                                    <button className="flex-1 py-2 bg-brand/10 hover:bg-brand/20 text-brand-ink rounded-lg text-xs font-bold transition-colors flex items-center justify-center gap-1.5">
                                         <span className="material-symbols-outlined text-[16px]">call</span>
                                         Call
                                     </button>
@@ -550,7 +550,7 @@ export default function TenantMaintenanceDetail() {
                     </div>
 
                     {/* Actions */}
-                    <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+                    <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-100 dark:border-slate-800">
                         <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-4">Actions</h3>
                         <div className="space-y-2">
                             <button className="w-full py-2.5 px-4 rounded-lg bg-green-50 dark:bg-green-900/10 hover:bg-green-100 dark:hover:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800/30 text-sm font-bold transition-colors flex items-center justify-center gap-2">

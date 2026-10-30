@@ -24,7 +24,7 @@ export function NotificationList({ props, onAction }: Props) {
         );
     }
     return (
-        <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <div className="rounded-2xl border border-slate-200 bg-white">
             <header className="flex items-center justify-between border-b border-slate-100 px-4 py-2">
                 <h3 className="text-sm font-semibold">Notifications</h3>
                 {props.unreadCount > 0 ? (

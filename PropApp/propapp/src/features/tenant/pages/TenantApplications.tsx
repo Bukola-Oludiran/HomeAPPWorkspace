@@ -325,7 +325,7 @@ export default function TenantApplications() {
                                             setSortBy(option.id as 'date' | 'name' | 'status');
                                             setShowSortDropdown(false);
                                         }}
-                                        className={`w-full px-4 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center gap-2 ${sortBy === option.id ? 'text-brand font-bold bg-blue-50 dark:bg-blue-900/20' : 'text-slate-700 dark:text-slate-300'}`}
+                                        className={`w-full px-4 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center gap-2 ${sortBy === option.id ? 'text-brand-ink font-bold bg-blue-50 dark:bg-blue-900/20' : 'text-slate-700 dark:text-slate-300'}`}
                                     >
                                         {option.label}
                                         {sortBy === option.id && (
@@ -344,7 +344,7 @@ export default function TenantApplications() {
                 {filteredApplications.map((app) => (
                     <div
                         key={app.id}
-                        className={`bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 md:p-6 flex flex-col md:flex-row gap-6 hover:border-brand/30 transition-all duration-300 ${app.isRejected ? 'opacity-80 hover:opacity-100' : ''
+                        className={`bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-5 md:p-6 flex flex-col md:flex-row gap-6 hover:border-brand/30 transition-all duration-300 ${app.isRejected ? 'opacity-80 hover:opacity-100' : ''
                             }`}
                     >
                         {/* Property Image */}
@@ -387,7 +387,7 @@ export default function TenantApplications() {
                                             <span className="material-symbols-outlined text-[18px] text-slate-400">square_foot</span>
                                             {app.sqft} sqft
                                         </span>
-                                        <span className="font-bold text-brand ml-2">{app.price}</span>
+                                        <span className="font-bold text-brand-ink ml-2">{app.price}</span>
                                     </div>
                                 </div>
                                 <div className="flex flex-row md:flex-col items-center md:items-end justify-between w-full md:w-auto gap-2">
@@ -434,7 +434,7 @@ export default function TenantApplications() {
                                                     setIsSignLeaseModalOpen(true);
                                                 }
                                             }}
-                                            className="flex-1 md:flex-none px-5 py-2 rounded-lg bg-brand hover:bg-brand/90 text-white font-bold text-sm shadow-sm transition-all flex items-center justify-center gap-2"
+                                            className="flex-1 md:flex-none px-5 py-2 rounded-lg bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm transition-all flex items-center justify-center gap-2"
                                         >
                                             {app.primaryAction.label}
                                             <span className="material-symbols-outlined text-[18px]">{app.primaryAction.icon}</span>
@@ -449,7 +449,7 @@ export default function TenantApplications() {
 
             {/* Load More Button */}
             <div className="flex justify-center mt-12">
-                <button className="px-6 py-3 rounded-xl bg-white dark:bg-canvas-dark border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white font-bold text-sm shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-2">
+                <button className="px-6 py-3 rounded-xl bg-white dark:bg-canvas-dark border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-2">
                     Load More Applications
                     <span className="material-symbols-outlined">expand_more</span>
                 </button>

@@ -53,7 +53,7 @@ export function ChatPanel({ getJwt, placeholder }: ChatPanelProps) {
             >
                 {state.timeline.length === 0 ? (
                     <div className="mt-8 text-center text-sm text-slate-400">
-                        {placeholder ?? 'Ask HomeAI anything about your properties, leases, or payments.'}
+                        {placeholder ?? 'Ask Keystead anything about your properties, leases, or payments.'}
                     </div>
                 ) : (
                     state.timeline.map((item) => <TimelineRow key={item.id} item={item} onAction={onFragmentAction} />)
@@ -96,7 +96,7 @@ export function ChatPanel({ getJwt, placeholder }: ChatPanelProps) {
                 <input
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    placeholder={state.isStreaming ? 'Streaming…' : 'Message HomeAI…'}
+                    placeholder={state.isStreaming ? 'Streaming…' : 'Message Keystead…'}
                     disabled={state.isStreaming}
                     className="flex-1 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm focus:border-slate-400 focus:outline-none disabled:opacity-50"
                 />

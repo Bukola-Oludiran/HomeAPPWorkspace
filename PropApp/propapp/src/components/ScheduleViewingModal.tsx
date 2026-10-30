@@ -94,7 +94,7 @@ export default function ScheduleViewingModal({ isOpen, onClose, property }: Sche
                             {/* Left Column - Calendar & Time */}
                             <div className="lg:col-span-7 p-6 md:p-8 border-b lg:border-b-0 lg:border-r border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-canvas-dark">
                                 {/* Agent Info */}
-                                <div className="flex items-center gap-4 mb-8 p-4 bg-white dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                                <div className="flex items-center gap-4 mb-8 p-4 bg-white dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <div className="relative">
                                         <img
                                             alt={agent.name}
@@ -118,7 +118,7 @@ export default function ScheduleViewingModal({ isOpen, onClose, property }: Sche
                                 <div className="mb-8">
                                     <div className="flex items-center justify-between mb-4">
                                         <h3 className="font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                                            <span className="size-6 rounded-full bg-brand/10 text-brand flex items-center justify-center text-xs font-bold">1</span>
+                                            <span className="size-6 rounded-full bg-brand/10 text-brand-ink flex items-center justify-center text-xs font-bold">1</span>
                                             Select Date
                                         </h3>
                                         <div className="flex gap-1">
@@ -131,7 +131,7 @@ export default function ScheduleViewingModal({ isOpen, onClose, property }: Sche
                                             </button>
                                         </div>
                                     </div>
-                                    <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 shadow-sm">
+                                    <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4">
                                         <div className="grid grid-cols-7 gap-1 text-center mb-2">
                                             {weekDays.map((day) => (
                                                 <span key={day} className="text-xs font-semibold text-slate-400 uppercase">{day}</span>
@@ -154,7 +154,7 @@ export default function ScheduleViewingModal({ isOpen, onClose, property }: Sche
                                                         key={index}
                                                         onClick={() => setSelectedDate(item.day)}
                                                         className={`h-10 rounded-lg text-sm font-medium relative transition-colors ${selectedDate === item.day
-                                                            ? 'bg-brand text-white shadow-sm'
+                                                            ? 'bg-brand-ink text-on-brand'
                                                             : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
                                                             }`}
                                                     >
@@ -172,7 +172,7 @@ export default function ScheduleViewingModal({ isOpen, onClose, property }: Sche
                                 {/* Step 2: Select Time */}
                                 <div>
                                     <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                                        <span className="size-6 rounded-full bg-brand/10 text-brand flex items-center justify-center text-xs font-bold">2</span>
+                                        <span className="size-6 rounded-full bg-brand/10 text-brand-ink flex items-center justify-center text-xs font-bold">2</span>
                                         Select Time <span className="text-xs font-normal text-slate-500 ml-1">(Sat, Oct {selectedDate})</span>
                                     </h3>
                                     <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
@@ -184,8 +184,8 @@ export default function ScheduleViewingModal({ isOpen, onClose, property }: Sche
                                                 className={`py-2.5 px-3 rounded-lg border text-sm font-medium transition-colors ${!slot.available
                                                     ? 'border-slate-200 dark:border-slate-700 text-slate-400 cursor-not-allowed bg-slate-50 dark:bg-slate-800/50'
                                                     : selectedTime === slot.time
-                                                        ? 'bg-brand/10 border-brand text-brand font-bold shadow-sm ring-1 ring-brand/20'
-                                                        : 'border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-brand hover:text-brand bg-white dark:bg-slate-800'
+                                                        ? 'bg-brand/10 border-brand text-brand-ink font-bold shadow-sm ring-1 ring-brand/20'
+                                                        : 'border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-brand hover:text-brand-ink bg-white dark:bg-slate-800'
                                                     }`}
                                             >
                                                 {slot.time}
@@ -198,7 +198,7 @@ export default function ScheduleViewingModal({ isOpen, onClose, property }: Sche
                             {/* Right Column - Contact Details */}
                             <div className="lg:col-span-5 p-6 md:p-8 flex flex-col h-full bg-white dark:bg-canvas-dark">
                                 <h3 className="font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                                    <span className="size-6 rounded-full bg-brand/10 text-brand flex items-center justify-center text-xs font-bold">3</span>
+                                    <span className="size-6 rounded-full bg-brand/10 text-brand-ink flex items-center justify-center text-xs font-bold">3</span>
                                     Your Details
                                 </h3>
                                 <form className="space-y-4 flex-1">
@@ -239,11 +239,11 @@ export default function ScheduleViewingModal({ isOpen, onClose, property }: Sche
                                                     <input
                                                         type="radio"
                                                         name="contact"
-                                                        className="text-brand focus:ring-brand border-slate-300 dark:border-slate-600 dark:bg-slate-700"
+                                                        className="text-brand-ink focus:ring-brand border-slate-300 dark:border-slate-600 dark:bg-slate-700"
                                                         checked={formData.contactMethod === method}
                                                         onChange={() => setFormData({ ...formData, contactMethod: method })}
                                                     />
-                                                    <span className="text-sm text-slate-600 dark:text-slate-300 group-hover:text-brand transition-colors capitalize">
+                                                    <span className="text-sm text-slate-600 dark:text-slate-300 group-hover:text-brand-ink transition-colors capitalize">
                                                         {method === 'sms' ? 'Text (SMS)' : method === 'phone' ? 'Phone Call' : 'Email'}
                                                     </span>
                                                 </label>
@@ -266,8 +266,8 @@ export default function ScheduleViewingModal({ isOpen, onClose, property }: Sche
                                 <div className="mt-8 bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4 border border-slate-100 dark:border-slate-700">
                                     <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Booking Summary</h4>
                                     <div className="flex items-start gap-3 mb-3">
-                                        <div className="bg-white dark:bg-slate-800 p-2 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700">
-                                            <span className="material-symbols-outlined text-brand">calendar_month</span>
+                                        <div className="bg-white dark:bg-slate-800 p-2 rounded-lg border border-slate-200 dark:border-slate-700">
+                                            <span className="material-symbols-outlined text-brand-ink">calendar_month</span>
                                         </div>
                                         <div>
                                             <p className="font-bold text-slate-900 dark:text-white">Sat, Oct {selectedDate}</p>
@@ -275,8 +275,8 @@ export default function ScheduleViewingModal({ isOpen, onClose, property }: Sche
                                         </div>
                                     </div>
                                     <div className="flex items-start gap-3">
-                                        <div className="bg-white dark:bg-slate-800 p-2 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700">
-                                            <span className="material-symbols-outlined text-brand">home</span>
+                                        <div className="bg-white dark:bg-slate-800 p-2 rounded-lg border border-slate-200 dark:border-slate-700">
+                                            <span className="material-symbols-outlined text-brand-ink">home</span>
                                         </div>
                                         <div>
                                             <p className="font-bold text-slate-900 dark:text-white">In-Person Viewing</p>
@@ -295,7 +295,7 @@ export default function ScheduleViewingModal({ isOpen, onClose, property }: Sche
                                     </button>
                                     <button
                                         onClick={onClose}
-                                        className="flex-[2] py-3.5 rounded-xl bg-brand text-white font-bold hover:bg-[#0e64bd] transition-colors shadow-sm flex items-center justify-center gap-2"
+                                        className="flex-[2] py-3.5 rounded-xl bg-brand-ink text-on-brand font-bold hover:bg-[#0e64bd] transition-colors flex items-center justify-center gap-2"
                                     >
                                         Confirm Booking
                                         <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
@@ -317,7 +317,7 @@ export default function ScheduleViewingModal({ isOpen, onClose, property }: Sche
                         </div>
                         <div className="flex-1 overflow-hidden h-10 flex items-center">
                             <p className="text-slate-600 dark:text-slate-300 text-sm truncate">
-                                <span className="font-bold text-brand mr-1">AI Tip:</span> {agent.name} usually accepts weekend viewings. I can also find similar homes nearby.
+                                <span className="font-bold text-brand-ink mr-1">AI Tip:</span> {agent.name} usually accepts weekend viewings. I can also find similar homes nearby.
                             </p>
                         </div>
                         <button className="size-10 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center transition-colors shrink-0">

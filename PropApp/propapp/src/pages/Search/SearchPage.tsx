@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import FavoriteButton from '@/components/FavoriteButton';
+import Logo from '@/components/common/Logo';
 import { propertyService } from '@/lib/api/services/propertyService';
 import type { PropertySummary, PropertySearchFilters, ListingType, PropertyType } from '@/types/property';
 import type { ApiError } from '@/types/api';
@@ -292,13 +293,8 @@ export default function SearchPage() {
             <header className="sticky top-0 z-40 bg-white/95 dark:bg-canvas-dark/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm transition-all duration-300">
                 <div className="px-4 md:px-8 py-3 flex items-center justify-between gap-4 md:gap-8">
                     {/* Logo */}
-                    <Link to="/" className="flex items-center gap-3 text-slate-900 dark:text-white shrink-0">
-                        <div className="size-9 bg-brand rounded-lg flex items-center justify-center text-white shadow-sm">
-                            <span className="material-symbols-outlined">real_estate_agent</span>
-                        </div>
-                        <h2 className="hidden md:block text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">
-                            HomeAI
-                        </h2>
+                    <Link to="/" className="flex items-center h-9 shrink-0">
+                        <Logo wordmark="md" />
                     </Link>
 
                     {/* Search Bar */}
@@ -321,7 +317,7 @@ export default function SearchPage() {
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
                             <button type="submit" className="absolute inset-y-0 right-1.5 flex items-center">
-                                <div className="size-8 bg-brand rounded-full text-white hover:bg-blue-600 transition-colors shadow-sm flex items-center justify-center">
+                                <div className="size-8 bg-brand-ink rounded-full text-on-brand hover:bg-brand-ink/90 transition-colors flex items-center justify-center">
                                     <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
                                 </div>
                             </button>
@@ -352,7 +348,7 @@ export default function SearchPage() {
                                 <div className="absolute right-0 mt-2 py-2 bg-white dark:bg-slate-800 min-w-[200px] shadow-[0px_8px_16px_0px_rgba(0,0,0,0.1)] z-50 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <Link
                                         to="/landlord/dashboard"
-                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand"
+                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand-ink"
                                     >
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">dashboard</span>
@@ -361,7 +357,7 @@ export default function SearchPage() {
                                     </Link>
                                     <Link
                                         to="/tenant/dashboard"
-                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand"
+                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand-ink"
                                     >
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">vpn_key</span>
@@ -370,7 +366,7 @@ export default function SearchPage() {
                                     </Link>
                                     <Link
                                         to="/agent/jobs"
-                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand"
+                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand-ink"
                                     >
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">support_agent</span>
@@ -380,14 +376,14 @@ export default function SearchPage() {
                                     <hr className="my-1 border-slate-200 dark:border-slate-700" />
                                     <Link
                                         to="/settings"
-                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand"
+                                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand-ink"
                                     >
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">settings</span>
                                             Account Settings
                                         </div>
                                     </Link>
-                                    <button className="w-full text-left block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand">
+                                    <button className="w-full text-left block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand-ink">
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">logout</span>
                                             Sign Out
@@ -407,7 +403,7 @@ export default function SearchPage() {
                             <button
                                 onClick={() => toggleDropdown('price')}
                                 className={`whitespace-nowrap flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold active:scale-95 transition-all ${priceRange.min || priceRange.max
-                                    ? 'border-brand/30 bg-brand/5 text-brand'
+                                    ? 'border-brand/30 bg-brand/5 text-brand-ink'
                                     : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark text-slate-700 dark:text-slate-300 hover:border-slate-400'
                                     }`}
                             >
@@ -456,7 +452,7 @@ export default function SearchPage() {
                                             <button
                                                 key={val}
                                                 onClick={() => setPriceRange(prev => ({ ...prev, max: val.includes('M') ? '1000000' : val.replace('k', '000') }))}
-                                                className="px-3 py-1.5 text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-brand/10 hover:text-brand rounded-full transition-colors"
+                                                className="px-3 py-1.5 text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-brand/10 hover:text-brand-ink rounded-full transition-colors"
                                             >
                                                 Under ${val}
                                             </button>
@@ -471,7 +467,7 @@ export default function SearchPage() {
                                         </button>
                                         <button
                                             onClick={() => setShowPriceDropdown(false)}
-                                            className="flex-1 py-2 bg-brand text-white text-sm font-bold rounded-lg hover:bg-brand/90 transition-colors"
+                                            className="flex-1 py-2 bg-brand-ink text-on-brand text-sm font-bold rounded-lg hover:bg-brand-ink/90 transition-colors"
                                         >
                                             Apply
                                         </button>
@@ -485,7 +481,7 @@ export default function SearchPage() {
                             <button
                                 onClick={() => toggleDropdown('type')}
                                 className={`whitespace-nowrap flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold active:scale-95 transition-all ${selectedTypes.length > 0
-                                    ? 'border-brand/30 bg-brand/5 text-brand'
+                                    ? 'border-brand/30 bg-brand/5 text-brand-ink'
                                     : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark text-slate-700 dark:text-slate-300 hover:border-slate-400'
                                     }`}
                             >
@@ -509,7 +505,7 @@ export default function SearchPage() {
                                                     type="checkbox"
                                                     checked={selectedTypes.includes(type)}
                                                     onChange={() => toggleType(type)}
-                                                    className="size-4 rounded border-slate-300 text-brand focus:ring-brand"
+                                                    className="size-4 rounded border-slate-300 text-brand-ink focus:ring-brand"
                                                 />
                                                 <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{type}</span>
                                             </label>
@@ -524,7 +520,7 @@ export default function SearchPage() {
                                         </button>
                                         <button
                                             onClick={() => setShowTypeDropdown(false)}
-                                            className="flex-1 py-2 bg-brand text-white text-sm font-bold rounded-lg hover:bg-brand/90 transition-colors"
+                                            className="flex-1 py-2 bg-brand-ink text-on-brand text-sm font-bold rounded-lg hover:bg-brand-ink/90 transition-colors"
                                         >
                                             Apply
                                         </button>
@@ -538,7 +534,7 @@ export default function SearchPage() {
                             <button
                                 onClick={() => toggleDropdown('beds')}
                                 className={`whitespace-nowrap flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold active:scale-95 transition-all ${beds !== 'Any' || baths !== 'Any'
-                                    ? 'border-brand/30 bg-brand/5 text-brand'
+                                    ? 'border-brand/30 bg-brand/5 text-brand-ink'
                                     : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark text-slate-700 dark:text-slate-300 hover:border-slate-400'
                                     }`}
                             >
@@ -563,7 +559,7 @@ export default function SearchPage() {
                                                     key={option}
                                                     onClick={() => setBeds(option)}
                                                     className={`flex-1 py-2 text-sm font-semibold rounded-lg transition-all ${beds === option
-                                                        ? 'bg-brand text-white shadow-sm'
+                                                        ? 'bg-brand-ink text-on-brand'
                                                         : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
                                                         }`}
                                                 >
@@ -584,7 +580,7 @@ export default function SearchPage() {
                                                     key={option}
                                                     onClick={() => setBaths(option)}
                                                     className={`flex-1 py-2 text-sm font-semibold rounded-lg transition-all ${baths === option
-                                                        ? 'bg-brand text-white shadow-sm'
+                                                        ? 'bg-brand-ink text-on-brand'
                                                         : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
                                                         }`}
                                                 >
@@ -602,7 +598,7 @@ export default function SearchPage() {
                                         </button>
                                         <button
                                             onClick={() => setShowBedsDropdown(false)}
-                                            className="flex-1 py-2 bg-brand text-white text-sm font-bold rounded-lg hover:bg-brand/90 transition-colors"
+                                            className="flex-1 py-2 bg-brand-ink text-on-brand text-sm font-bold rounded-lg hover:bg-brand-ink/90 transition-colors"
                                         >
                                             Apply
                                         </button>
@@ -615,7 +611,7 @@ export default function SearchPage() {
                         <button
                             onClick={() => setVerifiedOnly(!verifiedOnly)}
                             className={`whitespace-nowrap flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold active:scale-95 transition-all ${verifiedOnly
-                                ? 'border border-brand/30 bg-brand/5 text-brand hover:bg-brand/10'
+                                ? 'border border-brand/30 bg-brand/5 text-brand-ink hover:bg-brand/10'
                                 : 'border border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark text-slate-700 dark:text-slate-300'
                                 }`}
                         >
@@ -630,14 +626,14 @@ export default function SearchPage() {
                             <button
                                 onClick={() => toggleDropdown('more')}
                                 className={`whitespace-nowrap flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold active:scale-95 transition-all ${getActiveFilterCount() > 0
-                                    ? 'border-brand/30 bg-brand/5 text-brand'
+                                    ? 'border-brand/30 bg-brand/5 text-brand-ink'
                                     : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark text-slate-700 dark:text-slate-300 hover:border-slate-400'
                                     }`}
                             >
                                 <span className="material-symbols-outlined text-[18px]">tune</span>
                                 More Filters
                                 {getActiveFilterCount() > 0 && (
-                                    <span className="size-5 bg-brand text-white text-xs font-bold rounded-full flex items-center justify-center">
+                                    <span className="size-5 bg-brand-ink text-on-brand text-xs font-bold rounded-full flex items-center justify-center">
                                         {getActiveFilterCount()}
                                     </span>
                                 )}
@@ -648,7 +644,7 @@ export default function SearchPage() {
                                         <h4 className="text-lg font-bold text-slate-900 dark:text-white">More Filters</h4>
                                         <button
                                             onClick={clearAllFilters}
-                                            className="text-sm font-semibold text-brand hover:underline"
+                                            className="text-sm font-semibold text-brand-ink hover:underline"
                                         >
                                             Clear All
                                         </button>
@@ -724,7 +720,7 @@ export default function SearchPage() {
                                                     key={amenity.id}
                                                     onClick={() => toggleAmenity(amenity.id)}
                                                     className={`flex items-center gap-2 p-2.5 rounded-lg text-sm font-medium transition-all ${selectedAmenities.includes(amenity.id)
-                                                        ? 'bg-brand/10 text-brand border border-brand/30'
+                                                        ? 'bg-brand/10 text-brand-ink border border-brand/30'
                                                         : 'bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
                                                         }`}
                                                 >
@@ -744,7 +740,7 @@ export default function SearchPage() {
                                         </button>
                                         <button
                                             onClick={() => setShowMoreFilters(false)}
-                                            className="flex-1 py-2.5 bg-brand text-white text-sm font-bold rounded-lg hover:bg-brand/90 transition-colors shadow-sm"
+                                            className="flex-1 py-2.5 bg-brand-ink text-on-brand text-sm font-bold rounded-lg hover:bg-brand-ink/90 transition-colors"
                                         >
                                             Show Results
                                         </button>
@@ -821,7 +817,7 @@ export default function SearchPage() {
                                 <p className="text-slate-500 dark:text-slate-400 mb-4">{error.error?.message || 'Failed to load properties'}</p>
                                 <button
                                     onClick={() => fetchProperties(1)}
-                                    className="px-6 py-2 bg-brand text-white rounded-lg font-semibold hover:bg-blue-600"
+                                    className="px-6 py-2 bg-brand-ink text-on-brand rounded-lg font-semibold hover:bg-brand-ink/90"
                                 >
                                     Try Again
                                 </button>
@@ -870,7 +866,7 @@ export default function SearchPage() {
                                                 {/* Featured Badge — derived from verificationTier until backend
                                                     exposes a real isFeatured column. */}
                                                 {(property.verificationTier === 'GOLD' || property.verificationTier === 'PLATINUM') && (
-                                                    <div className="absolute bottom-4 left-4 bg-brand text-white text-xs font-bold px-2 py-1 rounded shadow-sm">
+                                                    <div className="absolute bottom-4 left-4 bg-brand-ink text-on-brand text-xs font-bold px-2 py-1 rounded">
                                                         FEATURED
                                                     </div>
                                                 )}
@@ -928,7 +924,7 @@ export default function SearchPage() {
                                 <button
                                     onClick={handleLoadMore}
                                     disabled={isLoading}
-                                    className="px-8 py-3 rounded-xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-sm disabled:opacity-50"
+                                    className="px-8 py-3 rounded-xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors disabled:opacity-50"
                                 >
                                     {isLoading ? 'Loading...' : 'Show more properties'}
                                 </button>
@@ -961,7 +957,7 @@ export default function SearchPage() {
                     {/* Search This Area Button */}
                     <div className="absolute top-6 left-1/2 -translate-x-1/2 z-30">
                         <button className="bg-white dark:bg-surface-dark text-slate-900 dark:text-white px-5 py-2.5 rounded-full shadow-lg font-semibold text-sm flex items-center gap-2 transition-transform border border-slate-100 dark:border-slate-700">
-                            <span className="material-symbols-outlined text-brand text-[18px]">refresh</span>
+                            <span className="material-symbols-outlined text-brand-ink text-[18px]">refresh</span>
                             Search this area
                         </button>
                     </div>
@@ -969,14 +965,14 @@ export default function SearchPage() {
                     {/* Property Count Badge - Coming Soon for full map integration */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 text-center">
                         <div className="bg-white dark:bg-surface-dark rounded-2xl shadow-2xl p-8 border border-slate-200 dark:border-slate-700">
-                            <span className="material-symbols-outlined text-6xl text-brand mb-4">map</span>
+                            <span className="material-symbols-outlined text-6xl text-brand-ink mb-4">map</span>
                             <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Map View Coming Soon</h3>
                             <p className="text-slate-500 dark:text-slate-400 mb-4">
                                 {properties.length} properties available in this area
                             </p>
                             <button
                                 onClick={() => setViewMode('grid')}
-                                className="px-6 py-2 bg-brand text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors"
+                                className="px-6 py-2 bg-brand-ink text-on-brand rounded-lg font-semibold hover:bg-brand-ink/90 transition-colors"
                             >
                                 View in Grid
                             </button>
@@ -985,7 +981,7 @@ export default function SearchPage() {
 
                     {/* Cluster Marker */}
                     <div className="absolute z-10" style={{ top: clusterPosition.top, left: clusterPosition.left }}>
-                        <button className="bg-brand text-white font-bold text-sm size-10 rounded-full shadow-lg border-2 border-white hover:bg-blue-600 transition-all flex items-center justify-center">
+                        <button className="bg-brand-ink text-on-brand font-bold text-sm size-10 rounded-full shadow-lg border-2 border-white hover:bg-brand-ink/90 transition-all flex items-center justify-center">
                             {properties.length}
                         </button>
                     </div>

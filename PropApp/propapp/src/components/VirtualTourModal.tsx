@@ -30,7 +30,7 @@ export default function VirtualTourModal({ isOpen, onClose, property, agent }: V
                     {/* Header */}
                     <div className="flex items-center justify-between px-4 py-3 md:px-6 md:py-4 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-canvas-dark z-20 shrink-0">
                         <div className="flex items-center gap-3">
-                            <span className="material-symbols-outlined text-brand text-2xl">view_in_ar</span>
+                            <span className="material-symbols-outlined text-brand-ink text-2xl">view_in_ar</span>
                             <h2 className="text-base md:text-lg font-bold text-slate-900 dark:text-white">3D Virtual Tour of {property.address}</h2>
                         </div>
                         <button

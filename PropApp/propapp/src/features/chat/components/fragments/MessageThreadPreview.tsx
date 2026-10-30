@@ -18,7 +18,7 @@ function timeAgo(iso: string): string {
 
 export function MessageThreadPreview({ props, onAction }: Props) {
     return (
-        <article className="flex gap-3 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
+        <article className="flex gap-3 rounded-2xl border border-slate-200 bg-white p-3">
             <div className="grid h-10 w-10 place-items-center rounded-full bg-slate-100 text-sm font-semibold text-slate-600">
                 {props.counterpartyName.slice(0, 1).toUpperCase()}
             </div>

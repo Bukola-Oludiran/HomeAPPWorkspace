@@ -10,7 +10,7 @@ export default function TwoFactorAuthPage() {
             {/* Icon */}
             <div className="mb-6 flex justify-center">
                 <div className="size-16 bg-white/10 rounded-full flex items-center justify-center border border-white/10 shadow-inner ring-1 ring-white/5">
-                    <span className="material-symbols-outlined text-brand text-3xl">lock_person</span>
+                    <span className="material-symbols-outlined text-sky text-3xl">lock_person</span>
                 </div>
             </div>
 
@@ -31,7 +31,7 @@ export default function TwoFactorAuthPage() {
 
                 {/* Verify Button */}
                 <button
-                    className="w-full py-3.5 px-4 rounded-xl bg-brand hover:bg-brand/90 text-white font-bold text-lg shadow-sm transition-all active:scale-[0.98]"
+                    className="w-full py-3.5 px-4 rounded-xl bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-lg transition-all active:scale-[0.98]"
                     type="submit"
                 >
                     Verify
@@ -41,7 +41,7 @@ export default function TwoFactorAuthPage() {
                 <div className="text-center">
                     <p className="text-sm text-slate-300">
                         Didn't receive a code?{' '}
-                        <a className="text-brand hover:text-brand/80 font-bold ml-1 transition-colors hover:underline" href="#">
+                        <a className="text-sky hover:text-sky/80 font-bold ml-1 transition-colors hover:underline" href="#">
                             Resend Code
                         </a>
                         <span className="ml-1 text-slate-300 font-mono">(0:28)</span>

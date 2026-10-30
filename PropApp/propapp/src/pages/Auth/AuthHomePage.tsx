@@ -11,7 +11,7 @@ export default function AuthHomePage() {
             <div className="w-full space-y-4">
                 <Link
                     to="/auth/login"
-                    className="w-full py-3.5 px-4 rounded-xl bg-brand hover:bg-brand/90 text-white font-bold text-lg shadow-sm transition-all flex items-center justify-center"
+                    className="w-full py-3.5 px-4 rounded-xl bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-lg transition-all flex items-center justify-center"
                 >
                     Log In
                 </Link>
@@ -35,7 +35,7 @@ export default function AuthHomePage() {
 
             {/* Social Login Buttons */}
             <div className="flex gap-4 w-full">
-                <button className="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-white text-slate-900 hover:bg-slate-50 border border-slate-200 shadow-sm transition-all font-semibold text-sm">
+                <button className="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-white text-slate-900 hover:bg-slate-50 border border-slate-200 transition-all font-semibold text-sm">
                     <img
                         alt="Google"
                         className="w-5 h-5"
@@ -43,7 +43,7 @@ export default function AuthHomePage() {
                     />
                     Google
                 </button>
-                <button className="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-black text-white hover:bg-slate-900 border border-slate-800 shadow-sm transition-all font-semibold text-sm">
+                <button className="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-black text-white hover:bg-slate-900 border border-slate-800 transition-all font-semibold text-sm">
                     <span className="material-symbols-outlined text-[20px]">ios</span>
                     Apple
                 </button>
@@ -51,9 +51,9 @@ export default function AuthHomePage() {
 
             <p className="mt-8 text-xs text-slate-300">
                 By continuing, you agree to our{' '}
-                <a className="text-brand hover:text-brand/80 underline" href="#">Terms of Service</a>
+                <a className="text-sky hover:text-sky/80 underline" href="#">Terms of Service</a>
                 {' '}and{' '}
-                <a className="text-brand hover:text-brand/80 underline" href="#">Privacy Policy</a>.
+                <a className="text-sky hover:text-sky/80 underline" href="#">Privacy Policy</a>.
             </p>
         </div>
     );

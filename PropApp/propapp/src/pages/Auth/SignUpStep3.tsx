@@ -87,7 +87,7 @@ export default function SignUpStep3() {
         <div className="w-full max-w-2xl bg-white/10 dark:bg-surface-dark/40 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col">
             {/* Step Badge */}
             <div className="flex items-center justify-center mb-6">
-                <span className="px-3 py-1 rounded-full bg-white/80 border border-white/40 text-brand text-xs font-bold uppercase tracking-wider">
+                <span className="px-3 py-1 rounded-full bg-white/80 border border-white/40 text-brand-ink text-xs font-bold uppercase tracking-wider">
                     Step 3 of 3
                 </span>
             </div>
@@ -125,7 +125,7 @@ export default function SignUpStep3() {
                                 ? 'border-brand bg-brand/10 ring-1 ring-brand'
                                 : 'border-white/10 bg-white/5 hover:bg-white/10'
                                 }`}>
-                                <span className={`material-symbols-outlined text-3xl mb-3 transition-colors ${selectedRole === role.value ? 'text-brand icon-filled' : 'text-slate-300'
+                                <span className={`material-symbols-outlined text-3xl mb-3 transition-colors ${selectedRole === role.value ? 'text-sky icon-filled' : 'text-slate-300'
                                     }`}>
                                     {role.icon}
                                 </span>
@@ -173,7 +173,7 @@ export default function SignUpStep3() {
                 <button
                     type="submit"
                     disabled={isLoading || !isFormValid}
-                    className="w-full mt-2 py-3.5 px-4 rounded-xl bg-brand hover:bg-brand/90 text-white font-bold text-lg shadow-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                    className="w-full mt-2 py-3.5 px-4 rounded-xl bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                 >
                     {isLoading ? (
                         <>

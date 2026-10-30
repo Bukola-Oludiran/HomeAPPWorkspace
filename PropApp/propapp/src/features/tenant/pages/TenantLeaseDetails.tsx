@@ -200,7 +200,7 @@ export default function TenantLeaseDetails() {
             <main className="w-full max-w-[1200px] mx-auto px-4 md:px-8 py-8">
                 {/* Stats Grid */}
                 <section className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                    <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col gap-1">
+                    <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
                         <span className="text-xs text-slate-500 font-bold uppercase tracking-wide">Monthly Rent</span>
                         <div className="flex items-baseline gap-1">
                             <span className="text-2xl font-bold text-slate-900 dark:text-white">${leaseData.monthlyRent.toLocaleString()}</span>
@@ -211,17 +211,17 @@ export default function TenantLeaseDetails() {
                             {leaseData.paymentStatus}
                         </div>
                     </div>
-                    <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col gap-1">
+                    <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
                         <span className="text-xs text-slate-500 font-bold uppercase tracking-wide">Security Deposit</span>
                         <span className="text-2xl font-bold text-slate-900 dark:text-white">${leaseData.securityDeposit.toLocaleString()}</span>
                         <span className="text-xs text-slate-500">Held in escrow</span>
                     </div>
-                    <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col gap-1">
+                    <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
                         <span className="text-xs text-slate-500 font-bold uppercase tracking-wide">Lease Start</span>
                         <span className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">{leaseData.startDate}</span>
                         <span className="text-xs text-slate-500">{leaseData.term} term</span>
                     </div>
-                    <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col gap-1">
+                    <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
                         <span className="text-xs text-slate-500 font-bold uppercase tracking-wide">Lease End</span>
                         <span className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">{leaseData.endDate}</span>
                         <span className="text-xs text-orange-500 font-medium">Expiring soon</span>
@@ -233,19 +233,19 @@ export default function TenantLeaseDetails() {
                     {/* Left Column */}
                     <div className="flex-1 space-y-8 min-w-0">
                         {/* Lease Document */}
-                        <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
+                        <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
                             <div className="p-4 md:p-6 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
                                 <h3 className="font-bold text-lg text-slate-900 dark:text-white flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-brand">description</span>
+                                    <span className="material-symbols-outlined text-brand-ink">description</span>
                                     Lease Document
                                 </h3>
                                 <div className="flex gap-2">
-                                    <button className="text-sm font-semibold text-brand hover:bg-blue-50 dark:hover:bg-brand/10 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1">
+                                    <button className="text-sm font-semibold text-brand-ink hover:bg-blue-50 dark:hover:bg-brand/10 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1">
                                         <span className="material-symbols-outlined text-[18px]">download</span> Download
                                     </button>
                                     <button
                                         onClick={() => setIsDocumentModalOpen(true)}
-                                        className="text-sm font-semibold text-white bg-brand hover:bg-[#0e64bd] px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1 shadow-sm"
+                                        className="text-sm font-semibold text-on-brand bg-brand-ink hover:bg-[#0e64bd] px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1"
                                     >
                                         <span className="material-symbols-outlined text-[18px]">open_in_new</span> View Full
                                     </button>
@@ -289,7 +289,7 @@ export default function TenantLeaseDetails() {
                                             <h4 className="font-bold text-slate-900 dark:text-white text-sm">{clause.title}</h4>
                                             <p className="text-sm text-slate-500 mt-1">{clause.description}</p>
                                         </div>
-                                        <button className="ml-auto text-brand text-sm font-semibold hover:underline">View</button>
+                                        <button className="ml-auto text-brand-ink text-sm font-semibold hover:underline">View</button>
                                     </div>
                                 ))}
                             </div>
@@ -299,11 +299,11 @@ export default function TenantLeaseDetails() {
                         <div>
                             <div className="flex items-center justify-between mb-4">
                                 <h3 className="font-bold text-lg text-slate-900 dark:text-white">Payment Schedule</h3>
-                                <Link to="/tenant/payments" className="text-sm text-brand font-semibold hover:underline">
+                                <Link to="/tenant/payments" className="text-sm text-brand-ink font-semibold hover:underline">
                                     View Full Ledger
                                 </Link>
                             </div>
-                            <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
+                            <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-sm text-left">
                                         <thead className="bg-slate-50 dark:bg-slate-700/50 text-slate-500 font-semibold border-b border-slate-200 dark:border-slate-700">
@@ -344,7 +344,7 @@ export default function TenantLeaseDetails() {
                     {/* Right Sidebar */}
                     <div className="w-full lg:w-[360px] shrink-0 space-y-6">
                         {/* Landlord / Agent */}
-                        <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm">
+                        <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6">
                             <h4 className="font-bold text-lg text-slate-900 dark:text-white mb-4 flex items-center gap-2">
                                 <span className="material-symbols-outlined text-slate-500">real_estate_agent</span>
                                 Landlord / Agent
@@ -375,7 +375,7 @@ export default function TenantLeaseDetails() {
                             <div className="mt-6 pt-6 border-t border-slate-100 dark:border-slate-700 flex gap-2">
                                 <Link
                                     to="/tenant/messages"
-                                    className="w-full py-2.5 rounded-lg bg-brand text-white font-semibold text-sm hover:bg-[#0e64bd] transition-colors shadow-sm flex items-center justify-center gap-2"
+                                    className="w-full py-2.5 rounded-lg bg-brand-ink text-on-brand font-semibold text-sm hover:bg-[#0e64bd] transition-colors flex items-center justify-center gap-2"
                                 >
                                     <span className="material-symbols-outlined text-[18px]">chat</span>
                                     Message
@@ -384,9 +384,9 @@ export default function TenantLeaseDetails() {
                         </div>
 
                         {/* My Info */}
-                        <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm">
+                        <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6">
                             <h4 className="font-bold text-lg text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                                <span className="material-symbols-outlined text-brand">person</span>
+                                <span className="material-symbols-outlined text-brand-ink">person</span>
                                 My Info
                             </h4>
                             <div className="flex items-center gap-4 mb-4">
@@ -416,15 +416,15 @@ export default function TenantLeaseDetails() {
                         {/* Renewal Insight */}
                         <div className="bg-blue-50/50 dark:bg-slate-800 rounded-2xl border border-blue-100 dark:border-slate-700 p-6">
                             <div className="flex items-center gap-3 mb-4">
-                                <div className="size-8 rounded-full bg-brand flex items-center justify-center text-white shadow-sm">
+                                <div className="size-8 rounded-full bg-brand-ink flex items-center justify-center text-on-brand">
                                     <span className="material-symbols-outlined text-[18px]">tips_and_updates</span>
                                 </div>
                                 <h3 className="text-lg font-bold text-slate-900 dark:text-white">Renewal Insight</h3>
                             </div>
                             <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">
-                                Your lease expires in <strong className="text-slate-900 dark:text-white">{leaseData.daysUntilExpiry} days</strong>. You have a great payment history! Initiating renewal early often locks in better rates.
+                                Your lease expires in <strong className="text-slate-900 dark:text-white">{leaseData.daysUntilExpiry} days</strong>. Renewing early often locks in better rates.
                             </p>
-                            <button className="w-full py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 font-semibold text-sm text-brand hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm">
+                            <button className="w-full py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 font-semibold text-sm text-brand-ink hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
                                 Explore Renewal Options
                             </button>
                         </div>

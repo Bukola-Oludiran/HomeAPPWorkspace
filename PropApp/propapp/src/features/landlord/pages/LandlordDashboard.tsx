@@ -55,7 +55,7 @@ function getAlertStyle(type: string): { icon: string; bgColor: string; textColor
             return { icon: 'build', bgColor: 'bg-red-100 dark:bg-red-900/30', textColor: 'text-red-600', btnColor: 'bg-red-600 hover:bg-red-700' };
         case 'VERIFICATION_PENDING':
         case 'APPLICATION_NEW':
-            return { icon: 'verified_user', bgColor: 'bg-blue-100 dark:bg-blue-900/30', textColor: 'text-brand', btnColor: 'bg-brand hover:bg-brand/90' };
+            return { icon: 'verified_user', bgColor: 'bg-blue-100 dark:bg-blue-900/30', textColor: 'text-brand-ink', btnColor: 'bg-brand hover:bg-brand/90' };
         case 'LEASE_EXPIRING':
             return { icon: 'history_edu', bgColor: 'bg-orange-100 dark:bg-orange-900/30', textColor: 'text-orange-600', btnColor: 'bg-orange-600 hover:bg-orange-700' };
         case 'PAYMENT_OVERDUE':
@@ -117,7 +117,7 @@ export default function LandlordDashboardPage() {
                             <span className="material-symbols-outlined text-[20px]">file_download</span> Report
                         </button>
                         <MagneticButton>
-                            <Link to="/landlord/new-property" className="px-5 py-2.5 rounded-lg bg-brand hover:bg-brand/90 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2">
+                            <Link to="/landlord/new-property" className="px-5 py-2.5 rounded-lg bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm transition-all flex items-center gap-2">
                                 <span className="material-symbols-outlined text-[20px]">add_home</span> Add Property
                             </Link>
                         </MagneticButton>
@@ -182,7 +182,7 @@ export default function LandlordDashboardPage() {
                 />
 
                 {/* Action Required */}
-                <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col justify-between relative overflow-hidden">
+                <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800 flex flex-col justify-between relative overflow-hidden">
                     <div className="absolute right-0 top-0 h-full w-1 bg-red-500"></div>
                     <div className="flex justify-between items-start mb-4">
                         <div className="p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-xl">
@@ -280,7 +280,7 @@ export default function LandlordDashboardPage() {
                                                 <span className="material-symbols-outlined text-[14px]">plumbing</span> {property.maintenance}
                                             </span>
                                         )}
-                                        <span className="flex items-center gap-1 hover:text-brand transition-colors font-medium z-10" onClick={(e) => e.preventDefault()}>
+                                        <span className="flex items-center gap-1 hover:text-brand-ink transition-colors font-medium z-10" onClick={(e) => e.preventDefault()}>
                                             <span className="material-symbols-outlined text-[16px] text-blue-600 dark:text-blue-400">verified_user</span> Verify Status
                                         </span>
                                     </div>
@@ -307,14 +307,14 @@ export default function LandlordDashboardPage() {
                 <div className="flex flex-col gap-6">
                     <div className="flex items-center justify-between">
                         <h2 className="text-xl font-bold text-slate-900 dark:text-white">Actionable Alerts</h2>
-                        <Link to="/landlord/alerts" className="text-sm font-semibold text-brand hover:underline">View All</Link>
+                        <Link to="/landlord/alerts" className="text-sm font-semibold text-brand-ink hover:underline">View All</Link>
                     </div>
 
                     <SectionCard padding="sm" className="flex flex-col gap-4">
                         {alerts.length === 0 ? (
                             <div className="py-6 text-center">
                                 <span className="material-symbols-outlined text-3xl text-green-500 mb-2">check_circle</span>
-                                <p className="text-sm text-slate-500 dark:text-slate-400">All caught up! No alerts.</p>
+                                <p className="text-sm text-slate-500 dark:text-slate-400">No alerts right now.</p>
                             </div>
                         ) : (
                             alerts.slice(0, 3).map((alert, index) => {
@@ -345,7 +345,7 @@ export default function LandlordDashboardPage() {
                     </SectionCard>
 
                     {/* AI Insights Card */}
-                    <div className="bg-brand rounded-2xl p-5 text-white shadow-lg relative overflow-hidden">
+                    <div className="bg-brand-ink rounded-2xl p-5 text-on-brand shadow-lg relative overflow-hidden">
                         <div className="relative z-10">
                             <div className="flex items-center gap-2 mb-2">
                                 <span className="material-symbols-outlined">forum</span>
@@ -353,7 +353,7 @@ export default function LandlordDashboardPage() {
                             </div>
                             <h4 className="font-bold text-lg leading-tight mb-2">Optimize your rental yield</h4>
                             <p className="text-sm text-blue-100 mb-4">Based on market trends, you could increase rent for 1243 Oakwood by 5%.</p>
-                            <button className="w-full py-2 bg-white text-brand font-bold text-sm rounded-lg hover:bg-blue-50 transition-colors">View Analysis</button>
+                            <button className="w-full py-2 bg-white text-brand-ink font-bold text-sm rounded-lg hover:bg-blue-50 transition-colors">View Analysis</button>
                         </div>
                     </div>
                 </div>

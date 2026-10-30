@@ -17,6 +17,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import ConfirmationModal from '../../components/ConfirmationModal';
+import Logo from '../../components/common/Logo';
 import { useAuth } from '../../contexts/AuthContext';
 import { tokenManager } from '../../lib/api/client';
 import { FragmentRenderer } from '../../features/chat/components/FragmentRenderer';
@@ -37,7 +38,7 @@ const ROLE_EMPTY_TITLE: Record<string, string> = {
     TENANT: 'Looking for your next place?',
     LANDLORD: 'Manage your portfolio',
     AGENT: 'Find jobs near you',
-    ADMIN: 'HomeAI Assistant',
+    ADMIN: 'Keystead Assistant',
 };
 const ROLE_SUGGESTIONS: Record<string, string[]> = {
     TENANT: [
@@ -215,8 +216,8 @@ export default function AIChatPage() {
     };
 
     const groups = useMemo(() => groupSessions(state.sessions), [state.sessions]);
-    const placeholder = ROLE_PLACEHOLDER[roleKey] ?? 'Ask HomeAI anything…';
-    const emptyTitle = ROLE_EMPTY_TITLE[roleKey] ?? 'HomeAI Assistant';
+    const placeholder = ROLE_PLACEHOLDER[roleKey] ?? 'Ask Keystead anything…';
+    const emptyTitle = ROLE_EMPTY_TITLE[roleKey] ?? 'Keystead Assistant';
     const suggestions = ROLE_SUGGESTIONS[roleKey] ?? [];
     const firstName = user?.firstName ?? '';
 
@@ -241,13 +242,8 @@ export default function AIChatPage() {
 
             {/* Logo */}
             <div className="absolute top-6 left-6 md:left-10 z-40 flex items-center gap-3">
-                <Link to="/" className="flex items-center gap-3">
-                    <div className="size-10 bg-brand rounded-xl flex items-center justify-center text-white shadow-sm">
-                        <span className="material-symbols-outlined">real_estate_agent</span>
-                    </div>
-                    <h2 className="hidden md:block text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">
-                        HomeAI
-                    </h2>
+                <Link to="/" className="flex items-center h-10">
+                    <Logo wordmark="md" />
                 </Link>
             </div>
 
@@ -255,25 +251,25 @@ export default function AIChatPage() {
             <header className="fixed top-6 left-0 right-0 z-40 flex justify-center w-full pointer-events-none">
                 <div className="pointer-events-auto flex items-center gap-1 md:gap-2 px-3 py-2 bg-white/90 dark:bg-surface-dark/90 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-black/20 rounded-full mx-4">
                     <div className="flex items-center gap-1">
-                        <Link to="/" aria-label="Home" className="flex items-center justify-center size-10 md:size-11 rounded-full text-slate-500 hover:text-brand hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
+                        <Link to="/" aria-label="Home" className="flex items-center justify-center size-10 md:size-11 rounded-full text-slate-500 hover:text-brand-ink hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
                             <span className="material-symbols-outlined">home</span>
                         </Link>
-                        <Link to="/search?type=buy" className="px-4 py-2 text-sm font-semibold rounded-full text-slate-600 hover:text-brand hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
+                        <Link to="/search?type=buy" className="px-4 py-2 text-sm font-semibold rounded-full text-slate-600 hover:text-brand-ink hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
                             Buy
                         </Link>
-                        <Link to="/search?type=rent" className="px-4 py-2 text-sm font-semibold rounded-full text-slate-600 hover:text-brand hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
+                        <Link to="/search?type=rent" className="px-4 py-2 text-sm font-semibold rounded-full text-slate-600 hover:text-brand-ink hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
                             Rent
                         </Link>
-                        <Link to="/search?type=sell" className="px-4 py-2 text-sm font-semibold rounded-full text-slate-600 hover:text-brand hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
+                        <Link to="/search?type=sell" className="px-4 py-2 text-sm font-semibold rounded-full text-slate-600 hover:text-brand-ink hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
                             Sell
                         </Link>
-                        <Link to="/ai-chat" aria-label="AI Chat" className="flex items-center justify-center size-10 md:size-11 rounded-full text-brand bg-slate-100 dark:bg-slate-700 transition-all">
+                        <Link to="/ai-chat" aria-label="AI Chat" className="flex items-center justify-center size-10 md:size-11 rounded-full text-brand-ink bg-slate-100 dark:bg-slate-700 transition-all">
                             <span className="material-symbols-outlined">forum</span>
                         </Link>
                     </div>
                     <div className="w-px h-6 bg-slate-200 dark:bg-slate-700 mx-1"></div>
                     <div className="flex items-center gap-1 md:gap-2">
-                        <button className="flex items-center justify-center size-10 md:size-11 rounded-full text-slate-500 hover:text-brand hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
+                        <button className="flex items-center justify-center size-10 md:size-11 rounded-full text-slate-500 hover:text-brand-ink hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white transition-all">
                             <span className="material-symbols-outlined">notifications</span>
                         </button>
                         <div className="relative">
@@ -285,26 +281,26 @@ export default function AIChatPage() {
                             </button>
                             {showDropdown && (
                                 <div className="absolute right-0 mt-2 py-2 bg-white dark:bg-slate-800 min-w-[200px] shadow-[0px_8px_16px_0px_rgba(0,0,0,0.1)] z-50 rounded-xl border border-slate-200 dark:border-slate-700">
-                                    <Link to="/landlord/dashboard" className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand">
+                                    <Link to="/landlord/dashboard" className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand-ink">
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">dashboard</span>
                                             Landlord Dashboard
                                         </div>
                                     </Link>
-                                    <Link to="/tenant/dashboard" className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand">
+                                    <Link to="/tenant/dashboard" className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand-ink">
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">vpn_key</span>
                                             Tenant Dashboard
                                         </div>
                                     </Link>
-                                    <Link to="/agent/jobs" className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand">
+                                    <Link to="/agent/jobs" className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand-ink">
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">support_agent</span>
                                             Agent Dashboard
                                         </div>
                                     </Link>
                                     <hr className="my-1 border-slate-200 dark:border-slate-700" />
-                                    <Link to="/settings" className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand">
+                                    <Link to="/settings" className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand-ink">
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-lg">settings</span>
                                             Account Settings
@@ -360,7 +356,7 @@ export default function AIChatPage() {
                                                             key={chatRow.id}
                                                             className={`group relative w-full text-left p-3 rounded-xl transition-all cursor-pointer ${
                                                                 active
-                                                                    ? 'bg-brand text-white shadow-sm'
+                                                                    ? 'bg-brand-ink text-on-brand'
                                                                     : 'hover:bg-slate-50 dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
                                                             }`}
                                                             onClick={() => handleSidebarClick(chatRow.id)}
@@ -405,7 +401,7 @@ export default function AIChatPage() {
                             <div className="p-4 bg-slate-50 dark:bg-slate-900 border-t border-slate-100 dark:border-slate-700 shrink-0">
                                 <button
                                     onClick={handleNewChat}
-                                    className="w-full flex items-center justify-center gap-2 py-2 text-xs font-semibold text-white bg-brand hover:bg-brand/90 rounded-lg transition-colors"
+                                    className="w-full flex items-center justify-center gap-2 py-2 text-xs font-semibold text-on-brand bg-brand-ink hover:bg-brand-ink/90 rounded-lg transition-colors"
                                 >
                                     <span className="material-symbols-outlined text-[16px]">add</span>
                                     New conversation
@@ -473,7 +469,7 @@ export default function AIChatPage() {
                                                 onClick={() =>
                                                     sendConfirmation(state.pendingConfirmation!.toolCallId, true)
                                                 }
-                                                className="rounded-full bg-brand px-4 py-1.5 text-sm font-medium text-white"
+                                                className="rounded-full bg-brand-ink px-4 py-1.5 text-sm font-medium text-on-brand"
                                             >
                                                 Confirm
                                             </button>
@@ -486,7 +482,7 @@ export default function AIChatPage() {
                         {/* Input Area */}
                         <div className="p-3 md:p-4 bg-white/80 dark:bg-surface-dark/80 backdrop-blur-md border-t border-slate-100 dark:border-slate-800 shrink-0 z-20">
                             <div className="relative max-w-3xl mx-auto w-full">
-                                <div className="flex items-center gap-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-full px-4 py-2 shadow-sm focus-within:ring-2 focus-within:ring-brand/20 focus-within:border-brand transition-all">
+                                <div className="flex items-center gap-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-full px-4 py-2 focus-within:ring-2 focus-within:ring-brand/20 focus-within:border-brand transition-all">
                                     <textarea
                                         ref={inputRef}
                                         className="flex-1 bg-transparent border-none outline-none focus:ring-0 text-slate-900 dark:text-white placeholder:text-slate-400 py-1 resize-none max-h-24 text-sm"
@@ -513,7 +509,7 @@ export default function AIChatPage() {
                                     <button
                                         onClick={submit}
                                         disabled={state.isStreaming || !message.trim()}
-                                        className="p-2 bg-brand text-white rounded-full shadow-sm hover:bg-brand/90 transition-all flex items-center justify-center disabled:opacity-50"
+                                        className="p-2 bg-brand-ink text-on-brand rounded-full hover:bg-brand-ink/90 transition-all flex items-center justify-center disabled:opacity-50"
                                     >
                                         <span className="material-symbols-outlined icon-filled text-lg">
                                             {state.isStreaming ? 'hourglass_top' : 'send'}
@@ -535,7 +531,7 @@ export default function AIChatPage() {
 
 function AssistantAvatar() {
     return (
-        <div className="size-8 md:size-10 rounded-full bg-brand flex-shrink-0 flex items-center justify-center text-white shadow-sm mt-1">
+        <div className="size-8 md:size-10 rounded-full bg-brand-ink flex-shrink-0 flex items-center justify-center text-on-brand mt-1">
             <span className="material-symbols-outlined text-base md:text-lg icon-filled">forum</span>
         </div>
     );
@@ -545,7 +541,7 @@ function TypingIndicator() {
     return (
         <div className="flex gap-4 max-w-[95%] md:max-w-[85%] animate-fade-in-up">
             <AssistantAvatar />
-            <div className="bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl rounded-tl-sm px-5 py-4 shadow-sm h-12 flex items-center gap-1.5">
+            <div className="bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl rounded-tl-sm px-5 py-4 h-12 flex items-center gap-1.5">
                 <span className="w-2 h-2 bg-slate-400/80 rounded-full animate-bounce" style={{ animationDelay: '0ms', animationDuration: '1.4s' }} />
                 <span className="w-2 h-2 bg-slate-400/80 rounded-full animate-bounce" style={{ animationDelay: '200ms', animationDuration: '1.4s' }} />
                 <span className="w-2 h-2 bg-slate-400/80 rounded-full animate-bounce" style={{ animationDelay: '400ms', animationDuration: '1.4s' }} />
@@ -566,7 +562,7 @@ interface EmptyStateProps {
 function EmptyState({ title, firstName, placeholder, suggestions, onSuggestion, seed }: EmptyStateProps) {
     return (
         <div className="flex flex-col items-center justify-center h-full px-6 pt-12">
-            <div className="size-14 rounded-2xl bg-brand grid place-items-center text-white shadow-sm mb-4">
+            <div className="size-14 rounded-2xl bg-brand-ink grid place-items-center text-on-brand mb-4">
                 <span className="material-symbols-outlined text-2xl icon-filled">forum</span>
             </div>
             <h2 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white">
@@ -590,7 +586,7 @@ function EmptyState({ title, firstName, placeholder, suggestions, onSuggestion, 
                         <button
                             key={s}
                             onClick={() => onSuggestion(s)}
-                            className="px-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 hover:border-brand hover:text-brand transition-colors"
+                            className="px-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 hover:border-brand hover:text-brand-ink transition-colors"
                         >
                             {s}
                         </button>
@@ -647,7 +643,7 @@ function UserBubble({ text, createdAt }: { text: string; createdAt: string }) {
     return (
         <div className="flex justify-end animate-fade-in-up">
             <div className="flex flex-col items-end gap-1 max-w-[85%] md:max-w-[70%]">
-                <div className="bg-brand text-white rounded-2xl rounded-tr-sm px-5 py-3.5 shadow-md">
+                <div className="bg-brand-ink text-on-brand rounded-2xl rounded-tr-sm px-5 py-3.5 shadow-md">
                     <p className="text-sm md:text-base leading-relaxed whitespace-pre-wrap">{text}</p>
                 </div>
                 <span className="text-xs text-slate-400 mr-1">
@@ -674,7 +670,7 @@ function AssistantBlock({ items, onFragmentAction }: AssistantBlockProps) {
                         return (
                             <div
                                 key={item.id}
-                                className="bg-slate-50 dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700/50 rounded-2xl rounded-tl-sm px-5 py-4 shadow-sm text-slate-700 dark:text-slate-200"
+                                className="bg-slate-50 dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700/50 rounded-2xl rounded-tl-sm px-5 py-4 text-slate-700 dark:text-slate-200"
                             >
                                 <p className="text-sm md:text-base leading-relaxed whitespace-pre-wrap">{item.text}</p>
                             </div>
@@ -705,7 +701,7 @@ function AssistantBlock({ items, onFragmentAction }: AssistantBlockProps) {
                 })}
                 {lastAt ? (
                     <span className="text-xs text-slate-400 ml-1 mt-1">
-                        HomeAI Assistant ·{' '}
+                        Keystead Assistant ·{' '}
                         {new Date(lastAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}
                     </span>
                 ) : null}

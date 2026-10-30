@@ -67,7 +67,7 @@ export default function SignUpStep2() {
         <div className="w-full max-w-lg bg-white/10 dark:bg-surface-dark/40 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col items-center">
             {/* Step Badge */}
             <div className="flex items-center gap-2 mb-6">
-                <span className="px-3 py-1 rounded-full bg-white/80 border border-white/40 text-brand text-xs font-bold uppercase tracking-wider">
+                <span className="px-3 py-1 rounded-full bg-white/80 border border-white/40 text-brand-ink text-xs font-bold uppercase tracking-wider">
                     Step 2 of 3
                 </span>
             </div>
@@ -102,7 +102,7 @@ export default function SignUpStep2() {
                 <button
                     type="submit"
                     disabled={isLoading || code.length !== 6}
-                    className="w-full py-3.5 px-4 rounded-xl bg-brand hover:bg-brand/90 text-white font-bold text-lg shadow-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                    className="w-full py-3.5 px-4 rounded-xl bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                 >
                     {isLoading ? (
                         <>
@@ -125,7 +125,7 @@ export default function SignUpStep2() {
                             type="button"
                             onClick={handleResend}
                             disabled={!canResend || isLoading}
-                            className={`font-semibold transition-colors ml-1 ${canResend ? 'text-brand hover:text-brand/80 cursor-pointer' : 'text-slate-500 cursor-not-allowed'}`}
+                            className={`font-semibold transition-colors ml-1 ${canResend ? 'text-sky hover:text-sky/80 cursor-pointer' : 'text-slate-500 cursor-not-allowed'}`}
                         >
                             Resend.
                         </button>
@@ -138,7 +138,7 @@ export default function SignUpStep2() {
 
             <p className="mt-8 text-sm text-slate-300">
                 Entered the wrong email?{' '}
-                <Link className="font-bold text-white hover:text-brand transition-colors ml-1" to="/auth/signup/step1">
+                <Link className="font-bold text-white hover:text-sky transition-colors ml-1" to="/auth/signup/step1">
                     Change it
                 </Link>
             </p>

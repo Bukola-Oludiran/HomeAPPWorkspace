@@ -92,7 +92,7 @@ export default function TenantApplicationDetail() {
                 <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
                     <span className="material-symbols-outlined text-5xl text-slate-300">error</span>
                     <p className="text-slate-500 font-medium">{error || 'Application not found'}</p>
-                    <Link to="/tenant/applications" className="text-brand font-bold hover:underline">Back to Applications</Link>
+                    <Link to="/tenant/applications" className="text-brand-ink font-bold hover:underline">Back to Applications</Link>
                 </div>
             </PageContainer>
         );
@@ -165,7 +165,7 @@ export default function TenantApplicationDetail() {
 
                     {/* Application Message */}
                     {application.message && (
-                        <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
+                        <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden">
                             <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2 bg-slate-50/50 dark:bg-canvas-dark">
                                 <span className="material-symbols-outlined text-slate-400">comment</span>
                                 <h3 className="font-bold text-slate-900 dark:text-white">Your Message</h3>
@@ -179,7 +179,7 @@ export default function TenantApplicationDetail() {
                     )}
 
                     {/* Submitted Information */}
-                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden">
                         <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-canvas-dark">
                             <div className="flex items-center gap-2">
                                 <span className="material-symbols-outlined text-slate-400">description</span>
@@ -244,7 +244,7 @@ export default function TenantApplicationDetail() {
                 <div className="flex flex-col gap-6">
                     {/* Property Card */}
                     {application.property && (
-                        <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden group">
+                        <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden group">
                             {application.property.primaryImage && (
                                 <div className="relative h-48 w-full overflow-hidden">
                                     <img
@@ -280,7 +280,7 @@ export default function TenantApplicationDetail() {
                     )}
 
                     {/* Application Timeline */}
-                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 p-6">
                         <h3 className="font-bold text-slate-900 dark:text-white mb-5">Application Timeline</h3>
                         <div className="relative border-l-2 border-slate-100 dark:border-slate-800 ml-3 space-y-6">
                             <div className="relative pl-6">
@@ -301,14 +301,14 @@ export default function TenantApplicationDetail() {
                     </div>
 
                     {/* AI Assistant Card */}
-                    <div className="bg-brand rounded-2xl p-5 text-white shadow-lg relative overflow-hidden">
+                    <div className="bg-brand-ink rounded-2xl p-5 text-on-brand shadow-lg relative overflow-hidden">
                         <div className="relative z-10">
                             <div className="flex items-center gap-2 mb-2">
                                 <span className="material-symbols-outlined">forum</span>
                                 <span className="text-xs font-bold uppercase tracking-wider opacity-80">AI Assistant</span>
                             </div>
                             <h4 className="font-bold text-sm leading-tight mb-2">Have questions about this application?</h4>
-                            <p className="text-xs text-blue-100 mb-3">Ask HomeAI about typical wait times or clarification on the landlord's request.</p>
+                            <p className="text-xs text-blue-100 mb-3">Ask Keystead about typical wait times or clarification on the landlord's request.</p>
                             <button className="cursor-pointer inline-block w-full py-2 bg-white/20 hover:bg-white/30 border border-white/30 text-white font-bold text-xs rounded-lg transition-colors text-center">Ask Assistant</button>
                         </div>
                     </div>

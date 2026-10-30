@@ -52,7 +52,7 @@ export function Form({ props, onAction }: Props) {
                 e.preventDefault();
                 submit();
             }}
-            className="space-y-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
+            className="space-y-3 rounded-2xl border border-slate-200 bg-white p-4"
         >
             <header>
                 <h3 className="text-base font-semibold">{props.title}</h3>

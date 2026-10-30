@@ -32,7 +32,7 @@ const SectionCard: React.FC<SectionCardProps> = ({
 }) => {
     return (
         <div
-            className={`bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm ${padding === 'none' ? 'overflow-hidden' : paddingClasses[padding]} ${className}`}
+            className={`bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 ${padding === 'none' ? 'overflow-hidden' : paddingClasses[padding]} ${className}`}
         >
             {header && (
                 <div className={`flex items-center justify-between ${padding === 'none' ? 'p-6 pb-4' : 'mb-4'}`}>

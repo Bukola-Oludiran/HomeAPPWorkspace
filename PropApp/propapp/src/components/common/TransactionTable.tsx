@@ -120,7 +120,7 @@ function TransactionTable<T extends Record<string, unknown>>({
                             disabled={!hasNext}
                             className={`px-3 py-1 text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors ${!hasNext
                                 ? 'text-slate-400 dark:text-slate-500 opacity-50 cursor-not-allowed'
-                                : 'text-brand'
+                                : 'text-brand-ink'
                                 }`}
                         >
                             Next

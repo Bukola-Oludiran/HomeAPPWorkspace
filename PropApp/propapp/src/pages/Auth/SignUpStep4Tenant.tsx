@@ -27,7 +27,7 @@ export default function SignUpStep4Tenant() {
         <div className="w-full max-w-4xl bg-white/10 dark:bg-surface-dark/40 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-6 md:p-8 lg:p-10 flex flex-col my-10 overflow-y-auto max-h-[90vh]">
             {/* Step Badge */}
             <div className="flex items-center justify-center mb-6">
-                <span className="px-3 py-1 rounded-full bg-white/80 border border-white/40 text-brand text-xs font-bold uppercase tracking-wider">
+                <span className="px-3 py-1 rounded-full bg-white/80 border border-white/40 text-brand-ink text-xs font-bold uppercase tracking-wider">
                     Step 4 of 4
                 </span>
             </div>
@@ -72,7 +72,7 @@ export default function SignUpStep4Tenant() {
                                             value={type.value}
                                         />
                                         <div className="flex flex-col items-center justify-center p-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all duration-200 h-24 text-center peer-checked:border-brand peer-checked:bg-brand/15">
-                                            <span className="material-symbols-outlined text-slate-300 text-2xl mb-2 peer-checked:text-brand transition-colors">
+                                            <span className="material-symbols-outlined text-slate-300 text-2xl mb-2 peer-checked:text-sky transition-colors">
                                                 {type.icon}
                                             </span>
                                             <span className="text-white text-xs font-medium">{type.label}</span>
@@ -122,7 +122,7 @@ export default function SignUpStep4Tenant() {
                         <div className="space-y-4">
                             <div className="flex justify-between items-center">
                                 <label className="text-sm font-semibold text-slate-200">Monthly Budget</label>
-                                <span className="text-brand font-bold text-sm">$1,200 - $3,500</span>
+                                <span className="text-sky font-bold text-sm">$1,200 - $3,500</span>
                             </div>
                             <div className="px-2">
                                 <input
@@ -173,7 +173,7 @@ export default function SignUpStep4Tenant() {
                                 {['Immediately (ASAP)', 'Within 1-3 months', '3+ months'].map((timeline) => (
                                     <label key={timeline} className="flex items-center p-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 cursor-pointer transition-colors">
                                         <input
-                                            className="text-brand bg-transparent border-slate-500 focus:ring-brand focus:ring-offset-0"
+                                            className="text-sky bg-transparent border-slate-500 focus:ring-brand focus:ring-offset-0"
                                             name="timeline"
                                             type="radio"
                                         />
@@ -189,7 +189,7 @@ export default function SignUpStep4Tenant() {
                 <div className="pt-4 mt-2">
                     <Link
                         to="/tenant/dashboard"
-                        className="w-full py-3.5 px-4 rounded-xl bg-brand hover:bg-brand/90 text-white font-bold text-lg shadow-sm transition-all flex items-center justify-center gap-2"
+                        className="w-full py-3.5 px-4 rounded-xl bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-lg transition-all flex items-center justify-center gap-2"
                     >
                         Finish Setup
                         <span className="material-symbols-outlined text-xl">arrow_forward</span>

@@ -166,7 +166,7 @@ export default function SignLeaseRenewalModal({
                             </div>
 
                             <div className="p-4 bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 text-center">
-                                <button className="text-brand hover:text-[#0e64bd] text-sm font-bold flex items-center justify-center gap-2 mx-auto">
+                                <button className="text-brand-ink hover:text-[#0e64bd] text-sm font-bold flex items-center justify-center gap-2 mx-auto">
                                     <span className="material-symbols-outlined text-[18px]">download</span>
                                     Download Full PDF
                                 </button>
@@ -251,7 +251,7 @@ export default function SignLeaseRenewalModal({
                                             </span>
                                         </div>
                                         <div className="flex-1">
-                                            <p className="text-sm font-semibold text-slate-900 dark:text-white leading-snug group-hover:text-brand transition-colors">
+                                            <p className="text-sm font-semibold text-slate-900 dark:text-white leading-snug group-hover:text-brand-ink transition-colors">
                                                 I agree to the terms of this lease renewal offer.
                                             </p>
                                             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
@@ -265,7 +265,7 @@ export default function SignLeaseRenewalModal({
                             {/* Footer */}
                             <div className="p-6 bg-slate-50 dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-3">
                                 <div className="flex items-center gap-2 mb-2 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-100 dark:border-blue-900/30">
-                                    <span className="material-symbols-outlined text-brand text-[20px]">verified_user</span>
+                                    <span className="material-symbols-outlined text-brand-ink text-[20px]">verified_user</span>
                                     <p className="text-xs text-blue-800 dark:text-blue-200">Your signature is secured with 256-bit encryption.</p>
                                 </div>
                                 <div className="flex gap-3">
@@ -278,7 +278,7 @@ export default function SignLeaseRenewalModal({
                                     <button
                                         onClick={handleSign}
                                         disabled={!agreedToTerms || !fullName.trim() || isSubmitting}
-                                        className="flex-[2] py-3 px-4 bg-brand hover:bg-[#0e64bd] disabled:bg-slate-300 disabled:cursor-not-allowed text-white rounded-xl font-bold shadow-sm transition-all flex items-center justify-center gap-2"
+                                        className="flex-[2] py-3 px-4 bg-brand-ink hover:bg-[#0e64bd] disabled:bg-slate-300 disabled:cursor-not-allowed text-on-brand rounded-xl font-bold transition-all flex items-center justify-center gap-2"
                                     >
                                         {isSubmitting ? (
                                             <>

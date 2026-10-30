@@ -81,7 +81,7 @@ const StatsCard: React.FC<StatsCardProps> = ({
 
     return (
         <div
-            className={`bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col justify-between ${className}`}
+            className={`bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800 flex flex-col justify-between ${className}`}
         >
             <div className="flex justify-between items-start mb-4">
                 <div className={`p-3 rounded-xl ${iconColorStyles[iconColor]}`}>

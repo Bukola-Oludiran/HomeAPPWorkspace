@@ -56,13 +56,13 @@ export default function ApplicantInvitationPage() {
                     <p className="mt-2 text-sm text-slate-500">Expires {new Date(invitation.expiresAt).toLocaleString()}.</p>
                     {!isAuthenticated ? (
                         <div className="mt-6 flex gap-3">
-                            <Link to="/auth/login" className="rounded-lg bg-brand px-5 py-2.5 font-bold text-white">Sign in</Link>
+                            <Link to="/auth/login" className="rounded-lg bg-brand-ink px-5 py-2.5 font-bold text-on-brand">Sign in</Link>
                             <Link to="/auth/signup/step1" className="rounded-lg border px-5 py-2.5 font-bold text-slate-700 dark:text-slate-200">Register</Link>
                         </div>
                     ) : user?.role !== 'TENANT' ? (
                         <p className="mt-6 text-amber-600">Sign in with a tenant account to accept this invitation.</p>
                     ) : (
-                        <button onClick={accept} disabled={accepting || !!invitation.acceptedAt} className="mt-6 rounded-lg bg-brand px-5 py-2.5 font-bold text-white disabled:opacity-50">
+                        <button onClick={accept} disabled={accepting || !!invitation.acceptedAt} className="mt-6 rounded-lg bg-brand-ink px-5 py-2.5 font-bold text-on-brand disabled:opacity-50">
                             {invitation.acceptedAt ? 'Invitation accepted' : accepting ? 'Accepting...' : 'Accept invitation'}
                         </button>
                     )}

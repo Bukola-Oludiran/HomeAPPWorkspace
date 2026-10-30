@@ -17,7 +17,7 @@ export default function EnterRecoveryCodePage() {
             {/* Icon */}
             <div className="mb-6 flex justify-center">
                 <div className="size-16 bg-white/10 rounded-full flex items-center justify-center border border-white/10 shadow-inner ring-1 ring-white/5">
-                    <span className="material-symbols-outlined text-brand text-3xl">key</span>
+                    <span className="material-symbols-outlined text-sky text-3xl">key</span>
                 </div>
             </div>
 
@@ -52,7 +52,7 @@ export default function EnterRecoveryCodePage() {
                 {/* Verify Button */}
                 <Link
                     to="/auth/2fa/recovery-success"
-                    className="w-full py-4 px-5 rounded-xl bg-brand hover:bg-blue-600 border border-transparent text-white font-bold text-sm shadow-sm transition-all transform active:scale-[0.98] flex items-center justify-center"
+                    className="w-full py-4 px-5 rounded-xl bg-brand-ink hover:bg-brand-ink/90 border border-transparent text-on-brand font-bold text-sm transition-all transform active:scale-[0.98] flex items-center justify-center"
                 >
                     Verify Code
                 </Link>

@@ -316,9 +316,9 @@ export default function LandlordMaintenanceDetail() {
         <PageContainer>
             {/* Breadcrumb */}
             <nav className="flex items-center gap-2 text-sm text-slate-800 dark:text-slate-400 mb-6">
-                <Link to="/landlord/dashboard" className="hover:text-brand transition-colors">Dashboard</Link>
+                <Link to="/landlord/dashboard" className="hover:text-brand-ink transition-colors">Dashboard</Link>
                 <span className="material-symbols-outlined text-[16px] text-slate-800 dark:text-slate-400">chevron_right</span>
-                <Link to="/landlord/alerts" className="hover:text-brand transition-colors">Maintenance</Link>
+                <Link to="/landlord/alerts" className="hover:text-brand-ink transition-colors">Maintenance</Link>
                 <span className="material-symbols-outlined text-[16px] text-slate-800 dark:text-slate-400">chevron_right</span>
                 <span className="text-slate-900 dark:text-white font-medium">Request #{maintenanceRequest.id}</span>
             </nav>
@@ -348,7 +348,7 @@ export default function LandlordMaintenanceDetail() {
                         <span className="material-symbols-outlined text-[20px]">cancel</span>
                         Cancel Request
                     </button>
-                    <button className="px-5 py-2.5 rounded-lg bg-brand hover:bg-brand/90 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2">
+                    <button className="px-5 py-2.5 rounded-lg bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm transition-all flex items-center gap-2">
                         <span className="material-symbols-outlined text-[20px]">check_circle</span>
                         Mark as Resolved
                     </button>
@@ -360,7 +360,7 @@ export default function LandlordMaintenanceDetail() {
                 {/* Left Column */}
                 <div className="lg:col-span-2 space-y-8">
                     {/* Property & Tenant Info */}
-                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden">
                         <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
                             <div className="p-6 flex gap-4 items-start">
                                 <div className="w-24 h-24 rounded-lg overflow-hidden shrink-0 bg-slate-100">
@@ -374,7 +374,7 @@ export default function LandlordMaintenanceDetail() {
                                     <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1">Property</h3>
                                     <h4 className="text-lg font-bold text-slate-900 dark:text-white">{maintenanceRequest.property.name}</h4>
                                     <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">{maintenanceRequest.property.location}</p>
-                                    <Link to="/landlord/properties/1" className="text-sm font-semibold text-brand hover:underline flex items-center gap-1">
+                                    <Link to="/landlord/properties/1" className="text-sm font-semibold text-brand-ink hover:underline flex items-center gap-1">
                                         View Property Details <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
                                     </Link>
                                 </div>
@@ -414,7 +414,7 @@ export default function LandlordMaintenanceDetail() {
                     </div>
 
                     {/* Request Details */}
-                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 p-6">
                         <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
                             <span className="material-symbols-outlined text-slate-400">description</span>
                             Request Details
@@ -431,8 +431,8 @@ export default function LandlordMaintenanceDetail() {
                                     <span className="material-symbols-outlined">image</span>
                                 </div>
                                 <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                                    <button className="text-white hover:text-brand transition-colors"><span className="material-symbols-outlined">visibility</span></button>
-                                    <button className="text-white hover:text-brand transition-colors"><span className="material-symbols-outlined">download</span></button>
+                                    <button className="text-white hover:text-brand-ink transition-colors"><span className="material-symbols-outlined">visibility</span></button>
+                                    <button className="text-white hover:text-brand-ink transition-colors"><span className="material-symbols-outlined">download</span></button>
                                 </div>
                             </div>
                             <div className="relative group w-32 h-32 rounded-lg bg-slate-100 dark:bg-slate-800 overflow-hidden shrink-0 border border-slate-200 dark:border-slate-700">
@@ -440,20 +440,20 @@ export default function LandlordMaintenanceDetail() {
                                     <span className="material-symbols-outlined">videocam</span>
                                 </div>
                                 <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                                    <button className="text-white hover:text-brand transition-colors"><span className="material-symbols-outlined">play_circle</span></button>
+                                    <button className="text-white hover:text-brand-ink transition-colors"><span className="material-symbols-outlined">play_circle</span></button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     {/* Activity Timeline */}
-                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 p-6">
                         <div className="flex items-center justify-between mb-6">
                             <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                                 <span className="material-symbols-outlined text-slate-400">history</span>
                                 Activity Timeline
                             </h3>
-                            <button className="text-xs font-bold text-brand hover:underline">Add Note</button>
+                            <button className="text-xs font-bold text-brand-ink hover:underline">Add Note</button>
                         </div>
                         <div className="relative pl-6 border-l-2 border-slate-100 dark:border-slate-800 space-y-8">
                             {maintenanceRequest.timeline.map((item) => (
@@ -470,7 +470,7 @@ export default function LandlordMaintenanceDetail() {
                     </div>
 
                     {/* Communication Log */}
-                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-6">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 p-6">
                         <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
                             <span className="material-symbols-outlined text-slate-400">forum</span>
                             Communication Log
@@ -483,7 +483,7 @@ export default function LandlordMaintenanceDetail() {
                                             {msg.initials}
                                         </div>
                                     ) : (
-                                        <div className="size-8 rounded-full bg-brand shrink-0 flex items-center justify-center text-white mt-1">
+                                        <div className="size-8 rounded-full bg-brand-ink shrink-0 flex items-center justify-center text-on-brand mt-1">
                                             <span className="material-symbols-outlined text-[16px]">person</span>
                                         </div>
                                     )}
@@ -492,7 +492,7 @@ export default function LandlordMaintenanceDetail() {
                                         : 'bg-blue-50 dark:bg-blue-900/20 rounded-tr-none border border-blue-100 dark:border-blue-800'
                                         }`}>
                                         <div className="flex justify-between items-center mb-1 gap-4">
-                                            <span className={`text-xs font-bold ${msg.from === 'landlord' ? 'text-brand dark:text-blue-400' : 'text-slate-900 dark:text-white'}`}>
+                                            <span className={`text-xs font-bold ${msg.from === 'landlord' ? 'text-brand-ink dark:text-blue-400' : 'text-slate-900 dark:text-white'}`}>
                                                 {msg.name}
                                             </span>
                                             <span className="text-xs text-slate-400">{msg.time}</span>
@@ -511,13 +511,13 @@ export default function LandlordMaintenanceDetail() {
                                     placeholder="Type a message or internal note..."
                                     className="w-full pl-4 pr-12 py-3 bg-slate-50 dark:bg-surface-dark border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-brand/20 focus:border-brand text-slate-900 dark:text-white placeholder:text-slate-400"
                                 />
-                                <button className="absolute right-2 top-1.5 p-1.5 bg-brand text-white rounded-lg hover:bg-brand/90 transition-colors">
+                                <button className="absolute right-2 top-1.5 p-1.5 bg-brand-ink text-on-brand rounded-lg hover:bg-brand-ink/90 transition-colors">
                                     <span className="material-symbols-outlined text-[18px]">send</span>
                                 </button>
                             </div>
                             <div className="flex gap-4 mt-2 px-1">
                                 <label className="flex items-center gap-2 cursor-pointer">
-                                    <input type="radio" name="msg-type" defaultChecked className="text-brand focus:ring-brand" />
+                                    <input type="radio" name="msg-type" defaultChecked className="text-brand-ink focus:ring-brand" />
                                     <span className="text-xs text-slate-600 dark:text-slate-400 font-medium">Message Tenant</span>
                                 </label>
                                 <label className="flex items-center gap-2 cursor-pointer">
@@ -532,14 +532,14 @@ export default function LandlordMaintenanceDetail() {
                 {/* Right Sidebar */}
                 <div className="space-y-6">
                     {/* Actions */}
-                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-5 sticky top-24">
+                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 p-5 sticky top-24">
                         <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-4">Actions</h3>
                         <div className="flex flex-col gap-3">
-                            <button className="w-full py-3 px-4 bg-brand hover:bg-brand/90 text-white font-bold text-sm rounded-xl shadow-sm transition-all flex items-center justify-between group">
+                            <button className="w-full py-3 px-4 bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm rounded-xl transition-all flex items-center justify-between group">
                                 Schedule Maintenance
                                 <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">calendar_clock</span>
                             </button>
-                            <button className="w-full py-3 px-4 bg-slate-50 dark:bg-surface-dark border border-slate-200 dark:border-slate-700 hover:border-brand hover:text-brand text-slate-800 dark:text-slate-300 font-bold text-sm rounded-xl transition-all flex items-center justify-between">
+                            <button className="w-full py-3 px-4 bg-slate-50 dark:bg-surface-dark border border-slate-200 dark:border-slate-700 hover:border-brand hover:text-brand-ink text-slate-800 dark:text-slate-300 font-bold text-sm rounded-xl transition-all flex items-center justify-between">
                                 Send Update to Tenant
                                 <span className="material-symbols-outlined text-slate-800 dark:text-slate-400">send</span>
                             </button>
@@ -554,7 +554,7 @@ export default function LandlordMaintenanceDetail() {
                         <div>
                             <div className="flex items-center justify-between mb-3">
                                 <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Assigned Vendor</h3>
-                                <button className="text-xs font-bold text-brand hover:underline">
+                                <button className="text-xs font-bold text-brand-ink hover:underline">
                                     {maintenanceRequest.vendor ? 'Change' : 'Assign'}
                                 </button>
                             </div>
@@ -575,10 +575,10 @@ export default function LandlordMaintenanceDetail() {
                                             </div>
                                         </div>
                                         <div className="flex gap-2">
-                                            <button className="flex-1 py-1.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg text-xs font-bold text-slate-800 dark:text-slate-200 shadow-sm hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
+                                            <button className="flex-1 py-1.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg text-xs font-bold text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
                                                 Contact
                                             </button>
-                                            <button className="flex-1 py-1.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg text-xs font-bold text-slate-800 dark:text-slate-200 shadow-sm hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
+                                            <button className="flex-1 py-1.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg text-xs font-bold text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
                                                 View Profile
                                             </button>
                                         </div>
@@ -594,7 +594,7 @@ export default function LandlordMaintenanceDetail() {
                                 <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4 border border-slate-100 dark:border-slate-800 text-center">
                                     <span className="material-symbols-outlined text-3xl text-slate-300 dark:text-slate-600 mb-2">person_add</span>
                                     <p className="text-sm text-slate-500 dark:text-slate-400">No vendor assigned yet</p>
-                                    <button className="mt-3 px-4 py-2 bg-brand hover:bg-brand/90 text-white text-xs font-bold rounded-lg transition-colors">
+                                    <button className="mt-3 px-4 py-2 bg-brand-ink hover:bg-brand-ink/90 text-on-brand text-xs font-bold rounded-lg transition-colors">
                                         Assign Vendor
                                     </button>
                                 </div>

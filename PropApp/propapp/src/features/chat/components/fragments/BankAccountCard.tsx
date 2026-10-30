@@ -8,7 +8,7 @@ interface Props {
 
 export function BankAccountCard({ props, onAction }: Props) {
     return (
-        <article className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+        <article className="rounded-2xl border border-slate-200 bg-white p-4">
             <header className="flex items-start justify-between gap-2">
                 <div className="min-w-0">
                     <h3 className="truncate text-sm font-semibold">{props.bankName}</h3>

@@ -17,7 +17,7 @@ export default function SignUpStep4Landlord() {
         <div className="w-full max-w-3xl bg-white/10 dark:bg-surface-dark/40 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col my-4 overflow-y-auto max-h-[85vh]">
             {/* Step Badge */}
             <div className="flex items-center justify-center mb-6">
-                <span className="px-3 py-1 rounded-full bg-white/80 border border-white/40 text-brand text-xs font-bold uppercase tracking-wider">
+                <span className="px-3 py-1 rounded-full bg-white/80 border border-white/40 text-brand-ink text-xs font-bold uppercase tracking-wider">
                     Step 4 of 4
                 </span>
             </div>
@@ -93,7 +93,7 @@ export default function SignUpStep4Landlord() {
                             ].map((option) => (
                                 <label key={option.value} className="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-white/5 transition-colors">
                                     <input
-                                        className="w-5 h-5 bg-transparent border-slate-500 focus:ring-brand focus:ring-offset-0 text-brand"
+                                        className="w-5 h-5 bg-transparent border-slate-500 focus:ring-brand focus:ring-offset-0 text-sky"
                                         name="role"
                                         type="radio"
                                         value={option.value}
@@ -116,7 +116,7 @@ export default function SignUpStep4Landlord() {
                             ].map((option) => (
                                 <label key={option.value} className="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-white/5 transition-colors">
                                     <input
-                                        className="w-5 h-5 bg-transparent border-slate-500 focus:ring-brand focus:ring-offset-0 text-brand"
+                                        className="w-5 h-5 bg-transparent border-slate-500 focus:ring-brand focus:ring-offset-0 text-sky"
                                         name="listing_intent"
                                         type="radio"
                                         value={option.value}
@@ -152,7 +152,7 @@ export default function SignUpStep4Landlord() {
                                     onChange={() => setContactPref(option.value)}
                                 />
                                 <div className="flex flex-col items-center justify-center p-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all duration-200 peer-checked:ring-1 peer-checked:ring-brand peer-checked:bg-brand/10 peer-checked:border-brand">
-                                    <span className={`material-symbols-outlined mb-1 ${contactPref === option.value ? 'text-brand' : 'text-slate-300'}`}>
+                                    <span className={`material-symbols-outlined mb-1 ${contactPref === option.value ? 'text-sky' : 'text-slate-300'}`}>
                                         {option.icon}
                                     </span>
                                     <span className={`text-xs font-medium ${contactPref === option.value ? 'text-white' : 'text-slate-300'}`}>
@@ -168,7 +168,7 @@ export default function SignUpStep4Landlord() {
                 <div className="pt-4">
                     <Link
                         to="/landlord/dashboard"
-                        className="w-full py-3.5 px-4 rounded-xl bg-brand hover:bg-brand/90 text-white font-bold text-lg shadow-sm transition-all flex items-center justify-center gap-2"
+                        className="w-full py-3.5 px-4 rounded-xl bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-lg transition-all flex items-center justify-center gap-2"
                     >
                         Finish Setup
                         <span className="material-symbols-outlined text-xl">arrow_forward</span>

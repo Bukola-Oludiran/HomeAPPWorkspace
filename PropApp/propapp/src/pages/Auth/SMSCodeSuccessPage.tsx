@@ -18,7 +18,7 @@ export default function SMSCodeSuccessPage() {
                 </div>
             </div>
 
-            <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-3 text-center">SMS Code Verified!</h1>
+            <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-3 text-center">SMS code accepted</h1>
             <p className="text-slate-200 dark:text-slate-300 text-sm mb-6 font-normal text-center leading-relaxed">
                 Your SMS verification was successful. You can now proceed to access your account securely.
             </p>
@@ -35,7 +35,7 @@ export default function SMSCodeSuccessPage() {
                 {/* Continue Button */}
                 <Link
                     to="/tenant/dashboard"
-                    className="w-full py-4 px-5 rounded-xl bg-brand hover:bg-blue-600 border border-transparent text-white font-bold text-sm shadow-sm transition-all transform active:scale-[0.98] flex items-center justify-center"
+                    className="w-full py-4 px-5 rounded-xl bg-brand-ink hover:bg-brand-ink/90 border border-transparent text-on-brand font-bold text-sm transition-all transform active:scale-[0.98] flex items-center justify-center"
                 >
                     Continue to Dashboard
                 </Link>

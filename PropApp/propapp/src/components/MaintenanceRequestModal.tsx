@@ -67,7 +67,7 @@ export default function MaintenanceRequestModal({
                     {/* Header */}
                     <div className="p-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-blue-50/50 dark:bg-[#1e293b]">
                         <div className="flex items-center gap-2">
-                            <div className="size-8 rounded-full bg-brand flex items-center justify-center text-white shadow-md">
+                            <div className="size-8 rounded-full bg-brand-ink flex items-center justify-center text-on-brand shadow-md">
                                 <span className="material-symbols-outlined text-[20px]">forum</span>
                             </div>
                             <div>
@@ -90,8 +90,8 @@ export default function MaintenanceRequestModal({
                     <div className="flex-1 p-5 flex flex-col gap-5 overflow-y-auto">
                         {error && <p role="alert" className="text-sm text-red-600">{error}</p>}
                         {/* AI Message */}
-                        <div className="bg-blue-50 dark:bg-blue-900/20 p-3.5 rounded-2xl rounded-tl-sm flex gap-3 items-start border border-blue-100 dark:border-blue-800 shadow-sm">
-                            <span className="material-symbols-outlined text-brand text-xl mt-0.5">forum</span>
+                        <div className="bg-blue-50 dark:bg-blue-900/20 p-3.5 rounded-2xl rounded-tl-sm flex gap-3 items-start border border-blue-100 dark:border-blue-800">
+                            <span className="material-symbols-outlined text-brand-ink text-xl mt-0.5">forum</span>
                             <div className="text-sm">
                                 <p className="text-slate-900 dark:text-white font-medium leading-relaxed">What issue would you like to report?</p>
                                 <p className="text-slate-500 dark:text-slate-400 text-xs mt-1 leading-relaxed">Please describe your maintenance issue and I'll help you submit a request to your property manager.</p>
@@ -104,7 +104,7 @@ export default function MaintenanceRequestModal({
                             <div>
                                 <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">
                                     Category
-                                    <span className="text-brand normal-case font-normal ml-1 text-xs bg-brand/10 border border-brand/20 px-1.5 py-0.5 rounded-full inline-flex items-center gap-0.5">
+                                    <span className="text-brand-ink normal-case font-normal ml-1 text-xs bg-brand/10 border border-brand/20 px-1.5 py-0.5 rounded-full inline-flex items-center gap-0.5">
                                         AI Suggested
                                     </span>
                                 </label>
@@ -128,7 +128,7 @@ export default function MaintenanceRequestModal({
                             <div>
                                 <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">
                                     Urgency
-                                    <span className="text-brand normal-case font-normal ml-1 text-xs bg-brand/10 border border-brand/20 px-1.5 py-0.5 rounded-full inline-flex items-center gap-0.5">
+                                    <span className="text-brand-ink normal-case font-normal ml-1 text-xs bg-brand/10 border border-brand/20 px-1.5 py-0.5 rounded-full inline-flex items-center gap-0.5">
                                         AI Suggested
                                     </span>
                                 </label>
@@ -138,7 +138,7 @@ export default function MaintenanceRequestModal({
                                             key={level}
                                             onClick={() => setUrgency(level)}
                                             className={`py-2 rounded-lg text-sm font-medium transition-colors ${urgency === level
-                                                ? 'border-2 border-brand bg-brand/5 text-brand font-bold shadow-sm'
+                                                ? 'border-2 border-brand bg-brand/5 text-brand-ink font-bold shadow-sm'
                                                 : 'border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
                                                 }`}
                                         >
@@ -166,9 +166,9 @@ export default function MaintenanceRequestModal({
                                 <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">Photos / Video</label>
                                 <button className="w-full border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-6 flex flex-col items-center justify-center text-slate-500 hover:border-brand hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all group">
                                     <div className="size-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                                        <span className="material-symbols-outlined text-slate-400 group-hover:text-brand">add_a_photo</span>
+                                        <span className="material-symbols-outlined text-slate-400 group-hover:text-brand-ink">add_a_photo</span>
                                     </div>
-                                    <span className="text-sm font-bold text-slate-600 dark:text-slate-300 group-hover:text-brand">Add Photos</span>
+                                    <span className="text-sm font-bold text-slate-600 dark:text-slate-300 group-hover:text-brand-ink">Add Photos</span>
                                     <span className="text-xs text-slate-400 mt-1">or drag and drop here</span>
                                 </button>
                             </div>
@@ -180,7 +180,7 @@ export default function MaintenanceRequestModal({
                         <button
                             onClick={handleSubmit}
                             disabled={isSubmitting || !description.trim()}
-                            className="flex-1 py-3 bg-brand hover:bg-[#0e64bd] text-white rounded-lg text-sm font-bold shadow-sm transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="flex-1 py-3 bg-brand-ink hover:bg-[#0e64bd] text-on-brand rounded-lg text-sm font-bold transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {isSubmitting ? 'Sending...' : `Send Request to ${propertyManager.name}`}
                         </button>

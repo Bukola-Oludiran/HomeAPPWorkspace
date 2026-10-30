@@ -140,7 +140,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                             <form className="space-y-8">
                                 {/* Personal Information */}
                                 <section>
-                                    <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-brand mb-5">
+                                    <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-brand-ink mb-5">
                                         <span className="material-symbols-outlined text-[18px]">person</span> Personal Information
                                     </h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -193,7 +193,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                                 <div className="relative group">
                                                     <input accept="image/*,application/pdf" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" type="file" />
                                                     <div className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-dashed border-slate-300 dark:border-slate-600 rounded-lg flex items-center gap-3 group-hover:border-brand group-hover:bg-blue-50/30 dark:group-hover:bg-blue-900/20 transition-all">
-                                                        <div className="size-10 flex items-center justify-center bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-400 group-hover:text-brand transition-colors shadow-sm">
+                                                        <div className="size-10 flex items-center justify-center bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-400 group-hover:text-brand-ink transition-colors">
                                                             <span className="material-symbols-outlined text-[20px]">cloud_upload</span>
                                                         </div>
                                                         <div className="flex-1 min-w-0">
@@ -203,14 +203,14 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                                     </div>
                                                 </div>
                                                 <button className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg flex items-center gap-3 hover:border-brand hover:bg-blue-50/30 dark:hover:bg-blue-900/20 transition-all text-left group" type="button">
-                                                    <div className="size-10 flex items-center justify-center bg-blue-100 dark:bg-blue-900/40 rounded-lg border border-blue-200 dark:border-blue-800 text-brand shadow-sm">
+                                                    <div className="size-10 flex items-center justify-center bg-blue-100 dark:bg-blue-900/40 rounded-lg border border-blue-200 dark:border-blue-800 text-brand-ink">
                                                         <span className="material-symbols-outlined text-[20px]">verified_user</span>
                                                     </div>
                                                     <div className="flex-1 min-w-0">
                                                         <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 truncate">Use Identity Service</p>
                                                         <p className="text-xs text-slate-500 dark:text-slate-400 truncate">Connect via SecureID</p>
                                                     </div>
-                                                    <span className="material-symbols-outlined text-slate-400 group-hover:text-brand text-[18px]">arrow_forward</span>
+                                                    <span className="material-symbols-outlined text-slate-400 group-hover:text-brand-ink text-[18px]">arrow_forward</span>
                                                 </button>
                                             </div>
                                         </div>
@@ -221,7 +221,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
 
                                 {/* Contact Information */}
                                 <section>
-                                    <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-brand mb-5">
+                                    <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-brand-ink mb-5">
                                         <span className="material-symbols-outlined text-[18px]">home</span> Contact Information
                                     </h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-5">
@@ -283,7 +283,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
 
                                 {/* Employment Details */}
                                 <section>
-                                    <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-brand mb-5">
+                                    <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-brand-ink mb-5">
                                         <span className="material-symbols-outlined text-[18px]">work</span> Employment Details
                                     </h3>
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -334,7 +334,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                         <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                             <span className="material-symbols-outlined text-[18px]">group</span> References (Optional)
                                         </h3>
-                                        <button className="text-xs font-bold text-brand hover:text-brand/80 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1" type="button">
+                                        <button className="text-xs font-bold text-brand-ink hover:text-brand-ink/80 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1" type="button">
                                             <span className="material-symbols-outlined text-[18px]">add</span> Add Reference
                                         </button>
                                     </div>
@@ -354,13 +354,13 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                     <div className="relative flex-1">
                                         <span className="material-symbols-outlined absolute left-3 top-3 text-slate-400 text-[20px]">search</span>
                                         <input
-                                            className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all text-slate-900 dark:text-white shadow-sm"
+                                            className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all text-slate-900 dark:text-white"
                                             placeholder="Search address, city, or zip code..."
                                             type="text"
                                         />
                                     </div>
                                     <div className="flex gap-3">
-                                        <select className="px-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-brand/20 focus:border-brand cursor-pointer shadow-sm">
+                                        <select className="px-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-brand/20 focus:border-brand cursor-pointer">
                                             <option>All Statuses</option>
                                             <option>Vacant</option>
                                             <option>Occupied</option>
@@ -386,7 +386,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                                 )}
                                                 <div className="flex justify-between items-start mb-3">
                                                     <div className="flex items-center gap-3">
-                                                        <div className={`size-10 rounded-lg flex items-center justify-center ${selectedProperty === property.id ? 'bg-blue-50 dark:bg-blue-900/30 text-brand' : 'bg-slate-50 dark:bg-slate-800 text-slate-500'}`}>
+                                                        <div className={`size-10 rounded-lg flex items-center justify-center ${selectedProperty === property.id ? 'bg-blue-50 dark:bg-blue-900/30 text-brand-ink' : 'bg-slate-50 dark:bg-slate-800 text-slate-500'}`}>
                                                             <span className="material-symbols-outlined">{property.icon}</span>
                                                         </div>
                                                         <div>
@@ -394,7 +394,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                                             <p className="text-xs text-slate-500 dark:text-slate-400">{property.address}</p>
                                                         </div>
                                                     </div>
-                                                    <div className={`size-6 rounded-full flex items-center justify-center transition-colors ${selectedProperty === property.id ? 'bg-brand text-white shadow-sm' : 'border border-slate-300 dark:border-slate-600 group-hover:border-brand'}`}>
+                                                    <div className={`size-6 rounded-full flex items-center justify-center transition-colors ${selectedProperty === property.id ? 'bg-brand-ink text-on-brand' : 'border border-slate-300 dark:border-slate-600 group-hover:border-brand'}`}>
                                                         {selectedProperty === property.id && (
                                                             <span className="material-symbols-outlined text-[16px]">check</span>
                                                         )}
@@ -425,13 +425,13 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                 <div className="flex items-center gap-3">
                                     <button
                                         onClick={onClose}
-                                        className="px-6 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-sm hover:bg-white dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-600 transition-all shadow-sm"
+                                        className="px-6 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-sm hover:bg-white dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-600 transition-all"
                                     >
                                         Cancel
                                     </button>
                                     <button
                                         onClick={handleNextStep}
-                                        className="px-6 py-2.5 rounded-lg bg-brand hover:bg-brand/90 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2"
+                                        className="px-6 py-2.5 rounded-lg bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm transition-all flex items-center gap-2"
                                     >
                                         Create Applicant Profile
                                     </button>
@@ -448,7 +448,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                 <button
                                     onClick={handleNextStep}
                                     disabled={!selectedProperty || submitting}
-                                    className="px-6 py-2.5 rounded-lg bg-brand hover:bg-brand/90 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="px-6 py-2.5 rounded-lg bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     {submitting ? 'Sending Invitation…' : 'Send Invitation'} <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
                                 </button>

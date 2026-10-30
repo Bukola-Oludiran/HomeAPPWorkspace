@@ -245,7 +245,7 @@ export default function ApplicantManager() {
                         </button>
                         <button
                             onClick={() => setIsNewApplicantModalOpen(true)}
-                            className="px-5 py-2.5 rounded-lg bg-brand hover:bg-brand/90 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2"
+                            className="px-5 py-2.5 rounded-lg bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm transition-all flex items-center gap-2"
                         >
                             <span className="material-symbols-outlined text-[20px]">add</span> New Application
                         </button>
@@ -254,7 +254,7 @@ export default function ApplicantManager() {
             />
 
             {/* Filters Bar */}
-            <div className="bg-white dark:bg-canvas-dark p-4 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm mb-8 flex flex-col lg:flex-row gap-4 items-center justify-between">
+            <div className="bg-white dark:bg-canvas-dark p-4 rounded-2xl border border-slate-100 dark:border-slate-800 mb-8 flex flex-col lg:flex-row gap-4 items-center justify-between">
                 <div className="flex flex-col sm:flex-row w-full lg:w-auto gap-4 items-center">
                     {/* Property Selector */}
                     <div className="relative w-full sm:w-64">
@@ -300,7 +300,7 @@ export default function ApplicantManager() {
                     <div className="relative" ref={propertyDropdownRef}>
                         <button
                             onClick={() => setShowPropertyDropdown(!showPropertyDropdown)}
-                            className={`p-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-600 dark:text-slate-300 hover:border-brand hover:text-brand transition-colors ${propertyFilter !== 'all' ? 'border-brand text-brand' : ''}`}
+                            className={`p-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-600 dark:text-slate-300 hover:border-brand hover:text-brand-ink transition-colors ${propertyFilter !== 'all' ? 'border-brand text-brand-ink' : ''}`}
                         >
                             <span className="material-symbols-outlined">tune</span>
                             {propertyFilter !== 'all' && (
@@ -319,7 +319,7 @@ export default function ApplicantManager() {
                                             setPropertyFilter(property);
                                             setShowPropertyDropdown(false);
                                         }}
-                                        className={`w-full px-4 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center gap-2 ${propertyFilter === property ? 'text-brand font-bold bg-blue-50 dark:bg-blue-900/20' : 'text-slate-700 dark:text-slate-300'}`}
+                                        className={`w-full px-4 py-2 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center gap-2 ${propertyFilter === property ? 'text-brand-ink font-bold bg-blue-50 dark:bg-blue-900/20' : 'text-slate-700 dark:text-slate-300'}`}
                                     >
                                         {property === 'all' ? 'All Properties' : property}
                                         {propertyFilter === property && (
@@ -347,7 +347,7 @@ export default function ApplicantManager() {
                 {filteredApplicants.map((applicant) => (
                     <div
                         key={applicant.id}
-                        className={`bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow flex flex-col relative overflow-hidden group ${applicant.status === 'Rejected' ? 'opacity-90 hover:opacity-100' : ''
+                        className={`bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 hover:shadow-md transition-shadow flex flex-col relative overflow-hidden group ${applicant.status === 'Rejected' ? 'opacity-90 hover:opacity-100' : ''
                             }`}
                     >
                         {/* Status bar */}
@@ -537,7 +537,7 @@ export default function ApplicantManager() {
                             {applicant.actions.includes('review') && (
                                 <Link
                                     to={`/landlord/tenants/${applicant.id}`}
-                                    className="w-full py-2.5 bg-brand hover:bg-brand/90 text-white font-bold text-sm rounded-lg transition-colors shadow-sm flex items-center justify-center gap-2"
+                                    className="w-full py-2.5 bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm rounded-lg transition-colors flex items-center justify-center gap-2"
                                 >
                                     Review Application
                                 </Link>
@@ -560,14 +560,14 @@ export default function ApplicantManager() {
                                                 setSelectedApplicant(applicant.name);
                                                 setShowRejectModal(true);
                                             }}
-                                            className="py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 font-bold text-sm rounded-lg transition-colors shadow-sm flex items-center justify-center gap-2 cursor-pointer"
+                                            className="py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 font-bold text-sm rounded-lg transition-colors flex items-center justify-center gap-2 cursor-pointer"
                                         >
                                             <span className="material-symbols-outlined text-[18px]">close</span> Reject
                                         </button>
                                     </div>
                                     <Link
                                         to={`/landlord/tenants/${applicant.id}/profile`}
-                                        className="w-full py-2 bg-transparent text-slate-500 dark:text-slate-400 hover:text-brand font-semibold text-xs rounded-lg transition-colors"
+                                        className="w-full py-2 bg-transparent text-slate-500 dark:text-slate-400 hover:text-brand-ink font-semibold text-xs rounded-lg transition-colors"
                                     >
                                         View Full Profile
                                     </Link>
@@ -587,7 +587,7 @@ export default function ApplicantManager() {
                                 </button>
                             )}
                             {applicant.actions.includes('request-docs') && (
-                                <button className="w-full py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-brand hover:text-brand font-bold text-sm rounded-lg transition-colors shadow-sm flex items-center justify-center gap-2">
+                                <button className="w-full py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-brand hover:text-brand-ink font-bold text-sm rounded-lg transition-colors flex items-center justify-center gap-2">
                                     Request Documents
                                 </button>
                             )}
@@ -599,11 +599,11 @@ export default function ApplicantManager() {
             {/* Floating AI Bar */}
             <div className="fixed bottom-6 right-6 z-[100] flex flex-col items-end gap-2">
                 <label className="cursor-pointer group flex items-center gap-3 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white pl-1.5 pr-5 py-1.5 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 dark:border-slate-700 hover:shadow-[0_8px_30px_rgb(0,0,0,0.18)] transition-all duration-300">
-                    <div className="size-10 rounded-full bg-brand flex items-center justify-center text-white shadow-md">
+                    <div className="size-10 rounded-full bg-brand-ink flex items-center justify-center text-on-brand shadow-md">
                         <span className="material-symbols-outlined">forum</span>
                     </div>
                     <div className="flex flex-col items-start">
-                        <span className="text-sm font-bold leading-none">Ask HomeAI...</span>
+                        <span className="text-sm font-bold leading-none">Ask Keystead...</span>
                         <span className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-tight mt-0.5">
                             Click to chat
                         </span>

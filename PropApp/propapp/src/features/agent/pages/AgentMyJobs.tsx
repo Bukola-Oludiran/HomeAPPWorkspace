@@ -88,11 +88,11 @@ export default function AgentMyJobs() {
                 subtitle="Manage your schedule, track progress, and update job status."
                 actions={
                     <div className="flex flex-col sm:flex-row gap-4">
-                        <div className="flex p-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl overflow-x-auto custom-scrollbar shadow-sm">
+                        <div className="flex p-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl overflow-x-auto custom-scrollbar">
                             <button
                                 onClick={() => setActiveTab('all')}
                                 className={`px-5 py-2 text-sm font-bold whitespace-nowrap rounded-lg transition-all ${activeTab === 'all'
-                                    ? 'bg-brand text-white shadow-md'
+                                    ? 'bg-brand-ink text-on-brand shadow-md'
                                     : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white'
                                     }`}
                             >
@@ -101,7 +101,7 @@ export default function AgentMyJobs() {
                             <button
                                 onClick={() => setActiveTab('Accepted')}
                                 className={`px-5 py-2 text-sm font-medium whitespace-nowrap rounded-lg transition-all ${activeTab === 'Accepted'
-                                    ? 'bg-brand text-white shadow-md'
+                                    ? 'bg-brand-ink text-on-brand shadow-md'
                                     : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white'
                                     }`}
                             >
@@ -110,7 +110,7 @@ export default function AgentMyJobs() {
                             <button
                                 onClick={() => setActiveTab('Completed')}
                                 className={`px-5 py-2 text-sm font-medium whitespace-nowrap rounded-lg transition-all ${activeTab === 'Completed'
-                                    ? 'bg-brand text-white shadow-md'
+                                    ? 'bg-brand-ink text-on-brand shadow-md'
                                     : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white'
                                     }`}
                             >
@@ -119,7 +119,7 @@ export default function AgentMyJobs() {
                             <button
                                 onClick={() => setActiveTab('Cancelled')}
                                 className={`px-5 py-2 text-sm font-medium whitespace-nowrap rounded-lg transition-all ${activeTab === 'Cancelled'
-                                    ? 'bg-brand text-white shadow-md'
+                                    ? 'bg-brand-ink text-on-brand shadow-md'
                                     : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white'
                                     }`}
                             >
@@ -175,7 +175,7 @@ export default function AgentMyJobs() {
                     return (
                         <div
                             key={job.id}
-                            className={`bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:shadow-lg hover:border-brand/30 transition-all group relative overflow-hidden ${isCompleted || isCancelled ? 'opacity-80 hover:opacity-100' : ''}`}
+                            className={`bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 hover:shadow-lg hover:border-brand/30 transition-all group relative overflow-hidden ${isCompleted || isCancelled ? 'opacity-80 hover:opacity-100' : ''}`}
                         >
                             {/* Left Border Accent */}
                             <div className={`absolute top-0 left-0 w-1 h-full ${styles.bar}`}></div>
@@ -245,7 +245,7 @@ export default function AgentMyJobs() {
                                             <button
                                                 onClick={() => handleCompleteJob(job.id)}
                                                 disabled={completingJobId === job.id}
-                                                className="px-4 py-2 bg-brand text-white text-sm font-bold rounded-lg hover:bg-brand/90 shadow-sm transition-all disabled:opacity-50"
+                                                className="px-4 py-2 bg-brand-ink text-on-brand text-sm font-bold rounded-lg hover:bg-brand-ink/90 transition-all disabled:opacity-50"
                                             >
                                                 {completingJobId === job.id ? 'Completing...' : 'Complete'}
                                             </button>

@@ -136,7 +136,7 @@ export default function LeaseRenewalModal({
                                 <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">Changes & Additional Terms</h3>
                                 <div className="space-y-4">
                                     <div className="flex gap-3">
-                                        <span className="material-symbols-outlined text-brand shrink-0">info</span>
+                                        <span className="material-symbols-outlined text-brand-ink shrink-0">info</span>
                                         <div>
                                             <h4 className="text-sm font-bold text-slate-900 dark:text-white">Pet Policy Update</h4>
                                             <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mt-1">
@@ -203,7 +203,7 @@ export default function LeaseRenewalModal({
                             </button>
                             <button
                                 onClick={handleAccept}
-                                className="w-full sm:w-auto px-6 py-2.5 bg-brand hover:bg-[#0e64bd] text-white font-bold text-sm rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 disabled:opacity-70"
+                                className="w-full sm:w-auto px-6 py-2.5 bg-brand-ink hover:bg-[#0e64bd] text-on-brand font-bold text-sm rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-70"
                             >
                                 <span className="material-symbols-outlined text-[18px]">ink_pen</span>
                                 Accept & Sign

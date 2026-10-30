@@ -79,7 +79,7 @@ export default function DocumentViewerModal({ isOpen, onClose, document }: Docum
                         <button
                             onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                             disabled={currentPage === 1}
-                            className="size-8 flex items-center justify-center rounded-md bg-white dark:bg-slate-700 shadow-sm text-slate-600 dark:text-slate-300 hover:text-brand transition-colors disabled:opacity-50"
+                            className="size-8 flex items-center justify-center rounded-md bg-white dark:bg-slate-700 shadow-sm text-slate-600 dark:text-slate-300 hover:text-brand-ink transition-colors disabled:opacity-50"
                         >
                             <span className="material-symbols-outlined text-[18px]">chevron_left</span>
                         </button>
@@ -106,7 +106,7 @@ export default function DocumentViewerModal({ isOpen, onClose, document }: Docum
                             variant="compact"
                         />
                         <div className="h-5 w-px bg-slate-200 dark:bg-slate-700"></div>
-                        <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-brand hover:bg-brand/5 border border-brand/20 transition-colors text-sm font-semibold">
+                        <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-brand-ink hover:bg-brand/5 border border-brand/20 transition-colors text-sm font-semibold">
                             <span className="material-symbols-outlined text-[18px]">forum</span>
                             <span>Analyze</span>
                         </button>
@@ -203,7 +203,7 @@ export default function DocumentViewerModal({ isOpen, onClose, document }: Docum
                                     <div className="h-8 w-px bg-slate-200 dark:bg-slate-700 hidden lg:block"></div>
                                 </>
                             )}
-                            <button className="flex-1 md:flex-none bg-brand hover:bg-[#0e64bd] text-white px-8 py-3 rounded-xl font-bold shadow-sm transition-all flex items-center justify-center gap-2 w-full md:w-auto">
+                            <button className="flex-1 md:flex-none bg-brand-ink hover:bg-[#0e64bd] text-on-brand px-8 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 w-full md:w-auto">
                                 <span>Proceed to Sign</span>
                                 <span className="material-symbols-outlined text-[20px]">ink_pen</span>
                             </button>

@@ -110,7 +110,7 @@ export default function MonthNavigator({
                 <button
                     onClick={goToPreviousMonth}
                     disabled={isPrevDisabled}
-                    className="size-9 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-400 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shadow-sm"
+                    className="size-9 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-400 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                 >
                     <span className="material-symbols-outlined">chevron_left</span>
                 </button>
@@ -118,7 +118,7 @@ export default function MonthNavigator({
                 <button
                     onClick={goToNextMonth}
                     disabled={isNextDisabled}
-                    className="size-9 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-400 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shadow-sm"
+                    className="size-9 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-400 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                 >
                     <span className="material-symbols-outlined">chevron_right</span>
                 </button>
@@ -130,7 +130,7 @@ export default function MonthNavigator({
 
             <button
                 onClick={goToToday}
-                className="px-3 py-1.5 rounded-lg text-xs font-semibold text-brand bg-brand/10 hover:bg-brand/20 transition-colors"
+                className="px-3 py-1.5 rounded-lg text-xs font-semibold text-brand-ink bg-brand/10 hover:bg-brand/20 transition-colors"
             >
                 Today
             </button>

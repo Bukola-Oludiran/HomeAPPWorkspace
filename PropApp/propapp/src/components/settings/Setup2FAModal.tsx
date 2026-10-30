@@ -93,7 +93,7 @@ export default function Setup2FAModal({ isOpen, onClose, onSuccess }: Setup2FAMo
                                                         JBSW Y3DP EHPK 3PXP
                                                     </code>
                                                     <button
-                                                        className="px-3 bg-slate-100 dark:bg-slate-700 border-y border-r border-slate-200 dark:border-slate-700 rounded-r-lg text-slate-600 dark:text-slate-300 hover:text-brand dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors flex items-center cursor-pointer"
+                                                        className="px-3 bg-slate-100 dark:bg-slate-700 border-y border-r border-slate-200 dark:border-slate-700 rounded-r-lg text-slate-600 dark:text-slate-300 hover:text-brand-ink dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors flex items-center cursor-pointer"
                                                         title="Copy to clipboard"
                                                     >
                                                         <span className="material-symbols-outlined text-[18px]">content_copy</span>
@@ -101,7 +101,7 @@ export default function Setup2FAModal({ isOpen, onClose, onSuccess }: Setup2FAMo
                                                 </div>
                                             </div>
                                             <div className="mt-3">
-                                                <button className="text-xs font-medium text-brand hover:text-brand/80 flex items-center justify-center gap-1 cursor-pointer">
+                                                <button className="text-xs font-medium text-brand-ink hover:text-brand-ink/80 flex items-center justify-center gap-1 cursor-pointer">
                                                     <span className="material-symbols-outlined text-[14px]">help</span>
                                                     Trouble scanning?
                                                 </button>
@@ -146,7 +146,7 @@ export default function Setup2FAModal({ isOpen, onClose, onSuccess }: Setup2FAMo
                         <button
                             onClick={handleVerify}
                             disabled={code.length !== 6}
-                            className={`px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-brand shadow-sm transition-all ${code.length === 6 ? 'hover:bg-brand/90 cursor-pointer' : 'opacity-50 cursor-not-allowed'
+                            className={`px-5 py-2.5 rounded-lg text-sm font-semibold text-on-brand bg-brand-ink transition-all ${code.length === 6 ? 'hover:bg-brand-ink/90 cursor-pointer' : 'opacity-50 cursor-not-allowed'
                                 }`}
                         >
                             Verify &amp; Enable

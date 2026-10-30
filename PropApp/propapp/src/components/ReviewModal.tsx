@@ -68,7 +68,7 @@ export default function ReviewModal({ isOpen, onClose, recipient, context }: Rev
                         <div className="size-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
                             <span className="material-symbols-outlined text-green-600 dark:text-green-400 text-3xl">check_circle</span>
                         </div>
-                        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Review Submitted!</h3>
+                        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Review submitted</h3>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
                             Thank you for your feedback.
                         </p>
@@ -159,7 +159,7 @@ export default function ReviewModal({ isOpen, onClose, recipient, context }: Rev
                             <button
                                 type="submit"
                                 disabled={rating === 0 || submitting}
-                                className="flex-1 py-3 rounded-xl bg-brand text-white font-bold text-sm hover:bg-brand/90 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                className="flex-1 py-3 rounded-xl bg-brand-ink text-on-brand font-bold text-sm hover:bg-brand-ink/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                             >
                                 {submitting ? (
                                     <>

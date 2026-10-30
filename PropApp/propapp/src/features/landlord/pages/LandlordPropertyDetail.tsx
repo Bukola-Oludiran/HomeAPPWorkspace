@@ -339,7 +339,7 @@ export default function LandlordPropertyDetail() {
                     <div className="flex-1 min-w-0">
                         {/* Verification Pending Banner */}
                         {property.verificationPending && (
-                            <div className="mb-8 rounded-xl border border-orange-200 bg-orange-50 p-5 dark:border-orange-900/30 dark:bg-orange-900/20 shadow-sm relative overflow-hidden group">
+                            <div className="mb-8 rounded-xl border border-orange-200 bg-orange-50 p-5 dark:border-orange-900/30 dark:bg-orange-900/20 relative overflow-hidden group">
                                 <div className="absolute top-0 right-0 p-4 opacity-50">
                                     <span className="material-symbols-outlined text-orange-200 dark:text-orange-900/40 text-[120px] -mr-8 -mt-8 rotate-12">gpp_maybe</span>
                                 </div>
@@ -417,7 +417,7 @@ export default function LandlordPropertyDetail() {
                             {/* Verification Badge */}
                             <div className="mt-6 flex flex-wrap items-center gap-4">
                                 <div className="group relative cursor-pointer">
-                                    <div className={`text-sm font-bold px-4 py-2 rounded-full flex items-center gap-2 shadow-sm border ${
+                                    <div className={`text-sm font-bold px-4 py-2 rounded-full flex items-center gap-2 border ${
                                         property.verificationTier === 'PLATINUM'
                                             ? 'bg-gradient-to-r from-slate-200 via-white to-slate-300 dark:from-slate-700 dark:via-slate-600 dark:to-slate-700 text-slate-900 dark:text-white border-slate-300 dark:border-slate-500'
                                             : property.verificationTier === 'GOLD'
@@ -439,7 +439,7 @@ export default function LandlordPropertyDetail() {
                                 </div>
                                 <Link
                                     to="/landlord/verification"
-                                    className="flex items-center gap-1 text-sm font-bold text-brand hover:text-[#0e64bd] transition-colors px-3 py-1.5 rounded-lg hover:bg-blue-50 dark:hover:bg-brand/10"
+                                    className="flex items-center gap-1 text-sm font-bold text-brand-ink hover:text-[#0e64bd] transition-colors px-3 py-1.5 rounded-lg hover:bg-blue-50 dark:hover:bg-brand/10"
                                 >
                                     Open Verification Hub
                                     <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
@@ -460,7 +460,7 @@ export default function LandlordPropertyDetail() {
                                 Performance Metrics
                             </h3>
                             <AnimatedGroup className="grid grid-cols-2 md:grid-cols-4 gap-4" stagger={0.1}>
-                                <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col gap-1">
+                                <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
                                     <div className="flex items-center justify-between">
                                         <span className="text-xs text-slate-500 font-medium">Total Views (30d)</span>
                                         <span className="material-symbols-outlined text-blue-500 text-[20px]">
@@ -477,21 +477,21 @@ export default function LandlordPropertyDetail() {
                                         {property.metrics.viewsChange}
                                     </span>
                                 </div>
-                                <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col gap-1 ring-2 ring-brand/10">
+                                <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1 ring-2 ring-brand/10">
                                     <div className="flex items-center justify-between">
                                         <span className="text-xs text-slate-500 font-medium">Applicants</span>
-                                        <span className="material-symbols-outlined text-brand text-[20px]">
+                                        <span className="material-symbols-outlined text-brand-ink text-[20px]">
                                             group
                                         </span>
                                     </div>
                                     <span className="text-2xl font-bold text-slate-900 dark:text-white">
                                         {property.metrics.applicants}
                                     </span>
-                                    <span className="text-xs text-brand font-medium">
+                                    <span className="text-xs text-brand-ink font-medium">
                                         {property.metrics.newApplicants} New this week
                                     </span>
                                 </div>
-                                <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col gap-1">
+                                <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
                                     <div className="flex items-center justify-between">
                                         <span className="text-xs text-slate-500 font-medium">Maintenance</span>
                                         <span className="material-symbols-outlined text-orange-500 text-[20px]">
@@ -503,7 +503,7 @@ export default function LandlordPropertyDetail() {
                                     </span>
                                     <span className="text-xs text-slate-400 font-medium">All systems operational</span>
                                 </div>
-                                <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col gap-1">
+                                <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
                                     <div className="flex items-center justify-between">
                                         <span className="text-xs text-slate-500 font-medium">Est. Yield</span>
                                         <span className="material-symbols-outlined text-green-500 text-[20px]">
@@ -536,10 +536,10 @@ export default function LandlordPropertyDetail() {
                                             <span className="material-symbols-outlined">face</span>
                                         </div>
                                         <div>
-                                            <p className="font-bold text-slate-900 dark:text-white group-hover:text-brand transition-colors">{property.tenant.name}</p>
+                                            <p className="font-bold text-slate-900 dark:text-white group-hover:text-brand-ink transition-colors">{property.tenant.name}</p>
                                             <p className="text-sm text-slate-500">Occupants since {property.tenant.since}</p>
                                         </div>
-                                        <span className="material-symbols-outlined text-slate-400 group-hover:text-brand transition-colors text-[18px]">chevron_right</span>
+                                        <span className="material-symbols-outlined text-slate-400 group-hover:text-brand-ink transition-colors text-[18px]">chevron_right</span>
                                     </Link>
                                     <div className="h-px md:h-auto w-full md:w-px bg-slate-200 dark:bg-slate-700"></div>
                                     <div className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm">
@@ -560,7 +560,7 @@ export default function LandlordPropertyDetail() {
                                         </span>
                                     </div>
                                     <div className="flex-1 flex md:justify-end items-center">
-                                        <Link to="/landlord/leases/1" className="text-brand font-semibold text-sm hover:underline">
+                                        <Link to="/landlord/leases/1" className="text-brand-ink font-semibold text-sm hover:underline">
                                             View Lease Details
                                         </Link>
                                     </div>
@@ -620,7 +620,7 @@ export default function LandlordPropertyDetail() {
                                 <h3 className="text-xl font-bold text-slate-900 dark:text-white">
                                     Listing Description
                                 </h3>
-                                <button className="text-brand text-sm font-semibold flex items-center gap-1 hover:underline">
+                                <button className="text-brand-ink text-sm font-semibold flex items-center gap-1 hover:underline">
                                     <span className="material-symbols-outlined text-[16px]">edit</span> Edit Text
                                 </button>
                             </div>
@@ -632,7 +632,7 @@ export default function LandlordPropertyDetail() {
                         {/* AI Insights */}
                         <div className="mb-10 p-6 rounded-2xl bg-blue-50/50 dark:bg-slate-800 border border-blue-100 dark:border-slate-700">
                             <div className="flex items-center gap-3 mb-4">
-                                <div className="size-8 rounded-full bg-brand flex items-center justify-center text-white shadow-sm">
+                                <div className="size-8 rounded-full bg-brand-ink flex items-center justify-center text-on-brand">
                                     <span className="material-symbols-outlined text-[18px]">psychology</span>
                                 </div>
                                 <h3 className="text-lg font-bold text-slate-900 dark:text-white">
@@ -663,7 +663,7 @@ export default function LandlordPropertyDetail() {
                     <div className="hidden lg:block w-[360px] shrink-0">
                         <div className="sticky top-24 space-y-6">
                             {/* Financial Snapshot */}
-                            <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm">
+                            <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6">
                                 <h4 className="font-bold text-lg text-slate-900 dark:text-white mb-4">
                                     Financial Snapshot (YTD)
                                 </h4>
@@ -702,7 +702,7 @@ export default function LandlordPropertyDetail() {
                                         <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
                                             Net Operating Income
                                         </span>
-                                        <span className="text-xl font-bold text-brand">
+                                        <span className="text-xl font-bold text-brand-ink">
                                             {property.financials.noi}
                                         </span>
                                     </div>
@@ -714,7 +714,7 @@ export default function LandlordPropertyDetail() {
                             </div>
 
                             {/* Upcoming Tasks */}
-                            <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm">
+                            <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6">
                                 <h4 className="font-bold text-lg text-slate-900 dark:text-white mb-4">
                                     Upcoming Tasks
                                 </h4>
@@ -729,7 +729,7 @@ export default function LandlordPropertyDetail() {
                                         </li>
                                     ))}
                                 </ul>
-                                <Link to={`/landlord/properties/${id}/tasks`} className="mt-4 text-brand text-sm font-semibold hover:underline block">
+                                <Link to={`/landlord/properties/${id}/tasks`} className="mt-4 text-brand-ink text-sm font-semibold hover:underline block">
                                     View all tasks
                                 </Link>
                             </div>
@@ -793,14 +793,14 @@ export default function LandlordPropertyDetail() {
                         </Link>
                         <button
                             onClick={() => setIsMaintenanceModalOpen(true)}
-                            className="flex-1 md:flex-none px-5 py-3.5 rounded-xl border-2 border-brand text-brand font-bold hover:bg-blue-50 dark:hover:bg-brand/10 transition-colors whitespace-nowrap flex items-center justify-center gap-2"
+                            className="flex-1 md:flex-none px-5 py-3.5 rounded-xl border-2 border-brand text-brand-ink font-bold hover:bg-blue-50 dark:hover:bg-brand/10 transition-colors whitespace-nowrap flex items-center justify-center gap-2"
                         >
                             <span className="material-symbols-outlined text-[20px]">calendar_month</span>
                             Schedule Maint.
                         </button>
                         <Link
                             to="/landlord/tenants"
-                            className="flex-1 md:flex-none px-8 py-3.5 rounded-xl bg-brand text-white font-bold hover:bg-[#0e64bd] transition-colors shadow-sm whitespace-nowrap flex items-center justify-center gap-2"
+                            className="flex-1 md:flex-none px-8 py-3.5 rounded-xl bg-brand-ink text-on-brand font-bold hover:bg-[#0e64bd] transition-colors whitespace-nowrap flex items-center justify-center gap-2"
                         >
                             <span className="material-symbols-outlined text-[20px]">person_search</span>
                             View Applicants ({property.metrics.applicants})

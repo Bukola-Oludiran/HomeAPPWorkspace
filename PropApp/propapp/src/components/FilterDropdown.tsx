@@ -69,7 +69,7 @@ export default function FilterDropdown({
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className={`whitespace-nowrap flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold active:scale-95 transition-all ${selected.length > 0
-                        ? 'border-brand/30 bg-brand/5 text-brand'
+                        ? 'border-brand/30 bg-brand/5 text-brand-ink'
                         : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark text-slate-700 dark:text-slate-300 hover:border-slate-400'
                     }`}
             >
@@ -92,7 +92,7 @@ export default function FilterDropdown({
                             >
                                 {multiple ? (
                                     <span className={`size-5 rounded border flex items-center justify-center transition-colors ${selected.includes(option.id)
-                                            ? 'bg-brand border-brand text-white'
+                                            ? 'bg-brand-ink border-brand text-on-brand'
                                             : 'border-slate-300 dark:border-slate-600'
                                         }`}>
                                         {selected.includes(option.id) && (
@@ -126,7 +126,7 @@ export default function FilterDropdown({
                         <div className="border-t border-slate-100 dark:border-slate-800 mt-2 pt-2 px-4">
                             <button
                                 onClick={clearAll}
-                                className="text-xs font-semibold text-slate-500 hover:text-brand transition-colors"
+                                className="text-xs font-semibold text-slate-500 hover:text-brand-ink transition-colors"
                             >
                                 Clear all
                             </button>

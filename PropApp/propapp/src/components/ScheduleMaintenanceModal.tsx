@@ -218,7 +218,7 @@ export default function ScheduleMaintenanceModal({
                             Cancel
                         </button>
                         <button
-                            className="w-full sm:w-auto px-6 py-3 rounded-xl bg-brand text-white font-bold hover:bg-[#0e64bd] shadow-sm transition-colors text-sm flex items-center justify-center gap-2"
+                            className="w-full sm:w-auto px-6 py-3 rounded-xl bg-brand-ink text-on-brand font-bold hover:bg-[#0e64bd] transition-colors text-sm flex items-center justify-center gap-2"
                             type="button"
                             onClick={handleSubmit}
                         >

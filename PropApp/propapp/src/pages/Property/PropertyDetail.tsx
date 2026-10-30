@@ -144,7 +144,7 @@ export default function PropertyDetail() {
                     </p>
                     <Link
                         to="/search"
-                        className="px-6 py-2 bg-brand text-white rounded-lg font-semibold hover:bg-blue-600 inline-block"
+                        className="px-6 py-2 bg-brand-ink text-on-brand rounded-lg font-semibold hover:bg-brand-ink/90 inline-block"
                     >
                         Back to Search
                     </Link>
@@ -250,7 +250,7 @@ export default function PropertyDetail() {
                                     </div>
                                 </div>
                                 <div className="flex flex-col items-start md:items-end">
-                                    <h2 className="text-3xl md:text-4xl font-extrabold text-brand">
+                                    <h2 className="text-3xl md:text-4xl font-extrabold text-brand-ink">
                                         {priceDisplay}
                                     </h2>
                                     <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
@@ -352,7 +352,7 @@ export default function PropertyDetail() {
                                     </p>
                                 ))}
                             </div>
-                            <button className="mt-4 text-brand font-semibold flex items-center gap-1 hover:underline">
+                            <button className="mt-4 text-brand-ink font-semibold flex items-center gap-1 hover:underline">
                                 Read more{' '}
                                 <span className="material-symbols-outlined text-[18px]">expand_more</span>
                             </button>
@@ -361,7 +361,7 @@ export default function PropertyDetail() {
                         {/* AI Property Analysis */}
                         <div className="mb-10 p-6 rounded-2xl bg-blue-50/50 dark:bg-slate-800 border border-blue-100 dark:border-slate-700">
                             <div className="flex items-center gap-3 mb-4">
-                                <div className="size-8 rounded-full bg-brand flex items-center justify-center text-white shadow-sm">
+                                <div className="size-8 rounded-full bg-brand-ink flex items-center justify-center text-on-brand">
                                     <span className="material-symbols-outlined text-[18px]">forum</span>
                                 </div>
                                 <h3 className="text-lg font-bold text-slate-900 dark:text-white">
@@ -400,7 +400,7 @@ export default function PropertyDetail() {
                     {/* Right Column - Agent Card (Desktop only) */}
                     <div className="hidden lg:block w-[360px] shrink-0">
                         <div className="sticky top-24 space-y-6">
-                            <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm">
+                            <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6">
                                 <div className="flex items-center gap-4 mb-6">
                                     <div className="relative">
                                         <img
@@ -416,7 +416,7 @@ export default function PropertyDetail() {
                                         </h4>
                                         <p className="text-slate-500 text-sm">Property Owner</p>
                                         {property.owner?.verificationLevel && property.owner.verificationLevel !== 'UNVERIFIED' && (
-                                            <div className="flex items-center gap-1 text-xs font-semibold text-brand mt-1">
+                                            <div className="flex items-center gap-1 text-xs font-semibold text-brand-ink mt-1">
                                                 <span className="material-symbols-outlined text-[14px] icon-filled">
                                                     verified
                                                 </span>
@@ -475,13 +475,13 @@ export default function PropertyDetail() {
                     <div className="flex-1 md:flex-none flex gap-3 w-full md:w-auto">
                         <button
                             onClick={() => setShowViewingModal(true)}
-                            className="flex-1 md:flex-none px-6 py-3.5 rounded-xl border-2 border-brand text-brand font-bold hover:bg-blue-50 dark:hover:bg-brand/10 transition-colors whitespace-nowrap"
+                            className="flex-1 md:flex-none px-6 py-3.5 rounded-xl border-2 border-brand text-brand-ink font-bold hover:bg-blue-50 dark:hover:bg-brand/10 transition-colors whitespace-nowrap"
                         >
                             Schedule Viewing
                         </button>
                         <button
                             onClick={() => setShowBuyModal(true)}
-                            className="flex-1 md:flex-none px-8 py-3.5 rounded-xl bg-brand text-white font-bold hover:bg-[#0e64bd] transition-colors shadow-sm whitespace-nowrap"
+                            className="flex-1 md:flex-none px-8 py-3.5 rounded-xl bg-brand-ink text-on-brand font-bold hover:bg-[#0e64bd] transition-colors whitespace-nowrap"
                         >
                             Buy Now / Apply
                         </button>

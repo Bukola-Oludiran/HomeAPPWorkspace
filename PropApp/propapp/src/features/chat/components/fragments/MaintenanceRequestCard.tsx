@@ -15,7 +15,7 @@ interface Props {
 
 export function MaintenanceRequestCard({ props, onAction }: Props) {
     return (
-        <article className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+        <article className="rounded-2xl border border-slate-200 bg-white p-4">
             <header className="flex items-start gap-2">
                 <span
                     className={`mt-1 inline-block h-2 w-2 rounded-full ${PRIORITY_DOT[props.priority]}`}

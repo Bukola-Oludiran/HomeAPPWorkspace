@@ -51,7 +51,7 @@ export default function SignUpStep4Agent() {
         <div className="w-full max-w-2xl bg-white/10 dark:bg-surface-dark/40 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col">
             {/* Step Badge */}
             <div className="flex items-center justify-center mb-6">
-                <span className="px-3 py-1 rounded-full bg-white/80 border border-white/40 text-brand text-xs font-bold uppercase tracking-wider">
+                <span className="px-3 py-1 rounded-full bg-white/80 border border-white/40 text-brand-ink text-xs font-bold uppercase tracking-wider">
                     Step 4 of 4
                 </span>
             </div>
@@ -154,7 +154,7 @@ export default function SignUpStep4Agent() {
                 <div className="pt-4">
                     <Link
                         to="/agent/jobs"
-                        className="w-full py-3.5 px-4 rounded-xl bg-brand hover:bg-brand/90 text-white font-bold text-lg shadow-sm transition-all flex items-center justify-center gap-2"
+                        className="w-full py-3.5 px-4 rounded-xl bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-lg transition-all flex items-center justify-center gap-2"
                     >
                         Go to Dashboard
                         <span className="material-symbols-outlined text-xl">arrow_forward</span>

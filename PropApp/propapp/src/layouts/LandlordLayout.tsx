@@ -1,4 +1,5 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
+import Logo from '@/components/common/Logo';
 
 export default function LandlordLayout() {
     const location = useLocation();
@@ -19,13 +20,8 @@ export default function LandlordLayout() {
                 {/* Logo - positioned top left (hidden on detail pages and pages with own header) */}
                 {!isDetailPage && !hasOwnHeader && (
                     <div className="absolute top-6 left-6 md:left-10 z-40 flex items-center gap-3">
-                        <Link to="/" className="flex items-center gap-3">
-                            <div className="size-10 bg-brand rounded-xl flex items-center justify-center text-white shadow-sm">
-                                <span className="material-symbols-outlined">real_estate_agent</span>
-                            </div>
-                            <h2 className="hidden md:block text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">
-                                HomeAI
-                            </h2>
+                        <Link to="/" className="flex items-center h-10">
+                            <Logo wordmark="md" />
                         </Link>
                     </div>
                 )}

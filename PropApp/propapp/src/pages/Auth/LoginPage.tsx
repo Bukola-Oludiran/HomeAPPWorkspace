@@ -107,7 +107,7 @@ export default function LoginPage() {
                 <div className="flex items-center justify-between">
                     <div className="flex items-center">
                         <input
-                            className="h-4 w-4 text-brand focus:ring-brand border-white/20 dark:border-slate-600 rounded bg-white/10 dark:bg-slate-800"
+                            className="h-4 w-4 text-sky focus:ring-brand border-white/20 dark:border-slate-600 rounded bg-white/10 dark:bg-slate-800"
                             id="remember-me"
                             name="remember-me"
                             type="checkbox"
@@ -117,7 +117,7 @@ export default function LoginPage() {
                         </label>
                     </div>
                     <div className="text-sm">
-                        <Link className="font-medium text-brand hover:text-brand/80 transition-colors" to="/auth/forgot-password">
+                        <Link className="font-medium text-sky hover:text-sky/80 transition-colors" to="/auth/forgot-password">
                             Forgot Password?
                         </Link>
                     </div>
@@ -125,7 +125,7 @@ export default function LoginPage() {
 
                 {/* Submit Button */}
                 <button
-                    className="w-full py-3.5 px-4 rounded-xl bg-brand hover:bg-brand/90 text-white font-bold text-lg shadow-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
+                    className="w-full py-3.5 px-4 rounded-xl bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
                     type="submit"
                     disabled={isLoading}
                 >
@@ -142,7 +142,7 @@ export default function LoginPage() {
 
             <p className="mt-8 text-sm text-slate-300">
                 Don't have an account?{' '}
-                <Link className="text-brand hover:text-brand/80 font-bold hover:underline transition-all" to="/auth/signup/step1">
+                <Link className="text-sky hover:text-sky/80 font-bold hover:underline transition-all" to="/auth/signup/step1">
                     Sign Up
                 </Link>
             </p>

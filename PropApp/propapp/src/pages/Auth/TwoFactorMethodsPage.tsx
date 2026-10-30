@@ -41,7 +41,7 @@ export default function TwoFactorMethodsPage() {
             {/* Icon */}
             <div className="mb-6 flex justify-center">
                 <div className="size-16 bg-white/10 rounded-full flex items-center justify-center border border-white/10 shadow-inner ring-1 ring-white/5">
-                    <span className="material-symbols-outlined text-brand text-3xl">phonelink_lock</span>
+                    <span className="material-symbols-outlined text-sky text-3xl">phonelink_lock</span>
                 </div>
             </div>
 

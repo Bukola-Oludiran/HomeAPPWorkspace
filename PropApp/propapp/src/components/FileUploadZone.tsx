@@ -140,7 +140,7 @@ export default function FileUploadZone({
                 />
 
                 <div className={`size-12 rounded-full flex items-center justify-center mb-3 transition-colors ${isDragging
-                        ? 'bg-brand/10 text-brand'
+                        ? 'bg-brand/10 text-brand-ink'
                         : 'bg-slate-100 dark:bg-slate-800 text-slate-400'
                     }`}>
                     <span className="material-symbols-outlined text-2xl">cloud_upload</span>

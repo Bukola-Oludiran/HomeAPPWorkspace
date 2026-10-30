@@ -14,7 +14,7 @@ export default function UseSecurityKeyPage() {
             {/* Icon */}
             <div className="mb-6 flex justify-center">
                 <div className="size-16 bg-white/10 rounded-full flex items-center justify-center border border-white/10 shadow-inner ring-1 ring-white/5">
-                    <span className="material-symbols-outlined text-brand text-3xl">usb</span>
+                    <span className="material-symbols-outlined text-sky text-3xl">usb</span>
                 </div>
             </div>
 
@@ -40,7 +40,7 @@ export default function UseSecurityKeyPage() {
                 <div className="flex flex-col gap-3">
                     <Link
                         to="/auth/2fa/security-key-success"
-                        className="w-full py-3.5 px-5 rounded-xl bg-brand hover:bg-brand/90 text-white font-bold shadow-sm transition-all flex items-center justify-center gap-2"
+                        className="w-full py-3.5 px-5 rounded-xl bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold transition-all flex items-center justify-center gap-2"
                     >
                         <span>Verify</span>
                         <span className="material-symbols-outlined text-[20px]">fingerprint</span>

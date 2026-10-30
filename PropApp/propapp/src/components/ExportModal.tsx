@@ -98,7 +98,7 @@ export default function ExportModal({ isOpen, onClose, dataType = 'data', onExpo
                 <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <div className="size-10 bg-brand/10 rounded-full flex items-center justify-center">
-                            <span className="material-symbols-outlined text-brand">download</span>
+                            <span className="material-symbols-outlined text-brand-ink">download</span>
                         </div>
                         <h2 className="text-lg font-bold text-slate-900 dark:text-white">Export {dataType}</h2>
                     </div>
@@ -115,7 +115,7 @@ export default function ExportModal({ isOpen, onClose, dataType = 'data', onExpo
                         <div className="size-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
                             <span className="material-symbols-outlined text-green-600 dark:text-green-400 text-3xl">check_circle</span>
                         </div>
-                        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Export Complete!</h3>
+                        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Export complete</h3>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
                             Your file is downloading...
                         </p>
@@ -139,11 +139,11 @@ export default function ExportModal({ isOpen, onClose, dataType = 'data', onExpo
                                                     : 'border-slate-200 dark:border-slate-700 hover:border-slate-300'
                                                 }`}
                                         >
-                                            <span className={`material-symbols-outlined text-2xl ${format === option.id ? 'text-brand' : 'text-slate-400'
+                                            <span className={`material-symbols-outlined text-2xl ${format === option.id ? 'text-brand-ink' : 'text-slate-400'
                                                 }`}>
                                                 {option.icon}
                                             </span>
-                                            <span className={`text-sm font-semibold ${format === option.id ? 'text-brand' : 'text-slate-700 dark:text-slate-300'
+                                            <span className={`text-sm font-semibold ${format === option.id ? 'text-brand-ink' : 'text-slate-700 dark:text-slate-300'
                                                 }`}>
                                                 {option.label}
                                             </span>
@@ -169,7 +169,7 @@ export default function ExportModal({ isOpen, onClose, dataType = 'data', onExpo
                                             key={opt.id}
                                             onClick={() => handlePresetChange(opt.id as typeof preset)}
                                             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${preset === opt.id
-                                                    ? 'bg-brand text-white'
+                                                    ? 'bg-brand-ink text-on-brand'
                                                     : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
                                                 }`}
                                         >
@@ -214,7 +214,7 @@ export default function ExportModal({ isOpen, onClose, dataType = 'data', onExpo
                             <button
                                 onClick={handleExport}
                                 disabled={exporting}
-                                className="px-6 py-2.5 rounded-xl bg-brand text-white font-bold text-sm hover:bg-brand/90 transition-colors shadow-sm disabled:opacity-70 flex items-center gap-2"
+                                className="px-6 py-2.5 rounded-xl bg-brand-ink text-on-brand font-bold text-sm hover:bg-brand-ink/90 transition-colors disabled:opacity-70 flex items-center gap-2"
                             >
                                 {exporting ? (
                                     <>

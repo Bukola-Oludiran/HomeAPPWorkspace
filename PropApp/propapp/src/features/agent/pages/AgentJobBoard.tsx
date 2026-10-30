@@ -121,7 +121,7 @@ export default function AgentJobBoard() {
                         <button className="px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold text-sm bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 transition-colors flex items-center gap-2">
                             <span className="material-symbols-outlined text-[20px]">tune</span> Filters
                         </button>
-                        <button className="px-5 py-2.5 rounded-lg bg-brand hover:bg-brand/90 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2">
+                        <button className="px-5 py-2.5 rounded-lg bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm transition-all flex items-center gap-2">
                             <span className="material-symbols-outlined text-[20px]">location_on</span> My Area
                         </button>
                     </div>
@@ -149,7 +149,7 @@ export default function AgentJobBoard() {
                 ) : (
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                     {/* Total Earnings */}
-                    <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+                    <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-100 dark:border-slate-800">
                         <div className="flex items-center justify-between mb-2">
                             <span className="material-symbols-outlined text-green-500 text-[24px]">payments</span>
                         </div>
@@ -160,7 +160,7 @@ export default function AgentJobBoard() {
                     </div>
 
                     {/* Available Balance */}
-                    <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+                    <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-100 dark:border-slate-800">
                         <div className="flex items-center justify-between mb-2">
                             <span className="material-symbols-outlined text-blue-500 text-[24px]">
                                 account_balance_wallet
@@ -173,7 +173,7 @@ export default function AgentJobBoard() {
                     </div>
 
                     {/* Pending Balance */}
-                    <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+                    <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-100 dark:border-slate-800">
                         <div className="flex items-center justify-between mb-2">
                             <span className="material-symbols-outlined text-amber-500 text-[24px]">
                                 schedule
@@ -186,7 +186,7 @@ export default function AgentJobBoard() {
                     </div>
 
                     {/* Available Jobs */}
-                    <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+                    <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-100 dark:border-slate-800">
                         <div className="flex items-center justify-between mb-2">
                             <span className="material-symbols-outlined text-purple-500 text-[24px]">work</span>
                         </div>
@@ -241,7 +241,7 @@ export default function AgentJobBoard() {
                     {filteredJobs.map((job: AgentJob) => (
                         <div
                             key={job.id}
-                            className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden hover:border-brand/50 transition-colors cursor-pointer"
+                            className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden hover:border-brand/50 transition-colors cursor-pointer"
                         >
                             <div className="flex">
                                 <img
@@ -285,7 +285,7 @@ export default function AgentJobBoard() {
                                             <button
                                                 onClick={() => handleAcceptJob(job.id)}
                                                 disabled={acceptingJobId === job.id}
-                                                className="w-full py-2 bg-brand text-white font-bold text-sm rounded-lg hover:bg-brand/90 transition-colors disabled:opacity-50"
+                                                className="w-full py-2 bg-brand-ink text-on-brand font-bold text-sm rounded-lg hover:bg-brand-ink/90 transition-colors disabled:opacity-50"
                                             >
                                                 {acceptingJobId === job.id ? 'Accepting...' : 'Accept Job'}
                                             </button>
@@ -303,7 +303,7 @@ export default function AgentJobBoard() {
 
                 {/* Load More */}
                 <div className="mt-10 flex justify-center">
-                    <button className="px-8 py-3 rounded-xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-sm">
+                    <button className="px-8 py-3 rounded-xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
                         Load More Jobs
                     </button>
                 </div>
@@ -318,7 +318,7 @@ export default function AgentJobBoard() {
             <SuccessCelebration
                 isOpen={isSuccessOpen}
                 onClose={() => setIsSuccessOpen(false)}
-                title="Job Accepted!"
+                title="Job accepted"
                 description="You've been added to this job. Check your schedule for details and head to the location at the scheduled time."
                 buttonText="View My Jobs"
                 icon="work"

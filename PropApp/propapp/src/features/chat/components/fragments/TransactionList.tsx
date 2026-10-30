@@ -22,7 +22,7 @@ export function TransactionList({ props }: Props) {
         );
     }
     return (
-        <ul className="divide-y divide-slate-100 rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <ul className="divide-y divide-slate-100 rounded-2xl border border-slate-200 bg-white">
             {props.items.map((t) => (
                 <li key={t.transactionId} className="flex items-center gap-3 px-4 py-3">
                     <div className="flex-1 min-w-0">

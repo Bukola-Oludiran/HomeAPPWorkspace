@@ -101,7 +101,7 @@ export default function LandlordPropertyTasks() {
                             <span className="material-symbols-outlined">notifications</span>
                             <span className="absolute top-2 right-2 size-2.5 bg-red-500 rounded-full border-2 border-slate-100 dark:border-slate-800"></span>
                         </button>
-                        <div className="size-10 rounded-full bg-brand/10 flex items-center justify-center text-brand font-bold border border-brand/20">
+                        <div className="size-10 rounded-full bg-brand/10 flex items-center justify-center text-brand-ink font-bold border border-brand/20">
                             JD
                         </div>
                     </div>
@@ -121,7 +121,7 @@ export default function LandlordPropertyTasks() {
                         </div>
                         <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white">All Property Tasks</h2>
                     </div>
-                    <button className="px-5 py-2.5 bg-brand hover:bg-[#0e64bd] text-white font-bold rounded-xl shadow-sm transition-colors flex items-center gap-2">
+                    <button className="px-5 py-2.5 bg-brand-ink hover:bg-[#0e64bd] text-on-brand font-bold rounded-xl transition-colors flex items-center gap-2">
                         <span className="material-symbols-outlined">add</span>
                         New Task
                     </button>
@@ -130,8 +130,8 @@ export default function LandlordPropertyTasks() {
                 {/* Stats Cards */}
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
                     <div className="lg:col-span-4 grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center gap-3">
-                            <div className="size-10 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-brand">
+                        <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center gap-3">
+                            <div className="size-10 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-brand-ink">
                                 <span className="material-symbols-outlined">assignment</span>
                             </div>
                             <div>
@@ -139,7 +139,7 @@ export default function LandlordPropertyTasks() {
                                 <p className="text-xl font-bold text-slate-900 dark:text-white">{totalTasks}</p>
                             </div>
                         </div>
-                        <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-red-200 dark:border-red-900/50 shadow-sm flex items-center gap-3">
+                        <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-red-200 dark:border-red-900/50 flex items-center gap-3">
                             <div className="size-10 rounded-full bg-red-50 dark:bg-red-900/20 flex items-center justify-center text-red-500">
                                 <span className="material-symbols-outlined">warning</span>
                             </div>
@@ -148,7 +148,7 @@ export default function LandlordPropertyTasks() {
                                 <p className="text-xl font-bold text-red-600 dark:text-red-400">{inProgressTasks}</p>
                             </div>
                         </div>
-                        <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center gap-3">
+                        <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center gap-3">
                             <div className="size-10 rounded-full bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center text-orange-500">
                                 <span className="material-symbols-outlined">schedule</span>
                             </div>
@@ -157,7 +157,7 @@ export default function LandlordPropertyTasks() {
                                 <p className="text-xl font-bold text-slate-900 dark:text-white">{pendingTasks}</p>
                             </div>
                         </div>
-                        <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center gap-3">
+                        <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center gap-3">
                             <div className="size-10 rounded-full bg-green-50 dark:bg-green-900/20 flex items-center justify-center text-green-500">
                                 <span className="material-symbols-outlined">check_circle</span>
                             </div>
@@ -170,7 +170,7 @@ export default function LandlordPropertyTasks() {
                 </div>
 
                 {/* Filters */}
-                <div className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm mb-6 flex flex-col md:flex-row gap-4 justify-between items-center">
+                <div className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 mb-6 flex flex-col md:flex-row gap-4 justify-between items-center">
                     <div className="relative w-full md:w-96">
                         <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
                         <input
@@ -199,7 +199,7 @@ export default function LandlordPropertyTasks() {
                 </div>
 
                 {/* Tasks Table */}
-                <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+                <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full text-left border-collapse">
                             <thead>
@@ -286,13 +286,13 @@ export default function LandlordPropertyTasks() {
                                                 <td className="px-6 py-4 text-right">
                                                     <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                                         {isCompleted ? (
-                                                            <button className="text-xs text-brand font-bold hover:underline">View Details</button>
+                                                            <button className="text-xs text-brand-ink font-bold hover:underline">View Details</button>
                                                         ) : (
                                                             <>
-                                                                <button className="size-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:border-brand hover:text-brand text-slate-400 transition-colors" title="Mark Complete">
+                                                                <button className="size-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:border-brand hover:text-brand-ink text-slate-400 transition-colors" title="Mark Complete">
                                                                     <span className="material-symbols-outlined text-[18px]">check</span>
                                                                 </button>
-                                                                <button className="size-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:border-brand hover:text-brand text-slate-400 transition-colors" title="Edit Task">
+                                                                <button className="size-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:border-brand hover:text-brand-ink text-slate-400 transition-colors" title="Edit Task">
                                                                     <span className="material-symbols-outlined text-[18px]">edit</span>
                                                                 </button>
                                                             </>

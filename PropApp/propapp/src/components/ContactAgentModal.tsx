@@ -75,7 +75,7 @@ export default function ContactAgentModal({ isOpen, onClose, agent, property }: 
                         <div className="size-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
                             <span className="material-symbols-outlined text-green-600 dark:text-green-400 text-3xl">check_circle</span>
                         </div>
-                        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Message Sent!</h3>
+                        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Message sent</h3>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
                             {agent.name} will get back to you soon.
                         </p>
@@ -136,7 +136,7 @@ export default function ContactAgentModal({ isOpen, onClose, agent, property }: 
                                     type="checkbox"
                                     checked={requestCallback}
                                     onChange={(e) => setRequestCallback(e.target.checked)}
-                                    className="size-4 rounded border-slate-300 text-brand focus:ring-brand"
+                                    className="size-4 rounded border-slate-300 text-brand-ink focus:ring-brand"
                                 />
                                 <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
                                     Request a callback
@@ -189,7 +189,7 @@ export default function ContactAgentModal({ isOpen, onClose, agent, property }: 
                             <button
                                 type="submit"
                                 disabled={sending}
-                                className="flex-1 py-3 rounded-xl bg-brand text-white font-bold text-sm hover:bg-brand/90 transition-colors shadow-sm flex items-center justify-center gap-2 disabled:opacity-70"
+                                className="flex-1 py-3 rounded-xl bg-brand-ink text-on-brand font-bold text-sm hover:bg-brand-ink/90 transition-colors flex items-center justify-center gap-2 disabled:opacity-70"
                             >
                                 {sending ? (
                                     <>

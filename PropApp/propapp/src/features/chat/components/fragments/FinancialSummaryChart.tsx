@@ -23,7 +23,7 @@ export function FinancialSummaryChart({ props }: Props) {
     const seriesColors = ['#0f172a', '#0ea5e9', '#10b981', '#f59e0b'];
 
     return (
-        <article className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+        <article className="rounded-2xl border border-slate-200 bg-white p-4">
             <header className="flex items-baseline justify-between">
                 <h3 className="text-sm font-semibold text-slate-900">Financial summary</h3>
                 <span className="text-xs text-slate-500">{props.period}</span>

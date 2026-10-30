@@ -38,7 +38,7 @@ export default function BillingDetailsModal({ isOpen, onClose }: BillingDetailsM
                 status: 'paid',
                 icon: 'description',
                 iconBg: 'bg-blue-50 dark:bg-blue-900/20',
-                iconColor: 'text-brand',
+                iconColor: 'text-brand-ink',
             })));
             setError(null);
         }).catch(() => setError('Unable to load billing statements.'));
@@ -149,13 +149,13 @@ export default function BillingDetailsModal({ isOpen, onClose }: BillingDetailsM
                                     <div className="flex items-center gap-2">
                                         <button
                                             onClick={() => void integrationService.exportData({ dataset: 'transactions', format: 'pdf', start: `${statement.id}-01`, end: `${statement.id}-31` })}
-                                            className="p-2 text-slate-400 hover:text-brand hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+                                            className="p-2 text-slate-400 hover:text-brand-ink hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
                                             title="View"
                                         >
                                             <span className="material-symbols-outlined text-[20px]">visibility</span>
                                         </button>
                                         <button
-                                            className="p-2 text-slate-400 hover:text-brand hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+                                            className="p-2 text-slate-400 hover:text-brand-ink hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
                                             title="Download PDF"
                                         >
                                             <span className="material-symbols-outlined text-[20px]">download</span>
@@ -168,7 +168,7 @@ export default function BillingDetailsModal({ isOpen, onClose }: BillingDetailsM
 
                     {/* Footer */}
                     <div className="p-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-700 text-center">
-                        <button className="text-sm font-bold text-brand hover:text-brand/80 transition-colors">
+                        <button className="text-sm font-bold text-brand-ink hover:text-brand-ink/80 transition-colors">
                             Load older statements
                         </button>
                     </div>

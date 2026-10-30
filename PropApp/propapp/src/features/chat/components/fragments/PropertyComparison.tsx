@@ -13,7 +13,7 @@ interface Props {
  */
 export function PropertyComparison({ props, onAction }: Props) {
     return (
-        <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
+        <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white p-3">
             <div
                 className="grid gap-3"
                 style={{ gridTemplateColumns: `repeat(${props.items.length}, minmax(220px, 1fr))` }}

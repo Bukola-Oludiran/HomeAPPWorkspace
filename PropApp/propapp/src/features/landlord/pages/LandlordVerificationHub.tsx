@@ -250,10 +250,10 @@ export default function LandlordVerificationHub() {
                     {/* Left Sidebar */}
                     <div className="lg:col-span-4 space-y-6">
                         {/* Property Selector */}
-                        <div className="bg-white dark:bg-canvas-dark rounded-xl p-1 border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <div className="bg-white dark:bg-canvas-dark rounded-xl p-1 border border-slate-200 dark:border-slate-800">
                             <div className="relative group">
                                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                                    <span className="material-symbols-outlined text-slate-400 group-focus-within:text-brand transition-colors">domain</span>
+                                    <span className="material-symbols-outlined text-slate-400 group-focus-within:text-brand-ink transition-colors">domain</span>
                                 </div>
                                 <select
                                     value={selectedProperty.id}
@@ -271,7 +271,7 @@ export default function LandlordVerificationHub() {
                         </div>
 
                         {/* Status Card */}
-                        <div className="bg-white dark:bg-canvas-dark rounded-2xl p-8 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col items-center text-center relative overflow-hidden">
+                        <div className="bg-white dark:bg-canvas-dark rounded-2xl p-8 border border-slate-200 dark:border-slate-800 flex flex-col items-center text-center relative overflow-hidden">
                             <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Property Status</h2>
 
                             {/* Progress Circle */}
@@ -308,7 +308,7 @@ export default function LandlordVerificationHub() {
                             <div className="w-full space-y-4">
                                 <div className={`flex items-center justify-between p-3.5 rounded-xl border ${currentTierConfig.bgClass}`}>
                                     <div className="flex items-center gap-3">
-                                        <div className={`size-10 rounded-full flex items-center justify-center ${currentTierConfig.iconColor} shadow-sm border ${currentTierConfig.iconBg}`}>
+                                        <div className={`size-10 rounded-full flex items-center justify-center ${currentTierConfig.iconColor} border ${currentTierConfig.iconBg}`}>
                                             <span className="material-symbols-outlined text-[20px]">{currentTierConfig.icon}</span>
                                         </div>
                                         <div className="text-left">
@@ -334,7 +334,7 @@ export default function LandlordVerificationHub() {
                                 ) : (
                                 <div className={`flex items-center justify-between p-3.5 rounded-xl border ${currentTierConfig.bgClass}`}>
                                     <div className="flex items-center gap-3">
-                                        <div className={`size-10 rounded-full flex items-center justify-center ${currentTierConfig.iconColor} shadow-sm border ${currentTierConfig.iconBg}`}>
+                                        <div className={`size-10 rounded-full flex items-center justify-center ${currentTierConfig.iconColor} border ${currentTierConfig.iconBg}`}>
                                             <span className="material-symbols-outlined text-[20px]">verified</span>
                                         </div>
                                         <div className="text-left">
@@ -349,7 +349,7 @@ export default function LandlordVerificationHub() {
                         </div>
 
                         {/* AI Tip Card */}
-                        <div className="bg-brand rounded-2xl p-5 text-white shadow-lg relative overflow-hidden">
+                        <div className="bg-brand-ink rounded-2xl p-5 text-on-brand shadow-lg relative overflow-hidden">
                             <div className="relative z-10">
                                 <div className="flex items-center gap-2 mb-2">
                                     <span className="material-symbols-outlined text-[18px]">forum</span>
@@ -363,7 +363,7 @@ export default function LandlordVerificationHub() {
 
                     {/* Right Content - Verification Steps */}
                     <div className="lg:col-span-8">
-                        <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                        <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
                             {/* Header */}
                             <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/30">
                                 <div>
@@ -372,7 +372,7 @@ export default function LandlordVerificationHub() {
                                         Requirements for <span className="font-bold text-slate-700 dark:text-slate-200">{selectedProperty.name}</span>.
                                     </p>
                                 </div>
-                                <span className="px-3 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-xs font-bold text-slate-700 dark:text-slate-300 shadow-sm">
+                                <span className="px-3 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-xs font-bold text-slate-700 dark:text-slate-300">
                                     {completedSteps} / {totalSteps} Completed
                                 </span>
                             </div>
@@ -424,14 +424,14 @@ export default function LandlordVerificationHub() {
                                         {step.status === 'pending' && (
                                             <div className="ml-0 sm:ml-12 mt-6">
                                                 <div className="p-8 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-800/30 text-center hover:border-brand hover:bg-blue-50/50 dark:hover:bg-slate-800/60 transition-all cursor-pointer group">
-                                                    <div className="size-14 rounded-full bg-white dark:bg-slate-700 shadow-sm mx-auto flex items-center justify-center text-slate-400 group-hover:text-brand group-hover:scale-110 transition-all duration-300 mb-4 border border-slate-100 dark:border-slate-600">
+                                                    <div className="size-14 rounded-full bg-white dark:bg-slate-700 mx-auto flex items-center justify-center text-slate-400 group-hover:text-brand-ink group-hover:scale-110 transition-all duration-300 mb-4 border border-slate-100 dark:border-slate-600">
                                                         <span className="material-symbols-outlined text-3xl">cloud_upload</span>
                                                     </div>
                                                     <h5 className="font-bold text-slate-900 dark:text-white mb-1">Click to upload C of O</h5>
                                                     <p className="text-xs text-slate-500 dark:text-slate-400 mb-5">
                                                         Ensure the address matches: <strong className="text-slate-700 dark:text-slate-300">{selectedProperty.address}</strong>
                                                     </p>
-                                                    <button className="px-5 py-2.5 bg-brand hover:bg-brand/90 text-white text-sm font-bold rounded-lg shadow-sm transition-all active:scale-95">
+                                                    <button className="px-5 py-2.5 bg-brand-ink hover:bg-brand-ink/90 text-on-brand text-sm font-bold rounded-lg transition-all active:scale-95">
                                                         Select Document
                                                     </button>
                                                 </div>

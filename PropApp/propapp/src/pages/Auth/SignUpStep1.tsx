@@ -46,7 +46,7 @@ export default function SignUpStep1() {
         <div className="w-full max-w-lg bg-white/10 dark:bg-surface-dark/40 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-2xl rounded-3xl p-8 md:p-10 flex flex-col items-center">
             {/* Step Badge */}
             <div className="flex items-center gap-2 mb-6">
-                <span className="px-3 py-1 rounded-full bg-white/80 border border-white/40 text-brand text-xs font-bold uppercase tracking-wider">
+                <span className="px-3 py-1 rounded-full bg-white/80 border border-white/40 text-brand-ink text-xs font-bold uppercase tracking-wider">
                     Step 1 of 3
                 </span>
             </div>
@@ -135,7 +135,7 @@ export default function SignUpStep1() {
                 <div className="flex items-start gap-3 pt-2">
                     <div className="flex h-6 items-center">
                         <input
-                            className="h-5 w-5 rounded border-white/20 bg-white/5 text-brand focus:ring-brand focus:ring-offset-0 cursor-pointer"
+                            className="h-5 w-5 rounded border-white/20 bg-white/5 text-sky focus:ring-brand focus:ring-offset-0 cursor-pointer"
                             id="terms"
                             name="terms"
                             type="checkbox"
@@ -147,11 +147,11 @@ export default function SignUpStep1() {
                     <div className="text-sm leading-6">
                         <label className="font-medium text-slate-300" htmlFor="terms">
                             I agree to the{' '}
-                            <a className="font-semibold text-brand hover:text-brand/80 underline decoration-brand/30 underline-offset-2" href="#">
+                            <a className="font-semibold text-sky hover:text-sky/80 underline decoration-brand/30 underline-offset-2" href="#">
                                 Terms of Service
                             </a>
                             {' '}and{' '}
-                            <a className="font-semibold text-brand hover:text-brand/80 underline decoration-brand/30 underline-offset-2" href="#">
+                            <a className="font-semibold text-sky hover:text-sky/80 underline decoration-brand/30 underline-offset-2" href="#">
                                 Privacy Policy
                             </a>.
                         </label>
@@ -162,7 +162,7 @@ export default function SignUpStep1() {
                 <button
                     type="submit"
                     disabled={isLoading || !isPasswordValid || !termsAccepted || !email}
-                    className="w-full mt-4 py-3.5 px-4 rounded-xl bg-brand hover:bg-brand/90 text-white font-bold text-lg shadow-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                    className="w-full mt-4 py-3.5 px-4 rounded-xl bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                 >
                     {isLoading ? (
                         <>
@@ -180,7 +180,7 @@ export default function SignUpStep1() {
 
             <p className="mt-8 text-sm text-slate-300">
                 Already have an account?{' '}
-                <Link className="font-bold text-white hover:text-brand transition-colors" to="/auth/login">
+                <Link className="font-bold text-white hover:text-sky transition-colors" to="/auth/login">
                     Log In
                 </Link>
             </p>

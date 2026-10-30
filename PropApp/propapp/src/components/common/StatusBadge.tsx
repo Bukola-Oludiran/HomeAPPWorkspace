@@ -7,54 +7,29 @@ interface StatusBadgeProps {
     status: string;
     /** Visual variant for the badge */
     variant: BadgeVariant;
-    /** Show a colored dot indicator */
+    /** Show the variant's icon before the text */
     showDot?: boolean;
     /** Additional className for customization */
     className?: string;
 }
 
-const variantStyles: Record<BadgeVariant, { bg: string; text: string; dot: string; border: string }> = {
-    success: {
-        bg: 'bg-green-50 dark:bg-green-900/20',
-        text: 'text-green-600 dark:text-green-400',
-        dot: 'bg-green-500',
-        border: 'border-green-200 dark:border-green-800/30',
-    },
-    warning: {
-        bg: 'bg-orange-50 dark:bg-orange-900/20',
-        text: 'text-orange-600 dark:text-orange-400',
-        dot: 'bg-orange-500',
-        border: 'border-orange-200 dark:border-orange-800/30',
-    },
-    error: {
-        bg: 'bg-red-50 dark:bg-red-900/20',
-        text: 'text-red-600 dark:text-red-400',
-        dot: 'bg-red-500',
-        border: 'border-red-200 dark:border-red-800/30',
-    },
-    info: {
-        bg: 'bg-blue-50 dark:bg-blue-900/20',
-        text: 'text-blue-600 dark:text-blue-400',
-        dot: 'bg-blue-500',
-        border: 'border-blue-200 dark:border-blue-800/30',
-    },
-    neutral: {
-        bg: 'bg-slate-50 dark:bg-slate-800',
-        text: 'text-slate-600 dark:text-slate-400',
-        dot: 'bg-slate-400',
-        border: 'border-slate-200 dark:border-slate-700',
-    },
-    pending: {
-        bg: 'bg-purple-50 dark:bg-purple-900/20',
-        text: 'text-purple-600 dark:text-purple-400',
-        dot: 'bg-purple-500',
-        border: 'border-purple-200 dark:border-purple-800/30',
-    },
+/**
+ * Keystead status colours. Each variant pairs its colour with an icon, because colour
+ * must never be the only signal: success = Verified (check), pending/warning = Check in
+ * progress (clock), error = Issue found (!), neutral = Not yet checked (dash).
+ */
+const variantStyles: Record<BadgeVariant, { chip: string; icon: string }> = {
+    success: { chip: 'bg-verified-bg text-verified', icon: 'check' },
+    warning: { chip: 'bg-pending-bg text-pending', icon: 'schedule' },
+    pending: { chip: 'bg-pending-bg text-pending', icon: 'schedule' },
+    error: { chip: 'bg-alert-bg text-alert', icon: 'priority_high' },
+    info: { chip: 'bg-brand/10 text-brand-ink dark:bg-sky/15 dark:text-sky', icon: 'info' },
+    neutral: { chip: 'bg-neutral-bg text-muted-foreground', icon: 'remove' },
 };
 
 /**
  * StatusBadge - A reusable component for displaying status indicators
- * Provides consistent styling with colored dot and dark mode support
+ * Keystead StatusChip: pill, 13px bold, icon plus words
  */
 const StatusBadge: React.FC<StatusBadgeProps> = ({
     status,
@@ -66,9 +41,13 @@ const StatusBadge: React.FC<StatusBadgeProps> = ({
 
     return (
         <span
-            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border ${styles.bg} ${styles.text} ${styles.border} ${className}`}
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[13px] font-bold ${styles.chip} ${className}`}
         >
-            {showDot && <span className={`size-1.5 rounded-full ${styles.dot}`}></span>}
+            {showDot && (
+                <span className="material-symbols-outlined text-[16px] leading-none" aria-hidden="true">
+                    {styles.icon}
+                </span>
+            )}
             {status}
         </span>
     );
