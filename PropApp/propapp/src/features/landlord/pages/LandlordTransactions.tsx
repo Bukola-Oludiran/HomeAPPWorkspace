@@ -7,6 +7,7 @@ import SearchInput from '../../../components/common/SearchInput';
 import DateRangeFilter from '../../../components/common/DateRangeFilter';
 import { landlordService } from '../../../lib/api/services/landlordService';
 import type { LandlordTransaction } from '../../../types/dashboard';
+import { formatCurrency as formatMoney } from '@/lib/format';
 
 // UI transaction type
 interface UITransaction {
@@ -26,13 +27,9 @@ interface UITransaction {
 }
 
 // Helper to format currency
+// The sign is shown separately, so format the magnitude
 function formatCurrency(amount: number): string {
-    return new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency: 'CAD',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-    }).format(Math.abs(amount));
+    return formatMoney(Math.abs(amount));
 }
 
 // Helper to format date and time
@@ -204,19 +201,19 @@ export default function LandlordTransactions() {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                 <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
                     <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Total Income (Month)</p>
-                    <p className="text-2xl font-extrabold text-green-600">{isLoading ? '...' : `$${totalIncome.toLocaleString()}`}</p>
+                    <p className="text-2xl font-extrabold text-green-600">{isLoading ? '...' : formatCurrency(totalIncome)}</p>
                 </div>
                 <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
                     <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Pending Payments</p>
-                    <p className="text-2xl font-extrabold text-orange-600">{isLoading ? '...' : `$${pendingAmount.toLocaleString()}`}</p>
+                    <p className="text-2xl font-extrabold text-orange-600">{isLoading ? '...' : formatCurrency(pendingAmount)}</p>
                 </div>
                 <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
                     <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Fees & Deductions</p>
-                    <p className="text-2xl font-extrabold text-red-500">{isLoading ? '...' : `$${deductions.toLocaleString()}`}</p>
+                    <p className="text-2xl font-extrabold text-red-500">{isLoading ? '...' : formatCurrency(deductions)}</p>
                 </div>
                 <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
                     <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Net Revenue</p>
-                    <p className="text-2xl font-extrabold text-brand-ink">{isLoading ? '...' : `$${netRevenue.toLocaleString()}`}</p>
+                    <p className="text-2xl font-extrabold text-brand-ink">{isLoading ? '...' : formatCurrency(netRevenue)}</p>
                 </div>
             </div>
 

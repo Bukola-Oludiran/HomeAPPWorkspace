@@ -4,6 +4,7 @@ import { MagneticButton, SuccessCelebration } from '../../components/animation';
 import { propertyService } from '../../lib/api/services/propertyService';
 import { userService } from '../../lib/api/services/userService';
 import { tenantService } from '../../lib/api/services/tenantService';
+import { formatCurrency } from '@/lib/format';
 
 interface ApplicationFormData {
     leaseDuration: string;
@@ -44,7 +45,7 @@ export default function RentalApplicationWizard() {
     const totalSteps = 4;
 
     const [propertyData, setPropertyData] = useState<PropertyInfo>({
-        id: id || '', name: '', address: '', neighborhood: '', image: '', beds: 0, baths: 0, sqft: '0', rent: '$0', status: '',
+        id: id || '', name: '', address: '', neighborhood: '', image: '', beds: 0, baths: 0, sqft: '0', rent: formatCurrency(0), status: '',
     });
     const [applicantData, setApplicantData] = useState<ApplicantInfo>({ name: '', email: '', phone: '' });
     const [loading, setLoading] = useState(true);
@@ -71,7 +72,7 @@ export default function RentalApplicationWizard() {
                         beds: p.bedrooms || 0,
                         baths: p.bathrooms || 0,
                         sqft: sqm > 1000 ? `${(sqm / 1000).toFixed(1)}k` : `${sqm}`,
-                        rent: `$${Number(p.price || 0).toLocaleString()}`,
+                        rent: formatCurrency(Number(p.price || 0)),
                         status: p.status || 'AVAILABLE',
                     });
                 }
@@ -362,7 +363,7 @@ export default function RentalApplicationWizard() {
                                 <div>
                                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Monthly Income</label>
                                     <div className="relative">
-                                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 font-bold">$</span>
+                                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 font-bold">₦</span>
                                         <input
                                             className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-xl pl-8 pr-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-transparent font-medium"
                                             type="number"

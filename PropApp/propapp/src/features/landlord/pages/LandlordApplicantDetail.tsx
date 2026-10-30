@@ -5,6 +5,7 @@ import PageContainer from '../../../components/common/PageContainer';
 import Breadcrumb from '../../../components/common/Breadcrumb';
 import { landlordService } from '../../../lib/api/services';
 import type { RentalApplication, ApplicationStatus, EmploymentStatus } from '../../../types/lease';
+import { formatCompactCurrency } from '@/lib/format';
 
 // UI types for applicant detail
 interface UIApplicantData {
@@ -60,10 +61,7 @@ interface UIApplicantData {
 
 // Format currency
 function formatCurrency(amount: number): string {
-    if (amount >= 1000) {
-        return `$${(amount / 1000).toFixed(1)}k`;
-    }
-    return `$${amount.toLocaleString()}`;
+    return formatCompactCurrency(amount);
 }
 
 // Format date
@@ -147,7 +145,7 @@ function transformApplicant(app: RentalApplication): UIApplicantData {
             name: property?.name || 'Property',
             unit: '',
             location,
-            rent: property?.price ? `$${property.price.toLocaleString()}` : 'N/A',
+            rent: property?.price ? formatCurrency(property.price) : 'N/A',
             leaseTerm: '12 Mos',
             image: '',
         },

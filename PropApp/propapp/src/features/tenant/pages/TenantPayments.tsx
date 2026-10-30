@@ -8,6 +8,7 @@ import SectionCard from '../../../components/common/SectionCard';
 import { AnimatedGroup, MagneticButton, SuccessCelebration } from '../../../components/animation';
 import { tenantService } from '../../../lib/api/services/tenantService';
 import type { TenantPayment } from '../../../types/dashboard';
+import { formatCurrency } from '@/lib/format';
 
 // UI transaction interface matching the component's expected structure
 interface UITransaction {
@@ -24,15 +25,6 @@ interface UITransaction {
 }
 
 // Helper to format currency
-function formatCurrency(amount: number): string {
-    return new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency: 'CAD',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-    }).format(amount);
-}
-
 // Helper to format date
 function formatDate(dateString: string): string {
     const date = new Date(dateString);

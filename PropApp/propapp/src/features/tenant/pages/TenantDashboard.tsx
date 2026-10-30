@@ -12,17 +12,9 @@ import { AnimatedGroup } from '../../../components/animation';
 import { useAuth } from '../../../contexts/AuthContext';
 import { tenantService } from '../../../lib/api/services/tenantService';
 import type { TenantDashboard as DashboardData } from '../../../types/dashboard';
+import { formatCurrency } from '@/lib/format';
 
 // Helper to format currency
-function formatCurrency(amount: number): string {
-    return new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency: 'CAD',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-    }).format(amount);
-}
-
 // Helper to format date
 function formatDate(dateString: string): string {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -119,7 +111,7 @@ export default function TenantDashboardPage() {
                     value={formatCurrency(dashboardData.nextPayment.amount)}
                     animateValue
                     numericValue={dashboardData.nextPayment.amount}
-                    valuePrefix="$"
+                    valuePrefix="₦"
                     badge={{ text: dashboardData.nextPayment.status, variant: dashboardData.nextPayment.status === 'Paid' ? 'success' : 'warning' }}
                     subtext={`Due: ${formatDate(dashboardData.nextPayment.dueDate)}`}
                 />

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { propertyService } from '../../../lib/api/services/propertyService';
+import { formatCurrency } from '@/lib/format';
 
 // Step components
 const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormData: React.Dispatch<React.SetStateAction<WizardFormData>> }) => {
@@ -122,7 +123,7 @@ const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormD
                 <div className="md:col-span-3">
                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Monthly Rent</label>
                     <div className="relative">
-                        <span className="absolute left-4 top-3.5 text-slate-500 font-bold">$</span>
+                        <span className="absolute left-4 top-3.5 text-slate-500 font-bold">₦</span>
                         <input
                             className="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white focus:border-brand focus:ring-brand h-12 pl-8 pr-4 shadow-sm"
                             placeholder="0.00"
@@ -330,7 +331,7 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
                         <div>
                             <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Rental Price</label>
                             <div className="relative">
-                                <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-500 font-bold">$</span>
+                                <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-500 font-bold">₦</span>
                                 <input
                                     className="w-full bg-slate-50 dark:bg-canvas-dark border border-slate-200 dark:border-slate-700 rounded-lg py-3 pl-8 pr-4 focus:ring-2 focus:ring-brand/20 focus:border-brand text-slate-900 dark:text-white outline-none font-medium"
                                     placeholder="0.00"
@@ -587,7 +588,7 @@ const StepFive = ({ formData }: { formData: WizardFormData }) => (
                     <span className="text-sm"><strong>{formData.baths || '0'}</strong> Baths</span>
                     <span className="text-sm"><strong>{formData.sqft || '0'}</strong> sqft</span>
                 </div>
-                <div className="text-2xl font-extrabold text-brand-ink">${formData.rent || '0'}/mo</div>
+                <div className="text-2xl font-extrabold text-brand-ink">{formatCurrency(Number(formData.rent || 0))}/mo</div>
             </div>
         </div>
     </div>

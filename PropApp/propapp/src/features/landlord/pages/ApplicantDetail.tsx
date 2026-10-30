@@ -5,15 +5,7 @@ import Breadcrumb from '../../../components/common/Breadcrumb';
 import Logo from '../../../components/common/Logo';
 import { landlordService } from '../../../lib/api/services/landlordService';
 import type { RentalApplication } from '../../../types/lease';
-
-function formatCurrency(amount: number): string {
-    return new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency: 'CAD',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-    }).format(amount);
-}
+import { formatCurrency } from '@/lib/format';
 
 function getStatusStyles(status: string) {
     switch (status) {

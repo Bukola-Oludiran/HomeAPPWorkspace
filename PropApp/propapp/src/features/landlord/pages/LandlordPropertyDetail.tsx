@@ -5,6 +5,7 @@ import ScheduleMaintenanceModal from '../../../components/ScheduleMaintenanceMod
 import { AnimatedGroup } from '../../../components/animation';
 import { propertyService, landlordService } from '../../../lib/api/services';
 import type { Property, PropertyViewAnalytics, PropertyMarketComparison, VerificationTier } from '../../../types/property';
+import { formatCurrency } from '@/lib/format';
 
 // UI types for property detail
 interface UIPropertyData {
@@ -62,15 +63,6 @@ interface UIPropertyData {
 }
 
 // Format currency
-function formatCurrency(amount: number, currency = 'CAD'): string {
-    return new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency,
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-    }).format(amount);
-}
-
 // Get verification label
 function getVerificationLabel(tier?: VerificationTier): string {
     if (!tier) return 'Not Verified';

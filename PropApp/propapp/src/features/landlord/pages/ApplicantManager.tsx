@@ -8,6 +8,7 @@ import SearchInput from '../../../components/common/SearchInput';
 import { AnimatedGroup } from '../../../components/animation';
 import { landlordService } from '../../../lib/api/services/landlordService';
 import type { RentalApplication } from '../../../types/lease';
+import { formatCurrency } from '@/lib/format';
 
 // UI applicant type
 interface UIApplicant {
@@ -36,15 +37,6 @@ interface UIApplicant {
 }
 
 // Helper to format currency
-function formatCurrency(amount: number): string {
-    return new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency: 'CAD',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-    }).format(amount);
-}
-
 // Get initials from name
 function getInitials(firstName?: string | null, lastName?: string | null): string {
     const first = firstName?.charAt(0)?.toUpperCase() || '';
@@ -431,7 +423,7 @@ export default function ApplicantManager() {
                                             </p>
                                             <div className="flex items-center gap-2">
                                                 <span className="material-symbols-outlined text-blue-500 text-[20px]">
-                                                    attach_money
+                                                    payments
                                                 </span>
                                                 <span className="font-bold text-slate-900 dark:text-white">
                                                     {applicant.monthlyIncome}

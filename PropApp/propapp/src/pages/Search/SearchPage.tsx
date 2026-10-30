@@ -5,6 +5,7 @@ import Logo from '@/components/common/Logo';
 import { propertyService } from '@/lib/api/services/propertyService';
 import type { PropertySummary, PropertySearchFilters, ListingType, PropertyType } from '@/types/property';
 import type { ApiError } from '@/types/api';
+import { formatCurrency } from '@/lib/format';
 // Map UI property type names to backend PropertyType
 const propertyTypeMap: Record<string, PropertyType> = {
     'House': 'HOUSE',
@@ -25,9 +26,7 @@ const listingTypeDisplay: Record<ListingType, { label: string; color: string }> 
 
 
 // Helper to format price with full amount
-const formatPriceFull = (price: number, currency = 'USD'): string => {
-    return `${currency === 'CAD' ? '$' : '$'}${price.toLocaleString()}`;
-};
+const formatPriceFull = (price: number): string => formatCurrency(price);
 
 // Helper to format square feet for display (compact for >= 1000)
 const formatSqft = (sqft?: number): string => {
@@ -408,7 +407,7 @@ export default function SearchPage() {
                                     }`}
                             >
                                 {priceRange.min || priceRange.max
-                                    ? `$${priceRange.min || '0'} - $${priceRange.max || 'Max'}`
+                                    ? `₦${priceRange.min || '0'} - ₦${priceRange.max || 'Max'}`
                                     : 'Price'}
                                 <span className={`material-symbols-outlined text-[18px] transition-transform ${showPriceDropdown ? 'rotate-180' : ''}`}>
                                     keyboard_arrow_down
@@ -421,7 +420,7 @@ export default function SearchPage() {
                                         <div className="flex-1">
                                             <label className="text-xs text-slate-500 mb-1 block">Min Price</label>
                                             <div className="relative">
-                                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">$</span>
+                                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">₦</span>
                                                 <input
                                                     type="text"
                                                     placeholder="0"
@@ -435,7 +434,7 @@ export default function SearchPage() {
                                         <div className="flex-1">
                                             <label className="text-xs text-slate-500 mb-1 block">Max Price</label>
                                             <div className="relative">
-                                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">$</span>
+                                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">₦</span>
                                                 <input
                                                     type="text"
                                                     placeholder="Any"
@@ -874,7 +873,7 @@ export default function SearchPage() {
                                             <div>
                                                 <div className="flex justify-between items-baseline mb-1">
                                                     <p className="text-xl font-bold text-slate-900 dark:text-white">
-                                                        {formatPriceFull(property.price, 'CAD')}
+                                                        {formatPriceFull(property.price)}
                                                         {property.listingType === 'RENT' && (
                                                             <span className="text-sm font-normal text-slate-500 ml-1">/mo</span>
                                                         )}

@@ -10,17 +10,9 @@ import AIAssistantWidget from '../../../components/common/AIAssistantWidget';
 import { AnimatedGroup, MagneticButton } from '../../../components/animation';
 import { landlordService } from '../../../lib/api/services/landlordService';
 import type { LandlordDashboard as DashboardData } from '../../../types/dashboard';
+import { formatCurrency } from '@/lib/format';
 
 // Helper to format currency
-function formatCurrency(amount?: number | null): string {
-    return new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency: 'CAD',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-    }).format(amount ?? 0);
-}
-
 // Helper to get status color (handles backend uppercase enums + legacy capitalized values)
 function getStatusColor(status?: string): string {
     switch ((status ?? '').toUpperCase()) {
@@ -148,13 +140,13 @@ export default function LandlordDashboardPage() {
             <AnimatedGroup className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10" stagger={0.1}>
                 {/* Total Revenue */}
                 <StatsCard
-                    icon="attach_money"
+                    icon="payments"
                     iconColor="blue"
                     label="Total Revenue (Monthly)"
                     value={formatCurrency(dashboardData?.totalRevenue || 0)}
                     animateValue
                     numericValue={dashboardData?.totalRevenue || 0}
-                    valuePrefix="$"
+                    valuePrefix="₦"
                     change={{ value: `${dashboardData?.revenueChange && dashboardData.revenueChange > 0 ? '+' : ''}${dashboardData?.revenueChange || 0}%`, isPositive: (dashboardData?.revenueChange || 0) >= 0 }}
                 />
 

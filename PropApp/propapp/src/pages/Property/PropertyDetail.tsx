@@ -10,12 +10,10 @@ import FavoriteButton from '../../components/FavoriteButton';
 import { propertyService } from '@/lib/api/services/propertyService';
 import type { Property } from '@/types/property';
 import type { ApiError } from '@/types/api';
+import { formatCurrency } from '@/lib/format';
 
 // Helper to format price
-const formatPrice = (price: number, currency = 'CAD'): string => {
-    const symbol = currency === 'CAD' ? '$' : '$';
-    return `${symbol}${price.toLocaleString()}`;
-};
+const formatPrice = (price: number): string => formatCurrency(price);
 
 // Helper to format listing type label
 const getTypeLabel = (listingType: string): string => {
@@ -156,7 +154,7 @@ export default function PropertyDetail() {
     // Derived values for UI
     const primaryImage = property.media.find(m => m.isPrimary)?.url || property.media[0]?.url || 'https://placehold.co/800x600?text=No+Image';
     const galleryImages = property.media.filter(m => m.type === 'IMAGE').map(m => m.url);
-    const priceDisplay = formatPrice(property.price, 'CAD');
+    const priceDisplay = formatPrice(property.price);
     const typeLabel = getTypeLabel(property.listingType);
     const fullAddress = `${property.address.street}, ${property.address.city}, ${property.address.state}`;
     const sqft = property.squareFeet ? property.squareFeet.toLocaleString() : 'N/A';

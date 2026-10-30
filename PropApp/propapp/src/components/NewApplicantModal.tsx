@@ -301,7 +301,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                                         <div className="space-y-1.5">
                                             <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Annual Income</label>
                                             <div className="relative">
-                                                <span className="absolute left-3 top-2.5 text-slate-400 font-bold">$</span>
+                                                <span className="absolute left-3 top-2.5 text-slate-400 font-bold">₦</span>
                                                 <input
                                                     className="w-full pl-7 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all placeholder:text-slate-400"
                                                     placeholder="0.00"

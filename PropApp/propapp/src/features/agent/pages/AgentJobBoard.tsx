@@ -3,17 +3,9 @@ import { AnimatedGroup, MagneticButton, SuccessCelebration } from '../../../comp
 import AIAssistantWidget from '../../../components/common/AIAssistantWidget';
 import { agentService } from '../../../lib/api/services/agentService';
 import type { AgentJob, AgentEarnings } from '../../../types/dashboard';
+import { formatCurrency } from '@/lib/format';
 
 // Helper to format currency
-function formatCurrency(amount: number): string {
-    return new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency: 'CAD',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-    }).format(amount);
-}
-
 // Helper to get status color
 function getStatusColor(status: string): string {
     switch (status) {

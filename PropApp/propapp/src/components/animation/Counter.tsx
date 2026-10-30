@@ -10,7 +10,7 @@ interface CounterProps {
     duration?: number;
     /** Delay before animation starts */
     delay?: number;
-    /** Prefix string (e.g., "$", "$") */
+    /** Prefix string (e.g., "₦") */
     prefix?: string;
     /** Suffix string (e.g., "/mo", "%") */
     suffix?: string;

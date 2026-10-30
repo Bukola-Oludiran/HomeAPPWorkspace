@@ -8,20 +8,12 @@ import FilterDropdown from '../../../components/FilterDropdown';
 import { AnimatedGroup, MagneticButton } from '../../../components/animation';
 import { landlordService } from '../../../lib/api/services/landlordService';
 import type { PropertySummary } from '../../../types/property';
+import { formatCurrency } from '@/lib/format';
 
 // Placeholder image for properties without images
 const PLACEHOLDER_IMAGE = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=300&fit=crop';
 
 // Helper to format currency
-function formatCurrency(amount: number, currency: string = 'CAD'): string {
-    return new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency: currency,
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-    }).format(amount);
-}
-
 // Helper to format square feet for display
 function formatSquareFeet(sqft?: number): string {
     if (!sqft) return 'N/A';

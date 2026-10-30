@@ -7,17 +7,9 @@ import EmptyState from '../../../components/common/EmptyState';
 import { AnimatedGroup } from '../../../components/animation';
 import { agentService } from '../../../lib/api/services/agentService';
 import type { AgentJob } from '../../../types/dashboard';
+import { formatCurrency } from '@/lib/format';
 
 // Helper to format currency
-function formatCurrency(amount: number): string {
-    return new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency: 'CAD',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-    }).format(amount);
-}
-
 // Helper to get status styles
 function getStatusStyles(status: AgentJob['status']): { bg: string; text: string; bar: string; icon?: string; animate?: boolean } {
     switch (status) {

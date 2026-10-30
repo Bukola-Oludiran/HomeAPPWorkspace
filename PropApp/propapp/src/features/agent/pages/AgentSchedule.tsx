@@ -7,6 +7,7 @@ import PageContainer from '../../../components/common/PageContainer';
 import PageHeader from '../../../components/common/PageHeader';
 import { agentService } from '../../../lib/api/services/agentService';
 import type { AgentScheduleItem } from '../../../types/dashboard';
+import { formatCurrency } from '@/lib/format';
 
 // UI interfaces for transformed schedule data
 interface UICalendarEvent {
@@ -139,7 +140,7 @@ const defaultSelectedJob: UISelectedJob = {
     time: 'N/A',
     client: 'N/A',
     instructions: 'Select a job from the calendar to view details.',
-    payout: '$0',
+    payout: formatCurrency(0),
 };
 
 type ViewMode = 'month' | 'week' | 'day';

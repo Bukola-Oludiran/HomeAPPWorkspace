@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import MakePaymentModal from '../../../components/MakePaymentModal';
 import DocumentViewerModal from '../../../components/DocumentViewerModal';
 import { tenantService } from '../../../lib/api/services/tenantService';
+import { DEFAULT_CURRENCY, formatCurrency } from '@/lib/format';
 
 // Helper to format date
 function formatDate(dateString: string): string {
@@ -203,7 +204,7 @@ export default function TenantLeaseDetails() {
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
                         <span className="text-xs text-slate-500 font-bold uppercase tracking-wide">Monthly Rent</span>
                         <div className="flex items-baseline gap-1">
-                            <span className="text-2xl font-bold text-slate-900 dark:text-white">${leaseData.monthlyRent.toLocaleString()}</span>
+                            <span className="text-2xl font-bold text-slate-900 dark:text-white">{formatCurrency(leaseData.monthlyRent)}</span>
                             <span className="text-xs text-slate-500">/mo</span>
                         </div>
                         <div className="mt-1 flex items-center text-xs text-green-600 font-medium bg-green-50 dark:bg-green-900/20 w-fit px-1.5 py-0.5 rounded">
@@ -213,7 +214,7 @@ export default function TenantLeaseDetails() {
                     </div>
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
                         <span className="text-xs text-slate-500 font-bold uppercase tracking-wide">Security Deposit</span>
-                        <span className="text-2xl font-bold text-slate-900 dark:text-white">${leaseData.securityDeposit.toLocaleString()}</span>
+                        <span className="text-2xl font-bold text-slate-900 dark:text-white">{formatCurrency(leaseData.securityDeposit)}</span>
                         <span className="text-xs text-slate-500">Held in escrow</span>
                     </div>
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
@@ -319,7 +320,7 @@ export default function TenantLeaseDetails() {
                                                 <tr key={payment.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
                                                     <td className="px-6 py-4 font-medium">{payment.date}</td>
                                                     <td className="px-6 py-4">{payment.description}</td>
-                                                    <td className="px-6 py-4">${payment.amount.toLocaleString()}.00</td>
+                                                    <td className="px-6 py-4">{formatCurrency(payment.amount, DEFAULT_CURRENCY, 2)}</td>
                                                     <td className="px-6 py-4 text-right">
                                                         {payment.status === 'Paid' ? (
                                                             <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">

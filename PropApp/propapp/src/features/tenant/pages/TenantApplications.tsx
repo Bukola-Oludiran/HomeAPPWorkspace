@@ -6,6 +6,7 @@ import PageContainer from '../../../components/common/PageContainer';
 import { AnimatedGroup } from '../../../components/animation';
 import { tenantService } from '../../../lib/api/services/tenantService';
 import type { RentalApplication, ApplicationStatus } from '../../../types/lease';
+import { formatCurrency } from '@/lib/format';
 
 // Placeholder image
 const PLACEHOLDER_IMAGE = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=300&fit=crop';
@@ -33,15 +34,6 @@ interface UIApplication {
 }
 
 // Helper to format currency
-function formatCurrency(amount: number, currency: string = 'CAD'): string {
-    return new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency: currency,
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-    }).format(amount);
-}
-
 // Helper to format relative date
 function formatRelativeDate(dateString: string): string {
     const date = new Date(dateString);

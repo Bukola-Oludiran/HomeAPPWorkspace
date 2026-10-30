@@ -6,18 +6,9 @@ import VoiceInputButton from '@/components/VoiceInputButton';
 import Logo from '@/components/common/Logo';
 import { propertyService } from '@/lib/api/services/propertyService';
 import type { PropertySummary, ListingType } from '@/types/property';
+import { formatCurrency as formatPrice } from '@/lib/format';
 
 // Helper to format price with currency
-function formatPrice(price: number, currency: string = 'CAD'): string {
-    const formatter = new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency: currency,
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-    });
-    return formatter.format(price);
-}
-
 // Helper to get listing type display info
 function getListingTypeInfo(listingType: ListingType): { label: string; color: string; priceUnit?: string } {
     switch (listingType) {

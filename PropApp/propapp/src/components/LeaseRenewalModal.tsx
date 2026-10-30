@@ -4,6 +4,7 @@ import ModalPortal from './ModalPortal';
 import SignLeaseRenewalModal from './SignLeaseRenewalModal';
 import RejectOfferModal from './RejectOfferModal';
 import DocumentViewerModal from './DocumentViewerModal';
+import { formatCurrency } from '@/lib/format';
 
 interface LeaseRenewalModalProps {
     isOpen: boolean;
@@ -99,7 +100,7 @@ export default function LeaseRenewalModal({
                                     </div>
                                     <p className="text-xs font-semibold text-slate-500 mb-2">New Monthly Rent</p>
                                     <div className="flex items-baseline gap-2 mb-2">
-                                        <span className="text-2xl font-extrabold text-slate-900 dark:text-white">${offer.newRent.toLocaleString()}</span>
+                                        <span className="text-2xl font-extrabold text-slate-900 dark:text-white">{formatCurrency(offer.newRent)}</span>
                                         <span className="inline-flex items-center text-xs font-bold text-red-600 bg-red-100 dark:bg-red-900/30 px-1.5 py-0.5 rounded">
                                             <span className="material-symbols-outlined text-[12px] mr-0.5">arrow_upward</span> +{rentIncrease}%
                                         </span>

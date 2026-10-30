@@ -25,7 +25,7 @@ interface StatsCardProps {
     animateValue?: boolean;
     /** @deprecated Ignored; the value is rendered as given */
     numericValue?: number;
-    /** Prefix for a numeric value when animateValue is set (e.g., "$") */
+    /** Prefix for a numeric value when animateValue is set (e.g., "₦") */
     valuePrefix?: string;
     /** Suffix for a numeric value when animateValue is set (e.g., "/mo") */
     valueSuffix?: string;

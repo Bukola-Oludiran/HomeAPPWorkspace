@@ -5,15 +5,7 @@ import PageContainer from '../../../components/common/PageContainer';
 import Breadcrumb from '../../../components/common/Breadcrumb';
 import { tenantService } from '../../../lib/api/services/tenantService';
 import type { RentalApplication } from '../../../types/lease';
-
-function formatCurrency(amount: number): string {
-    return new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency: 'CAD',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-    }).format(amount);
-}
+import { formatCurrency } from '@/lib/format';
 
 function getStatusStyles(status: string) {
     switch (status) {

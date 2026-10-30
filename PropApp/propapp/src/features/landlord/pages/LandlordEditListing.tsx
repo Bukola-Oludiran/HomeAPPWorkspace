@@ -296,7 +296,7 @@ export default function LandlordEditListing() {
                         <div>
                             <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Monthly Rent</label>
                             <div className="relative">
-                                <span className="absolute left-4 top-3.5 text-slate-500 font-bold">$</span>
+                                <span className="absolute left-4 top-3.5 text-slate-500 font-bold">₦</span>
                                 <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-brand focus:ring-brand pl-8 pr-4 py-3 font-bold text-lg" type="text" value={price} onChange={(e) => setPrice(e.target.value)} />
                                 <span className="absolute right-4 top-3.5 text-slate-400 text-sm">/mo</span>
                             </div>
@@ -304,7 +304,7 @@ export default function LandlordEditListing() {
                         <div>
                             <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Security Deposit</label>
                             <div className="relative">
-                                <span className="absolute left-4 top-3.5 text-slate-500 font-bold">$</span>
+                                <span className="absolute left-4 top-3.5 text-slate-500 font-bold">₦</span>
                                 <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-brand focus:ring-brand pl-8 pr-4 py-3 font-bold text-lg" type="text" defaultValue="4,800" />
                                 <span className="absolute right-4 top-3.5 text-slate-400 text-sm">USD</span>
                             </div>

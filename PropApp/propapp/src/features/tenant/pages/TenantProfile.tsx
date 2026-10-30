@@ -277,7 +277,7 @@ export default function TenantProfile() {
                             <div>
                                 <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Annual Income</label>
                                 <div className="relative">
-                                    <span className="absolute left-4 top-2.5 text-slate-500 dark:text-slate-400 font-bold">$</span>
+                                    <span className="absolute left-4 top-2.5 text-slate-500 dark:text-slate-400 font-bold">₦</span>
                                     <input
                                         className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl pl-8 pr-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all font-medium"
                                         type="text"
@@ -344,7 +344,7 @@ export default function TenantProfile() {
                                     <div>
                                         <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Max Rent Budget</label>
                                         <div className="relative">
-                                            <span className="absolute left-4 top-2.5 text-slate-500 dark:text-slate-400 font-bold">$</span>
+                                            <span className="absolute left-4 top-2.5 text-slate-500 dark:text-slate-400 font-bold">₦</span>
                                             <input
                                                 className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl pl-8 pr-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all font-medium"
                                                 type="text"

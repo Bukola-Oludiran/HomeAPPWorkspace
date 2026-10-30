@@ -907,7 +907,7 @@ function TenantProfileContent() {
                             </div>
                             <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-lg">
                                 <div className="flex items-center gap-3">
-                                    <span className="material-symbols-outlined text-orange-500">attach_money</span>
+                                    <span className="material-symbols-outlined text-orange-500">payments</span>
                                     <span className="text-slate-900 dark:text-white">Proof of Income</span>
                                 </div>
                                 <button className="text-xs text-brand-ink hover:underline cursor-pointer">Upload New</button>
@@ -988,7 +988,7 @@ function TenantProfileContent() {
                         <div>
                             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Monthly Budget (Max)</label>
                             <div className="relative">
-                                <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">$</span>
+                                <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">₦</span>
                                 <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white pl-7 shadow-sm focus:border-brand focus:ring-brand sm:text-sm" type="number" defaultValue={tenantProfile?.preferences?.monthlyBudgetMax || ''} />
                             </div>
                         </div>
@@ -1065,7 +1065,7 @@ function TenantProfileContent() {
                         <div className="flex items-center justify-between p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
                             <div className="flex items-center gap-3">
                                 <div className="p-2 bg-orange-100 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 rounded-lg">
-                                    <span className="material-symbols-outlined text-[20px]">attach_money</span>
+                                    <span className="material-symbols-outlined text-[20px]">payments</span>
                                 </div>
                                 <div>
                                     <p className="text-sm font-medium text-slate-900 dark:text-white">Proof of Income</p>

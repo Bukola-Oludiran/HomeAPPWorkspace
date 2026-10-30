@@ -9,6 +9,7 @@ import SearchInput from '../../../components/common/SearchInput';
 import { AnimatedGroup } from '../../../components/animation';
 import { landlordService } from '../../../lib/api/services/landlordService';
 import type { LandlordFinancials as LandlordFinancialsType, LandlordTransaction } from '../../../types/dashboard';
+import { formatCurrency } from '@/lib/format';
 
 // UI transaction type
 interface UITransaction {
@@ -24,15 +25,6 @@ interface UITransaction {
 }
 
 // Helper to format currency
-function formatCurrency(amount: number): string {
-    return new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency: 'CAD',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-    }).format(amount);
-}
-
 // Helper to format date
 function formatDate(dateString: string): string {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -211,7 +203,7 @@ export default function LandlordFinancials() {
                     value={isLoading ? '...' : formatCurrency(totalRevenue)}
                     animateValue={!isLoading}
                     numericValue={totalRevenue}
-                    valuePrefix="$"
+                    valuePrefix="₦"
                 />
 
                 {/* Total Expenses */}
@@ -222,7 +214,7 @@ export default function LandlordFinancials() {
                     value={isLoading ? '...' : formatCurrency(totalExpenses)}
                     animateValue={!isLoading}
                     numericValue={totalExpenses}
-                    valuePrefix="$"
+                    valuePrefix="₦"
                 />
 
                 {/* Net Operating Income */}
@@ -233,7 +225,7 @@ export default function LandlordFinancials() {
                     value={isLoading ? '...' : formatCurrency(netOperatingIncome)}
                     animateValue={!isLoading}
                     numericValue={netOperatingIncome}
-                    valuePrefix="$"
+                    valuePrefix="₦"
                 />
 
                 {/* Cash Flow */}
@@ -244,7 +236,7 @@ export default function LandlordFinancials() {
                     value={isLoading ? '...' : formatCurrency(cashFlow)}
                     animateValue={!isLoading}
                     numericValue={cashFlow}
-                    valuePrefix="$"
+                    valuePrefix="₦"
                     badge={{ text: "vs last period", variant: "default" }}
                 />
             </AnimatedGroup>

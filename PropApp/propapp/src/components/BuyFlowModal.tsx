@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import ModalPortal from './ModalPortal';
+import { formatCurrency } from '@/lib/format';
 
 interface BuyFlowModalProps {
     isOpen: boolean;
@@ -122,7 +123,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                     </span>
                 </div>
                 <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg font-bold">$</span>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg font-bold">₦</span>
                     <input
                         className="w-full pl-8 pr-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-lg text-lg font-bold text-slate-900 dark:text-white focus:ring-2 focus:ring-brand focus:border-transparent outline-none transition-all placeholder-slate-300"
                         type="text"
@@ -218,7 +219,7 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                     <div>
                         <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Offer Summary</p>
                         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-semibold text-slate-900 dark:text-white">
-                            <span>${offerDetails.offerAmount}</span>
+                            <span>₦{offerDetails.offerAmount}</span>
                             <span className="text-slate-300">•</span>
                             <span>{offerDetails.contingencies.map((c) => contingencyOptions.find((opt) => opt.id === c)?.label).join(', ')}</span>
                         </div>
@@ -328,11 +329,11 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-8">
                     <div>
                         <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Offer Price</p>
-                        <p className="text-lg font-bold text-slate-900 dark:text-white">${offerDetails.offerAmount}</p>
+                        <p className="text-lg font-bold text-slate-900 dark:text-white">₦{offerDetails.offerAmount}</p>
                     </div>
                     <div>
                         <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Earnest Money</p>
-                        <p className="text-base font-medium text-slate-900 dark:text-white">${earnestMoney.toLocaleString()} <span className="text-slate-400 text-sm font-normal">(1%)</span></p>
+                        <p className="text-base font-medium text-slate-900 dark:text-white">{formatCurrency(earnestMoney)} <span className="text-slate-400 text-sm font-normal">(1%)</span></p>
                     </div>
                     <div className="md:col-span-2">
                         <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Selected Contingencies</p>
@@ -421,15 +422,15 @@ export default function BuyFlowModal({ isOpen, onClose, property }: BuyFlowModal
                     <div className="space-y-3 py-4 border-t border-slate-100 dark:border-slate-700">
                         <div className="flex justify-between text-sm">
                             <span className="text-slate-500">Listing Price</span>
-                            <span className="font-medium text-slate-900 dark:text-white line-through decoration-slate-400 decoration-2">${property.listingPrice.toLocaleString()}</span>
+                            <span className="font-medium text-slate-900 dark:text-white line-through decoration-slate-400 decoration-2">{formatCurrency(property.listingPrice)}</span>
                         </div>
                         <div className="flex justify-between text-sm items-center">
                             <span className="text-brand-ink font-bold">Your Offer</span>
-                            <span className="font-bold text-lg text-brand-ink bg-blue-50 dark:bg-blue-900/30 px-2 rounded">${offerDetails.offerAmount}</span>
+                            <span className="font-bold text-lg text-brand-ink bg-blue-50 dark:bg-blue-900/30 px-2 rounded">₦{offerDetails.offerAmount}</span>
                         </div>
                         <div className="flex justify-between text-xs text-slate-400 mt-2">
                             <span>Est. Earnest Money (1%)</span>
-                            <span>${earnestMoney.toLocaleString()}</span>
+                            <span>{formatCurrency(earnestMoney)}</span>
                         </div>
                     </div>
                     <div className="bg-slate-50 dark:bg-slate-700/30 p-3 rounded-lg flex gap-3 mt-2 border border-slate-100 dark:border-slate-700">

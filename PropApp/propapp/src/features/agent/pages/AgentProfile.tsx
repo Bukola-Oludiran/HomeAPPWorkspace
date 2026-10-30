@@ -8,6 +8,7 @@ import { agentService } from '../../../lib/api/services/agentService';
 import { integrationService } from '../../../lib/api/services/integrationService';
 import type { AgentProfile as AgentProfileType, AgentCertification } from '../../../types/auth';
 import type { AgentEarnings } from '../../../types/dashboard';
+import { formatCurrency } from '@/lib/format';
 
 interface ReviewItem {
     id: string;
@@ -104,8 +105,8 @@ export default function AgentProfile() {
 
     // Format wallet balance
     const walletBalance = earnings?.availableBalance
-        ? `$${earnings.availableBalance.toLocaleString()}`
-        : '$0';
+        ? formatCurrency(earnings.availableBalance)
+        : formatCurrency(0);
 
     // Check verification status
     const isVerified = user?.verificationLevel && user.verificationLevel !== 'BRONZE';

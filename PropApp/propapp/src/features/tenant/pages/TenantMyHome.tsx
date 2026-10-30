@@ -7,17 +7,9 @@ import DocumentViewerModal from '../../../components/DocumentViewerModal';
 import PhotoGalleryModal from '../../../components/PhotoGalleryModal';
 import MaintenanceRequestModal from '../../../components/MaintenanceRequestModal';
 import { tenantService } from '../../../lib/api/services/tenantService';
+import { formatCurrency } from '@/lib/format';
 
 // Helper to format currency
-function formatCurrency(amount: number): string {
-    return new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency: 'CAD',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-    }).format(amount);
-}
-
 // Helper to format date
 function formatDate(dateString: string): string {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -87,12 +79,12 @@ const defaultHomeData: HomeData = {
         beds: 0,
         baths: 0,
         sqft: '0',
-        rent: '$0',
+        rent: formatCurrency(0),
         image: 'https://via.placeholder.com/800x600?text=No+Property',
         verified: false,
     },
     payment: {
-        nextAmount: '$0',
+        nextAmount: formatCurrency(0),
         dueDate: 'N/A',
         autoPayEnabled: false,
     },

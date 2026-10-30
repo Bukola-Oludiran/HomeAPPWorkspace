@@ -8,6 +8,7 @@ import SearchInput from '../../../components/common/SearchInput';
 import DateRangeFilter from '../../../components/common/DateRangeFilter';
 import { agentService } from '../../../lib/api/services';
 import type { Payout } from '../../../types/lease';
+import { DEFAULT_CURRENCY, formatCurrency as formatMoney } from '@/lib/format';
 
 // UI transaction type
 interface UITransaction {
@@ -26,12 +27,9 @@ interface UITransaction {
 }
 
 // Format currency
-function formatCurrency(amount: number, currency = 'CAD'): string {
-    return new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency,
-        minimumFractionDigits: 2,
-    }).format(amount);
+// Transactions show kobo
+function formatCurrency(amount: number, currency = DEFAULT_CURRENCY): string {
+    return formatMoney(amount, currency, 2);
 }
 
 // Format date and time

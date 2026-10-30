@@ -89,7 +89,7 @@ export default function DraftRenewalOfferModal({
                                         </label>
                                         <div className="relative">
                                             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
-                                                <span className="text-slate-500 font-medium">$</span>
+                                                <span className="text-slate-500 font-medium">₦</span>
                                             </div>
                                             <input
                                                 className="block w-full rounded-xl border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 py-3 pl-8 pr-12 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-brand focus:border-brand sm:text-sm sm:leading-6 font-semibold shadow-sm"

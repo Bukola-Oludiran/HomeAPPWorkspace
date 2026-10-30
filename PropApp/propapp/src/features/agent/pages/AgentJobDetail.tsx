@@ -4,15 +4,7 @@ import PageContainer from '../../../components/common/PageContainer';
 import { SuccessCelebration } from '../../../components/animation';
 import { agentService } from '../../../lib/api/services/agentService';
 import type { AgentJob } from '../../../types/dashboard';
-
-function formatCurrency(amount: number): string {
-    return new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency: 'CAD',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-    }).format(amount);
-}
+import { formatCurrency } from '@/lib/format';
 
 function getStatusStyles(status: string) {
     switch (status) {

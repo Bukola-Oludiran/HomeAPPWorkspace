@@ -7,6 +7,7 @@ import SearchInput from '../../../components/common/SearchInput';
 import DateRangeFilter from '../../../components/common/DateRangeFilter';
 import { tenantService } from '../../../lib/api/services';
 import type { TenantPayment } from '../../../types/dashboard';
+import { DEFAULT_CURRENCY, formatCurrency as formatMoney } from '@/lib/format';
 
 // UI types for transactions
 interface UITransaction {
@@ -25,12 +26,9 @@ interface UITransaction {
 }
 
 // Format currency
+// Transactions show kobo
 function formatCurrency(amount: number): string {
-    return new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency: 'CAD',
-        minimumFractionDigits: 2,
-    }).format(amount);
+    return formatMoney(amount, DEFAULT_CURRENCY, 2);
 }
 
 // Format date for display

@@ -4,6 +4,7 @@ import PageContainer from '../../../components/common/PageContainer';
 import { userService } from '../../../lib/api/services/userService';
 import type { TenantProfile } from '../../../types/auth';
 import type { User } from '../../../types/auth';
+import { formatCurrency } from '@/lib/format';
 
 type TenantPublicProfile = TenantProfile & { user: Pick<User, 'firstName' | 'lastName' | 'avatarUrl'> };
 
@@ -219,7 +220,7 @@ export default function TenantProfileLandlordView() {
                             <div>
                                 <label className="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase mb-1">Annual Income</label>
                                 <div className="text-base font-bold text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-900/10 px-4 py-3 rounded-xl border border-green-100 dark:border-green-900/30 flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-[18px]">attach_money</span> 95,000
+                                    <span className="material-symbols-outlined text-[18px]">payments</span> 95,000
                                 </div>
                             </div>
                             <div className="md:col-span-2">
@@ -248,7 +249,7 @@ export default function TenantProfileLandlordView() {
                                     </li>
                                     <li className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
                                         <span className="text-sm text-slate-500 dark:text-slate-400">Max Budget</span>
-                                        <span className="text-sm font-bold text-slate-900 dark:text-white">{profile?.preferences?.monthlyBudgetMax ? `$${profile.preferences.monthlyBudgetMax.toLocaleString()}` : '—'}</span>
+                                        <span className="text-sm font-bold text-slate-900 dark:text-white">{profile?.preferences?.monthlyBudgetMax ? formatCurrency(profile.preferences.monthlyBudgetMax) : '—'}</span>
                                     </li>
                                 </ul>
                             </div>

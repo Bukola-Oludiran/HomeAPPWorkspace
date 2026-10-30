@@ -9,17 +9,9 @@ import { agentService } from '../../../lib/api/services/agentService';
 import { userService } from '../../../lib/api/services/userService';
 import type { AgentEarnings as EarningsData } from '../../../types/dashboard';
 import type { Payout, BankAccount } from '../../../types/lease';
+import { formatCurrency } from '@/lib/format';
 
 // Helper to format currency
-function formatCurrency(amount: number): string {
-    return new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency: 'CAD',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-    }).format(amount);
-}
-
 // Helper to format date
 function formatDate(dateString: string): { date: string; time: string } {
     const date = new Date(dateString);

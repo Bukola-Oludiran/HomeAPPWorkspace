@@ -42,14 +42,14 @@ const ROLE_EMPTY_TITLE: Record<string, string> = {
 };
 const ROLE_SUGGESTIONS: Record<string, string[]> = {
     TENANT: [
-        'Find a 2-bedroom in Lekki under $2.5M',
+        'Find a 2-bedroom in Lekki under ₦2.5M',
         'Show me my active applications',
         'Report a broken AC in my apartment',
     ],
     LANDLORD: [
         'Show me applicants for my VI property',
         'Recommend a price for property 1 (max yield)',
-        'Request a payout of $500,000',
+        'Request a payout of ₦500,000',
     ],
     AGENT: [
         'Available property-viewing jobs this week',
