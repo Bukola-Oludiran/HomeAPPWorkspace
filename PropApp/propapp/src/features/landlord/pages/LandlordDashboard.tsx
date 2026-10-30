@@ -10,7 +10,7 @@ import AIAssistantWidget from '../../../components/common/AIAssistantWidget';
 import { AnimatedGroup, MagneticButton } from '../../../components/animation';
 import { landlordService } from '../../../lib/api/services/landlordService';
 import type { LandlordDashboard as DashboardData } from '../../../types/dashboard';
-import { formatCurrency } from '@/lib/format';
+import { formatCurrency, listingPrice, yearlyRent } from '@/lib/format';
 
 // Helper to format currency
 // Helper to get status color (handles backend uppercase enums + legacy capitalized values)
@@ -279,7 +279,7 @@ export default function LandlordDashboardPage() {
                                 </div>
                                 <div className="text-right shrink-0 w-full sm:w-auto mt-2 sm:mt-0 flex flex-row sm:flex-col justify-between items-center sm:items-end">
                                     <div>
-                                        <p className="text-lg font-bold text-slate-900 dark:text-white">{formatCurrency(property.monthlyRent ?? property.price)}<span className="text-xs font-normal text-slate-500 dark:text-slate-400">{property.monthlyRent != null ? '/mo' : (property.priceUnit ?? '')}</span></p>
+                                        <p className="text-lg font-bold text-slate-900 dark:text-white">{property.monthlyRent != null ? formatCurrency(yearlyRent(property.monthlyRent)) : formatCurrency(listingPrice(property.price ?? 0, property.priceUnit).amount)}<span className="text-xs font-normal text-slate-500 dark:text-slate-400">{property.monthlyRent != null ? ' / year' : listingPrice(property.price ?? 0, property.priceUnit).suffix}</span></p>
                                         <p className={`text-xs ${getPaymentStatusColor(property.occupancyStatus ?? property.paymentStatus)} font-medium`}>{property.occupancyStatus ?? property.paymentStatus ?? ''}</p>
                                     </div>
                                     <button className="sm:hidden p-2 bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400" onClick={(e) => e.preventDefault()}>

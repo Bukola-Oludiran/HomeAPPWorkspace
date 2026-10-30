@@ -167,7 +167,7 @@ export default function DocumentViewerModal({ isOpen, onClose, document }: Docum
                             <div>
                                 <h3 className="text-sm font-sans font-bold text-slate-900 uppercase tracking-wider mb-2">3. Rent & Payments</h3>
                                 <p>
-                                    Tenant shall pay to Landlord the sum of <strong>$4,800.00</strong> per month as Rent for the Term of the Agreement. The Rent shall be due on the first day of each month.
+                                    Tenant shall pay to Landlord the sum of <strong>â¦7,200,000.00</strong> per month as Rent for the Term of the Agreement. The Rent shall be due on the first day of each month.
                                 </p>
                             </div>
                         </div>

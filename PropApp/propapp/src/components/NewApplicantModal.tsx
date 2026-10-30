@@ -3,6 +3,7 @@ import ModalPortal from './ModalPortal';
 import { landlordService } from '../lib/api/services/landlordService';
 import { integrationService } from '../lib/api/services/integrationService';
 import type { PropertySummary } from '../types/property';
+import { formatListingPrice } from '@/lib/format';
 
 interface NewApplicantModalProps {
     isOpen: boolean;
@@ -54,7 +55,7 @@ export default function NewApplicantModal({ isOpen, onClose, onComplete }: NewAp
                 beds: property.bedrooms ?? 0,
                 baths: String(property.bathrooms ?? 0),
                 sqft: String(property.squareFeet ?? 0),
-                rent: new Intl.NumberFormat(undefined, { style: 'currency', currency: property.priceUnit === 'PER_MONTH' ? 'CAD' : 'NGN' }).format(property.price),
+                rent: formatListingPrice(property.price, property.priceUnit),
                 status: property.status === 'ACTIVE' ? 'available' : property.status === 'RENTED' ? 'occupied' : 'vacant',
                 statusLabel: property.status,
             })));

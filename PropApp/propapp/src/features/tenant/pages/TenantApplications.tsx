@@ -6,7 +6,7 @@ import PageContainer from '../../../components/common/PageContainer';
 import { AnimatedGroup } from '../../../components/animation';
 import { tenantService } from '../../../lib/api/services/tenantService';
 import type { RentalApplication, ApplicationStatus } from '../../../types/lease';
-import { formatCurrency } from '@/lib/format';
+import { formatListingPrice } from '@/lib/format';
 
 // Placeholder image
 const PLACEHOLDER_IMAGE = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=300&fit=crop';
@@ -138,7 +138,7 @@ function transformApplication(app: RentalApplication): UIApplication {
         beds: property?.bedrooms === 0 ? 'Studio' : (property?.bedrooms || 0),
         baths: property?.bathrooms || 0,
         sqft: property?.squareFeet?.toLocaleString() || 'N/A',
-        price: property ? `${formatCurrency(property.price, 'CAD')}/mo` : 'N/A',
+        price: property ? formatListingPrice(property.price, property.priceUnit) : 'N/A',
         status: statusStyles.label,
         statusColor: statusStyles.color,
         statusDotColor: statusStyles.dotColor,

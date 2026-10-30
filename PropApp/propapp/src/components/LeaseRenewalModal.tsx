@@ -4,7 +4,7 @@ import ModalPortal from './ModalPortal';
 import SignLeaseRenewalModal from './SignLeaseRenewalModal';
 import RejectOfferModal from './RejectOfferModal';
 import DocumentViewerModal from './DocumentViewerModal';
-import { formatCurrency } from '@/lib/format';
+import { formatCurrency, yearlyRent } from '@/lib/format';
 
 interface LeaseRenewalModalProps {
     isOpen: boolean;
@@ -31,8 +31,8 @@ export default function LeaseRenewalModal({
     leaseId,
     property = { address: '1243 Oakwood Avenue', unit: 'Unit 4B' },
     offer = {
-        currentRent: 2400,
-        newRent: 2550,
+        currentRent: 3600000,
+        newRent: 3825000,
         duration: '12 Months',
         startDate: 'Sep 1, 2024',
         endDate: 'Aug 31, 2025',
@@ -98,14 +98,14 @@ export default function LeaseRenewalModal({
                                     <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
                                         <span className="material-symbols-outlined text-4xl">payments</span>
                                     </div>
-                                    <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2">New monthly rent</p>
+                                    <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2">New rent per year</p>
                                     <div className="flex items-baseline gap-2 mb-2">
-                                        <span className="text-2xl font-extrabold text-slate-900 dark:text-white">{formatCurrency(offer.newRent)}</span>
+                                        <span className="text-2xl font-extrabold text-slate-900 dark:text-white">{formatCurrency(yearlyRent(offer.newRent))}</span>
                                         <span className="inline-flex items-center text-xs font-bold text-red-600 bg-red-100 dark:bg-red-900/30 px-1.5 py-0.5 rounded">
                                             <span className="material-symbols-outlined text-[12px] mr-0.5">arrow_upward</span> +{rentIncrease}%
                                         </span>
                                     </div>
-                                    <p className="text-xs text-slate-500 dark:text-slate-400">Current: ${offer.currentRent.toLocaleString()}/mo</p>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400">Current: {formatCurrency(yearlyRent(offer.currentRent))} / year</p>
                                 </div>
 
                                 {/* Lease Duration */}
@@ -141,7 +141,7 @@ export default function LeaseRenewalModal({
                                         <div>
                                             <h4 className="text-sm font-bold text-slate-900 dark:text-white">Pet policy update</h4>
                                             <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mt-1">
-                                                Pet rent has been adjusted to standard 2024 rates ($50/pet/month). No changes to deposit.
+                                                Pet rent has been adjusted to standard 2024 rates (â¦75,000/pet/month). No changes to deposit.
                                             </p>
                                         </div>
                                     </div>

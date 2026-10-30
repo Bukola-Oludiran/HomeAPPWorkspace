@@ -6,18 +6,18 @@ import VoiceInputButton from '@/components/VoiceInputButton';
 import Logo from '@/components/common/Logo';
 import { propertyService } from '@/lib/api/services/propertyService';
 import type { PropertySummary, ListingType } from '@/types/property';
-import { formatCurrency as formatPrice } from '@/lib/format';
+import { formatCurrency as formatPrice, listingPrice } from '@/lib/format';
 
 // Helper to format price with currency
 // Helper to get listing type display info
-function getListingTypeInfo(listingType: ListingType): { label: string; color: string; priceUnit?: string } {
+function getListingTypeInfo(listingType: ListingType): { label: string; color: string } {
     switch (listingType) {
         case 'SALE':
             return { label: 'For sale', color: 'bg-green-100 text-green-700' };
         case 'RENT':
-            return { label: 'For rent', color: 'bg-blue-100 text-blue-700', priceUnit: '/mo' };
+            return { label: 'For rent', color: 'bg-blue-100 text-blue-700' };
         case 'SHORT_LET':
-            return { label: 'Short-let', color: 'bg-purple-100 text-purple-700', priceUnit: '/night' };
+            return { label: 'Short-let', color: 'bg-purple-100 text-purple-700' };
         default:
             return { label: 'For sale', color: 'bg-green-100 text-green-700' };
     }
@@ -267,6 +267,7 @@ export default function HomePage() {
                                 // Property cards
                                 featuredProperties.map((property) => {
                                     const listingInfo = getListingTypeInfo(property.listingType);
+                                    const price = listingPrice(property.price, property.priceUnit);
                                     const badge = getVerificationBadge(property.isVerified, property.verificationTier);
 
                                     return (
@@ -297,10 +298,10 @@ export default function HomePage() {
                                                 <div>
                                                     <div className="flex justify-between items-baseline mb-1">
                                                         <p className="text-xl font-bold text-slate-900 dark:text-white">
-                                                            {formatPrice(property.price, 'CAD')}
-                                                            {listingInfo.priceUnit && (
+                                                            {formatPrice(price.amount)}
+                                                            {price.suffix && (
                                                                 <span className="text-sm font-normal text-slate-500 dark:text-slate-400">
-                                                                    {listingInfo.priceUnit}
+                                                                    {price.suffix}
                                                                 </span>
                                                             )}
                                                         </p>

@@ -4,7 +4,7 @@ import { MagneticButton, SuccessCelebration } from '../../components/animation';
 import { propertyService } from '../../lib/api/services/propertyService';
 import { userService } from '../../lib/api/services/userService';
 import { tenantService } from '../../lib/api/services/tenantService';
-import { formatCurrency } from '@/lib/format';
+import { formatCurrency, formatListingPrice } from '@/lib/format';
 
 interface ApplicationFormData {
     leaseDuration: string;
@@ -72,7 +72,7 @@ export default function RentalApplicationWizard() {
                         beds: p.bedrooms || 0,
                         baths: p.bathrooms || 0,
                         sqft: sqm > 1000 ? `${(sqm / 1000).toFixed(1)}k` : `${sqm}`,
-                        rent: formatCurrency(Number(p.price || 0)),
+                        rent: formatListingPrice(Number(p.price || 0), p.priceUnit),
                         status: p.status || 'AVAILABLE',
                     });
                 }
@@ -504,7 +504,7 @@ export default function RentalApplicationWizard() {
                                 <div className="flex-1">
                                     <h3 className="font-bold text-slate-900 dark:text-white mb-1">Application fee</h3>
                                     <p className="text-sm text-slate-600 dark:text-slate-300 mb-2">Non-refundable processing fee</p>
-                                    <p className="text-2xl font-extrabold text-green-600">$35.00</p>
+                                    <p className="text-2xl font-extrabold text-green-600">â¦52,500.00</p>
                                 </div>
                             </div>
                         </section>
@@ -639,7 +639,7 @@ export default function RentalApplicationWizard() {
                                         </div>
                                     </div>
                                     <div className="mt-2 pt-3 border-t border-slate-100 dark:border-slate-700 flex justify-between items-center">
-                                        <span className="text-sm font-medium text-slate-600 dark:text-slate-400">Monthly rent</span>
+                                        <span className="text-sm font-medium text-slate-600 dark:text-slate-400">Rent</span>
                                         <span className="text-xl font-extrabold text-brand-ink">{propertyData.rent}</span>
                                     </div>
                                 </div>

@@ -10,7 +10,7 @@ import FavoriteButton from '../../components/FavoriteButton';
 import { propertyService } from '@/lib/api/services/propertyService';
 import type { Property } from '@/types/property';
 import type { ApiError } from '@/types/api';
-import { formatCurrency } from '@/lib/format';
+import { formatCurrency, listingPrice } from '@/lib/format';
 
 // Helper to format price
 const formatPrice = (price: number): string => formatCurrency(price);
@@ -154,7 +154,8 @@ export default function PropertyDetail() {
     // Derived values for UI
     const primaryImage = property.media.find(m => m.isPrimary)?.url || property.media[0]?.url || 'https://placehold.co/800x600?text=No+Image';
     const galleryImages = property.media.filter(m => m.type === 'IMAGE').map(m => m.url);
-    const priceDisplay = formatPrice(property.price);
+    const price = listingPrice(property.price, property.priceUnit);
+    const priceDisplay = formatPrice(price.amount);
     const typeLabel = getTypeLabel(property.listingType);
     const fullAddress = `${property.address.street}, ${property.address.city}, ${property.address.state}`;
     const sqft = property.squareFeet ? property.squareFeet.toLocaleString() : 'N/A';
@@ -252,7 +253,7 @@ export default function PropertyDetail() {
                                         {priceDisplay}
                                     </h2>
                                     <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
-                                        {property.listingType === 'RENT' ? '/month' : property.listingType === 'SHORT_LET' ? '/night' : ''}
+                                        {price.suffix.replace(' / ', 'per ')}
                                     </p>
                                 </div>
                             </div>

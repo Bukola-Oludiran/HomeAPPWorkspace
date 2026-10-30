@@ -16,7 +16,7 @@ export default function DraftRenewalOfferModal({
     onClose,
     propertyAddress = "1243 Oakwood Avenue",
     leaseId = "#L-2023-8492",
-    currentRent = "$4,800",
+    currentRent = "â¦7,200,000",
     expiryDate = "Nov 30, 2024",
     onSubmit
 }: DraftRenewalOfferModalProps) {

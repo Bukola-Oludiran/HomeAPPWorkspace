@@ -5,7 +5,7 @@ import PageContainer from '../../../components/common/PageContainer';
 import Breadcrumb from '../../../components/common/Breadcrumb';
 import { landlordService } from '../../../lib/api/services';
 import type { RentalApplication, ApplicationStatus, EmploymentStatus } from '../../../types/lease';
-import { formatCompactCurrency } from '@/lib/format';
+import { formatCompactCurrency, formatListingPrice } from '@/lib/format';
 
 // UI types for applicant detail
 interface UIApplicantData {
@@ -145,7 +145,7 @@ function transformApplicant(app: RentalApplication): UIApplicantData {
             name: property?.name || 'Property',
             unit: '',
             location,
-            rent: property?.price ? formatCurrency(property.price) : 'N/A',
+            rent: property?.price ? formatListingPrice(property.price, property.priceUnit) : 'N/A',
             leaseTerm: '12 Mos',
             image: '',
         },
@@ -526,7 +526,7 @@ export default function LandlordApplicantDetail() {
                         </div>
                         <div className="p-4 grid grid-cols-2 divide-x divide-slate-100 dark:divide-slate-800">
                             <div className="text-center px-2">
-                                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold">Monthly rent</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold">Rent</p>
                                 <p className="text-base font-bold text-slate-900 dark:text-white">{applicantData.property.rent}</p>
                             </div>
                             <div className="text-center px-2">

@@ -5,7 +5,7 @@ import ViewToggle from '../../../components/common/ViewToggle';
 import { AnimatedGroup } from '../../../components/animation';
 import { tenantService } from '../../../lib/api/services/tenantService';
 import type { PropertySummary } from '../../../types/property';
-import { formatCurrency } from '@/lib/format';
+import { formatCurrency, listingPrice } from '@/lib/format';
 
 // Placeholder image for properties without images
 const PLACEHOLDER_IMAGE = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=300&fit=crop';
@@ -28,13 +28,6 @@ interface UISavedProperty {
 
 // Helper to format currency
 // Helper to get price period based on listing type
-function getPricePeriod(listingType: string, priceUnit: string): string {
-    if (listingType === 'SALE') return '';
-    if (priceUnit === 'PER_MONTH') return '/mo';
-    if (priceUnit === 'PER_YEAR') return '/yr';
-    return '';
-}
-
 // Helper to get listing type label
 function getListingTypeLabel(listingType: string): string {
     if (listingType === 'SALE') return 'FOR SALE';
@@ -50,8 +43,8 @@ function transformSavedProperty(property: PropertySummary): UISavedProperty {
         title: property.name,
         location: `${property.address.city}, ${property.address.state}`,
         image: property.primaryImage || PLACEHOLDER_IMAGE,
-        price: formatCurrency(property.price, 'CAD'),
-        period: getPricePeriod(property.listingType, property.priceUnit),
+        price: formatCurrency(listingPrice(property.price, property.priceUnit).amount),
+        period: listingPrice(property.price, property.priceUnit).suffix,
         type: getListingTypeLabel(property.listingType),
         beds: (property.bedrooms ?? 0) === 0 ? 'Studio' : `${property.bedrooms} Bed${(property.bedrooms ?? 0) > 1 ? 's' : ''}`,
         baths: `${property.bathrooms ?? 0} Bath${(property.bathrooms ?? 0) > 1 ? 's' : ''}`,

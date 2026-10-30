@@ -32,7 +32,7 @@ export default function SignLeaseRenewalModal({
     leaseDetails = {
         landlord: 'LuxRealty Management',
         tenant: 'Alex Morgan',
-        newRent: 2550,
+        newRent: 3825000,
         rentIncrease: '6.25%',
         startDate: 'September 1, 2024',
         endDate: 'August 31, 2025',
@@ -152,7 +152,7 @@ export default function SignLeaseRenewalModal({
                                             <span className="font-bold">{formatCurrency(leaseDetails.newRent, DEFAULT_CURRENCY, 2)}</span>, representing a {leaseDetails.rentIncrease} increase from the previous term. Rent is due on the 1st day of each month.
                                         </p>
                                         <p>
-                                            <span className="font-bold text-slate-900">5. PET POLICY.</span> The parties acknowledge the adjustment to the pet rent policy. Tenant agrees to pay an additional $50.00 per month per pet. All other rules regarding pets in the original lease remain in effect.
+                                            <span className="font-bold text-slate-900">5. PET POLICY.</span> The parties acknowledge the adjustment to the pet rent policy. Tenant agrees to pay an additional â¦75,000.00 per month per pet. All other rules regarding pets in the original lease remain in effect.
                                         </p>
                                         <p>
                                             <span className="font-bold text-slate-900">6. CONTINUATION.</span> Except as modified by this Agreement, the Landlord and Tenant agree that all other terms and conditions of the original Lease Agreement dated September 1, 2023, shall remain in full force and effect.

@@ -5,7 +5,7 @@ import ScheduleMaintenanceModal from '../../../components/ScheduleMaintenanceMod
 import { AnimatedGroup } from '../../../components/animation';
 import { propertyService, landlordService } from '../../../lib/api/services';
 import type { Property, PropertyViewAnalytics, PropertyMarketComparison, VerificationTier } from '../../../types/property';
-import { formatCurrency } from '@/lib/format';
+import { formatCurrency, formatListingPrice, listingPrice } from '@/lib/format';
 
 // UI types for property detail
 interface UIPropertyData {
@@ -112,14 +112,14 @@ function transformToUIProperty(
     const galleryImages = property.media?.map(m => m.url) || [];
 
     // Calculate estimated yield (placeholder calculation)
-    const annualRent = property.price * 12;
+    const annualRent = listingPrice(property.price, property.priceUnit).amount;
     const estimatedYield = property.price > 0 ? ((annualRent * 0.85) / (property.price * 100) * 100).toFixed(1) : '0';
 
     return {
         id: property.id,
         name: property.name,
         address: formatAddress(property.address),
-        targetRent: formatCurrency(property.price, 'CAD'),
+        targetRent: formatListingPrice(property.price, property.priceUnit),
         marketComparison: marketComparison?.marketAnalysis ? `${marketComparison.marketAnalysis.percentile > 50 ? '+' : ''}${(marketComparison.marketAnalysis.percentile - 50).toFixed(0)}%` : 'N/A',
         status: getStatusLabel(property.status),
         onlineDays: getDaysOnline(property.createdAt),
@@ -395,7 +395,6 @@ export default function LandlordPropertyDetail() {
                                     </p>
                                     <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white">
                                         {property.targetRent}
-                                        <span className="text-lg font-medium text-slate-500 dark:text-slate-400">/mo</span>
                                     </h2>
                                     <p className="text-green-600 dark:text-green-400 text-sm font-semibold flex items-center mt-1">
                                         <span className="material-symbols-outlined text-[16px] mr-0.5">

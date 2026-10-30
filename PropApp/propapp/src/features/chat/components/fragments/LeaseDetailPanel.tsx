@@ -1,5 +1,6 @@
 import type { LeaseDetailPanelProps } from '../../types';
 import { FragmentActions } from './_FragmentActions';
+import { formatCurrency, yearlyRent } from '@/lib/format';
 
 const STATUS_COLOR: Record<string, string> = {
     DRAFT: 'bg-slate-200 text-slate-700',
@@ -38,9 +39,9 @@ export function LeaseDetailPanel({ props, onAction }: Props) {
             <dl className="mt-3 grid grid-cols-2 gap-y-2 text-sm">
                 {props.monthlyRent ? (
                     <>
-                        <dt className="text-slate-500 dark:text-slate-400">Monthly rent</dt>
+                        <dt className="text-slate-500 dark:text-slate-400">Rent per year</dt>
                         <dd className="text-right font-semibold">
-                            ${props.monthlyRent.amount.toLocaleString()}
+                            {formatCurrency(yearlyRent(props.monthlyRent.amount), props.monthlyRent.currency)}
                         </dd>
                     </>
                 ) : null}

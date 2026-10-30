@@ -8,7 +8,7 @@ import FilterDropdown from '../../../components/FilterDropdown';
 import { AnimatedGroup, MagneticButton } from '../../../components/animation';
 import { landlordService } from '../../../lib/api/services/landlordService';
 import type { PropertySummary } from '../../../types/property';
-import { formatCurrency } from '@/lib/format';
+import { formatCurrency, listingPrice } from '@/lib/format';
 
 // Placeholder image for properties without images
 const PLACEHOLDER_IMAGE = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=300&fit=crop';
@@ -21,12 +21,6 @@ function formatSquareFeet(sqft?: number): string {
 }
 
 // Helper to get price type suffix based on listing type
-function getPriceType(listingType: string, priceUnit: string): string {
-    if (listingType === 'SALE') return '';
-    if (priceUnit === 'PER_MONTH') return '/mo';
-    if (priceUnit === 'PER_YEAR') return '/yr';
-    return '';
-}
 
 // Helper to get status display info
 function getStatusInfo(status: string, listingType: string): { label: string; color: string } {
@@ -70,8 +64,8 @@ function transformProperty(property: PropertySummary): RegularProperty {
         beds: property.bedrooms ?? 0,
         baths: property.bathrooms ?? 0,
         sqft: formatSquareFeet(property.squareFeet ?? undefined),
-        price: formatCurrency(property.price, 'CAD'),
-        priceType: getPriceType(property.listingType, property.priceUnit),
+        price: formatCurrency(listingPrice(property.price, property.priceUnit).amount),
+        priceType: listingPrice(property.price, property.priceUnit).suffix,
         status: statusInfo.label,
         statusColor: statusInfo.color,
         image: property.primaryImage || PLACEHOLDER_IMAGE,

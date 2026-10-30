@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import MakePaymentModal from '../../../components/MakePaymentModal';
 import DocumentViewerModal from '../../../components/DocumentViewerModal';
 import { tenantService } from '../../../lib/api/services/tenantService';
-import { DEFAULT_CURRENCY, formatCurrency } from '@/lib/format';
+import { DEFAULT_CURRENCY, formatCurrency, yearlyRent } from '@/lib/format';
 
 // Helper to format date
 function formatDate(dateString: string): string {
@@ -202,10 +202,10 @@ export default function TenantLeaseDetails() {
                 {/* Stats Grid */}
                 <section className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
-                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Monthly rent</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Rent</span>
                         <div className="flex items-baseline gap-1">
-                            <span className="text-2xl font-bold text-slate-900 dark:text-white">{formatCurrency(leaseData.monthlyRent)}</span>
-                            <span className="text-xs text-slate-500 dark:text-slate-400">/mo</span>
+                            <span className="text-2xl font-bold text-slate-900 dark:text-white">{formatCurrency(yearlyRent(leaseData.monthlyRent))}</span>
+                            <span className="text-xs text-slate-500 dark:text-slate-400">/ year</span>
                         </div>
                         <div className="mt-1 flex items-center text-xs text-green-600 font-medium bg-green-50 dark:bg-green-900/20 w-fit px-1.5 py-0.5 rounded">
                             <span className="material-symbols-outlined text-[14px] mr-1">check_circle</span>

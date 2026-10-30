@@ -328,7 +328,7 @@ export default function LandlordEditListing() {
                                 <span className="material-symbols-outlined text-brand-ink mt-0.5">info</span>
                                 <div className="text-sm text-slate-700 dark:text-slate-300">
                                     <p className="font-bold text-slate-900 dark:text-white mb-1">Market insight</p>
-                                    <p>Properties similar to yours in <strong>78704</strong> are currently renting for <strong>$4,500 - $5,100</strong>. Your price is competitive.</p>
+                                    <p>Properties similar to yours in <strong>your area</strong> are currently renting for <strong>â¦6,750,000 - â¦7,650,000</strong>. Your price is competitive.</p>
                                 </div>
                             </div>
                         </div>

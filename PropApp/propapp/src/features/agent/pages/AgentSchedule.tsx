@@ -114,7 +114,7 @@ function transformToSelectedJob(item: AgentScheduleItem): UISelectedJob {
         client: item.clientName || 'N/A',
         clientPhone: item.clientPhone,
         instructions: 'Please arrive 10 minutes early and contact the client upon arrival.',
-        payout: new Intl.NumberFormat(undefined, { style: 'currency', currency: 'CAD' }).format(item.payout || 0),
+        payout: formatCurrency(item.payout || 0),
     };
 }
 

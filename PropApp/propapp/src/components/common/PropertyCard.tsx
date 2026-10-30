@@ -58,7 +58,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
     baths,
     sqft,
     price,
-    priceType = '/mo',
+    priceType = '',
     propertyType,
     href,
     variant = 'grid',

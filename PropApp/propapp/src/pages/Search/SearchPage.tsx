@@ -5,7 +5,7 @@ import Logo from '@/components/common/Logo';
 import { propertyService } from '@/lib/api/services/propertyService';
 import type { PropertySummary, PropertySearchFilters, ListingType, PropertyType } from '@/types/property';
 import type { ApiError } from '@/types/api';
-import { formatCurrency } from '@/lib/format';
+import { formatCurrency, listingPrice } from '@/lib/format';
 // Map UI property type names to backend PropertyType
 const propertyTypeMap: Record<string, PropertyType> = {
     'House': 'HOUSE',
@@ -873,13 +873,10 @@ export default function SearchPage() {
                                             <div>
                                                 <div className="flex justify-between items-baseline mb-1">
                                                     <p className="text-xl font-bold text-slate-900 dark:text-white">
-                                                        {formatPriceFull(property.price)}
-                                                        {property.listingType === 'RENT' && (
-                                                            <span className="text-sm font-normal text-slate-500 dark:text-slate-400 ml-1">/mo</span>
-                                                        )}
-                                                        {property.listingType === 'SHORT_LET' && (
-                                                            <span className="text-sm font-normal text-slate-500 dark:text-slate-400 ml-1">/night</span>
-                                                        )}
+                                                        {formatPriceFull(listingPrice(property.price, property.priceUnit).amount)}
+                                                        <span className="text-sm font-normal text-slate-500 dark:text-slate-400">
+                                                            {listingPrice(property.price, property.priceUnit).suffix}
+                                                        </span>
                                                     </p>
                                                     <span
                                                         className={`text-xs font-bold uppercase tracking-wider px-2 py-1 rounded-md ${listingTypeDisplay[property.listingType]?.color || 'bg-gray-100 text-gray-700'

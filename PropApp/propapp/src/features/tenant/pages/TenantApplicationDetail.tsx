@@ -5,7 +5,7 @@ import PageContainer from '../../../components/common/PageContainer';
 import Breadcrumb from '../../../components/common/Breadcrumb';
 import { tenantService } from '../../../lib/api/services/tenantService';
 import type { RentalApplication } from '../../../types/lease';
-import { formatCurrency } from '@/lib/format';
+import { formatCurrency, formatListingPrice } from '@/lib/format';
 
 function getStatusStyles(status: string) {
     switch (status) {
@@ -254,12 +254,8 @@ export default function TenantApplicationDetail() {
                                 <div className="flex justify-between items-center mb-4">
                                     <div>
                                         <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold">Price</p>
-                                        <p className="text-xl font-extrabold text-slate-900 dark:text-white">{formatCurrency(application.property.price)}</p>
-                                    </div>
-                                    <div className="text-right">
-                                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold">Per</p>
-                                        <p className="text-lg font-bold text-slate-900 dark:text-white">{application.property.priceUnit}</p>
-                                    </div>
+                                        <p className="text-xl font-extrabold text-slate-900 dark:text-white">{formatListingPrice(application.property.price, application.property.priceUnit)}</p>
+                                </div>
                                 </div>
                                 <Link
                                     to={`/property/${application.propertyId}`}

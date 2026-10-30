@@ -7,7 +7,7 @@ import DocumentViewerModal from '../../../components/DocumentViewerModal';
 import PhotoGalleryModal from '../../../components/PhotoGalleryModal';
 import MaintenanceRequestModal from '../../../components/MaintenanceRequestModal';
 import { tenantService } from '../../../lib/api/services/tenantService';
-import { formatCurrency } from '@/lib/format';
+import { formatCurrency, yearlyRent } from '@/lib/format';
 
 // Helper to format currency
 // Helper to format date
@@ -144,7 +144,7 @@ export default function TenantMyHome() {
                             beds: data.property.bedrooms ?? 0,
                             baths: data.property.bathrooms ?? 0,
                             sqft: data.property.squareFeet ? `${data.property.squareFeet}` : 'N/A',
-                            rent: formatCurrency(data.lease.monthlyRent),
+                            rent: formatCurrency(yearlyRent(data.lease.monthlyRent)),
                             image: data.property.primaryImage || defaultHomeData.property.image,
                             verified: data.property.isVerified || false,
                         },
@@ -272,11 +272,11 @@ export default function TenantMyHome() {
                         </div>
                         <div className="flex flex-col md:items-end p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700 w-full md:w-auto min-w-[200px]">
                             <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1">
-                                Monthly rent
+                                Rent
                             </span>
                             <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white">
                                 {homeData.property.rent}
-                                <span className="text-lg text-slate-500 dark:text-slate-400 font-medium">/mo</span>
+                                <span className="text-lg text-slate-500 dark:text-slate-400 font-medium"> / year</span>
                             </h2>
                             <div className="flex items-center gap-2 mt-2">
                                 <span className="size-2 rounded-full bg-green-500"></span>

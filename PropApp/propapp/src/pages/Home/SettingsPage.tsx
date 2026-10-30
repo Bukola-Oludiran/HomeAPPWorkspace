@@ -703,7 +703,7 @@ function PayoutPreferencesContent() {
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Minimum payout amount</label>
-                        <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand sm:text-sm" type="text" defaultValue="$100.00" />
+                        <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-brand focus:ring-brand sm:text-sm" type="text" defaultValue="â¦150,000.00" />
                     </div>
                 </div>
             </div>

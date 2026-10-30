@@ -5,7 +5,7 @@ import DraftRenewalOfferModal from '../../../components/DraftRenewalOfferModal';
 import ConfirmationModal from '../../../components/ConfirmationModal';
 import { leaseService } from '../../../lib/api/services/leaseService';
 import type { Lease } from '../../../types/lease';
-import { formatCurrency } from '@/lib/format';
+import { formatCurrency, yearlyRent } from '@/lib/format';
 
 function formatDate(dateStr: string): string {
     return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -24,14 +24,14 @@ function getLeaseStatusColor(status: string): string {
 
 // Static data (no API backing for these)
 const payments = [
-    { id: 1, date: 'Dec 1, 2024', description: 'Monthly rent', amount: '$4,800.00', status: 'Upcoming', statusColor: 'bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400' },
-    { id: 2, date: 'Nov 1, 2024', description: 'Monthly rent', amount: '$4,800.00', status: 'Paid', statusColor: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400', icon: 'check_circle' },
-    { id: 3, date: 'Oct 1, 2024', description: 'Monthly rent', amount: '$4,800.00', status: 'Paid', statusColor: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400', icon: 'check_circle' },
+    { id: 1, date: 'Dec 1, 2024', description: 'Monthly rent', amount: 'â¦7,200,000.00', status: 'Upcoming', statusColor: 'bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400' },
+    { id: 2, date: 'Nov 1, 2024', description: 'Monthly rent', amount: 'â¦7,200,000.00', status: 'Paid', statusColor: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400', icon: 'check_circle' },
+    { id: 3, date: 'Oct 1, 2024', description: 'Monthly rent', amount: 'â¦7,200,000.00', status: 'Paid', statusColor: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400', icon: 'check_circle' },
 ];
 
 const clauses = [
-    { id: 1, icon: 'pets', title: 'Pet policy addendum', description: 'Permits 1 dog under 40lbs. Non-refundable fee of $250 applied.' },
-    { id: 2, icon: 'build', title: 'Maintenance responsibilities', description: 'Tenant responsible for lawn care and minor repairs under $50.' },
+    { id: 1, icon: 'pets', title: 'Pet policy addendum', description: 'Permits 1 dog under 40lbs. Non-refundable fee of â¦375,000 applied.' },
+    { id: 2, icon: 'build', title: 'Maintenance responsibilities', description: 'Tenant responsible for lawn care and minor repairs under â¦75,000.' },
     { id: 3, icon: 'smoking_rooms', title: 'No smoking clause', description: 'Strict no-smoking policy within the premises and 20ft perimeter.' },
 ];
 
@@ -129,10 +129,10 @@ export default function LandlordLeaseAgreement() {
                 {/* Stats Grid */}
                 <section className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
-                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Monthly rent</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wide">Rent</span>
                         <div className="flex items-baseline gap-1">
-                            <span className="text-2xl font-bold text-slate-900 dark:text-white">{formatCurrency(lease.monthlyRent)}</span>
-                            <span className="text-xs text-slate-500 dark:text-slate-400">/mo</span>
+                            <span className="text-2xl font-bold text-slate-900 dark:text-white">{formatCurrency(yearlyRent(lease.monthlyRent))}</span>
+                            <span className="text-xs text-slate-500 dark:text-slate-400">/ year</span>
                         </div>
                         <div className="mt-1 flex items-center text-xs text-green-600 font-medium bg-green-50 dark:bg-green-900/20 w-fit px-1.5 py-0.5 rounded">
                             <span className="material-symbols-outlined text-[14px] mr-1">check_circle</span> Paid

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { propertyService } from '../../../lib/api/services/propertyService';
-import { formatCurrency } from '@/lib/format';
+import { formatListingPrice } from '@/lib/format';
 
 // Step components
 const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormData: React.Dispatch<React.SetStateAction<WizardFormData>> }) => {
@@ -121,7 +121,7 @@ const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormD
                     />
                 </div>
                 <div className="md:col-span-3">
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Monthly rent</label>
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Rent {formData.leaseDuration.toLowerCase()}</label>
                     <div className="relative">
                         <span className="absolute left-4 top-3.5 text-slate-500 dark:text-slate-400 font-bold">₦</span>
                         <input
@@ -323,7 +323,7 @@ const StepThree = ({ formData, setFormData }: { formData: WizardFormData; setFor
                                 value={formData.currency}
                                 onChange={(e) => setFormData({ ...formData, currency: e.target.value })}
                             >
-                                <option value="NGN">NGN ($) - Nigerian Naira</option>
+                                <option value="NGN">NGN (₦) - Nigerian Naira</option>
                                 <option value="USD">USD ($) - US Dollar</option>
                                 <option value="GBP">GBP (£) - British Pound</option>
                             </select>
@@ -588,7 +588,7 @@ const StepFive = ({ formData }: { formData: WizardFormData }) => (
                     <span className="text-sm"><strong>{formData.baths || '0'}</strong> Baths</span>
                     <span className="text-sm"><strong>{formData.sqft || '0'}</strong> sqft</span>
                 </div>
-                <div className="text-2xl font-extrabold text-brand-ink">{formatCurrency(Number(formData.rent || 0))}/mo</div>
+                <div className="text-2xl font-extrabold text-brand-ink">{formatListingPrice(Number(formData.rent || 0), formData.leaseDuration === 'Per Year' ? 'PER_YEAR' : 'PER_MONTH', formData.currency)}</div>
             </div>
         </div>
     </div>
@@ -629,7 +629,7 @@ export default function PropertyWizard() {
         sqft: '',
         rent: '',
         amenities: ['washer'],
-        currency: 'CAD',
+        currency: 'NGN',
         leaseDuration: 'Per Year',
         negotiable: false,
         furnishing: '',
