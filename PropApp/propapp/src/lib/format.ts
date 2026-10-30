@@ -49,6 +49,25 @@ export function yearlyRent(monthlyRent: number | null | undefined): number {
     return (monthlyRent ?? 0) * 12;
 }
 
+/**
+ * Sat 1 Nov, 10:00 — an ISO timestamp from the API, in Lagos time because appointments are
+ * physical visits in Nigeria. Anything unparseable is returned as given.
+ */
+export function formatDateTime(value: string | null | undefined): string {
+    if (!value) return '';
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return value;
+    return new Intl.DateTimeFormat('en-NG', {
+        weekday: 'short',
+        day: 'numeric',
+        month: 'short',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+        timeZone: 'Africa/Lagos',
+    }).format(date);
+}
+
 /** ₦1.3M, ₦850K — for tight spaces such as stat tiles and chart labels */
 export function formatCompactCurrency(
     amount: number | null | undefined,

@@ -3,7 +3,7 @@ import { AnimatedGroup, MagneticButton, SuccessCelebration } from '../../../comp
 import AIAssistantWidget from '../../../components/common/AIAssistantWidget';
 import { agentService } from '../../../lib/api/services/agentService';
 import type { AgentJob, AgentEarnings } from '../../../types/dashboard';
-import { formatCurrency } from '@/lib/format';
+import { formatCurrency, formatDateTime } from '@/lib/format';
 
 // Helper to format currency
 // Helper to get status color
@@ -265,7 +265,7 @@ export default function AgentJobBoard() {
                                     <div className="flex items-center justify-between mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
                                         <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
                                             <span className="material-symbols-outlined text-[16px]">schedule</span>
-                                            {job.date}
+                                            {formatDateTime(job.date)}
                                         </div>
                                         <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
                                             <span className="material-symbols-outlined text-[16px]">person</span>

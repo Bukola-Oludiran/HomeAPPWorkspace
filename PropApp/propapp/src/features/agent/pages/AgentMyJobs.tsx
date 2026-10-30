@@ -7,7 +7,7 @@ import EmptyState from '../../../components/common/EmptyState';
 import { AnimatedGroup } from '../../../components/animation';
 import { agentService } from '../../../lib/api/services/agentService';
 import type { AgentJob } from '../../../types/dashboard';
-import { formatCurrency } from '@/lib/format';
+import { formatCurrency, formatDateTime } from '@/lib/format';
 
 // Helper to format currency
 // Helper to get status styles
@@ -207,7 +207,7 @@ export default function AgentMyJobs() {
                                 </div>
                                 <div className="flex items-center gap-3 text-slate-800 dark:text-slate-400 text-sm">
                                     <span className="material-symbols-outlined text-lg shrink-0">schedule</span>
-                                    <span>{job.date}</span>
+                                    <span>{formatDateTime(job.date)}</span>
                                 </div>
                                 <div className="flex items-center gap-3 text-slate-800 dark:text-slate-400 text-sm">
                                     <span className="material-symbols-outlined text-lg shrink-0">person</span>
