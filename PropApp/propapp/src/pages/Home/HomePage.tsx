@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import heroVideo from '@/assets/HeroSectionVideo.mp4';
 import FavoriteButton from '@/components/FavoriteButton';
 import VoiceInputButton from '@/components/VoiceInputButton';
 import Logo from '@/components/common/Logo';
@@ -75,6 +74,13 @@ function getVerificationBadge(isVerified: boolean, tier?: string): { label: stri
 // Default placeholder image
 const PLACEHOLDER_IMAGE = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=600&fit=crop';
 
+// Where the contour-map motif sits in the featured section: size and position of each fragment
+const CONTOUR_FRAGMENTS = [
+    '-top-36 -right-56 w-[80vw] max-w-[680px]',
+    '-bottom-24 -left-48 w-[60vw] max-w-[520px] rotate-180',
+    'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-[860px]',
+];
+
 type CategoryType = 'Buy' | 'Rent' | 'Short-let' | 'Land';
 
 export default function HomePage() {
@@ -109,8 +115,8 @@ export default function HomePage() {
 
     return (
         <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex flex-col text-slate-900 dark:text-white overflow-x-hidden relative">
-            {/* Logo - positioned above everything */}
-            <div className="absolute top-6 left-6 md:left-10 z-40 flex items-center h-10">
+            {/* Logo - above the hero painting, so it sits on a surface badge */}
+            <div className="absolute top-6 left-6 md:left-10 z-40 hidden md:flex items-center rounded-lg bg-white/95 dark:bg-surface-dark/95 px-3.5 py-2.5">
                 <Logo wordmark="md" />
             </div>
 
@@ -120,26 +126,22 @@ export default function HomePage() {
 
             {/* Main Content */}
             <main className="flex-1 flex flex-col">
-                {/* Hero Section with full-bleed background */}
-                <section className="relative w-full min-h-[70vh] px-4 md:px-10 lg:px-20 flex justify-center items-center overflow-hidden">
-                    {/* Full-bleed background video extending to top */}
-                    <video
-                        className="absolute inset-0 z-0 w-full h-full object-cover"
-                        src={heroVideo}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
+                {/* Hero Section with full-bleed Keystead imagery */}
+                <section className="relative w-full min-h-[80vh] px-4 md:px-10 lg:px-20 flex justify-center items-center overflow-hidden">
+                    <img
+                        src="/images/colosseum-wireframe-grid.jpg"
+                        alt=""
+                        className="absolute inset-0 z-0 w-full h-full object-cover object-[50%_25%]"
                     />
-                    {/* Gradient overlay - same white filter as before */}
-                    <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/30 via-canvas/70 to-canvas dark:from-black/50 dark:via-canvas-dark/70 dark:to-canvas-dark"></div>
+                    {/* Fade: the painting stays visible at the top, then washes to the page colour behind the text and search */}
+                    <div className="absolute inset-0 z-0 bg-gradient-to-b from-canvas/0 via-canvas/70 via-55% to-canvas dark:from-canvas-dark/20 dark:via-canvas-dark/75 dark:to-canvas-dark"></div>
 
                     <div className="relative z-10 max-w-4xl w-full flex flex-col items-center mt-24">
                         <div className="text-center mb-10 space-y-4">
-                            <h1 className="text-slate-900 dark:text-white tracking-tight text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight drop-shadow-sm">
+                            <h1 className="text-slate-900 dark:text-white tracking-tight text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
                                 Know what's been checked before you visit.
                             </h1>
-                            <p className="text-slate-600 dark:text-slate-300 text-lg md:text-xl font-normal max-w-2xl mx-auto drop-shadow-sm">
+                            <p className="text-slate-700 dark:text-slate-200 text-lg md:text-xl font-normal max-w-2xl mx-auto">
                                 Every listing shows its verification tier, from Bronze to Platinum. Search by area and
                                 budget, or describe the home you want in plain words.
                             </p>
@@ -211,8 +213,15 @@ export default function HomePage() {
                 </section>
 
                 {/* Featured Properties Section */}
-                <section className="flex-1 w-full bg-white dark:bg-canvas-dark py-16 px-4 md:px-10 lg:px-20 border-t border-slate-100 dark:border-slate-800">
-                    <div className="max-w-[1400px] mx-auto">
+                <section className="relative overflow-hidden flex-1 w-full bg-white dark:bg-canvas-dark py-16 px-4 md:px-10 lg:px-20 border-t border-slate-100 dark:border-slate-800">
+                    {/* Keystead contour map as motif fragments at the corners, fading out at their edges */}
+                    {CONTOUR_FRAGMENTS.map((fragment) => (
+                        <div key={fragment} className={`pointer-events-none absolute ${fragment} [mask-image:radial-gradient(closest-side,black_45%,transparent)]`} aria-hidden="true">
+                            <img src="/images/contour-map-light.svg" alt="" className="w-full opacity-60 dark:hidden" />
+                            <img src="/images/contour-map-dark.svg" alt="" className="hidden w-full opacity-45 dark:block" />
+                        </div>
+                    ))}
+                    <div className="relative max-w-[1400px] mx-auto">
                         <div className="flex items-center justify-between mb-8">
                             <div>
                                 <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">
@@ -271,9 +280,9 @@ export default function HomePage() {
                                     const badge = getVerificationBadge(property.isVerified, property.verificationTier);
 
                                     return (
-                                        <Link to={`/property/${property.id}`} key={property.id}>
-                                            <article className="group flex flex-col gap-4 cursor-pointer">
-                                                <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-slate-200">
+                                        <Link to={`/property/${property.id}`} key={property.id} className="block h-full">
+                                            <article className="group flex h-full flex-col cursor-pointer overflow-hidden rounded-xl border border-border bg-card">
+                                                <div className="relative w-full aspect-[4/3] overflow-hidden bg-slate-200">
                                                     <img
                                                         alt={property.name}
                                                         className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
@@ -295,7 +304,7 @@ export default function HomePage() {
                                                         />
                                                     </div>
                                                 </div>
-                                                <div>
+                                                <div className="p-4">
                                                     <div className="flex justify-between items-baseline mb-1">
                                                         <p className="text-xl font-bold text-slate-900 dark:text-white">
                                                             {formatPrice(price.amount)}
@@ -314,7 +323,7 @@ export default function HomePage() {
                                                     <p className="text-slate-700 dark:text-slate-200 text-base font-medium truncate">
                                                         {formatAddress(property.address)}
                                                     </p>
-                                                    <div className="flex gap-4 mt-3 text-slate-500 dark:text-slate-400 text-sm">
+                                                    <div className="flex flex-wrap gap-x-3 gap-y-1 mt-3 text-slate-500 dark:text-slate-400 text-sm whitespace-nowrap">
                                                         <span className="flex items-center gap-1.5">
                                                             <span className="material-symbols-outlined text-[18px]">bed</span>
                                                             {property.bedrooms} Beds
