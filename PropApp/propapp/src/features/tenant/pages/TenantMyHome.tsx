@@ -7,7 +7,16 @@ import DocumentViewerModal from '../../../components/DocumentViewerModal';
 import PhotoGalleryModal from '../../../components/PhotoGalleryModal';
 import MaintenanceRequestModal from '../../../components/MaintenanceRequestModal';
 import { tenantService } from '../../../lib/api/services/tenantService';
+import { maintenanceService } from '../../../lib/api/services/maintenanceService';
+import type { MaintenanceRequest } from '../../../types/lease';
 import { formatCurrency, yearlyRent } from '@/lib/format';
+import ContourMotif, { type ContourFragment } from '../../../components/common/ContourMotif';
+
+// The sidebar ends well before the main column; a large fragment fills the space below it
+const HOME_CONTOUR: ContourFragment[] = [
+    'hidden lg:block top-[72%] left-[calc(50%+420px)] -translate-x-1/2 -translate-y-1/2 w-[900px]',
+    '-bottom-24 -left-48 w-[55vw] max-w-[540px] rotate-180',
+];
 
 // Helper to format currency
 // Helper to format date
@@ -44,7 +53,7 @@ interface HomeData {
         renewalExpiresDate: string;
     };
     maintenance: Array<{
-        id: number;
+        id: string;
         title: string;
         requestNumber: string;
         submittedDate: string;
@@ -62,12 +71,43 @@ interface HomeData {
         iconColor: string;
     }>;
     manager: {
+        id: string;
         name: string;
         company: string;
         phone: string;
-        email: string;
         image: string;
-        online: boolean;
+    };
+}
+
+// Keystead status pairs for maintenance requests
+const MAINTENANCE_STATUS: Record<string, { label: string; chip: string; icon: string }> = {
+    COMPLETED: { label: 'Resolved', chip: 'bg-verified-bg text-verified', icon: 'check_circle' },
+    CANCELLED: { label: 'Cancelled', chip: 'bg-neutral-bg text-slate-500 dark:text-slate-400', icon: 'block' },
+    IN_PROGRESS: { label: 'In progress', chip: 'bg-pending-bg text-pending', icon: 'build' },
+    ASSIGNED: { label: 'Assigned', chip: 'bg-pending-bg text-pending', icon: 'engineering' },
+};
+const MAINTENANCE_DEFAULT = { label: 'Submitted', chip: 'bg-neutral-bg text-slate-600 dark:text-slate-300', icon: 'schedule' };
+
+// Rent is paid monthly on the lease start's day of the month: the next such date from today
+function nextDueDate(leaseStart: string): Date {
+    const day = new Date(leaseStart).getDate();
+    const now = new Date();
+    const due = new Date(now.getFullYear(), now.getMonth(), day);
+    if (due <= now) due.setMonth(due.getMonth() + 1);
+    return due;
+}
+
+function toMaintenanceItem(request: MaintenanceRequest): HomeData['maintenance'][number] {
+    const status = MAINTENANCE_STATUS[request.status] ?? MAINTENANCE_DEFAULT;
+    return {
+        id: request.id,
+        title: request.title,
+        requestNumber: request.id.slice(-6).toUpperCase(),
+        submittedDate: formatDate(request.createdAt),
+        status: status.label,
+        statusColor: status.chip,
+        iconColor: status.chip,
+        icon: status.icon,
     };
 }
 
@@ -102,12 +142,11 @@ const defaultHomeData: HomeData = {
         { id: 3, name: "Renter's Insurance Policy", type: 'PDF', size: '2.4 MB', icon: 'policy', iconColor: 'text-green-500' },
     ],
     manager: {
-        name: 'Property Manager',
-        company: 'Management Company',
-        phone: 'N/A',
-        email: 'N/A',
-        image: 'https://via.placeholder.com/100?text=PM',
-        online: false,
+        id: '',
+        name: 'Property manager',
+        company: 'Property owner',
+        phone: '',
+        image: '',
     },
 };
 
@@ -140,7 +179,7 @@ export default function TenantMyHome() {
                     setHomeData({
                         property: {
                             name: data.property.name,
-                            location: `${data.property.address?.city || ''}, ${data.property.address?.state || ''} • Unit`,
+                            location: [data.property.address?.neighborhood, data.property.address?.city, data.property.address?.state].filter(Boolean).join(', '),
                             beds: data.property.bedrooms ?? 0,
                             baths: data.property.bathrooms ?? 0,
                             sqft: data.property.squareFeet ? `${data.property.squareFeet}` : 'N/A',
@@ -150,7 +189,7 @@ export default function TenantMyHome() {
                         },
                         payment: {
                             nextAmount: formatCurrency(data.lease.monthlyRent),
-                            dueDate: formatDate(data.lease.endDate).split(',')[0],
+                            dueDate: formatDate(nextDueDate(data.lease.startDate).toISOString()).split(',')[0],
                             autoPayEnabled: false,
                         },
                         lease: {
@@ -163,15 +202,23 @@ export default function TenantMyHome() {
                         maintenance: defaultHomeData.maintenance,
                         documents: defaultHomeData.documents,
                         manager: {
+                            id: data.landlord.id,
                             name: data.landlord.name,
-                            company: 'Property Management',
-                            phone: data.landlord.phone || 'N/A',
-                            email: 'contact@property.com',
-                            image: data.landlord.avatarUrl || defaultHomeData.manager.image,
-                            online: true,
+                            company: 'Property owner',
+                            phone: data.landlord.phone || '',
+                            image: data.landlord.avatarUrl || '',
                         },
                     });
                 }
+
+                // Latest maintenance requests for the summary card
+                const maintenance = await maintenanceService.getMaintenanceRequests();
+                const requests = (maintenance.data ?? [])
+                    .slice()
+                    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+                    .slice(0, 3)
+                    .map(toMaintenanceItem);
+                setHomeData((prev) => ({ ...prev, maintenance: requests }));
             } catch (err) {
                 console.error('Failed to fetch rental info:', err);
                 // Keep default data on error
@@ -196,7 +243,9 @@ export default function TenantMyHome() {
     }
 
     return (
-        <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex flex-col text-slate-900 dark:text-white overflow-x-hidden pb-[120px]">
+        <div className="relative bg-canvas dark:bg-canvas-dark min-h-screen flex flex-col text-slate-900 dark:text-white overflow-x-hidden pb-[120px]">
+            {/* Keystead contour map: centred in the empty right column below the sidebar, and off the bottom-left */}
+            <ContourMotif fragments={HOME_CONTOUR} contained />
             {/* Hero Image */}
             <div className="relative w-full h-[50vh] md:h-[60vh] lg:h-[70vh] bg-slate-200 overflow-hidden group">
                 <img
@@ -314,7 +363,7 @@ export default function TenantMyHome() {
                                             <span className="text-3xl font-bold text-slate-900 dark:text-white">
                                                 {homeData.payment.nextAmount}
                                             </span>
-                                            <span className="text-sm font-medium text-red-500 bg-red-50 dark:bg-red-900/20 px-2 py-0.5 rounded-md">
+                                            <span className="text-sm font-semibold text-pending bg-pending-bg px-2 py-0.5 rounded-md">
                                                 Due {homeData.payment.dueDate}
                                             </span>
                                         </div>
@@ -422,7 +471,7 @@ export default function TenantMyHome() {
                                         </div>
                                         <button
                                             onClick={() => setIsLeaseRenewalModalOpen(true)}
-                                            className="shrink-0 w-full sm:w-auto px-5 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-bold rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2 shadow-sm"
+                                            className="shrink-0 w-full sm:w-auto px-5 py-2.5 bg-brand-ink text-on-brand text-sm font-bold rounded-xl hover:bg-brand-ink/90 transition-colors flex items-center justify-center gap-2"
                                         >
                                             Respond to offer
                                         </button>
@@ -436,8 +485,8 @@ export default function TenantMyHome() {
                                             Renewal options available
                                         </h4>
                                         <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
-                                            You are eligible to renew your lease starting July 1, 2024. Ask the AI
-                                            assistant for renewal terms.
+                                            Your lease ends on {homeData.lease.endDate}. Ask the assistant about
+                                            renewal terms.
                                         </p>
                                     </div>
                                 </div>
@@ -455,7 +504,7 @@ export default function TenantMyHome() {
                                 </div>
                                 <button
                                     onClick={() => setIsMaintenanceModalOpen(true)}
-                                    className="px-4 py-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-bold rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2"
+                                    className="px-4 py-2 bg-brand-ink text-on-brand text-sm font-bold rounded-lg hover:bg-brand-ink/90 transition-colors flex items-center gap-2"
                                 >
                                     <span className="material-symbols-outlined text-[18px]">add</span>
                                     New request
@@ -550,20 +599,18 @@ export default function TenantMyHome() {
                                 <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4">
                                     Property manager
                                 </h4>
-                                <Link to="/landlord-profile/1" className="flex items-center gap-4 mb-6 group cursor-pointer">
-                                    <div className="relative">
+                                <Link to={`/landlord-profile/${homeData.manager.id}`} className="flex items-center gap-4 mb-6 group cursor-pointer">
+                                    {homeData.manager.image ? (
                                         <img
-                                            alt="Manager Profile"
+                                            alt={homeData.manager.name}
                                             className="size-16 rounded-full object-cover border-2 border-slate-100 dark:border-slate-600 group-hover:border-brand transition-colors"
                                             src={homeData.manager.image}
                                         />
-                                        {homeData.manager.online && (
-                                            <span
-                                                className="absolute bottom-0 right-0 size-4 bg-green-500 border-2 border-white dark:border-slate-800 rounded-full"
-                                                title="Online"
-                                            ></span>
-                                        )}
-                                    </div>
+                                    ) : (
+                                        <span className="flex size-16 shrink-0 items-center justify-center rounded-full bg-brand/10 text-xl font-extrabold text-brand-ink dark:bg-sky/15 dark:text-sky">
+                                            {homeData.manager.name.split(' ').map((part) => part[0]).join('').slice(0, 2).toUpperCase()}
+                                        </span>
+                                    )}
                                     <div>
                                         <h4 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-brand-ink transition-colors">
                                             {homeData.manager.name}
@@ -572,41 +619,33 @@ export default function TenantMyHome() {
                                     </div>
                                     <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 group-hover:text-brand-ink transition-colors ml-auto">chevron_right</span>
                                 </Link>
-                                <div className="space-y-3 mb-6">
-                                    <div className="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
+                                {homeData.manager.phone && (
+                                    <div className="mb-6 flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
                                         <span className="material-symbols-outlined text-[18px]">call</span>
-                                        <span>{homeData.manager.phone}</span>
+                                        <a href={`tel:${homeData.manager.phone}`} className="hover:text-brand-ink">{homeData.manager.phone}</a>
                                     </div>
-                                    <div className="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
-                                        <span className="material-symbols-outlined text-[18px]">mail</span>
-                                        <span>{homeData.manager.email}</span>
-                                    </div>
-                                </div>
-                                <Link to="/tenant/messages" className="w-full py-3 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2 mb-3">
+                                )}
+                                <Link to="/tenant/messages" className="w-full py-3 rounded-xl bg-brand-ink text-on-brand font-bold hover:bg-brand-ink/90 transition-colors flex items-center justify-center gap-2">
                                     <span className="material-symbols-outlined text-[18px]">chat_bubble</span>
                                     Message manager
                                 </Link>
-                                <div className="text-center text-xs text-slate-500 dark:text-slate-400">
-                                    Usually responds within 1 hour
-                                </div>
                             </div>
 
-                            {/* Property Insights Card */}
-                            <div className="bg-blue-50/50 dark:bg-slate-800 rounded-2xl border border-indigo-100 dark:border-slate-700 p-6">
+                            {/* Ask about this home */}
+                            <div className="bg-card rounded-xl border border-border p-6">
                                 <div className="flex items-center gap-2 mb-3">
                                     <span className="material-symbols-outlined text-brand-ink">forum</span>
-                                    <h4 className="font-bold text-slate-900 dark:text-white text-sm">
-                                        Property insights
-                                    </h4>
+                                    <h4 className="font-bold text-slate-900 dark:text-white text-sm">Questions about your home?</h4>
                                 </div>
                                 <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
-                                    Trash pickup is scheduled for tomorrow (Tuesday) morning. Don't forget to put your
-                                    bins out tonight!
+                                    Ask Keystead about your lease, repairs, payments or renewal.
                                 </p>
-                                <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                                    Your lease renewal window opens in 3 months. Average rent in this neighborhood has
-                                    increased by 4%.
-                                </p>
+                                <Link
+                                    to={`/ai-chat?msg=${encodeURIComponent('I have a question about my home at ' + homeData.property.name)}`}
+                                    className="block w-full rounded-lg border border-border-strong py-2.5 text-center text-sm font-bold hover:bg-accent"
+                                >
+                                    Ask Keystead
+                                </Link>
                             </div>
                         </div>
                     </div>

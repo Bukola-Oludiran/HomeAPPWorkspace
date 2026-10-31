@@ -6,6 +6,28 @@ import SectionCard from '../../../components/common/SectionCard';
 import { useAuth } from '../../../contexts/AuthContext';
 import { userService } from '../../../lib/api/services/userService';
 import { tenantService } from '../../../lib/api/services/tenantService';
+import StatusBadge from '../../../components/common/StatusBadge';
+import type { ContourFragment } from '../../../components/common/ContourMotif';
+
+// Profile: the left column is short; a large fragment fills the space below it and reaches under the form
+const CONTOUR: ContourFragment[] = [
+    'top-[72%] left-[20%] -translate-x-1/2 -translate-y-1/2 w-[75vw] max-w-[880px] rotate-180',
+    '-top-24 -right-48 w-[55vw] max-w-[560px]',
+];
+
+// Stored preference is a count ("2") or "Studio"; the select uses "0"-"3" (3 = 3+)
+function toBedroomValue(value: string): string {
+    if (/studio/i.test(value)) return '0';
+    return String(Math.min(3, parseInt(value, 10) || 0));
+}
+
+const APPLICATION_STATUS: Record<string, { label: string; variant: 'success' | 'pending' | 'error' | 'neutral' }> = {
+    PENDING: { label: 'Submitted', variant: 'neutral' },
+    UNDER_REVIEW: { label: 'Under review', variant: 'pending' },
+    APPROVED: { label: 'Approved', variant: 'success' },
+    REJECTED: { label: 'Not successful', variant: 'error' },
+    WITHDRAWN: { label: 'Withdrawn', variant: 'neutral' },
+};
 
 interface ApplicationSummary {
     id: string;
@@ -37,7 +59,7 @@ export default function TenantProfile() {
         income: '',
         emailNotifications: true,
         pushAlerts: true,
-        bedrooms: '2 Bedrooms',
+        bedrooms: '2',
         maxRent: '2500',
         amenities: '',
     });
@@ -53,7 +75,7 @@ export default function TenantProfile() {
                     const prefs = profileResponse.data.preferences;
                     setFormData(prev => ({
                         ...prev,
-                        bedrooms: prefs?.desiredBedrooms || prev.bedrooms,
+                        bedrooms: prefs?.desiredBedrooms ? toBedroomValue(prefs.desiredBedrooms) : prev.bedrooms,
                         maxRent: prefs?.monthlyBudgetMax?.toString() || prev.maxRent,
                     }));
                 }
@@ -122,7 +144,7 @@ export default function TenantProfile() {
     };
 
     return (
-        <PageContainer>
+        <PageContainer motif={CONTOUR}>
             <PageHeader
                 title="Tenant profile"
                 subtitle="Manage your personal details, verification status, and preferences."
@@ -333,10 +355,10 @@ export default function TenantProfile() {
                                                 onChange={(e) => handleInputChange('bedrooms', e.target.value)}
                                                 className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all font-medium appearance-none"
                                             >
-                                                <option>Studio</option>
-                                                <option>1 Bedroom</option>
-                                                <option>2 Bedrooms</option>
-                                                <option>3+ Bedrooms</option>
+                                                <option value="0">Studio</option>
+                                                <option value="1">1 bedroom</option>
+                                                <option value="2">2 bedrooms</option>
+                                                <option value="3">3+ bedrooms</option>
                                             </select>
                                             <span className="material-symbols-outlined absolute right-4 top-2.5 text-slate-500 dark:text-slate-400 pointer-events-none">expand_more</span>
                                         </div>
@@ -387,9 +409,7 @@ export default function TenantProfile() {
                                         <h4 className="text-sm font-bold text-slate-900 dark:text-white">{app.property}</h4>
                                         <p className="text-xs text-slate-500 dark:text-slate-400">Submitted on {app.date}</p>
                                     </div>
-                                    <span className="px-2 py-1 bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 text-xs font-bold rounded-full border border-blue-200 dark:border-blue-800">
-                                        {app.status}
-                                    </span>
+                                    <StatusBadge status={APPLICATION_STATUS[app.status]?.label ?? app.status} variant={APPLICATION_STATUS[app.status]?.variant ?? 'neutral'} />
                                     <Link to="/tenant/applications" className="text-slate-500 dark:text-slate-400 hover:text-brand-ink transition-colors">
                                         <span className="material-symbols-outlined">chevron_right</span>
                                     </Link>

@@ -7,6 +7,7 @@ import PageHeader from '../../../components/common/PageHeader';
 import SectionCard from '../../../components/common/SectionCard';
 import { AnimatedGroup, MagneticButton, SuccessCelebration } from '../../../components/animation';
 import { tenantService } from '../../../lib/api/services/tenantService';
+import { bankingService } from '../../../lib/api/services/bankingService';
 import type { TenantPayment } from '../../../types/dashboard';
 import { formatCurrency } from '@/lib/format';
 
@@ -60,11 +61,30 @@ function transformPayment(payment: TenantPayment): UITransaction {
     };
 }
 
-// Default payment methods (would come from user service in full implementation)
-const paymentMethods = [
-    { id: '1', name: 'Visa Card', lastFour: '4592', icon: 'credit_card', isPrimary: true },
-    { id: '2', name: 'GTBank', lastFour: '8821', icon: 'account_balance', isPrimary: false },
-];
+interface UIPaymentMethod {
+    id: string;
+    name: string;
+    detail: string;
+    icon: string;
+    isPrimary: boolean;
+}
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+// One cell per month of the current year, from the real payment records
+type MonthState = 'paid' | 'due' | 'none';
+function monthStates(payments: TenantPayment[]): MonthState[] {
+    const year = new Date().getFullYear();
+    const states: MonthState[] = MONTHS.map(() => 'none');
+    for (const payment of payments) {
+        const date = new Date(payment.paidDate || payment.dueDate);
+        if (date.getFullYear() !== year) continue;
+        const month = date.getMonth();
+        if (payment.status === 'paid') states[month] = 'paid';
+        else if (states[month] !== 'paid') states[month] = 'due';
+    }
+    return states;
+}
 
 export default function TenantPayments() {
     const [yearFilter, setYearFilter] = useState('this-year');
@@ -73,6 +93,8 @@ export default function TenantPayments() {
     const [isBillingModalOpen, setIsBillingModalOpen] = useState(false);
     const [isSuccessOpen, setIsSuccessOpen] = useState(false);
     const [transactionHistory, setTransactionHistory] = useState<UITransaction[]>([]);
+    const [paymentRecord, setPaymentRecord] = useState<MonthState[]>(MONTHS.map(() => 'none'));
+    const [paymentMethods, setPaymentMethods] = useState<UIPaymentMethod[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [stats, setStats] = useState({
@@ -92,6 +114,16 @@ export default function TenantPayments() {
                 const payments = response.data || [];
                 const transformed = payments.map(transformPayment);
                 setTransactionHistory(transformed);
+                setPaymentRecord(monthStates(payments));
+
+                const methods = await bankingService.getPaymentMethods().catch(() => null);
+                setPaymentMethods((methods?.data ?? []).map((m) => ({
+                    id: m.id,
+                    name: m.brand || (m.type === 'bank_transfer' ? 'Bank transfer' : 'Card'),
+                    detail: m.last4 ? `•••• ${m.last4}` : 'No card details',
+                    icon: m.type === 'bank_transfer' ? 'account_balance' : 'credit_card',
+                    isPrimary: m.isDefault,
+                })));
 
                 // Calculate stats
                 const paidPayments = payments.filter(p => p.status === 'paid');
@@ -250,49 +282,34 @@ export default function TenantPayments() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Left Column - Transaction History */}
                 <div className="lg:col-span-2 flex flex-col gap-6">
-                    {/* Payment Activity Heatmap */}
-                    <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
-                        <div className="flex justify-between items-center mb-4">
-                            <h3 className="font-bold text-lg text-slate-900 dark:text-white">Payment activity</h3>
-                            <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-                                <span>Less</span>
-                                <div className="flex gap-1">
-                                    <div className="size-3 rounded-sm bg-slate-100 dark:bg-slate-800"></div>
-                                    <div className="size-3 rounded-sm bg-brand/20"></div>
-                                    <div className="size-3 rounded-sm bg-brand/50"></div>
-                                    <div className="size-3 rounded-sm bg-brand"></div>
-                                </div>
-                                <span>More</span>
+                    {/* Payment record: one cell per month this year */}
+                    <div className="bg-card p-6 rounded-xl border border-border">
+                        <div className="flex flex-wrap justify-between items-center gap-3 mb-4">
+                            <h3 className="font-bold text-lg text-slate-900 dark:text-white">Payment record {new Date().getFullYear()}</h3>
+                            <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400">
+                                <span className="flex items-center gap-1.5"><span className="size-3 rounded-sm bg-verified"></span>Paid</span>
+                                <span className="flex items-center gap-1.5"><span className="size-3 rounded-sm bg-pending"></span>Due</span>
+                                <span className="flex items-center gap-1.5"><span className="size-3 rounded-sm bg-neutral-bg border border-border"></span>No payment</span>
                             </div>
                         </div>
-                        <div className="flex flex-col gap-2 overflow-x-auto pb-2">
-                            <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400 font-medium px-1">
-                                <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span>
-                            </div>
-                            <div className="grid grid-cols-12 gap-1 h-[80px]">
-                                {/* Jan-Dec heatmap columns */}
-                                {[
-                                    ['bg-brand', 'bg-slate-100 dark:bg-slate-800', 'bg-brand/50', 'bg-slate-100 dark:bg-slate-800', 'bg-brand/20'],
-                                    ['bg-brand/50', 'bg-slate-100 dark:bg-slate-800', 'bg-brand', 'bg-slate-100 dark:bg-slate-800', 'bg-brand/20'],
-                                    ['bg-brand', 'bg-brand/50', 'bg-slate-100 dark:bg-slate-800', 'bg-brand/20', 'bg-slate-100 dark:bg-slate-800'],
-                                    ['bg-slate-100 dark:bg-slate-800', 'bg-brand', 'bg-brand/50', 'bg-slate-100 dark:bg-slate-800', 'bg-brand/20'],
-                                    ['bg-brand', 'bg-slate-100 dark:bg-slate-800', 'bg-slate-100 dark:bg-slate-800', 'bg-brand/50', 'bg-brand'],
-                                    ['bg-slate-100 dark:bg-slate-800', 'bg-brand/20', 'bg-brand', 'bg-slate-100 dark:bg-slate-800', 'bg-brand/50'],
-                                    ['bg-brand', 'bg-slate-100 dark:bg-slate-800', 'bg-brand/50', 'bg-brand/20', 'bg-slate-100 dark:bg-slate-800'],
-                                    ['bg-brand/50', 'bg-brand', 'bg-slate-100 dark:bg-slate-800', 'bg-slate-100 dark:bg-slate-800', 'bg-brand/20'],
-                                    ['bg-brand', 'bg-slate-100 dark:bg-slate-800', 'bg-brand/50', 'bg-brand', 'bg-slate-100 dark:bg-slate-800'],
-                                    ['bg-brand/20', 'bg-brand', 'bg-slate-100 dark:bg-slate-800', 'bg-brand/50', 'bg-brand/80'],
-                                    ['bg-slate-100 dark:bg-slate-800', 'bg-slate-100 dark:bg-slate-800', 'bg-slate-100 dark:bg-slate-800', 'bg-slate-100 dark:bg-slate-800', 'bg-slate-100 dark:bg-slate-800'],
-                                    ['bg-slate-100 dark:bg-slate-800', 'bg-slate-100 dark:bg-slate-800', 'bg-slate-100 dark:bg-slate-800', 'bg-slate-100 dark:bg-slate-800', 'bg-slate-100 dark:bg-slate-800'],
-                                ].map((column, colIndex) => (
-                                    <div key={colIndex} className="flex flex-col gap-1">
-                                        {column.map((cellClass, rowIndex) => (
-                                            <div key={rowIndex} className={`flex-1 rounded-sm ${cellClass}`}></div>
-                                        ))}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
+                        <ol className="grid grid-cols-6 sm:grid-cols-12 gap-2">
+                            {MONTHS.map((month, index) => {
+                                const state = paymentRecord[index];
+                                const cell = state === 'paid'
+                                    ? 'bg-verified-bg text-verified'
+                                    : state === 'due'
+                                        ? 'bg-pending-bg text-pending'
+                                        : 'bg-neutral-bg text-slate-400 dark:text-slate-500';
+                                const icon = state === 'paid' ? 'check' : state === 'due' ? 'schedule' : 'remove';
+                                return (
+                                    <li key={month} className={`flex flex-col items-center gap-1 rounded-lg py-2.5 ${cell}`}>
+                                        <span className="material-symbols-outlined text-[18px]" aria-hidden="true">{icon}</span>
+                                        <span className="text-xs font-semibold">{month}</span>
+                                        <span className="sr-only">{state === 'paid' ? 'paid' : state === 'due' ? 'due' : 'no payment'}</span>
+                                    </li>
+                                );
+                            })}
+                        </ol>
                     </div>
 
                     {/* Filters */}
@@ -402,20 +419,15 @@ export default function TenantPayments() {
                 {/* Right Column - Payment Card & Quick Actions */}
                 <div className="lg:col-span-1 flex flex-col gap-6">
                     {/* Payment Card */}
-                    <div className="bg-gradient-to-br from-slate-900 to-slate-800 dark:from-slate-800 dark:to-black rounded-2xl p-6 text-white shadow-xl relative overflow-hidden">
-                        <div className="absolute -right-10 -top-10 size-40 bg-white/5 rounded-full blur-3xl"></div>
-                        <div className="absolute -left-10 -bottom-10 size-40 bg-brand/20 rounded-full blur-3xl"></div>
-                        <div className="relative z-10">
+                    <div className="bg-night rounded-xl p-6 text-white">
+                        <div>
                             <div className="flex justify-between items-start mb-6">
-                                <span className="material-symbols-outlined text-3xl text-white/80">assured_workload</span>
-                                <div className="px-2 py-1 bg-white/10 rounded-md backdrop-blur-sm border border-white/10">
-                                    <span className="font-mono text-white/80 text-xs">Auto-Pay Active</span>
-                                </div>
+                                <span className="material-symbols-outlined text-3xl text-sky">payments</span>
                             </div>
                             <div className="mb-6">
-                                <p className="text-slate-500 dark:text-slate-400 text-sm mb-1">Next payment due</p>
+                                <p className="text-slate-300 text-sm mb-1">Next payment due</p>
                                 <h2 className="text-3xl font-extrabold tracking-tight">{formatCurrency(stats.upcomingDue)}</h2>
-                                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{stats.upcomingDue > 0 ? 'Awaiting Payment' : 'No pending payments'}</p>
+                                <p className="text-sm text-slate-300 mt-1">{stats.upcomingDue > 0 ? 'Awaiting payment' : 'No pending payments'}</p>
                             </div>
                             <MagneticButton>
                                 <button
@@ -481,10 +493,10 @@ export default function TenantPayments() {
                                     </div>
                                     <div className="flex-1">
                                         <p className="text-sm font-bold text-slate-900 dark:text-white">{method.name}</p>
-                                        <p className="text-xs text-slate-500 dark:text-slate-400">**** {method.lastFour} {method.isPrimary && '(Primary)'}</p>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400">{method.detail}{method.isPrimary && ' (Primary)'}</p>
                                     </div>
                                     {method.isPrimary && (
-                                        <div className="text-green-600 dark:text-green-400">
+                                        <div className="text-verified">
                                             <span className="material-symbols-outlined text-[20px]">check_circle</span>
                                         </div>
                                     )}

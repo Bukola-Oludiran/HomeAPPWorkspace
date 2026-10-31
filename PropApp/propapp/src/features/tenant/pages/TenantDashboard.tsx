@@ -13,6 +13,12 @@ import { useAuth } from '../../../contexts/AuthContext';
 import { tenantService } from '../../../lib/api/services/tenantService';
 import type { TenantDashboard as DashboardData } from '../../../types/dashboard';
 import { formatCurrency, yearlyRent } from '@/lib/format';
+import type { ContourFragment } from '../../../components/common/ContourMotif';
+
+// Dashboard: the bottom-left is the lightest area (beside "Browse more" and below the saved homes)
+const CONTOUR: ContourFragment[] = [
+    'bottom-0 left-[42%] -translate-x-1/2 translate-y-[30%] -rotate-12 w-[90vw] max-w-[960px]',
+];
 
 // Helper to format currency
 // Helper to format date
@@ -60,7 +66,7 @@ export default function TenantDashboardPage() {
     }, []);
 
     return (
-        <PageContainer>
+        <PageContainer motif={CONTOUR}>
             <PageHeader
                 title="Tenant dashboard"
                 subtitle={`Welcome back, ${userName}. Here's your rental overview.`}

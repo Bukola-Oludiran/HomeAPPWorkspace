@@ -6,6 +6,13 @@ import PageHeader from '../../../components/common/PageHeader';
 import SectionCard from '../../../components/common/SectionCard';
 import { maintenanceService } from '../../../lib/api/services';
 import type { MaintenanceRequest, MaintenanceCategory, MaintenancePriority, MaintenanceStatus } from '../../../types/lease';
+import type { ContourFragment } from '../../../components/common/ContourMotif';
+
+// Maintenance: a wide band whose upper half runs under the table, plus the top-right corner
+const CONTOUR: ContourFragment[] = [
+    'bottom-0 left-1/2 -translate-x-1/2 translate-y-[40%] w-[110vw] max-w-[1300px]',
+    '-top-24 -right-48 w-[55vw] max-w-[560px]',
+];
 
 // UI types for maintenance requests
 interface UIMaintenanceRequest {
@@ -230,7 +237,7 @@ export default function TenantMaintenance() {
     }, [page, statusFilter, urgencyFilter, sortOrder, searchQuery]);
 
     return (
-        <PageContainer>
+        <PageContainer motif={CONTOUR}>
             <PageHeader
                 title="Maintenance requests"
                 subtitle="View and manage support tickets for your properties."

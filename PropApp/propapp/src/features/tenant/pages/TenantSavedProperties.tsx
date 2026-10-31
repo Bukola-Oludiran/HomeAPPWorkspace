@@ -6,6 +6,13 @@ import { AnimatedGroup } from '../../../components/animation';
 import { tenantService } from '../../../lib/api/services/tenantService';
 import type { PropertySummary } from '../../../types/property';
 import { formatCurrency, listingPrice } from '@/lib/format';
+import type { ContourFragment } from '../../../components/common/ContourMotif';
+
+// Saved homes: one row of cards, then open space; a large fragment fills it and slides under the row
+const CONTOUR: ContourFragment[] = [
+    'top-[66%] left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-6 w-[95vw] max-w-[1100px]',
+    '-bottom-24 -left-48 w-[55vw] max-w-[540px]',
+];
 
 // Placeholder image for properties without images
 const PLACEHOLDER_IMAGE = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=300&fit=crop';
@@ -166,7 +173,7 @@ export default function TenantSavedProperties() {
     }
 
     return (
-        <PageContainer maxWidth="lg">
+        <PageContainer maxWidth="lg" motif={CONTOUR}>
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
                 <div>

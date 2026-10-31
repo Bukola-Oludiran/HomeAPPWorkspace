@@ -8,6 +8,13 @@ import DateRangeFilter from '../../../components/common/DateRangeFilter';
 import { tenantService } from '../../../lib/api/services';
 import type { TenantPayment } from '../../../types/dashboard';
 import { DEFAULT_CURRENCY, formatCurrency as formatMoney } from '@/lib/format';
+import type { ContourFragment } from '../../../components/common/ContourMotif';
+
+// Transactions: the table fills the page, so only the corners
+const CONTOUR: ContourFragment[] = [
+    '-top-24 -right-48 w-[55vw] max-w-[560px]',
+    '-bottom-28 -left-48 w-[55vw] max-w-[560px] rotate-180',
+];
 
 // UI types for transactions
 interface UITransaction {
@@ -132,7 +139,7 @@ export default function TenantTransactions() {
     }, [page, searchQuery]);
 
     return (
-        <PageContainer>
+        <PageContainer motif={CONTOUR}>
             <PageHeader
                 title="All transaction history"
                 subtitle="View, search, and manage your complete payment records."

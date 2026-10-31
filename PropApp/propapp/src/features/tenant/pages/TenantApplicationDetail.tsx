@@ -6,6 +6,13 @@ import Breadcrumb from '../../../components/common/Breadcrumb';
 import { tenantService } from '../../../lib/api/services/tenantService';
 import type { RentalApplication } from '../../../types/lease';
 import { formatCurrency, formatListingPrice } from '@/lib/format';
+import type { ContourFragment } from '../../../components/common/ContourMotif';
+
+// Application detail: the left column ends early; centred on the empty space below it, under both columns' last cards
+const CONTOUR: ContourFragment[] = [
+    'top-[84%] left-[30%] -translate-x-1/2 -translate-y-1/2 w-[80vw] max-w-[900px] rotate-180',
+    '-top-24 -right-48 w-[55vw] max-w-[560px]',
+];
 
 function getStatusStyles(status: string) {
     switch (status) {
@@ -99,7 +106,7 @@ export default function TenantApplicationDetail() {
     const canWithdraw = application.status === 'PENDING' || application.status === 'UNDER_REVIEW';
 
     return (
-        <PageContainer>
+        <PageContainer motif={CONTOUR}>
             {/* Breadcrumb */}
             <Breadcrumb
                 items={[
@@ -121,7 +128,7 @@ export default function TenantApplicationDetail() {
                         </span>
                     </div>
                     <p className="text-slate-800 dark:text-slate-300 text-lg">
-                        Application ID: <span className="font-mono text-slate-800 dark:text-slate-300">#{application.id}</span> • Submitted on {submittedDate}
+                        Reference <span className="font-mono text-slate-800 dark:text-slate-300">{application.id.slice(-8).toUpperCase()}</span> • Submitted on {submittedDate}
                     </p>
                 </div>
                 {canWithdraw && (

@@ -7,6 +7,13 @@ import { AnimatedGroup } from '../../../components/animation';
 import { tenantService } from '../../../lib/api/services/tenantService';
 import type { RentalApplication, ApplicationStatus } from '../../../types/lease';
 import { formatListingPrice } from '@/lib/format';
+import type { ContourFragment } from '../../../components/common/ContourMotif';
+
+// Applications: the list is short, so a large fragment fills the open area below it, reaching up under the cards
+const CONTOUR: ContourFragment[] = [
+    '-top-24 -right-48 w-[60vw] max-w-[620px]',
+    'top-[62%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95vw] max-w-[1100px] rotate-180',
+];
 
 // Placeholder image
 const PLACEHOLDER_IMAGE = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=300&fit=crop';
@@ -257,7 +264,7 @@ export default function TenantApplications() {
     }
 
     return (
-        <PageContainer maxWidth="lg">
+        <PageContainer maxWidth="lg" motif={CONTOUR}>
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
                 <div>

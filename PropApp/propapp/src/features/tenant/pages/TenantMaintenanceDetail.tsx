@@ -4,6 +4,13 @@ import ConfirmationModal from '../../../components/ConfirmationModal';
 import PageContainer from '../../../components/common/PageContainer';
 import { maintenanceService } from '../../../lib/api/services';
 import type { MaintenanceRequest, MaintenanceCategory, MaintenancePriority, MaintenanceStatus } from '../../../types/lease';
+import type { ContourFragment } from '../../../components/common/ContourMotif';
+
+// Maintenance detail: the right column ends early; centred on the space below it, under the communication log
+const CONTOUR: ContourFragment[] = [
+    'hidden lg:block top-[78%] left-[calc(50%+380px)] -translate-x-1/2 -translate-y-1/2 w-[780px]',
+    '-bottom-24 -left-48 w-[55vw] max-w-[520px] rotate-180',
+];
 
 // UI types for maintenance request detail
 interface UIMaintenanceRequest {
@@ -24,6 +31,8 @@ interface UIMaintenanceRequest {
         image: string;
     };
     vendor: {
+        id: string;
+        phone: string;
         name: string;
         type: string;
         icon: string;
@@ -186,9 +195,11 @@ function transformMaintenanceRequest(request: MaintenanceRequest): UIMaintenance
             name: property?.name || 'Property',
             unit: '',
             address: formattedAddress,
-            image: '',
+            image: property?.primaryImage || '',
         },
         vendor: request.assignedAgent ? {
+            id: request.assignedAgent.id,
+            phone: request.assignedAgent.phone || '',
             name: `${request.assignedAgent.firstName} ${request.assignedAgent.lastName}`,
             type: 'Assigned Agent',
             icon: categoryInfo.icon,
@@ -292,7 +303,7 @@ export default function TenantMaintenanceDetail() {
     }
 
     return (
-        <PageContainer maxWidth="lg">
+        <PageContainer maxWidth="lg" motif={CONTOUR}>
             <ConfirmationModal
                 isOpen={showCancelModal}
                 onClose={() => setShowCancelModal(false)}
@@ -310,7 +321,7 @@ export default function TenantMaintenanceDetail() {
                         <span className="material-symbols-outlined text-[16px]">chevron_right</span>
                         <span className="hover:text-brand-ink transition-colors cursor-pointer">Maintenance</span>
                         <span className="material-symbols-outlined text-[16px]">chevron_right</span>
-                        <span className="text-slate-900 dark:text-white">{requestData.title} (#{requestData.id})</span>
+                        <span className="text-slate-900 dark:text-white">{requestData.title}</span>
                     </div>
                     <div className="flex flex-wrap items-center gap-3">
                         <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
@@ -362,7 +373,7 @@ export default function TenantMaintenanceDetail() {
                             </div>
                             <div>
                                 <span className="block text-slate-500 dark:text-slate-400 font-medium text-xs uppercase tracking-wide mb-1">Request ID</span>
-                                <span className="font-mono text-slate-500 dark:text-slate-400">#{requestData.id}</span>
+                                <span className="font-mono text-slate-500 dark:text-slate-400">{requestData.id.slice(-8).toUpperCase()}</span>
                             </div>
                         </div>
                         <div className="mb-6">
@@ -481,11 +492,13 @@ export default function TenantMaintenanceDetail() {
                     {/* Property Card */}
                     <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden">
                         <div className="h-32 bg-slate-200 dark:bg-slate-700 relative">
-                            <img
-                                alt="Property"
-                                className="w-full h-full object-cover"
-                                src={requestData.property.image}
-                            />
+                            {requestData.property.image && (
+                                <img
+                                    alt={requestData.property.name}
+                                    className="w-full h-full object-cover"
+                                    src={requestData.property.image}
+                                />
+                            )}
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                             <div className="absolute bottom-3 left-4 text-white">
                                 <h3 className="font-bold text-lg leading-tight">{requestData.property.name}</h3>
@@ -516,19 +529,25 @@ export default function TenantMaintenanceDetail() {
                                         <span className="material-symbols-outlined">{requestData.vendor.icon}</span>
                                     </div>
                                     <div>
-                                        <h4 className="text-sm font-bold text-slate-900 dark:text-white">{requestData.vendor.name}</h4>
+                                        <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                                            <Link to={`/agent/${requestData.vendor.id}`} className="hover:text-brand-ink hover:underline underline-offset-2">
+                                                {requestData.vendor.name}
+                                            </Link>
+                                        </h4>
                                         <p className="text-xs text-slate-500 dark:text-slate-400">{requestData.vendor.type}</p>
                                     </div>
                                 </div>
                                 <div className="flex gap-2">
-                                    <button className="flex-1 py-2 bg-brand/10 hover:bg-brand/20 text-brand-ink rounded-lg text-xs font-bold transition-colors flex items-center justify-center gap-1.5">
-                                        <span className="material-symbols-outlined text-[16px]">call</span>
-                                        Call
-                                    </button>
-                                    <button className="flex-1 py-2 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-white rounded-lg text-xs font-bold transition-colors flex items-center justify-center gap-1.5">
-                                        <span className="material-symbols-outlined text-[16px]">mail</span>
-                                        Email
-                                    </button>
+                                    {requestData.vendor.phone && (
+                                        <a href={`tel:${requestData.vendor.phone}`} className="flex-1 py-2 bg-brand/10 hover:bg-brand/20 text-brand-ink rounded-lg text-xs font-bold transition-colors flex items-center justify-center gap-1.5">
+                                            <span className="material-symbols-outlined text-[16px]">call</span>
+                                            Call
+                                        </a>
+                                    )}
+                                    <Link to={`/agent/${requestData.vendor.id}`} className="flex-1 py-2 border border-border-strong hover:bg-accent text-slate-700 dark:text-white rounded-lg text-xs font-bold transition-colors flex items-center justify-center gap-1.5">
+                                        <span className="material-symbols-outlined text-[16px]">person</span>
+                                        View profile
+                                    </Link>
                                 </div>
                             </>
                         ) : (
@@ -553,7 +572,7 @@ export default function TenantMaintenanceDetail() {
                     <div className="bg-white dark:bg-canvas-dark p-5 rounded-2xl border border-slate-100 dark:border-slate-800">
                         <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-4">Actions</h3>
                         <div className="space-y-2">
-                            <button className="w-full py-2.5 px-4 rounded-lg bg-green-50 dark:bg-green-900/10 hover:bg-green-100 dark:hover:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800/30 text-sm font-bold transition-colors flex items-center justify-center gap-2">
+                            <button className="w-full py-2.5 px-4 rounded-lg bg-verified-bg hover:brightness-95 text-verified border border-transparent text-sm font-bold transition-colors flex items-center justify-center gap-2">
                                 <span className="material-symbols-outlined text-[18px]">check_circle</span>
                                 Mark as Resolved
                             </button>

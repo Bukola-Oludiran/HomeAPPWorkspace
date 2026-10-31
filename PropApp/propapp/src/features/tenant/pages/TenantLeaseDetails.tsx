@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import MakePaymentModal from '../../../components/MakePaymentModal';
 import DocumentViewerModal from '../../../components/DocumentViewerModal';
 import { tenantService } from '../../../lib/api/services/tenantService';
+import { useAuth } from '../../../contexts/AuthContext';
 import { DEFAULT_CURRENCY, formatCurrency, yearlyRent } from '@/lib/format';
 
 // Helper to format date
@@ -39,7 +40,8 @@ interface LeaseData {
     daysUntilExpiry: number;
     paymentStatus: string;
     clauses: Array<{ id: number; title: string; icon: string; description: string }>;
-    paymentSchedule: Array<{ id: number; date: string; description: string; amount: number; status: string }>;
+    paymentSchedule: Array<{ id: string; date: string; description: string; amount: number; status: string }>;
+    nextPaymentDate: string;
     landlord: {
         name: string;
         initials: string;
@@ -72,6 +74,7 @@ const defaultLeaseData: LeaseData = {
     term: 'N/A',
     daysUntilExpiry: 0,
     paymentStatus: 'Unknown',
+    nextPaymentDate: 'N/A',
     clauses: [
         { id: 1, title: 'Pet policy addendum', icon: 'pets', description: 'Policy details not available.' },
         { id: 2, title: 'Maintenance responsibilities', icon: 'build', description: 'Details not available.' },
@@ -94,7 +97,17 @@ const defaultLeaseData: LeaseData = {
     },
 };
 
+// Rent is paid monthly on the lease start's day of the month: the next such date from today
+function nextDueDate(leaseStart: string): string {
+    const day = new Date(leaseStart).getDate();
+    const now = new Date();
+    const due = new Date(now.getFullYear(), now.getMonth(), day);
+    if (due <= now) due.setMonth(due.getMonth() + 1);
+    return formatDate(due.toISOString());
+}
+
 export default function TenantLeaseDetails() {
+    const { user } = useAuth();
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
     const [isDocumentModalOpen, setIsDocumentModalOpen] = useState(false);
 
@@ -107,8 +120,12 @@ export default function TenantLeaseDetails() {
         async function fetchLeaseInfo() {
             try {
                 setIsLoading(true);
-                const response = await tenantService.getRentalInfo();
+                const [response, paymentsResponse] = await Promise.all([
+                    tenantService.getRentalInfo(),
+                    tenantService.getPayments().catch(() => null),
+                ]);
                 const data = response.data;
+                const payments = paymentsResponse?.data ?? [];
 
                 if (data) {
                     const startDate = new Date(data.lease.startDate);
@@ -130,19 +147,26 @@ export default function TenantLeaseDetails() {
                         endDate: formatDate(data.lease.endDate),
                         term: months <= 12 ? '1 year' : `${Math.round(months / 12)} years`,
                         daysUntilExpiry,
-                        paymentStatus: 'Paid',
+                        paymentStatus: payments.some((p) => p.status !== 'paid') ? 'Due soon' : 'Paid',
+                        nextPaymentDate: nextDueDate(data.lease.startDate),
                         clauses: defaultLeaseData.clauses,
-                        paymentSchedule: defaultLeaseData.paymentSchedule.map(p => ({
-                            ...p,
-                            amount: data.lease.monthlyRent,
-                        })),
+                        paymentSchedule: payments
+                            .slice()
+                            .sort((a, b) => b.dueDate.localeCompare(a.dueDate))
+                            .map((p) => ({
+                                id: p.id,
+                                date: formatDate(p.dueDate),
+                                description: 'Rent',
+                                amount: p.amount,
+                                status: p.status === 'paid' ? 'Paid' : 'Upcoming',
+                            })),
                         landlord: {
                             name: data.landlord.name,
                             initials: data.landlord.name.split(' ').map(n => n[0]).join(''),
-                            role: 'Property Manager',
-                            company: 'Property Management',
-                            phone: data.landlord.phone || 'N/A',
-                            email: 'contact@property.com',
+                            role: 'Property owner',
+                            company: 'Property owner',
+                            phone: data.landlord.phone || '',
+                            email: '',
                         },
                         tenant: defaultLeaseData.tenant,
                     });
@@ -156,6 +180,14 @@ export default function TenantLeaseDetails() {
 
         fetchLeaseInfo();
     }, []);
+
+    // The signed-in tenant's own details
+    const tenant = {
+        name: [user?.firstName, user?.lastName].filter(Boolean).join(' ') || 'Tenant',
+        email: user?.email || 'Not provided',
+        phone: user?.phone || 'Not provided',
+        role: 'Primary tenant',
+    };
 
     // Show loading state
     if (isLoading) {
@@ -184,7 +216,7 @@ export default function TenantLeaseDetails() {
                         <span className="px-2.5 py-1 bg-green-500/90 text-white text-xs font-bold uppercase tracking-wider rounded-md backdrop-blur-sm">
                             Active lease
                         </span>
-                        <span className="text-white/80 text-sm font-medium">#{leaseData.leaseId}</span>
+                        <span className="text-white/80 text-sm font-medium">Ref {leaseData.leaseId.slice(-8).toUpperCase()}</span>
                     </div>
                     <h1 className="text-2xl md:text-3xl font-extrabold text-white leading-tight">My lease agreement</h1>
                     <p className="text-white/90 font-medium">{leaseData.property.address}, {leaseData.property.city}</p>
@@ -323,12 +355,13 @@ export default function TenantLeaseDetails() {
                                                     <td className="px-6 py-4">{formatCurrency(payment.amount, DEFAULT_CURRENCY, 2)}</td>
                                                     <td className="px-6 py-4 text-right">
                                                         {payment.status === 'Paid' ? (
-                                                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
+                                                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-verified-bg text-verified">
                                                                 <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
                                                                 Paid
                                                             </span>
                                                         ) : (
-                                                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400">
+                                                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-pending-bg text-pending">
+                                                                <span className="material-symbols-outlined text-[14px]">schedule</span>
                                                                 Upcoming
                                                             </span>
                                                         )}
@@ -364,19 +397,23 @@ export default function TenantLeaseDetails() {
                                     <span className="material-symbols-outlined text-[18px]">business</span>
                                     <span>{leaseData.landlord.company}</span>
                                 </p>
-                                <p className="text-slate-600 dark:text-slate-400 flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-[18px]">phone</span>
-                                    <span>{leaseData.landlord.phone}</span>
-                                </p>
-                                <p className="text-slate-600 dark:text-slate-400 flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-[18px]">mail</span>
-                                    <span>{leaseData.landlord.email}</span>
-                                </p>
+                                {leaseData.landlord.phone && (
+                                    <p className="text-slate-600 dark:text-slate-400 flex items-center gap-2">
+                                        <span className="material-symbols-outlined text-[18px]">phone</span>
+                                        <a href={`tel:${leaseData.landlord.phone}`} className="hover:text-brand-ink">{leaseData.landlord.phone}</a>
+                                    </p>
+                                )}
+                                {leaseData.landlord.email && (
+                                    <p className="text-slate-600 dark:text-slate-400 flex items-center gap-2">
+                                        <span className="material-symbols-outlined text-[18px]">mail</span>
+                                        <span>{leaseData.landlord.email}</span>
+                                    </p>
+                                )}
                             </div>
                             <div className="mt-6 pt-6 border-t border-slate-100 dark:border-slate-700 flex gap-2">
                                 <Link
                                     to="/tenant/messages"
-                                    className="w-full py-2.5 rounded-lg bg-brand-ink text-on-brand font-semibold text-sm hover:bg-[#0e64bd] transition-colors flex items-center justify-center gap-2"
+                                    className="w-full py-2.5 rounded-lg bg-brand-ink text-on-brand font-semibold text-sm hover:bg-brand-ink/90 transition-colors flex items-center justify-center gap-2"
                                 >
                                     <span className="material-symbols-outlined text-[18px]">chat</span>
                                     Message
@@ -395,18 +432,18 @@ export default function TenantLeaseDetails() {
                                     <span className="material-symbols-outlined text-[28px]">face</span>
                                 </div>
                                 <div>
-                                    <p className="font-bold text-slate-900 dark:text-white text-base">{leaseData.tenant.name}</p>
-                                    <p className="text-xs text-slate-500 dark:text-slate-400">{leaseData.tenant.role}</p>
+                                    <p className="font-bold text-slate-900 dark:text-white text-base">{tenant.name}</p>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400">{tenant.role}</p>
                                 </div>
                             </div>
                             <div className="space-y-2 text-sm border-t border-slate-100 dark:border-slate-700 pt-4">
                                 <div className="flex items-center justify-between">
                                     <span className="text-slate-500 dark:text-slate-400">Email</span>
-                                    <span className="text-slate-900 dark:text-white font-medium">{leaseData.tenant.email}</span>
+                                    <span className="text-slate-900 dark:text-white font-medium">{tenant.email}</span>
                                 </div>
                                 <div className="flex items-center justify-between">
                                     <span className="text-slate-500 dark:text-slate-400">Phone</span>
-                                    <span className="text-slate-900 dark:text-white font-medium">{leaseData.tenant.phone}</span>
+                                    <span className="text-slate-900 dark:text-white font-medium">{tenant.phone}</span>
                                 </div>
                             </div>
                             <button className="mt-4 w-full py-2 rounded-lg border border-slate-300 dark:border-slate-600 font-semibold text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
@@ -469,7 +506,7 @@ export default function TenantLeaseDetails() {
                         <div className="h-8 w-px bg-slate-200 dark:bg-slate-700 mx-2"></div>
                         <div>
                             <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-0.5">Next payment</p>
-                            <span className="font-bold text-slate-900 dark:text-white">Dec 1, 2024</span>
+                            <span className="font-bold text-slate-900 dark:text-white">{leaseData.nextPaymentDate}</span>
                         </div>
                     </div>
                     <div className="flex-1 md:flex-none flex gap-3 w-full md:w-auto overflow-x-auto">
@@ -483,7 +520,7 @@ export default function TenantLeaseDetails() {
                         </button>
                         <button
                             onClick={() => setIsPaymentModalOpen(true)}
-                            className="flex-1 md:flex-none px-8 py-3.5 rounded-xl bg-green-600 text-white font-bold hover:bg-green-700 transition-colors shadow-lg shadow-green-600/25 whitespace-nowrap flex items-center justify-center gap-2"
+                            className="flex-1 md:flex-none px-8 py-3.5 rounded-xl bg-brand-ink text-on-brand font-bold hover:bg-brand-ink/90 transition-colors whitespace-nowrap flex items-center justify-center gap-2"
                         >
                             <span className="material-symbols-outlined text-[20px]">payments</span>
                             Pay rent now
