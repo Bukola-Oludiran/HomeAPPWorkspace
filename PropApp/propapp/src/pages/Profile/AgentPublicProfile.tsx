@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import ShareModal from '../../components/ShareModal';
 import Logo from '../../components/common/Logo';
+import ContourMotif, { PROFILE_CONTOUR_FRAGMENTS } from '../../components/common/ContourMotif';
 import ContactAgentModal from '../../components/ContactAgentModal';
 import ReviewModal from '../../components/ReviewModal';
 import { userService } from '../../lib/api/services/userService';
@@ -136,23 +137,17 @@ export default function AgentPublicProfile() {
     };
 
     return (
-        <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex flex-col text-slate-900 dark:text-white overflow-x-hidden pb-32">
-            {/* Header */}
-            <header className="sticky top-0 z-40 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-canvas-dark/90 backdrop-blur-md px-4 md:px-10 py-3">
-                <div className="flex items-center gap-4">
-                    <Link to="/" className="flex items-center h-8">
-                        <Logo />
-                    </Link>
-                </div>
-                <div className="flex flex-1 justify-end gap-8">
-                    <div className="hidden md:flex items-center gap-9">
-                        <Link to="/search" className="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-brand-ink transition-colors">Find agents</Link>
-                        <Link to="/search" className="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-brand-ink transition-colors">Properties</Link>
-                    </div>
-                </div>
-            </header>
+        <div className="relative bg-canvas dark:bg-canvas-dark min-h-screen flex flex-col text-slate-900 dark:text-white overflow-x-hidden pb-32">
+            {/* Logo - top left; the site navigation floats at the top centre */}
+            <div className="absolute top-6 left-6 md:left-10 z-40 hidden md:flex items-center h-10">
+                <Link to="/" className="flex items-center">
+                    <Logo />
+                </Link>
+            </div>
+            {/* Keystead contour map in the plain areas around the cards */}
+            <ContourMotif fragments={PROFILE_CONTOUR_FRAGMENTS} contained />
 
-            <main className="flex-1 flex flex-col py-8 px-4 md:px-10 lg:px-20">
+            <main className="relative flex-1 flex flex-col pt-28 pb-8 px-4 md:px-10 lg:px-20">
                 <div className="max-w-[1200px] w-full mx-auto">
                     {/* Page Header */}
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
@@ -186,7 +181,13 @@ export default function AgentPublicProfile() {
                                 <div className="absolute top-0 left-0 w-full h-24 bg-brand/10 dark:bg-brand/20"></div>
                                 <div className="relative z-10 mb-4">
                                     <div className="relative w-32 h-32 mx-auto rounded-full p-1 bg-white dark:bg-canvas-dark">
-                                        <img alt="Profile" className="w-full h-full object-cover rounded-full" src={agent.image} />
+                                        {agent.image ? (
+                                            <img alt={agent.name} className="w-full h-full object-cover rounded-full" src={agent.image} />
+                                        ) : (
+                                            <span className="flex h-full w-full items-center justify-center bg-brand/10 text-3xl font-extrabold text-brand-ink dark:bg-sky/15 dark:text-sky rounded-full">
+                                                {agent.name.split(' ').map((part) => part[0]).join('').slice(0, 2).toUpperCase()}
+                                            </span>
+                                        )}
                                     </div>
                                 </div>
                                 <h3 className="text-xl font-bold text-slate-900 dark:text-white">{agent.name}</h3>
@@ -248,7 +249,7 @@ export default function AgentPublicProfile() {
                                     </div>
                                 </div>
                                 <div className="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800">
-                                    <button className="w-full py-2.5 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold text-sm hover:opacity-90 transition-all flex items-center justify-center gap-2">
+                                    <button className="w-full py-2.5 rounded-lg bg-brand-ink text-on-brand font-bold text-sm hover:bg-brand-ink/90 transition-all flex items-center justify-center gap-2">
                                         <span className="material-symbols-outlined text-[18px]">call</span>
                                         Call now
                                     </button>

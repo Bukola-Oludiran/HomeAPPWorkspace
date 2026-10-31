@@ -73,6 +73,9 @@ const PROFILE_PATHS: Record<string, string> = {
 // Paths where navbar should be hidden (landlord-specific)
 const HIDE_PATHS = ['/tasks', '/edit'];
 
+// Agent dashboard sections; any other /agent/:segment is a public agent profile
+const AGENT_DASHBOARD_SECTIONS = ['jobs', 'my-jobs', 'schedule', 'earnings', 'transactions', 'profile'];
+
 /**
  * UnifiedNavbar - Self-contained navbar with animated container width
  */
@@ -94,18 +97,23 @@ export default function UnifiedNavbar() {
 
     // Determine current dashboard type from pathname
     const dashboardType: DashboardType = useMemo(() => {
-        if (location.pathname.startsWith('/landlord')) return 'landlord';
-        if (location.pathname.startsWith('/tenant')) return 'tenant';
-        if (location.pathname.startsWith('/agent')) return 'agent';
-        // Home pages: /, /search, /property/:id, /ai-chat, /settings, public profiles
-        if (location.pathname === '/' ||
-            location.pathname.startsWith('/search') ||
-            location.pathname.startsWith('/property') ||
-            location.pathname === '/ai-chat' ||
-            location.pathname === '/settings' ||
-            location.pathname.startsWith('/member') ||
-            location.pathname.startsWith('/landlord-profile') ||
-            location.pathname.startsWith('/agent/') && location.pathname.split('/').length === 3) {
+        const path = location.pathname;
+        // Public profiles come first: /landlord-profile/:id and /agent/:id would otherwise match the dashboards
+        const agentSection = path.match(/^\/agent\/([^/]+)$/)?.[1];
+        const isPublicProfile =
+            path.startsWith('/landlord-profile') ||
+            path.startsWith('/member') ||
+            (agentSection !== undefined && !AGENT_DASHBOARD_SECTIONS.includes(agentSection));
+        if (isPublicProfile) return 'home';
+        if (path.startsWith('/landlord')) return 'landlord';
+        if (path.startsWith('/tenant')) return 'tenant';
+        if (path.startsWith('/agent')) return 'agent';
+        // Home pages: /, /search, /property/:id, /ai-chat, /settings
+        if (path === '/' ||
+            path.startsWith('/search') ||
+            path.startsWith('/property') ||
+            path === '/ai-chat' ||
+            path === '/settings') {
             return 'home';
         }
         return null;

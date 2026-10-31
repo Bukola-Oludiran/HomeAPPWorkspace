@@ -11,6 +11,15 @@ import { propertyService } from '@/lib/api/services/propertyService';
 import type { Property } from '@/types/property';
 import type { ApiError } from '@/types/api';
 import { formatCurrency, listingPrice } from '@/lib/format';
+import ContourMotif, { type ContourFragment } from '@/components/common/ContourMotif';
+
+// A band emerging from under the photos at the top-left corner; a diagonal band through the
+// right column under the host card; and a wide band running under the location map
+const PROPERTY_CONTOUR_FRAGMENTS: ContourFragment[] = [
+    'hidden lg:block top-[calc(70vh+30px)] left-[40px] -translate-x-1/2 -translate-y-1/2 w-[900px]',
+    'hidden lg:block top-[61%] left-[calc(50%+240px)] -translate-x-1/2 -rotate-30 w-[960px]',
+    'bottom-[180px] left-1/2 -translate-x-1/2 translate-y-1/2 w-[100vw] max-w-[1200px]',
+];
 
 // Helper to format price
 const formatPrice = (price: number): string => formatCurrency(price);
@@ -161,7 +170,9 @@ export default function PropertyDetail() {
     const sqft = property.squareFeet ? property.squareFeet.toLocaleString() : 'N/A';
 
     return (
-        <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex flex-col text-slate-900 dark:text-white overflow-x-hidden pb-[140px]">
+        <div className="relative bg-canvas dark:bg-canvas-dark min-h-screen flex flex-col text-slate-900 dark:text-white overflow-x-hidden pb-[140px]">
+            {/* Keystead contour map: down the left margin, through the right column, and along the bottom */}
+            <ContourMotif fragments={PROPERTY_CONTOUR_FRAGMENTS} contained />
             {/* Floating Header (No navbar per design) */}
             <header className="fixed top-0 left-0 w-full z-40 bg-transparent pointer-events-none">
                 <div className="px-4 md:px-8 py-4 flex items-center justify-between">
@@ -222,7 +233,7 @@ export default function PropertyDetail() {
             </div>
 
             {/* Main Content */}
-            <main className="w-full max-w-[1200px] mx-auto px-4 md:px-8 py-8">
+            <main className="relative w-full max-w-[1200px] mx-auto px-4 md:px-8 py-8">
                 <div className="flex flex-col lg:flex-row gap-12">
                     {/* Left Column - Property Details */}
                     <div className="flex-1 min-w-0">
@@ -358,7 +369,7 @@ export default function PropertyDetail() {
                         </div>
 
                         {/* AI Property Analysis */}
-                        <div className="mb-10 p-6 rounded-2xl bg-blue-50/50 dark:bg-slate-800 border border-blue-100 dark:border-slate-700">
+                        <div className="mb-10 p-6 rounded-xl bg-card border border-border">
                             <div className="flex items-center gap-3 mb-4">
                                 <div className="size-8 rounded-full bg-brand-ink flex items-center justify-center text-on-brand">
                                     <span className="material-symbols-outlined text-[18px]">forum</span>
@@ -402,18 +413,39 @@ export default function PropertyDetail() {
                             <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6">
                                 <div className="flex items-center gap-4 mb-6">
                                     <div className="relative">
-                                        <img
-                                            alt="Owner Profile"
-                                            className="size-16 rounded-full object-cover border-2 border-slate-100 dark:border-slate-600"
-                                            src={property.owner?.avatarUrl || 'https://placehold.co/64x64?text=Agent'}
-                                        />
-                                        <span className="absolute bottom-0 right-0 size-4 bg-green-500 border-2 border-white dark:border-slate-800 rounded-full"></span>
+                                        {property.owner?.avatarUrl ? (
+                                            <img
+                                                alt="Owner profile"
+                                                className="size-16 rounded-full object-cover border-2 border-slate-100 dark:border-slate-600"
+                                                src={property.owner.avatarUrl}
+                                            />
+                                        ) : (
+                                            <span className="flex size-16 items-center justify-center rounded-full bg-brand/10 text-xl font-extrabold text-brand-ink dark:bg-sky/15 dark:text-sky">
+                                                {[property.owner?.firstName?.[0], property.owner?.lastName?.[0]].filter(Boolean).join('').toUpperCase() || '?'}
+                                            </span>
+                                        )}
                                     </div>
                                     <div>
                                         <h4 className="font-bold text-lg text-slate-900 dark:text-white">
-                                            {[property.owner?.firstName, property.owner?.lastName].filter(Boolean).join(' ') || 'Property Owner'}
+                                            {property.owner?.id ? (
+                                                <Link to={`/landlord-profile/${property.owner.id}`} className="hover:text-brand-ink hover:underline underline-offset-2">
+                                                    {[property.owner.firstName, property.owner.lastName].filter(Boolean).join(' ') || 'Property owner'}
+                                                </Link>
+                                            ) : (
+                                                'Property owner'
+                                            )}
                                         </h4>
-                                        <p className="text-slate-500 dark:text-slate-400 text-sm">Property owner</p>
+                                        <p className="text-slate-500 dark:text-slate-400 text-sm">
+                                            Property owner
+                                            {property.owner?.id && (
+                                                <>
+                                                    {' · '}
+                                                    <Link to={`/landlord-profile/${property.owner.id}`} className="font-semibold text-brand-ink hover:underline">
+                                                        View profile
+                                                    </Link>
+                                                </>
+                                            )}
+                                        </p>
                                         {property.owner?.verificationLevel && property.owner.verificationLevel !== 'UNVERIFIED' && (
                                             <div className="flex items-center gap-1 text-xs font-semibold text-brand-ink mt-1">
                                                 <span className="material-symbols-outlined text-[14px] icon-filled">
@@ -467,7 +499,8 @@ export default function PropertyDetail() {
                         </p>
                         <div className="flex items-baseline gap-2">
                             <span className="text-2xl font-bold text-slate-900 dark:text-white">
-                                {property.price}
+                                {priceDisplay}
+                                <span className="text-sm font-normal text-slate-500 dark:text-slate-400">{price.suffix}</span>
                             </span>
                         </div>
                     </div>

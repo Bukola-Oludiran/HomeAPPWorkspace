@@ -370,7 +370,9 @@ route('GET', '/analytics/market-trends', (): MarketTrend[] =>
 route('GET', '/reports', () => []);
 route('GET', '/users/me/billing-statements', () => []);
 route('GET', '/users/:id/reviews', () => []);
-route('GET', '/tenant/applicant-invitations/:token', (req) => ({
-    token: req.params.token, property: SUMMARIES[1], landlordName: 'Tunde Bakare', status: 'PENDING', expiresAt: daysFromNow(7),
+route('GET', '/tenant/applicant-invitations/:token', () => ({
+    email: USERS.TENANT.email, expiresAt: daysFromNow(7), acceptedAt: null,
+    property: { name: SUMMARIES[1].name }, landlord: { firstName: 'Tunde', lastName: 'Bakare' },
 }));
+route('POST', '/tenant/applicant-invitations/:token', () => ({ acceptedAt: daysFromNow(0) }));
 route('POST', '/exports', () => new RawBody(new Blob(['id,description,amount\n1,Rent payment,550000\n'], { type: 'text/csv' })));

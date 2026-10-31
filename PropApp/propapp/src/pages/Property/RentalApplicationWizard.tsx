@@ -5,6 +5,14 @@ import { propertyService } from '../../lib/api/services/propertyService';
 import { userService } from '../../lib/api/services/userService';
 import { tenantService } from '../../lib/api/services/tenantService';
 import { formatCurrency, formatListingPrice } from '@/lib/format';
+import ContourMotif, { type ContourFragment } from '@/components/common/ContourMotif';
+
+// The right column is short, leaving a tall empty area below its summary cards: one large fragment
+// centred there (reaching under the form beside it), balanced by a fragment off the bottom-left corner
+const APPLICATION_CONTOUR_FRAGMENTS: ContourFragment[] = [
+    'hidden lg:block top-[62%] left-[calc(50%+400px)] -translate-x-1/2 -translate-y-1/2 w-[860px]',
+    '-bottom-24 -left-48 w-[55vw] max-w-[520px]',
+];
 
 interface ApplicationFormData {
     leaseDuration: string;
@@ -313,14 +321,13 @@ export default function RentalApplicationWizard() {
                         </section>
 
                         {/* Upcoming Requirements Notice */}
-                        <div className="bg-blue-50/50 dark:bg-slate-800 rounded-2xl p-6 border border-blue-100 dark:border-slate-700 flex flex-col md:flex-row gap-6 relative overflow-hidden">
-                            <div className="absolute -right-6 -bottom-6 size-24 bg-blue-100 dark:bg-blue-900/20 rounded-full blur-2xl"></div>
-                            <div className="shrink-0 relative z-10">
-                                <div className="size-14 rounded-2xl bg-white dark:bg-slate-700 shadow-md border border-slate-100 dark:border-slate-600 flex items-center justify-center text-brand-ink">
+                        <div className="bg-card rounded-xl p-6 border border-border flex flex-col md:flex-row gap-6">
+                            <div className="shrink-0">
+                                <div className="size-14 rounded-xl bg-brand/10 dark:bg-sky/15 flex items-center justify-center text-brand-ink">
                                     <span className="material-symbols-outlined text-3xl">folder_shared</span>
                                 </div>
                             </div>
-                            <div className="relative z-10 flex-1">
+                            <div className="flex-1">
                                 <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Upcoming requirements</h3>
                                 <p className="text-sm text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
                                     To ensure a smooth verification process, please have the following documents ready for the next steps. <span className="font-semibold text-slate-900 dark:text-white">You do not need to upload them right now.</span>
@@ -527,7 +534,9 @@ export default function RentalApplicationWizard() {
     }
 
     return (
-        <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex flex-col text-slate-900 dark:text-white overflow-x-hidden pb-[100px]">
+        <div className="relative bg-canvas dark:bg-canvas-dark min-h-screen flex flex-col text-slate-900 dark:text-white overflow-x-hidden pb-[100px]">
+            {/* Keystead contour map: centred in the empty right column, and off the bottom-left */}
+            <ContourMotif fragments={APPLICATION_CONTOUR_FRAGMENTS} contained />
             {/* Header */}
             <header className="sticky top-0 z-40 bg-white/90 dark:bg-canvas-dark/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
                 <div className="max-w-[1200px] mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
@@ -548,7 +557,7 @@ export default function RentalApplicationWizard() {
             </header>
 
             {/* Main Content */}
-            <main className="w-full max-w-[1200px] mx-auto px-4 md:px-8 py-8">
+            <main className="relative w-full max-w-[1200px] mx-auto px-4 md:px-8 py-8">
                 {/* Progress Header */}
                 <div className="mb-10 max-w-4xl">
                     <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white mb-2 leading-tight">

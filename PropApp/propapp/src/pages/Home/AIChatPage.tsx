@@ -18,6 +18,13 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import ConfirmationModal from '../../components/ConfirmationModal';
 import Logo from '../../components/common/Logo';
+import ContourMotif, { type ContourFragment } from '../../components/common/ContourMotif';
+
+// Opposite corners of the empty chat panel, clear of the welcome text in the middle
+const CHAT_CONTOUR_FRAGMENTS: ContourFragment[] = [
+    '-top-24 -left-40 w-[60vw] max-w-[560px]',
+    '-bottom-24 -right-40 w-[60vw] max-w-[560px] rotate-180',
+];
 import { useAuth } from '../../contexts/AuthContext';
 import { tokenManager } from '../../lib/api/client';
 import { FragmentRenderer } from '../../features/chat/components/FragmentRenderer';
@@ -36,8 +43,8 @@ const ROLE_PLACEHOLDER: Record<string, string> = {
 };
 const ROLE_EMPTY_TITLE: Record<string, string> = {
     TENANT: 'Looking for your next place?',
-    LANDLORD: 'Manage your portfolio',
-    AGENT: 'Find jobs near you',
+    LANDLORD: 'What do you need for your properties today?',
+    AGENT: 'Looking for jobs near you?',
     ADMIN: 'Keystead Assistant',
 };
 const ROLE_SUGGESTIONS: Record<string, string[]> = {
@@ -561,13 +568,16 @@ interface EmptyStateProps {
 
 function EmptyState({ title, firstName, placeholder, suggestions, onSuggestion, seed }: EmptyStateProps) {
     return (
-        <div className="flex flex-col items-center justify-center h-full px-6 pt-12">
+        <div className="relative flex flex-col items-center justify-center h-full px-6 pt-12">
+            {/* Keystead contour map in the corners of the empty panel */}
+            <ContourMotif fragments={CHAT_CONTOUR_FRAGMENTS} contained />
+            <div className="relative flex flex-col items-center">
             <div className="size-14 rounded-2xl bg-brand-ink grid place-items-center text-on-brand mb-4">
                 <span className="material-symbols-outlined text-2xl icon-filled">forum</span>
             </div>
             <h2 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white">
-                {title}
-                {firstName ? `, ${firstName}` : ''}
+                {/* Questions read naturally with the name first: "Adaeze, looking for your next place?" */}
+                {firstName && title.endsWith('?') ? `${firstName}, ${title[0].toLowerCase()}${title.slice(1)}` : title}
             </h2>
             {seed ? (
                 <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
@@ -593,6 +603,7 @@ function EmptyState({ title, firstName, placeholder, suggestions, onSuggestion, 
                     ))}
                 </div>
             ) : null}
+            </div>
         </div>
     );
 }

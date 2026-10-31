@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { userService } from '../../lib/api/services/userService';
 import Logo from '../../components/common/Logo';
+import ContourMotif, { PROFILE_CONTOUR_FRAGMENTS } from '../../components/common/ContourMotif';
 
 interface LandlordData {
     id: string;
@@ -102,22 +103,17 @@ export default function LandlordPublicProfile() {
     }
 
     return (
-        <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex flex-col text-slate-900 dark:text-white overflow-x-hidden pb-32">
-            {/* Header */}
-            <header className="sticky top-0 z-40 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-canvas-dark/90 backdrop-blur-md px-4 md:px-10 py-3">
-                <div className="flex items-center gap-4">
-                    <Link to="/" className="flex items-center h-8 hover:opacity-80 transition-opacity">
-                        <Logo />
-                    </Link>
-                </div>
-                <div className="flex flex-1 justify-end gap-8">
-                    <div className="hidden md:flex items-center gap-9">
-                        <Link to="/search" className="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-brand-ink transition-colors">Find a home</Link>
-                    </div>
-                </div>
-            </header>
+        <div className="relative bg-canvas dark:bg-canvas-dark min-h-screen flex flex-col text-slate-900 dark:text-white overflow-x-hidden pb-32">
+            {/* Logo - top left; the site navigation floats at the top centre */}
+            <div className="absolute top-6 left-6 md:left-10 z-40 hidden md:flex items-center h-10">
+                <Link to="/" className="flex items-center">
+                    <Logo />
+                </Link>
+            </div>
+            {/* Keystead contour map in the plain areas around the cards */}
+            <ContourMotif fragments={PROFILE_CONTOUR_FRAGMENTS} contained />
 
-            <main className="flex-1 flex flex-col py-8 px-4 md:px-10 lg:px-20">
+            <main className="relative flex-1 flex flex-col pt-28 pb-8 px-4 md:px-10 lg:px-20">
                 <div className="max-w-[1200px] w-full mx-auto">
                     {/* Breadcrumb */}
                     <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-1">
@@ -134,7 +130,13 @@ export default function LandlordPublicProfile() {
                             <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800 flex flex-col items-center text-center">
                                 <div className="relative mb-4">
                                     <div className="size-32 rounded-full overflow-hidden border-4 border-slate-50 dark:border-slate-800 shadow-inner">
-                                        <img alt="Profile Picture" className="w-full h-full object-cover" src={landlord.image} />
+                                        {landlord.image ? (
+                                            <img alt={landlord.name} className="w-full h-full object-cover" src={landlord.image} />
+                                        ) : (
+                                            <span className="flex h-full w-full items-center justify-center bg-brand/10 text-3xl font-extrabold text-brand-ink dark:bg-sky/15 dark:text-sky">
+                                                {landlord.name.split(' ').map((part) => part[0]).join('').slice(0, 2).toUpperCase()}
+                                            </span>
+                                        )}
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-2 justify-center">

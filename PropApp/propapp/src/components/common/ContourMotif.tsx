@@ -15,6 +15,16 @@ export const DEFAULT_CONTOUR_FRAGMENTS: ContourFragment[] = [
     'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-[860px]',
 ];
 
+/**
+ * Public profile pages. The left column is short, leaving a large empty area beneath it, so the main
+ * fragment is big and centred on that area, reaching under the right-column cards; corners off the right.
+ */
+export const PROFILE_CONTOUR_FRAGMENTS: ContourFragment[] = [
+    '-top-28 -right-48 w-[70vw] max-w-[620px]',
+    'top-[64%] left-[28%] -translate-x-1/2 -translate-y-1/2 w-[70vw] max-w-[940px] rotate-180',
+    '-bottom-36 -right-24 w-[70vw] max-w-[680px]',
+];
+
 /** Points of interest on the map, for zoomed fragments */
 export const CONTOUR_PEAKS = {
     /** The 412 peak: tight concentric rings, part-circled in blue */
@@ -28,6 +38,8 @@ export const CONTOUR_PEAKS = {
 interface ContourMotifProps {
     /** Size and position of each fragment */
     fragments?: ContourFragment[];
+    /** Clip the fragments to the nearest positioned parent, for containers that are not overflow-hidden */
+    contained?: boolean;
 }
 
 function MapImages({ style }: { style?: React.CSSProperties }) {
@@ -42,10 +54,11 @@ function MapImages({ style }: { style?: React.CSSProperties }) {
 
 /**
  * ContourMotif - Faint fragments of the Keystead contour map behind a section, fading out at their edges.
- * Place it inside a `relative overflow-hidden` container and give the content above it `relative`.
- * Keep text on cards or surfaces so no contour line runs under it.
+ * Place it inside a `relative overflow-hidden` container (or pass `contained` inside any `relative` one)
+ * and give the content above it `relative`. Keep text on cards or surfaces so no contour line runs under it.
  */
-const ContourMotif: React.FC<ContourMotifProps> = ({ fragments = DEFAULT_CONTOUR_FRAGMENTS }) => (
+const ContourMotif: React.FC<ContourMotifProps> = ({ fragments = DEFAULT_CONTOUR_FRAGMENTS, contained = false }) => {
+    const motif = (
     <>
         {fragments.map((fragment) => {
             const mask = '[mask-image:radial-gradient(closest-side,black_45%,transparent)]';
@@ -74,6 +87,12 @@ const ContourMotif: React.FC<ContourMotifProps> = ({ fragments = DEFAULT_CONTOUR
             );
         })}
     </>
-);
+    );
+    return contained ? (
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+            {motif}
+        </div>
+    ) : motif;
+};
 
 export default ContourMotif;
