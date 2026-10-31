@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import FavoriteButton from '@/components/FavoriteButton';
 import VoiceInputButton from '@/components/VoiceInputButton';
 import Logo from '@/components/common/Logo';
+import ContourMotif from '@/components/common/ContourMotif';
 import { propertyService } from '@/lib/api/services/propertyService';
 import type { PropertySummary, ListingType } from '@/types/property';
 import { formatCurrency as formatPrice, listingPrice } from '@/lib/format';
@@ -74,12 +75,6 @@ function getVerificationBadge(isVerified: boolean, tier?: string): { label: stri
 // Default placeholder image
 const PLACEHOLDER_IMAGE = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=600&fit=crop';
 
-// Where the contour-map motif sits in the featured section: size and position of each fragment
-const CONTOUR_FRAGMENTS = [
-    '-top-36 -right-56 w-[80vw] max-w-[680px]',
-    '-bottom-24 -left-48 w-[60vw] max-w-[520px] rotate-180',
-    'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-[860px]',
-];
 
 type CategoryType = 'Rent' | 'Buy' | 'Short-let' | 'Land';
 
@@ -244,13 +239,8 @@ export default function HomePage() {
 
                 {/* Featured Properties Section */}
                 <section className="relative overflow-hidden flex-1 w-full bg-white dark:bg-canvas-dark py-16 px-4 md:px-10 lg:px-20 border-t border-slate-100 dark:border-slate-800">
-                    {/* Keystead contour map as motif fragments at the corners, fading out at their edges */}
-                    {CONTOUR_FRAGMENTS.map((fragment) => (
-                        <div key={fragment} className={`pointer-events-none absolute ${fragment} [mask-image:radial-gradient(closest-side,black_45%,transparent)]`} aria-hidden="true">
-                            <img src="/images/contour-map-light.svg" alt="" className="w-full opacity-60 dark:hidden" />
-                            <img src="/images/contour-map-dark.svg" alt="" className="hidden w-full opacity-45 dark:block" />
-                        </div>
-                    ))}
+                    {/* Keystead contour map as faint motif fragments */}
+                    <ContourMotif />
                     <div className="relative max-w-[1400px] mx-auto">
                         <div className="flex items-center justify-between mb-8">
                             <div>

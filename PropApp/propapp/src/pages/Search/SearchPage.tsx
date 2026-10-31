@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import FavoriteButton from '@/components/FavoriteButton';
 import Logo from '@/components/common/Logo';
+import ContourMotif from '@/components/common/ContourMotif';
 import { propertyService } from '@/lib/api/services/propertyService';
 import type { PropertySummary, PropertySearchFilters, ListingType, PropertyType } from '@/types/property';
 import type { ApiError } from '@/types/api';
@@ -109,6 +110,12 @@ export default function SearchPage() {
     const [searchParams] = useSearchParams();
     const listingTypeParam = searchParams.get('listingType') as ListingType | null;
     const propertyTypeParam = searchParams.get('propertyType') as PropertyType | null;
+    const resultsKind =
+        propertyTypeParam === 'LAND' ? 'Land'
+            : listingTypeParam === 'RENT' ? 'Homes to rent'
+                : listingTypeParam === 'SALE' ? 'Homes for sale'
+                    : listingTypeParam === 'SHORT_LET' ? 'Short-lets'
+                        : 'All homes';
     const [searchQuery, setSearchQuery] = useState(searchParams.get('q') ?? '');
     const [viewMode, setViewMode] = useState<'grid' | 'map'>('grid');
     const [verifiedOnly, setVerifiedOnly] = useState(true);
@@ -784,14 +791,16 @@ export default function SearchPage() {
 
             {/* Conditional Content Based on View Mode */}
             {viewMode === 'grid' ? (
-                <main className="flex-1 w-full bg-canvas dark:bg-canvas-dark py-8 px-4 md:px-8">
-                    <div className="max-w-[1600px] mx-auto">
+                <main className="relative overflow-hidden flex-1 w-full bg-canvas dark:bg-canvas-dark py-8 px-4 md:px-8">
+                    {/* Keystead contour map as faint motif fragments */}
+                    <ContourMotif />
+                    <div className="relative max-w-[1600px] mx-auto">
                         {/* Results Header */}
                         <div className="flex items-baseline justify-between mb-6">
                             <h1 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">
-                                Stays in {searchQuery}
+                                {searchQuery.trim() ? `${resultsKind} in ${searchQuery.trim()}` : resultsKind}
                                 <span className="ml-2 text-base font-normal text-slate-500 dark:text-slate-400">
-                                    {totalCount} properties
+                                    {totalCount} {totalCount === 1 ? 'property' : 'properties'}
                                 </span>
                             </h1>
                             <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
@@ -845,9 +854,9 @@ export default function SearchPage() {
                         {properties.length > 0 && (
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
                                 {properties.map((property) => (
-                                    <Link to={`/property/${property.id}`} key={property.id}>
-                                        <article className="group flex flex-col gap-4 cursor-pointer">
-                                            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-slate-200">
+                                    <Link to={`/property/${property.id}`} key={property.id} className="block h-full">
+                                        <article className="group flex h-full flex-col cursor-pointer overflow-hidden rounded-xl border border-border bg-card">
+                                            <div className="relative w-full aspect-[4/3] overflow-hidden bg-slate-200">
                                                 <img
                                                     alt={property.name}
                                                     className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
@@ -879,7 +888,7 @@ export default function SearchPage() {
                                                     </div>
                                                 )}
                                             </div>
-                                            <div>
+                                            <div className="p-4">
                                                 <div className="flex justify-between items-baseline mb-1">
                                                     <p className="text-xl font-bold text-slate-900 dark:text-white">
                                                         {formatPriceFull(listingPrice(property.price, property.priceUnit).amount)}
