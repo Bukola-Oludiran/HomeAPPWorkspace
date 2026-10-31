@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import FavoriteButton from '@/components/FavoriteButton';
 import Logo from '@/components/common/Logo';
-import ContourMotif from '@/components/common/ContourMotif';
+import ContourMotif, { type ContourFragment } from '@/components/common/ContourMotif';
 import { propertyService } from '@/lib/api/services/propertyService';
 import type { PropertySummary, PropertySearchFilters, ListingType, PropertyType } from '@/types/property';
 import type { ApiError } from '@/types/api';
@@ -103,6 +103,13 @@ const amenitiesList = [
     { id: 'pets', label: 'Pet friendly', icon: 'pets' },
     { id: 'balcony', label: 'Balcony', icon: 'balcony' },
     { id: 'security', label: '24/7 Security', icon: 'security' },
+];
+
+// The home page's contour layout mirrored left to right: corners at top left and bottom right
+const SEARCH_CONTOUR_FRAGMENTS: ContourFragment[] = [
+    '-top-52 -left-72 w-[80vw] max-w-[680px]',
+    '-bottom-24 -right-48 w-[60vw] max-w-[520px] rotate-180',
+    'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-[860px]',
 ];
 
 export default function SearchPage() {
@@ -792,8 +799,8 @@ export default function SearchPage() {
             {/* Conditional Content Based on View Mode */}
             {viewMode === 'grid' ? (
                 <main className="relative overflow-hidden flex-1 w-full bg-canvas dark:bg-canvas-dark py-8 px-4 md:px-8">
-                    {/* Keystead contour map as faint motif fragments */}
-                    <ContourMotif />
+                    {/* Keystead contour map: the home page layout, mirrored */}
+                    <ContourMotif fragments={SEARCH_CONTOUR_FRAGMENTS} />
                     <div className="relative max-w-[1600px] mx-auto">
                         {/* Results Header */}
                         <div className="flex items-baseline justify-between mb-6">
