@@ -385,7 +385,7 @@ export default function LandlordVerificationHub() {
                                         className={`p-5 transition-colors ${step.status === 'locked'
                                             ? 'bg-slate-50 dark:bg-[#0d141c] opacity-70 cursor-not-allowed'
                                             : step.status === 'pending'
-                                                ? 'bg-white dark:bg-canvas-dark border-l-4 border-amber-500'
+                                                ? 'bg-pending-bg/50'
                                                 : 'bg-white dark:bg-canvas-dark hover:bg-slate-50 dark:hover:bg-slate-800/20'
                                             }`}
                                     >

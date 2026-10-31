@@ -20,7 +20,6 @@ interface UIAlert {
     statusBg: string;
     icon: string;
     iconBg: string;
-    barColor: string;
     property: string;
     propertyIcon: string;
     secondaryInfo?: string;
@@ -55,7 +54,6 @@ function formatRelativeTime(dateString: string): string {
 function getAlertTypeStyles(type: AlertType): {
     icon: string;
     iconBg: string;
-    barColor: string;
     uiType: string;
 } {
     switch (type) {
@@ -63,49 +61,42 @@ function getAlertTypeStyles(type: AlertType): {
             return {
                 icon: 'plumbing',
                 iconBg: 'bg-red-100 dark:bg-red-900/30 text-red-600',
-                barColor: 'bg-red-500',
                 uiType: 'maintenance',
             };
         case 'PAYMENT_OVERDUE':
             return {
                 icon: 'payments',
                 iconBg: 'bg-red-100 dark:bg-red-900/30 text-red-600',
-                barColor: 'bg-red-500',
                 uiType: 'financial',
             };
         case 'LEASE_EXPIRING':
             return {
                 icon: 'history_edu',
                 iconBg: 'bg-orange-100 dark:bg-orange-900/30 text-orange-600',
-                barColor: 'bg-orange-400',
                 uiType: 'leasing',
             };
         case 'VERIFICATION_PENDING':
             return {
                 icon: 'verified_user',
                 iconBg: 'bg-blue-100 dark:bg-blue-900/30 text-brand-ink',
-                barColor: 'bg-blue-500',
                 uiType: 'verification',
             };
         case 'APPLICATION_NEW':
             return {
                 icon: 'person_add',
                 iconBg: 'bg-green-100 dark:bg-green-900/30 text-green-600',
-                barColor: 'bg-green-500',
                 uiType: 'application',
             };
         case 'MESSAGE_NEW':
             return {
                 icon: 'chat',
                 iconBg: 'bg-blue-100 dark:bg-blue-900/30 text-blue-600',
-                barColor: 'bg-blue-500',
                 uiType: 'message',
             };
         default:
             return {
                 icon: 'info',
                 iconBg: 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400',
-                barColor: 'bg-slate-300',
                 uiType: 'other',
             };
     }
@@ -182,7 +173,6 @@ function transformAlert(alert: Alert): UIAlert {
             : 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border-blue-100 dark:border-blue-800',
         icon: typeStyles.icon,
         iconBg: typeStyles.iconBg,
-        barColor: typeStyles.barColor,
         property: alert.relatedId || 'Property',
         propertyIcon: 'apartment',
         time: formatRelativeTime(alert.createdAt),
@@ -402,7 +392,6 @@ export default function LandlordAlertCenter() {
                         className={`group bg-white dark:bg-canvas-dark p-5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-brand/50 dark:hover:border-brand/50 hover:shadow-md transition-all relative overflow-hidden ${alert.isResolved ? 'opacity-75 hover:opacity-100' : ''
                             } ${alert.isAIInsight ? 'bg-blue-50/50 dark:bg-slate-800 border-blue-100 dark:border-slate-700' : ''}`}
                     >
-                        <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${alert.barColor}`}></div>
                         <div className="flex flex-col md:flex-row gap-5 items-start">
                             <div className="flex items-start gap-4 shrink-0">
                                 <input

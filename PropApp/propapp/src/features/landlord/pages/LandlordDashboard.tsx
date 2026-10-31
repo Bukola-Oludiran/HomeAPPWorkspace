@@ -175,9 +175,8 @@ export default function LandlordDashboardPage() {
 
                 {/* Action Required */}
                 <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800 flex flex-col justify-between relative overflow-hidden">
-                    <div className="absolute right-0 top-0 h-full w-1 bg-red-500"></div>
                     <div className="flex justify-between items-start mb-4">
-                        <div className="p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-xl">
+                        <div className="p-3 bg-alert-bg text-alert rounded-xl">
                             <span className="material-symbols-outlined">warning</span>
                         </div>
                     </div>

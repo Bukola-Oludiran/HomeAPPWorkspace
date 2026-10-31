@@ -115,8 +115,8 @@ export default function HomePage() {
 
     return (
         <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex flex-col text-slate-900 dark:text-white overflow-x-hidden relative">
-            {/* Logo - above the hero painting, so it sits on a surface badge */}
-            <div className="absolute top-6 left-6 md:left-10 z-40 hidden md:flex items-center rounded-lg bg-white/95 dark:bg-surface-dark/95 px-3.5 py-2.5">
+            {/* Logo - over the hero painting; hidden on phones, where the navigation spans the full width */}
+            <div className="absolute top-6 left-6 md:left-10 z-40 hidden md:flex items-center h-10">
                 <Logo wordmark="md" />
             </div>
 
