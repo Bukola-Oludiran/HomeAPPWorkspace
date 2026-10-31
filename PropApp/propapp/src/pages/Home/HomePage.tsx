@@ -156,7 +156,7 @@ export default function HomePage() {
             {/* Main Content */}
             <main className="flex-1 flex flex-col">
                 {/* Hero Section with full-bleed Keystead imagery */}
-                <section className="relative w-full min-h-[68vh] px-4 md:px-10 lg:px-20 pb-16 flex justify-center items-center overflow-hidden">
+                <section className="relative w-full min-h-[80vh] px-4 md:px-10 lg:px-20 flex justify-center items-center overflow-hidden">
                     <img
                         src="/images/colosseum-wireframe-grid.jpg"
                         alt=""
