@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import FavoriteButton from '@/components/FavoriteButton';
 import Logo from '@/components/common/Logo';
 import { propertyService } from '@/lib/api/services/propertyService';
@@ -105,7 +105,11 @@ const amenitiesList = [
 ];
 
 export default function SearchPage() {
-    const [searchQuery, setSearchQuery] = useState('');
+    // The home page hero hands over ?q=, ?listingType= and ?propertyType=
+    const [searchParams] = useSearchParams();
+    const listingTypeParam = searchParams.get('listingType') as ListingType | null;
+    const propertyTypeParam = searchParams.get('propertyType') as PropertyType | null;
+    const [searchQuery, setSearchQuery] = useState(searchParams.get('q') ?? '');
     const [viewMode, setViewMode] = useState<'grid' | 'map'>('grid');
     const [verifiedOnly, setVerifiedOnly] = useState(true);
 
@@ -146,6 +150,7 @@ export default function SearchPage() {
                 limit: 12,
                 query: searchQuery || undefined,
                 isVerified: verifiedOnly || undefined,
+                listingType: listingTypeParam ?? undefined,
             };
 
             // Add price filters
@@ -157,6 +162,10 @@ export default function SearchPage() {
                 filters.propertyType = selectedTypes
                     .map(t => propertyTypeMap[t])
                     .filter(Boolean) as PropertyType[];
+            }
+
+            if (propertyTypeParam && selectedTypes.length === 0) {
+                filters.propertyType = [propertyTypeParam];
             }
 
             // Add bedroom filter
@@ -185,7 +194,7 @@ export default function SearchPage() {
         } finally {
             setIsLoading(false);
         }
-    }, [searchQuery, verifiedOnly, priceRange, selectedTypes, beds, baths]);
+    }, [searchQuery, verifiedOnly, priceRange, selectedTypes, beds, baths, listingTypeParam, propertyTypeParam]);
 
     // Fetch on mount and when filters change
     useEffect(() => {

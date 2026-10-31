@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect, type FormEvent } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import FavoriteButton from '@/components/FavoriteButton';
 import VoiceInputButton from '@/components/VoiceInputButton';
 import Logo from '@/components/common/Logo';
@@ -81,10 +81,25 @@ const CONTOUR_FRAGMENTS = [
     'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-[860px]',
 ];
 
-type CategoryType = 'Buy' | 'Rent' | 'Short-let' | 'Land';
+type CategoryType = 'Rent' | 'Buy' | 'Short-let' | 'Land';
+
+// What each hero search mode asks the search page for
+const SEARCH_FILTERS: Record<CategoryType, Record<string, string>> = {
+    Rent: { listingType: 'RENT' },
+    Buy: { listingType: 'SALE' },
+    'Short-let': { listingType: 'SHORT_LET' },
+    Land: { propertyType: 'LAND' },
+};
+
+const SEARCH_PLACEHOLDERS: Record<CategoryType, string> = {
+    Rent: 'Area, street or estate, e.g. Lekki Phase 1',
+    Buy: 'Area, street or estate, e.g. Ikeja GRA',
+    'Short-let': 'Where are you staying? e.g. Victoria Island',
+    Land: 'Area or LGA, e.g. Ibeju-Lekki',
+};
 
 export default function HomePage() {
-    const [activeCategory, setActiveCategory] = useState<CategoryType>('Buy');
+    const [activeCategory, setActiveCategory] = useState<CategoryType>('Rent');
     const [aiSearchEnabled, setAiSearchEnabled] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [featuredProperties, setFeaturedProperties] = useState<PropertySummary[]>([]);
@@ -111,7 +126,21 @@ export default function HomePage() {
         fetchFeaturedProperties();
     }, []);
 
-    const categories: CategoryType[] = ['Buy', 'Rent', 'Short-let', 'Land'];
+    const categories: CategoryType[] = ['Rent', 'Buy', 'Short-let', 'Land'];
+    const navigate = useNavigate();
+
+    // Listing modes open the search page with filters; "Describe it in your words" asks the assistant
+    function handleSearch(event: FormEvent) {
+        event.preventDefault();
+        const text = searchQuery.trim();
+        if (aiSearchEnabled) {
+            if (text) navigate(`/ai-chat?msg=${encodeURIComponent(text)}`);
+            return;
+        }
+        const params = new URLSearchParams(SEARCH_FILTERS[activeCategory]);
+        if (text) params.set('q', text);
+        navigate(`/search?${params.toString()}`);
+    }
 
     return (
         <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex flex-col text-slate-900 dark:text-white overflow-x-hidden relative">
@@ -127,7 +156,7 @@ export default function HomePage() {
             {/* Main Content */}
             <main className="flex-1 flex flex-col">
                 {/* Hero Section with full-bleed Keystead imagery */}
-                <section className="relative w-full min-h-[80vh] px-4 md:px-10 lg:px-20 flex justify-center items-center overflow-hidden">
+                <section className="relative w-full min-h-[68vh] px-4 md:px-10 lg:px-20 pb-16 flex justify-center items-center overflow-hidden">
                     <img
                         src="/images/colosseum-wireframe-grid.jpg"
                         alt=""
@@ -147,68 +176,69 @@ export default function HomePage() {
                             </p>
                         </div>
 
-                        {/* Search Bar */}
-                        <div className="w-full max-w-3xl bg-white dark:bg-surface-dark p-2 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] dark:shadow-black/30 border border-slate-100 dark:border-slate-800">
-                            <div className="flex flex-col md:flex-row gap-2">
-                                <div className="flex-1 flex items-center bg-slate-50 dark:bg-slate-800/50 rounded-xl px-4 h-14 md:h-16">
-                                    <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 mr-3">search</span>
+                        {/* Search: one panel. Choose what you're looking for, then where */}
+                        <form
+                            role="search"
+                            onSubmit={handleSearch}
+                            className="w-full max-w-3xl rounded-2xl border border-night bg-night text-left dark:border-border dark:bg-neutral-bg"
+                        >
+                            <div className="flex flex-wrap items-center justify-between gap-x-4 border-b border-white/10 px-2 md:px-3 dark:border-border">
+                                <div className="flex" role="group" aria-label="What are you looking for?">
+                                    {categories.map((category) => {
+                                        const active = activeCategory === category && !aiSearchEnabled;
+                                        return (
+                                            <button
+                                                key={category}
+                                                type="button"
+                                                aria-pressed={active}
+                                                onClick={() => {
+                                                    setActiveCategory(category);
+                                                    setAiSearchEnabled(false);
+                                                }}
+                                                className={`relative h-12 px-3 text-[15px] font-semibold transition-colors ${active ? 'text-white dark:text-sky' : 'text-slate-300 hover:text-white dark:text-slate-400 dark:hover:text-foreground'}`}
+                                            >
+                                                {category}
+                                                {active && <span className="absolute inset-x-3 -bottom-px h-0.5 rounded-full bg-sky" aria-hidden="true" />}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                                <button
+                                    type="button"
+                                    aria-pressed={aiSearchEnabled}
+                                    onClick={() => setAiSearchEnabled((on) => !on)}
+                                    className={`my-1.5 flex h-9 items-center gap-1.5 rounded-full px-3 text-sm font-semibold transition-colors ${aiSearchEnabled ? 'bg-sky/15 text-sky' : 'text-slate-300 hover:bg-white/10 hover:text-white dark:text-slate-400 dark:hover:bg-white/5 dark:hover:text-foreground'}`}
+                                >
+                                    <span className="material-symbols-outlined text-[18px]" aria-hidden="true">forum</span>
+                                    Describe it in your words
+                                </button>
+                            </div>
+                            <div className="flex flex-col gap-2 p-2 md:flex-row">
+                                <div className="flex h-14 flex-1 items-center gap-3 rounded-xl bg-white px-3 dark:bg-surface-dark">
+                                    <span className="material-symbols-outlined text-slate-500 dark:text-slate-400" aria-hidden="true">
+                                        {aiSearchEnabled ? 'forum' : 'search'}
+                                    </span>
+                                    <label htmlFor="hero-search" className="sr-only">
+                                        {aiSearchEnabled ? 'Describe the home you want' : 'Area, street or estate'}
+                                    </label>
                                     <input
-                                        className="flex-1 bg-transparent border-none outline-none focus:ring-0 text-slate-900 dark:text-white placeholder:text-slate-400 text-base md:text-lg w-full p-0"
-                                        placeholder="Search by location, price, or property type..."
+                                        id="hero-search"
+                                        className="w-full flex-1 border-none bg-transparent p-0 text-base text-foreground outline-none placeholder:text-slate-500 focus:ring-0 dark:placeholder:text-slate-400 md:text-lg"
+                                        placeholder={aiSearchEnabled ? 'e.g. A quiet 2-bedroom near Lekki under ₦7M a year' : SEARCH_PLACEHOLDERS[activeCategory]}
                                         type="text"
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
                                     />
-                                    <VoiceInputButton
-                                        onResult={(text) => setSearchQuery(text)}
-                                        size="sm"
-                                    />
+                                    <VoiceInputButton onResult={(text) => setSearchQuery(text)} size="sm" />
                                 </div>
-                                <button className="h-14 md:h-16 px-8 rounded-xl bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-lg transition-all flex items-center justify-center gap-2 w-full md:w-auto">
-                                    <span>Search</span>
+                                <button
+                                    type="submit"
+                                    className="h-14 rounded-xl bg-brand-ink px-8 text-[15px] font-bold text-on-brand transition hover:brightness-110 active:brightness-95"
+                                >
+                                    {aiSearchEnabled ? 'Ask Keystead' : 'Search'}
                                 </button>
                             </div>
-                        </div>
-
-                        {/* Category Pills and AI Toggle */}
-                        <div className="w-full max-w-3xl mt-6 flex flex-col md:flex-row items-center justify-between gap-6">
-                            <div className="flex items-center gap-3 overflow-x-auto no-scrollbar w-full md:w-auto pb-2 md:pb-0">
-                                {categories.map((category) => (
-                                    <button
-                                        key={category}
-                                        onClick={() => setActiveCategory(category)}
-                                        className={`whitespace-nowrap px-6 py-2.5 rounded-full font-semibold text-sm transition-all shadow-sm ${activeCategory === category
-                                            ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-md'
-                                            : 'bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-brand hover:text-brand-ink'
-                                            }`}
-                                    >
-                                        {category}
-                                    </button>
-                                ))}
-                            </div>
-                            <div className="flex items-center gap-3 bg-white dark:bg-surface-dark px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700">
-                                <span className="material-symbols-outlined text-brand-ink icon-filled">
-                                    forum
-                                </span>
-                                <div className="flex flex-col">
-                                    <span className="text-xs font-bold text-slate-900 dark:text-white leading-none">
-                                        AI Search
-                                    </span>
-                                    <span className="text-xs text-slate-500 dark:text-slate-400 leading-none mt-0.5">
-                                        Natural language
-                                    </span>
-                                </div>
-                                <label className="relative inline-flex items-center cursor-pointer ml-2">
-                                    <input
-                                        type="checkbox"
-                                        checked={aiSearchEnabled}
-                                        onChange={(e) => setAiSearchEnabled(e.target.checked)}
-                                        className="sr-only peer"
-                                    />
-                                    <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none peer-focus:ring-0 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand"></div>
-                                </label>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </section>
 
