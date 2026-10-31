@@ -150,7 +150,7 @@ export default function LandlordEditLeaseTerms() {
                                         onChange={(e) => setMonthlyRent(e.target.value)}
                                     />
                                 </div>
-                                <p className="text-xs text-slate-500 dark:text-slate-400">Current market avg: â¦7,425,000 - â¦7,800,000</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400">Current market avg: ₦7,425,000 - ₦7,800,000</p>
                             </div>
                             <div className="space-y-1.5">
                                 <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Security deposit</label>
@@ -264,7 +264,7 @@ export default function LandlordEditLeaseTerms() {
                                             </button>
                                         </div>
                                     </div>
-                                    <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-1">Permits 1 dog under 40lbs. Non-refundable fee of â¦375,000 applied.</p>
+                                    <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-1">Permits 1 dog under 40lbs. Non-refundable fee of ₦375,000 applied.</p>
                                 </div>
                             </div>
 

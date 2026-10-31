@@ -24,14 +24,14 @@ function getLeaseStatusColor(status: string): string {
 
 // Static data (no API backing for these)
 const payments = [
-    { id: 1, date: 'Dec 1, 2024', description: 'Monthly rent', amount: 'â¦7,200,000.00', status: 'Upcoming', statusColor: 'bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400' },
-    { id: 2, date: 'Nov 1, 2024', description: 'Monthly rent', amount: 'â¦7,200,000.00', status: 'Paid', statusColor: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400', icon: 'check_circle' },
-    { id: 3, date: 'Oct 1, 2024', description: 'Monthly rent', amount: 'â¦7,200,000.00', status: 'Paid', statusColor: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400', icon: 'check_circle' },
+    { id: 1, date: 'Dec 1, 2024', description: 'Monthly rent', amount: '₦7,200,000.00', status: 'Upcoming', statusColor: 'bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400' },
+    { id: 2, date: 'Nov 1, 2024', description: 'Monthly rent', amount: '₦7,200,000.00', status: 'Paid', statusColor: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400', icon: 'check_circle' },
+    { id: 3, date: 'Oct 1, 2024', description: 'Monthly rent', amount: '₦7,200,000.00', status: 'Paid', statusColor: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400', icon: 'check_circle' },
 ];
 
 const clauses = [
-    { id: 1, icon: 'pets', title: 'Pet policy addendum', description: 'Permits 1 dog under 40lbs. Non-refundable fee of â¦375,000 applied.' },
-    { id: 2, icon: 'build', title: 'Maintenance responsibilities', description: 'Tenant responsible for lawn care and minor repairs under â¦75,000.' },
+    { id: 1, icon: 'pets', title: 'Pet policy addendum', description: 'Permits 1 dog under 40lbs. Non-refundable fee of ₦375,000 applied.' },
+    { id: 2, icon: 'build', title: 'Maintenance responsibilities', description: 'Tenant responsible for lawn care and minor repairs under ₦75,000.' },
     { id: 3, icon: 'smoking_rooms', title: 'No smoking clause', description: 'Strict no-smoking policy within the premises and 20ft perimeter.' },
 ];
 

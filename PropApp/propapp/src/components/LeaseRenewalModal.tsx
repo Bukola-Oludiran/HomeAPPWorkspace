@@ -141,7 +141,7 @@ export default function LeaseRenewalModal({
                                         <div>
                                             <h4 className="text-sm font-bold text-slate-900 dark:text-white">Pet policy update</h4>
                                             <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mt-1">
-                                                Pet rent has been adjusted to standard 2024 rates (â¦75,000/pet/month). No changes to deposit.
+                                                Pet rent has been adjusted to standard 2024 rates (₦75,000/pet/month). No changes to deposit.
                                             </p>
                                         </div>
                                     </div>

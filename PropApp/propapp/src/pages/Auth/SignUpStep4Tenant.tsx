@@ -122,7 +122,7 @@ export default function SignUpStep4Tenant() {
                         <div className="space-y-4">
                             <div className="flex justify-between items-center">
                                 <label className="text-sm font-semibold text-slate-200">Monthly budget</label>
-                                <span className="text-sky font-bold text-sm">â¦1,800,000 - â¦5,250,000</span>
+                                <span className="text-sky font-bold text-sm">₦1,800,000 - ₦5,250,000</span>
                             </div>
                             <div className="px-2">
                                 <input
@@ -134,8 +134,8 @@ export default function SignUpStep4Tenant() {
                                     defaultValue="3500"
                                 />
                                 <div className="flex justify-between text-xs text-slate-300 mt-2">
-                                    <span>â¦750,000</span>
-                                    <span>â¦15M+</span>
+                                    <span>₦750,000</span>
+                                    <span>₦15M+</span>
                                 </div>
                             </div>
                         </div>

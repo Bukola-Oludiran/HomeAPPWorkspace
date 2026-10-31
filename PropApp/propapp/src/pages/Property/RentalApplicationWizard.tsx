@@ -511,7 +511,7 @@ export default function RentalApplicationWizard() {
                                 <div className="flex-1">
                                     <h3 className="font-bold text-slate-900 dark:text-white mb-1">Application fee</h3>
                                     <p className="text-sm text-slate-600 dark:text-slate-300 mb-2">Non-refundable processing fee</p>
-                                    <p className="text-2xl font-extrabold text-green-600">â¦52,500.00</p>
+                                    <p className="text-2xl font-extrabold text-green-600">₦52,500.00</p>
                                 </div>
                             </div>
                         </section>
