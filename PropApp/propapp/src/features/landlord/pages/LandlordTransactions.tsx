@@ -8,10 +8,21 @@ import DateRangeFilter from '../../../components/common/DateRangeFilter';
 import { landlordService } from '../../../lib/api/services/landlordService';
 import type { LandlordTransaction } from '../../../types/dashboard';
 import { formatCurrency as formatMoney } from '@/lib/format';
+import { transactionTypeLabel } from '@/lib/format';
+import type { ContourFragment } from '../../../components/common/ContourMotif';
+
+// Full page: corners only
+const CONTOUR: ContourFragment[] = [
+    '-top-24 -right-48 w-[50vw] max-w-[520px]',
+    '-bottom-28 -left-48 w-[50vw] max-w-[520px] rotate-180',
+];
 
 // UI transaction type
 interface UITransaction {
     id: string;
+    rawType: string;
+    rawStatus: string;
+    rawAmount: number;
     description: string;
     tenant: string;
     property: string;
@@ -99,7 +110,10 @@ function transformTransaction(tx: LandlordTransaction): UITransaction {
 
     return {
         id: tx.id,
-        description: tx.type,
+        rawType: tx.type,
+        rawStatus: (tx.status ?? '').toUpperCase(),
+        rawAmount: tx.amount,
+        description: transactionTypeLabel(tx.type),
         tenant: tx.tenantName || 'System',
         property: tx.propertyName || 'All Properties',
         date,
@@ -141,7 +155,7 @@ export default function LandlordTransactions() {
                 const response = await landlordService.getTransactions({ page, limit });
                 const txData = response.data || [];
                 setTransactions(txData.map(transformTransaction));
-                setTotalCount(response.meta?.total || 0);
+                setTotalCount(response.meta?.total ?? txData.length);
             } catch (err) {
                 console.error('Failed to fetch transactions:', err);
                 setError('Failed to load transactions. Please try again.');
@@ -154,18 +168,18 @@ export default function LandlordTransactions() {
     }, [page]);
 
     // Calculate summary stats from transactions
-    const totalIncome = transactions.filter(t => t.amount.startsWith('+')).reduce((sum, t) => {
-        const amount = parseFloat(t.amount.replace(/[^0-9.]/g, ''));
-        return sum + amount;
-    }, 0);
+    // Received = completed money in; payouts move the landlord's own money to their bank, so they are not fees
+    const totalIncome = transactions
+        .filter(t => t.rawAmount > 0 && t.rawStatus === 'COMPLETED')
+        .reduce((sum, t) => sum + t.rawAmount, 0);
 
     const pendingAmount = transactions
-        .filter(t => t.status === 'Pending' && t.amount.startsWith('+'))
-        .reduce((sum, t) => sum + parseFloat(t.amount.replace(/[^0-9.]/g, '')), 0);
+        .filter(t => t.rawAmount > 0 && t.rawStatus === 'PENDING')
+        .reduce((sum, t) => sum + t.rawAmount, 0);
 
     const deductions = transactions
-        .filter(t => t.amount.startsWith('-'))
-        .reduce((sum, t) => sum + parseFloat(t.amount.replace(/[^0-9.]/g, '')), 0);
+        .filter(t => t.rawAmount < 0 && t.rawType !== 'PAYOUT')
+        .reduce((sum, t) => sum + Math.abs(t.rawAmount), 0);
 
     const netRevenue = totalIncome - deductions;
 
@@ -180,7 +194,7 @@ export default function LandlordTransactions() {
     });
 
     return (
-        <PageContainer>
+        <PageContainer motif={CONTOUR}>
             {/* Back Link */}
             <PageHeader
                 title="Transaction history"
@@ -200,16 +214,16 @@ export default function LandlordTransactions() {
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                 <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
-                    <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Total Income (Month)</p>
-                    <p className="text-2xl font-extrabold text-green-600">{isLoading ? '...' : formatCurrency(totalIncome)}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Received</p>
+                    <p className="text-2xl font-extrabold text-slate-900 dark:text-white">{isLoading ? '...' : formatCurrency(totalIncome)}</p>
                 </div>
                 <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
                     <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Pending payments</p>
-                    <p className="text-2xl font-extrabold text-orange-600">{isLoading ? '...' : formatCurrency(pendingAmount)}</p>
+                    <p className="text-2xl font-extrabold text-slate-900 dark:text-white">{isLoading ? '...' : formatCurrency(pendingAmount)}</p>
                 </div>
                 <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
-                    <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Fees & deductions</p>
-                    <p className="text-2xl font-extrabold text-red-500">{isLoading ? '...' : formatCurrency(deductions)}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Fees &amp; deductions</p>
+                    <p className="text-2xl font-extrabold text-slate-900 dark:text-white">{isLoading ? '...' : formatCurrency(deductions)}</p>
                 </div>
                 <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
                     <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Net revenue</p>
@@ -307,7 +321,7 @@ export default function LandlordTransactions() {
                                             </div>
                                             <div>
                                                 <p className="text-sm font-bold text-slate-900 dark:text-white">{tx.description}</p>
-                                                <p className="text-xs text-slate-500 dark:text-slate-400">Ref: #{tx.id}</p>
+                                                <p className="text-xs text-slate-500 dark:text-slate-400">Ref {tx.id.slice(-8).toUpperCase()}</p>
                                             </div>
                                         </div>
                                     </td>
@@ -324,7 +338,7 @@ export default function LandlordTransactions() {
                                         <StatusBadge status={tx.status} variant={statusToVariant[tx.status] || 'neutral'} />
                                     </td>
                                     <td className="px-6 py-4 text-right">
-                                        <p className={`font-bold ${tx.amount.startsWith('+') ? 'text-green-600' : 'text-red-500'}`}>{tx.amount}</p>
+                                        <p className={`font-bold whitespace-nowrap ${tx.amount.startsWith('+') ? 'text-verified' : 'text-slate-900 dark:text-white'}`}>{tx.amount}</p>
                                     </td>
                                     <td className="px-6 py-4 text-center">
                                         <button className="p-2 text-slate-500 dark:text-slate-400 hover:text-brand-ink hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors" title="View receipt">

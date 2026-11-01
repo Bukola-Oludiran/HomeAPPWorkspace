@@ -9,6 +9,13 @@ import { AnimatedGroup, MagneticButton } from '../../../components/animation';
 import { landlordService } from '../../../lib/api/services/landlordService';
 import type { PropertySummary } from '../../../types/property';
 import { formatCurrency, listingPrice } from '@/lib/format';
+import type { ContourFragment } from '../../../components/common/ContourMotif';
+
+// Single-card rows leave the right of the page empty; a large fragment fills it, reaching under the cards
+const CONTOUR: ContourFragment[] = [
+    'top-[22%] left-[52%] -translate-x-1/2 -translate-y-1/2 -rotate-12 w-[95vw] max-w-[1300px]',
+    '-bottom-28 -right-48 w-[55vw] max-w-[560px]',
+];
 
 // Placeholder image for properties without images
 const PLACEHOLDER_IMAGE = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=300&fit=crop';
@@ -219,7 +226,7 @@ function PropertyCardGrid({ property, isIncoming = false }: PropertyCardGridProp
                         </div>
                         <div className="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
                             <div>
-                                <p className="text-lg font-bold text-slate-900 dark:text-white">{regularProp.price}<span className="text-xs font-normal text-slate-500 dark:text-slate-400">{regularProp.priceType}</span></p>
+                                <p className="text-lg font-bold text-slate-900 dark:text-white whitespace-nowrap">{regularProp.price}<span className="text-xs font-normal text-slate-500 dark:text-slate-400">{regularProp.priceType}</span></p>
                             </div>
                             <button onClick={(e) => { e.preventDefault(); e.stopPropagation(); navigate('/landlord/verification'); }} className="flex items-center gap-1.5 text-xs font-bold text-brand-ink hover:text-brand-ink/80 transition-colors bg-blue-50 dark:bg-blue-900/20 px-3 py-1.5 rounded-full">
                                 <span className="material-symbols-outlined text-[16px]">verified_user</span> Verify Status
@@ -310,7 +317,7 @@ function PropertyCardList({ property, isIncoming = false, verifyColor = 'primary
                                 <span className="material-symbols-outlined text-[16px]">{incomingProp.closingDate.includes('Docs') ? 'pending_actions' : 'event'}</span> {incomingProp.closingDate.includes('Docs') ? incomingProp.closingDate : `Closing: ${incomingProp.closingDate}`}
                             </div>
                         ) : (
-                            <p className="text-lg font-bold text-slate-900 dark:text-white">{regularProp.price}<span className="text-xs font-normal text-slate-500 dark:text-slate-400">{regularProp.priceType}</span></p>
+                            <p className="text-lg font-bold text-slate-900 dark:text-white whitespace-nowrap">{regularProp.price}<span className="text-xs font-normal text-slate-500 dark:text-slate-400">{regularProp.priceType}</span></p>
                         )}
                     </div>
                     <div className="flex gap-2">
@@ -427,7 +434,7 @@ export default function LandlordProperties() {
     }
 
     return (
-        <PageContainer>
+        <PageContainer motif={CONTOUR}>
             <PageHeader
                 title="Properties"
                 subtitle="Manage your active portfolio and track incoming acquisitions."

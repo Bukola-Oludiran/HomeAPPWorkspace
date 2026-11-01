@@ -11,6 +11,13 @@ import { AnimatedGroup, MagneticButton } from '../../../components/animation';
 import { landlordService } from '../../../lib/api/services/landlordService';
 import type { LandlordDashboard as DashboardData } from '../../../types/dashboard';
 import { formatCurrency, listingPrice, yearlyRent } from '@/lib/format';
+import type { ContourFragment } from '../../../components/common/ContourMotif';
+
+// The right column ends well before the property list; a large fragment fills the space below it and slides under the list
+const CONTOUR: ContourFragment[] = [
+    'hidden lg:block top-[84%] left-[calc(50%+420px)] -translate-x-1/2 -translate-y-1/2 w-[860px]',
+    '-bottom-28 -left-48 w-[50vw] max-w-[520px] rotate-180',
+];
 
 // Helper to format currency
 // Helper to get status color (handles backend uppercase enums + legacy capitalized values)
@@ -44,16 +51,16 @@ function getPaymentStatusColor(status?: string): string {
 function getAlertStyle(type: string): { icon: string; bgColor: string; textColor: string; btnColor: string } {
     switch (type) {
         case 'MAINTENANCE_EMERGENCY':
-            return { icon: 'build', bgColor: 'bg-red-100 dark:bg-red-900/30', textColor: 'text-red-600', btnColor: 'bg-red-600 hover:bg-red-700' };
+            return { icon: 'build', bgColor: 'bg-red-100 dark:bg-red-900/30', textColor: 'text-red-600', btnColor: 'bg-brand-ink hover:bg-brand-ink/90' };
         case 'VERIFICATION_PENDING':
         case 'APPLICATION_NEW':
-            return { icon: 'verified_user', bgColor: 'bg-blue-100 dark:bg-blue-900/30', textColor: 'text-brand-ink', btnColor: 'bg-brand hover:bg-brand/90' };
+            return { icon: 'verified_user', bgColor: 'bg-blue-100 dark:bg-blue-900/30', textColor: 'text-brand-ink', btnColor: 'bg-brand-ink hover:bg-brand-ink/90' };
         case 'LEASE_EXPIRING':
-            return { icon: 'history_edu', bgColor: 'bg-orange-100 dark:bg-orange-900/30', textColor: 'text-orange-600', btnColor: 'bg-orange-600 hover:bg-orange-700' };
+            return { icon: 'history_edu', bgColor: 'bg-orange-100 dark:bg-orange-900/30', textColor: 'text-orange-600', btnColor: 'bg-brand-ink hover:bg-brand-ink/90' };
         case 'PAYMENT_OVERDUE':
-            return { icon: 'payments', bgColor: 'bg-red-100 dark:bg-red-900/30', textColor: 'text-red-600', btnColor: 'bg-red-600 hover:bg-red-700' };
+            return { icon: 'payments', bgColor: 'bg-red-100 dark:bg-red-900/30', textColor: 'text-red-600', btnColor: 'bg-brand-ink hover:bg-brand-ink/90' };
         default:
-            return { icon: 'info', bgColor: 'bg-slate-100 dark:bg-slate-900/30', textColor: 'text-slate-600', btnColor: 'bg-slate-600 hover:bg-slate-700' };
+            return { icon: 'info', bgColor: 'bg-slate-100 dark:bg-slate-900/30', textColor: 'text-slate-600', btnColor: 'bg-brand-ink hover:bg-brand-ink/90' };
     }
 }
 
@@ -99,13 +106,13 @@ export default function LandlordDashboardPage() {
             (property.location ?? "").toLowerCase().includes(searchQuery.toLowerCase());
     });
     return (
-        <PageContainer>
+        <PageContainer motif={CONTOUR}>
             <PageHeader
                 title="Landlord dashboard"
                 subtitle="Welcome back. Here's what's happening with your portfolio today."
                 actions={
                     <>
-                        <button className="px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold bg-slate-50 text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-2">
+                        <button className="px-4 py-2.5 rounded-lg border border-border-strong text-slate-700 dark:text-slate-200 font-semibold bg-card text-sm hover:bg-accent transition-colors flex items-center gap-2">
                             <span className="material-symbols-outlined text-[20px]">file_download</span> Report
                         </button>
                         <MagneticButton>
@@ -320,7 +327,7 @@ export default function LandlordDashboardPage() {
                                             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{alert.description}</p>
                                             <div className="flex gap-2 mt-2">
                                                 {alert.actionLabel && alert.actionUrl && (
-                                                    <Link to={alert.actionUrl} className={`px-3 py-1 ${style.btnColor} text-white text-xs font-bold rounded-md transition-colors`}>
+                                                    <Link to={alert.actionUrl} className={`px-3 py-1 ${style.btnColor} text-on-brand text-xs font-bold rounded-md transition-colors`}>
                                                         {alert.actionLabel}
                                                     </Link>
                                                 )}
@@ -342,9 +349,9 @@ export default function LandlordDashboardPage() {
                                 <span className="material-symbols-outlined">forum</span>
                                 <span className="text-xs font-bold uppercase tracking-wider opacity-80">AI Insights</span>
                             </div>
-                            <h4 className="font-bold text-lg leading-tight mb-2">Optimize your rental yield</h4>
-                            <p className="text-sm text-blue-100 mb-4">Based on market trends, you could increase rent for 1243 Oakwood by 5%.</p>
-                            <button className="w-full py-2 bg-white text-brand-ink font-bold text-sm rounded-lg hover:bg-blue-50 transition-colors">View analysis</button>
+                            <h4 className="font-bold text-lg leading-tight mb-2">Questions about your portfolio?</h4>
+                            <p className="text-sm text-blue-100 mb-4">Ask Keystead how your rents compare with similar checked homes nearby.</p>
+                            <Link to={`/ai-chat?msg=${encodeURIComponent('How do my rents compare with similar checked homes nearby?')}`} className="block w-full py-2 text-center bg-white text-brand-ink font-bold text-sm rounded-lg hover:bg-blue-50 transition-colors">Ask Keystead</Link>
                         </div>
                     </div>
                 </div>

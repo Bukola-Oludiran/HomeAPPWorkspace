@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react';
 import { verificationService } from '../../../lib/api/services/verificationService';
 import { landlordService } from '../../../lib/api/services/landlordService';
+import ContourMotif, { type ContourFragment } from '../../../components/common/ContourMotif';
+
+const CONTOUR: ContourFragment[] = [
+    'top-[88%] left-[28%] -translate-x-1/2 -translate-y-1/2 w-[75vw] max-w-[820px] rotate-180',
+    '-top-24 -right-48 w-[50vw] max-w-[520px]',
+];
 
 interface VerificationStep {
     id: number;
@@ -220,8 +226,12 @@ export default function LandlordVerificationHub() {
     }
 
     return (
-        <div className="flex-1 flex flex-col py-8 px-4 md:px-10 lg:px-20">
-            <div className="max-w-6xl mx-auto w-full">
+        <div className="relative flex-1 flex flex-col py-8 px-4 md:px-10 lg:px-20 min-h-[calc(100vh-6rem)]">
+            {/* Keystead contour map: the left column ends early, so a fragment fills the space below it */}
+            <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 -top-24 bottom-0 overflow-hidden">
+                <ContourMotif fragments={CONTOUR} />
+            </div>
+            <div className="relative max-w-6xl mx-auto w-full">
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
                     <div>

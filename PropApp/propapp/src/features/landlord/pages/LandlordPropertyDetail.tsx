@@ -3,9 +3,15 @@ import { Link, useParams } from 'react-router-dom';
 import PhotoGalleryModal from '../../../components/PhotoGalleryModal';
 import ScheduleMaintenanceModal from '../../../components/ScheduleMaintenanceModal';
 import { AnimatedGroup } from '../../../components/animation';
-import { propertyService, landlordService } from '../../../lib/api/services';
+import { propertyService, landlordService, maintenanceService } from '../../../lib/api/services';
 import type { Property, PropertyViewAnalytics, PropertyMarketComparison, VerificationTier } from '../../../types/property';
 import { formatCurrency, formatListingPrice, listingPrice } from '@/lib/format';
+import ContourMotif, { type ContourFragment } from '../../../components/common/ContourMotif';
+
+const CONTOUR: ContourFragment[] = [
+    'hidden lg:block top-[74%] left-[calc(50%+420px)] -translate-x-1/2 -translate-y-1/2 -rotate-12 w-[880px]',
+    '-bottom-24 -left-48 w-[50vw] max-w-[520px] rotate-180',
+];
 
 // UI types for property detail
 interface UIPropertyData {
@@ -31,7 +37,7 @@ interface UIPropertyData {
         applicants: number;
         newApplicants: number;
         maintenance: number;
-        yield: string;
+        daysListed: number;
     };
     tenant: {
         name: string;
@@ -41,11 +47,8 @@ interface UIPropertyData {
         monthlyRent: string;
     } | null;
     financials: {
-        grossRevenue: string;
-        expenses: string;
-        noi: string;
-        revenuePercent: number;
-        expensePercent: number;
+        rentPerYear: string;
+        receivedThisYear: string;
     };
     description: string;
     insights: Array<{
@@ -101,19 +104,34 @@ function formatAddress(address: Property['address']): string {
     return parts.filter(Boolean).join(', ');
 }
 
+interface PropertyCounts {
+    applicants: number;
+    newApplicants: number;
+    openMaintenance: number;
+    receivedThisYear: number;
+}
+
+// Views over the last 7 days against the 7 before; N/A without two full weeks of data
+function weekOverWeek(viewsByDay?: Array<{ date: string; views: number }>): string {
+    if (!viewsByDay || viewsByDay.length < 14) return 'N/A';
+    const last = viewsByDay.slice(-7).reduce((sum, d) => sum + d.views, 0);
+    const prev = viewsByDay.slice(-14, -7).reduce((sum, d) => sum + d.views, 0);
+    if (prev === 0) return 'N/A';
+    const change = Math.round(((last - prev) / prev) * 100);
+    return `${change >= 0 ? '+' : ''}${change}%`;
+}
+
 // Transform property to UI format
 function transformToUIProperty(
     property: Property,
     analytics?: PropertyViewAnalytics,
     marketComparison?: PropertyMarketComparison,
-    applicantsCount = 0
+    counts: PropertyCounts = { applicants: 0, newApplicants: 0, openMaintenance: 0, receivedThisYear: 0 }
 ): UIPropertyData {
     const primaryImage = property.media?.find(m => m.isPrimary)?.url || property.media?.[0]?.url || '';
     const galleryImages = property.media?.map(m => m.url) || [];
 
-    // Calculate estimated yield (placeholder calculation)
     const annualRent = listingPrice(property.price, property.priceUnit).amount;
-    const estimatedYield = property.price > 0 ? ((annualRent * 0.85) / (property.price * 100) * 100).toFixed(1) : '0';
 
     return {
         id: property.id,
@@ -131,22 +149,19 @@ function transformToUIProperty(
         beds: property.bedrooms ?? 0,
         baths: property.bathrooms ?? 0,
         sqft: property.squareFeet?.toLocaleString() || 'N/A',
-        yearBuilt: property.yearBuilt || new Date().getFullYear(),
+        yearBuilt: property.yearBuilt || 0,
         metrics: {
             views: analytics?.totalViews ?? 0,
-            viewsChange: analytics?.viewsByDay?.length ? '+12%' : 'N/A',
-            applicants: applicantsCount,
-            newApplicants: Math.min(applicantsCount, 3),
-            maintenance: 0,
-            yield: `${estimatedYield}%`,
+            viewsChange: weekOverWeek(analytics?.viewsByDay),
+            applicants: counts.applicants,
+            newApplicants: counts.newApplicants,
+            maintenance: counts.openMaintenance,
+            daysListed: getDaysOnline(property.createdAt),
         },
         tenant: null, // Would come from lease data if available
         financials: {
-            grossRevenue: formatCurrency(property.price * 10), // Placeholder
-            expenses: formatCurrency(property.price * 2),
-            noi: formatCurrency(property.price * 8),
-            revenuePercent: 85,
-            expensePercent: 18,
+            rentPerYear: property.listingType === 'SALE' ? 'For sale' : formatCurrency(annualRent),
+            receivedThisYear: formatCurrency(counts.receivedThisYear),
         },
         description: property.description || 'No description available.',
         insights: [
@@ -195,9 +210,9 @@ const defaultPropertyData: UIPropertyData = {
     baths: 0,
     sqft: '...',
     yearBuilt: 0,
-    metrics: { views: 0, viewsChange: '...', applicants: 0, newApplicants: 0, maintenance: 0, yield: '...' },
+    metrics: { views: 0, viewsChange: '...', applicants: 0, newApplicants: 0, maintenance: 0, daysListed: 0 },
     tenant: null,
-    financials: { grossRevenue: '...', expenses: '...', noi: '...', revenuePercent: 0, expensePercent: 0 },
+    financials: { rentPerYear: '...', receivedThisYear: '...' },
     description: '',
     insights: [],
     tasks: [],
@@ -224,18 +239,30 @@ export default function LandlordPropertyDetail() {
                 setError(null);
 
                 // Fetch property details, analytics, and applicants in parallel
-                const [propertyResponse, analyticsResponse, applicantsResponse] = await Promise.allSettled([
+                const [propertyResponse, analyticsResponse, applicantsResponse, maintenanceResponse, transactionsResponse] = await Promise.allSettled([
                     propertyService.getPropertyById(id),
                     propertyService.getPropertyViewAnalytics(id),
                     landlordService.getApplicants({ propertyId: id, limit: 100 }),
+                    maintenanceService.getMaintenanceRequests(),
+                    landlordService.getTransactions({ limit: 200 }),
                 ]);
 
                 // Get property data
                 const propertyData = propertyResponse.status === 'fulfilled' ? propertyResponse.value.data : null;
                 const analytics = analyticsResponse.status === 'fulfilled' ? analyticsResponse.value.data : undefined;
-                const applicantsCount = applicantsResponse.status === 'fulfilled'
-                    ? (applicantsResponse.value.data?.length || 0)
-                    : 0;
+                const applicants = applicantsResponse.status === 'fulfilled' ? applicantsResponse.value.data ?? [] : [];
+                const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+                const requests = maintenanceResponse.status === 'fulfilled' ? maintenanceResponse.value.data ?? [] : [];
+                const transactions = transactionsResponse.status === 'fulfilled' ? transactionsResponse.value.data ?? [] : [];
+                const year = new Date().getFullYear();
+                const counts: PropertyCounts = {
+                    applicants: applicants.length,
+                    newApplicants: applicants.filter((a) => new Date(a.createdAt).getTime() >= weekAgo).length,
+                    openMaintenance: requests.filter((r) => r.lease?.property?.id === id && !['COMPLETED', 'CANCELLED'].includes(r.status)).length,
+                    receivedThisYear: transactions
+                        .filter((t) => t.propertyId === id && t.type === 'RENT_PAYMENT' && t.status === 'COMPLETED' && new Date(t.createdAt).getFullYear() === year)
+                        .reduce((sum, t) => sum + t.amount, 0),
+                };
 
                 if (propertyData) {
                     // Try to get market comparison (may fail if not available)
@@ -247,7 +274,7 @@ export default function LandlordPropertyDetail() {
                         // Market comparison not available
                     }
 
-                    setProperty(transformToUIProperty(propertyData, analytics, marketComparison, applicantsCount));
+                    setProperty(transformToUIProperty(propertyData, analytics, marketComparison, counts));
                 } else {
                     setError('Property not found');
                 }
@@ -298,7 +325,9 @@ export default function LandlordPropertyDetail() {
     }
 
     return (
-        <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex flex-col text-slate-900 dark:text-white overflow-x-hidden pb-[140px]">
+        <div className="relative bg-canvas dark:bg-canvas-dark min-h-screen flex flex-col text-slate-900 dark:text-white overflow-x-hidden pb-[140px]">
+            {/* Keystead contour map: the sidebar ends early, so a fragment fills the right column below it */}
+            <ContourMotif fragments={CONTOUR} contained />
             {/* Hero Image */}
             <div className="relative w-full h-[50vh] md:h-[60vh] lg:h-[70vh] bg-slate-200 overflow-hidden">
                 <img
@@ -325,7 +354,7 @@ export default function LandlordPropertyDetail() {
             </div>
 
             {/* Main Content */}
-            <main className="w-full max-w-[1200px] mx-auto px-4 md:px-8 py-8">
+            <main className="relative w-full max-w-[1200px] mx-auto px-4 md:px-8 py-8">
                 <div className="flex flex-col lg:flex-row gap-12">
                     {/* Left Column */}
                     <div className="flex-1 min-w-0">
@@ -393,7 +422,7 @@ export default function LandlordPropertyDetail() {
                                     <p className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wide mb-1">
                                         Target rent
                                     </p>
-                                    <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white">
+                                    <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white whitespace-nowrap">
                                         {property.targetRent}
                                     </h2>
                                     <p className="text-green-600 dark:text-green-400 text-sm font-semibold flex items-center mt-1">
@@ -492,19 +521,19 @@ export default function LandlordPropertyDetail() {
                                     <span className="text-2xl font-bold text-slate-900 dark:text-white">
                                         {property.metrics.maintenance}
                                     </span>
-                                    <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">All systems operational</span>
+                                    <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">{property.metrics.maintenance === 0 ? 'No open requests' : 'Open requests'}</span>
                                 </div>
                                 <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-1">
                                     <div className="flex items-center justify-between">
-                                        <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Est. Yield</span>
-                                        <span className="material-symbols-outlined text-green-500 text-[20px]">
-                                            payments
+                                        <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Days listed</span>
+                                        <span className="material-symbols-outlined text-brand-ink text-[20px]">
+                                            calendar_month
                                         </span>
                                     </div>
                                     <span className="text-2xl font-bold text-slate-900 dark:text-white">
-                                        {property.metrics.yield}
+                                        {property.metrics.daysListed}
                                     </span>
-                                    <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Based on asking</span>
+                                    <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Since it went live</span>
                                 </div>
                             </AnimatedGroup>
                         </div>
@@ -599,7 +628,7 @@ export default function LandlordPropertyDetail() {
                                     calendar_month
                                 </span>
                                 <span className="text-lg font-bold text-slate-900 dark:text-white">
-                                    {property.yearBuilt}
+                                    {property.yearBuilt || '—'}
                                 </span>
                                 <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Built</span>
                             </div>
@@ -653,55 +682,23 @@ export default function LandlordPropertyDetail() {
                     {/* Right Column - Sidebar */}
                     <div className="hidden lg:block w-[360px] shrink-0">
                         <div className="sticky top-24 space-y-6">
-                            {/* Financial Snapshot */}
-                            <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6">
-                                <h4 className="font-bold text-lg text-slate-900 dark:text-white mb-4">
-                                    Financial Snapshot (YTD)
-                                </h4>
-                                <div className="space-y-4">
-                                    <div>
-                                        <div className="flex justify-between text-sm mb-1">
-                                            <span className="text-slate-500 dark:text-slate-400">Gross revenue</span>
-                                            <span className="font-bold text-slate-900 dark:text-white">
-                                                {property.financials.grossRevenue}
-                                            </span>
-                                        </div>
-                                        <div className="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-2">
-                                            <div
-                                                className="bg-green-500 h-2 rounded-full"
-                                                style={{ width: `${property.financials.revenuePercent}%` }}
-                                            ></div>
-                                        </div>
+                            {/* Rent */}
+                            <div className="bg-card rounded-xl border border-border p-6">
+                                <h4 className="font-bold text-lg text-slate-900 dark:text-white mb-4">Rent</h4>
+                                <div className="space-y-3 text-sm">
+                                    <div className="flex justify-between">
+                                        <span className="text-slate-500 dark:text-slate-400">Asking rent per year</span>
+                                        <span className="font-bold text-slate-900 dark:text-white">{property.financials.rentPerYear}</span>
                                     </div>
-                                    <div>
-                                        <div className="flex justify-between text-sm mb-1">
-                                            <span className="text-slate-500 dark:text-slate-400">Expenses</span>
-                                            <span className="font-bold text-slate-900 dark:text-white">
-                                                {property.financials.expenses}
-                                            </span>
-                                        </div>
-                                        <div className="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-2">
-                                            <div
-                                                className="bg-red-400 h-2 rounded-full"
-                                                style={{ width: `${property.financials.expensePercent}%` }}
-                                            ></div>
-                                        </div>
+                                    <div className="flex justify-between">
+                                        <span className="text-slate-500 dark:text-slate-400">Received this year</span>
+                                        <span className="font-bold text-slate-900 dark:text-white">{property.financials.receivedThisYear}</span>
                                     </div>
                                 </div>
-                                <div className="mt-6 pt-6 border-t border-slate-100 dark:border-slate-700">
-                                    <div className="flex justify-between items-center mb-4">
-                                        <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
-                                            Net operating income
-                                        </span>
-                                        <span className="text-xl font-bold text-brand-ink">
-                                            {property.financials.noi}
-                                        </span>
-                                    </div>
-                                    <button className="w-full py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 font-semibold text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center justify-center gap-2">
-                                        <span className="material-symbols-outlined text-[18px]">finance</span>
-                                        View full report
-                                    </button>
-                                </div>
+                                <Link to="/landlord/financials" className="mt-6 w-full py-2.5 rounded-xl border border-border-strong font-semibold text-sm text-slate-700 dark:text-slate-200 hover:bg-accent transition-colors flex items-center justify-center gap-2">
+                                    <span className="material-symbols-outlined text-[18px]">finance</span>
+                                    View financials
+                                </Link>
                             </div>
 
                             {/* Upcoming Tasks */}

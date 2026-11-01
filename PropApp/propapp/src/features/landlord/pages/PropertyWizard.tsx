@@ -15,10 +15,7 @@ const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormD
     return (
         <>
             {/* AI Auto-fill Section */}
-            <div className="bg-blue-50 dark:bg-surface-dark border border-blue-100 dark:border-blue-900/50 rounded-2xl p-6 md:p-8 mb-10 relative overflow-hidden group">
-                <div className="absolute -top-6 -right-6 p-4 opacity-5 dark:opacity-10 pointer-events-none transform rotate-12">
-                    <span className="material-symbols-outlined text-9xl text-brand-ink">forum</span>
-                </div>
+            <div className="bg-card border border-border rounded-xl p-6 md:p-8 mb-10">
                 <div className="relative z-10">
                     <div className="flex items-center gap-3 mb-4">
                         <div className="size-10 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center text-brand-ink shadow-sm">
@@ -169,26 +166,20 @@ const StepOne = ({ formData, setFormData }: { formData: WizardFormData; setFormD
                 </div>
             </div>
 
-            {/* Gold Badge CTA */}
-            <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-200 dark:from-yellow-700 dark:via-yellow-500 dark:to-yellow-700 p-0.5 shadow-lg group">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out pointer-events-none"></div>
-                <div className="bg-white/95 dark:bg-canvas-dark/90 backdrop-blur-sm rounded-[10px] p-5 flex flex-col md:flex-row items-center justify-between gap-6">
-                    <div className="flex items-center gap-5">
-                        <div className="size-14 rounded-full bg-gradient-to-b from-yellow-300 to-yellow-500 flex items-center justify-center text-white shadow-md shrink-0 border-2 border-white dark:border-slate-800">
-                            <span className="material-symbols-outlined text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
-                        </div>
-                        <div>
-                            <h4 className="font-extrabold text-slate-900 dark:text-white text-lg flex flex-wrap items-center gap-2">
-                                Boost your listing
-                                <span className="px-2 py-0.5 rounded-md bg-gradient-to-r from-yellow-300 to-amber-400 text-white text-xs uppercase font-black tracking-wider shadow-sm">Gold badge</span>
-                            </h4>
-                            <p className="text-sm text-slate-600 dark:text-slate-300 mt-1">Upload your Certificate of Occupancy (C of O) now to get verified status immediately.</p>
-                        </div>
+            {/* Verification prompt */}
+            <div className="rounded-xl border border-border bg-card p-5 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="flex items-center gap-4">
+                    <div className="size-12 rounded-full bg-verified-bg text-verified flex items-center justify-center shrink-0">
+                        <span className="material-symbols-outlined text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
                     </div>
-                    <button className="whitespace-nowrap px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold rounded-lg hover:shadow-lg transition-all flex items-center gap-2 text-sm">
-                        <span className="material-symbols-outlined text-[20px]">upload_file</span> Upload C of O
-                    </button>
+                    <div>
+                        <h4 className="font-bold text-slate-900 dark:text-white text-lg">Get your listing checked</h4>
+                        <p className="text-sm text-slate-600 dark:text-slate-300 mt-1">Upload the Certificate of Occupancy (C of O) to start ownership verification.</p>
+                    </div>
                 </div>
+                <button className="whitespace-nowrap px-6 py-3 bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold rounded-lg transition-colors flex items-center gap-2 text-sm">
+                    <span className="material-symbols-outlined text-[20px]">upload_file</span> Upload C of O
+                </button>
             </div>
         </>
     );

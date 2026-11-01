@@ -5,7 +5,10 @@ import DraftRenewalOfferModal from '../../../components/DraftRenewalOfferModal';
 import ConfirmationModal from '../../../components/ConfirmationModal';
 import { leaseService } from '../../../lib/api/services/leaseService';
 import type { Lease } from '../../../types/lease';
-import { formatCurrency, yearlyRent } from '@/lib/format';
+import { DEFAULT_CURRENCY, formatCurrency, yearlyRent } from '@/lib/format';
+import { transactionService } from '../../../lib/api/services/transactionService';
+import StatusBadge from '../../../components/common/StatusBadge';
+import type { Transaction } from '../../../lib/api/services/transactionService';
 
 function formatDate(dateStr: string): string {
     return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -22,17 +25,11 @@ function getLeaseStatusColor(status: string): string {
     }
 }
 
-// Static data (no API backing for these)
-const payments = [
-    { id: 1, date: 'Dec 1, 2024', description: 'Monthly rent', amount: '₦7,200,000.00', status: 'Upcoming', statusColor: 'bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400' },
-    { id: 2, date: 'Nov 1, 2024', description: 'Monthly rent', amount: '₦7,200,000.00', status: 'Paid', statusColor: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400', icon: 'check_circle' },
-    { id: 3, date: 'Oct 1, 2024', description: 'Monthly rent', amount: '₦7,200,000.00', status: 'Paid', statusColor: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400', icon: 'check_circle' },
-];
-
+// Clauses have no API yet; shown as the standard set
 const clauses = [
-    { id: 1, icon: 'pets', title: 'Pet policy addendum', description: 'Permits 1 dog under 40lbs. Non-refundable fee of ₦375,000 applied.' },
+    { id: 1, icon: 'pets', title: 'Pet policy addendum', description: 'Permits one dog under 18 kg. Non-refundable fee of ₦375,000.' },
     { id: 2, icon: 'build', title: 'Maintenance responsibilities', description: 'Tenant responsible for lawn care and minor repairs under ₦75,000.' },
-    { id: 3, icon: 'smoking_rooms', title: 'No smoking clause', description: 'Strict no-smoking policy within the premises and 20ft perimeter.' },
+    { id: 3, icon: 'smoking_rooms', title: 'No smoking clause', description: 'No smoking within the premises or within 6 metres of the building.' },
 ];
 
 export default function LandlordLeaseAgreement() {
@@ -41,6 +38,7 @@ export default function LandlordLeaseAgreement() {
     const [isRenewalModalOpen, setIsRenewalModalOpen] = useState(false);
     const [isVacateModalOpen, setIsVacateModalOpen] = useState(false);
     const [lease, setLease] = useState<Lease | null>(null);
+    const [payments, setPayments] = useState<Transaction[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -48,8 +46,15 @@ export default function LandlordLeaseAgreement() {
             if (!id) return;
             try {
                 setIsLoading(true);
-                const response = await leaseService.getLeaseById(id);
+                const [response, transactions] = await Promise.all([
+                    leaseService.getLeaseById(id),
+                    transactionService.getTransactions({ type: 'RENT_PAYMENT' }).catch(() => null),
+                ]);
                 setLease(response.data);
+                // Rent payments recorded against this lease, newest first
+                setPayments((transactions?.data ?? [])
+                    .filter((t) => t.leaseId === id && t.type === 'RENT_PAYMENT')
+                    .sort((a, b) => b.createdAt.localeCompare(a.createdAt)));
             } catch (err) {
                 console.error('Failed to fetch lease:', err);
             } finally {
@@ -117,7 +122,7 @@ export default function LandlordLeaseAgreement() {
                         <span className={`px-2.5 py-1 ${getLeaseStatusColor(lease.status)} text-white text-xs font-bold uppercase tracking-wider rounded-md backdrop-blur-sm`}>
                             {statusLabel} Lease
                         </span>
-                        <span className="text-white/80 text-sm font-medium">#{lease.id.slice(0, 12).toUpperCase()}</span>
+                        <span className="text-white/80 text-sm font-medium">Ref {lease.id.slice(-8).toUpperCase()}</span>
                     </div>
                     <h1 className="text-2xl md:text-3xl font-extrabold text-white leading-tight">Lease agreement</h1>
                     <p className="text-white/90 font-medium">{propertyName}, {propertyAddress}</p>
@@ -237,16 +242,24 @@ export default function LandlordLeaseAgreement() {
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-slate-100 dark:divide-slate-700 text-slate-700 dark:text-slate-300">
+                                            {payments.length === 0 && (
+                                                <tr>
+                                                    <td colSpan={4} className="px-6 py-6 text-center text-slate-500 dark:text-slate-400">No rent payments recorded for this lease yet.</td>
+                                                </tr>
+                                            )}
                                             {payments.map((payment) => (
                                                 <tr key={payment.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
-                                                    <td className="px-6 py-4 font-medium">{payment.date}</td>
-                                                    <td className="px-6 py-4">{payment.description}</td>
-                                                    <td className="px-6 py-4">{payment.amount}</td>
+                                                    <td className="px-6 py-4 font-medium">{new Date(payment.createdAt).toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
+                                                    <td className="px-6 py-4">Rent</td>
+                                                    <td className="px-6 py-4">{formatCurrency(payment.amount, payment.currency || DEFAULT_CURRENCY, 2)}</td>
                                                     <td className="px-6 py-4 text-right">
-                                                        <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold ${payment.statusColor}`}>
-                                                            {payment.icon && <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>{payment.icon}</span>}
-                                                            {payment.status}
-                                                        </span>
+                                                        {payment.status === 'COMPLETED' ? (
+                                                            <StatusBadge status="Paid" variant="success" />
+                                                        ) : payment.status === 'FAILED' ? (
+                                                            <StatusBadge status="Failed" variant="error" />
+                                                        ) : (
+                                                            <StatusBadge status="Pending" variant="pending" />
+                                                        )}
                                                     </td>
                                                 </tr>
                                             ))}
@@ -379,7 +392,7 @@ export default function LandlordLeaseAgreement() {
                 isOpen={isRenewalModalOpen}
                 onClose={() => setIsRenewalModalOpen(false)}
                 propertyAddress={`${propertyName}, ${propertyAddress}`}
-                leaseId={`#${lease.id.slice(0, 12).toUpperCase()}`}
+                leaseId={lease.id.slice(-8).toUpperCase()}
                 currentRent={formatCurrency(lease.monthlyRent)}
                 expiryDate={leaseEndFormatted}
             />

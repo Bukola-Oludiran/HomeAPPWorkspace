@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { maintenanceService } from '../../../lib/api/services/maintenanceService';
+import { propertyService } from '../../../lib/api/services/propertyService';
+import { useAuth } from '../../../contexts/AuthContext';
+import type { Property } from '../../../types/property';
 import type { MaintenanceRequest } from '../../../types/lease';
 
 function getCategoryIcon(category: string): string {
@@ -45,15 +48,25 @@ function getPriorityBadge(priority: string) {
 
 export default function LandlordPropertyTasks() {
     const { id } = useParams();
+    const { user } = useAuth();
     const [tasks, setTasks] = useState<MaintenanceRequest[]>([]);
+    const [property, setProperty] = useState<Property | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const initials = `${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase();
+    const propertyName = property?.name ?? 'Property';
+    const propertyAddress = property ? [property.address.street, property.address.city, property.address.state].filter(Boolean).join(', ') : '';
 
     useEffect(() => {
         async function fetchTasks() {
             try {
                 setIsLoading(true);
-                const response = await maintenanceService.getMaintenanceRequests();
-                setTasks(response.data || []);
+                const [response, propertyResponse] = await Promise.all([
+                    maintenanceService.getMaintenanceRequests(),
+                    id ? propertyService.getPropertyById(id).catch(() => null) : Promise.resolve(null),
+                ]);
+                setProperty(propertyResponse?.data ?? null);
+                // Only this property's requests (requests without property details are kept)
+                setTasks((response.data || []).filter((t) => !t.lease?.property?.id || t.lease.property.id === id));
             } catch (err) {
                 console.error('Failed to fetch tasks:', err);
             } finally {
@@ -61,7 +74,7 @@ export default function LandlordPropertyTasks() {
             }
         }
         fetchTasks();
-    }, []);
+    }, [id]);
 
     const totalTasks = tasks.length;
     const pendingTasks = tasks.filter(t => t.status === 'PENDING' || t.status === 'ACKNOWLEDGED').length;
@@ -92,17 +105,16 @@ export default function LandlordPropertyTasks() {
                             <span className="material-symbols-outlined">arrow_back</span>
                         </Link>
                         <div className="hidden md:block">
-                            <h1 className="text-sm font-bold text-slate-900 dark:text-white">Modern Oakwood Estate</h1>
-                            <p className="text-xs text-slate-500 dark:text-slate-400">1243 Oakwood Avenue, Austin, TX</p>
+                            <h1 className="text-sm font-bold text-slate-900 dark:text-white">{propertyName}</h1>
+                            <p className="text-xs text-slate-500 dark:text-slate-400">{propertyAddress}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
                         <button className="flex items-center justify-center size-10 bg-slate-100 dark:bg-slate-800 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-900 dark:text-white relative">
                             <span className="material-symbols-outlined">notifications</span>
-                            <span className="absolute top-2 right-2 size-2.5 bg-red-500 rounded-full border-2 border-slate-100 dark:border-slate-800"></span>
                         </button>
                         <div className="size-10 rounded-full bg-brand/10 flex items-center justify-center text-brand-ink font-bold border border-brand/20">
-                            JD
+                            {initials}
                         </div>
                     </div>
                 </div>
@@ -113,9 +125,9 @@ export default function LandlordPropertyTasks() {
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                     <div>
                         <div className="flex items-center gap-2 text-sm text-slate-800 dark:text-slate-300 mb-1">
-                            <span>Properties</span>
+                            <Link to="/landlord/properties" className="hover:text-brand-ink">Properties</Link>
                             <span className="material-symbols-outlined text-[14px] text-slate-800 dark:text-slate-300">chevron_right</span>
-                            <span>Modern Oakwood Estate</span>
+                            <Link to={`/landlord/properties/${id}`} className="hover:text-brand-ink">{propertyName}</Link>
                             <span className="material-symbols-outlined text-[14px] text-slate-800 dark:text-slate-300">chevron_right</span>
                             <span className="text-slate-900 dark:text-white font-medium">Tasks</span>
                         </div>

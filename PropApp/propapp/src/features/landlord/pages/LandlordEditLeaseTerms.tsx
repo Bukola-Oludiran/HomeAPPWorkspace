@@ -68,7 +68,7 @@ export default function LandlordEditLeaseTerms() {
 
     const tenantName = lease?.tenant ? `${lease.tenant.firstName} ${lease.tenant.lastName}` : 'the tenant';
     const propertyAddress = lease?.property ? `${lease.property.address?.street || ''}, ${lease.property.address?.city || ''}, ${lease.property.address?.state || ''}`.trim() : '';
-    const leaseIdDisplay = lease?.id ? `#${lease.id.slice(0, 12).toUpperCase()}` : '';
+    const leaseIdDisplay = lease?.id ? `Ref ${lease.id.slice(-8).toUpperCase()}` : '';
 
     if (isLoading) {
         return (
@@ -264,7 +264,7 @@ export default function LandlordEditLeaseTerms() {
                                             </button>
                                         </div>
                                     </div>
-                                    <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-1">Permits 1 dog under 40lbs. Non-refundable fee of ₦375,000 applied.</p>
+                                    <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-1">Permits one dog under 18 kg. Non-refundable fee of ₦375,000.</p>
                                 </div>
                             </div>
 
@@ -285,7 +285,7 @@ export default function LandlordEditLeaseTerms() {
                                             </button>
                                         </div>
                                     </div>
-                                    <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-1">Strict no-smoking policy within the premises and 20ft perimeter.</p>
+                                    <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-1">No smoking within the premises or within 6 metres of the building.</p>
                                 </div>
                             </div>
 

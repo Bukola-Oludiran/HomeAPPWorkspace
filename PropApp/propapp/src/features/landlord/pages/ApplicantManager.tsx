@@ -9,6 +9,13 @@ import { AnimatedGroup } from '../../../components/animation';
 import { landlordService } from '../../../lib/api/services/landlordService';
 import type { RentalApplication } from '../../../types/lease';
 import { formatCurrency } from '@/lib/format';
+import type { ContourFragment } from '../../../components/common/ContourMotif';
+
+// The second row has one card; a large fragment fills the open right side below the first row
+const CONTOUR: ContourFragment[] = [
+    'top-[74%] left-[64%] -translate-x-1/2 -translate-y-1/2 w-[80vw] max-w-[920px]',
+    '-top-24 -right-48 w-[50vw] max-w-[520px]',
+];
 
 // UI applicant type
 interface UIApplicant {
@@ -217,7 +224,7 @@ export default function ApplicantManager() {
     });
 
     return (
-        <PageContainer>
+        <PageContainer motif={CONTOUR}>
             <ConfirmationModal
                 isOpen={showRejectModal}
                 onClose={() => setShowRejectModal(false)}
@@ -342,8 +349,6 @@ export default function ApplicantManager() {
                         className={`bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 hover:shadow-md transition-shadow flex flex-col relative overflow-hidden group ${applicant.status === 'Rejected' ? 'opacity-90 hover:opacity-100' : ''
                             }`}
                     >
-                        {/* Status bar */}
-                        <div className={`absolute top-0 left-0 w-1 h-full ${applicant.barColor}`}></div>
 
                         <div className="p-6 pb-4">
                             {/* Header */}
@@ -544,7 +549,7 @@ export default function ApplicantManager() {
                             {applicant.actions.includes('approve') && applicant.actions.includes('reject') && (
                                 <>
                                     <div className="grid grid-cols-2 gap-3">
-                                        <button className="py-2.5 bg-green-600 hover:bg-green-700 text-white font-bold text-sm rounded-lg transition-colors shadow-sm flex items-center justify-center gap-2">
+                                        <button className="py-2.5 bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm rounded-lg transition-colors flex items-center justify-center gap-2">
                                             <span className="material-symbols-outlined text-[18px]">check</span> Approve
                                         </button>
                                         <button

@@ -80,3 +80,21 @@ export function formatCompactCurrency(
         maximumFractionDigits: 1,
     }).format(amount ?? 0);
 }
+
+const TRANSACTION_TYPES: Record<string, string> = {
+    RENT_PAYMENT: 'Rent payment',
+    SECURITY_DEPOSIT: 'Security deposit',
+    COMMISSION: 'Service fee',
+    PAYOUT: 'Payout to bank',
+    REFUND: 'Refund',
+    ESCROW_FUND: 'Escrow funding',
+    ESCROW_RELEASE: 'Escrow release',
+};
+
+/** RENT_PAYMENT -> "Rent payment"; unknown types become sentence case */
+export function transactionTypeLabel(type: string | null | undefined): string {
+    if (!type) return 'Transaction';
+    if (TRANSACTION_TYPES[type]) return TRANSACTION_TYPES[type];
+    const words = type.toLowerCase().replace(/_/g, ' ');
+    return words.charAt(0).toUpperCase() + words.slice(1);
+}

@@ -5,6 +5,22 @@ import PageHeader from '../../../components/common/PageHeader';
 import { AnimatedGroup } from '../../../components/animation';
 import { landlordService } from '../../../lib/api/services/landlordService';
 import type { Alert, AlertType, AlertPriority } from '../../../types/dashboard';
+import type { ContourFragment } from '../../../components/common/ContourMotif';
+
+// A short list; a wide band fills the space below it and runs under the last alert
+const CONTOUR: ContourFragment[] = [
+    'top-[86%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110vw] max-w-[1200px] rotate-180',
+    '-top-24 -right-48 w-[50vw] max-w-[520px]',
+];
+
+const ALERT_SUBJECT: Record<string, { label: string; icon: string }> = {
+    MAINTENANCE_EMERGENCY: { label: 'Maintenance request', icon: 'build' },
+    PAYMENT_OVERDUE: { label: 'Rent payment', icon: 'payments' },
+    LEASE_EXPIRING: { label: 'Lease', icon: 'description' },
+    VERIFICATION_PENDING: { label: 'Verification', icon: 'verified' },
+    APPLICATION_NEW: { label: 'Rental application', icon: 'person_add' },
+    MESSAGE_NEW: { label: 'Message', icon: 'chat' },
+};
 
 // UI Alert interface matching the component's expected structure
 interface UIAlert {
@@ -114,20 +130,20 @@ function getPriorityStyles(priority: AlertPriority): {
             return {
                 urgencyLabel: priority === 'critical' ? 'Critical' : 'High Urgency',
                 urgencyBg: 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300 border-red-200 dark:border-red-800',
-                primaryActionBg: 'bg-red-600 hover:bg-red-700 text-white shadow-red-200',
+                primaryActionBg: 'bg-brand-ink hover:bg-brand-ink/90 text-on-brand',
             };
         case 'medium':
             return {
                 urgencyLabel: 'Medium',
                 urgencyBg: 'bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-300 border-orange-200 dark:border-orange-800',
-                primaryActionBg: 'bg-brand-ink hover:bg-brand-ink/90 text-on-brand shadow-blue-200',
+                primaryActionBg: 'bg-brand-ink hover:bg-brand-ink/90 text-on-brand',
             };
         case 'low':
         default:
             return {
                 urgencyLabel: 'Low',
                 urgencyBg: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border-slate-200 dark:border-slate-700',
-                primaryActionBg: 'bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 hover:border-brand hover:text-brand-ink text-slate-700 dark:text-slate-300',
+                primaryActionBg: 'bg-brand-ink hover:bg-brand-ink/90 text-on-brand',
             };
     }
 }
@@ -173,8 +189,9 @@ function transformAlert(alert: Alert): UIAlert {
             : 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border-blue-100 dark:border-blue-800',
         icon: typeStyles.icon,
         iconBg: typeStyles.iconBg,
-        property: alert.relatedId || 'Property',
-        propertyIcon: 'apartment',
+        // Alerts carry no property name, so show what the alert is about rather than a raw record ID
+        property: ALERT_SUBJECT[alert.type]?.label ?? 'Portfolio',
+        propertyIcon: ALERT_SUBJECT[alert.type]?.icon ?? 'apartment',
         time: formatRelativeTime(alert.createdAt),
         actions: alert.actionLabel ? [alert.actionLabel, ...actions.slice(1)] : actions,
         primaryAction: alert.actionLabel || actions[0],
@@ -288,7 +305,7 @@ export default function LandlordAlertCenter() {
     }
 
     return (
-        <PageContainer>
+        <PageContainer motif={CONTOUR}>
             <PageHeader
                 title="Alert center"
                 subtitle="Manage notifications and urgent tasks across your portfolio."

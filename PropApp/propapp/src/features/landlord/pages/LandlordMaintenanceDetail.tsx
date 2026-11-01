@@ -21,6 +21,7 @@ interface UIMaintenanceRequest {
         image: string;
     };
     tenant: {
+        id: string;
         name: string;
         initials: string;
         verified: boolean;
@@ -28,11 +29,10 @@ interface UIMaintenanceRequest {
     } | null;
     description: string;
     vendor: {
+        id: string;
+        phone: string;
         name: string;
         icon: string;
-        rating: number;
-        jobs: number;
-        responseTime: string;
     } | null;
     estimatedCost: string;
     timeline: Array<{
@@ -203,21 +203,21 @@ function transformMaintenanceRequest(request: MaintenanceRequest): UIMaintenance
             id: property?.id || '',
             name: property?.name || 'Property',
             location: formattedLocation,
-            image: '',
+            image: property?.primaryImage || '',
         },
         tenant: tenant ? {
+            id: tenant.id,
             name: `${tenant.firstName} ${tenant.lastName}`,
             initials: getInitials(tenant.firstName, tenant.lastName),
             verified: false, // Would come from full tenant data if available
-            leaseEnd: 'N/A', // Would come from full lease data if available
+            leaseEnd: '',
         } : null,
         description: `"${request.description}"`,
         vendor: request.assignedAgent ? {
+            id: request.assignedAgent.id,
+            phone: request.assignedAgent.phone || '',
             name: `${request.assignedAgent.firstName} ${request.assignedAgent.lastName}`,
             icon: getCategoryIcon(request.category),
-            rating: 4.5,
-            jobs: 10,
-            responseTime: '2 hours',
         } : null,
         estimatedCost: 'TBD',
         timeline: generateTimeline(request),
@@ -320,7 +320,7 @@ export default function LandlordMaintenanceDetail() {
                 <span className="material-symbols-outlined text-[16px] text-slate-800 dark:text-slate-400">chevron_right</span>
                 <Link to="/landlord/alerts" className="hover:text-brand-ink transition-colors">Maintenance</Link>
                 <span className="material-symbols-outlined text-[16px] text-slate-800 dark:text-slate-400">chevron_right</span>
-                <span className="text-slate-900 dark:text-white font-medium">Request #{maintenanceRequest.id}</span>
+                <span className="text-slate-900 dark:text-white font-medium">{maintenanceRequest.title}</span>
             </nav>
 
             {/* Header */}
@@ -340,7 +340,7 @@ export default function LandlordMaintenanceDetail() {
                         </span>
                     </div>
                     <p className="text-slate-800 dark:text-slate-800">
-                        Request #{maintenanceRequest.id} • Submitted on {maintenanceRequest.submittedDate}
+                        Reference {maintenanceRequest.id.slice(-8).toUpperCase()} • Submitted on {maintenanceRequest.submittedDate}
                     </p>
                 </div>
                 <div className="flex gap-3">
@@ -364,17 +364,19 @@ export default function LandlordMaintenanceDetail() {
                         <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
                             <div className="p-6 flex gap-4 items-start">
                                 <div className="w-24 h-24 rounded-lg overflow-hidden shrink-0 bg-slate-100">
-                                    <img
-                                        alt="Property thumbnail"
-                                        className="w-full h-full object-cover"
-                                        src={maintenanceRequest.property.image}
-                                    />
+                                    {maintenanceRequest.property.image && (
+                                        <img
+                                            alt={maintenanceRequest.property.name}
+                                            className="w-full h-full object-cover"
+                                            src={maintenanceRequest.property.image}
+                                        />
+                                    )}
                                 </div>
                                 <div>
                                     <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1">Property</h3>
                                     <h4 className="text-lg font-bold text-slate-900 dark:text-white">{maintenanceRequest.property.name}</h4>
                                     <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">{maintenanceRequest.property.location}</p>
-                                    <Link to="/landlord/properties/1" className="text-sm font-semibold text-brand-ink hover:underline flex items-center gap-1">
+                                    <Link to={`/landlord/properties/${maintenanceRequest.property.id}`} className="text-sm font-semibold text-brand-ink hover:underline flex items-center gap-1">
                                         View Property Details <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
                                     </Link>
                                 </div>
@@ -389,12 +391,16 @@ export default function LandlordMaintenanceDetail() {
                                             </div>
                                             <div>
                                                 <h4 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                                                    {maintenanceRequest.tenant.name}
+                                                    <Link to={`/member/${maintenanceRequest.tenant.id}`} className="hover:text-brand-ink hover:underline underline-offset-2">
+                                                        {maintenanceRequest.tenant.name}
+                                                    </Link>
                                                     {maintenanceRequest.tenant.verified && (
                                                         <span className="material-symbols-outlined text-blue-500 text-[16px]" title="Verified tenant">verified</span>
                                                     )}
                                                 </h4>
-                                                <p className="text-xs text-slate-500 dark:text-slate-400">Lease ends {maintenanceRequest.tenant.leaseEnd}</p>
+                                                {maintenanceRequest.tenant.leaseEnd && (
+                                                    <p className="text-xs text-slate-500 dark:text-slate-400">Lease ends {maintenanceRequest.tenant.leaseEnd}</p>
+                                                )}
                                             </div>
                                         </div>
                                         <div className="flex gap-2">
@@ -566,28 +572,24 @@ export default function LandlordMaintenanceDetail() {
                                                 <span className="material-symbols-outlined">{maintenanceRequest.vendor.icon}</span>
                                             </div>
                                             <div>
-                                                <h4 className="text-sm font-bold text-slate-900 dark:text-white">{maintenanceRequest.vendor.name}</h4>
-                                                <div className="flex items-center gap-1">
-                                                    <span className="material-symbols-outlined text-[14px] text-amber-400 icon-filled">star</span>
-                                                    <span className="text-xs font-bold text-slate-700 dark:text-slate-300">{maintenanceRequest.vendor.rating}</span>
-                                                    <span className="text-xs text-slate-500 dark:text-slate-400">({maintenanceRequest.vendor.jobs} jobs)</span>
-                                                </div>
+                                                <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                                                    <Link to={`/agent/${maintenanceRequest.vendor.id}`} className="hover:text-brand-ink hover:underline underline-offset-2">
+                                                        {maintenanceRequest.vendor.name}
+                                                    </Link>
+                                                </h4>
+                                                <p className="text-xs text-slate-500 dark:text-slate-400">Assigned agent</p>
                                             </div>
                                         </div>
                                         <div className="flex gap-2">
-                                            <button className="flex-1 py-1.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg text-xs font-bold text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
-                                                Contact
-                                            </button>
-                                            <button className="flex-1 py-1.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg text-xs font-bold text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
+                                            {maintenanceRequest.vendor.phone && (
+                                                <a href={`tel:${maintenanceRequest.vendor.phone}`} className="flex-1 py-1.5 text-center bg-card border border-border-strong rounded-lg text-xs font-bold text-slate-800 dark:text-slate-200 hover:bg-accent transition-colors">
+                                                    Call
+                                                </a>
+                                            )}
+                                            <Link to={`/agent/${maintenanceRequest.vendor.id}`} className="flex-1 py-1.5 text-center bg-card border border-border-strong rounded-lg text-xs font-bold text-slate-800 dark:text-slate-200 hover:bg-accent transition-colors">
                                                 View profile
-                                            </button>
+                                            </Link>
                                         </div>
-                                    </div>
-                                    <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-100 dark:border-blue-800/50 flex gap-3">
-                                        <span className="material-symbols-outlined text-blue-600 dark:text-blue-400 shrink-0">info</span>
-                                        <p className="text-xs text-slate-700 dark:text-slate-300 leading-snug">
-                                            This vendor typically responds within <span className="font-bold">{maintenanceRequest.vendor.responseTime}</span> for emergency requests.
-                                        </p>
                                     </div>
                                 </>
                             ) : (
@@ -603,15 +605,10 @@ export default function LandlordMaintenanceDetail() {
                     </div>
 
                     {/* Estimated Cost */}
-                    <div className="bg-gradient-to-br from-slate-800 to-slate-900 dark:from-slate-700 dark:to-slate-800 rounded-2xl p-5 text-white shadow-lg relative overflow-hidden">
-                        <div className="relative z-10">
-                            <h4 className="font-bold text-base mb-1">Estimated cost</h4>
-                            <p className="text-xs text-slate-300 mb-3">Based on similar repairs in Austin, TX.</p>
-                            <h3 className="text-2xl font-bold mb-4">{maintenanceRequest.estimatedCost}</h3>
-                            <button className="w-full py-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/10 text-white font-bold text-xs rounded-lg transition-colors">
-                                View cost breakdown
-                            </button>
-                        </div>
+                    <div className="bg-card rounded-xl border border-border p-5">
+                        <h4 className="font-bold text-base text-slate-900 dark:text-white mb-1">Estimated cost</h4>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">Added once the assigned agent sends a quote.</p>
+                        <h3 className="text-2xl font-bold text-slate-900 dark:text-white">{maintenanceRequest.estimatedCost === 'TBD' ? 'Not quoted yet' : maintenanceRequest.estimatedCost}</h3>
                     </div>
                 </div>
             </div>

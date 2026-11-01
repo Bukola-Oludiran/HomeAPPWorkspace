@@ -6,6 +6,13 @@ import SectionCard from '../../../components/common/SectionCard';
 import { userService, landlordService } from '../../../lib/api/services';
 import type { UserWithProfile } from '../../../types/auth';
 import type { PropertySummary } from '../../../types/property';
+import type { ContourFragment } from '../../../components/common/ContourMotif';
+
+// The left column ends early; a large fragment fills the space below it and reaches under the form
+const CONTOUR: ContourFragment[] = [
+    'top-[74%] left-[22%] -translate-x-1/2 -translate-y-1/2 w-[75vw] max-w-[860px] rotate-180',
+    '-top-24 -right-48 w-[50vw] max-w-[520px]',
+];
 
 // UI types for profile data
 interface UIProfileData {
@@ -107,7 +114,7 @@ function transformProfileData(
             name: p.name,
             location: formatLocation(p.address),
             status: getPropertyStatusLabel(p.status),
-            image: '',
+            image: p.primaryImage || '',
         })),
         reviews: {
             total: 0,
@@ -234,7 +241,7 @@ export default function LandlordProfile() {
     }
 
     return (
-        <PageContainer maxWidth="lg">
+        <PageContainer maxWidth="lg" motif={CONTOUR}>
             <PageHeader
                 title="Landlord profile"
                 breadcrumb={[
@@ -256,11 +263,9 @@ export default function LandlordProfile() {
                     <div className="bg-white dark:bg-canvas-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800 flex flex-col items-center text-center">
                         <div className="relative group cursor-pointer mb-4">
                             <div className="size-32 rounded-full overflow-hidden border-4 border-slate-50 dark:border-slate-800 shadow-inner">
-                                <img
-                                    alt="Profile Picture"
-                                    className="w-full h-full object-cover"
-                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAamBOyrzSpr22QFJVMWoHUc1mMMtnqiibkVvx1a1yyRMf7AZH_W5yo1RUtyBeDdX317BPpURBRfc781QxtqAke2rVYEqTii2io0uuHFkEJ0CmZ8MORlbNcSi1Rrn0MkZXgBn4TdOrfGT4AC6aP8LrSd-KrpDu9MncstN4oWLel5dWeiPY1Vna-TDIY0FVjIuHpWLA9XnqqLmHWL3dBb97dTEKd5I76wzI_hdZR1tk-bfpEmbo-gBSIaJNec2sLti-R_9FmipfOkxxP"
-                                />
+                                <span className="flex h-full w-full items-center justify-center bg-brand/10 text-3xl font-extrabold text-brand-ink dark:bg-sky/15 dark:text-sky">
+                                    {`${formData.firstName?.[0] ?? ''}${formData.lastName?.[0] ?? ''}`.toUpperCase()}
+                                </span>
                             </div>
                             <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                 <span className="material-symbols-outlined text-white">photo_camera</span>
@@ -422,8 +427,8 @@ export default function LandlordProfile() {
                                     to={`/landlord/properties/${property.id}`}
                                     className="flex items-center gap-4 p-3 rounded-xl border border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group"
                                 >
-                                    <div className="w-16 h-16 rounded-lg overflow-hidden shrink-0">
-                                        <img alt={property.name} className="w-full h-full object-cover" src={property.image} />
+                                    <div className="w-16 h-16 rounded-lg overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800">
+                                        {property.image && <img alt={property.name} className="w-full h-full object-cover" src={property.image} />}
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <h4 className="font-bold text-slate-900 dark:text-white truncate">{property.name}</h4>

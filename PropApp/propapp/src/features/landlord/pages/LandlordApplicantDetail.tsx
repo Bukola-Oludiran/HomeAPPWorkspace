@@ -5,7 +5,8 @@ import PageContainer from '../../../components/common/PageContainer';
 import Breadcrumb from '../../../components/common/Breadcrumb';
 import { landlordService } from '../../../lib/api/services';
 import type { RentalApplication, ApplicationStatus, EmploymentStatus } from '../../../types/lease';
-import { formatCompactCurrency, formatListingPrice } from '@/lib/format';
+import { formatCompactCurrency, formatListingPrice, listingPrice } from '@/lib/format';
+import StatusBadge from '../../../components/common/StatusBadge';
 
 // UI types for applicant detail
 interface UIApplicantData {
@@ -123,8 +124,10 @@ function transformApplicant(app: RentalApplication): UIApplicantData {
         : '';
 
     // Calculate rent coverage ratio
-    const rentCoverage = property?.price && app.monthlyIncome > 0
-        ? (app.monthlyIncome / property.price).toFixed(1)
+    // Income against the monthly equivalent of the rent (listings may be priced per year)
+    const monthlyRentEquivalent = property?.price ? listingPrice(property.price, property.priceUnit).amount / 12 : 0;
+    const rentCoverage = monthlyRentEquivalent > 0 && app.monthlyIncome > 0
+        ? (app.monthlyIncome / monthlyRentEquivalent).toFixed(1)
         : 'N/A';
 
     return {
@@ -146,11 +149,11 @@ function transformApplicant(app: RentalApplication): UIApplicantData {
             unit: '',
             location,
             rent: property?.price ? formatListingPrice(property.price, property.priceUnit) : 'N/A',
-            leaseTerm: '12 Mos',
-            image: '',
+            leaseTerm: formatDate(app.moveInDate),
+            image: property?.primaryImage || '',
         },
         screening: {
-            completedDate: 'Pending',
+            completedDate: '',
             criminal: { status: 'warning', text: 'Pending' },
             eviction: { status: 'warning', text: 'Pending' },
             reference: { status: 'warning', text: 'Pending' },
@@ -300,7 +303,7 @@ export default function LandlordApplicantDetail() {
                         </span>
                     </div>
                     <div className="flex items-center gap-4 text-slate-800 dark:text-slate-400 text-sm md:text-base">
-                        <p>Application ID: <span className="font-mono text-slate-700 dark:text-slate-300">#{applicantData.id}</span></p>
+                        <p>Reference <span className="font-mono text-slate-700 dark:text-slate-300">{applicantData.id.slice(-8).toUpperCase()}</span></p>
                         <span className="size-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
                         <p>Submitted: {applicantData.submittedDate}</p>
                         <span className="size-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
@@ -343,10 +346,7 @@ export default function LandlordApplicantDetail() {
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                             <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
                                 <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Credit score</p>
-                                <div className="flex items-center gap-2">
-                                    <span className="text-xl font-extrabold text-green-600 dark:text-green-400">{applicantData.creditScore}</span>
-                                    <span className="text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 px-1.5 py-0.5 rounded font-bold">{applicantData.creditRating}</span>
-                                </div>
+                                <StatusBadge status="Not yet checked" variant="neutral" />
                             </div>
                             <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
                                 <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Monthly income</p>
@@ -356,15 +356,16 @@ export default function LandlordApplicantDetail() {
                                 <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Rent coverage</p>
                                 <div className="flex items-center gap-2">
                                     <span className="text-xl font-extrabold text-slate-900 dark:text-white">{applicantData.rentCoverage}</span>
-                                    <span className="text-xs text-slate-500 dark:text-slate-400">Rent</span>
+                                    <span className="text-xs text-slate-500 dark:text-slate-400">monthly rent</span>
                                 </div>
                             </div>
                             <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
                                 <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold mb-1">Identity</p>
-                                <div className="flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-green-500 text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
-                                    <span className="text-sm font-bold text-slate-900 dark:text-white">Verified</span>
-                                </div>
+                                {applicantData.identityVerified ? (
+                                    <StatusBadge status="Verified" variant="success" />
+                                ) : (
+                                    <StatusBadge status="Not yet checked" variant="neutral" />
+                                )}
                             </div>
                         </div>
                     </div>
@@ -377,7 +378,7 @@ export default function LandlordApplicantDetail() {
                                 <h3 className="font-bold text-slate-900 dark:text-white">Background screening</h3>
                             </div>
                             <span className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 px-2.5 py-0.5 rounded-full text-xs font-bold border border-green-200 dark:border-green-800">
-                                Completed {applicantData.screening.completedDate}
+                                {applicantData.screening.completedDate ? `Completed ${applicantData.screening.completedDate}` : 'Not started'}
                             </span>
                         </div>
                         <div className="p-6">
@@ -513,15 +514,17 @@ export default function LandlordApplicantDetail() {
                     {/* Property Card */}
                     <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden group">
                         <div className="relative h-40 w-full overflow-hidden">
-                            <img
-                                alt="Property"
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                src={applicantData.property.image}
-                            />
+                            {applicantData.property.image && (
+                                <img
+                                    alt={applicantData.property.name}
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                    src={applicantData.property.image}
+                                />
+                            )}
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                             <div className="absolute bottom-3 left-4 text-white">
                                 <h3 className="font-bold text-base shadow-sm">{applicantData.property.name}</h3>
-                                <p className="text-xs opacity-90">{applicantData.property.unit} • {applicantData.property.location}</p>
+                                <p className="text-xs opacity-90">{[applicantData.property.unit, applicantData.property.location].filter(Boolean).join(' • ')}</p>
                             </div>
                         </div>
                         <div className="p-4 grid grid-cols-2 divide-x divide-slate-100 dark:divide-slate-800">
@@ -530,7 +533,7 @@ export default function LandlordApplicantDetail() {
                                 <p className="text-base font-bold text-slate-900 dark:text-white">{applicantData.property.rent}</p>
                             </div>
                             <div className="text-center px-2">
-                                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold">Lease term</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold">Move-in</p>
                                 <p className="text-base font-bold text-slate-900 dark:text-white">{applicantData.property.leaseTerm}</p>
                             </div>
                         </div>

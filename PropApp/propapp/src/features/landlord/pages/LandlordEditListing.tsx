@@ -20,6 +20,11 @@ export default function LandlordEditListing() {
     const [bathrooms, setBathrooms] = useState(0);
     const [squareFeet, setSquareMeters] = useState(0);
     const [price, setPrice] = useState('');
+    const [priceUnit, setPriceUnit] = useState('PER_YEAR');
+    const [propertyType, setPropertyType] = useState('APARTMENT');
+    // Label the price with the unit it is stored in, so a yearly rent is never read as monthly
+    const priceLabel = { PER_YEAR: 'Rent per year', PER_MONTH: 'Rent per month', PER_NIGHT: 'Price per night', TOTAL: 'Sale price' }[priceUnit] ?? 'Price';
+    const priceSuffix = { PER_YEAR: '/ year', PER_MONTH: '/ month', PER_NIGHT: '/ night' }[priceUnit] ?? '';
 
     useEffect(() => {
         async function fetchProperty() {
@@ -35,6 +40,8 @@ export default function LandlordEditListing() {
                 setBathrooms(data.bathrooms || 0);
                 setSquareMeters(data.squareFeet || 0);
                 setPrice(data.price?.toString() || '');
+                setPriceUnit(data.priceUnit || 'PER_YEAR');
+                setPropertyType(data.propertyType || 'APARTMENT');
                 setIsPublished(data.status === 'ACTIVE');
             } catch (err) {
                 console.error('Failed to fetch property:', err);
@@ -167,11 +174,14 @@ export default function LandlordEditListing() {
                         </div>
                         <div>
                             <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Property type</label>
-                            <select className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-brand focus:ring-brand px-4 py-3">
-                                <option selected>Single family home</option>
-                                <option>Apartment</option>
-                                <option>Condo</option>
-                                <option>Townhouse</option>
+                            <select value={propertyType} onChange={(e) => setPropertyType(e.target.value)} className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-brand focus:ring-brand px-4 py-3">
+                                <option value="APARTMENT">Apartment</option>
+                                <option value="HOUSE">House</option>
+                                <option value="DUPLEX">Duplex</option>
+                                <option value="BUNGALOW">Bungalow</option>
+                                <option value="TOWNHOUSE">Terrace / townhouse</option>
+                                <option value="STUDIO">Studio</option>
+                                <option value="PENTHOUSE">Penthouse</option>
                             </select>
                         </div>
                         <div>
@@ -294,19 +304,18 @@ export default function LandlordEditListing() {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Monthly rent</label>
+                            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">{priceLabel}</label>
                             <div className="relative">
                                 <span className="absolute left-4 top-3.5 text-slate-500 dark:text-slate-400 font-bold">₦</span>
                                 <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-brand focus:ring-brand pl-8 pr-4 py-3 font-bold text-lg" type="text" value={price} onChange={(e) => setPrice(e.target.value)} />
-                                <span className="absolute right-4 top-3.5 text-slate-500 dark:text-slate-400 text-sm">/mo</span>
+                                <span className="absolute right-4 top-3.5 text-slate-500 dark:text-slate-400 text-sm">{priceSuffix}</span>
                             </div>
                         </div>
                         <div>
                             <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Security deposit</label>
                             <div className="relative">
                                 <span className="absolute left-4 top-3.5 text-slate-500 dark:text-slate-400 font-bold">₦</span>
-                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-brand focus:ring-brand pl-8 pr-4 py-3 font-bold text-lg" type="text" defaultValue="4,800" />
-                                <span className="absolute right-4 top-3.5 text-slate-500 dark:text-slate-400 text-sm">USD</span>
+                                <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-brand focus:ring-brand pl-8 pr-4 py-3 font-bold text-lg" type="text" placeholder="Optional" />
                             </div>
                         </div>
                         <div>
@@ -321,14 +330,19 @@ export default function LandlordEditListing() {
                         </div>
                         <div>
                             <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Available date</label>
-                            <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-brand focus:ring-brand px-4 py-3" type="date" defaultValue="2024-12-01" />
+                            <input className="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-brand focus:ring-brand px-4 py-3" type="date" />
                         </div>
                         <div className="col-span-1 md:col-span-2">
-                            <div className="flex items-start gap-3 p-4 bg-blue-50 dark:bg-blue-900/10 rounded-xl border border-blue-100 dark:border-blue-800">
-                                <span className="material-symbols-outlined text-brand-ink mt-0.5">info</span>
+                            <div className="flex items-start gap-3 p-4 bg-card rounded-xl border border-border">
+                                <span className="material-symbols-outlined text-brand-ink mt-0.5">forum</span>
                                 <div className="text-sm text-slate-700 dark:text-slate-300">
-                                    <p className="font-bold text-slate-900 dark:text-white mb-1">Market insight</p>
-                                    <p>Properties similar to yours in <strong>your area</strong> are currently renting for <strong>₦6,750,000 - ₦7,650,000</strong>. Your price is competitive.</p>
+                                    <p className="font-bold text-slate-900 dark:text-white mb-1">Not sure about the price?</p>
+                                    <p>
+                                        <Link to={`/ai-chat?msg=${encodeURIComponent(`How does the price of ${title} compare with similar homes nearby?`)}`} className="font-semibold text-brand-ink hover:underline">
+                                            Ask Keystead
+                                        </Link>{' '}
+                                        to compare it with similar checked homes nearby.
+                                    </p>
                                 </div>
                             </div>
                         </div>

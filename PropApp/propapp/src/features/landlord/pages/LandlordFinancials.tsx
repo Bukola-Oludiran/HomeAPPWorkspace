@@ -10,6 +10,14 @@ import { AnimatedGroup } from '../../../components/animation';
 import { landlordService } from '../../../lib/api/services/landlordService';
 import type { LandlordFinancials as LandlordFinancialsType, LandlordTransaction } from '../../../types/dashboard';
 import { formatCurrency } from '@/lib/format';
+import { transactionTypeLabel } from '@/lib/format';
+import type { ContourFragment } from '../../../components/common/ContourMotif';
+
+// Full page: corners only
+const CONTOUR: ContourFragment[] = [
+    '-top-24 -right-48 w-[50vw] max-w-[520px]',
+    '-bottom-28 -left-48 w-[50vw] max-w-[520px] rotate-180',
+];
 
 // UI transaction type
 interface UITransaction {
@@ -52,9 +60,9 @@ function transformTransaction(tx: LandlordTransaction): UITransaction {
         id: tx.id,
         date: formatDate(tx.createdAt),
         property: tx.propertyName || 'N/A',
-        category: tx.type,
+        category: transactionTypeLabel(tx.type),
         categoryColor: getCategoryColor(tx.type),
-        description: tx.tenantName ? `From ${tx.tenantName}` : tx.type,
+        description: tx.tenantName ? `From ${tx.tenantName}` : transactionTypeLabel(tx.type),
         amount: `${isPositive ? '+' : ''}${formatCurrency(tx.amount)}`,
         amountColor: isPositive ? 'text-green-600' : 'text-slate-900 dark:text-white',
         status: (tx.status ?? "").toLowerCase(),
@@ -150,7 +158,7 @@ export default function LandlordFinancials() {
     };
 
     return (
-        <PageContainer>
+        <PageContainer motif={CONTOUR}>
             <PageHeader
                 title="Financial overview"
                 subtitle="Track revenue, expenses, and cash flow across your portfolio."
