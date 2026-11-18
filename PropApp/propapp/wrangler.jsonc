@@ -1,0 +1,11 @@
+// Cloudflare deploy settings for the click-through demo (fake data, no backend).
+// Build first with: npx vite build --mode mock
+{
+  "name": "keystead-demo",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist",
+    // Send unknown paths to index.html so deep links survive a refresh.
+    "not_found_handling": "single-page-application"
+  }
+}
