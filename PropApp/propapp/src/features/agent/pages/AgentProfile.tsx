@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import PageContainer from '../../../components/common/PageContainer';
 import PageHeader from '../../../components/common/PageHeader';
+import StatusBadge from '../../../components/common/StatusBadge';
+import type { ContourFragment } from '../../../components/common/ContourMotif';
 import ConfirmationModal from '../../../components/ConfirmationModal';
 import { useAuth } from '../../../contexts/AuthContext';
 import { userService } from '../../../lib/api/services/userService';
@@ -8,7 +11,16 @@ import { agentService } from '../../../lib/api/services/agentService';
 import { integrationService } from '../../../lib/api/services/integrationService';
 import type { AgentProfile as AgentProfileType, AgentCertification } from '../../../types/auth';
 import type { AgentEarnings } from '../../../types/dashboard';
-import { formatCurrency } from '@/lib/format';
+import { formatCurrency, formatDate } from '@/lib/format';
+
+// The left column ends early; a large fragment fills the space below it and reaches under the details
+const CONTOUR: ContourFragment[] = [
+    'top-[76%] left-[22%] -translate-x-1/2 -translate-y-1/2 w-[75vw] max-w-[860px] rotate-180',
+    '-top-24 -right-48 w-[50vw] max-w-[520px]',
+];
+
+const SECTION_ICON = 'size-10 bg-brand/10 text-brand-ink dark:bg-sky/15 dark:text-sky rounded-full flex items-center justify-center';
+const READONLY_INPUT = 'w-full px-4 py-2.5 rounded-xl border border-border bg-muted text-slate-700 dark:text-slate-300 text-sm font-medium outline-none cursor-default';
 
 interface ReviewItem {
     id: string;
@@ -31,7 +43,7 @@ export default function AgentProfile() {
 
     const [formData, setFormData] = useState({
         name: '',
-        title: '',
+        company: '',
         email: '',
         phone: '',
     });
@@ -81,7 +93,7 @@ export default function AgentProfile() {
         if (user) {
             setFormData({
                 name: `${user.firstName || ''} ${user.lastName || ''}`.trim(),
-                title: agentProfile?.companyName || 'Property Agent',
+                company: agentProfile?.companyName || '',
                 email: user.email || '',
                 phone: user.phone || '',
             });
@@ -93,7 +105,7 @@ export default function AgentProfile() {
         setSaving(true);
         try {
             await userService.updateAgentProfile({
-                companyName: formData.title,
+                companyName: formData.company,
                 serviceAreas: locations,
             });
         } catch (error) {
@@ -103,10 +115,8 @@ export default function AgentProfile() {
         }
     };
 
-    // Format wallet balance
-    const walletBalance = earnings?.availableBalance
-        ? formatCurrency(earnings.availableBalance)
-        : formatCurrency(0);
+    const walletBalance = formatCurrency(earnings?.availableBalance || 0);
+    const initials = formData.name.split(' ').map((part) => part[0]).join('').slice(0, 2).toUpperCase();
 
     // Check verification status
     const isVerified = user?.verificationLevel && user.verificationLevel !== 'BRONZE';
@@ -143,13 +153,13 @@ export default function AgentProfile() {
     }
 
     return (
-        <PageContainer maxWidth="lg">
+        <PageContainer maxWidth="lg" motif={CONTOUR}>
             <PageHeader
                 title="Agent profile"
                 subtitle="Manage your public presence, certifications, and settings."
                 actions={
                     <>
-                        <button className="px-5 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-sm bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 transition-all">
+                        <button className="px-5 py-2.5 rounded-lg border border-border-strong text-slate-700 dark:text-slate-300 font-bold text-sm bg-card hover:bg-accent transition-all">
                             Cancel
                         </button>
                         <button
@@ -168,10 +178,10 @@ export default function AgentProfile() {
                 {/* Left Sidebar */}
                 <div className="lg:col-span-4 space-y-6">
                     {/* Profile Card */}
-                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 text-center relative overflow-hidden">
-                        <div className="absolute top-0 left-0 w-full h-24 bg-brand/10 dark:bg-brand/20"></div>
+                    <div className="bg-card rounded-2xl border border-border p-6 text-center relative overflow-hidden">
+                        <div className="absolute top-0 left-0 w-full h-24 bg-brand/10 dark:bg-sky/10"></div>
                         <div className="relative z-10 mb-4">
-                            <div className="relative w-32 h-32 mx-auto rounded-full p-1 bg-white dark:bg-canvas-dark">
+                            <div className="relative w-32 h-32 mx-auto rounded-full p-1 bg-card">
                                 {user?.avatarUrl ? (
                                     <img
                                         alt="Profile"
@@ -179,32 +189,37 @@ export default function AgentProfile() {
                                         src={user.avatarUrl}
                                     />
                                 ) : (
-                                    <div className="w-full h-full rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
-                                        <span className="material-symbols-outlined text-5xl text-slate-500 dark:text-slate-400">person</span>
+                                    <div className="w-full h-full rounded-full bg-brand/10 dark:bg-sky/15 flex items-center justify-center">
+                                        <span className="text-4xl font-extrabold text-brand-ink dark:text-sky">{initials || '?'}</span>
                                     </div>
                                 )}
-                                <button className="absolute bottom-1 right-1 p-2 bg-slate-900 dark:bg-slate-700 text-white rounded-full hover:bg-brand transition-colors shadow-md">
+                                <button className="absolute bottom-1 right-1 p-2 bg-brand-ink text-on-brand rounded-full hover:bg-brand-ink/90 transition-colors shadow-md" title="Change photo">
                                     <span className="material-symbols-outlined text-[18px]">photo_camera</span>
                                 </button>
                             </div>
                         </div>
                         <h3 className="text-xl font-bold text-slate-900 dark:text-white">{formData.name || 'Agent'}</h3>
-                        <p className="text-slate-500 dark:text-slate-400 text-sm mb-3">{formData.title}</p>
+                        <p className="text-slate-500 dark:text-slate-400 text-sm mb-3">{formData.company || 'Property agent'}</p>
                         {isVerified && (
-                            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 rounded-full text-xs font-bold uppercase tracking-wider mb-6">
-                                <span className="material-symbols-outlined text-[16px]">verified</span>
-                                Verified agent
+                            <div className="mb-6">
+                                <StatusBadge status="Verified agent" variant="success" />
                             </div>
                         )}
-                        <div className="grid grid-cols-2 gap-4 border-t border-slate-100 dark:border-slate-800 pt-6">
+                        <div className="grid grid-cols-2 gap-4 border-t border-border pt-6">
                             <div className="text-center">
-                                <div className="flex items-center justify-center gap-1 text-orange-500 mb-1">
-                                    <span className="font-bold text-xl">{rating}</span>
-                                    <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                                </div>
-                                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wide">Rating</p>
+                                {reviews.length > 0 ? (
+                                    <div className="flex items-center justify-center gap-1 text-slate-900 dark:text-white mb-1">
+                                        <span className="font-bold text-xl">{rating.toFixed(1)}</span>
+                                        <span className="material-symbols-outlined text-[20px] text-pending" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                                    </div>
+                                ) : (
+                                    <p className="font-bold text-xl text-slate-400 dark:text-slate-500 mb-1">—</p>
+                                )}
+                                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wide">
+                                    {reviews.length > 0 ? 'Rating' : 'No ratings yet'}
+                                </p>
                             </div>
-                            <div className="text-center border-l border-slate-100 dark:border-slate-800">
+                            <div className="text-center border-l border-border">
                                 <div className="flex items-center justify-center gap-1 text-slate-700 dark:text-white mb-1">
                                     <span className="font-bold text-xl">{jobsDone}</span>
                                 </div>
@@ -214,109 +229,88 @@ export default function AgentProfile() {
                     </div>
 
                     {/* Account Settings */}
-                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
-                        <div className="p-4 border-b border-slate-100 dark:border-slate-700 font-bold text-slate-900 dark:text-white">
+                    <div className="bg-card rounded-2xl border border-border overflow-hidden">
+                        <div className="p-4 border-b border-border font-bold text-slate-900 dark:text-white">
                             Account settings
                         </div>
-                        <div className="flex flex-col">
-                            <button className="flex items-center justify-between px-4 py-3 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-slate-600 dark:text-slate-300 text-sm group">
-                                <div className="flex items-center gap-3">
-                                    <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 group-hover:text-brand-ink transition-colors">lock</span>
-                                    Change password
-                                </div>
-                                <span className="material-symbols-outlined text-[18px] text-slate-500 dark:text-slate-400">chevron_right</span>
-                            </button>
-                            <button className="flex items-center justify-between px-4 py-3 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-slate-600 dark:text-slate-300 text-sm group">
-                                <div className="flex items-center gap-3">
-                                    <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 group-hover:text-brand-ink transition-colors">notifications</span>
-                                    Notifications
-                                </div>
-                                <span className="material-symbols-outlined text-[18px] text-slate-500 dark:text-slate-400">chevron_right</span>
-                            </button>
-                            <button className="flex items-center justify-between px-4 py-3 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-slate-600 dark:text-slate-300 text-sm group">
-                                <div className="flex items-center gap-3">
-                                    <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 group-hover:text-brand-ink transition-colors">shield</span>
-                                    Privacy & security
-                                </div>
-                                <span className="material-symbols-outlined text-[18px] text-slate-500 dark:text-slate-400">chevron_right</span>
-                            </button>
+                        <div className="flex flex-col divide-y divide-border">
+                            {[
+                                { icon: 'lock', label: 'Change password' },
+                                { icon: 'notifications', label: 'Notifications' },
+                                { icon: 'shield', label: 'Privacy & security' },
+                            ].map((item) => (
+                                <Link
+                                    key={item.label}
+                                    to="/settings"
+                                    className="flex items-center justify-between px-4 py-3 hover:bg-accent transition-colors text-slate-600 dark:text-slate-300 text-sm group"
+                                >
+                                    <span className="flex items-center gap-3">
+                                        <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 group-hover:text-brand-ink transition-colors">{item.icon}</span>
+                                        {item.label}
+                                    </span>
+                                    <span className="material-symbols-outlined text-[18px] text-slate-500 dark:text-slate-400">chevron_right</span>
+                                </Link>
+                            ))}
                         </div>
                     </div>
 
-                    {/* Wallet Card */}
-                    <div className="bg-gradient-to-br from-slate-900 to-slate-800 dark:from-slate-800 dark:to-black rounded-2xl p-6 text-white shadow-lg relative overflow-hidden group cursor-pointer hover:shadow-xl transition-all">
-                        <div className="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                            <span className="material-symbols-outlined text-[80px]">account_balance_wallet</span>
-                        </div>
-                        <div className="relative z-10">
-                            <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Wallet</p>
-                            <h4 className="text-2xl font-bold mb-1">{walletBalance}</h4>
-                            <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Available for withdrawal</p>
-                            <button className="inline-flex items-center gap-2 text-brand-ink font-bold text-sm hover:text-brand-ink/80 transition-colors">
-                                Manage payment methods
-                                <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
-                            </button>
-                        </div>
+                    {/* Balance */}
+                    <div className="bg-card rounded-2xl border border-border p-6">
+                        <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Available balance</p>
+                        <h4 className="text-2xl font-extrabold text-slate-900 dark:text-white mb-4 whitespace-nowrap">{walletBalance}</h4>
+                        <Link to="/agent/earnings" className="inline-flex items-center gap-2 text-brand-ink dark:text-sky font-bold text-sm hover:underline">
+                            Earnings and payouts
+                            <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+                        </Link>
                     </div>
                 </div>
 
                 {/* Right Content */}
                 <div className="lg:col-span-8 space-y-6">
                     {/* Personal Information */}
-                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8">
+                    <div className="bg-card rounded-2xl border border-border p-6 md:p-8">
                         <div className="flex items-center gap-3 mb-6">
-                            <div className="size-10 bg-blue-50 dark:bg-slate-800 rounded-full flex items-center justify-center text-brand-ink">
+                            <div className={SECTION_ICON}>
                                 <span className="material-symbols-outlined">person</span>
                             </div>
                             <div>
                                 <h3 className="text-lg font-bold text-slate-900 dark:text-white">Personal information</h3>
-                                <p className="text-sm text-slate-500 dark:text-slate-400">Update your contact details and public bio.</p>
+                                <p className="text-sm text-slate-500 dark:text-slate-400">
+                                    Your name, email and phone come from your account. <Link to="/settings" className="font-semibold text-brand-ink dark:text-sky hover:underline">Change them in Settings</Link>.
+                                </p>
                             </div>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-1.5">
                                 <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Full name</label>
-                                <input
-                                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all text-sm font-medium outline-none"
-                                    type="text"
-                                    value={formData.name}
-                                    onChange={(e) => handleInputChange('name', e.target.value)}
-                                />
+                                <input className={READONLY_INPUT} type="text" value={formData.name} readOnly />
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Professional title</label>
+                                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300" htmlFor="agent-company">Company</label>
                                 <input
-                                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all text-sm font-medium outline-none"
+                                    id="agent-company"
+                                    className="w-full px-4 py-2.5 rounded-xl border border-border-strong bg-card text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all text-sm font-medium outline-none"
                                     type="text"
-                                    value={formData.title}
-                                    onChange={(e) => handleInputChange('title', e.target.value)}
+                                    placeholder="Your agency, if you work for one"
+                                    value={formData.company}
+                                    onChange={(e) => handleInputChange('company', e.target.value)}
                                 />
                             </div>
                             <div className="space-y-1.5">
                                 <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Email address</label>
-                                <input
-                                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all text-sm font-medium outline-none"
-                                    type="email"
-                                    value={formData.email}
-                                    onChange={(e) => handleInputChange('email', e.target.value)}
-                                />
+                                <input className={READONLY_INPUT} type="email" value={formData.email} readOnly />
                             </div>
                             <div className="space-y-1.5">
                                 <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Phone number</label>
-                                <input
-                                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all text-sm font-medium outline-none"
-                                    type="tel"
-                                    value={formData.phone}
-                                    onChange={(e) => handleInputChange('phone', e.target.value)}
-                                />
+                                <input className={READONLY_INPUT} type="tel" value={formData.phone || 'Not added'} readOnly />
                             </div>
                         </div>
                     </div>
 
                     {/* Service Area */}
-                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8">
+                    <div className="bg-card rounded-2xl border border-border p-6 md:p-8">
                         <div className="flex items-center gap-3 mb-6">
-                            <div className="size-10 bg-purple-50 dark:bg-slate-800 rounded-full flex items-center justify-center text-purple-600">
+                            <div className={SECTION_ICON}>
                                 <span className="material-symbols-outlined">map</span>
                             </div>
                             <div>
@@ -324,37 +318,24 @@ export default function AgentProfile() {
                                 <p className="text-sm text-slate-500 dark:text-slate-400">Define where you want to receive job alerts.</p>
                             </div>
                         </div>
-                        <div className="relative w-full h-48 bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden mb-4 border border-slate-200 dark:border-slate-700 flex items-center justify-center group">
-                            <div className="absolute inset-0 bg-gradient-to-br from-slate-200 to-slate-300 dark:from-slate-700 dark:to-slate-800 opacity-40"></div>
-                            <div className="relative z-10 flex flex-col items-center gap-2">
-                                <div className="size-10 bg-white dark:bg-slate-700 rounded-full shadow-lg flex items-center justify-center text-brand-ink animate-bounce">
-                                    <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>location_on</span>
-                                </div>
-                                <span className="text-xs font-bold bg-white/80 dark:bg-black/60 px-3 py-1 rounded-full backdrop-blur-sm">
-                                    Lekki Phase 1, Lagos
-                                </span>
-                            </div>
-                            <button className="absolute bottom-3 right-3 bg-white dark:bg-slate-700 text-slate-900 dark:text-white text-xs font-bold px-3 py-2 rounded-lg shadow-sm hover:shadow-md transition-all">
-                                Adjust on map
-                            </button>
-                        </div>
                         <div className="space-y-1.5">
-                            <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Primary locations</label>
-                            <div className="flex flex-wrap gap-2 p-2 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
+                            <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Areas you cover</label>
+                            <div className="flex flex-wrap gap-2 p-2 bg-card rounded-xl border border-border-strong">
                                 {locations.map((loc) => (
-                                    <div key={loc} className="flex items-center gap-1 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 px-3 py-1.5 rounded-lg">
-                                        <span className="text-sm font-medium">{loc}</span>
+                                    <div key={loc} className="flex items-center gap-1 bg-brand/10 text-brand-ink dark:bg-sky/15 dark:text-sky px-3 py-1.5 rounded-lg">
+                                        <span className="text-sm font-semibold">{loc}</span>
                                         <button
                                             onClick={() => setLocationToRemove(loc)}
-                                            className="text-slate-500 dark:text-slate-400 hover:text-red-500 transition-colors"
+                                            className="opacity-70 hover:opacity-100 transition-opacity"
+                                            title={`Remove ${loc}`}
                                         >
                                             <span className="material-symbols-outlined text-[16px]">close</span>
                                         </button>
                                     </div>
                                 ))}
                                 <input
-                                    className="bg-transparent border-none focus:ring-0 text-sm py-1 px-2 min-w-[120px] outline-none placeholder:text-slate-400"
-                                    placeholder="Add location..."
+                                    className="flex-1 bg-transparent border-none focus:ring-0 text-sm py-1 px-2 min-w-[200px] outline-none placeholder:text-slate-400"
+                                    placeholder="Add an area and press Enter"
                                     type="text"
                                     value={newLocation}
                                     onChange={(e) => setNewLocation(e.target.value)}
@@ -365,10 +346,10 @@ export default function AgentProfile() {
                     </div>
 
                     {/* Certifications */}
-                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8">
+                    <div className="bg-card rounded-2xl border border-border p-6 md:p-8">
                         <div className="flex items-center justify-between mb-6">
                             <div className="flex items-center gap-3">
-                                <div className="size-10 bg-orange-50 dark:bg-slate-800 rounded-full flex items-center justify-center text-orange-600">
+                                <div className={SECTION_ICON}>
                                     <span className="material-symbols-outlined">workspace_premium</span>
                                 </div>
                                 <div>
@@ -376,7 +357,7 @@ export default function AgentProfile() {
                                     <p className="text-sm text-slate-500 dark:text-slate-400">Manage your professional credentials.</p>
                                 </div>
                             </div>
-                            <button className="text-brand-ink font-bold text-sm flex items-center gap-1 hover:bg-blue-50 dark:hover:bg-brand/10 px-3 py-1.5 rounded-lg transition-colors">
+                            <button className="text-brand-ink dark:text-sky font-bold text-sm flex items-center gap-1 hover:bg-accent px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap shrink-0">
                                 <span className="material-symbols-outlined text-[18px]">add</span>
                                 Add new
                             </button>
@@ -386,14 +367,14 @@ export default function AgentProfile() {
                                 <div className="text-center py-4 text-slate-500 dark:text-slate-400">No certifications added yet</div>
                             ) : (
                                 certifications.map((cert) => (
-                                    <div key={cert.id} className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl">
+                                    <div key={cert.id} className="flex items-center justify-between p-4 border border-border rounded-xl">
                                         <div className="flex items-center gap-4">
-                                            <div className="size-10 rounded-lg bg-white dark:bg-slate-700 flex items-center justify-center border border-slate-100 dark:border-slate-600">
-                                                <span className="material-symbols-outlined text-green-600">verified</span>
+                                            <div className="size-10 rounded-lg bg-neutral-bg flex items-center justify-center">
+                                                <span className="material-symbols-outlined text-muted-foreground">workspace_premium</span>
                                             </div>
                                             <div>
                                                 <h4 className="font-bold text-slate-900 dark:text-white text-sm">{cert.name}</h4>
-                                                <p className="text-xs text-slate-500 dark:text-slate-400">Issuer: {cert.issuer} • Exp: {cert.expiryDate || 'Does not expire'}</p>
+                                                <p className="text-xs text-slate-500 dark:text-slate-400">{cert.issuer} · {cert.expiryDate ? `Expires ${formatDate(cert.expiryDate)}` : 'Does not expire'}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-2">
@@ -414,9 +395,9 @@ export default function AgentProfile() {
                     </div>
 
                     {/* Recent Reviews */}
-                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8">
+                    <div className="bg-card rounded-2xl border border-border p-6 md:p-8">
                         <div className="flex items-center gap-3 mb-6">
-                            <div className="size-10 bg-yellow-50 dark:bg-slate-800 rounded-full flex items-center justify-center text-yellow-600">
+                            <div className={SECTION_ICON}>
                                 <span className="material-symbols-outlined">reviews</span>
                             </div>
                             <div>
@@ -427,29 +408,26 @@ export default function AgentProfile() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {reviews.length === 0 && <p className="text-sm text-slate-500 dark:text-slate-400">No reviews yet.</p>}
                             {reviews.map((review) => (
-                                <div key={review.id} className="p-4 rounded-xl border border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/30">
-                                    <div className="flex items-center gap-1 mb-2 text-yellow-500">
+                                <div key={review.id} className="p-4 rounded-xl border border-border">
+                                    <div className="flex items-center gap-1 mb-2 text-pending">
                                         {[1, 2, 3, 4, 5].map((star) => (
                                             <span
                                                 key={star}
                                                 className="material-symbols-outlined text-[16px]"
                                                 style={{ fontVariationSettings: star <= Math.floor(review.rating) ? "'FILL' 1" : "'FILL' 0" }}
                                             >
-                                                {star <= review.rating ? 'star' : 'star'}
+                                                star
                                             </span>
                                         ))}
                                     </div>
                                     <p className="text-sm text-slate-700 dark:text-slate-300 italic mb-3">{review.body || 'Rating submitted without a comment.'}</p>
                                     <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
                                         <span className="font-bold">{review.author.firstName} {review.author.lastName}</span>
-                                        <span>{new Date(review.createdAt).toLocaleDateString()}</span>
+                                        <span>{formatDate(review.createdAt)}</span>
                                     </div>
                                 </div>
                             ))}
                         </div>
-                        <button className="w-full mt-4 text-center text-brand-ink text-sm font-bold hover:underline">
-                            View all {jobsDone} reviews
-                        </button>
                     </div>
                 </div>
             </div>

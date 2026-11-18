@@ -401,6 +401,12 @@ export const PAYOUTS: Payout[] = [
     { id: id(811), amount: 240000, currency: 'NGN', bankAccountId: BANK_ACCOUNTS[0].id, bankAccount: BANK_ACCOUNTS[0], status: 'PROCESSING', reference: 'PO-1002', description: 'Agent earnings', createdAt: daysFromNow(-1) },
 ];
 
+// The agent's withdrawals: together they make up AGENT_EARNINGS.totalWithdrawn
+export const AGENT_PAYOUTS: Payout[] = [
+    { id: id(820), amount: 625000, currency: 'NGN', bankAccountId: BANK_ACCOUNTS[0].id, bankAccount: BANK_ACCOUNTS[0], status: 'COMPLETED', reference: 'PO-2001', description: 'Withdrawal to bank', createdAt: daysFromNow(-47), completedAt: daysFromNow(-46) },
+    { id: id(821), amount: 520000, currency: 'NGN', bankAccountId: BANK_ACCOUNTS[0].id, bankAccount: BANK_ACCOUNTS[0], status: 'COMPLETED', reference: 'PO-2002', description: 'Withdrawal to bank', createdAt: daysFromNow(-16), completedAt: daysFromNow(-15) },
+];
+
 export const PAYOUT_SETTINGS: PayoutSettings = { payoutSchedule: 'monthly', minimumPayoutAmount: 150000, autoPayoutEnabled: true };
 
 // ---------------------------------------------------------------------------

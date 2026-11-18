@@ -68,6 +68,19 @@ export function formatDateTime(value: string | null | undefined): string {
     }).format(date);
 }
 
+/** 12 Oct 2026 — the calendar date of an API timestamp, in Lagos time */
+export function formatDate(value: string | null | undefined): string {
+    if (!value) return '';
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return value;
+    return new Intl.DateTimeFormat('en-NG', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+        timeZone: 'Africa/Lagos',
+    }).format(date);
+}
+
 /** ₦1.3M, ₦850K — for tight spaces such as stat tiles and chart labels */
 export function formatCompactCurrency(
     amount: number | null | undefined,

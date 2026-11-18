@@ -2,34 +2,33 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageContainer from '../../../components/common/PageContainer';
 import PageHeader from '../../../components/common/PageHeader';
-import FilterDropdown from '../../../components/FilterDropdown';
 import EmptyState from '../../../components/common/EmptyState';
+import StatusBadge from '../../../components/common/StatusBadge';
+import type { ContourFragment } from '../../../components/common/ContourMotif';
 import { AnimatedGroup } from '../../../components/animation';
 import { agentService } from '../../../lib/api/services/agentService';
 import type { AgentJob } from '../../../types/dashboard';
+import { JOB_STATUS } from '../status';
 import { formatCurrency, formatDateTime } from '@/lib/format';
 
-// Helper to format currency
-// Helper to get status styles
-function getStatusStyles(status: AgentJob['status']): { bg: string; text: string; bar: string; icon?: string; animate?: boolean } {
-    switch (status) {
-        case 'Accepted':
-            return { bg: 'bg-amber-100 dark:bg-amber-900/30', text: 'text-amber-700 dark:text-amber-500', bar: 'bg-amber-500', icon: 'sync', animate: true };
-        case 'Completed':
-            return { bg: 'bg-green-100 dark:bg-green-900/30', text: 'text-green-700 dark:text-green-500', bar: 'bg-green-500', icon: 'check' };
-        case 'Cancelled':
-            return { bg: 'bg-red-100 dark:bg-red-900/30', text: 'text-red-700 dark:text-red-500', bar: 'bg-red-500' };
-        case 'Open':
-        default:
-            return { bg: 'bg-blue-100 dark:bg-blue-900/30', text: 'text-blue-700 dark:text-blue-500', bar: 'bg-blue-500' };
-    }
-}
+// A short list leaves the right of the grid and the page below empty; a large fragment fills that corner of the
+// layout and reaches under the cards
+const CONTOUR: ContourFragment[] = [
+    'top-[56%] left-[70%] -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-[1100px] rotate-180',
+    '-top-24 -right-48 w-[50vw] max-w-[520px]',
+];
 
 type TabType = 'all' | 'Accepted' | 'Completed' | 'Cancelled';
 
+const TABS: { key: TabType; label: string }[] = [
+    { key: 'all', label: 'All jobs' },
+    { key: 'Accepted', label: 'In progress' },
+    { key: 'Completed', label: 'Completed' },
+    { key: 'Cancelled', label: 'Cancelled' },
+];
+
 export default function AgentMyJobs() {
     const [activeTab, setActiveTab] = useState<TabType>('all');
-    const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
     const [jobs, setJobs] = useState<AgentJob[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -74,62 +73,24 @@ export default function AgentMyJobs() {
         : jobs.filter((job: AgentJob) => job.status === activeTab);
 
     return (
-        <PageContainer>
+        <PageContainer motif={CONTOUR}>
             <PageHeader
                 title="My jobs"
                 subtitle="Manage your schedule, track progress, and update job status."
                 actions={
-                    <div className="flex flex-col sm:flex-row gap-4">
-                        <div className="flex p-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl overflow-x-auto custom-scrollbar">
+                    <div className="flex p-1 bg-card border border-border rounded-xl overflow-x-auto custom-scrollbar">
+                        {TABS.map((tab) => (
                             <button
-                                onClick={() => setActiveTab('all')}
-                                className={`px-5 py-2 text-sm font-bold whitespace-nowrap rounded-lg transition-all ${activeTab === 'all'
-                                    ? 'bg-brand-ink text-on-brand shadow-md'
-                                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white'
+                                key={tab.key}
+                                onClick={() => setActiveTab(tab.key)}
+                                className={`px-5 py-2 text-sm whitespace-nowrap rounded-lg transition-all ${activeTab === tab.key
+                                    ? 'bg-brand-ink text-on-brand font-bold'
+                                    : 'font-medium text-slate-600 dark:text-slate-300 hover:bg-accent hover:text-slate-900 dark:hover:text-white'
                                     }`}
                             >
-                                All jobs
+                                {tab.label}
                             </button>
-                            <button
-                                onClick={() => setActiveTab('Accepted')}
-                                className={`px-5 py-2 text-sm font-medium whitespace-nowrap rounded-lg transition-all ${activeTab === 'Accepted'
-                                    ? 'bg-brand-ink text-on-brand shadow-md'
-                                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white'
-                                    }`}
-                            >
-                                In progress
-                            </button>
-                            <button
-                                onClick={() => setActiveTab('Completed')}
-                                className={`px-5 py-2 text-sm font-medium whitespace-nowrap rounded-lg transition-all ${activeTab === 'Completed'
-                                    ? 'bg-brand-ink text-on-brand shadow-md'
-                                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white'
-                                    }`}
-                            >
-                                Completed
-                            </button>
-                            <button
-                                onClick={() => setActiveTab('Cancelled')}
-                                className={`px-5 py-2 text-sm font-medium whitespace-nowrap rounded-lg transition-all ${activeTab === 'Cancelled'
-                                    ? 'bg-brand-ink text-on-brand shadow-md'
-                                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white'
-                                    }`}
-                            >
-                                Cancelled
-                            </button>
-                        </div>
-                        <FilterDropdown
-                            label="Filter"
-                            options={[
-                                { id: 'hvac', label: 'HVAC', icon: 'hvac' },
-                                { id: 'plumbing', label: 'Plumbing', icon: 'plumbing' },
-                                { id: 'electrical', label: 'Electrical', icon: 'lightbulb' },
-                                { id: 'appliances', label: 'Appliances', icon: 'kitchen' },
-                                { id: 'general', label: 'General', icon: 'handyman' },
-                            ]}
-                            selected={selectedFilters}
-                            onChange={setSelectedFilters}
-                        />
+                        ))}
                     </div>
                 }
             />
@@ -138,7 +99,7 @@ export default function AgentMyJobs() {
             {isLoading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {Array.from({ length: 6 }).map((_, i) => (
-                        <div key={i} className="bg-white dark:bg-canvas-dark rounded-2xl p-6 animate-pulse">
+                        <div key={i} className="bg-card rounded-2xl p-6 animate-pulse">
                             <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/4 mb-4" />
                             <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded w-3/4 mb-4" />
                             <div className="space-y-2">
@@ -149,141 +110,118 @@ export default function AgentMyJobs() {
                     ))}
                 </div>
             ) : error ? (
-                <div className="p-6 bg-red-50 dark:bg-red-900/20 rounded-2xl text-center">
-                    <span className="material-symbols-outlined text-red-500 text-3xl mb-2">error</span>
-                    <p className="text-red-600 dark:text-red-400">{error}</p>
-                    <button onClick={() => window.location.reload()} className="mt-3 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+                <div className="p-6 bg-alert-bg rounded-2xl text-center">
+                    <span className="material-symbols-outlined text-alert text-3xl mb-2">error</span>
+                    <p className="text-alert">{error}</p>
+                    <button onClick={() => window.location.reload()} className="mt-3 px-4 py-2 bg-brand-ink text-on-brand font-bold rounded-lg hover:bg-brand-ink/90">
                         Retry
                     </button>
                 </div>
             ) : (
-            <AnimatedGroup className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" stagger={0.08}>
-                {filteredJobs.map((job: AgentJob) => {
-                    const styles = getStatusStyles(job.status);
-                    const isAccepted = job.status === 'Accepted';
-                    const isCompleted = job.status === 'Completed';
-                    const isCancelled = job.status === 'Cancelled';
+                <AnimatedGroup className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" stagger={0.08}>
+                    {filteredJobs.map((job: AgentJob) => {
+                        const status = JOB_STATUS[job.status] ?? JOB_STATUS.Open;
+                        const isAccepted = job.status === 'Accepted';
+                        const isCompleted = job.status === 'Completed';
+                        const isCancelled = job.status === 'Cancelled';
 
-                    return (
-                        <div
-                            key={job.id}
-                            className={`bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 hover:shadow-lg hover:border-brand/30 transition-all group relative overflow-hidden ${isCompleted || isCancelled ? 'opacity-80 hover:opacity-100' : ''}`}
-                        >
-                            {/* Left Border Accent */}
-                            <div className={`absolute top-0 left-0 w-1 h-full ${styles.bar}`}></div>
-
-                            {/* Header */}
-                            <div className="flex justify-between items-start mb-4 pl-2">
-                                <div>
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <span className="inline-block px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
-                                            {job.type}
-                                        </span>
-                                        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold ${styles.bg} ${styles.text}`}>
-                                            {styles.icon && (
-                                                <span className={`material-symbols-outlined text-[12px] ${styles.animate ? 'animate-spin' : ''}`} style={{ animationDuration: '3s' }}>
-                                                    {styles.icon}
-                                                </span>
-                                            )}
-                                            {job.status}
-                                        </span>
-                                    </div>
+                        return (
+                            <div
+                                key={job.id}
+                                className="bg-card rounded-2xl border border-border p-6 hover:border-border-strong transition-colors flex flex-col"
+                            >
+                                {/* Header */}
+                                <div className="flex items-center justify-between gap-2 mb-3">
+                                    <span className="inline-block px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-neutral-bg text-muted-foreground">
+                                        {job.type}
+                                    </span>
+                                    <StatusBadge status={status.label} variant={status.variant} />
+                                </div>
+                                <div className="flex justify-between items-start gap-3 mb-4">
                                     <h3 className="font-bold text-lg text-slate-900 dark:text-white leading-tight">
                                         {job.property}
                                     </h3>
-                                </div>
-                                <div className="text-right">
-                                    <span className="block text-xl font-extrabold text-slate-900 dark:text-white">
+                                    <span className="text-xl font-extrabold text-slate-900 dark:text-white whitespace-nowrap">
                                         {formatCurrency(job.earnings)}
                                     </span>
                                 </div>
-                            </div>
 
-                            {/* Details */}
-                            <div className="space-y-3 mb-6 pl-2">
-                                <div className="flex items-start gap-3 text-slate-800 dark:text-slate-400 text-sm">
-                                    <span className="material-symbols-outlined text-lg shrink-0 mt-0.5">location_on</span>
-                                    <span>{job.city}</span>
+                                {/* Details */}
+                                <div className="space-y-3 mb-6 text-sm text-slate-700 dark:text-slate-400">
+                                    <div className="flex items-center gap-3">
+                                        <span className="material-symbols-outlined text-lg shrink-0">location_on</span>
+                                        <span>{job.city}</span>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <span className="material-symbols-outlined text-lg shrink-0">schedule</span>
+                                        <span>{formatDateTime(job.date)}</span>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <span className="material-symbols-outlined text-lg shrink-0">person</span>
+                                        <span>{job.clientName}</span>
+                                    </div>
                                 </div>
-                                <div className="flex items-center gap-3 text-slate-800 dark:text-slate-400 text-sm">
-                                    <span className="material-symbols-outlined text-lg shrink-0">schedule</span>
-                                    <span>{formatDateTime(job.date)}</span>
-                                </div>
-                                <div className="flex items-center gap-3 text-slate-800 dark:text-slate-400 text-sm">
-                                    <span className="material-symbols-outlined text-lg shrink-0">person</span>
-                                    <span>{job.clientName}</span>
-                                </div>
-                            </div>
 
-                            {/* Footer Actions */}
-                            <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800 pl-2">
-                                {isAccepted && (
-                                    <>
-                                        <div className="flex gap-1">
-                                            <button className="p-2.5 text-slate-800 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" title="Call client">
-                                                <span className="material-symbols-outlined">call</span>
-                                            </button>
-                                            <button className="p-2.5 text-slate-800 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" title="Message">
-                                                <span className="material-symbols-outlined">chat</span>
-                                            </button>
-                                        </div>
-                                        <div className="flex gap-2">
+                                {/* Footer Actions */}
+                                <div className="mt-auto flex items-center justify-between gap-2 pt-4 border-t border-border">
+                                    {isAccepted && (
+                                        <>
+                                            {job.contactPhone ? (
+                                                <a
+                                                    href={`tel:${job.contactPhone}`}
+                                                    className="p-2.5 text-slate-700 dark:text-slate-400 hover:bg-accent rounded-lg transition-colors"
+                                                    title={`Call ${job.clientName}`}
+                                                >
+                                                    <span className="material-symbols-outlined">call</span>
+                                                </a>
+                                            ) : <span />}
+                                            <div className="flex gap-2">
+                                                <Link
+                                                    to={`/agent/my-jobs/${job.id}`}
+                                                    className="px-4 py-2 border border-border-strong text-slate-700 dark:text-white text-sm font-bold rounded-lg hover:bg-accent transition-colors"
+                                                >
+                                                    Details
+                                                </Link>
+                                                <button
+                                                    onClick={() => handleCompleteJob(job.id)}
+                                                    disabled={completingJobId === job.id}
+                                                    className="px-4 py-2 bg-brand-ink text-on-brand text-sm font-bold rounded-lg hover:bg-brand-ink/90 transition-all disabled:opacity-50"
+                                                >
+                                                    {completingJobId === job.id ? 'Completing…' : 'Complete'}
+                                                </button>
+                                            </div>
+                                        </>
+                                    )}
+
+                                    {(isCompleted || isCancelled) && (
+                                        <>
+                                            <span className="text-xs text-slate-500 dark:text-slate-400">
+                                                {isCompleted ? 'Job completed' : 'Job cancelled'}
+                                            </span>
                                             <Link
                                                 to={`/agent/my-jobs/${job.id}`}
-                                                className="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-white text-sm font-bold rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                                                className="px-4 py-2 border border-border-strong text-slate-700 dark:text-white text-sm font-bold rounded-lg hover:bg-accent transition-colors"
                                             >
-                                                Details
+                                                View details
                                             </Link>
-                                            <button
-                                                onClick={() => handleCompleteJob(job.id)}
-                                                disabled={completingJobId === job.id}
-                                                className="px-4 py-2 bg-brand-ink text-on-brand text-sm font-bold rounded-lg hover:bg-brand-ink/90 transition-all disabled:opacity-50"
-                                            >
-                                                {completingJobId === job.id ? 'Completing...' : 'Complete'}
-                                            </button>
-                                        </div>
-                                    </>
-                                )}
-
-                                {isCompleted && (
-                                    <>
-                                        <div className="flex items-center gap-1 text-xs font-bold text-green-600">
-                                            <span className="material-symbols-outlined text-sm">verified</span>
-                                            Completed
-                                        </div>
-                                        <Link
-                                            to={`/agent/my-jobs/${job.id}`}
-                                            className="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white text-sm font-bold rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
-                                        >
-                                            View details
-                                        </Link>
-                                    </>
-                                )}
-
-                                {isCancelled && (
-                                    <>
-                                        <span className="text-xs text-slate-500 dark:text-slate-400 italic">Job cancelled</span>
-                                        <button className="px-4 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-700 text-sm font-bold rounded-lg transition-colors">
-                                            Archive
-                                        </button>
-                                    </>
-                                )}
+                                        </>
+                                    )}
+                                </div>
                             </div>
-                        </div>
-                    );
-                })}
+                        );
+                    })}
 
-                {/* Empty State */}
-                {filteredJobs.length === 0 && (
-                    <EmptyState
-                        icon="work_off"
-                        title="No jobs found"
-                        description="Try adjusting your filters or browse the job board for new opportunities."
-                        action={{ label: "Browse job board", href: "/agent/jobs" }}
-                        className="col-span-full"
-                    />
-                )}
-            </AnimatedGroup>
+                    {/* Empty State */}
+                    {filteredJobs.length === 0 && (
+                        <EmptyState
+                            icon="work_off"
+                            title="No jobs here yet"
+                            description="Jobs you accept from the job board appear here."
+                            action={{ label: "Browse job board", href: "/agent/jobs" }}
+                            className="col-span-full"
+                        />
+                    )}
+                </AnimatedGroup>
             )}
         </PageContainer>
     );

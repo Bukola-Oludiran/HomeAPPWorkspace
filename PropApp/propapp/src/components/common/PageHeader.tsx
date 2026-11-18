@@ -69,7 +69,7 @@ export default function PageHeader({ title, subtitle, actions, breadcrumb, class
 
             {/* Actions */}
             {actions && (
-                <div className="flex gap-3 items-center">
+                <div className="flex flex-wrap gap-3 items-center">
                     {actions}
                 </div>
             )}

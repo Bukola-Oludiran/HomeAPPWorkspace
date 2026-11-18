@@ -5,9 +5,20 @@ import AddAvailabilityModal from '../../../components/AddAvailabilityModal';
 import NotificationPreferencesModal from '../../../components/NotificationPreferencesModal';
 import PageContainer from '../../../components/common/PageContainer';
 import PageHeader from '../../../components/common/PageHeader';
+import StatusBadge from '../../../components/common/StatusBadge';
+import type { ContourFragment } from '../../../components/common/ContourMotif';
+import { Link } from 'react-router-dom';
 import { agentService } from '../../../lib/api/services/agentService';
 import type { AgentScheduleItem } from '../../../types/dashboard';
 import { formatCurrency } from '@/lib/format';
+
+// The calendar fills the page, so the motif stays in the corners
+const CONTOUR: ContourFragment[] = [
+    '-top-24 -right-48 w-[50vw] max-w-[520px]',
+    '-bottom-28 -left-48 w-[50vw] max-w-[520px] rotate-180',
+];
+
+type EventType = 'completed' | 'scheduled' | 'urgent' | 'available';
 
 // UI interfaces for transformed schedule data
 interface UICalendarEvent {
@@ -15,7 +26,7 @@ interface UICalendarEvent {
     day: number;
     time: string;
     title: string;
-    type: 'completed' | 'pending' | 'urgent' | 'personal';
+    type: EventType;
     isToday?: boolean;
 }
 
@@ -24,12 +35,11 @@ interface UISelectedJob {
     title: string;
     location: string;
     type: string;
-    priority: string;
+    isUrgent: boolean;
     date: string;
     time: string;
     client: string;
     clientPhone?: string;
-    instructions: string;
     payout: string;
 }
 
@@ -38,19 +48,14 @@ interface UIUpcomingJob {
     title: string;
     time: string;
     location: string;
-    color: string;
 }
 
-// Helper to format time
+// "9:00" -> "09:00": times read in 24-hour form, as elsewhere in Keystead
 function formatTime(timeString: string): string {
     if (!timeString) return '';
-    // If already formatted like "10:00 AM", return as-is
-    if (timeString.includes('AM') || timeString.includes('PM')) return timeString;
-    // Parse 24-hour time and convert
-    const [hours, minutes] = timeString.split(':').map(Number);
-    const period = hours >= 12 ? 'PM' : 'AM';
-    const hour12 = hours % 12 || 12;
-    return `${hour12}:${minutes?.toString().padStart(2, '0') || '00'} ${period}`;
+    const [hours, minutes] = timeString.split(':');
+    if (minutes === undefined) return timeString;
+    return `${hours.padStart(2, '0')}:${minutes.slice(0, 2)}`;
 }
 
 // Helper to format date for display
@@ -66,24 +71,15 @@ function formatDateDisplay(dateString: string): string {
     if (isToday) return 'Today';
     if (isTomorrow) return 'Tomorrow';
 
-    return date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    return date.toLocaleDateString('en-NG', { weekday: 'long', day: 'numeric', month: 'long' });
 }
 
 // Get event type based on status
-function getEventType(status: string): 'completed' | 'pending' | 'urgent' | 'personal' {
-    const statusLower = status.toLowerCase();
+function getEventType(status: string): EventType {
+    const statusLower = (status ?? '').toLowerCase();
     if (statusLower === 'completed') return 'completed';
     if (statusLower === 'urgent' || statusLower === 'emergency') return 'urgent';
-    if (statusLower === 'personal') return 'personal';
-    return 'pending';
-}
-
-// Get color for upcoming job based on status
-function getJobColor(status: string): string {
-    const statusLower = status.toLowerCase();
-    if (statusLower === 'completed') return 'bg-green-500';
-    if (statusLower === 'urgent' || statusLower === 'emergency') return 'bg-red-500';
-    return 'bg-blue-500';
+    return 'scheduled';
 }
 
 // Transform API schedule item to calendar event
@@ -105,15 +101,14 @@ function transformToCalendarEvent(item: AgentScheduleItem, today: Date): UICalen
 function transformToSelectedJob(item: AgentScheduleItem): UISelectedJob {
     return {
         id: item.id,
-        title: `${item.type} - ${item.property}`,
+        title: `${item.type} — ${item.property}`,
         location: item.address,
         type: item.type,
-        priority: (item.status ?? "").toLowerCase() === 'urgent' ? 'Urgent' : 'Normal',
+        isUrgent: getEventType(item.status) === 'urgent',
         date: formatDateDisplay(item.date),
         time: formatTime(item.time),
-        client: item.clientName || 'N/A',
+        client: item.clientName || 'Not given',
         clientPhone: item.clientPhone,
-        instructions: 'Please arrive 10 minutes early and contact the client upon arrival.',
         payout: formatCurrency(item.payout || 0),
     };
 }
@@ -125,22 +120,34 @@ function transformToUpcomingJob(item: AgentScheduleItem): UIUpcomingJob {
         title: item.type,
         time: `${formatDateDisplay(item.date)}, ${formatTime(item.time)}`,
         location: item.address.split(',')[0] || item.address,
-        color: getJobColor(item.status),
     };
 }
 
-// Default empty states
+// Nothing selected: the panel shows an empty state instead of placeholder values
 const defaultSelectedJob: UISelectedJob = {
     id: '',
-    title: 'No job selected',
-    location: 'N/A',
-    type: 'N/A',
-    priority: 'Normal',
-    date: 'N/A',
-    time: 'N/A',
-    client: 'N/A',
-    instructions: 'Select a job from the calendar to view details.',
-    payout: formatCurrency(0),
+    title: '',
+    location: '',
+    type: '',
+    isUrgent: false,
+    date: '',
+    time: '',
+    client: '',
+    payout: '',
+};
+
+const LEGEND: { type: EventType; label: string }[] = [
+    { type: 'scheduled', label: 'Scheduled' },
+    { type: 'completed', label: 'Completed' },
+    { type: 'urgent', label: 'Urgent' },
+    { type: 'available', label: 'Available' },
+];
+
+const EVENT_STYLES: Record<EventType, { chip: string; dot: string }> = {
+    scheduled: { chip: 'bg-brand/10 text-brand-ink dark:bg-sky/15 dark:text-sky', dot: 'bg-brand-ink dark:bg-sky' },
+    completed: { chip: 'bg-verified-bg text-verified', dot: 'bg-verified' },
+    urgent: { chip: 'bg-alert-bg text-alert', dot: 'bg-alert' },
+    available: { chip: 'bg-neutral-bg text-muted-foreground', dot: 'bg-muted-foreground' },
 };
 
 type ViewMode = 'month' | 'week' | 'day';
@@ -186,7 +193,7 @@ export default function AgentSchedule() {
                     day: new Date(item.date).getDate(),
                     time: `${formatTime(item.startTime)}–${formatTime(item.endTime)}`,
                     title: 'Available',
-                    type: 'personal',
+                    type: 'available',
                 }));
                 const events = [...items.map(item => transformToCalendarEvent(item, today)), ...availabilityEvents];
                 setCalendarEvents(events);
@@ -274,23 +281,9 @@ export default function AgentSchedule() {
 
     const calendarDays = generateCalendarDays();
 
-    const getEventStyle = (type: string) => {
-        switch (type) {
-            case 'completed':
-                return 'bg-green-100 dark:bg-green-900/30 border-l-2 border-green-500 text-green-800 dark:text-green-300';
-            case 'pending':
-                return 'bg-blue-100 dark:bg-blue-900/30 border-l-2 border-blue-500 text-blue-800 dark:text-blue-300';
-            case 'urgent':
-                return 'bg-red-100 dark:bg-red-900/30 border-l-2 border-red-500 text-red-800 dark:text-red-300';
-            case 'personal':
-                return 'bg-purple-100 dark:bg-purple-900/30 border-l-2 border-purple-500 text-purple-800 dark:text-purple-300';
-            default:
-                return 'bg-slate-100 dark:bg-slate-800 border-l-2 border-slate-400 text-slate-700 dark:text-slate-300';
-        }
-    };
 
     return (
-        <PageContainer maxWidth="2xl">
+        <PageContainer maxWidth="2xl" motif={CONTOUR}>
             <PageHeader
                 title="My schedule"
                 subtitle="Manage your upcoming jobs and appointments."
@@ -328,7 +321,7 @@ export default function AgentSchedule() {
                         </div>
                         <button
                             onClick={() => setIsAddEventModalOpen(true)}
-                            className="px-5 py-2.5 rounded-lg bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm transition-all flex items-center gap-2"
+                            className="px-5 py-2.5 rounded-lg bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold text-sm transition-all flex items-center gap-2 whitespace-nowrap"
                         >
                             <span className="material-symbols-outlined text-[20px]">add</span>
                             Add personal event
@@ -340,7 +333,7 @@ export default function AgentSchedule() {
             {/* Main Content */}
             <div className="flex flex-col lg:flex-row gap-6 min-h-[700px]">
                 {/* Calendar */}
-                <div className="flex-1 flex flex-col bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+                <div className="flex-1 flex flex-col bg-card rounded-2xl border border-border overflow-hidden">
                     {/* Calendar Header */}
                     <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
                         <div className="flex items-center gap-4">
@@ -350,22 +343,14 @@ export default function AgentSchedule() {
                                 variant="compact"
                             />
                         </div>
-                        <div className="flex items-center gap-3">
-                            <span className="text-sm font-medium text-slate-500 dark:text-slate-400">Filter:</span>
-                            <div className="flex gap-2">
-                                <div className="flex items-center gap-1.5 px-2 py-1 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 rounded text-xs font-bold border border-green-200 dark:border-green-800/30">
-                                    <div className="size-2 rounded-full bg-green-500"></div>
-                                    Completed
-                                </div>
-                                <div className="flex items-center gap-1.5 px-2 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 rounded text-xs font-bold border border-blue-200 dark:border-blue-800/30">
-                                    <div className="size-2 rounded-full bg-blue-500"></div>
-                                    Pending
-                                </div>
-                                <div className="flex items-center gap-1.5 px-2 py-1 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 rounded text-xs font-bold border border-red-200 dark:border-red-800/30">
-                                    <div className="size-2 rounded-full bg-red-500"></div>
-                                    Urgent
-                                </div>
-                            </div>
+                        {/* Key to the event colours */}
+                        <div className="hidden sm:flex items-center gap-4">
+                            {LEGEND.map((item) => (
+                                <span key={item.type} className="flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-400">
+                                    <span className={`size-2 rounded-full ${EVENT_STYLES[item.type].dot}`}></span>
+                                    {item.label}
+                                </span>
+                            ))}
                         </div>
                     </div>
 
@@ -391,7 +376,7 @@ export default function AgentSchedule() {
                         {error && (
                             <div className="absolute inset-0 bg-white/90 dark:bg-canvas-dark/90 flex items-center justify-center z-10">
                                 <div className="flex flex-col items-center gap-3 p-6 text-center">
-                                    <span className="material-symbols-outlined text-4xl text-red-500">error</span>
+                                    <span className="material-symbols-outlined text-4xl text-alert">error</span>
                                     <p className="text-sm text-slate-600 dark:text-slate-400">{error}</p>
                                     <button
                                         onClick={() => setCurrentDate(new Date(currentDate))}
@@ -426,9 +411,9 @@ export default function AgentSchedule() {
                                     <div
                                         key={eventIndex}
                                         onClick={() => handleSelectJob(event.id)}
-                                        className={`px-2 py-1 rounded text-xs font-semibold truncate cursor-pointer hover:opacity-80 ${getEventStyle(event.type)}`}
+                                        className={`px-2 py-1 rounded text-xs font-semibold truncate ${event.type === 'available' ? '' : 'cursor-pointer hover:opacity-80'} ${EVENT_STYLES[event.type].chip}`}
                                     >
-                                        {event.time} - {event.title}
+                                        {event.time} {event.title}
                                     </div>
                                 ))}
                             </div>
@@ -439,103 +424,101 @@ export default function AgentSchedule() {
                 {/* Sidebar - Job Details */}
                 <div className="w-full lg:w-[400px] shrink-0 flex flex-col gap-6">
                     {/* Selected Job Card */}
-                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 shadow-lg flex flex-col overflow-hidden">
-                        <div className="p-5 border-b border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-[#151f2a]">
-                            <div className="flex justify-between items-start mb-2">
-                                <div className="flex items-center gap-2">
-                                    <span className="bg-red-100 text-red-700 text-xs font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">
-                                        {selectedJob.priority}
-                                    </span>
-                                    <span className="bg-blue-50 text-blue-700 text-xs font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">
-                                        {selectedJob.type}
-                                    </span>
+                    <div className="bg-card rounded-2xl border border-border shadow-lg flex flex-col overflow-hidden">
+                        {selectedJob.id ? (
+                            <>
+                                <div className="p-5 border-b border-border">
+                                    <div className="flex justify-between items-start gap-2 mb-2">
+                                        <div className="flex flex-wrap items-center gap-2">
+                                            {selectedJob.isUrgent && <StatusBadge status="Urgent" variant="error" />}
+                                            <span className="bg-neutral-bg text-muted-foreground text-xs font-bold px-2 py-0.5 rounded-md uppercase tracking-wide">
+                                                {selectedJob.type}
+                                            </span>
+                                        </div>
+                                        <span className="text-xs font-bold text-slate-500 dark:text-slate-400 whitespace-nowrap">Ref {selectedJob.id.slice(-8).toUpperCase()}</span>
+                                    </div>
+                                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-1">{selectedJob.title}</h3>
+                                    <p className="text-slate-500 dark:text-slate-400 text-sm">{selectedJob.location}</p>
                                 </div>
-                                <span className="text-xs font-bold text-slate-500 dark:text-slate-400">#{selectedJob.id}</span>
-                            </div>
-                            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-1">{selectedJob.title}</h3>
-                            <p className="text-slate-500 dark:text-slate-400 text-sm">{selectedJob.location}</p>
-                        </div>
 
-                        <div className="p-5 flex-1 overflow-y-auto">
-                            <div className="space-y-6">
-                                <div className="flex gap-4 items-start">
-                                    <div className="size-10 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0 text-slate-500 dark:text-slate-400">
-                                        <span className="material-symbols-outlined">event</span>
+                                <div className="p-5 flex-1 space-y-6">
+                                    <div className="flex gap-4 items-start">
+                                        <div className="size-10 rounded-lg bg-neutral-bg flex items-center justify-center shrink-0 text-muted-foreground">
+                                            <span className="material-symbols-outlined">event</span>
+                                        </div>
+                                        <div>
+                                            <h4 className="text-sm font-bold text-slate-900 dark:text-white">Date &amp; time</h4>
+                                            <p className="text-sm text-slate-500 dark:text-slate-400">{selectedJob.date}</p>
+                                            <p className="text-sm text-brand-ink dark:text-sky font-semibold">{selectedJob.time}</p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h4 className="text-sm font-bold text-slate-900 dark:text-white">Date & time</h4>
-                                        <p className="text-sm text-slate-500 dark:text-slate-400">{selectedJob.date}</p>
-                                        <p className="text-sm text-brand-ink font-semibold">{selectedJob.time}</p>
+                                    <div className="flex gap-4 items-start">
+                                        <div className="size-10 rounded-lg bg-neutral-bg flex items-center justify-center shrink-0 text-muted-foreground">
+                                            <span className="material-symbols-outlined">person</span>
+                                        </div>
+                                        <div>
+                                            <h4 className="text-sm font-bold text-slate-900 dark:text-white">Client</h4>
+                                            <p className="text-sm text-slate-500 dark:text-slate-400">{selectedJob.client}</p>
+                                            {selectedJob.clientPhone && (
+                                                <a
+                                                    href={`tel:${selectedJob.clientPhone}`}
+                                                    className="mt-2 inline-flex px-3 py-1 border border-border-strong rounded-md text-xs font-bold text-slate-700 dark:text-white hover:bg-accent transition-colors items-center gap-1"
+                                                >
+                                                    <span className="material-symbols-outlined text-[14px]">call</span>
+                                                    Call
+                                                </a>
+                                            )}
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="flex gap-4 items-start">
-                                    <div className="size-10 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0 text-slate-500 dark:text-slate-400">
-                                        <span className="material-symbols-outlined">person</span>
-                                    </div>
-                                    <div>
-                                        <h4 className="text-sm font-bold text-slate-900 dark:text-white">Client</h4>
-                                        <p className="text-sm text-slate-500 dark:text-slate-400">{selectedJob.client}</p>
-                                        <div className="flex gap-2 mt-2">
-                                            <button className="px-3 py-1 bg-slate-100 dark:bg-slate-700 rounded-md text-xs font-bold text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors flex items-center gap-1">
-                                                <span className="material-symbols-outlined text-[14px]">call</span>
-                                                Call
-                                            </button>
-                                            <button className="px-3 py-1 bg-slate-100 dark:bg-slate-700 rounded-md text-xs font-bold text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors flex items-center gap-1">
-                                                <span className="material-symbols-outlined text-[14px]">chat</span>
-                                                Chat
-                                            </button>
+                                    <div className="flex gap-4 items-start">
+                                        <div className="size-10 rounded-lg bg-neutral-bg flex items-center justify-center shrink-0 text-muted-foreground">
+                                            <span className="material-symbols-outlined">payments</span>
+                                        </div>
+                                        <div>
+                                            <h4 className="text-sm font-bold text-slate-900 dark:text-white">Payout</h4>
+                                            <p className="text-lg font-extrabold text-slate-900 dark:text-white">{selectedJob.payout}</p>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="flex gap-4 items-start">
-                                    <div className="size-10 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0 text-slate-500 dark:text-slate-400">
-                                        <span className="material-symbols-outlined">description</span>
-                                    </div>
-                                    <div>
-                                        <h4 className="text-sm font-bold text-slate-900 dark:text-white">Instructions</h4>
-                                        <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                                            {selectedJob.instructions}
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="flex gap-4 items-start">
-                                    <div className="size-10 rounded-lg bg-green-50 dark:bg-green-900/20 flex items-center justify-center shrink-0 text-green-600">
-                                        <span className="material-symbols-outlined">payments</span>
-                                    </div>
-                                    <div>
-                                        <h4 className="text-sm font-bold text-slate-900 dark:text-white">Estimated payout</h4>
-                                        <p className="text-lg font-extrabold text-green-600">{selectedJob.payout}</p>
-                                    </div>
-                                </div>
+                            </>
+                        ) : (
+                            <div className="p-8 text-center">
+                                <span className="material-symbols-outlined text-4xl text-slate-300 dark:text-slate-600 mb-2">event_available</span>
+                                <p className="text-sm text-slate-500 dark:text-slate-400">Pick a job on the calendar to see its details.</p>
                             </div>
-                        </div>
+                        )}
 
-                        <div className="p-5 border-t border-slate-200 dark:border-slate-800 space-y-3 bg-slate-50 dark:bg-[#151f2a]">
-                            <button className="w-full bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold py-3 rounded-xl transition-all text-sm flex items-center justify-center gap-2">
-                                <span className="material-symbols-outlined">play_arrow</span>
-                                Start job
-                            </button>
-                            <div>
+                        <div className="p-5 border-t border-border space-y-3">
+                            {selectedJob.id && (
+                                <Link
+                                    to={`/agent/my-jobs/${selectedJob.id}`}
+                                    className="w-full bg-brand-ink hover:bg-brand-ink/90 text-on-brand font-bold py-3 rounded-xl transition-all text-sm flex items-center justify-center gap-2"
+                                >
+                                    Open job
+                                    <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                                </Link>
+                            )}
+                            <div className="grid grid-cols-2 gap-3">
+                                <button
+                                    onClick={() => setIsAddAvailabilityOpen(true)}
+                                    className="bg-card border border-border-strong hover:bg-accent text-slate-700 dark:text-slate-200 font-bold py-2.5 rounded-lg transition-all text-xs flex items-center justify-center gap-2"
+                                >
+                                    <span className="material-symbols-outlined text-[18px]">event_available</span>
+                                    Add availability
+                                </button>
                                 <button
                                     onClick={() => setIsNotificationPrefsOpen(true)}
-                                    className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold py-2.5 rounded-lg transition-all text-xs flex items-center justify-center gap-2"
+                                    className="bg-card border border-border-strong hover:bg-accent text-slate-700 dark:text-slate-200 font-bold py-2.5 rounded-lg transition-all text-xs flex items-center justify-center gap-2"
                                 >
                                     <span className="material-symbols-outlined text-[18px]">notifications</span>
                                     Notifications
                                 </button>
                             </div>
-                            <button
-                                onClick={() => setIsAddAvailabilityOpen(true)}
-                                className="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-2.5 rounded-lg transition-all text-xs flex items-center justify-center gap-2"
-                            >
-                                <span className="material-symbols-outlined text-[18px]">event_available</span>
-                                Add availability
-                            </button>
                         </div>
                     </div>
 
                     {/* Upcoming Jobs */}
-                    <div className="bg-white dark:bg-canvas-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-5 flex-1 overflow-hidden flex flex-col">
+                    <div className="bg-card rounded-2xl border border-border p-5 flex-1 overflow-hidden flex flex-col">
                         <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-4">Upcoming next</h3>
                         <div className="flex-1 overflow-y-auto space-y-3">
                             {upcomingJobs.length === 0 && !isLoading ? (
@@ -548,15 +531,17 @@ export default function AgentSchedule() {
                                     <div
                                         key={job.id}
                                         onClick={() => handleSelectJob(job.id)}
-                                        className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 flex items-center gap-3 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer group"
+                                        className="p-3 rounded-xl border border-border flex items-center gap-3 hover:bg-accent transition-colors cursor-pointer group"
                                     >
-                                        <div className={`w-1 h-10 rounded-full ${job.color}`}></div>
+                                        <div className="size-9 rounded-lg bg-brand/10 text-brand-ink dark:bg-sky/15 dark:text-sky flex items-center justify-center shrink-0">
+                                            <span className="material-symbols-outlined text-[20px]">event</span>
+                                        </div>
                                         <div className="flex-1">
                                             <h4 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-brand-ink transition-colors">
                                                 {job.title}
                                             </h4>
                                             <p className="text-xs text-slate-500 dark:text-slate-400">
-                                                {job.time} • {job.location}
+                                                {job.time} · {job.location}
                                             </p>
                                         </div>
                                         <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[20px]">chevron_right</span>

@@ -11,7 +11,7 @@ import type { MarketTrend } from '@/lib/api/services/analyticsService';
 import type { Bank } from '@/types/lease';
 import {
     USERS, PROFILES, PROPERTIES, SUMMARIES, LEASES, APPLICATIONS, MAINTENANCE, TENANT_PAYMENTS, TRANSACTIONS,
-    LANDLORD_TRANSACTIONS, BANK_ACCOUNTS, PAYOUTS, PAYOUT_SETTINGS, TENANT_DASHBOARD, LANDLORD_DASHBOARD,
+    LANDLORD_TRANSACTIONS, BANK_ACCOUNTS, PAYOUTS, AGENT_PAYOUTS, PAYOUT_SETTINGS, TENANT_DASHBOARD, LANDLORD_DASHBOARD,
     LANDLORD_ALERTS, LANDLORD_FINANCIALS, AGENT_JOBS, AGENT_EARNINGS, AGENT_SCHEDULE, NOTIFICATIONS,
     NOTIFICATION_PREFERENCES, CONVERSATIONS, MESSAGES, daysFromNow, type MockRole,
 } from './data';
@@ -290,7 +290,7 @@ route('POST', '/agent/jobs/:id/complete', (req) => Object.assign(findById(AGENT_
 route('GET', '/agent/schedule', () => AGENT_SCHEDULE);
 route('GET', '/agent/availability', () => AGENT_SCHEDULE.availability);
 route('GET', '/agent/earnings', () => AGENT_EARNINGS);
-route('GET', '/agent/earnings/history', () => PAYOUTS);
+route('GET', '/agent/earnings/history', () => AGENT_PAYOUTS);
 
 // ---------------------------------------------------------------------------
 // Leases, maintenance, transactions
