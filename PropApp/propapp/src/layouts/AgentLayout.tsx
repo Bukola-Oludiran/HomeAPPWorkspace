@@ -6,9 +6,9 @@ export default function AgentLayout() {
         <>
             <div className="bg-canvas dark:bg-canvas-dark min-h-screen flex flex-col text-slate-900 dark:text-white overflow-x-hidden">
                 {/* Logo - positioned top left with Agent branding */}
-                <div className="absolute top-6 left-6 md:left-10 z-40 flex items-center gap-3">
+                <div className="absolute top-6 left-10 z-40 hidden md:flex items-center gap-3">
                     <Link to="/" className="flex items-center gap-3 h-10">
-                        <Logo wordmark="md" />
+                        <Logo />
                         <span className="hidden md:inline text-xs font-semibold uppercase tracking-[0.04em] text-brand-ink">Agent</span>
                     </Link>
                 </div>

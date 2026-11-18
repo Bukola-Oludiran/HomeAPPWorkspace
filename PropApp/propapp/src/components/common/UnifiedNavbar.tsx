@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import gsap from 'gsap';
 import NotificationsDropdown from '../NotificationsDropdown';
 import { useAuth } from '../../contexts/AuthContext';
+import { KeyMark } from './Logo';
 
 export interface NavItem {
     name: string;
@@ -190,7 +191,7 @@ export default function UnifiedNavbar() {
                         if (item.iconOnly) {
                             return `<div class="flex items-center justify-center size-9 sm:size-10 md:size-11 rounded-full"><span class="material-symbols-outlined text-[20px] sm:text-[24px]">${item.icon}</span></div>`;
                         }
-                        return `<div class="px-2.5 sm:px-3 md:px-4 py-2 text-sm font-semibold rounded-full flex items-center justify-center gap-1.5">${item.icon ? `<span class="material-symbols-outlined text-[18px]">${item.icon}</span>` : ''}<span class="hidden sm:inline">${item.name}</span></div>`;
+                        return `<div class="px-2 sm:px-3 md:px-4 py-2 text-sm font-semibold rounded-full flex items-center justify-center gap-1.5">${item.icon ? `<span class="material-symbols-outlined text-[18px]">${item.icon}</span>` : ''}<span class="hidden sm:inline">${item.name}</span></div>`;
                     }).join('');
                 }
 
@@ -259,17 +260,24 @@ export default function UnifiedNavbar() {
         <header className="fixed top-6 left-0 right-0 z-30 flex justify-center w-full pointer-events-none">
             <div
                 ref={containerRef}
-                className="pointer-events-auto flex items-center gap-0.5 sm:gap-1 md:gap-2 px-2 sm:px-3 py-2 bg-white/90 dark:bg-surface-dark/90 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-black/20 rounded-full mx-4"
+                className="pointer-events-auto flex items-center gap-0.5 sm:gap-1 md:gap-2 px-2 sm:px-3 py-2 bg-white/90 dark:bg-surface-dark/90 backdrop-blur-xl border border-white/20 dark:border-slate-700 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-black/20 rounded-full mx-2 sm:mx-4"
             >
+                {/* Logo: on phones the dashboards have no room for it beside the pill, so it sits inside */}
+                {dashboardType !== 'home' && (
+                    <Link to="/" aria-label="Keystead home" className="md:hidden flex items-center h-9 pl-1 pr-1.5 shrink-0">
+                        <KeyMark className="h-4 w-auto text-brand dark:text-sky" />
+                    </Link>
+                )}
+
                 {/* Nav Links */}
-                <div ref={navLinksRef} data-nav-links className="flex items-center gap-0.5 sm:gap-1 origin-center">
+                <div ref={navLinksRef} data-nav-links className="flex items-center gap-0 sm:gap-1 origin-center">
                     {displayedItems.map((item) => (
                         <Link
                             key={item.path}
                             to={item.path}
                             className={`${item.iconOnly
                                 ? 'flex items-center justify-center size-9 sm:size-10 md:size-11 rounded-full'
-                                : 'px-2.5 sm:px-3 md:px-4 py-2 text-sm font-semibold rounded-full flex items-center justify-center gap-1.5'
+                                : 'px-2 sm:px-3 md:px-4 py-2 text-sm font-semibold rounded-full flex items-center justify-center gap-1.5'
                                 } transition-all ${isActive(item.path)
                                     ? 'bg-brand-ink text-on-brand'
                                     : 'text-slate-600 hover:text-brand-ink hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white'
@@ -290,7 +298,7 @@ export default function UnifiedNavbar() {
                 {/* Right section: Divider + Notifications + Avatar */}
                 <div ref={rightSectionRef} className="flex items-center gap-0.5 sm:gap-1 md:gap-2 origin-center">
                     {/* Divider */}
-                    <div className="w-px h-5 sm:h-6 bg-slate-200 dark:bg-slate-700 mx-0.5 sm:mx-1"></div>
+                    <div className="hidden sm:block w-px h-6 bg-slate-200 dark:bg-slate-700 mx-1"></div>
                     {/* Notifications */}
                     <div className="relative">
                         <button
